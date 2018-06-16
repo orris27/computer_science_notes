@@ -1,5 +1,10 @@
-from multiprocessing import Process
-from multiprocessing import Queue
+'''
+    1. get data
+    2. process data
+    3. save date
+'''
+
+from multiprocessing import Process,Queue
 
 q=Queue(5)
 q2=Queue(5)
