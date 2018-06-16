@@ -1,5 +1,6 @@
 from multiprocessing import Pool,Manager
 
+# create the Queue object with Manager
 q=Manager().Queue()
 q2=Manager().Queue()
 
@@ -28,7 +29,9 @@ def save(filename):
             else:
                 break
 
+# pool obejct must be created after the code block(function)             
 pool=Pool()
+# use 'apply' to make sure that the child process has finished task
 pool.apply(get1,(3,))
 pool.apply(times,(10,))
 pool.apply(save,('2.txt',))
@@ -36,7 +39,7 @@ pool.apply(save,('2.txt',))
 pool.close()
 pool.join()
 
-
+# the following codes will not be executed
 while not q.empty():
     print('q:',q.get())
 while not q2.empty():
