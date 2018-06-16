@@ -32,7 +32,9 @@ t2 = threading.Thread(target=watering)
 t2.start()
 
 #time.sleep(4) # if uncomment this statement, then the money still does not equal to 400,000
-
+# This is because that "money+=1" can be viewed as two steps:1. 'money+1' get money and increase it 2. assignment
+# When one thread processes the 1st step, it is paused and another thread processes the 1st step. 
+# If this happens, then the money can only be increased by 1
 
 t3 = threading.Thread(target=check)
 t3.start()
