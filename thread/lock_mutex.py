@@ -17,10 +17,12 @@ def typing():
 #    while True:
 #        if money_lock == False:
 #            money_lock=True
-    mutex.acquire()
+#     mutex.acquire()
     for i in range(100000):
+        # mutex.acquire()
         money+=1
-    mutex.release()
+        # mutex.acquire()
+#     mutex.release()
 #            money_lock=False
 #            break
     print('money in typing is %d'%(money))
@@ -31,10 +33,12 @@ def watering():
 #    while True:
 #        if money_lock == False:
 #            money_lock=True
-    mutex.acquire()
+#     mutex.acquire()
     for i in range(300000):
+        mutex.acquire()
         money+=1
-    mutex.release()
+        mutex.acquire()
+#     mutex.release()
 #            money_lock=False
 #            break
     print('money in watering is %d'%(money))
