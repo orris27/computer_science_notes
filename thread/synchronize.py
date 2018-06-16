@@ -1,5 +1,6 @@
 '''
     Synchronize
+    Passing ball game
     1. one is not locked and the rest are locked
     2. 1st says that I lock myself, and execute some codes, then unlock 2nd
     3. 2nd says that I lock myself, and execute some codes, then unlock 3rd 
