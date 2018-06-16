@@ -6,12 +6,14 @@
     4. start the threads 
 '''
 import threading
+#import time
 
 local_res=threading.local()
 
 def stamp(name):
     local_res.name=name 
     check_family()
+    #time.sleep(1)
     check_school()
     print("I am %s, and my result is %s"%(threading.current_thread().name,local_res.name))
 
@@ -25,7 +27,7 @@ def check_school():
     
     
 
-t1=threading.Thread(target=stamp,args=['orris'])
+t1=threading.Thread(target=stamp,args=['orris'],name="Thread-Orris")
 t1.start()
-t2=threading.Thread(target=stamp,args=['violet'])
+t2=threading.Thread(target=stamp,args=['violet'],name="Thread-Violet")
 t2.start()
