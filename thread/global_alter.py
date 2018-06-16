@@ -31,7 +31,7 @@ t1.start()
 t2 = threading.Thread(target=watering)
 t2.start()
 
-#time.sleep(1)
+#time.sleep(4) # if uncomment this statement, then the money still does not equal to 400,000
 
 
 t3 = threading.Thread(target=check)
