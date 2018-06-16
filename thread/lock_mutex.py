@@ -19,9 +19,9 @@ def typing():
 #            money_lock=True
 #     mutex.acquire()
     for i in range(100000):
-        # mutex.acquire()
+        mutex.acquire()
         money+=1
-        # mutex.acquire()
+        mutex.release()
 #     mutex.release()
 #            money_lock=False
 #            break
@@ -33,11 +33,11 @@ def watering():
 #    while True:
 #        if money_lock == False:
 #            money_lock=True
-#     mutex.acquire()
+#     mutex.acquire() # We should lock the minimal block that needs to be locked
     for i in range(300000):
         mutex.acquire()
         money+=1
-        mutex.acquire()
+        mutex.release()
 #     mutex.release()
 #            money_lock=False
 #            break
@@ -61,5 +61,3 @@ time.sleep(4)
 
 t3 = threading.Thread(target=check)
 t3.start()
-
-
