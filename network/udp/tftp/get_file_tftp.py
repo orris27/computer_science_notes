@@ -4,11 +4,21 @@
 '''
 import struct 
 import socket
+import sys
+
+if len(sys.argv) != 2:
+    print('-'*30)
+    print('tips:')
+    print('python xxx.py 10.189.xxx.xxx\t(notes:ip that you will download from)')
+    print('-'*30)
+    exit()
+else:
+    src_ip=sys.argv[1]
 
 target_filename="tftp_format.png" # "15s" should be altered
 dest_filename="dest.png" # the downloaded filename
 curr_ip='10.189.190.100'
-src_ip='10.189.190.100'
+#src_ip='10.189.190.100'
 
 s=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 
