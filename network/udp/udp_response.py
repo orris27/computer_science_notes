@@ -11,3 +11,5 @@ data=s.recvfrom(1024) # data is a 2d tuple. (raw_data,src_ip)
 print(data)
 
 print(data[0].decode('utf-8'))
+
+s.close()
