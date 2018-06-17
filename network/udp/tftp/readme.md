@@ -3,5 +3,5 @@
 This program is used to download {target_filename} from the {src_ip} to the {curr_ip} using TFTP
 
 ```
-python get_file_tftp
+python get_file_tftp.py 10.189.190.100
 ```
