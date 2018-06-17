@@ -8,4 +8,4 @@ s.bind((curr_ip,2333))
 
 s.sendto('hello你好'.encode("utf-8"),(curr_ip,2334))
 
-
+s.close()
