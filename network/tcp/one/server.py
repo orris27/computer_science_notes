@@ -25,18 +25,18 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
 
         client_socket,client_addr=s.accept()
         
-#        try:
-        while True:
-        
-            received_data=client_socket.recv(1024)
-            
-            if len(received_data) >0:
-                print("%s:%s"%(str(client_addr),received_data.decode('utf-8')))
-                client_socket.send('Thank you!'.encode('utf-8'))
+        try:
+            while True:
 
-            else:
-                print("service for %s stops"%(str(client_addr)))
-                break
-#        finally:
-#            client_socket.close()
+                received_data=client_socket.recv(1024)
+
+                if len(received_data) >0:
+                    print("%s:%s"%(str(client_addr),received_data.decode('utf-8')))
+                    client_socket.send('Thank you!'.encode('utf-8'))
+
+                else:
+                    print("service for %s stops"%(str(client_addr)))
+                    break
+        finally:
+            client_socket.close()
 
