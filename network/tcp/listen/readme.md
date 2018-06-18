@@ -4,9 +4,9 @@ python server.py
 ```
 In the server:
 ```
-5
+Listen num:5
 ```
 In the client:
 ```
-20
+Connect num:20
 ```
