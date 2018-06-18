@@ -5,12 +5,10 @@
     3. bind
     4. set blocking to false
     5. listen
-    6. begin to accept forever 
-    7.  If nobody comes, throw the exception
-    8.  Else somebody comes, set the client not blocking and to the list
-    9. traverse all the clients and revoke their "recv" function
-    10.  If no, throw the exception
-    11.  Else, deal with the message(if lenght is 0,close it and remove it from the list) 
+    6. select the sockets that can receive data
+    7. travese the sockets
+    8.  if it is server socket(it means that it can accept a new client): call accept()
+    9.  else:(then it is a client socket and the client has sent a message to the server) call recv()
 '''
 import socket
 import select
@@ -25,12 +23,13 @@ with socket.socket(socket.AF_INET,socket.SOCK_STREAM) as s:
     s.bind(my_addr)
 
     s.listen(5)
-
+    # 不用设置server的socket为堵塞模式,client_socket也是一样
 
     inputs=[s]
 
     while True:
 
+        # select会从第一个参数的列表中找到能接收数据的套接字,第二个...发送...,第三个...异常...;返回的列表就是那些套接字.否则就堵塞在这里
         acceptable,sendable,exceptional=select.select(inputs,[],[])
 
         for sock in acceptable:
