@@ -3,12 +3,11 @@
     1. create a socket
     2. enable the socket to bind a same port
     3. bind
-    4. set blocking to false
-    5. listen
-    6. select the sockets that can receive data
-    7. travese the sockets
-    8.  if it is server socket(it means that it can accept a new client): call accept()
-    9.  else:(then it is a client socket and the client has sent a message to the server) call recv()
+    4. listen
+    5. select the sockets that can receive data
+    6. travese the sockets
+    7.  if it is server socket(it means that it can accept a new client): call accept()
+    8.  else:(then it is a client socket and the client has sent a message to the server) call recv()
 '''
 import socket
 import select
