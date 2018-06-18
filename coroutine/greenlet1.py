@@ -13,14 +13,14 @@ def a():
     while True:
         print('---A---')
         time.sleep(1)
-        b_handler.switch()
+        b_handler.switch() # switch to b
 
 
 def b():
     while True:
         print('---B---')
         time.sleep(1)
-        a_handler.switch()
+        a_handler.switch() # switch to a
 
 
 if __name__ == '__main__':
