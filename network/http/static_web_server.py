@@ -32,6 +32,7 @@ def handle_client(client_socket,client_addr):
     if filename == '/':
         filename += 'index.html'
 
+    # os.path.join('static','/index.html') returns '/index.html'; so we need to strip '/' in the second parameter
     filename=os.path.join(STATIC_DIR,filename[1:])
 
     
@@ -40,7 +41,7 @@ def handle_client(client_socket,client_addr):
         f=open(filename,'rb')
     except:
         response_start_line=b'HTTP/1.1 404 Not Found\r\n'
-        response_headers=b'\r\n' # do not forget \r\n!!!
+        response_headers=b'\r\n' # do not forget \r\n!!! (if empty,then there is a problem)
         response_body=b"404 Not Found"
     else:
         response_start_line=b'HTTP/1.1 200 OK\r\n'
