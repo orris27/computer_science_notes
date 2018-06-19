@@ -1,4 +1,5 @@
 HTTP/1.1 200 OK
+#HTTP/1.1 404 Not Found
 Bdpagetype: 1
 Connection: Keep-Alive
 Content-Type: text/html
