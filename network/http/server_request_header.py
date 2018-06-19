@@ -14,7 +14,7 @@ def handle_client(client_socket,client_addr):
     '''
         A function that handles the client's request
         1. recv 
-        2. deal with the message
+        2. deal with the message(write the http request header to the "1.txt")
         3. send back
     '''
     while True:
