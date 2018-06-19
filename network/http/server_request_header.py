@@ -19,7 +19,7 @@ def handle_client(client_socket,client_addr):
     '''
     while True:
         recv_data=client_socket.recv(1024)
-        with open('1.txt','wb') as f:
+        with open('http_request_header.txt','wb') as f:
             f.write(recv_data)
         print(recv_data)
 
