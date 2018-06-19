@@ -1,5 +1,10 @@
+如果是404的话,起始行用:
+HTTP/1.1 404 Not Found
+
+
+true header:
+
 HTTP/1.1 200 OK
-#HTTP/1.1 404 Not Found
 Bdpagetype: 1
 Connection: Keep-Alive
 Content-Type: text/html
