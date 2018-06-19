@@ -2,7 +2,7 @@
 ```
 python welcome.py
 ```
-In the browser, enter:```127.0.0.1:2333```
+In the browser, enter ```127.0.0.1:2333```
 
 ## wsgi_server.py
 Download/Create a directory called 'wsgipython' or modify the 'WSGI_DIR' in the "wsgi_server.py"
