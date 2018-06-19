@@ -63,14 +63,14 @@ class HTTPServer(object):
         '''
             Construct our response header completely
             :status:(eg. '200 OK')
-            :headers:(eg\. [('Content-Type','text/html')])
+            :headers:(eg. [('Content-Type','text/html')])
             :return:NoneType
             :modify self.response_header:(eg. 'HTTP/1.1 200 OK\r\nxxx: xxx\r\n\')
         '''
         self.response_header='HTTP/1.1 '+status+'\r\n'
         
         for header in headers:
-            self.response_header+="%s: %s\r\n"%(header[0],header[1])
+            self.response_header+="%s: %s\r\n"%(header[0],header[1]) # ": " has a space
         
         self.response_header+="Author: orris\r\n"
         
