@@ -96,10 +96,14 @@ class HTTPServer(object):
 
         if filename.endswith('.py'):
 
-            f=__import__(filename[1:-3])
+            try:
 
-            # After application, the response header and the response body has been created
-            response_body=f.application(env,self.start_response)
+                f=__import__(filename[1:-3])
+            except:
+                response_body=""
+            else:
+                # After application, the response header and the response body has been created
+                response_body=f.application(env,self.start_response)
 
             # Splicing the response header and the response body
             response=self.response_header+'\r\n'.encode('utf-8')+response_body.encode("utf-8")
@@ -145,4 +149,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
