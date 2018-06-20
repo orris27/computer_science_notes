@@ -63,6 +63,15 @@ def welcome(env,start_response):
     start_response('200 OK',[('Content-Type','text/html')])
     return '<html><h1>Welcome!</h1></html>'
 
+
+urls=[
+    ("/",welcome),
+    ("/ctime",ctime),
+]
+
+app=Application(urls)
+
+
 def main():
     '''
         :How to add new url?: 1. Add into urls 2. Define a WSGI function

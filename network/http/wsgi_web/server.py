@@ -94,3 +94,31 @@ class HTTPServer(object):
 
         client_socket.close()
         
+def main():
+    '''
+        python server.py framework::app
+        :framework: A py file that implements the Web framework
+        :app: An object of Application that contains urls( we modify urls in the framework) and WSGI application
+        1. Get the framework module and the app object
+        2. Use the app to create a HTTP server
+        3. bind
+        4. run
+    '''
+
+    if len(sys.argv) != 2:
+        print('-'*30)
+        print('tips:')
+        print('python server.py framework:app')
+        print('-'*30)
+        exit()
+    else:
+        
+        module_name,app_name=sys.argv[1].split(":")
+        module=__import__(module_name)
+        app=getattr(module,app_name)
+        http_server=HTTPServer(app)
+        http_server.bind(('127.0.0.1',2333))
+        http_server.run(100)
+
+if __name__ == '__main__':
+    main()
