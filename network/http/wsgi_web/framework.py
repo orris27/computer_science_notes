@@ -4,11 +4,14 @@ class Application(object):
     '''
         A class that implements a web framework.
     '''
-    def __init__(self,urls):
+    def __init__(self,urls,static_dir="static"):
         '''
             :urls:List of  key value pairs that records <path,function_name>, such as "[('/ctime',ctime),]"
+            :static_dir: A directory that stores static files
         '''
         self.urls=urls
+        self.static_dir=static_dir
+
     
     def __call__(self,env,start_response):
         '''    
@@ -24,6 +27,21 @@ class Application(object):
         '''    
         path=env.get("PATH_INFO","/") # default to "/"
 
+        # static file
+        import os
+        if path.startswith('/static/'):
+            try:
+                f=open(os.path.join(self.static_dir,path[8:]))
+            except:
+                start_response('404 Not Found',[])
+                return "Not Found"
+            else:
+                start_response('200 OK',[('Content-Type','text/html')])
+                response_body=f.read()
+                f.close()
+                return response_body
+
+        # dynamic file
         for url,handler in self.urls:
             if url==path:
                 return handler(env,start_response)
