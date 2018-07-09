@@ -54,23 +54,28 @@ sudo ln -s /application/mysql-5.1.72/ /application/mysql
 ```
 
 ### 常见问题
-1. `checking for termcap functions library... configure: error: No curses/termcap library found`
+##### 1. `checking for termcap functions library... configure: error: No curses/termcap library found`
 
 解决方法
 ```
 sudo yum install ncurses-devel
 ```
 
-2. 添加到/etc/init.d的mysqld服务不能启动
+##### 2. 添加到/etc/init.d的mysqld服务不能启动
 原因:mysql_safe和mysql.server可能不能一起使用
 解决方法
-重新初始化mysql存放数据的目录
+1. 重新初始化mysql存放数据的目录
 ```
 sudo rm -rf /application/mysql/data/
 sudo /application/mysql/bin/mysql_install_db --basedir=/application/mysql --datadir=/application/mysql/data/ --user=mysql
 sudo chown -R mysql.mysql data
 sudo chmod 755 data
 ```
+2. 添加自定义系统服务到系统服务中  
+拷贝mysql.server到/etc/init.d下,为mysqld  
+chkconfig add该mysqld  
+设置开机自动启动 chkconfig on  
+之后就可以/etc/init.d/mysqld start启动了  
 
 ### 使用
 1. 替换mysql的配置文件为对应硬件支持的配置文件
