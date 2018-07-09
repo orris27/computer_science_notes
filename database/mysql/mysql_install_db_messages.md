@@ -1,9 +1,13 @@
 Installing MySQL system tables...
 180710  0:31:39 [Warning] '--skip-locking' is deprecated and will be removed in a future release. Please use '--skip-external-locking' instead.
+
 OK
+
 Filling help tables...
+
 180710  0:31:39 [Warning] '--skip-locking' is deprecated and will be removed in a future release. Please use '--skip-external-locking' instead.
-OK
+
+OKinstead
 
 To start mysqld at boot time you have to copy
 support-files/mysql.server to the right place for your system
