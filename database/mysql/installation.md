@@ -61,6 +61,17 @@ sudo ln -s /application/mysql-5.1.72/ /application/mysql
 sudo yum install ncurses-devel
 ```
 
+2. 添加到/etc/init.d的mysqld服务不能启动
+原因:mysql_safe和mysql.server可能不能一起使用
+解决方法
+重新初始化mysql存放数据的目录
+```
+sudo rm -rf /application/mysql/data/
+sudo /application/mysql/bin/mysql_install_db --basedir=/application/mysql --datadir=/application/mysql/data/ --user=mysql
+sudo chown -R mysql.mysql data
+sudo chmod 755 data
+```
+
 ### 使用
 1. 替换mysql的配置文件为对应硬件支持的配置文件
 ```
