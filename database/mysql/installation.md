@@ -43,6 +43,16 @@ sudo ./configure --prefix=/application/mysql-5.1.72 \
 sudo make
 ```
 
+5. make install
+```
+sudo make install
+```
+
+6. 创建软连接,去掉版本号
+```
+sudo ln -s /application/mysql-5.1.72/ /application/mysql
+```
+
 ### 常见问题
 1. `checking for termcap functions library... configure: error: No curses/termcap library found`
 
