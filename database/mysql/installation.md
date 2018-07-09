@@ -73,6 +73,7 @@ sudo chmod 755 data
 ```
 2. 添加自定义系统服务到系统服务中  
 拷贝mysql.server到/etc/init.d下,为mysqld  
+设置mysqld的权限为可执行,如755  
 chkconfig add该mysqld  
 设置开机自动启动 chkconfig on  
 之后就可以/etc/init.d/mysqld start启动了  
