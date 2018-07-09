@@ -79,8 +79,32 @@ sudo chown -R mysql.mysql data/
 sudo /application/mysql/bin/mysql_install_db --basedir=/application/mysql --datadir=/application/mysql/data/ --user=mysql
 ```
 
-4. 启动mysql
+4. 启动mysql服务器
 ```
 sudo /application/mysql/bin/mysqld_safe &
 ```
 
+6. 进入mysql客户端
+```
+sudo /application/mysql/bin/mysql
+```
+
+5. 将mysql命令添加到系统环境变量中
+```
+sudo vim /etc/profile
+# 添加 PATH="/application/mysql/bin:$PATH" 到里面就可以了
+. /etc/profile
+```
+
+6. 添加到sudo命令中
+```
+su - root
+visudo
+# 添加 mysql/bin目录到$PATH中就可以了
+# 如改成 Defaults    secure_path = /application/mysql/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin 就可以了
+```
+
+7. 进入mysql客户端
+```
+sudo mysql
+```
