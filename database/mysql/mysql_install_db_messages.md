@@ -1,4 +1,5 @@
 Installing MySQL system tables...
+
 180710  0:31:39 [Warning] '--skip-locking' is deprecated and will be removed in a future release. Please use '--skip-external-locking' instead.
 
 OK
@@ -7,7 +8,7 @@ Filling help tables...
 
 180710  0:31:39 [Warning] '--skip-locking' is deprecated and will be removed in a future release. Please use '--skip-external-locking' instead.
 
-OKinstead
+OK
 
 To start mysqld at boot time you have to copy
 support-files/mysql.server to the right place for your system
@@ -21,16 +22,16 @@ To do so, start the server, then issue the following commands:
 Alternatively you can run:
 /application/mysql/bin/mysql_secure_installation
 
-which will also give you the option of removing the test
-databases and anonymous user created by default.  This is
-strongly recommended for production servers.
+which will also give you the option of removing the test databases and anonymous user created by default.  This is strongly recommended for production servers.
 
 See the manual for more instructions.
 
 You can start the MySQL daemon with:
+
 cd /application/mysql ; /application/mysql/bin/mysqld_safe &
 
 You can test the MySQL daemon with mysql-test-run.pl
+
 cd /application/mysql/mysql-test ; perl mysql-test-run.pl
 
 Please report any problems with the /application/mysql/scripts/mysqlbug script!
