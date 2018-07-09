@@ -1,13 +1,21 @@
+下载的时候选择Source Code和Linux Generic版本
+
 ## mysql-5.1.72
 ### 步骤
-1. 下载源代码,解压并cd
+1. 在Linux上添加mysql用户和组
+```
+sudo groupadd mysql
+sudo useradd mysql -g mysql -M -s /sbin/nologin
+```
+
+2. 下载源代码,解压并cd
 ```
 wget https://downloads.mysql.com/archives/get/file/mysql-5.1.72.tar.gz
 tar -zxvf mysql-5.1.72.tar.gz
 cd mysql-5.1.72/
 ```
 
-2. 设置参数
+3. 设置参数
 安装在了`/application/mysql-5.1.72`的位置,可以根据自己需要调整
 ```
 sudo ./configure --prefix=/application/mysql-5.1.72 \
@@ -28,6 +36,11 @@ sudo ./configure --prefix=/application/mysql-5.1.72 \
 --with-plugins=partition,innobase \
 --with-mysqld-ldflags=-all-static \
 --with-client-ldflags=-all-static 
+```
+
+4. make
+```
+sudo make
 ```
 
 ### 常见问题
