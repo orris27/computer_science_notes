@@ -1,7 +1,7 @@
 下载的时候选择Source Code和Linux Generic版本
 
 ## mysql-5.1.72
-### 步骤
+### 安装步骤
 1. 在Linux上添加mysql用户和组
 ```
 sudo groupadd mysql
@@ -60,3 +60,27 @@ sudo ln -s /application/mysql-5.1.72/ /application/mysql
 ```
 sudo yum install ncurses-devel
 ```
+
+### 使用
+1. 替换mysql的配置文件为对应硬件支持的配置文件
+```
+sudo cp /etc/my.cnf /etc/my.cnf.bak # make a copy for a previous mysql
+sudo cp share/mysql/my-small.cnf /etc/my.cnf
+```
+
+2. 创建存放数据的文件
+```
+sudo mkdir data # data为/application/mysql/data
+sudo chown -R mysql.mysql data/
+```
+
+3. 初始化存放数据的文件
+```
+sudo /application/mysql/bin/mysql_install_db --basedir=/application/mysql --datadir=/application/mysql/data/ --user=mysql
+```
+
+4. 启动mysql
+```
+sudo /application/mysql/bin/mysqld_safe &
+```
+
