@@ -108,3 +108,9 @@ visudo
 ```
 sudo mysql
 ```
+
+### 暂停mysql服务
+```
+sudo mysqladmin shutdown
+```
+
