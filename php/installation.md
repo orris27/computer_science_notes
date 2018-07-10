@@ -39,12 +39,12 @@ sudo ./configure \
 --enable-ftp \
 --with-libxml-dir
 sudo make && sudo make install
-ln -s /application/php-5.6.36/ /application/php/
+ln -s /application/php-5.6.36/ /application/php
 ```
 
 4. 检查Apache处是否成功配置  
 ```
-ll /application/apache/modules/ # 如果有libphp5.so就说明ok了
+ll /application/apache/modules/ | grep libphp5 # 如果有libphp5.so就说明ok了
 grep libphp5 /application/apache/conf/httpd.conf # 如果嵌入一行就说明ok了
 ```
 
