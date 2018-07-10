@@ -1,7 +1,8 @@
 ## 嵌入到Apache的PHP安装
+
 1. 安装好mysql和Apahce
 注意:我安装的目录是`/application/mysql`和`/application/apache`
-
+  
 2.安装必要的库  
 分为yum可以安装的,和只能通过编译安装的libiconv  
 ```
@@ -60,6 +61,14 @@ sudo vim /application/apache/conf/httpd.conf
 # 在httpd.conf中添加下面内容
 AddType application/x-httpd-php .php .phtml
 AddType application/x-httpd-php-source .phps
+User ett 
+Group ett
+<IfModule dir_module>
+    DirectoryIndex index.php index.html
+</IfModule>
+# :wq 退出到shell中
+sudo groupadd ett
+sudo useradd -g ett -M -s /sbin/nologin ett
 ```
 
 
