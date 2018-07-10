@@ -9,7 +9,7 @@ sudo yum install zlib libxml libjpeg freetype libpng gd curl libiconv zlib-devel
 wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz
 tar -zxvf libiconv-1.15.tar.gz 
 cd libiconv-1.15/
-sudo ./configure --prefix=/usr/local
+sudo ./configure --prefix=/usr/local/libiconv-1.15
 sudo make && sudo make install
 ```
 3. 安装能以模块的方式嵌入Apache的PHP  
@@ -26,7 +26,7 @@ sudo ./configure \
 --with-gd \
 --with-jpeg-dir \
 --with-png-dir \
---with-iconv \
+--with-iconv=/usr/local/libiconv \
 --enable-short-tags \
 --enable-sockets \
 --enable-zend-multibyte \
@@ -39,7 +39,17 @@ sudo ./configure \
 --enable-ftp \
 --with-libxml-dir
 sudo make && sudo make install
+ln -s /application/php-5.6.36/ /application/php/
 ```
+
+4. 检查Apache处是否成功配置  
+```
+ll /application/apache/modules/ # 如果有libphp5.so就说明ok了
+grep libphp5 /application/apache/conf/httpd.conf # 如果嵌入一行就说明ok了
+```
+
+
+
 
 ### 常见问题
 ##### 1. configure: error: Cannot find OpenSSL's <evp.h>
