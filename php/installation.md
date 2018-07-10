@@ -1,4 +1,4 @@
-## 嵌入到Apache的PHP安装
+## 嵌入到Apache的PHP安装(LAMP)
 
 1. 安装好mysql和Apahce
 注意:我安装的目录是`/application/mysql`和`/application/apache`
