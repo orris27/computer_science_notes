@@ -61,16 +61,38 @@ sudo vim /application/apache/conf/httpd.conf
 # 在httpd.conf中添加下面内容
 AddType application/x-httpd-php .php .phtml
 AddType application/x-httpd-php-source .phps
-User ett 
-Group ett
+User www 
+Group www
 <IfModule dir_module>
     DirectoryIndex index.php index.html
 </IfModule>
 # :wq 退出到shell中
-sudo groupadd ett
-sudo useradd -g ett -M -s /sbin/nologin ett
+sudo groupadd www
+sudo useradd -g www -M -s /sbin/nologin www
 ```
 
+6. 重启Apache
+```
+apachectl -t
+sudo apachectl graceful
+```
+
+7. 测试是否成功  
+添加index.php文件
+```
+sudo chown -R www.www /var/html # 注意在自己虚拟主机设置的目录下配置,该成自己对应的用户名
+sudo touch /var/html/www/index.php
+sudo vim /var/html/www/index.php
+# 添加下面的内容
+<?php
+  phpinfo();
+?>
+# :wq
+# 可能还要重启下apache
+apachectl  -t
+sudo apachectl graceful
+```
+之后再
 
 ### 常见问题
 ##### 1. configure: error: Cannot find OpenSSL's <evp.h>
@@ -83,3 +105,5 @@ sudo yum install openssl-devel
 ```
 sudo yum install libxslt-devel
 ```
+##### 3. 配置好Apache的服务后,进入网站是错误的
+需要创建index.php文件!!
