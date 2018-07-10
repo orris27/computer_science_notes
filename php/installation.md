@@ -5,7 +5,7 @@
 2.安装必要的库  
 分为yum可以安装的,和只能通过编译安装的libiconv  
 ```
-sudo yum install zlib libxml libjpeg freetype libpng gd curl libiconv zlib-devel libxml2-devel libjpeg-devel freetype-devel libpng-devel gd-devel curl-devel -y
+sudo yum install zlib libxml libjpeg freetype libpng gd curl libiconv zlib-devel libxml2-devel libjpeg-devel freetype-devel libpng-devel gd-devel curl-devel openssl-devel libxslt-devel -y
 wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz
 tar -zxvf libiconv-1.15.tar.gz 
 cd libiconv-1.15/
@@ -18,7 +18,7 @@ sudo make && sudo make install
 sudo ./configure \
 --prefix=/application/php-5.6.36 \
 --with-apxs2=/application/apache/bin/apxs \
---with-mysql=/usr/local/mysql \
+--with-mysql=/application/mysql \
 --with-xmlrpc \
 --with-openssl \
 --with-zlib \
@@ -38,4 +38,17 @@ sudo ./configure \
 --with-xsl \
 --enable-ftp \
 --with-libxml-dir
+sudo make && sudo make install
+```
+
+### 常见问题
+##### 1. configure: error: Cannot find OpenSSL's <evp.h>
+解决方法
+```
+sudo yum install openssl-devel
+```
+##### 2. configure: error: xslt-config not found. Please reinstall the libxslt >= 1.1.0 distribution
+解决方法
+```
+sudo yum install libxslt-devel
 ```
