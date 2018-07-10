@@ -48,7 +48,19 @@ ll /application/apache/modules/ | grep libphp5 # 如果有libphp5.so就说明ok�
 grep libphp5 /application/apache/conf/httpd.conf # 如果嵌入一行就说明ok了
 ```
 
-
+5. 配置配置文件  
+PHP的配置文件  
+```
+# sudo find / -name 'php.ini*' # 找到当初下载的位置的php.init的两个版本
+sudo cp /home/orris/tools/php-5.6.36/php.ini-production  /application/php/lib/php.ini # 拷贝到make后的目录里
+```
+Apahce的配置文件(使Apache在解析php文件时调用php模块)
+```
+sudo vim /application/apache/conf/httpd.conf
+# 在httpd.conf中添加下面内容
+AddType application/x-httpd-php .php .phtml
+AddType application/x-httpd-php-source .phps
+```
 
 
 ### 常见问题
