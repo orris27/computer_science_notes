@@ -78,10 +78,14 @@ sudo apachectl graceful
 ```
 
 7. 测试是否成功  
+
 添加index.php文件
 ```
 sudo chown -R www.www /var/html # 注意在自己虚拟主机设置的目录下配置,该成自己对应的用户名
 sudo touch /var/html/www/index.php
+```
+##### 1. 测试Apache是否成功配置
+```
 sudo vim /var/html/www/index.php
 # 添加下面的内容
 <?php
@@ -92,7 +96,21 @@ sudo vim /var/html/www/index.php
 apachectl  -t
 sudo apachectl graceful
 ```
-之后再
+##### 2. 测试mysql是否成功配置
+```
+sudo vim /var/html/www/index.php
+# 添加下面的内容
+<?php
+	//$link_id=mysql_connect(hostname,user,pwd);
+	$link_id=mysql_connect('localhost','root','xxx') or mysql_error();
+	if($link_id){
+		echo "mysql successful by orris !";
+	}else{
+		echo mysql_error();
+	}
+?>
+```
+如果成功的话,就会显示"mysql successful by orris !"
 
 ### 常见问题
 ##### 1. configure: error: Cannot find OpenSSL's <evp.h>
