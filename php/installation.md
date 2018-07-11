@@ -199,3 +199,10 @@ sudo ./configure \
 sudo make && sudo make install
 ln -s /application/php-5.6.36/ /application/php
 ```
+
+#### 常见问题
+1. checking "whether flock struct is linux ordered"... "no"  
+checking "whether flock struct is BSD ordered"... "no"  
+configure: error: Don't know how to define struct flock on this system, set --enable-opcache=no  
+
+注意 https://note.t4x.org/error/configure-error-dont-know-how-to-define-struct-flock-on-this-system/
