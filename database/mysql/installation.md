@@ -3,7 +3,7 @@
 1. 编译安装  
 2. yum/rpm  
 3. 下载二进制包(包名为mysql-5.5.32-linux2.6-x86_64.tar.gz)  
-## mysql-5.1.72
+## mysql-5.1.72(编译安装)
 ### 安装步骤
 1. 在Linux上添加mysql用户和组
 ```
@@ -134,3 +134,30 @@ sudo mysql
 sudo mysqladmin shutdown
 ```
 
+
+
+## mysql-5.7.22(二进制包安装)
+
+### 安装步骤
+1. 在Linux上添加mysql用户和组
+```
+sudo useradd mysql -M -s /sbin/nologin
+```
+
+1. 下载二进制包  
+下载mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz(Linux-Generic就可以了)  
+
+
+2. 解压
+```
+sudo mkdir -p /application/mysql-5.7.22
+sudo tar -zxvf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz -C /application/mysql-5.7.22
+```
+
+3. 创建软连接,去除版本号
+```
+sudo ln -s /application/mysql-5.7.22 /application/mysql
+```
+
+### 使用
+同上面的**使用**
