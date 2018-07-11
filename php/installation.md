@@ -1,7 +1,7 @@
 ## 嵌入到Apache的PHP安装(LAMP)
 
 1. 安装好mysql和Apahce
-注意:我安装的目录是`/application/mysql`和`/application/apache`
+注意:我安装的目录是`/application/mysql`和`/application/apache`,mysql的版本是5.1.72,apahce是2.4
   
 2.安装必要的库  
 分为yum可以安装的,和只能通过编译安装的libiconv  
@@ -125,3 +125,25 @@ sudo yum install libxslt-devel
 ```
 ##### 3. 配置好Apache的服务后,进入网站是错误的
 需要创建index.php文件!!
+
+
+
+
+## 嵌入到Apache的PHP安装(LNMP)
+1. 安装好mysql和Apahce
+注意:我安装的目录是`/usr/local/mysql`和`/application/nginx`,mysql的版本是5.7.22,nginx版本是1.14.0
+  
+2.安装必要的库  
+分为yum可以安装的,和只能通过编译安装的libiconv  
+```
+sudo yum install zlib libxml libjpeg freetype libpng gd curl libiconv zlib-devel libxml2-devel libjpeg-devel freetype-devel libpng-devel gd-devel curl-devel openssl-devel libxslt-devel -y
+wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz
+tar -zxvf libiconv-1.15.tar.gz 
+cd libiconv-1.15/
+sudo ./configure --prefix=/usr/local/libiconv-1.15
+sudo make && sudo make install
+# 下面的是跟加密有关的模块(非必需)
+sudo yum install libmcrypt libmcrypt-devel -y
+sudo yum install mhash mhash-devel -y
+sudo yum install mcrypt -y
+```
