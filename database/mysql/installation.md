@@ -94,10 +94,11 @@ sudo mkdir data # data为/application/mysql/data
 sudo chown -R mysql.mysql data/
 ```
 
-3. 初始化存放数据的文件
+3. 初始化存放数据的文件  
 ```
 sudo /application/mysql/bin/mysql_install_db --basedir=/application/mysql --datadir=/application/mysql/data/ --user=mysql
 ```
+
 
 4. 启动mysql服务器
 ```
@@ -160,4 +161,102 @@ sudo ln -s /application/mysql-5.7.22-linux-glibc2.12-x86_64/ /application/mysql
 ```
 
 ### 使用
-同上面的**使用**
+1. 创建需要的目录
+```
+mkdir -p /usr/local/mysql/{data,binlogs,logs,etc,run}
+chown -R mysql.mysql /usr/local/mysql/{data,binlogs,log,etc,run}
+```
+
+2. 替换mysql的配置文件为对应硬件支持的配置文件
+```
+sudo cp /etc/my.cnf /etc/my.cnf.bak # make a copy for a previous mysql
+sudo vim /etc/my.cnf
+# 在/etc/my.cnf中输入下面的内容
+```
+/etc/my.cnf:
+```
+[client]
+port = 3306
+socket = /usr/local/mysql/run/mysql.sock
+
+[mysqld]
+port = 3306
+socket = /usr/local/mysql/run/mysql.sock
+pid_file = /usr/local/mysql/run/mysql.pid
+datadir = /usr/local/mysql/data
+default_storage_engine = InnoDB
+max_allowed_packet = 512M
+max_connections = 2048
+open_files_limit = 65535
+
+skip-name-resolve
+lower_case_table_names=1
+
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+init_connect='SET NAMES utf8mb4'
+
+
+innodb_buffer_pool_size = 1024M
+innodb_log_file_size = 2048M
+innodb_file_per_table = 1
+innodb_flush_log_at_trx_commit = 0
+
+
+key_buffer_size = 64M
+
+log-error = /usr/local/mysql/logs/mysql_error.log
+log-bin = /usr/local/mysql/binlogs/mysql-bin
+slow_query_log = 1
+slow_query_log_file = /usr/local/mysql/logs/mysql_slow_query.log
+long_query_time = 5
+
+
+tmp_table_size = 32M
+max_heap_table_size = 32M
+query_cache_type = 0
+query_cache_size = 0
+
+server-id=1
+```
+
+4. 初始化存放数据的文件  
+```
+sudo /usr/local/mysql/bin/mysqld --initialize --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data/ --user=mysql
+```
+
+5. 启动mysql服务器
+```
+sudo /application/mysql/bin/mysqld_safe &
+```
+
+6. 进入mysql客户端
+```
+# 在/usr/local/mysql/log/mysql_error.log这个目录里会有
+# 2018-07-11T15:35:19.962367Z 1 [Note] A temporary password is generated for root@localhost: /(/+AhNR#3oJ
+# 这样的内容,这就是root的临时密码,所以要用该临时密码登入
+sudo /application/mysql/bin/mysql -uroot -p\/\(\/+AhNR#3oJ
+# 在mysql下修改密码
+set password=password('new_password');
+```
+
+7. 将mysql命令添加到系统环境变量中
+```
+sudo vim /etc/profile
+# 添加 PATH="/usr/local/mysql/bin:$PATH" 到里面就可以了
+. /etc/profile
+```
+
+8. 添加到sudo命令中
+```
+su - root
+visudo
+# 添加 mysql/bin目录到$PATH中就可以了
+# 如改成 Defaults    secure_path = /application/mysql/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin 就可以了
+```
+
+9. 进入mysql客户端
+```
+sudo mysql -uroot -p
+```
+
