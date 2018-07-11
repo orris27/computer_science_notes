@@ -16,6 +16,8 @@ sudo make && sudo make install
 3. 安装能以模块的方式嵌入Apache的PHP  
 如果libiconv设置为`--prefix=/usr/local/libiconv`的话,就要在下面的配置中写`--with-iconv=/usr/local/libiconv`  
 ```
+tar -zxvf php-5.6.36.tar.gz 
+cd php-5.6.36/
 sudo ./configure \
 --prefix=/application/php-5.6.36 \
 --with-apxs2=/application/apache/bin/apxs \
@@ -146,4 +148,50 @@ sudo make && sudo make install
 sudo yum install libmcrypt libmcrypt-devel -y
 sudo yum install mhash mhash-devel -y
 sudo yum install mcrypt -y
+```
+
+3. 安装fcgi的php
+```
+tar -zxvf php-5.6.36.tar.gz 
+cd php-5.6.36/
+sudo ./configure \
+--prefix=/application/php-5.6.36 \
+--with-mysql=/usr/local/mysql \
+--with-iconv=/usr/local/libiconv \
+--with-freetype-dir \
+--with-jpeg-dir \
+--with-png-dir \
+--with-zlib \
+--with-libxml-dir=/usr \
+--enable-xml \
+--disable-rpath \
+--enable-safe-mode \
+--enable-bcmath \
+--enable-shmop \
+--enable-sysvsem \
+--enable-inline-optimization \
+--with-curl \
+--with-curlwrappers \
+--enable-mbregex \
+--enable-fpm \
+--enable-mbstring \
+--with-mcrypt \
+--with-gd \
+--enable-gd-native-ttf \
+--with-openssl \
+--with-mhash \
+--enable-pcntl \
+--enable-sockets \
+--with-xmlrpc \
+--enable-zip \
+--enable-soap \
+--enable-short-tags \
+--enable-zend-multibyte \
+--enable-static \
+--with-xsl \
+--with-fpm-user=nginx \
+--with-fpm-group=nginx \
+--enable-ftp
+sudo make && sudo make install
+ln -s /application/php-5.6.36/ /application/php
 ```
