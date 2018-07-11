@@ -150,13 +150,13 @@ sudo useradd mysql -M -s /sbin/nologin
 
 2. 解压
 ```
-sudo mkdir -p /application/mysql-5.7.22
-sudo tar -zxvf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz -C /application/mysql-5.7.22
+tar -zxvf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+sudo mv mysql-5.7.22-linux-glibc2.12-x86_64 /application/
 ```
 
 3. 创建软连接,去除版本号
 ```
-sudo ln -s /application/mysql-5.7.22 /application/mysql
+sudo ln -s /application/mysql-5.7.22-linux-glibc2.12-x86_64/ /application/mysql
 ```
 
 ### 使用
