@@ -23,6 +23,13 @@ sudo ln -s /application/nginx-1.14.0/ /application/nginx
 ```
 
 ### 使用
+#### 1. 启动
 ```
 sudo /application/nginx/sbin/nginx
 ```
+#### 2. 平滑重启
+```
+sudo /application/nginx/sbin/nginx -t
+sudo /application/nginx/sbin/nginx -s reload
+```
+
