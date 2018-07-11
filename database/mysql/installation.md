@@ -1,5 +1,8 @@
-下载的时候选择Source Code和Linux Generic版本
-
+下载的时候选择Source Code和Linux Generic版本  
+## 安装思路
+1. 编译安装  
+2. yum/rpm  
+3. 下载二进制包(包名为mysql-5.5.32-linux2.6-x86_64.tar.gz)  
 ## mysql-5.1.72
 ### 安装步骤
 1. 在Linux上添加mysql用户和组
