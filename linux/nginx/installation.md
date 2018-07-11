@@ -14,6 +14,7 @@ sudo yum install openssl openssl-devel
 #### 2. 常规步骤
 注意:Nginx安装时还需要创建新的用户
 ```
+wget https://nginx.org/download/nginx-1.14.0.tar.gz
 tar -zxvf nginx-1.14.0.tar.gz 
 cd nginx-1.14.0/
 sudo  useradd nginx -s /sbin/nologin -M
