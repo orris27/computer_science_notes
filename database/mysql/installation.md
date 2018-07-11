@@ -140,7 +140,8 @@ sudo mysqladmin shutdown
 ## mysql-5.7.22(二进制包安装)
 
 ### 安装步骤
-1. 在Linux上添加mysql用户和组
+具体可以参考 https://www.jianshu.com/p/0d628b2f7476
+1. 在Linux上添加mysql用户和组  
 ```
 sudo useradd mysql -M -s /sbin/nologin
 ```
@@ -239,6 +240,7 @@ sudo /application/mysql/bin/mysql -uroot -p\/\(\/+AhNR#3oJ
 # 在mysql下修改密码
 set password=password('new_password');
 ```
+注意root需要密码是因为目录初始化有问题,所以老师的建议是删除数据data目录,然后重新初始化
 
 7. 将mysql命令添加到系统环境变量中
 ```
