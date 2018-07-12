@@ -203,7 +203,15 @@ sudo make && sudo make install
 ln -s /application/php-5.6.36/ /application/php
 ```
 
-
+4. 配置配置文件  
+4-1. PHP的配置文件  
+```
+# sudo find / -name 'php.ini*' # 找到当初下载的位置的php.init的两个版本
+sudo cp /home/orris/tools/php-5.6.36/php.ini-production  /application/php/lib/php.ini # 拷贝到make后的目录里
+```
+4-2. php-fpm的配置文件:  
+将php-fpm.conf给配置一下(`.default`为初始的,我们自己配置)
+具体内容可以看我的github上
 
 
 #### 常见问题
