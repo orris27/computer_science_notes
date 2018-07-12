@@ -219,10 +219,67 @@ sudo mkdir -p /app/logs
 
 5. 启动php-fpm
 ```
+sudo /application/php/sbin/php-fpm -t # 检查语法
 sudo /application/php/sbin/php-fpm
 ```
 
 
+
+6. 测试是否成功  
+
+添加index.php文件
+```
+sudo touch html/index.php
+```
+##### 1. 测试Apache是否成功配置
+```
+sudo vim html/index.php
+# 添加下面的内容
+<?php
+  phpinfo();
+?>
+# :wq
+sudo vim conf/nginx.conf
+#在nginx的server下面改成
+location / {
+    root   html;
+    index  index.php index.html index.htm;
+}
+location ~ .*\.(php|php5)?$ {
+    fastcgi_pass   127.0.0.1:9000;
+    fastcgi_index  index.php;
+    include fastcgi.conf;
+}
+# :wq
+sudo nginx -t
+sudo nginx -s relaod
+# 输入对应ip应该就能返回结果了
+```
+##### 2. 测试mysql是否成功配置
+```
+sudo vim html/index.php
+# 添加下面的内容
+<?php
+	//$link_id=mysql_connect(hostname,user,pwd);
+	$link_id=mysql_connect('localhost','root','xxx') or mysql_error();
+	if($link_id){
+		echo "mysql successful by orris !";
+	}else{
+		echo mysql_error();
+	}
+?>
+```
+如果成功的话,就会显示"mysql successful by orris !"
+
+
+7. 添加到自动启动服务中
+```
+cat >>/etc/rc.local <<EOF
+sudo systemctl start mysqld.service
+sudo /application/php/sbin/php-fpm 
+sudo /application/nginx/sbin/nginx 
+EOF
+```
 
 #### 常见问题
 1. checking "whether flock struct is linux ordered"... "no"  
