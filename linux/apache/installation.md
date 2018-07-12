@@ -1,5 +1,6 @@
 ## Apahce-2.4.33
 
+### 安装步骤
 1. 安装准备
 ```
 sudo yum install libxml2 libxml2-devel -y
@@ -40,6 +41,13 @@ sudo ./configure --prefix=/application/apache-2.4.33 && \
 sudo make && sudo make install
 sudo ln -s /application/apache-2.4.33 /application/apache
 ```
+### 使用
+```
+sudo bin/apachectl -t
+sudo bin/apachectl 
+```
+
+
 ### 常见问题
 1.
 ```
