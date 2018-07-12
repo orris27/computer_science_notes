@@ -113,6 +113,10 @@ sudo vim /var/html/www/index.php
 	}
 ?>
 ```
+或者也可以:
+```
+sudo /application/php/bin/php html/index.php
+```
 如果成功的话,就会显示"mysql successful by orris !"
 
 ### 常见问题
