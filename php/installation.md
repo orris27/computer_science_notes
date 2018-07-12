@@ -330,3 +330,15 @@ cp: cannot stat 'ext/phar/phar.phar': No such file or directory
 ```
 cp ext/phar/phar.php ext/phar/phar.phar
 ```
+6.
+```
+Can't connect to local MySQL server through socket '/tmp/mysql.sock' (2)
+```
+
+解决办法:  
+因为是找不到`mysql.sock`,说明我们在配置mysql的`/etc/my.cnf`时,设置的sock文件在另外一个地方,所以我们先找到该sock文件,然后创建软连接到/tmp下就可以了
+```
+sudo find / -name 'mysql.sock'
+# 输出为/usr/local/mysql-5.7.22-linux-glibc2.12-x86_64/run/mysql.sock
+sudo ln -s /usr/local/mysql/run/mysql.sock /tmp/
+```
