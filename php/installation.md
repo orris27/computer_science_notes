@@ -222,3 +222,32 @@ Note that the MySQL client library is not bundled anymore!
 ```
 sudo ./configure --prefix=/application/php-5.6.36 --with-mysql=/usr/local/mysql --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir=/usr --enable-xml --disable-rpath --enable-safe-mode --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --with-curl --with-curlwrappers --enable-mbregex --enable-fpm --enable-mbstring --with-mcrypt --with-gd --enable-gd-native-ttf --with-openssl --with-mhash --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --enable-short-tags --enable-zend-multibyte --enable-static --with-xsl --with-fpm-user=nginx --with-fpm-group=nginx --enable-ftp --with-iconv-dir=/usr/local/libiconv
 ```
+
+3. encodings.c:(.text+0xf6): undefined reference to 'libiconv_close' encodings.c:(.text+0x1b6): undefined reference to 'libiconv_close'
+找到：
+```
+EXTRA_LIBS = -lcrypt -lz -lcrypt -lrt -lmysqlclient -lmcrypt -lltdl -lldap -llber -lfreetype -lpng -lz -ljpeg -lcurl -lz -lrt -lm -ldl -lnsl -lrt -lxml2 -lz -lm -lssl -lcrypto -lcurl -lxml2 -lz -lm -lmysqlclient -lm -lrt -ldl -lxml2 -lz -lm -lxml2 -lz -lm -lcrypt -lxml2 -lz -lm -lxml2 -lz -lm -lxml2 -lz -lm -lxml2 -lz -lm -lcrypt
+```
+在这个行最后面添加 -liconv
+```
+EXTRA_LIBS = -lcrypt -lz -lcrypt -lrt -lmysqlclient -lmcrypt -lltdl -lldap -llber -lfreetype -lpng -lz -ljpeg -lcurl -lz -lrt -lm -ldl -lnsl -lrt -lxml2 -lz -lm -lssl -lcrypto -lcurl -lxml2 -lz -lm -lmysqlclient -lm -lrt -ldl -lxml2 -lz -lm -lxml2 -lz -lm -lcrypt -lxml2 -lz -lm -lxml2 -lz -lm -lxml2 -lz -lm -lxml2 -lz -lm -lcrypt -liconv
+```
+重新make一下  
+再make install  
+4. /home/orris/tools/php-5.6.36/sapi/cli/php: error while loading shared libraries: libiconv.so.2: cannot open shared object file: No such file or directory
+make: *** [ext/phar/phar.php] Error 127
+解决:  
+用命令`sudo find . / -name 'libiconv.so*'`找到libiconv.so的位置,然后添加到`/etc/ld.so.conf`,最后`sudo ldconfig`生效就可以了
+
+5. 
+```
+Wrote PEAR system config file at: /application/php-5.6.36/etc/pear.conf
+You may want to add: /application/php-5.6.36/lib/php to your php.ini include_path
+/home/orris/tools/php-5.6.36/build/shtool install -c ext/phar/phar.phar /application/php-5.6.36/bin
+cp: cannot stat 'ext/phar/phar.phar': No such file or directory
+```
+解决办法:  
+在下载好了的代码里创建/拷贝该phar.phar文件就可以了
+```
+cp ext/phar/phar.php ext/phar/phar.phar
+```
