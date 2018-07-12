@@ -1,6 +1,6 @@
-下载的时候选择Source Code和Linux Generic版本  
+注意:如果是mysql和php分开安装,则在php的服务器上要么编译安装到make install,要么压缩包解压就ok了
 ## 安装思路
-1. 编译安装  
+1. 编译安装(下载的时候选择Source Code和Linux Generic版本)  
 2. yum/rpm  
 3. 下载二进制包(包名为mysql-5.5.32-linux2.6-x86_64.tar.gz)  
 ## mysql-5.1.72(编译安装)
