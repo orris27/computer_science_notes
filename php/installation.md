@@ -6,7 +6,7 @@
 2.安装必要的库  
 分为yum可以安装的,和只能通过编译安装的libiconv  
 ```
-sudo yum install zlib libxml libjpeg freetype libpng gd curl libiconv zlib-devel libxml2-devel libjpeg-devel freetype-devel libpng-devel gd-devel curl-devel openssl-devel libxslt-devel -y
+sudo yum install zlib libxml2 libjpeg freetype libpng gd curl libiconv zlib-devel libxml2-devel libjpeg-devel freetype-devel libpng-devel gd-devel curl-devel openssl-devel libxslt-devel -y
 wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz
 tar -zxvf libiconv-1.15.tar.gz 
 cd libiconv-1.15/
@@ -139,7 +139,7 @@ sudo yum install libxslt-devel
 2.安装必要的库  
 分为yum可以安装的,和只能通过编译安装的libiconv  
 ```
-sudo yum install zlib libxml libjpeg freetype libpng gd curl libiconv zlib-devel libxml2-devel libjpeg-devel freetype-devel libpng-devel gd-devel curl-devel openssl-devel libxslt-devel -y
+sudo yum install zlib libxml2 libjpeg freetype libpng gd curl zlib-devel libxml2-devel libjpeg-devel freetype-devel libpng-devel gd-devel curl-devel openssl-devel libxslt-devel -y
 
 wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz
 tar -zxvf libiconv-1.15.tar.gz 
@@ -154,14 +154,17 @@ sudo yum install mhash mhash-devel -y
 sudo yum install mcrypt -y
 ```
 
-3. 安装fcgi的php
+3. 安装fcgi的php  
+注意:php5.6的`--with-iconv`应该改成`--with-iconv-dir`!!!
 ```
 tar -zxvf php-5.6.36.tar.gz 
-cd php-5.6.36/
+cd php-5.6.36/  523  2018-07-12 11:05:07 ls /usr/local/libiconv
+  524  2018-07-12 11:05:38 history | grep libiconv
+
 sudo ./configure \
 --prefix=/application/php-5.6.36 \
 --with-mysql=/usr/local/mysql \
---with-iconv=/usr/local/libiconv \
+--with-iconv-dir=/usr/local/libiconv \
 --with-freetype-dir \
 --with-jpeg-dir \
 --with-png-dir \
@@ -195,10 +198,13 @@ sudo ./configure \
 --with-xsl \
 --with-fpm-user=nginx \
 --with-fpm-group=nginx \
---enable-ftp
+--enable-ftp 
 sudo make && sudo make install
 ln -s /application/php-5.6.36/ /application/php
 ```
+
+
+
 
 #### 常见问题
 1. checking "whether flock struct is linux ordered"... "no"  
@@ -206,3 +212,13 @@ checking "whether flock struct is BSD ordered"... "no"
 configure: error: Don't know how to define struct flock on this system, set --enable-opcache=no  
 
 注意 https://note.t4x.org/error/configure-error-dont-know-how-to-define-struct-flock-on-this-system/
+在最后加`--with-libdir=lib64`
+
+2. configure: error: Cannot find libmysqlclient under /usr/local/mysql.
+Note that the MySQL client library is not bundled anymore!
+一开始出现这个问题是因为我`--with-iconv`的错误,php5.6应该是用`--with-iconv-dir`的格式  
+后来又出现这个问题是因为我擅自加了`--with-libdir=lib64`,后来去掉这个就没事了.  
+所以最后的configure为:
+```
+sudo ./configure --prefix=/application/php-5.6.36 --with-mysql=/usr/local/mysql --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir=/usr --enable-xml --disable-rpath --enable-safe-mode --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --with-curl --with-curlwrappers --enable-mbregex --enable-fpm --enable-mbstring --with-mcrypt --with-gd --enable-gd-native-ttf --with-openssl --with-mhash --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --enable-short-tags --enable-zend-multibyte --enable-static --with-xsl --with-fpm-user=nginx --with-fpm-group=nginx --enable-ftp --with-iconv-dir=/usr/local/libiconv
+```
