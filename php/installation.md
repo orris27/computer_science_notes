@@ -285,6 +285,9 @@ sudo /application/nginx/sbin/nginx
 EOF
 ```
 
+**LNMP配置完成!!!!**
+
+
 #### 常见问题
 1. checking "whether flock struct is linux ordered"... "no"  
 checking "whether flock struct is BSD ordered"... "no"  
