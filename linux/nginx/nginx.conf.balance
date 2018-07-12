@@ -8,7 +8,7 @@ http {
     sendfile        on;
     keepalive_timeout  65;
     upstream backend {
-    	ip_hash;
+    	#ip_hash; # 默认是轮询
 	server 172.19.28.83:80 max_fails=3 fail_timeout=30s;
 	server 172.19.28.84:80 max_fails=3 fail_timeout=30s;
     }
