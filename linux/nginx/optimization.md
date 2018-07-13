@@ -71,6 +71,7 @@ worker_cpu_affinity 10000000 01000000 00100000 00010000 00001000 00000100 000000
 ```
 
 ### 6. 设置事件处理模型(epoll,select..)
+#### 解决方法
 ```
 events {
     use epoll;
@@ -79,6 +80,7 @@ events {
 ```
 
 ### 7. 设置单个进程允许的最大连接数
+#### 解决方法
 ```
 events {
     worker_connections  20480;
@@ -87,6 +89,7 @@ events {
 ```
 
 ### 8. 设置单个进程最大打开文件数
+#### 解决方法
 ```
 worker_rlimit_nofile 65535; # main 标签里
 ```
@@ -112,7 +115,7 @@ tcp_nodelay on; # 前两个是为了防止网络阻塞
 sendfile on; # http,server,location都可以
 ```
 
-### 11优化服务器名字的hash表大小(可选)
+### 11. 优化服务器名字的hash表大小(可选)
 如果在`server_name`处填写太多域名(如:`*.orris.com`这样的通配符),那么就会变慢(如:泛解析)
 #### 解决方法
 1. 尽量使用确切名字
@@ -122,4 +125,46 @@ http {
     server_names_hash_max_size 1024; # 如果默认值为512kb的话
     server_names_hash_bucket_size 64; # 如果默认值为32的话
 }
+```
+
+### 12. 用户上传文件的大小限制
+php默认是2m,一般10m就已经很大
+#### 解决方法
+```
+# context: http, server, location
+client_max_body_size 10m;
+```
+### 13. fastcgi调优
+#### 解决方法
+##### 注释版
+```
+# 解析php的location处
+fastcgi_connect_timeout 300; # Nginx和PHP连接的超时间
+fastcgi_send_timeout 300;
+fastcgi_read_timeout 300;
+fastcgi_buffer_size 64k;
+fastcgi_buffers 4 64k; 
+fastcgi_busy_buffers_size 128k; # 建议为fastcgi_buffers的两倍
+fastcgi_temp_file_write_size 128k; # 在写入fastcgi_temp_path时使用多大的数据块,默认值是fastcgi_buffers的两倍,设置太小而负载大的话就会502
+fastcgi_cache orris_nginx; # 设置fastcgi缓存,并指定名称.可以有效降低CPU负载,并且防止502,但也有其他问题.需要设置fastcgi_cache_path才行
+fastcgi_cache_valid 200 302 1h; # 用来指定应答代码的缓存时间,这行表示200和302应答缓存为1个小时
+fastcgi_cache_valid 301 1d;
+fastcgi_cache_valid any 1m; # 其他应答设置为1分钟
+fastcgi_cache_min_uses 1; # 缓存在fastcgi_cache_push指令inactive参数值时间内的最少使用次数
+```
+##### 无注释
+```
+# 解析php的location处
+fastcgi_connect_timeout 300;
+fastcgi_send_timeout 300;
+fastcgi_read_timeout 300;
+fastcgi_buffer_size 64k;
+fastcgi_buffers 4 64k; 
+fastcgi_busy_buffers_size 128k; 
+fastcgi_temp_file_write_size 128k; 
+fastcgi_cache orris_nginx;
+fastcgi_cache_valid 200 302 1h; 
+fastcgi_cache_valid 301 1d;
+fastcgi_cache_valid any 1m;
+fastcgi_cache_min_uses 1; 
 ```
