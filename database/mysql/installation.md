@@ -176,7 +176,8 @@ sduo make && sudo make install
 ## mysql-5.7.22(二进制包安装)
 
 ### 安装步骤
-具体可以参考 https://www.jianshu.com/p/0d628b2f7476
+具体可以参考 https://www.jianshu.com/p/0d628b2f7476  
+
 0. 安装准备
 ```
 sudo yum install libaio-devel -y
