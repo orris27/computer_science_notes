@@ -66,7 +66,9 @@ ll /application/php/lib/php/extensions/no-debug-zts-20131226/
 
 ## 配置到PHP中
 ### 思路
-修改`php.ini`文件(确定路径+名字),将`extenson_dir`改成`/application/php/lib/php/extensions/no-debug-zts-20131226/`这样的路径,然后在后面加上具体文件,如`extension = memcache.so`(注意要等号两边有空格)
+1. 修改`php.ini`文件(确定路径+名字),将`extenson_dir`改成`/application/php/lib/php/extensions/no-debug-zts-20131226/`这样的路径,然后在后面加上具体文件,如`extension = memcache.so`(注意要等号两边有空格),
+2. 重启apache服务
+3. 访问下phpinfo(),测试就行了(生产环境中一定要删除phpinfo()的东西)
 #### 1. LAMP
 ```
 sudo cp /application/php/lib/php.ini /application/php/lib/php.ini.bak
@@ -80,6 +82,8 @@ extension = pdo_mysql.so
 extension = imagick.so
 ;--cache ext end --
 #--vim--
+
+sudo /application/apache/bin/apachectl graceful
 ```
 
 #### 2. LNMP
@@ -98,6 +102,7 @@ extension = pdo_mysql.so
 extension = imagick.so
 ;--cache ext end --
 #--vim--
+
 sudo netstat -lntup | grep php-fpm
 sudo pkill php-fpm
 sudo /application/php/sbin/php-fpm
