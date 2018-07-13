@@ -104,7 +104,8 @@ xcache.gc_interval =          3600
 xcache.var_size  =            0
 #--vim ends--
 复制整个xcache.ini到php.ini里面
-
+sudo /application/apache/bin/apachectl graceful
+/application/php/bin/php -v
 ```
 
 ### 2. LNMP
@@ -155,6 +156,7 @@ xcache.var_size  =            0
 复制整个xcache.ini到php.ini里面
 sudo kill -USR2 `cat /app/logs/php-fpm.pid`
 sudo /application/php/sbin/php-fpm
+/application/php/bin/php -v
 ```
 
 ## 常见问题
