@@ -9,7 +9,12 @@ sudo yum install autoconf -y
 ### <2> xcache
 ```
 wget https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.gz
-
+tar -zxvf xcache-3.2.0.tar.gz
+cd xcache-3.2.0
+sudo /application/php/bin/phpize 
+sudo ./configure --enable-xcache --with-php-config=/application/php/bin/php-config
+sudo make && sudo make install
+ls /application/php/lib/php/extensions/no-debug-non-zts-20131226/ # 注意该目录不一定,根据make install的提示来看,如果有xcache.so就ok了
 ```
 
 ## 常见问题
