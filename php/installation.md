@@ -43,7 +43,7 @@ sudo ./configure \
 --enable-ftp \
 --with-libxml-dir
 sudo make && sudo make install
-ln -s /application/php-5.6.36/ /application/php
+sudo ln -s /application/php-5.6.36/ /application/php
 ```
 
 4. 检查Apache处是否成功配置  
@@ -76,6 +76,7 @@ sudo useradd -g www -M -s /sbin/nologin www
 
 6. 重启Apache
 ```
+# sudo /application/apache/bin/apachectl start
 apachectl -t
 sudo apachectl graceful
 ```
@@ -133,8 +134,18 @@ sudo yum install libxslt-devel
 ##### 3. 配置好Apache的服务后,进入网站是错误的
 需要创建index.php文件!!
 
-
-
+##### 4. 虚拟内存不够用
+```
+virtual memory exhausted: Cannot allocate memory
+make: *** [ext/fileinfo/libmagic/apprentice.lo] Error 1
+```
+解决方法:(增加一块虚拟内存)
+```
+sudo dd if=/dev/zero of=/swapfile bs=1M count=8192
+sudo mkswap /swapfile
+sudo swapon /swapfile
+sudo swapon -s # 查看现在的swap情况
+```
 
 ## 嵌入到Apache的PHP安装(LNMP)
 1. 安装好mysql和Apahce
@@ -162,8 +173,7 @@ sudo yum install mcrypt -y
 注意:php5.6的`--with-iconv`应该改成`--with-iconv-dir`!!!
 ```
 tar -zxvf php-5.6.36.tar.gz 
-cd php-5.6.36/  523  2018-07-12 11:05:07 ls /usr/local/libiconv
-  524  2018-07-12 11:05:38 history | grep libiconv
+cd php-5.6.36/  
 
 sudo ./configure \
 --prefix=/application/php-5.6.36 \
@@ -235,7 +245,7 @@ sudo /application/php/sbin/php-fpm
 ```
 sudo touch html/index.php
 ```
-##### 1. 测试Apache是否成功配置
+##### 1. 测试Nginx是否成功配置
 ```
 sudo vim html/index.php
 # 添加下面的内容
