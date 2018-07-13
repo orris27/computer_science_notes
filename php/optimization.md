@@ -65,7 +65,7 @@ ll /application/php/lib/php/extensions/no-debug-zts-20131226/
 ```
 
 ## 配置到PHP中
-
+LNMP要重启php-fpm,而LAMP要重启apache
 ### 1. LAMP
 ##### 思路
 1. 修改`php.ini`文件(确定路径+名字),将`extenson_dir`改成`/application/php/lib/php/extensions/no-debug-zts-20131226/`这样的路径,然后在后面加上具体文件,如`extension = memcache.so`(注意要等号两边有空格),
