@@ -28,3 +28,45 @@ server {
 ```
 ps -aux | grep nginx
 ```
+
+### 4. 配置Nginx的进程个数
+#### 平衡点
+1. 并发多=>多进程
+2. 服务器能力=>不能太多进程
+#### 结论
+worker_process的个数=CPU的核数
+#### 解决方法
+```
+grep 'physical id' /proc/cpuinfo # 每一行表示一个CPU
+sudo vim /application/nginx/conf/nginx.conf
+#--vim starts--
+worker_processes  xx; # 改成cpu核数就行了,因为我的服务器为1核,所以还是1
+#--vim ends--
+```
+
+### 5. 把不同的进程分给不同的CPU
+如果不设置CPU的亲和度的话,尽管我们设置多个进程,那么这些进程还是不一定会刚好分配给每个CPU核.有可能会所有worker进程都分配到CPU的一个核上,这样就会导致服务器CPU受压不均
+#### 解决方法
+在Nginx的main标签里设置CPU的亲和度,然后优雅重启
+##### 1. 双核CPU
+###### 1-1. 双核CPU开2个进程
+```
+# worker_processes  2;
+worker_cpu_affinity 01 10;
+```
+###### 1-2. 双核CPU开8个进程
+```
+# worker_processes  8;
+worker_cpu_affinity 01 10 01 10 01 10 01 10;
+```
+##### 2. 四核CPU
+```
+# worker_processes     4;
+worker_cpu_affinity 0001 0010 0100 1000;
+```
+##### 3. 八核CPU
+```
+# worker_processes  8;
+worker_cpu_affinity 10000000 01000000 00100000 00010000 00001000 00000100 00000010 00000001;
+```
+
