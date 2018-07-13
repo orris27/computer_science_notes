@@ -362,3 +362,8 @@ sudo find / -name 'mysql.sock'
 # 输出为/usr/local/mysql-5.7.22-linux-glibc2.12-x86_64/run/mysql.sock
 sudo ln -s /usr/local/mysql/run/mysql.sock /tmp/
 ```
+7. yum不能allocate memory
+解决方法:暂停mysql服务
+```
+sudo systemctl stop mysqld.service
+```
