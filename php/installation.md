@@ -36,7 +36,7 @@ sudo ./configure \
 --enable-zend-multibyte \
 --enable-soap \
 --enable-mbstring \
---enable-static \
+--enable-static \一般为将编译成功的可执行文件安装到系统目录中，
 --enable-gd-native--ttf \
 --with-curl \
 --with-xsl \
@@ -140,6 +140,7 @@ virtual memory exhausted: Cannot allocate memory
 make: *** [ext/fileinfo/libmagic/apprentice.lo] Error 1
 ```
 解决方法:(增加一块虚拟内存)  
+实际解决方法:1.先`sudo make` 2. 之后等出现这个问题后,直接删除swap文件,然后重新再建一个 3. 不`make clean`,直接`make`(在上一次的基础上make)
 注意:好像不是swap越大越好的!!我设置成8G,16G都不行,结果设置成1G,然后不`make clean`,直接`make`就可以了,而且第一个一定是要`/swap`的样子,而不是`/swapfile`
 ```
 sudo dd if=/dev/zero of=/swapfile bs=1M count=1024
