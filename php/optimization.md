@@ -105,7 +105,7 @@ extension = imagick.so
 #--vim--
 
 sudo netstat -lntup | grep php-fpm
-sudo pkill php-fpm
+sudo kill -USR2 `cat /app/logs/php-fpm.pid`
 sudo /application/php/sbin/php-fpm
 
 sudo vim /application/apache/htdocs/index.php
