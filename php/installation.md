@@ -76,7 +76,7 @@ sudo useradd -g www -M -s /sbin/nologin www
 
 6. 重启Apache
 ```
-# sudo /application/apache/bin/apachectl start
+# sudo /application/apach/usr/lib64/mysql/e/bin/apachectl start
 apachectl -t
 sudo apachectl graceful
 ```
@@ -299,11 +299,19 @@ EOF
 
 
 #### 常见问题
-1. checking "whether flock struct is linux ordered"... "no"  
+1. 
+```
+checking "whether flock struct is linux ordered"... "no"  
 checking "whether flock struct is BSD ordered"... "no"  
 configure: error: Don't know how to define struct flock on this system, set --enable-opcache=no  
-
-注意 https://note.t4x.org/error/configure-error-dont-know-how-to-define-struct-flock-on-this-system/
+```
+原因:`libmysqlclient.so*`所在的目录不再`/etc/ld.so.conf`里面,所以只要把该目录放到这个文件里面并生效就可以了  
+解决方法1:
+```
+sudo vim /etc/ld.so.conf # 加入'/usr/local/mysql/lib'
+sudo ldconfig
+```
+解决方法2:
 改成`--with-iconv-dir=/usr/local/libiconv`,然后把libmysqlclient软连接到/usr/lib下,在`/etc/ld.so.conf`中将`/usr/lib`加入到里面并生效
 ```
 ln -s /usr/local/mysql/lib/libmysqlclient.so* /usr/lib
