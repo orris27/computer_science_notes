@@ -171,6 +171,11 @@ sudo mysqladmin shutdown
 
 ### 安装步骤
 具体可以参考 https://www.jianshu.com/p/0d628b2f7476
+0. 安装准备
+```
+sudo yum install libaio-devel -y
+```
+
 1. 在Linux上添加mysql用户和组  
 ```
 sudo useradd mysql -M -s /sbin/nologin
@@ -183,19 +188,19 @@ sudo useradd mysql -M -s /sbin/nologin
 2. 解压
 ```
 tar -zxvf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
-sudo mv mysql-5.7.22-linux-glibc2.12-x86_64 /application/
+sudo mv mysql-5.7.22-linux-glibc2.12-x86_64 /usr/local/
 ```
 
 3. 创建软连接,去除版本号
 ```
-sudo ln -s /application/mysql-5.7.22-linux-glibc2.12-x86_64/ /application/mysql
+sudo ln -s /usr/local/mysql-5.7.22-linux-glibc2.12-x86_64/ /usr/local/mysql
 ```
 
 ### 使用
 1. 创建需要的目录
 ```
-mkdir -p /usr/local/mysql/{data,binlogs,logs,etc,run}
-chown -R mysql.mysql /usr/local/mysql/{data,binlogs,log,etc,run}
+sudo mkdir -p /usr/local/mysql/{data,binlogs,logs,etc,run}
+sudo chown -R mysql.mysql /usr/local/mysql/{data,binlogs,logs,etc,run}
 ```
 
 2. 替换mysql的配置文件为对应硬件支持的配置文件
@@ -256,17 +261,17 @@ server-id=1
 sudo /usr/local/mysql/bin/mysqld --initialize --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data/ --user=mysql
 ```
 
-5. 启动mysql服务器
+5. 启动mysql服务器(可以考虑先不启动)
 ```
-sudo /application/mysql/bin/mysqld_safe &
+sudo /usr/local/mysql/bin/mysqld_safe &
 ```
 
 6. 进入mysql客户端
 ```
-# 在/usr/local/mysql/log/mysql_error.log这个目录里会有
+# 在/usr/local/mysql/logs/mysql_error.log这个目录里会有
 # 2018-07-11T15:35:19.962367Z 1 [Note] A temporary password is generated for root@localhost: /(/+AhNR#3oJ
 # 这样的内容,这就是root的临时密码,所以要用该临时密码登入
-sudo /application/mysql/bin/mysql -uroot -p\/\(\/+AhNR#3oJ
+  sudo /usr/local/mysql/bin/mysql -uroot -p\/\(\/+AhNR#3oJ
 # 在mysql下修改密码
 set password=password('new_password');
 ```
@@ -275,8 +280,8 @@ set password=password('new_password');
 7. 将mysql命令添加到系统环境变量中
 ```
 sudo vim /etc/profile
-# 添加 PATH="/usr/local/mysql/bin:$PATH" 到里面就可以了
-. /etc/profile
+# 添加 'PATH=/usr/local/mysql/bin:$PATH' 到里面就可以了
+source /etc/profile
 ```
 
 8. 添加到sudo命令中
@@ -284,7 +289,7 @@ sudo vim /etc/profile
 su - root
 visudo
 # 添加 mysql/bin目录到$PATH中就可以了
-# 如改成 Defaults    secure_path = /application/mysql/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin 就可以了
+# 如改成 Defaults    secure_path = /usr/local/mysql/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin 就可以了
 ```
 
 9. 进入mysql客户端
@@ -365,4 +370,12 @@ RestartPreventExitStatus=1
 PrivateTmp=false
 ```
 
-
+### 常见问题
+1.
+```
+/usr/local/mysql/bin/mysqld: error while loading shared libraries: libaio.so.1: cannot open shared object file: No such file or directory
+```
+解决方法:(要么是没有安装,要么是没有找到)
+```
+sudo yum install libaio-devel -y
+```
