@@ -67,6 +67,7 @@ ll /application/php/lib/php/extensions/no-debug-zts-20131226/
 ## 配置到PHP中
 LNMP要重启php-fpm,而LAMP要重启apache
 ### 1. LAMP
+#### 1. PHP自身模块(memcache,pdo_mysql,imagick)
 ##### 思路
 1. 修改`php.ini`文件(确定路径+名字),将`extenson_dir`改成`/application/php/lib/php/extensions/no-debug-zts-20131226/`这样的路径,然后在后面加上具体文件,如`extension = memcache.so`(注意要等号两边有空格),
 2. 重启apache服务
@@ -86,8 +87,28 @@ extension = imagick.so
 
 sudo /application/apache/bin/apachectl graceful
 ```
+#### 2. xcache
+##### 思路
+1. 修改下载解压的目录下的xcache的配置文件,将里面的参数改成适合的参数
+2. 将xcache的配置文件直接追加到php的配置文件里
+3. 创建并授权用来做缓存的目录(授权是给对应我们Web服务指定的用户,比如nginx为nginx,apache为www(配置文件里设置的))
+4. 重启相关服务
+```
+sudo vim ~/tools/xcache-3.2.0/xcache.ini
+#--vim starts--
+extension = xcache.so
+xcache.size  =               128M
+xcache.count =                 2
+xcache.ttl   =                 86400
+xcache.gc_interval =          3600
+xcache.var_size  =            0
+#--vim ends--
+复制整个xcache.ini到php.ini里面
+
+```
 
 ### 2. LNMP
+#### 1. PHP自身模块(memcache,pdo_mysql,imagick)
 ##### 思路
 1. 修改`php.ini`配置文件,加入这些新的扩展功能
 2. 重启php-fpm
@@ -115,8 +136,26 @@ sudo vim /application/apache/htdocs/index.php
 ?>
 #--vim--
 ```
-
-
+#### 2. xcache
+##### 思路
+1. 修改下载解压的目录下的xcache的配置文件,将里面的参数改成适合的参数
+2. 将xcache的配置文件直接追加到php的配置文件里
+3. 创建并授权用来做缓存的目录(授权是给对应我们Web服务指定的用户,比如nginx为nginx,apache为www(配置文件里设置的))
+4. 重启相关服务
+```
+sudo vim ~/tools/xcache-3.2.0/xcache.ini
+#--vim starts--
+extension = xcache.so
+xcache.size  =               128M
+xcache.count =                 2
+xcache.ttl   =                 86400
+xcache.gc_interval =          3600
+xcache.var_size  =            0
+#--vim ends--
+复制整个xcache.ini到php.ini里面
+sudo kill -USR2 `cat /app/logs/php-fpm.pid`
+sudo /application/php/sbin/php-fpm
+```
 
 ## 常见问题
 ### 1.没有`./configure`文件
