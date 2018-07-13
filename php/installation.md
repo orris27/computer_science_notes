@@ -139,12 +139,26 @@ sudo yum install libxslt-devel
 virtual memory exhausted: Cannot allocate memory
 make: *** [ext/fileinfo/libmagic/apprentice.lo] Error 1
 ```
-解决方法:(增加一块虚拟内存)
+解决方法:(增加一块虚拟内存)  
+注意:好像不是swap越大越好的!!我设置成8G,16G都不行,结果反而设置成1G就可以了,也可能是一定要`/swap`
 ```
-sudo dd if=/dev/zero of=/swapfile bs=1M count=8192
+sudo dd if=/dev/zero of=/swapfile bs=1M count=1024
 sudo mkswap /swapfile
 sudo swapon /swapfile
 sudo swapon -s # 查看现在的swap情况
+```
+参考:
+```
+sudo dd if=/dev/zero of=/swap bs=1024 count=1M 
+sudo mkswap /swap 
+sudo swapon /swap 
+sudo dd if=/dev/zero of=/swapfile bs=1M count=4084
+sudo mkswap /swapfile
+sudo swapon /swapfile 
+sudo dd if=/dev/zero of=/swapfile2 bs=1M count=4084
+sudo mkswap /swapfile2
+sudo swapon /swapfile2
+sudo swapon -s
 ```
 
 ## 嵌入到Apache的PHP安装(LNMP)
