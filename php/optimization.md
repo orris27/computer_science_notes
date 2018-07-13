@@ -64,6 +64,54 @@ sudo make && sudo make install
 ll /application/php/lib/php/extensions/no-debug-zts-20131226/
 ```
 
+## 配置到PHP中
+### 思路
+修改`php.ini`文件(确定路径+名字),将`extenson_dir`改成`/application/php/lib/php/extensions/no-debug-zts-20131226/`这样的路径,然后在后面加上具体文件,如`extension = memcache.so`(注意要等号两边有空格)
+#### 1. LAMP
+```
+sudo cp /application/php/lib/php.ini /application/php/lib/php.ini.bak
+sudo vim /application/php/lib/php.ini                                
+
+extension_dir = "/application/php/lib/php/extensions/no-debug-zts-20131226/"
+#--vim--
+;--cache ext start --
+extension = memcache.so
+extension = pdo_mysql.so
+extension = imagick.so
+;--cache ext end --
+#--vim--
+```
+
+#### 2. LNMP
+##### 思路
+1. 修改`php.ini`配置文件,加入这些新的扩展功能
+2. 重启php-fpm
+3. 随便弄个网站搞出phpinfo(),然后用搜索功能差看memcache,pdo_mysql等,有就说明成功了
+```
+sudo cp /application/php/lib/php.ini  /application/php/lib/php.ini.bak
+sudo vim /application/php/lib/php.ini
+#--vim--
+extension_dir = "/application/php/lib/php/extensions/no-debug-non-zts-20131226/"
+;--cache ext start --
+extension = memcache.so
+extension = pdo_mysql.so
+extension = imagick.so
+;--cache ext end --
+#--vim--
+sudo netstat -lntup | grep php-fpm
+sudo pkill php-fpm
+sudo /application/php/sbin/php-fpm
+
+sudo vim /application/apache/htdocs/index.php
+#--vim--
+<?php
+ phpinfo();
+?>
+#--vim--
+```
+
+
+
 ## 常见问题
 ### 1.没有`./configure`文件
 原因: `./configure`文件只有在`phpize`后才出现
