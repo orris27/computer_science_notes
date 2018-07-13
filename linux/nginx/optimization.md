@@ -220,3 +220,34 @@ sudo nginx
 curl -I 127.0.0.1
 curl 127.0.0.1/12312312
 ```
+### 15. 配置Nginx的gzip压缩功能
+#### 分析
+1. 如果使用压缩的话,那么会消耗服务器资源,但是传输速度块
+2. 一般压缩:程序文件(html,css,js,xml)
+3. 一般不压缩:小文件,图片,视频,flash等
+#### 解决方法
+##### 有注释版
+```
+# http,..
+gzip on;
+gzip_min_length 1k; # 小于1k的文件就不压缩了
+gzip_buffers 4 16k;
+# gzip_http_version 1.0; # 一般选默认就好了
+gzip_comp_level 3; # 压缩比越大=>压缩越彻底,传输速度最快,处理最慢(1-9)
+gzip_types text/html text/css application/javascript text/xml; # 压缩的对象.具体是什么可以参考conf/mime.types
+gzip_vary on; # 允许前端的服务器缓存经过gzip压缩的文件
+```
+##### 无注释
+```
+# http
+gzip on;
+gzip_min_length 1k;
+gzip_buffers 4 16k;
+# gzip_http_version 1.0; 
+gzip_comp_level 3; 
+gzip_types text/css application/javascript text/xml;
+gzip_vary on; 
+```
+#### 检测方法
+1. 安装yslow插件
+2. F12后点击yslow,在componets处点击某个可能被压缩的,看gzip处的情况
