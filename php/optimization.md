@@ -1,6 +1,9 @@
 ## 0. 优化准备
 ```
 sudo yum install autoconf -y
+echo 'export LC_ALL=C' >> /etc/profile
+source /etc/profile
+sudo yum install perl-devel -y
 ```
 
 ## 1. PHP引擎加速与缓存优化模块
@@ -25,7 +28,40 @@ sudo /application/php/bin/phpize
 sudo ./configure --with-php-config=/application/php/bin/php-config
 sudo make && sudo make install
 ll /application/php/lib/php/extensions/no-debug-zts-20131226/
+```
 
+## 3. PHP访问数据库的新接口(不是优化,属于扩展功能)
+```
+wget https://pecl.php.net/get/PDO_MYSQL-1.0.2.tgz
+
+# 注意:根据MySQL版本不同,这里的具体位置会不一样!!
+sudo ln -s /application/mysql/include/mysql/* /usr/local/include/ # 将mysql的头文件放到gcc查找的默认路径
+
+tar -zxf PDO_MYSQL-1.0.2.tgz
+cd PDO_MYSQL-1.0.2
+sudo /application/php/bin/phpize 
+sudo ./configure --with-php-config=/application/php/bin/php-config --with-pdo-mysql=/application/mysql # mysql的目录不要弄错
+sudo make 
+sudo make install
+ls /application/php/lib/php/extensions/no-debug-zts-20131226/
+
+```
+
+## 4. 图像处理
+```
+wget https://www.imagemagick.org/download/ImageMagick.tar.gz
+tar -zxf ImageMagick.tar.gz
+cd ImageMagick-7.0.8-6
+sudo ./configure
+sudo make && sudo make install
+
+wget https://pecl.php.net/get/imagick-3.4.3.tgz
+tar -zxf imagick-3.4.3.tgz 
+cd imagick-3.4.3
+sudo /application/php/bin/phpize 
+sudo ./configure --with-php-config=/application/php/bin/php-config
+sudo make && sudo make install
+ll /application/php/lib/php/extensions/no-debug-zts-20131226/
 ```
 
 ## 常见问题
@@ -42,3 +78,18 @@ $PHP_AUTOCONF environment variable. Then, rerun this script.
 ```
 sudo yum install autoconf -y
 ```
+
+### 3. 
+```
+/home/orris/tools/PDO_MYSQL-1.0.2/php_pdo_mysql_int.h:25:19: fatal error: mysql.h: No such file or directory
+ #include <mysql.h>
+                   ^
+compilation terminated.
+make: *** [pdo_mysql.lo] Error 1
+```
+原因: 找不到mysql.h文件. 说明gcc编译时的系统默认路径中没有该文件  
+解决方法:(将mysql.h所在的目录下所有mysql的头文件都加入到系统默认路径中`/usr/include;/usr/local/include`)
+```
+sudo ln -s /application/mysql/include/mysql/* /usr/local/include/
+```
+
