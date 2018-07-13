@@ -268,43 +268,29 @@ server-id=1
 sudo /usr/local/mysql/bin/mysqld --initialize --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data/ --user=mysql
 ```
 
-5. 启动mysql服务器(可以考虑先不启动)
-```
-sudo /usr/local/mysql/bin/mysqld_safe &
-```
 
-6. 进入mysql客户端
-```
-# 在/usr/local/mysql/logs/mysql_error.log这个目录里会有
-# 2018-07-11T15:35:19.962367Z 1 [Note] A temporary password is generated for root@localhost: /(/+AhNR#3oJ
-# 这样的内容,这就是root的临时密码,所以要用该临时密码登入
-  sudo /usr/local/mysql/bin/mysql -uroot -p\/\(\/+AhNR#3oJ
-# 在mysql下修改密码
-set password=password('new_password');
-```
 注意root需要密码是因为目录初始化有问题,所以老师的建议是删除数据data目录,然后重新初始化
 
-7. 将mysql命令添加到系统环境变量中
+5. 将mysql命令添加到系统环境变量中
 ```
 sudo vim /etc/profile
 # 添加 'PATH=/usr/local/mysql/bin:$PATH' 到里面就可以了
 source /etc/profile
 ```
 
-8. 添加到sudo命令中
+6. 添加到sudo命令中
 ```
-su - root
-visudo
+sudo visudo
 # 添加 mysql/bin目录到$PATH中就可以了
 # 如改成 Defaults    secure_path = /usr/local/mysql/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin 就可以了
 ```
 
-9. 进入mysql客户端
+7. 进入mysql客户端
 ```
 sudo mysql -uroot -p
 ```
 
-10. 添加mysql到systemctl中
+8. 添加mysql到systemctl中
 ```
 cd /usr/lib/systemd/system
 sudo touch mysqld.service
@@ -376,6 +362,21 @@ RestartPreventExitStatus=1
 
 PrivateTmp=false
 ```
+
+
+9. 进入mysql客户端
+```
+# 在/usr/local/mysql/logs/mysql_error.log这个目录里会有
+# 2018-07-11T15:35:19.962367Z 1 [Note] A temporary password is generated for root@localhost: /(/+AhNR#3oJ
+# 这样的内容,这就是root的临时密码,所以要用该临时密码登入
+# 在mysql下修改密码
+sudo cat /usr/local/mysql/logs/mysql_error.log | grep temporary
+sudo /usr/local/mysql/bin/mysql -uroot -p\/\(\/+AhNR#3oJ
+set password=password('new_password');
+```
+
+
+
 
 ### 常见问题
 1.
