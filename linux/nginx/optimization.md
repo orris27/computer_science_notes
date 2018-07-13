@@ -70,3 +70,56 @@ worker_cpu_affinity 0001 0010 0100 1000;
 worker_cpu_affinity 10000000 01000000 00100000 00010000 00001000 00000100 00000010 00000001;
 ```
 
+### 6. 设置事件处理模型(epoll,select..)
+```
+events {
+    use epoll;
+    # ....
+}
+```
+
+### 7. 设置单个进程允许的最大连接数
+```
+events {
+    worker_connections  20480;
+    # ...
+}
+```
+
+### 8. 设置单个进程最大打开文件数
+```
+worker_rlimit_nofile 65535; # main 标签里
+```
+
+
+### 9. 设置连接超时时间
+php希望短连接,Java希望长连接
+#### 解决方法
+```
+# context: http, server, location
+keepalive_timeout 60;
+tcp_nodelay on;
+client_header_timeout 15;
+client_body_timeout 15;
+send_timeout 15;
+```
+
+### 10. 开启高效文件传输模式(可选)
+#### 解决方法
+```
+tcp_nopush on;
+tcp_nodelay on; # 前两个是为了防止网络阻塞
+sendfile on; # http,server,location都可以
+```
+
+### 11优化服务器名字的hash表大小(可选)
+如果在`server_name`处填写太多域名(如:`*.orris.com`这样的通配符),那么就会变慢(如:泛解析)
+#### 解决方法
+1. 尽量使用确切名字
+2. 如果定义了大量名字,就需要设置`server_names_hash_max_size`和`server_names_hash_bucket_size`的值,比如说设置为默认值的一倍
+```
+http {
+    server_names_hash_max_size 1024; # 如果默认值为512kb的话
+    server_names_hash_bucket_size 64; # 如果默认值为32的话
+}
+```
