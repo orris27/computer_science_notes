@@ -97,7 +97,7 @@ worker_rlimit_nofile 65535; # main 标签里
 
 ### 9. 设置连接超时时间
 php希望短连接,Java希望长连接
-#### 解决方法
+#### 解决方法caixing
 ```
 # context: http, server, location
 keepalive_timeout 60;
@@ -167,4 +167,56 @@ fastcgi_cache_valid 200 302 1h;
 fastcgi_cache_valid 301 1d;
 fastcgi_cache_valid any 1m;
 fastcgi_cache_min_uses 1; 
+```
+
+### 14. 更改源码隐藏响应头和错误代码里的Nginx服务器信息
+#### 思路
+1. 修改源码
+2. 备份`conf`这些配置文件的目录
+3. 通过`-V`或`Makefile`或`configure`文件来获取原来的编译参数
+4. 从`./configure`开始一直到`make install`执行一遍,但是make install前停止nginx才行(`sudo pkill nginx`或`sudo nginx -s stop`)
+5. 启动服务器就ok了
+#### 解决方法
+1. 备份以及修改源码
+```
+# curl -I 127.0.0.1
+# sudo find /  -name 'ngx_http_header_fil*' # 这里会得到.o和.c文件,他们都是我们下载时解压得到的目录下的c文件,以及make出来的目标文件
+
+sudo cp ~/tools/nginx-1.14.0/src/http/ngx_http_header_filter_module.c ~/tools/nginx-1.14.0/src/http/ngx_http_header_filter_module.c.bak
+sudo vim ~/tools/nginx-1.14.0/src/http/ngx_http_header_filter_module.c
+#--vim starts-- 48 行开始改成下面内容
+static u_char ngx_http_server_string[] = "Server: BWS" CRLF;
+static u_char ngx_http_server_full_string[] = "Server: BWS" CRLF;
+static u_char ngx_http_server_build_string[] = "Server: " NGINX_VER_BUILD CRLF;
+#--vim ends--
+
+cd ~/tools/nginx-1.14.0/src/http/
+cp ngx_http_special_response.c ngx_http_special_response.c.bak
+vim ngx_http_special_response.c
+#--vim starts-- 36行改成
+"<hr><center>BWS</center>" CRLF
+#--vim ends--
+
+```
+2. 备份原来服务器的conf参数(重新编译原来的参数也不会改变)
+```
+cd /application/nginx/
+sudo tar -zcf conf.tar.gz conf
+```
+3. 开始configure->pkill->make install
+```
+sudo nginx -V
+
+cd ~/tools/nginx-1.14.0
+sudo ./configure --user=nginx --group=nginx --prefix=/application/nginx-1.14.0 --with-http_stub_status_module --with-http_ssl_module
+sudo make 
+sudo nginx -s stop
+sudo make install
+sudo nginx
+```
+
+4. 检测
+```
+curl -I 127.0.0.1
+curl 127.0.0.1/12312312
 ```
