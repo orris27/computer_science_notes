@@ -140,7 +140,7 @@ virtual memory exhausted: Cannot allocate memory
 make: *** [ext/fileinfo/libmagic/apprentice.lo] Error 1
 ```
 解决方法:(增加一块虚拟内存)  
-注意:好像不是swap越大越好的!!我设置成8G,16G都不行,结果反而设置成1G就可以了,也可能是一定要`/swap`
+注意:好像不是swap越大越好的!!我设置成8G,16G都不行,结果设置成1G,然后不`make clean`,直接`make`就可以了,而且第一个一定是要`/swap`的样子,而不是`/swapfile`
 ```
 sudo dd if=/dev/zero of=/swapfile bs=1M count=1024
 sudo mkswap /swapfile
