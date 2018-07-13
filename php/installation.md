@@ -304,7 +304,14 @@ checking "whether flock struct is BSD ordered"... "no"
 configure: error: Don't know how to define struct flock on this system, set --enable-opcache=no  
 
 注意 https://note.t4x.org/error/configure-error-dont-know-how-to-define-struct-flock-on-this-system/
-在最后加`--with-libdir=lib64`
+改成`--with-iconv-dir=/usr/local/libiconv`,然后把libmysqlclient软连接到/usr/lib下,在`/etc/ld.so.conf`中将`/usr/lib`加入到里面并生效
+```
+ln -s /usr/local/mysql/lib/libmysqlclient.so* /usr/lib
+sudo vim /etc/ld.so.conf # 加入'/usr/lib'
+sudo ldconfig
+sudo ./configure --prefix=/application/php-5.6.36 --with-mysql=/usr/local/mysql --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir=/usr --enable-xml --disable-rpath --enable-safe-mode --enable-bcmath --enable-shmop --enable-sysvsem --enable-inline-optimization --with-curl --with-curlwrappers --enable-mbregex --enable-fpm --enable-mbstring --with-mcrypt --with-gd --enable-gd-native-ttf --with-openssl --with-mhash --enable-pcntl --enable-sockets --with-xmlrpc --enable-zip --enable-soap --enable-short-tags --enable-zend-multibyte --enable-static --with-xsl --with-fpm-user=nginx --with-fpm-group=nginx --enable-ftp --with-iconv-dir=/usr/local/libiconv
+```
+
 
 2. configure: error: Cannot find libmysqlclient under /usr/local/mysql.
 Note that the MySQL client library is not bundled anymore!
