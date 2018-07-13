@@ -5,6 +5,12 @@
 3. 下载二进制包(包名为mysql-5.5.32-linux2.6-x86_64.tar.gz)  
 ## mysql-5.1.72(编译安装)
 ### 安装步骤
+0. 安装准备
+```
+sudo yum install ncurses-devel -y
+sudo yum groupinstall "Development Tools" -y
+```
+
 1. 在Linux上添加mysql用户和组
 ```
 sudo groupadd mysql
@@ -61,7 +67,7 @@ sudo ln -s /application/mysql-5.1.72/ /application/mysql
 
 解决方法
 ```
-sudo yum install ncurses-devel
+sudo yum install ncurses-devel -y
 ```
 
 ##### 2. 添加到/etc/init.d的mysqld服务不能启动
@@ -80,6 +86,30 @@ sudo chmod 755 data
 chkconfig add该mysqld  
 设置开机自动启动 chkconfig on  
 之后就可以/etc/init.d/mysqld start启动了  
+
+##### 3. 
+```
+../depcomp: line 571: exec: g++: not found
+make[1]: *** [my_new.o] Error 127
+make[1]: Leaving directory `/home/orris/tools/mysql-5.1.72/mysys'
+make: *** [all-recursive] Error 1
+```
+解决方法:(g++ not found=>没有安装g++=>安装开发者工具)
+```
+sudo yum groupinstall "Development Tools" -y
+```
+
+##### 5.
+```
+../include/my_global.h:1110:15: error: redeclaration of C++ built-in type ‘bool’ [-fpermissive]
+```
+解决方法:(redeclaration=>重新编译就好了)
+```
+sudo make clean
+sudo ./configure ...
+sduo make && sudo make install 
+...
+```
 
 ### 使用
 1. 替换mysql的配置文件为对应硬件支持的配置文件
