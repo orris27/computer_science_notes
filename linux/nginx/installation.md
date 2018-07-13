@@ -4,11 +4,11 @@
 ##### 1-1. 安装pcre
 pcre的编译安装比较麻烦,所以选择yum安装
 ```
-sudo yum install pcre pcre-devel
+sudo yum install pcre pcre-devel -y
 ```
 ##### 1-2. 安装openssl
 ```
-sudo yum install openssl openssl-devel
+sudo yum install openssl openssl-devel -y
 ```
 
 #### 2. 常规步骤
