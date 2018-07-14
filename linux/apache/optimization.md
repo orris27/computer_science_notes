@@ -126,6 +126,7 @@ sudo apachectl graceful
 2. 不要用vim打开几个G的文件,系统会爆炸
 3. 定时打包日志
 4. 不需要的记录不用写到日志中,如图片,js,css的访问和健康检查(比如Nginx检查端口,这个只要负载均衡器后面的服务器配置就好了)
+5. 设置访问日志的权限为root
 #### 解决方法
 1. 定时打包日志(参见思维导图)
 2. 不记录不需要的日志
@@ -143,4 +144,5 @@ sudo vim /application/apache/conf/extra/httpd-vhosts.conf
 CustomLog "logs/www-access_log" common env=!IMAG
 ####
 ```
-
+3. 设置访问日志的权限为root
+> 可能和Nginx的一样
