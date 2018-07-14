@@ -136,6 +136,8 @@ client_max_body_size 10m;
 ```
 ### 13. fastcgi调优
 #### 解决方法
+###### 注意
+如果我们在Nginx的conf下创建了extra目录,那么在extra下的conf的相对路径仍然是conf而言,而不是extra
 ##### 注释版
 ```
 # 解析php的location处
@@ -400,4 +402,27 @@ error_page   500 502 503 504  /50x.html;
 location = /50x.html {
     root   html;
 }
+```
+
+### 23. 使用tmpfs文件系统替代频繁访问的目录
+tmpfs文件系统是基于内存的,如果我们发现某个目录的I/O很高的话,就可以考虑把这个目录的文件系统弄成tmpfs
+#### 思路
+1. 将目录A的内容全移到另一个地方(备份)
+2. 将目录A挂载到tmpfs的文件系统上
+3. 定时清理文件
+#### 解决方法
+1. 默认情况下,`/dev/shm`就是tmpfs的文件系统,如果对该文件进行读写,那么实际上内容写在了虚拟内存中
+2. 要使用tmpfs的话,需要在内核配置中,启用`Virtual memory file system support`
+3. 要防止tmpfs使用了全部的VM,需要限制其大小
+4. 使用mount的话,还可以通过设置mount的`noexec`,`nosuid`来限制用户行为
+```
+sudo mkdir -p /opt/tmp
+sudo mv /tmp/* /opt/tmp
+sudo mount -t tmpfs -o size=16m tmpfs /tmp # 一般size设置为2G-8G,这里16m只是测试
+df -h
+sudo vim /etc/fstab
+#####
+tmpfs  /tmp  tmpfs size=2048m 0 0
+#####
+
 ```
