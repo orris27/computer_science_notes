@@ -43,7 +43,7 @@ ServerSignature Off
 ```
 Include conf/extra/httpd-default.conf
 ```
-gai
+
 ### 5. gzip压缩
 #### gzip安装
 <1> 编译时加入参数`--enable-deflate`
@@ -54,7 +54,15 @@ cd ~/tools/httpd-2.4.33/modules/filters/
 ll /application/apache/modules/mod_deflate.so
 ```
 #### 配置
-1. 将模块添加到Apache的配置文件中
+1. 在`httpd.conf`中load该模块
+```
+sudo vim conf/httpd.conf
+###
+LoadModule deflate_module modules/mod_deflate.so
+# 取消注释
+###
+```
+2. 将模块添加到Apache的配置文件中
 ```
 sudo vim conf/httpd.conf 
 ######
@@ -67,10 +75,51 @@ sudo vim conf/httpd.conf
 </IfModule>
 ######
 ```
-2. 平滑重启Apachegai
+3. 平滑重启Apachegai
 ```
 sudo apachectl -t
 sudo apachectl graceful
 ```
+
+### 6. 缓存过期时间设置
+#### expire安装
+<1> 编译时加入参数`--enable-expires`
+<2> `mod_deflate` DSO安装
+```
+cd ~/tools/httpd-2.4.33/modules/metadata/
+/application/apache/bin/apxs -c -i -a mod_expires.c
+ll /application/apache/modules/mod_expires.so
+```
+#### 配置
+1. 在`httpd.conf`中load该模块
+```
+sudo vim conf/httpd.conf
+###
+LoadModule expires_module modules/mod_expires.so # 取消注释
+###
+```
+2. 将模块添加到Apache的配置文件中
+```
+sudo vim conf/httpd.conf # 安装到vhosts里或者主配置文件都可以
+######
+ExpiresActive on
+ExpiresDefault "access plus 12 month"
+ExpiresByType text/html "access plus 12 months"
+ExpiresByType text/css "access plus 12 months"
+ExpiresByType image/gif "access plus 12 months"
+ExpiresByType image/jpeg "access plus 12 months"
+ExpiresByType image/jpg "access plus 12 months"
+ExpiresByType image/png "access plus 12 months"
+ExpiresByType application/x-shockwave-flash "access plus 12 months"
+ExpiresByType application/x-javascript "access plus 12 months"
+ExpiresByType video/x-flv "access plus 12 months"
+######
+```
+3. 平滑重启Apachegai
+```
+sudo apachectl -t
+sudo apachectl graceful
+```
+
 
 
