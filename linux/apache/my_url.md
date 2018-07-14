@@ -5,6 +5,7 @@
 # shell
 cd /var/
 sudo mkdir html/{www,blog} -p
+sudo chown -R www.www html/{www,blog}
 cd html/
 sudo touch index.html
 sudo vim index.html
