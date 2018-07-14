@@ -349,3 +349,30 @@ sudo chmod 700 /application/nginx/logs
 ##### 注意
 外部用户不要是root
 
+### 20. 限制文件或程序访问(根据自己需要进行设置)
+#### 思路
++ 扩展名
+#### 解决方法
+##### 1.某个目录下的程序
+建议:这一类禁止的location,最好写在其他location前面
+```
+# images目录下,如果访问.php文件,就会返回403
+location ~ ^/images/.*\.(php|php5)$ {
+    deny all;
+}
+```
+##### 2. 多个目录下的程序
+```
+# images和static目录下,都禁止访问.php文件
+location ~ ^/(images|static)/.*\.(php|php5)$ {
+    deny all;
+}
+```
+##### 3. 某个目录不能访问
+```
+location ~ ^/images {
+    deny all;
+}
+```
+
+
