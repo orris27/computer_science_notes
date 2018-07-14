@@ -140,7 +140,8 @@ client_max_body_size 10m;
 如果我们在Nginx的conf下创建了extra目录,那么在extra下的conf的相对路径仍然是conf而言,而不是extra
 ##### 注释版
 ```
-# 解析php的location处
+# http处
+fastcgi_cache_path /usr/local/nginx/fastcgi_cache levels=1:2 keys_zone=orris_cache:10m inactive=5m; # 为FastCGI缓存指定一个文件路径、目录结构等级、关键字区域存储时间和非活动删除时间。
 fastcgi_connect_timeout 300; # Nginx和PHP连接的超时间
 fastcgi_send_timeout 300;
 fastcgi_read_timeout 300;
@@ -148,7 +149,7 @@ fastcgi_buffer_size 64k;
 fastcgi_buffers 4 64k; 
 fastcgi_busy_buffers_size 128k; # 建议为fastcgi_buffers的两倍
 fastcgi_temp_file_write_size 128k; # 在写入fastcgi_temp_path时使用多大的数据块,默认值是fastcgi_buffers的两倍,设置太小而负载大的话就会502
-fastcgi_cache orris_nginx; # 设置fastcgi缓存,并指定名称.可以有效降低CPU负载,并且防止502,但也有其他问题.需要设置fastcgi_cache_path才行
+fastcgi_cache orris_cache; # 设置fastcgi缓存,并指定名称.可以有效降低CPU负载,并且防止502,但也有其他问题.需要设置fastcgi_cache_path才行
 fastcgi_cache_valid 200 302 1h; # 用来指定应答代码的缓存时间,这行表示200和302应答缓存为1个小时
 fastcgi_cache_valid 301 1d;
 fastcgi_cache_valid any 1m; # 其他应答设置为1分钟
@@ -156,19 +157,22 @@ fastcgi_cache_min_uses 1; # 缓存在fastcgi_cache_push指令inactive参数值�
 ```
 ##### 无注释
 ```
-# 解析php的location处
+# http处
+fastcgi_cache_path /application/nginx/fastcgi_cache levels=1:2 keys_zone=orris_cache:10m inactive=5m;
+fastcgi_cache orris_cache;
 fastcgi_connect_timeout 300;
 fastcgi_send_timeout 300;
 fastcgi_read_timeout 300;
 fastcgi_buffer_size 64k;
-fastcgi_buffers 4 64k; 
-fastcgi_busy_buffers_size 128k; 
-fastcgi_temp_file_write_size 128k; 
-fastcgi_cache orris_nginx;
-fastcgi_cache_valid 200 302 1h; 
+fastcgi_buffers 4 64k;
+fastcgi_busy_buffers_size 128k;
+fastcgi_temp_file_write_size 128k;
+fastcgi_cache_valid 200 302 1h;
 fastcgi_cache_valid 301 1d;
 fastcgi_cache_valid any 1m;
-fastcgi_cache_min_uses 1; 
+fastcgi_cache_min_uses 1;
+fastcgi_cache_key http://$host$request_uri;
+
 ```
 
 ### 14. 更改源码隐藏响应头和错误代码里的Nginx服务器信息
@@ -424,5 +428,47 @@ sudo vim /etc/fstab
 #####
 tmpfs  /tmp  tmpfs size=2048m 0 0
 #####
+```
 
+### 24. proxy调优
+#### 解决方法
+1. 将参数放在`proxy.conf`下
+```
+# sudo vim /application/nginx/conf/proxy.conf
+###
+
+proxy_redirect off;
+proxy_set_header Host $host;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+client_max_body_size 50m;
+client_body_buffer_size 256k;
+proxy_connect_timeout 30;
+proxy_send_timeout 30;
+proxy_read_timeout 60;
+
+proxy_buffer_size 4k;
+proxy_buffers 4 32k;
+proxy_busy_buffers_size 64k;
+proxy_temp_file_write_size 64k;
+proxy_next_upstream error timeout invalid_header http_500 http_503 http_504;
+proxy_max_temp_file_size 128m;
+proxy_store on;
+proxy_store_access user:rw group:rw all:r;
+#proxy_temp_path /dev/shm/nginx;
+#proxy_temp_path /data2/nginx_cache;
+
+###
+```
+2. 在解析php的地方包含进来
+```
+sudo vim /application/nginx/conf/nginx.conf
+####
+location ~ .*\.(php|php5)?$ {
+    fastcgi_pass   127.0.0.1:9000;
+    fastcgi_index  index.php;
+    include fastcgi.conf;
+    include proxy.conf;
+}
+####
 ```
