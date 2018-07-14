@@ -375,4 +375,29 @@ location ~ ^/images {
 }
 ```
 
+### 21. 限制IP访问
+一般在防火墙里设置,不过Nginx也可以设置
+#### 解决方法
+```
+# 注意location / 只针对严格匹配/的情况
+location / {
+    allow 172.19.28.83;
+    deny 172.19.28.82;
+    deny 172.19.28.0/24;
+    deny all;
+}
 
+```
+
+### 22. 错误提示优雅显示
+#### 方法
+```
+error_page  404              /404.html;
+
+# redirect server error pages to the static page /50x.html
+#
+error_page   500 502 503 504  /50x.html;
+location = /50x.html {
+    root   html;
+}
+```
