@@ -226,4 +226,16 @@ pstree -a | grep httpd | wc -l
 ####
 ```
 
-
+### 10. 防止其他网站盗用我们的资源
+详细参看
+> 
+#### 解决方法
++ 对方的referer
+```
+# VirtualHost里面.表示如果访问gif,jpg,swf,png的资源的话,必须referer是中间两行的域名才行.否则就返回第4行的内容(不能又是不能访问的网页)
+# 换成second是因为域名被封杀的太厉害
+RewriteEngine On
+RewriteCond %{HTTP_REFERER} !^http://my.second.com/.*$ [NC]
+RewriteCond %{HTTP_REFERER} !^http://my.second.com$ [NC]
+RewriteRule .*\.(gif|jpg|swf|png)$ http://bbs.second.com/error.jpg [R,NC]
+```
