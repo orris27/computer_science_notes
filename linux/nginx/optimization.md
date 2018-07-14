@@ -298,9 +298,11 @@ if ($http_user_agent ~* "Firefox|MSIE") {
 # 测试:直接用火狐和Chrome来访问看看就行了
 ```
 
-### 18. 日志轮询
+### 18. 日志优化
 1. Nginx默认一直写日志,直到磁盘满
 2. 不要用vim打开几个G的文件,系统会爆炸
+3. 定时打包日志
+4. 不需要的记录不用写到日志中,如图片,js,css的访问和健康检查(比如Nginx检查端口,这个只要负载均衡器后面的服务器配置就好了)
 #### 解决方法
 1. 定时打包日志
 ```
@@ -323,7 +325,7 @@ sudo crontab -e
 00 00 * * * /bin/sh /server/scripts/cut_nginx_log.sh > /dev/null 2>&1
 ###########
 ```
-2. 不记录不需要记录的日志,如图片,js,css的访问和健康检查(比如Nginx检查端口)
+2. 不记录不需要记录的日志
 ```
 location ~ .*\.(js|jpg|JPG|jpeg|JPEG|css|bmp|gif|GIF|png)$ {
     access_log off;
