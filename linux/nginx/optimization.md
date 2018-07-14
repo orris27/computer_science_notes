@@ -303,6 +303,7 @@ if ($http_user_agent ~* "Firefox|MSIE") {
 2. 不要用vim打开几个G的文件,系统会爆炸
 3. 定时打包日志
 4. 不需要的记录不用写到日志中,如图片,js,css的访问和健康检查(比如Nginx检查端口,这个只要负载均衡器后面的服务器配置就好了)
+5. 设置访问日志的权限为root
 #### 解决方法
 1. 定时打包日志
 ```
@@ -331,5 +332,9 @@ location ~ .*\.(js|jpg|JPG|jpeg|JPEG|css|bmp|gif|GIF|png)$ {
     access_log off;
 }
 ```
-
+3. 设置访问日志的权限为root(尽管worker进程的用户是nginx外部用户,但写日志用的是master进程的用户,就是root,所以我们改成root)
+```
+sudo chown -R root.root /application/nginx/logs
+sudo chmod 700 /application/nginx/logs
+```
 
