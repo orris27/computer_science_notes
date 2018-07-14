@@ -121,5 +121,26 @@ sudo apachectl -t
 sudo apachectl graceful
 ```
 
+### 7. 日志优化
+1. Nginx默认一直写日志,直到磁盘满
+2. 不要用vim打开几个G的文件,系统会爆炸
+3. 定时打包日志
+4. 不需要的记录不用写到日志中,如图片,js,css的访问和健康检查(比如Nginx检查端口,这个只要负载均衡器后面的服务器配置就好了)
+#### 解决方法
+1. 定时打包日志(参见思维导图)
+2. 不记录不需要的日志
+```
+# httpd.conf
+sudo vim /application/apache/conf/httpd.conf
+#### 设置环境变量IMAG
+<FilesMatch "\.(css|js|gif|jpg|ico|swf|png)">
+    SetEnv IMAG 1
+</FilesMatch>
+####
 
+sudo vim /application/apache/conf/extra/httpd-vhosts.conf
+#### 在对应记录日志(CustomLog)的地方,如主配置文件/虚拟主机,后面加上不要启用该环境变量就可以了.
+CustomLog "logs/www-access_log" common env=!IMAG
+####
+```
 
