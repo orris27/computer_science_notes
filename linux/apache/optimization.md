@@ -145,4 +145,7 @@ CustomLog "logs/www-access_log" common env=!IMAG
 ####
 ```
 3. 设置访问日志的权限为root
-> 可能和Nginx的一样
+```
+sudo chown -R root.root /application/apache/logs
+sudo chmod 700 /application/apache/logs
+```
