@@ -149,3 +149,7 @@ CustomLog "logs/www-access_log" common env=!IMAG
 sudo chown -R root.root /application/apache/logs
 sudo chmod 700 /application/apache/logs
 ```
+
+### 8. 站点目录和文件的权限设置
+参见Nginx
+> https://github.com/orris27/orris/edit/master/linux/nginx/optimization.md
