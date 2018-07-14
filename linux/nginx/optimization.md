@@ -62,7 +62,7 @@ worker_cpu_affinity 01 10 01 10 01 10 01 10;
 ##### 2. 四核CPU
 ```
 # worker_processes     4;
-worker_cpu_affinity 0001 0010 0100 1000;
+worker_cpu_affinity 0001 0010 0100 1000;shixiao
 ```
 ##### 3. 八核CPU
 ```
@@ -325,7 +325,7 @@ sudo crontab -e
 ```
 2. 不记录不需要记录的日志,如图片,js,css的访问和健康检查(比如Nginx检查端口)
 ```
-location ~ .*\.(js|jpg|JPG|jpeg|JPEG|css|bmp|gif|GIF)$ {
+location ~ .*\.(js|jpg|JPG|jpeg|JPEG|css|bmp|gif|GIF|png)$ {
     access_log off;
 }
 ```
