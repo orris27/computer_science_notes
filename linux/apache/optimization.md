@@ -73,35 +73,4 @@ sudo apachectl -t
 sudo apachectl graceful
 ```
 
-### 6. 缓存的过期实际那
-#### 缓存依据
-1. 不希望被缓存的
-+ 广告图片
-+ 更新频繁的文件(google的logo)
-+ 网站流量统计的工具
-2. 缓存标准(淘宝为例)
-+ 普通的js(10年)
-+ 频繁更新的js(1天)
-+ 流量统计的js(没有缓存)
-+ 普通图片(10年)
-#### 查看某个网站的缓存
-YSlow的components里可以看到
-#### 配置
-可以通过配置不同虚拟主机,不同的目录来设置同一类型文件的不同过期时间
-```
-# server标签下
-location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)?$ {
-    root html;
-    expires 3650d;
-}
-location ~ .*\.(js|css)?$ {
-    root html;
-    expires 30d;
-}
-location ~ (robots.txt) {
-    log_not_found off;
-    expires 7d;
-    break;
-}
-```
 
