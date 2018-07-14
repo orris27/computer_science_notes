@@ -28,15 +28,15 @@ sudo ln -s /usr/local/apr-util-1.6.1/ /usr/local/apr-util
 wget http://mirrors.hust.edu.cn/apache//httpd/httpd-2.4.33.tar.gz
 tar -zxvf httpd-2.4.33.tar.gz
 cd httpd-2.4.33
-sudo ./configure --prefix=/application/apache-2.4.33 && \
---enable-deflate && \
---enable-expires && \
---enable-headers && \
---enable-modules=most && \
---enable-so && \
---with-mpm=worker && \
---enable-rewrite && \
---with-apr=/usr/local/apr && \
+sudo ./configure --prefix=/application/apache-2.4.33 \
+--enable-deflate \
+--enable-expires \
+--enable-headers \
+--enable-modules=most \
+--enable-so \
+--with-mpm=worker \
+--enable-rewrite \
+--with-apr=/usr/local/apr \
 --with-apr-util=/usr/local/apr-util
 sudo make && sudo make install
 sudo ln -s /application/apache-2.4.33 /application/apache
@@ -86,3 +86,10 @@ xml/apr_xml.c:35:19: fatal error: expat.h: No such file or directory
 ```
 sudo yum install expat-devel -y
 ```
+3.
+安装了apr-util,执行./configure还是说找不到
+```
+configure: error: APR-util not found. Please read the documentation.
+```
+原因:我configure时是`&&`连接了每一个with了,这样是错误的!!  
+解决方法:去掉就好了
