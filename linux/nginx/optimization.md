@@ -285,3 +285,16 @@ location ~ (robots.txt) {
 }
 ```
 
+### 17. 防爬虫
+#### 解决方法
+1. `robots.txt`协议,不过这是非强制性的
+2. Nginx服务器禁止某些用户代理访问,强制性
+```
+# server标签下
+# 这里正则匹配,防止火狐,ie等访问.可以自己设置
+if ($http_user_agent ~* "Firefox|MSIE") {
+    return 403;
+}
+# 测试:直接用火狐和Chrome来访问看看就行了
+```
+
