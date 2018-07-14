@@ -178,7 +178,29 @@ pstree -a | grep httpd | wc -l
 #### 配置
 ```
 # sudo vim conf/extra/httpd-mpm.conf
-#### 1 较高并发
+#### 1 低并发(500)
+<IfModule mpm_worker_module>
+    StartServers             2
+    ServerLimit             25
+    MinSpareThreads         25
+    MaxSpareThreads        75
+    ThreadsPerChild         25
+    MaxRequestWorkers       500
+    MaxConnectionsPerChild   0
+</IfModule>
+####
+#### 2 较低并发(1600)
+<IfModule mpm_worker_module>
+    StartServers             3
+    ServerLimit             25
+    MinSpareThreads         50
+    MaxSpareThreads        200
+    ThreadsPerChild         64
+    ThreadLimit             200
+    MaxRequestWorkers       1600
+</IfModule>
+####
+#### 3 较高并发(2000)
 <IfModule mpm_worker_module>
     StartServers             3
     ServerLimit             25
@@ -190,7 +212,7 @@ pstree -a | grep httpd | wc -l
     MaxConnectionsPerChild   0
 </IfModule>
 #### 
-#### 2 高并发
+#### 4 高并发 (9600)
 <IfModule mpm_worker_module>
     StartServers             5
     ServerLimit             64
@@ -200,28 +222,6 @@ pstree -a | grep httpd | wc -l
     ThreadLimit             200
     MaxRequestWorkers       9600
     MaxConnectionsPerChild   0
-</IfModule>
-####
-#### 3 低并发
-<IfModule mpm_worker_module>
-    StartServers             2
-    ServerLimit             25
-    MinSpareThreads         25
-    MaxSpareThreads        75
-    ThreadsPerChild         25
-    MaxRequestWorkers       500
-    MaxConnectionsPerChild   0
-</IfModule>
-####
-#### 4 较低并发
-<IfModule mpm_worker_module>
-    StartServers             3
-    ServerLimit             25
-    MinSpareThreads         50
-    MaxSpareThreads        200
-    ThreadsPerChild         64
-    ThreadLimit             200
-    MaxRequestWorkers       1600
 </IfModule>
 ####
 ```
