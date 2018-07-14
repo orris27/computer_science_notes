@@ -28,6 +28,12 @@ sudo ln -s /usr/local/apr-util-1.6.1/ /usr/local/apr-util
 wget http://mirrors.hust.edu.cn/apache//httpd/httpd-2.4.33.tar.gz
 tar -zxvf httpd-2.4.33.tar.gz
 cd httpd-2.4.33
+```
+3. 优化(隐藏版本)
+见 https://github.com/orris27/orris/edit/master/linux/apache/optimization.md 的第3条
+
+4. 常规步骤(续)
+```
 sudo ./configure --prefix=/application/apache-2.4.33 \
 --enable-deflate \
 --enable-expires \
