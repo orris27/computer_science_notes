@@ -45,4 +45,30 @@ Include conf/extra/httpd-default.conf
 ```
 
 ### 5. gzip压缩
-
+#### gzip安装
+<1> 编译时加入参数`--enable-deflate`
+<2> `mod_deflate` DSO安装
+```
+cd ~/tools/httpd-2.4.33/modules/filters/
+/application/apache/bin/apxs -c -i -a mod_deflate.c
+ll /application/apache/modules/mod_deflate.so
+```
+#### 配置
+1. 将模块添加到Apache的配置文件中
+```
+sudo vim conf/httpd.conf 
+######
+<IfModule mod_deflate.c>
+	DeflateCompressionLevel 9
+	SetOutputFilter DEFLATE
+	AddOutputFilterByType DEFLATE text/html text/plain text/xml
+	AddOutputFilterByType DEFLATE application/javascript
+	AddOutputFilterByType DEFLATE text/css
+</IfModule>
+######
+```
+2. 平滑重启Apache
+```
+sudo apachectl -t
+sudo apachectl graceful
+```
