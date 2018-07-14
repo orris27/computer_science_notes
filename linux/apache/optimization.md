@@ -153,3 +153,77 @@ sudo chmod 700 /application/apache/logs
 ### 8. 站点目录和文件的权限设置
 参见Nginx
 > https://github.com/orris27/orris/edit/master/linux/nginx/optimization.md
+
+
+### 9. 设置进程和线程数
+1. Apache有两种方法:worker和prefork.前者有进程和线程(每个进程固定线程数),后者只有进程
+2. 线程:占用内存少,但由于共享空间,所以一个坏掉就整个进程挂了
+3. 进程:占用内存多,比较稳定
+#### 查看进程和线程
+```
+pstree 
+pstree -a
+pstree -a | grep httpd | wc -l
+```
+#### 选择模式
++ 编译的时候加入`--with-mpm=worker`,否则默认prefork
+#### worker规则
+1. Apache起始有指定数量的进程(StartServers)
+2. 每个进程的线程数永远保持固定(ThreadsPerChild)
+3. Apache繁忙时会增加进程
+4. 但是Apache增加的进程有数量限制(ServerLimit,默认16)
+5. 我们有客户需求,最大能承受能少心里需要有点b数(MaxRequestWorkers,旧版本为maxclients)
+6. 所以我们的进程数\*线程数肯定要多于最大客户的并发请求(ServerLimit\*ThreadsPerChild>=MaxRequestsWorkers)
+7. 其他还有要保证最大客户请求是每个进程的线程数的整数倍
+#### 配置
+```
+# sudo vim conf/extra/httpd-mpm.conf
+#### 1 较高并发
+<IfModule mpm_worker_module>
+    StartServers             3
+    ServerLimit             25
+    MinSpareThreads         20
+    MaxSpareThreads        200
+    ThreadsPerChild         100
+    MaxRequestWorkers       2000
+    ThreadLimit             200
+    MaxConnectionsPerChild   0
+</IfModule>
+#### 
+#### 2 高并发
+<IfModule mpm_worker_module>
+    StartServers             5
+    ServerLimit             64
+    MinSpareThreads         25
+    MaxSpareThreads        500
+    ThreadsPerChild         150
+    ThreadLimit             200
+    MaxRequestWorkers       9600
+    MaxConnectionsPerChild   0
+</IfModule>
+####
+#### 3 低并发
+<IfModule mpm_worker_module>
+    StartServers             2
+    ServerLimit             25
+    MinSpareThreads         25
+    MaxSpareThreads        75
+    ThreadsPerChild         25
+    MaxRequestWorkers       500
+    MaxConnectionsPerChild   0
+</IfModule>
+####
+#### 4 较低并发
+<IfModule mpm_worker_module>
+    StartServers             3
+    ServerLimit             25
+    MinSpareThreads         50
+    MaxSpareThreads        200
+    ThreadsPerChild         64
+    ThreadLimit             200
+    MaxRequestWorkers       1600
+</IfModule>
+####
+```
+
+
