@@ -50,7 +50,7 @@ worker_processes  xx; # 改成cpu核数就行了,因为我的服务器为1核,�
 在Nginx的main标签里设置CPU的亲和度,然后优雅重启
 ##### 1. 双核CPU
 ###### 1-1. 双核CPU开2个进程
-```
+```/serv
 # worker_processes  2;
 worker_cpu_affinity 01 10;
 ```
@@ -302,6 +302,7 @@ if ($http_user_agent ~* "Firefox|MSIE") {
 1. Nginx默认一直写日志,直到磁盘满
 2. 不要用vim打开几个G的文件,系统会爆炸
 #### 解决方法
+1. 定时打包日志
 ```
 # conf/httpd.conf
 error_log logs/error.log error;
@@ -321,6 +322,12 @@ sudo crontab -e
 # cut nginx log
 00 00 * * * /bin/sh /server/scripts/cut_nginx_log.sh > /dev/null 2>&1
 ###########
+```
+2. 不记录不需要记录的日志,如图片,js,css的访问和健康检查(比如Nginx检查端口)
+```
+location ~ .*\.(js|jpg|JPG|jpeg|JPEG|css|bmp|gif|GIF)$ {
+    access_log off;
+}
 ```
 
 
