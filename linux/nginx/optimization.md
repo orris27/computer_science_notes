@@ -298,3 +298,29 @@ if ($http_user_agent ~* "Firefox|MSIE") {
 # 测试:直接用火狐和Chrome来访问看看就行了
 ```
 
+### 18. 日志轮询
+1. Nginx默认一直写日志,直到磁盘满
+2. 不要用vim打开几个G的文件,系统会爆炸
+#### 解决方法
+```
+# conf/httpd.conf
+error_log logs/error.log error;
+
+sudo vim /server/scripts/cut_nginx_log.sh
+##########
+#! /bin/sh
+
+cd /application/nginx/logs/ && \
+/bin/mv www-access.log www-access-$(date +%F -d -1day).log
+/application/nginx/sbin/nginx -s reload
+###########
+
+
+sudo crontab -e
+###########
+# cut nginx log
+00 00 * * * /bin/sh /server/scripts/cut_nginx_log.sh > /dev/null 2>&1
+###########
+```
+
+
