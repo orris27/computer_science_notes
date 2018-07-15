@@ -453,55 +453,8 @@ sudo vim /etc/my.cnf
 # 在/etc/my.cnf中输入下面的内容
 ```
 /etc/my.cnf:
-```
-[client]
-port = 3306
-socket = /application/mysql-5.7.22/tmp/mysql.sock
+> https://github.com/orris27/orris/blob/master/database/mysql/my_cnf.md
 
-[mysqld]
-port = 3306
-socket = /application/mysql-5.7.22/tmp/mysql.sock
-pid_file = /application/mysql-5.7.22/run/mysql.pid
-datadir = /application/mysql-5.7.22/data
-default_storage_engine = InnoDB
-max_allowed_packet = 512M
-max_connections = 2048
-open_files_limit = 65535
-
-skip-name-resolve
-lower_case_table_names=1
-
-character-set-server = utf8mb4
-collation-server = utf8mb4_unicode_ci
-init_connect='SET NAMES utf8mb4'
-
-
-innodb_buffer_pool_size = 1024M
-innodb_log_file_size = 2048M
-innodb_file_per_table = 1
-
-#innodb_flush_log_at_trx_commit = 0
-
-
-key_buffer_size = 256M
-
-log-error = /application/mysql-5.7.22/logs/mysql_error.log
-
-
-slow_query_log = 1 # 打开慢查询日志功能
-slow_query_log_file = /application/mysql-5.7.22/logs/mysql_slow_query.log
-long_query_time = 2 # 超过2秒的查询记录下来
-
-
-tmp_table_size = 128M
-max_heap_table_size = 32M
-#query_cache_type = 0
-query_cache_type = 1
-query_cache_size = 256M
-query_cache_limit = 2M
-
-#server-id=1
-```
 
 5. 配置环境变量,并添加到sudo中
 + 注意:如果mysql/bin放到$PATH后面的话,可能导致mysqldump等命令出问题
@@ -517,28 +470,30 @@ sudo visudo
 
 6. 初始化数据文件
 ```
-sudo mkdir /application/mysql/{data,logs}
-sudo chown -R mysql.mysql /application/mysql/{data,logs}
+sudo mkdir /application/mysql/{data,logs,run,tmp}
+sudo chown -R mysql.mysql /application/mysql/{data,logs,run,tmp}
 sudo chmod -R 1777 /tmp/
 sudo mysqld --initialize-insecure --user=mysql --basedir=/application/mysql --datadir=/application/mysql/data/
 ```
 
+7. 添加mysql到systemctl中
+```
+cd /usr/lib/systemd/system
+sudo touch mysqld.service
+sudo vim mysqld.service # 添加的内容看后面
+sudo systemctl daemon-reload 
+sudo systemctl enable mysqld.service 
+sudo systemctl is-enabled mysqld.service
+sudo systemctl start mysqld.service # 如果启动不了的话,检查/etc/my.cnf中所有需要的目录是否都创建并授权
+```
+mysqld.service
+> https://github.com/orris27/orris/blob/master/database/mysql/mysqld_service.md
 
-
-7. 进入mysql客户端
-
-8. 添加mysql到systemctl中
-
-
-9. 进入mysql客户端
-
-
-
-
-
-
-
-
+8. 进入mysql客户端
+```
+sudo mysql
+set password=password('new_password');
+```
 
 
 
