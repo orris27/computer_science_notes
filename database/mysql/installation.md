@@ -388,3 +388,50 @@ set password=password('new_password');
 ```
 sudo yum install libaio-devel -y
 ```
+
+## mysql-5.7.22(编译安装cmake)
+### 思路
+一般编译安装的包都是"产品名+版本号.tar.gz",其他有多的字符很可能是其他类型的发行版.比如说cmake就有`cmake-3.12.0-rc3.tar.gz`版本.和数据库一样,这个不是最终发布的版本
+### 安装步骤
+1. 安装cmake软件
+```
+wget https://cmake.org/files/v3.11/cmake-3.11.4.tar.gz
+tar -zxf cmake-3.11.4.tar.gz 
+cd cmake-3.11.4
+sudo ./configure 
+gmake && gmake install
+```
+2. 安装依赖包
+```
+sudo yum install ncurses-devel -y
+```
+3. 创建用户和组
+```
+sudo groupadd mysql
+sudo useradd -g mysql -M -s /sbin/nologin mysql
+```
+3. 编译安装
+```
+wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.22.tar.gz
+tar -zxf mysql-5.7.22.tar.gz
+cd mysql-5.7.22
+
+sudo cmake . -DCMAKE_INSTALL_PREFIX=/application/mysql-5.7.22 \
+-DMYSQL_DATADIR=/application/mysql-5.7.22/data \
+-DMYSQL_UNIX_ADDR=/application/mysql-5.7.22/tmp/mysql.sock \
+-DDEFAULT_CHARSET=utf8m \
+-DDEFAULT_COLLATION=utf8_general_ci \
+-DEXTRA_CHARSETS=gbk,gb2312,utf8,ascii \
+-DENABLED_LOCAL_INFILE=ON \
+-DWITH_INNOBASE_STORAGE_ENGINE=1 \
+-DWITH_FEDERATED_STORAGE_ENGINE=1 \
+-DWITH_BLACKHOLE_STORAGE_ENGINE=1 \
+-DWITHOUT_EXAMPLE_STORAGE_ENGINE=1 \
+-DWITHOUT_PARTITION_STORAGE_ENGINE=1 \
+-DWITH_FAST_MUTEXES=1 \
+-DWITH_ZLIB=bundled \
+-DENABLED_LOCAL_INFILE=1 \
+-DWITH_READLINE=1 \
+-DWITH_EMBEDDED_SERVER=1 \
+-DWITH_DEBUG=0
+```
