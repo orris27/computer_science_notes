@@ -129,7 +129,7 @@ http {
 
 ### 12. 用户上传文件的大小限制
 php默认是2m,一般10m就已经很大
-#### 解决方法
+#### 解决方法deny all
 ```
 # context: http, server, location
 client_max_body_size 10m;
@@ -390,7 +390,7 @@ location / {
     allow 172.19.28.83;
     deny 172.19.28.82;
     deny 172.19.28.0/24;
-    deny all;
+    # deny all; # deny all最好不要和黑名单/白名单一起用,否则全部都是403
 }
 
 ```
