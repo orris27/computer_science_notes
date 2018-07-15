@@ -242,8 +242,12 @@ sudo cp /home/orris/tools/php-5.6.36/php.ini-production  /application/php/lib/ph
 ```
 4-2. php-fpm的配置文件:  
 将php-fpm.conf给配置一下(`.default`为初始的,我们自己配置)  
-具体内容可以看我的github上,地址为 https://github.com/orris27/orris/blob/master/php/php-fpm.conf  
+具体内容可以看我的github上,地址为
+> https://github.com/orris27/orris/blob/master/php/php-fpm.conf  
 然后创建对应目录就可以了:  
+注意: 
++ 用户和组与Nginx的用户和组保持相同
++ 具体文件路径自己权衡
 ```
 sudo mkdir -p /app/logs
 ```
