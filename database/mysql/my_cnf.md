@@ -1,6 +1,6 @@
 ### MySQL 5.7.22
 + socket文件:`/application/mysql-5.7.22/tmp/mysql.sock`
-+ pid文件:`/application/mysql-5.7.22/run/mysql.pid`
++ pid文件:`/application/mysql-5.7.22/run/mysqld.pid`
 + 数据目录:`/application/mysql-5.7.22/data`
 + 日志目录:`/application/mysql-5.7.22/logs`
 ```
@@ -11,7 +11,7 @@ socket = /application/mysql-5.7.22/tmp/mysql.sock
 [mysqld]
 port = 3306
 socket = /application/mysql-5.7.22/tmp/mysql.sock
-pid_file = /application/mysql-5.7.22/run/mysql.pid
+pid_file = /application/mysql-5.7.22/run/mysqld.pid
 datadir = /application/mysql-5.7.22/data
 default_storage_engine = InnoDB
 max_allowed_packet = 512M
