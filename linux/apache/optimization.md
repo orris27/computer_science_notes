@@ -239,3 +239,26 @@ RewriteCond %{HTTP_REFERER} !^http://my.second.com/.*$ [NC]
 RewriteCond %{HTTP_REFERER} !^http://my.second.com$ [NC]
 RewriteRule .*\.(gif|jpg|swf|png)$ http://bbs.second.com/error.jpg [R,NC]
 ```
+### 11. 关闭没用的CGI
+```
+#    ScriptAlias /cgi-bin/ "/application/apache-2.4.33/cgi-bin/"
+#....
+#
+#<IfModule cgid_module>
+#    #
+#    # ScriptSock: On threaded servers, designate the path to the UNIX
+#    # socket used to communicate with the CGI daemon of mod_cgid.
+#    #
+#    #Scriptsock cgisock
+#</IfModule>
+#
+##
+## "/application/apache-2.4.33/cgi-bin" should be changed to whatever your ScriptAliased
+## CGI directory exists, if you have that configured.
+##
+#<Directory "/application/apache-2.4.33/cgi-bin">
+#    AllowOverride None
+#    Options None
+#    Require all granted
+#</Directory>
+```
