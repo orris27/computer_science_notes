@@ -38,7 +38,11 @@ sudo mysqld_safe --defaults-file=/data/3307/my.cnf &
 sudo mysql -uroot -S /data/3306/tmp/mysql.sock
 sudo mysql -uroot -S /data/3307/tmp/mysql.sock 
 ```
-
+5. 停止服务
+```
+sudo mysqladmin -uroot -S /data/3306/tmp/mysql.sock shutdown -p
+sudo mysqladmin -uroot -S /data/3307/tmp/mysql.sock shutdown -p
+```
 
 #### 附录
 ##### 1. 目录结构
