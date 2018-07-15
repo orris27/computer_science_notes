@@ -264,7 +264,7 @@ query_cache_size = 0
 server-id=1
 ```
 
-4. 初始化存放数据的文件  
+4. 初始化存放数据的文件(`--initialize`是会产生随机密码的,而如果使用`--initialize-insecure`的话,就是初始无密码)
 ```
 sudo /usr/local/mysql/bin/mysqld --initialize --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data/ --user=mysql
 ```
@@ -389,6 +389,8 @@ set password=password('new_password');
 sudo yum install libaio-devel -y
 ```
 
+
+
 ## mysql-5.7.22(编译安装cmake)
 ### 思路
 一般编译安装的包都是"产品名+版本号.tar.gz",其他有多的字符很可能是其他类型的发行版.比如说cmake就有`cmake-3.12.0-rc3.tar.gz`版本.和数据库一样,这个不是最终发布的版本
@@ -424,7 +426,7 @@ cd mysql-5.7.22
 sudo cmake . -DCMAKE_INSTALL_PREFIX=/application/mysql-5.7.22 \
 -DMYSQL_DATADIR=/application/mysql-5.7.22/data \
 -DMYSQL_UNIX_ADDR=/application/mysql-5.7.22/tmp/mysql.sock \
--DDEFAULT_CHARSET=utf8m \
+-DDEFAULT_CHARSET=utf8 \
 -DDEFAULT_COLLATION=utf8_general_ci \
 -DEXTRA_CHARSETS=gbk,gb2312,utf8,ascii \
 -DENABLED_LOCAL_INFILE=ON \
@@ -441,7 +443,103 @@ sudo cmake . -DCMAKE_INSTALL_PREFIX=/application/mysql-5.7.22 \
 -DWITH_DEBUG=0 \
 -DWITH_BOOST=/usr/local/boost
 sudo make && sudo make install
+sudo ln -s /application/mysql-5.7.22/ /application/mysql
 ```
+4. 配置数据库的配置文件
++ 官网说：从5.7.18开始不在二进制包中提供my-default.cnf文件，不再需要my.cnf。从源码编译安装的mysql,基本配置在预编译和systemd启动文件中已定义好，不用my.cnf配置。
+```
+sudo cp /etc/my.cnf /etc/my.cnf.bak # make a copy for a previous mysql
+sudo vim /etc/my.cnf
+# 在/etc/my.cnf中输入下面的内容
+```
+/etc/my.cnf:
+```
+[client]
+port = 3306
+socket = /application/mysql-5.7.22/tmp/mysql.sock
+
+[mysqld]
+port = 3306
+socket = /application/mysql-5.7.22/tmp/mysql.sock
+pid_file = /application/mysql-5.7.22/run/mysql.pid
+datadir = /application/mysql-5.7.22/data
+default_storage_engine = InnoDB
+max_allowed_packet = 512M
+max_connections = 2048
+open_files_limit = 65535
+
+skip-name-resolve
+lower_case_table_names=1
+
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+init_connect='SET NAMES utf8mb4'
+
+
+innodb_buffer_pool_size = 1024M
+innodb_log_file_size = 2048M
+innodb_file_per_table = 1
+
+#innodb_flush_log_at_trx_commit = 0
+
+
+key_buffer_size = 256M
+
+log-error = /application/mysql-5.7.22/logs/mysql_error.log
+
+
+slow_query_log = 1 # 打开慢查询日志功能
+slow_query_log_file = /application/mysql-5.7.22/logs/mysql_slow_query.log
+long_query_time = 2 # 超过2秒的查询记录下来
+
+
+tmp_table_size = 128M
+max_heap_table_size = 32M
+#query_cache_type = 0
+query_cache_type = 1
+query_cache_size = 256M
+query_cache_limit = 2M
+
+#server-id=1
+```
+
+5. 配置环境变量,并添加到sudo中
++ 注意:如果mysql/bin放到$PATH后面的话,可能导致mysqldump等命令出问题
+```
+sudo vim /etc/profile
+####
+PATH=/application/mysql/bin:$PATH
+####
+source /etc/profile
+sudo visudo
+# 添加到visudo里面
+```
+
+6. 初始化数据文件
+```
+sudo mkdir /application/mysql/{data,logs}
+sudo chown -R mysql.mysql /application/mysql/{data,logs}
+sudo chmod -R 1777 /tmp/
+sudo mysqld --initialize-insecure --user=mysql --basedir=/application/mysql --datadir=/application/mysql/data/
+```
+
+
+
+7. 进入mysql客户端
+
+8. 添加mysql到systemctl中
+
+
+9. 进入mysql客户端
+
+
+
+
+
+
+
+
+
 
 
 ### 常见问题
@@ -459,7 +557,7 @@ CMake Error at cmake/boost.cmake:81 (MESSAGE):
   This CMake script will look for boost in <directory>.  If it is not there,
   it will download and unpack it (in that directory) for you.
 
-  If you are inside a firewall, you may need to use an http proxy:
+  If you are inside a firewall, you mad /usr/local/mysy need to use an http proxy:
 
   export http_proxy=http://example.com:80
 
@@ -474,5 +572,8 @@ See also "/home/orris/tools/mysql-5.7.22/CMakeFiles/CMakeError.log".
 ```
 解决方法:
 ```
-
+wget https://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz
+tar zxf boost_1_59_0.tar.gz 
+sudo mv boost_1_59_0 /usr/local/
+sudo ln -s /usr/local/boost_1_59_0/ /usr/local/boost
 ```
