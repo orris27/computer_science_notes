@@ -401,9 +401,14 @@ cd cmake-3.11.4
 sudo ./configure 
 gmake && gmake install
 ```
-2. 安装依赖包
+2. 安装依赖包(我中途还安装了bison,不知道需不需要)
 ```
 sudo yum install ncurses-devel -y
+# boost
+wget https://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz
+tar zxf boost_1_59_0.tar.gz 
+sudo mv boost_1_59_0 /usr/local/
+sudo ln -s /usr/local/boost_1_59_0/ /usr/local/boost
 ```
 3. 创建用户和组
 ```
@@ -433,5 +438,41 @@ sudo cmake . -DCMAKE_INSTALL_PREFIX=/application/mysql-5.7.22 \
 -DENABLED_LOCAL_INFILE=1 \
 -DWITH_READLINE=1 \
 -DWITH_EMBEDDED_SERVER=1 \
--DWITH_DEBUG=0
+-DWITH_DEBUG=0 \
+-DWITH_BOOST=/usr/local/boost
+sudo make && sudo make install
+```
+
+
+### 常见问题
+#### 1. 需要安装的boost是1.59.0,而不是最新版
+```
+-- BOOST_INCLUDE_DIR /usr/local/boost
+-- LOCAL_BOOST_DIR /usr/local/boost
+-- LOCAL_BOOST_ZIP LOCAL_BOOST_ZIP-NOTFOUND
+-- Could not find (the correct version of) boost.
+-- MySQL currently requires boost_1_59_0
+
+CMake Error at cmake/boost.cmake:81 (MESSAGE):
+  You can download it with -DDOWNLOAD_BOOST=1 -DWITH_BOOST=<directory>
+
+  This CMake script will look for boost in <directory>.  If it is not there,
+  it will download and unpack it (in that directory) for you.
+
+  If you are inside a firewall, you may need to use an http proxy:
+
+  export http_proxy=http://example.com:80
+
+Call Stack (most recent call first):
+  cmake/boost.cmake:269 (COULD_NOT_FIND_BOOST)
+  CMakeLists.txt:506 (INCLUDE)
+
+
+-- Configuring incomplete, errors occurred!
+See also "/home/orris/tools/mysql-5.7.22/CMakeFiles/CMakeOutput.log".
+See also "/home/orris/tools/mysql-5.7.22/CMakeFiles/CMakeError.log".
+```
+解决方法:
+```
+
 ```
