@@ -487,3 +487,13 @@ location ~ .*\.(php|php5)?$ {
 #### 预防措施
 1. 运维人员多关注网站流量情况
 2. 告警机制
+#### 解决方法
+```
+# 对于five.org来说,要想访问jpg等资源,只能是five.org的域名,否则就返回给你error.jpg
+location ~* \.(jpg|gif|png|swf|flvv|wma|wmv|asf|mp3|mmf|zip|rar)$ {
+    valid_referers none blocked *.five.org five.org;
+    if ($invalid_referer) {
+        rewrite ^/ http://www.five.cn/error.jpg;
+    }
+}
+```
