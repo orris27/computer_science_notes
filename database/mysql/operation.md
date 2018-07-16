@@ -195,6 +195,14 @@ show create table fun1\G
 1. NOT NULL
 2. DEFAULT 给定默认值
 3. COMMENT 注释
+4. auto_increment 需要在属性和结尾处都写上,结尾默认是1(从1开始)
++ 建表结尾的auto_increment赋值是表示从什么数开始+1往上.
++ 插了不同数据后,`show create table fun6\G`显示的auto_increment也会发生变化
++ `\G`表示按列显示
+```
+# 建立一个以100,101,..的方式创建pk的表fun6
+create table fun6(id int auto_increment,name varchar(20),primary key(id)) auto_increment=100;
+```
 ##### 数据类型
 1. tinyint(1) 表示用1个字节来存储整形,只能存储-128~127.如果插入一个128的数据的话,就会弹出Out of range并禁止行为.
 ##### 生产环境
@@ -211,9 +219,14 @@ CREATE TABLE `subject_comment_manager` (
   `edit_user_time` timestamp NULL default NULL COMMENT '修改时间', 设置时间戳,方便记录
   `edit_comment` varchar(255) default NULL COMMENT '修改的理由',
   `state` tinyint(1) NOT NULL default '1' COMMENT '0 代表关闭,1 代表正常',
-  PRIMARY KEY (`subject_comment_manager_id`),
+  PRIMARY KEY (`subject_comment_manager_id`), # 貌似不能加引号
   KEY `IDX_PRIMARYKEY` (`subject_primary_key`(32)), #括号内的 32 表示对前 32 个字符做前缀索引。
   KEY `IDX_SUBJECT_TITLE` (`subject_title`(32)),
   KEY `index_nick_type` (`edit_user_nick`(32),`subject_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
+#### 8-2. 查看表结构
+```
+desc stu; # describe
+```
+
