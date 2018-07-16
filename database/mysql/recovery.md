@@ -9,6 +9,8 @@
 5. `-t`:只备份数据
 6. `-F`:在导出备份的数据时,切割binlog
 7. `--master-data=1`:在输出信息中指定从哪个binlog的哪个位置开始.`=2`的话就是变成注释
+8. `-x`:锁所有表
+9. `-l`: Lock all tables for read
 #### 备份
 备份db_test数据库
 ```
