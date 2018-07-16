@@ -180,6 +180,23 @@ show xxx \G
 
 ### 8. 表
 #### 8-1. 创建表
+##### 字符集
++ 默认继承数据库的字符集
+```
+create table fun1(id int);
+show create table fun1\G
+#Create Table: CREATE TABLE `fun1` (
+#  `id` int(11) DEFAULT NULL
+#) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci # 我的数据库默认是utf8mb4
+```
+##### 引擎
+数据库存储数据的方式,5.1以前是MyISAM,5.5以后是InnoDB(默认引擎)
+##### 参数
+1. NOT NULL
+2. DEFAULT 给定默认值
+3. COMMENT 注释
+##### 数据类型
+1. tinyint(1) 表示用1个字节来存储整形,只能存储-128~127.如果插入一个128的数据的话,就会弹出Out of range并禁止行为.
 ##### 生产环境
 某sns产品的生产正式建表语句
 ```
@@ -191,12 +208,12 @@ CREATE TABLE `subject_comment_manager` (
   `subject_primary_key` varchar(255) NOT NULL COMMENT '素材的主键',
   `subject_title` varchar(255) NOT NULLL COMMENT '素材的名称',
   `edit_user_nick` varchar(64) default NULL COMMENT '修改人',
-  `edit_user_time` timestamp NULL default NULL COMMENT '修改时间',
+  `edit_user_time` timestamp NULL default NULL COMMENT '修改时间', 设置时间戳,方便记录
   `edit_comment` varchar(255) default NULL COMMENT '修改的理由',
   `state` tinyint(1) NOT NULL default '1' COMMENT '0 代表关闭,1 代表正常',
   PRIMARY KEY (`subject_comment_manager_id`),
-  KEY `IDX_PRIMARYKEY` (`subject_primary_key`(32)),
+  KEY `IDX_PRIMARYKEY` (`subject_primary_key`(32)), #括号内的 32 表示对前 32 个字符做前缀索引。
   KEY `IDX_SUBJECT_TITLE` (`subject_title`(32)),
   KEY `index_nick_type` (`edit_user_nick`(32),`subject_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
