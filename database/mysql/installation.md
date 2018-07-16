@@ -430,8 +430,8 @@ cd mysql-5.7.22
 sudo cmake . -DCMAKE_INSTALL_PREFIX=/application/mysql-5.7.22 \
 -DMYSQL_DATADIR=/application/mysql-5.7.22/data \
 -DMYSQL_UNIX_ADDR=/application/mysql-5.7.22/tmp/mysql.sock \
--DDEFAULT_CHARSET=utf8 \
--DDEFAULT_COLLATION=utf8_general_ci \
+-DDEFAULT_CHARSET=utf8mb4 \
+-DDEFAULT_COLLATION=utf8mb4_general_ci \
 -DEXTRA_CHARSETS=gbk,gb2312,utf8,ascii \
 -DENABLED_LOCAL_INFILE=ON \
 -DWITH_INNOBASE_STORAGE_ENGINE=1 \
