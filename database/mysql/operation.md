@@ -8,6 +8,9 @@ sudo mysqld_safe --defaults-file=/data/3306/my.cnf &
 ```
 sudo systemctl start mysqld.service
 ```
+#### 问题
+1. 启动不了,说没有pid文件
++ 配置文件出错了,可以通过看错误日志,然后发现哪个配置语句有问题
 
 ### 2. 优雅关闭
 #### 2-1. mysqladmin
