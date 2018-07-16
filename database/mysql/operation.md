@@ -70,6 +70,12 @@ mysql -uroot -S /data/3307/tmp/mysql.sock -p
 ```
 
 ### 4. 数据库
+#### 4-0 登录数据库
+```
+mysql -uroot -S /data/3307/tmp/mysql.sock -p
+# alias mysql='mysql -S /data/3307/tmp/mysql.sock' # 设置别名,免去写sock的麻烦
+# mysql -uroot -p
+```
 #### 4-1. 创建数据库
 ##### 4-1-1. 字符集
 ###### 1. 默认
@@ -237,6 +243,12 @@ desc stu; # describe
 ```
 insert into test values(1,'orris'),(2,'mirai');
 ```
+#### 8-4. 清空
+1. `delete from test`
+2. `truncate test`
+
+##### 评价
+truncate更快,因为truncate直接删除物理文件,而delete from只是逻辑删除(比如Lazy Deletion),所以还要一行一行搜索
 
 
 
