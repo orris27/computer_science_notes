@@ -312,14 +312,21 @@ sudo mysqldump -uroot -A -S /data/3307/tmp/mysql.sock -p | sudo tee /opt/all_bak
 egrep -v '#|\/|^$|--' /opt/db_default_bak.sql
 ```
 
-### 11. 排序
+### 11. 还原
+通过备份的sql语句来还原
+```
+mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bak.sql
+```
+
+
+### 12. 排序
 1. 指定谁
 2. 怎么排(asc,desc)
 ```
 select * from index2 order by id asc;
 select * from index2 order by id desc;
 ```
-### 12. 限制结果行数
+### 13. 限制结果行数
 #### 思路
 1. 前面几行
 2. <开始,结束>
@@ -328,7 +335,7 @@ select * from index2 order by id desc;
 select * from index2 limit 2; # 前2行
 select * from index2 limit 3,5; # 第3行开始的5个元组
 ```
-### 13. 分析
+### 14. 分析
 MySQL中的explain可以分析某个语句的执行计划
 #### 例子
 ##### 没有索引
