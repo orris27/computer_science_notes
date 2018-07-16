@@ -272,6 +272,10 @@ alter table test change last new_last bigint;
 ```
 alter table test drop new_last;
 ```
+#### 8-6 表的重命名
+```
+rename table test to thank;
+```
 
 
 
