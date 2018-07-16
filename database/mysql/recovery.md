@@ -11,6 +11,7 @@
 7. `--master-data=1`:在输出信息中指定从哪个binlog的哪个位置开始.`=2`的话就是变成注释
 8. `-x`:锁所有表
 9. `-l`: Lock all tables for read
+10. `--single-transaction`: 适合InnoDB事务数据库备份
 #### 备份
 备份db_test数据库
 ```
