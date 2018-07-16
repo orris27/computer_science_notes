@@ -2,8 +2,10 @@
 MySQL的字符集为字符集+校对规则.要保证**MySQL的字符集=库/表的字符集=程序的字符集**
 + 校对规则:比较字符串的规则
 + 字符集:client,connection,database,results,server,system
-|client|connection|database|results|server|system|
+| client | connection |database|results|server|system|
 ## 1. 默认
+| a | b | 
+| c | d |
 + 与自己的编译参数一致,否则就是latin1
 + collation是校对的.(具体我也不太清楚)
 ```
