@@ -9,6 +9,10 @@ MySQL的字符集为字符集+校对规则.要保证**MySQL的字符集=库/表�
 | way       | client | connection | database | results | server | system |
 | :---      | :---   |  :----     | :----    | :---    | :---   | :---   | 
 | set names | 1      | 1          |          |       1 |        |        | 
+| --default-character-set | 1      | 1          |          |       1 |        |        | 
+| \[client\]default-character-set | 1      | 1          |          |       1 |        |        | 
+| \[mysqld\]character-set-server | 1      | 1          |          |       1 |        |        | 
+| /etc/sysconfig/i18n | 1      | 1          |          |       1 |        |        | 
 
 + 与自己的编译参数一致,否则就是latin1
 + collation是校对的.(具体我也不太清楚)
