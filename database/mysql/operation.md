@@ -247,8 +247,31 @@ insert into test values(1,'orris'),(2,'mirai');
 1. `delete from test`
 2. `truncate test`
 
-##### 评价
+##### 分析
 truncate更快,因为truncate直接删除物理文件,而delete from只是逻辑删除(比如Lazy Deletion),所以还要一行一行搜索
+#### 8-5. 属性
+##### 1. 添加属性
+###### 第一位
+```
+alter table test add first tinyint first;
+```
+###### 中间
+```
+alter table test add mid timestamp after name;
+```
+###### 最后
+```
+alter table test add last int;
+```
+##### 2. 修改属性
+如果修改类型的话,不兼容的类型是不被允许的
+```
+alter table test change last new_last bigint;
+```
+##### 3. 删除属性
+```
+alter table test drop new_last;
+```
 
 
 
