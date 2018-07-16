@@ -312,3 +312,10 @@ sudo mysqldump -uroot -A -S /data/3307/tmp/mysql.sock -p | sudo tee /opt/all_bak
 egrep -v '#|\/|^$|--' /opt/db_default_bak.sql
 ```
 
+### 11. 排序
+1. 指定谁
+2. 怎么排(asc,desc)
+```
+select * from index2 order by id asc;
+select * from index2 order by id desc;
+```
