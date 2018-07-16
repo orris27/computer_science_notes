@@ -95,3 +95,30 @@ create database db_gbk default character set gbk collate gbk_chinese_ci;
 create database db_utf8 default character set utf8 collate utf8_general_ci;
 # Create Database: CREATE DATABASE `db_utf8` /*!40100 DEFAULT CHARACTER SET utf8 */
 ```
+#### 4-2. 查看数据库
+##### 4-2-1. 所有,匹配
+```
+show databases;
+show databases like '%db%'; # '%'表示匹配所有字符串
+```
+##### 4-2-2. 查看当前数据库
+```
+select database();
+# other functions
+select version();
+select user();
+select now(); # 显示时间
+```
+
+### 5. 权限
+#### 5-1. 授权
+grant 什么权限 on 哪个数据库的哪个表 to 哪个用户
++ 最好用户和主机都加引号
+##### 5-1-1. grant
+```
+grant all on db_default.* to 'orris'@'localhost' identified by 'orris'; # 创建用户并授权
+#<=> 
+create user saber@'localhost' identified by 'saber'; # 创建用户
+grant all on db_default.* to 'saber'@'localhost'; # 授予用户权限
+```
+
