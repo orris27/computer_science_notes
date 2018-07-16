@@ -15,13 +15,26 @@
 ##### 生产环境推荐
 ###### 常规备份
 `--master-data`选1或2根据自己习惯.下面给出的是整理所有的数据库
-1. mysiam
+1. MyISAM
 ```
-mysqldump -uroot -p'pwd' -A -B --master-data=2 -x | gzip >/opt/all.sql.gz
+mysqldump -uroot -p'pwd' -A -B --master-data=2 --events -x | gzip >/opt/all.sql.gz
 ```
 2. InnoDB
 ```
-mysqldump -uroot -p'pwd' -A -B --master-data=2 --single-transaction | gzip >/opt/all.sql.gz
+mysqldump -uroot -p'pwd' -A -B --master-data=2 --events --single-transaction | gzip >/opt/all.sql.gz
+```
+###### 更详细点的备份
+1. MyISAM
+```
+mysqldump --user=root --all-databases --flush-privileges --lock-all-tables \
+--master-data=1 --flush-logs --triggers --routines --events \
+--hex-blob > $BACKUP_DIR/full_dump_$BACKUP_TIMESTAMP.sql
+```
+2.InnoDB
+```
+mysqldump --user=root --all-databases --flush-privileges --single-transaction \
+--master-data=1 --flush-logs --triggers --routines --events \
+--hex-blob > $BACKUP_DIR/full_dump_$BACKUP_TIMESTAMP.sql
 ```
 #### 备份
 备份db_test数据库
