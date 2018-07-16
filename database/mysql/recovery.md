@@ -8,6 +8,7 @@
 备份db_test数据库
 ```
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -p db_test
+# mysqldump -uroot -S /data/3307/tmp/mysql.sock -p db_test table_test1 table_test2 # 不加-B的话,可以只备份一个表(前面是库,后面都是表)(从create table开始备份)
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test
 mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test > /opt/db_test.sql # 推荐
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test | gzip > /opt/db_test.sql.gz # 我不知道要怎么用
