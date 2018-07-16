@@ -7,6 +7,7 @@
 [client]
 port = 3306
 socket = /application/mysql-5.7.22/tmp/mysql.sock
+default-character-set = utf8mb4
 
 [mysqld]
 port = 3306
