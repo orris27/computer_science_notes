@@ -239,6 +239,7 @@ insert into test values(1,'orris'),(2,'mirai');
 ```
 
 
+
 ### 9. 索引
 #### 9-1. 索引种类
 ##### 主键索引
@@ -424,3 +425,15 @@ possible_keys: index_name
         Extra: Using index
 1 row in set, 1 warning (0.01 sec)
 ```
+
+### 15. 安全模式
+由于表更新时如果少写where等各种原因,我们可能会误伤数据库.所以我们可以以安全模式来登录数据库
+```
+mysql -uroot -S /data/3307/tmp/mysql.sock -U -p
+```
+设置别名
+```
+alias mysql='mysql -U'
+```
+#### -U
+Only allow UPDATE and DELETE that uses keys.
