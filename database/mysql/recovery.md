@@ -12,6 +12,17 @@
 8. `-x`:锁所有表
 9. `-l`: Lock all tables for read
 10. `--single-transaction`: 适合InnoDB事务数据库备份.在备份期间如果有人修改数据库的话,备份过程不会理会
+##### 生产环境推荐
+###### 常规备份
+`--master-data`选1或2根据自己习惯.下面给出的是整理所有的数据库
+1. mysiam
+```
+mysqldump -uroot -p'pwd' -A -B --master-data=2 -x | gzip >/opt/all.sql.gz
+```
+2. InnoDB
+```
+mysqldump -uroot -p'pwd' -A -B --master-data=2 --single-transaction | gzip >/opt/all.sql.gz
+```
 #### 备份
 备份db_test数据库
 ```
