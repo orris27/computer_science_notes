@@ -107,6 +107,7 @@ select database();
 # other functions
 select version();
 select user();
+select current_user();
 select now(); # 显示时间
 ```
 
@@ -118,7 +119,14 @@ grant 什么权限 on 哪个数据库的哪个表 to 哪个用户
 ```
 grant all on db_default.* to 'orris'@'localhost' identified by 'orris'; # 创建用户并授权
 #<=> 
-create user saber@'localhost' identified by 'saber'; # 创建用户
+create user 'saber'@'localhost' identified by 'saber'; # 创建用户
 grant all on db_default.* to 'saber'@'localhost'; # 授予用户权限
+```
+#### 5-2. 查看权限
+```
+help show grants
+show grants;
+show grants for current_user();
+show grants for 'saber'@'localhost';
 ```
 
