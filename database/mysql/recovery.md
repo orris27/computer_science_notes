@@ -2,7 +2,7 @@
 逻辑导出sql语句,然后逻辑导出
 ### mysqldump
 #### 常数
-1. `-B`: 创建数据库并使用该数据库(相比于不加B参数而言)
+1. `-B`: 创建数据库并使用该数据库(相比于不加B参数而言),而且可以同时导出多个数据库
 2. `-A`: 备份所有数据库
 #### 备份
 备份db_test数据库
@@ -11,8 +11,16 @@
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test
 mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test > /opt/db_test.sql # 推荐
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test | gzip > /opt/db_test.sql.gz # 我不知道要怎么用
+# mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test db_test2 | gzip > /opt/db_test.sql.gz # 我不知道要怎么用
+```
+#### 分库备份
+将不同的库备份到各自对应的文件,这样以后可以方便局部还原
+```
+mkdir /opt/bak
+mysql -uroot -S /data/3307/tmp/mysql.sock -p'serena2ash' -e 'show databases;' | egrep -vi 'Database|infor|perfor' | sed -r 's#^(.*)#mysqldump -uroot -p"serena2ash" -S /data/3307/tmp/mysql.sock -B \1 | gzip > /opt/bak/\1.sql.gz#g' | bash
 ```
 #### 还原(-B)
+使用`-B`导出的sql文件会自动创建数据库并使用数据库,因此导出时不用指定数据库
 ```
 mysql -uroot -S /data/3307/tmp/mysql.sock -p < /opt/db_test.sql # 推荐
 ```
