@@ -171,3 +171,32 @@ create database eru_db default character set utf8mb4 collate utf8mb4_general_ci;
 grant all on eru_db.* to 'eru'@'172.19.28.%' identified by 'eru';
 mysql -ueru -h'172.19.28.82' -p
 ```
+### 7. 查看语句的详细内容
+```
+show xxx \G
+# show create database db_default\G
+# show create table student\G
+```
+
+### 8. 表
+#### 8-1. 创建表
+##### 生产环境
+某sns产品的生产正式建表语句
+```
+use sns;
+set names gbk;
+CREATE TABLE `subject_comment_manager` (
+  `subject_comment_manager_id` bigint(12) NOT NULL auto_increment COMMENT '主键',
+  `subject_type` tinyint(2) NOT NULL COMMENT '素材类型',
+  `subject_primary_key` varchar(255) NOT NULL COMMENT '素材的主键',
+  `subject_title` varchar(255) NOT NULLL COMMENT '素材的名称',
+  `edit_user_nick` varchar(64) default NULL COMMENT '修改人',
+  `edit_user_time` timestamp NULL default NULL COMMENT '修改时间',
+  `edit_comment` varchar(255) default NULL COMMENT '修改的理由',
+  `state` tinyint(1) NOT NULL default '1' COMMENT '0 代表关闭,1 代表正常',
+  PRIMARY KEY (`subject_comment_manager_id`),
+  KEY `IDX_PRIMARYKEY` (`subject_primary_key`(32)),
+  KEY `IDX_SUBJECT_TITLE` (`subject_title`(32)),
+  KEY `index_nick_type` (`edit_user_nick`(32),`subject_type`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+```
