@@ -229,6 +229,12 @@ CREATE TABLE `subject_comment_manager` (
 ```
 desc stu; # describe
 ```
+#### 8-3. 插入
+##### 同时插入多个数据
+```
+insert into test values(1,'orris'),(2,'mirai');
+```
+
 
 ### 9. 索引
 #### 9-1. 索引种类
@@ -255,7 +261,7 @@ alter table index2 add index index_name(name(10)); # 如果name为很长的字�
 
 create index index_name on index2(name);
 create unique index index_name on index2(name);
-```bc
+```
 ##### 删除(alter+drop)
 ```
 alter table index2 drop index index_name;
@@ -284,3 +290,25 @@ show index from table1\G;
       Comment: 
 Index_comment: 
 ```
+#### 9-3 选择
++ 读取少而写入快的不要建立索引
++ 表小的,只有几百行的不要建立索引
++ 尽量在唯一值多的大表上建立索引
+
+### 10. 备份
+数据库的备份采用逻辑备份的方法,即导出sql语句
+#### 导出sql语句
+备份实例为3307的MySQL服务下的db_default这个数据库的数据到/opt/db_default_bak.sql
+```
+mysqldump -uroot -B db_default -S /data/3307/tmp/mysql.sock -p >/opt/db_default_bak.sql 
+# sudo mysqldump -uroot -B db_default -S /data/3307/tmp/mysql.sock -p | sudo tee /opt/db_default_bak.sql
+```
+备份MySQL实例的所有数据库(`-A`表示所有数据库)
+```
+sudo mysqldump -uroot -A -S /data/3307/tmp/mysql.sock -p | sudo tee /opt/all_bak.sql
+```
+查看导出的sql语句
+```
+egrep -v '#|\/|^$|--' /opt/db_default_bak.sql
+```
+
