@@ -430,11 +430,7 @@ cd mysql-5.7.22
 sudo cmake . -DCMAKE_INSTALL_PREFIX=/application/mysql-5.7.22 \
 -DMYSQL_DATADIR=/application/mysql-5.7.22/data \
 -DMYSQL_UNIX_ADDR=/application/mysql-5.7.22/tmp/mysql.sock \
-#### 2. 权限不够或找不到文件
-##### 解决方法
-1. 创建出所有需要的目录
-2. 授权所有目录
-3. 如果还是权限不够,说明还要创建并授权指定的文件,如`mysql-error.log`.不仅是目录,连文件也要自己创建出来-DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_CHARSET=utf8 \
 -DDEFAULT_COLLATION=utf8_general_ci \
 -DEXTRA_CHARSETS=gbk,gb2312,utf8,ascii \
 -DENABLED_LOCAL_INFILE=ON \
