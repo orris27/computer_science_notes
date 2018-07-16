@@ -326,6 +326,7 @@ egrep -v '#|\/|^$|--' /opt/db_default_bak.sql
 mysqlbinlog -d db_default mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql # -d指明哪个数据库
 ```
 ##### 实战
+如果将一个表的name属性全变成orris的话,我发现增量备份里面没有这个语句.不知道为什么.
 1. 先备份数据库db_default
 2. 打开log-bin配置
 3. 重启MySQL服务
