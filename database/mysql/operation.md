@@ -112,10 +112,10 @@ select now(); # 显示时间
 ```
 
 ### 5. 权限
+默认是对所有数据库的usage权限
 #### 5-1. 授权
 grant 什么权限 on 哪个数据库的哪个表 to 哪个用户
-+ 最好用户和主机都加引号
-##### 5-1-1. grant
++ 最好用户和主机都加引号create database eru_db default character set utf8mb4 collate utf8mb4_general_ci;
 ```
 grant all on db_default.* to 'orris'@'localhost' identified by 'orris'; # 创建用户并授权
 #<=> 
@@ -123,10 +123,43 @@ create user 'saber'@'localhost' identified by 'saber'; # 创建用户
 grant all on db_default.* to 'saber'@'localhost'; # 授予用户权限
 ```
 #### 5-2. 查看权限
+##### 5-2-1. 查看用户的权限
 ```
 help show grants
 show grants;
 show grants for current_user();
 show grants for 'saber'@'localhost';
 ```
+##### 5-2-2. 查看权限种类
+SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER
+1. 授予一个all权限给一个用户,然后revoke一个全新啊,这个时候再查看她的用户权限,就会有其他权限出来了
+```
+show grants for megumi@'localhost';
+# revoke insert on *.* from 'megumi'@'localhost'; # 如果当初是给数据库db_megumi授权的话,撤回权限也要对应这个数据库,而不能写*.*
+revoke insert on db_megumi.* from 'megumi'@'localhost';
+mysql -uroot -S /data/3307/tmp/mysql.sock  -e 'show grants for megumi@localhost' -p | grep GRANT | tail -1 # -e可以不进入数据库执行sql语句
+```
+2. mysql.user表里的属性
+```
+select * from mysql.user\G # \G可以按列查看
+```
 
+### 6. 远程连接
++ shell中mysql的`-h`参数指定连接哪台主机,和数据库里的host不一样.数据库里的host指的是哪些主机可以访问,而这个在我们登录时自动提供了.我们只需要说明远程登录哪台主机就可以了
+#### 6-1. 服务器
+需要创建用户,这个用户的host表明哪些ip可以访问
+```
+create user 'eru'@'172.19.28.%';
+```
+#### 1. 多实例
+不用sock登录,而是直接指定端口就可以了
+```
+mysql -ueru -h'172.19.28.82' -P3307
+mysql -ueru -h'172.19.28.82' -P3307 -p
+````
+#### 2. 单实例
+```
+create database eru_db default character set utf8mb4 collate utf8mb4_general_ci;
+grant all on eru_db.* to 'eru'@'172.19.28.%' identified by 'eru';
+mysql -ueru -h'172.19.28.82' -p
+```
