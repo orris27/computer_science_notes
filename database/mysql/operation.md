@@ -230,3 +230,56 @@ CREATE TABLE `subject_comment_manager` (
 desc stu; # describe
 ```
 
+### 9. 索引
+#### 9-1. 索引种类
+##### 主键索引
+建表时如果指定主键,那么就自动生成主键索引.
+##### 普通索引
+可以创建/添加普通索引
+##### 联合索引
+可以创建/添加联合索引
+##### 唯一索引(和上面的不是一个分类标准)
+如果对一个属性创建唯一索引,那么她就变成unique了,即使原来允许重复的值,只要建立了唯一索引,就不能插入重复的值了
+#### 9-2 操作
+##### 创建
+```
+create table index1(id int,primary key(id));
+create table index2(id int, name varchar(20),key index_name(name)); # key 索引名字(哪个属性)
+create table index3(id int, name varchar(20),age tinyint,key index_name_age(name,age)); # 联合索引
+```
+##### 添加(alter+create)
+```
+alter table index2 change id id int primary key auto_increment; # 给index2表的id属性添加主键索引(不推荐)
+alter table index2 add index index_name(name(10)); # 如果name为很长的字符串,比如一篇文章,那么就指定前10个字符来建立索引
+
+create index index_name on index2(name);
+create unique index index_name on index2(name);
+```
+##### 删除(alter+drop)
+```
+alter table index2 drop index index_name;
+
+drop index index_name on index2;
+```
+##### 查看
+```
+desc table1; # 查看KEY列,PRI=主键索引;UNI=唯一索引(不允许重复)
+show index from table1\G;
+```
+结果
+```
+*************************** 1. row ***************************
+        Table: index1
+   Non_unique: 0 # 是否为唯一索引
+     Key_name: PRIMARY # 索引名字,我们可以在这里查看
+ Seq_in_index: 1
+  Column_name: id
+    Collation: A
+  Cardinality: 0
+     Sub_part: NULL
+       Packed: NULL
+         Null: 
+   Index_type: BTREE # 索引类型,默认为b树
+      Comment: 
+Index_comment: 
+```
