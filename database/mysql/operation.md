@@ -143,6 +143,14 @@ mysql -uroot -S /data/3307/tmp/mysql.sock  -e 'show grants for megumi@localhost'
 ```
 select * from mysql.user\G # \G可以按列查看
 ```
+#### 5-3. 分配权限原则
+最小化.一般增删改查就可以了,建/删表都由DBA处理
++ create/drop一般由DBA管理
+```
+grant insert,delete,update,select on db_mirai.* to 'mirai'@'172.19.28.%' identified by 'mirai';
+```
+
+
 
 ### 6. 远程连接
 + shell中mysql的`-h`参数指定连接哪台主机,和数据库里的host不一样.数据库里的host指的是哪些主机可以访问,而这个在我们登录时自动提供了.我们只需要说明远程登录哪台主机就可以了
