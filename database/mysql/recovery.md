@@ -15,9 +15,18 @@ mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test > /opt/db_test.sql #
 ```
 #### 分库备份
 将不同的库备份到各自对应的文件,这样以后可以方便局部还原
+1. 
 ```
 mkdir /opt/bak
 mysql -uroot -S /data/3307/tmp/mysql.sock -p'pwd' -e 'show databases;' | egrep -vi 'Database|infor|perfor' | sed -r 's#^(.*)#mysqldump -uroot -p"pwd" -S /data/3307/tmp/mysql.sock -B \1 | gzip > /opt/bak/\1.sql.gz#g' | bash
+```
+2. 
+```
+#! /bin/sh
+for dbname in `/application/mysql/bin/mysql -uroot -S /data/3307/tmp/mysql.sock -p'pwd' -e 'show databases;' | egrep -vi 'Database|infor|perfor'`
+do
+	/application/mysql/bin/mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p'pwd' ${dbname} | gzip > /opt/bak/${dbname}.sql.gz
+done
 ```
 #### 还原(-B)
 使用`-B`导出的sql文件会自动创建数据库并使用数据库,因此导出时不用指定数据库
