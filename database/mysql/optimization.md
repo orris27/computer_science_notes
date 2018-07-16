@@ -17,3 +17,6 @@ drop user "root"@centos1;
 ```
 insert into test values(1,'orris'),(2,'mirai');
 ```
+
+### 5. 设置权限时采用最小权限
+增删改查(insert,delete,update,select)就足够了
