@@ -40,6 +40,9 @@ update mysql.user set authentication_string=password("123456789") where user='ro
 flush privileges;
 ```
 #### 3-4. 找回密码
+##### 注意
+`kill -9`比killall更危险
+##### 解决方法
 1. 关闭原有的mysql服务进程
 2. 启动mysql服务,这个服务可以不用密码就能登录mysql
 3. 免密码登录mysql,并用3-3的方法修改密码
