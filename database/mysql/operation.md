@@ -435,7 +435,7 @@ create table ok(id int);
 
 mysql -uroot -S /data/3307/tmp/mysql.sock -p <2.sql
 ```
-
+-----
 ### 16. 读写分离
 #### 实现
 1. 程序控制.比如select语句交给读的服务器.大中型公司
@@ -445,6 +445,7 @@ mysql -uroot -S /data/3307/tmp/mysql.sock -p <2.sql
 #### 授权方案
 读写分离要求slave不能被写入,我们除了告诉开发人员不能写指定slave的同时,还应该自己在slave上设置,比如说权限控制
 ##### 思路
+read-only参数
 1. master上创建一个web用户,可以增删改查,然后slave上也建一个同名用户(或者同步?),但是撤销增删改的权限
 + 利于开发
 2. master上创建一个web_w用户,而slave上创建一个web_r用户
@@ -453,6 +454,5 @@ mysql -uroot -S /data/3307/tmp/mysql.sock -p <2.sql
 + 
 
 ---------
-## 提问
-#### 1.如果我在master这里创建了一个用户,那么slave里会有这个用户吗
+
 
