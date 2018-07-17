@@ -253,7 +253,7 @@ Seconds_Behind_Master: 0 # 落后master的秒数
 + `wait_timeout`和`interactive_timeout`不能太小,不然备份有问题
 
 ### 原理
-类似于搬家工人一样,我们(master)将行李放到行李房(binlog),然后搬家工人(slave的IO)发现有有新的行李,这个新的行李上有指定的房间和位置(binlog的文件和位置),就带到目的地(根据master-info将master的log-bin添加到slave的relay-log中),目的地有另一个负责人,她发现多了行李,就会根据上面的信息搬到指定的位置. master确认slave的信息是自己的主进程来完成的.
+类似于搬家工人一样,我们(master)将行李放到行李房(binlog),然后搬家工人(slave的IO)发现有有新的行李,这个新的行李上有指定的房间和位置(binlog的文件和位置),就带到目的地(根据master-info将master的log-bin添加到slave的relay-log中),目的地有另一个负责人,她发现多了行李,就会根据上面的信息搬到指定的位置. master确认slave的信息是自己的主进程来完成的.如果slave也要做master的话,那么就要设置`log-bin`和`log-slave-updates`
 + `master-info`
 	- 记录master信息的文件
 	- 默认放在数据目录下
