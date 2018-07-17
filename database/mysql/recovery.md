@@ -267,3 +267,9 @@ Seconds_Behind_Master: 0 # 落后master的秒数
 	- 记录`relay-log`的文件名和位置
 	- 记录master的log-bin的文件名和位置
 
+
+***
+------
+___
+---------
+<hr>
