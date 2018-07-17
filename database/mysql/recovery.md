@@ -168,6 +168,13 @@ rm -f master.info relay-log.info
 + 开启log-bin
 + 删除`log-slave-updates`,readonly等参数
 + 检查授权表
+6. 更新其他slave
+```
+stop slave;
+change master to master_host='172.19.28.xx';
+start slave;
+show slave status;
+```
 
 
 ### 实现
@@ -305,7 +312,10 @@ stop slave;
 set global sql_slave_skip_counter=1;
 start slave;
 ```
+### master-master双向同步
 
+1. 保证两个master的表都会主键自动递增(设置`auto_increment_offset``auto_increment_increment`)
+2. 互为master/slave,主从一样配置即可.注意写`log-slave-updates`
 
 --------
 ## 问题
