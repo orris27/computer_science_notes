@@ -62,8 +62,12 @@ log-bin-index = /application/mysql-5.7.22/logs/mysql_bin.index
 binlog_cache_size = 1M
 max_binlog_cache_size = 1M
 max_binlog_size = 2M
-replicate-ignore-db = mysql # 这一句才真正不会被slave给同步
-binlog-ignore-db = mysql
+
+replicate-do-db = mysql # 需要slave复制的数据库
+replicate-ignore-db = mysql # 不需要slave复制的数据库(写在master/slave好像都可以)
+
+# binlog-do-db =  # log-bin记录该数据库的日志
+binlog-ignore-db = mysql # log-bin不要记录该数据库的日志
 binlog-ignore-db = performance_schema
 binlog-ignore-db = information_schema
 
