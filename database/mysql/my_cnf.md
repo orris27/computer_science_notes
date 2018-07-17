@@ -49,7 +49,10 @@ init_connect='SET NAMES utf8mb4'
 
 innodb_flush_log_at_trx_commit = 2
 innodb_log_buffer_size = 16M
-innodb_log_files_in_group = 3
+innodb_log_files_in_gr
+..		
+charset.md	Update charset.md	a day ago
+installation.mdoup = 3
 innodb_max_dirty_pages_pct = 90
 innodb_lock_wait_timeout = 120
 innodb_buffer_pool_size = 32M
@@ -72,8 +75,8 @@ max_binlog_size = 2M
 #log-slave-updates # 如果slave也要做master的话,log-slave-updates和log-bin都要打开
 expire_logs_days = 5 # log-bin的过期时间设置为5天
 #binlog_format = "STATEMENT"
-binlog_format = "ROW"
-#binlog_format = "MIXED"
+#binlog_format = "ROW"
+binlog_format = "MIXED" # 官方推荐
 
 #replicate-do-db = mysql # 需要slave复制的数据库
 replicate-ignore-db = mysql # 不需要slave复制的数据库(写在master/slave好像都可以)
