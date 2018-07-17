@@ -49,10 +49,7 @@ mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test > /opt/db_test.sql
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test | gzip > /opt/db_test.sql.gz # 推荐
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test db_test2 | gzip > /opt/db_test.sql.gz # 推荐
 ```
-#### 分库备份#log-bin = /usr/local/mysql/binlogs/mysql-bin
-relay-log = /usr/loal/mysql/logs/relay-bin
-relay-log-info-file = /usr/loal/mysql/logs/relay-log.info
-
+#### 分库备份
 将不同的库备份到各自对应的文件,这样以后可以方便局部还原
 1. 
 ```
@@ -61,9 +58,7 @@ mysql -uroot -S /data/3307/tmp/mysql.sock -p'pwd' -e 'show databases;' | egrep -
 ```
 2. 
 ```
-#! /bin/sh#log-bin = /usr/local/mysql/binlogs/mysql-bin
-relay-log = /usr/loal/mysql/logs/relay-bin
-relay-log-info-file = /usr/loal/mysql/logs/relay-log.info
+#! /bin/sh
 
 for dbname in `/application/mysql/bin/mysql -uroot -S /data/3307/tmp/mysql.sock -p'pwd' -e 'show databases;' | egrep -vi 'Database|infor|perfor'`
 do
@@ -82,10 +77,7 @@ gzip -d db_test.sql.gz
 mysql -uroot -S /data/3307/tmp/mysql.sock -p < /opt/db_test.sql # 推荐
 ```
 #### 查看
-```#log-bin = /usr/local/mysql/binlogs/mysql-bin
-relay-log = /usr/loal/mysql/logs/relay-bin
-relay-log-info-file = /usr/loal/mysql/logs/relay-log.info
-
+```
 egrep -v '#|\/|^$|--' /opt/db_test.sql
 ```
 
@@ -110,36 +102,50 @@ mysqlbinlog -d db_test mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql
 mysqlbinlog -d db_test mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql 
 ```
 ##### 实战
-如果将一个表的name属性全变成orris的话,我发现增量备份里面没有这个语句.不知道为什么.
-1. 先备份数据库db_default
-2. 打开log-bin配置
-3. 重启MySQL服务
-4. 各种操作+骚操作
-5. 让MySQL换个地方写增量
-6. 在增量备份中去掉之前那个骚操作
-7. 逻辑备份+增量备份
+###### 1. 1个MySQL,没有主从,允许停机,只恢复db_test
+定时备份,然后增量.发现问题时,停止写入.根据全量备份的`--master-data=2`的参数获得binlog起点,刷新binlog得到终点.删除binlog中的错误操作.全量+增量(如果将一个表的name属性全变成orris的话,我发现增量备份里面没有这个语句.不知道为什么)
+0. 假定MySQL已经开启log-bin
+1. 先备份数据库db_test
+2. 各种操作+删除了db_test
+3. 停止写入数据库
+4. 获取log-bin的起点和终点
+5. 在增量备份中去掉之前那个骚操作
+6. 逻辑备份+增量备份
 ```
-mysqldump -uroot -B db_default -S /data/3307/tmp/mysql.sock -p >/opt/db_default_bak.sql
+# 定时的全量备份
+mysqldump -uroot -B db_test -S /data/3307/tmp/mysql.sock -p --master-data=2 --single-transaction | gzip >/opt/db_test.sql.gz
 
-sudo vim /data/3307/my.cnf
+# 一些操作
+mysql -uroot -p -S /data/3307/tmp/mysql.sock
 ###
-log-bin=/data/3307/logs/mysqlbin_orris
+create table db_test;
+use db_test;
+create table table_test(id int);
+insert into table_test values(1);
+drop database db_test;
+exit;
 ###
 
-sudo mysqladmin -uroot -S /data/3307/tmp/mysql.sock shutdown -p
-sudo mysqld_safe --defaults-file=/data/3307/my.cnf &
+# 发现问题,只能暂停写入了
+mysql -uroot -p -S /data/3307/tmp/mysql.sock
+###
+flush table with read lock;
+###
 
+# 获得增量备份的起点和终点
 mysqladmin -S /data/3307/tmp/mysql.sock -uroot -p flush-log
+gzip -d db_test.sql.gz
+grep -i 'change' db_test.sql
+# -- CHANGE MASTER TO MASTER_LOG_FILE='mysql_bin.000001', MASTER_LOG_POS=2871;
 
-mysqlbinlog -d db_default mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql
-
-sudo vim /opt/db_default_bin_bak.sql
-
-mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bak.sql
-mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_defaul
+# 获取增量备份
+mysqlbinlog -d db_test mysqlbin_orris.000001 > /opt/db_test_bin.sql
+# 删除误操作
+sudo vim /opt/db_test_bin.sql
+# 用全量+增量恢复
+mysql -uroot -S /data/3307/tmp/mysql.sock  db_test -p</opt/db_test.sql
+mysql -uroot -S /data/3307/tmp/mysql.sock  db_test -p</opt/db_test_bin.sql
 逻辑导出sql语句,然后逻辑导出
-
-t_bin_bak.sql
 ```
 ## 2. 主从同步
 实际上是备份方案,主MySQL的数据会放到从MySQL的数据里
