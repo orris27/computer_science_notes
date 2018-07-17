@@ -269,6 +269,25 @@ Seconds_Behind_Master: 0 # 落后master的秒数
 + `relay-log-info-file`
 	- 记录`relay-log`的文件名和位置
 	- 记录master的log-bin的文件名和位置
+### 主从不同步
+如果slave已经有test这个数据库了,那么master创建test这个数据库的话,就会导致数据库不一致
+#### 检测状态
+`show slave status\G`看是否2个yes和1个0
+#### 解决思路
+忽略
+#### 解决方法
+<1> 在配置文件里声明忽略哪些错误
+```
+# slave's my.cnf
+slave-skip-errors = 1032, 1062, 1007
+```
+<2> 手动将log-bin的位置向下偏移(错误代码后面的内容也会同步过来)
+```
+# slave MySQL:
+stop slave;
+set global sql_slave_skip_counter=1;
+start slave;
+```
 
 
 --------
@@ -287,3 +306,4 @@ binlog-ignore-db=information_schema
 ```
 #### 4. 如果master重启MySQL,那么slave还能检测到吗?
 还能正常工作
+
