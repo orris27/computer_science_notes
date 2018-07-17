@@ -65,6 +65,7 @@ log-bin-index = /application/mysql-5.7.22/logs/mysql_bin.index
 binlog_cache_size = 1M
 max_binlog_cache_size = 1M
 max_binlog_size = 2M
+#log-slave-updates # 如果slave也要做master的话,log-slave-updates和log-bin都要打开
 expire_logs_days = 5 # log-bin的过期时间设置为5天
 
 #replicate-do-db = mysql # 需要slave复制的数据库
