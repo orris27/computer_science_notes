@@ -3,6 +3,8 @@
 + pid文件:`/application/mysql-5.7.22/run/mysqld.pid`
 + 数据目录:`/application/mysql-5.7.22/data`
 + 日志目录:`/application/mysql-5.7.22/logs`
+注意:
+1. 如果要配置`log-bin`的话,一定要写上`server-id`
 ```
 [client]
 port = 3306
@@ -12,7 +14,7 @@ default-character-set = utf8mb4
 [mysqld]
 port = 3306
 socket = /application/mysql-5.7.22/tmp/mysql.sock
-pid_file = /application/mysql-5.7.22/run/mysqld.pid
+pid_file = /application/mysql-5.7.22/run/mysqld.pidid
 datadir = /application/mysql-5.7.22/data
 default_storage_engine = InnoDB
 max_allowed_packet = 512M
@@ -38,6 +40,7 @@ key_buffer_size = 256M
 
 log-error = /application/mysql-5.7.22/logs/mysql_error.log
 log-bin = /application/mysql-5.7.22/logs/mysql_bin
+log-bin-index = /application/mysql-5.7.22/logs/mysql_bin.index
 
 
 slow_query_log = 1 # 打开慢查询日志功能
@@ -52,5 +55,5 @@ query_cache_type = 1
 query_cache_size = 256M
 query_cache_limit = 2M
 
-#server-id=1
+server-id=1
 ```
