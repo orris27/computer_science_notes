@@ -435,3 +435,10 @@ create table ok(id int);
 
 mysql -uroot -S /data/3307/tmp/mysql.sock -p <2.sql
 ```
+
+### 16. 读写分离
+#### 实现
+1. 程序控制.比如select语句交给读的服务器.大中型公司
+2. 代理软件.mysql-proxy,amoeba.测试环境
+3. 分布式dbproxy(读写分离,hash负载均衡,健康检查.门户网站
+
