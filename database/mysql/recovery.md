@@ -1,4 +1,4 @@
-## 备份和还原
+## 1. 备份和还原
 逻辑导出sql语句,然后逻辑导出
 ### mysqldump
 #### 常数
@@ -138,7 +138,7 @@ sudo vim /opt/db_default_bin_bak.sql
 mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bak.sql
 mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bin_bak.sql
 ```
-## 主从同步
+## 2. 主从同步
 实际上是备份方案,主MySQL的数据会放到从MySQL的数据里
 
 ### 主MySQL突然宕机怎么办
@@ -264,9 +264,3 @@ Seconds_Behind_Master: 0 # 落后master的秒数
 	- 记录`relay-log`的文件名和位置
 	- 记录master的log-bin的文件名和位置
 
-
-## 读写分离
-### 实现
-1. 程序控制.比如select语句交给读的服务器.大中型公司
-2. 代理软件.mysql-proxy,amoeba.测试环境
-3. 分布式dbproxy(读写分离,hash负载均衡,健康检查.门户网站
