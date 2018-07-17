@@ -12,6 +12,8 @@ socket = /application/mysql-5.7.22/tmp/mysql.sock
 default-character-set = utf8mb4
 
 [mysqld]
+server-id=1
+
 port = 3306
 socket = /application/mysql-5.7.22/tmp/mysql.sock
 pid_file = /application/mysql-5.7.22/run/mysqld.pidid
@@ -39,9 +41,12 @@ innodb_file_per_table = 1
 key_buffer_size = 256M
 
 log-error = /application/mysql-5.7.22/logs/mysql_error.log
+
 log-bin = /application/mysql-5.7.22/logs/mysql_bin
 log-bin-index = /application/mysql-5.7.22/logs/mysql_bin.index
 
+#relay-log = /usr/loal/mysql/logs/relay_bin
+#relay-log-info-file = /usr/loal/mysql/logs/relay_log.info
 
 slow_query_log = 1 # 打开慢查询日志功能
 slow_query_log_file = /application/mysql-5.7.22/logs/mysql_slow_query.log
@@ -55,5 +60,4 @@ query_cache_type = 1
 query_cache_size = 256M
 query_cache_limit = 2M
 
-server-id=1
 ```
