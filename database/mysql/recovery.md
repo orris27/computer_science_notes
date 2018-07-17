@@ -126,3 +126,18 @@ sudo vim /opt/db_default_bin_bak.sql
 mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bak.sql
 mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bin_bak.sql
 ```
+## 主从
+实际上是备份方案,主MySQL的数据会放到从MySQL的数据里
+### 主MySQL突然宕机怎么办
+1. 切换到slave(分发hosts)
+=>master和slave基本一致但还是有不一致的地方,怎么办?
+#### 解决方法
+1. binlog
+2. 双写
+3. Google开发了一个半同步的工具,就是只有master和slave一致才写入
+
+## 读写分离
+### 实现
+1. 程序控制.比如select语句交给读的服务器.大中型公司
+2. 代理软件.mysql-proxy,amoeba.测试环境
+3. 分布式dbproxy(读写分离,hash负载均衡,健康检查.门户网站
