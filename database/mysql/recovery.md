@@ -78,6 +78,7 @@ egrep -v '#|\/|^$|--' /opt/db_test.sql
 ```
 
 #### 增量备份
+实时备份
 1. 我们不能实时逻辑备份,但我们可以让MySQL自己实时记录我们的每一个更改操作
 2. 数据库需要恢复一般是某个员工的一个错误操作
 3. 在我们逻辑备份后的一段时间内,如果某个瓜皮搞事的话,我们就要恢复数据
@@ -85,8 +86,16 @@ egrep -v '#|\/|^$|--' /opt/db_test.sql
 5. 但是我们不能保证这一期间没有其他操作.比如逻辑备份期间如果也会有记录,增量备份中不能有它.要么停止,要么换个位置,要么我们提前拿出来
 ##### 工具
 1. mysqlbinlog 导出/查看增量备份文件(二进制文件)
++ `-d`:指定数据库(不写`-d`就是所有的数据库都扔进去)
++ `--start-position=N`:指定从binlog的哪个位置开始解析成sql语句
++ `--stop-position=N`:指定到binlog的哪个位置结束解析成sql语句
+- `mysqlbinlog`有个bug,就是每次使用时都会读取MySQL的配置文件,而charset又被认为是错误的=>要么执行前注释掉,要么加`--no-defaults`参数
 ```
-mysqlbinlog -d db_default mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql # -d指明哪个数据库
+mysqlbinlog mysqlbin_orris.000001 # 所有数据库都解析成sql语句,并输出到屏幕上
+mysqlbinlog --no-defaults mysqlbin_orris.000001
+mysqlbinlog -d db_test mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql 
+mysqlbinlog -d db_test mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql 
+mysqlbinlog -d db_test mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql 
 ```
 ##### 实战
 如果将一个表的name属性全变成orris的话,我发现增量备份里面没有这个语句.不知道为什么.
