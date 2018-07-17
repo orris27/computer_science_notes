@@ -334,9 +334,10 @@ select * from index2 limit 2; # 前2行
 select * from index2 limit 3,5; # 第3行开始的5个元组
 ```
 ### 13. 分析
+#### 1. explain
 MySQL中的explain可以分析某个语句的执行计划
-#### 例子
-##### 没有索引
+##### 例子
+###### 没有索引
 ```
 explain select * from index2 where name ='orris'\G
 ```
@@ -357,7 +358,7 @@ possible_keys: NULL # 是否有可用的索引使用,NULL表示没有
         Extra: Using where
 1 row in set, 1 warning (0.00 sec)
 ```
-#### 有索引
+##### 有索引
 ```
 create index index_name on index2(name);
 explain select * from index2 where name ='orris'\G
@@ -379,6 +380,31 @@ possible_keys: index_name
         Extra: Using index
 1 row in set, 1 warning (0.01 sec)
 ```
+#### 2. show status
+显示当前会话数据库的状态
+#### 3. show global status
+显示整个数据库的状态
++ 统计信息
+#### 4. show full processlist
+显示正在执行的SQL完整语句
+#### 5. show variables
+显示参数
+#### 6. set global
+设置全局参数.
+##### 设置永久的参数
+1. `set global`
+2. `my.cnf`
+set global会保证只要不重启MySQL都生效
+```
+# MySQL客户端里
+set global key_buffer_size=1024*1024*32
+# my.cnf里
+key_buffer_size=32M
+```
+
+
+
+
 
 ### 14. 安全模式
 由于表更新时如果少写where等各种原因,我们可能会误伤数据库.所以我们可以以安全模式来登录数据库
