@@ -32,12 +32,25 @@ collation-server = utf8mb4_unicode_ci
 init_connect='SET NAMES utf8mb4'
 
 
-innodb_buffer_pool_size = 1024M
-innodb_log_file_size = 2048M
-innodb_file_per_table = 1
+# 下面的配置好像是和thread有关,我的服务器为1核,所以可能不能用
+#innodb_additional_mem_pool_size = 4M
+#innodb_data_home_dir =
+#innodb_file_io_threads = 4
+#innodb_force_recovery=1
+#innodb_fast_shutdown
+#innodb_log_group_home_dir
+#innodb_flush_method=fdatasync
+#innodb_data_file_path = ibdata1:128M:autoextend
+#innodb_thread_concurrency = 8
 
-
-#innodb_flush_log_at_trx_commit = 0
+innodb_flush_log_at_trx_commit = 2
+innodb_log_buffer_size = 16M
+innodb_log_files_in_group = 3
+innodb_max_dirty_pages_pct = 90
+innodb_lock_wait_timeout = 120
+innodb_buffer_pool_size = 32M
+innodb_log_file_size = 4M 
+innodb_file_per_table = 0 
 
 
 key_buffer_size = 256M
@@ -69,4 +82,7 @@ query_cache_type = 1
 query_cache_size = 256M
 query_cache_limit = 2M
 
+[mysqldump]
+quick 
+max_allowed_packet = 2M
 ```
