@@ -128,13 +128,27 @@ mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bin_bak
 ```
 ## 主从
 实际上是备份方案,主MySQL的数据会放到从MySQL的数据里
+
 ### 主MySQL突然宕机怎么办
 1. 切换到slave(分发hosts)
 =>master和slave基本一致但还是有不一致的地方,怎么办?
+
 #### 解决方法
 1. binlog
 2. 双写
 3. Google开发了一个半同步的工具,就是只有master和slave一致才写入
+
+### 实现
++ slave要配置start slave
++ master=>slave(指定位置到当前的信息以及下一个binlog和binlog的位置)
++ slave的IO线程将获取到的binlog信息写到中继日志中,并将新的binlog和binlog位置写到master-info中
++ slave的SQL线程实时检测中继日志,如果有新添加的内容,就会执行这些SQL语句,并清理应用过的日志
+
+1. slave要启动IO和SQL两个线程
+2. 开始主从前slave要有master之前的完整数据
+3. master要启用binlog
+4. slave
+
 
 ## 读写分离
 ### 实现
