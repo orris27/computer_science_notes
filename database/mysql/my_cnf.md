@@ -46,8 +46,8 @@ log-error = /application/mysql-5.7.22/logs/mysql_error.log
 log-bin = /application/mysql-5.7.22/logs/mysql_bin
 log-bin-index = /application/mysql-5.7.22/logs/mysql_bin.index
 
-#relay-log = /usr/loal/mysql/logs/relay_bin
-#relay-log-info-file = /usr/loal/mysql/logs/relay_log.info
+#relay-log = /application/mysql-5.7.22/logs/relay_bin
+#relay-log-info-file = /application/mysql-5.7.22/logs/relay_log.info
 
 slow_query_log = 1 # 打开慢查询日志功能
 slow_query_log_file = /application/mysql-5.7.22/logs/mysql_slow_query.log
