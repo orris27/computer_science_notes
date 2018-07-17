@@ -15,6 +15,10 @@ default-character-set = utf8mb4
 [mysqld]
 server-id=1
 
+#auto_increment_increment = 2
+#auto_increment_offset = 2 # 2,4,6,...的方式递增,用于master-master的双向同步架构
+
+
 port = 3306
 socket = /application/mysql-5.7.22/tmp/mysql.sock
 pid_file = /application/mysql-5.7.22/run/mysqld.pidid
