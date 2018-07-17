@@ -152,6 +152,23 @@ t_bin_bak.sql
 1. binlog
 2. 双写
 3. Google开发了一个半同步的工具,就是只有master和slave一致才写入
++ 指定一个slave,进行半同步.加入宕机了,就将该slave变成master
+#### slave=>master
+1. 根据master.info,从所有从库中找到同步最好(POS最大)的slave
+2. 确保所有relay-log全部更新完毕
++ 每个slave上执行stop slave io_thread;show processlist;
++ 直到看到Has read all relay log;表示slave更新都执行完毕
+3. 对于选定的slave,执行`stop slave;restart master;quit;`
+4. 进入到数据库数据目录,删除`master.info`,`relay-log.info`
+```
+cd xxx/data
+rm -f master.info relay-log.info
+```
+5. 配置新的master
++ 开启log-bin
++ 删除`log-slave-updates`,readonly等参数
++ 检查授权表
+
 
 ### 实现
 1. 配置文件
