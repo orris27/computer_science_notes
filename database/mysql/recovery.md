@@ -247,25 +247,21 @@ Seconds_Behind_Master: 0 # 落后master的秒数
 => 配置文件错误.应该是`/usr/local`
 
 ### 原理
-类似于搬家工人一样,我们(master)将行李放到行李房(binlog),然后搬家工人(slave的IO)发现有有新的行李,这个新的行李上有指定的房间和位置(binlog的文件和位置),就带到目的地(根据master-info将master的log-bin添加到slave的relay-log中),将,
-+ `master-info`:记录master信息的文件.默认放在数据目录下.和我们在MySQL客户端里change master的内容是一样的.记录的是对应master的log-bin的文件名和偏移量(如果同步一次IO进程就会更新该信息)
+类似于搬家工人一样,我们(master)将行李放到行李房(binlog),然后搬家工人(slave的IO)发现有有新的行李,这个新的行李上有指定的房间和位置(binlog的文件和位置),就带到目的地(根据master-info将master的log-bin添加到slave的relay-log中),目的地有另一个负责人,她发现多了行李,就会根据上面的信息搬到指定的位置
++ `master-info`
+	- 记录master信息的文件
+	- 默认放在数据目录下
+	- 内容=我们在MySQL客户端里的change master
+	- 记录的是对应master的log-bin的文件名和偏移量
+	- 同步一次=>IO进程就会更新master的log-bin的文件名和偏移量
 + `relay-log`
+
 	- 在slave配置文件里的参数
 	- 我们一般设置成`relay_bin`,因为它其实=master的`log-bin`
 	- IO负责写入
+	- SQL会查看
+	- SQL会执行
 
-
-
-+ slave要配置start slave
-+ master=>slave(指定位置到当前的信息以及下一个binlog和binlog的位置)
-+ slave的IO线程将获取到的binlog信息写到中继日志(relay-log)中,并将新的binlog和binlog位置写到master-info中
-+ relay-log给SQL线程用,master-info给IO线程
-+ slave的SQL线程实时检测中继日志,如果有新添加的内容,就会执行这些SQL语句,并清理应用过的日志
-
-1. slave要启动IO和SQL两个线程
-2. 开始主从前slave要有master之前的完整数据
-3. master要启用binlog
-4. slave
 
 
 ## 读写分离
