@@ -71,6 +71,9 @@ max_binlog_cache_size = 1M
 max_binlog_size = 2M
 #log-slave-updates # 如果slave也要做master的话,log-slave-updates和log-bin都要打开
 expire_logs_days = 5 # log-bin的过期时间设置为5天
+#binlog_format = "STATEMENT"
+binlog_format = "ROW"
+#binlog_format = "MIXED"
 
 #replicate-do-db = mysql # 需要slave复制的数据库
 replicate-ignore-db = mysql # 不需要slave复制的数据库(写在master/slave好像都可以)
