@@ -36,6 +36,7 @@ innodb_buffer_pool_size = 1024M
 innodb_log_file_size = 2048M
 innodb_file_per_table = 1
 
+
 #innodb_flush_log_at_trx_commit = 0
 
 
@@ -45,6 +46,13 @@ log-error = /application/mysql-5.7.22/logs/mysql_error.log
 
 log-bin = /application/mysql-5.7.22/logs/mysql_bin
 log-bin-index = /application/mysql-5.7.22/logs/mysql_bin.index
+binlog_cache_size = 1M
+max_binlog_cache_size = 1M
+max_binlog_size = 2M
+replicate-ignore-db = mysql # 这一句才真正不会被slave给同步
+binlog-ignore-db = mysql
+binlog-ignore-db = performance_schema
+binlog-ignore-db = information_schema
 
 #relay-log = /application/mysql-5.7.22/logs/relay_bin
 #relay-log-info-file = /application/mysql-5.7.22/logs/relay_log.info
