@@ -88,8 +88,8 @@ egrep -v '#|\/|^$|--' /opt/db_test.sql
 3. 在我们逻辑备份后的一段时间内,如果某个瓜皮搞事的话,我们就要恢复数据
 4. 通过MySQL记录的增量备份,我们可以看到这段时间内的所有语句.先逻辑备份后增量备份就好了
 5. 但是我们不能保证这一期间没有其他操作.比如逻辑备份期间如果也会有记录,增量备份中不能有它.要么停止,要么换个位置,要么我们提前拿出来
-##### 工具
-1. mysqlbinlog 导出/查看增量备份文件(二进制文件)
+##### mysqlbinlog
+导出/查看增量备份文件(二进制文件)
 + `-d`:指定数据库(不写`-d`就是所有的数据库都扔进去)
 + `--start-position=N`:指定从binlog的哪个位置开始解析成sql语句
 + `--stop-position=N`:指定到binlog的哪个位置结束解析成sql语句
@@ -101,6 +101,27 @@ mysqlbinlog -d db_test mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql
 mysqlbinlog -d db_test mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql 
 mysqlbinlog -d db_test mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql 
 ```
+##### log-bin参数
+###### 模式
+1. Statement Level
++ 日志小
++ 难复制一些新的函数
+2. Row Level
++ 按照行来记录语句.如一条update可能分成很多语句
++ 可以解决Statement Level一些难以解决的问题
++ 日志很大
+3. Mixed
++ Statement Level+Row Level
++ 根据语句判断什么时候使用Statement Level,什么时候使用Row Level
+###### 更改模式
+1. `set global binlog_format="STATEMENT";`
+2. 
+```
+#binlog_format = "STATEMENT"
+binlog_format = "ROW"
+#binlog_format = "MIXED"
+```
+
 ##### 实战
 ###### 1. 1个MySQL,没有主从,允许停机,只恢复db_test
 定时备份,然后增量.发现问题时,停止写入.根据全量备份的`--master-data=2`的参数获得binlog起点,刷新binlog得到终点.删除binlog中的错误操作.全量+增量(如果将一个表的name属性全变成orris的话,我发现增量备份里面没有这个语句.不知道为什么)
