@@ -63,10 +63,10 @@ binlog_cache_size = 1M
 max_binlog_cache_size = 1M
 max_binlog_size = 2M
 
-replicate-do-db = mysql # 需要slave复制的数据库
+#replicate-do-db = mysql # 需要slave复制的数据库
 replicate-ignore-db = mysql # 不需要slave复制的数据库(写在master/slave好像都可以)
 
-# binlog-do-db =  # log-bin记录该数据库的日志
+#binlog-do-db =  # log-bin记录该数据库的日志
 binlog-ignore-db = mysql # log-bin不要记录该数据库的日志
 binlog-ignore-db = performance_schema
 binlog-ignore-db = information_schema
