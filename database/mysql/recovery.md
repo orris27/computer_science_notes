@@ -136,7 +136,10 @@ mysqlbinlog -d db_default mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql
 sudo vim /opt/db_default_bin_bak.sql
 
 mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bak.sql
-mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bin_bak.sql
+mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_defaul
+逻辑导出sql语句,然后逻辑导出
+
+t_bin_bak.sql
 ```
 ## 2. 主从同步
 实际上是备份方案,主MySQL的数据会放到从MySQL的数据里
@@ -269,7 +272,18 @@ Seconds_Behind_Master: 0 # 落后master的秒数
 
 
 --------
-## 我要提问...
+## 问题
 #### 1. 如果我锁表了,那么其他人如果执行修改语句,这条语句会处于等待状态,等我解除锁表后,是不是她的语句就能执行了?
 #### 2. 如果master换了个log-bin文件,slave能知道吗?
-#### 
+#### 3.如果我在master这里创建了一个用户,那么slave里会有这个用户吗?
+会的.本质:用户<=>mysql.user.同步mysql这个数据库=>同步用户.
+##### 不同步所有数据库
+在master的参数里说明哪些数据库不同步
+```
+replicate-ignore-db = mysql # 这一句才真正不会被slave给同步
+binlog-ignore-db=mysql
+binlog-ignore-db=performance_schema
+binlog-ignore-db=information_schema
+```
+#### 4. 如果master重启MySQL,那么slave还能检测到吗?
+还能正常工作
