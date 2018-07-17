@@ -37,6 +37,7 @@ innodb_file_per_table = 1
 key_buffer_size = 256M
 
 log-error = /application/mysql-5.7.22/logs/mysql_error.log
+log-bin = /application/mysql-5.7.22/logs/mysql_bin
 
 
 slow_query_log = 1 # 打开慢查询日志功能
