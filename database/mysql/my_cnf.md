@@ -56,6 +56,9 @@ innodb_file_per_table = 0
 key_buffer_size = 256M
 
 log-error = /application/mysql-5.7.22/logs/mysql_error.log
+skip-name-resolve
+slave-skip-errors = 1032, 1062, 1007
+
 
 log-bin = /application/mysql-5.7.22/logs/mysql_bin
 log-bin-index = /application/mysql-5.7.22/logs/mysql_bin.index
