@@ -37,7 +37,10 @@ mysqldump --user=root --all-databases --flush-privileges --single-transaction \
 --hex-blob > $BACKUP_DIR/full_dump_$BACKUP_TIMESTAMP.sql
 ```
 #### 备份
-备份db_test数据库
+备份db_test数#log-bin = /usr/local/mysql/binlogs/mysql-bin
+relay-log = /usr/loal/mysql/logs/relay-bin
+relay-log-info-file = /usr/loal/mysql/logs/relay-log.info
+据库
 ```
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -p db_test
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -p db_test table_test1 table_test2 # 不加-B的话,可以只备份一个表(前面是库,后面都是表)(从create table开始备份)
@@ -46,7 +49,10 @@ mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test > /opt/db_test.sql
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test | gzip > /opt/db_test.sql.gz # 推荐
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test db_test2 | gzip > /opt/db_test.sql.gz # 推荐
 ```
-#### 分库备份
+#### 分库备份#log-bin = /usr/local/mysql/binlogs/mysql-bin
+relay-log = /usr/loal/mysql/logs/relay-bin
+relay-log-info-file = /usr/loal/mysql/logs/relay-log.info
+
 将不同的库备份到各自对应的文件,这样以后可以方便局部还原
 1. 
 ```
@@ -55,7 +61,10 @@ mysql -uroot -S /data/3307/tmp/mysql.sock -p'pwd' -e 'show databases;' | egrep -
 ```
 2. 
 ```
-#! /bin/sh
+#! /bin/sh#log-bin = /usr/local/mysql/binlogs/mysql-bin
+relay-log = /usr/loal/mysql/logs/relay-bin
+relay-log-info-file = /usr/loal/mysql/logs/relay-log.info
+
 for dbname in `/application/mysql/bin/mysql -uroot -S /data/3307/tmp/mysql.sock -p'pwd' -e 'show databases;' | egrep -vi 'Database|infor|perfor'`
 do
 	/application/mysql/bin/mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p'pwd' ${dbname} | gzip > /opt/bak/${dbname}.sql.gz
@@ -73,7 +82,10 @@ gzip -d db_test.sql.gz
 mysql -uroot -S /data/3307/tmp/mysql.sock -p < /opt/db_test.sql # 推荐
 ```
 #### 查看
-```
+```#log-bin = /usr/local/mysql/binlogs/mysql-bin
+relay-log = /usr/loal/mysql/logs/relay-bin
+relay-log-info-file = /usr/loal/mysql/logs/relay-log.info
+
 egrep -v '#|\/|^$|--' /opt/db_test.sql
 ```
 
@@ -126,7 +138,7 @@ sudo vim /opt/db_default_bin_bak.sql
 mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bak.sql
 mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bin_bak.sql
 ```
-## 主从
+## 主从同步
 实际上是备份方案,主MySQL的数据会放到从MySQL的数据里
 
 ### 主MySQL突然宕机怎么办
@@ -141,17 +153,28 @@ mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bin_bak
 ### 实现
 1. 配置文件
 + master打开log-bin
+```
+log-bin = /application/mysql-5.7.22/logs/mysql_bin
+log-bin-index = /application/mysql-5.7.22/logs/mysql_bin.index
+```
 + slave打开relay-log
+```
+relay-log = /usr/loal/mysql/logs/relay-bin
+relay-log-info-file = /usr/loal/mysql/logs/relay-log.info
+```
 + slave关闭log-bin
+```
+#log-bin = /usr/local/mysql/binlogs/mysql-bin
+```
 + master和slave的server-id设置成不一样(ip等区分)
 
 2. master建立从库复制的账号
 ```
 grant replication slave on *.* to 'rep'@' 172.19.28.%' identified by 'rep123';
-flush privileges;
+flush privileges;tongbu
 ```
 
-3. 为master加锁
+3. 为master加锁(master不要退出MySQL的客户端,直到解锁为止)
 ```
 flush table with read lock;
 ```
@@ -162,7 +185,7 @@ show master status;
 show master logs;
 ```
 
-4. 逻辑导出所有数据库的SQL语句
+4. 逻辑导出所有数据库的SQL语句(重开命令行窗口)
 ```
 mysqldump -uroot -p'pwd' -S /data/3306/mysql.sock -A -B --events | gzip >/opt/rep.sql.gz
 ```
@@ -198,7 +221,7 @@ MASTER_HOST='172.19.28.82',
 MASTER_PORT=3306,
 MASTER_USER='rep',
 MASTER_PASSWORD='rep123',
-MASTER_LOG_FILE='mysql_bin.0000x', #如果--master-data=1的话,就不用写这句和下句了.根据上面show master status填
+MASTER_LOG_FILE='mysql_bin.00000x', #如果--master-data=1的话,就不用写这句和下句了.根据上面show master status填
 MASTER_LOG_POS=xx; #根据上面show master status填
 ```
 
@@ -211,13 +234,27 @@ start slave;
 10. 检查slave是否正常工作
 ```
 # MySQL client:
-show slave status;
+show slave status\G
 ####
 Slave_IO_Running: Yes
 Slave_SQL_Runing: Yes
 Seconds_Behind_Master: 0 # 落后master的秒数
 #### 
 ```
+
+### 错误
+1. `File '/usr/loal/mysql/logs/relay-bin.index' not found (Errcode: 2 - No such file or directory)`
+=> 配置文件错误.应该是`/usr/local`
+
+### 原理
+类似于搬家工人一样,我们(master)将行李放到行李房(binlog),然后搬家工人(slave的IO)发现有有新的行李,这个新的行李上有指定的房间和位置(binlog的文件和位置),就带到目的地(根据master-info将master的log-bin添加到slave的relay-log中),将,
++ `master-info`:记录master信息的文件.默认放在数据目录下.和我们在MySQL客户端里change master的内容是一样的.记录的是对应master的log-bin的文件名和偏移量(如果同步一次IO进程就会更新该信息)
++ `relay-log`
+	- 在slave配置文件里的参数
+	- 我们一般设置成`relay_bin`,因为它其实=master的`log-bin`
+	- IO负责写入
+
+
 
 + slave要配置start slave
 + master=>slave(指定位置到当前的信息以及下一个binlog和binlog的位置)
