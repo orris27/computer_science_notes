@@ -1,10 +1,11 @@
-### MySQL 5.7.22
+## MySQL 5.7.22
 + socket文件:`/application/mysql-5.7.22/tmp/mysql.sock`
 + pid文件:`/application/mysql-5.7.22/run/mysqld.pid`
 + 数据目录:`/application/mysql-5.7.22/data`
 + 日志目录:`/application/mysql-5.7.22/logs`
-注意:
+### 注意
 1. 如果要配置`log-bin`的话,一定要写上`server-id`
+### my.cnf
 ```
 [client]
 port = 3306
