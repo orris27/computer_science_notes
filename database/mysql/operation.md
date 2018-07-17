@@ -393,14 +393,18 @@ possible_keys: index_name
 设置全局参数.
 ##### 设置永久的参数
 1. `set global`
++ set global会保证只要不重启MySQL都生效.
++ 字符串赋值要双引号,如`set global binlog_format="STATEMENT";`
++ 退出MySQL当前会话再`show variables`才能看到变化
 2. `my.cnf`
-set global会保证只要不重启MySQL都生效
 ```
 # MySQL客户端里
 set global key_buffer_size=1024*1024*32
 # my.cnf里
 key_buffer_size=32M
 ```
+#### 6. set session
+设置当前会话的参数
 
 
 
