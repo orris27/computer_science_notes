@@ -8,7 +8,7 @@
 4. `-d`:只备份表结构
 5. `-t`:只备份数据
 6. `-F`:在导出备份的数据时,切割binlog
-7. `--master-data=1`:在输出信息中指定从哪个binlog的哪个位置开始.`=2`的话就是变成注释
+7. `--master-data=1`:在输出信息中指定从哪个binlog的哪个位置开始.slave就可以不用添加MASTER_LOG_FILE和MASTER_LOG_POS的信息了.`=2`的话就是变成注释
 8. `-x`:锁所有表
 9. `-l`: Lock all tables for read
 10. `--single-transaction`: 适合InnoDB事务数据库备份.在备份期间如果有人修改数据库的话,备份过程不会理会
@@ -139,9 +139,90 @@ mysql -uroot -S /data/3307/tmp/mysql.sock  db_default -p</opt/db_default_bin_bak
 3. Google开发了一个半同步的工具,就是只有master和slave一致才写入
 
 ### 实现
+1. 配置文件
++ master打开log-bin
++ slave打开relay-log
++ slave关闭log-bin
++ master和slave的server-id设置成不一样(ip等区分)
+
+2. master建立从库复制的账号
+```
+grant replication slave on *.* to 'rep'@' 172.19.28.%' identified by 'rep123';
+flush privileges;
+```
+
+3. 为master加锁
+```
+flush table with read lock;
+```
+
+4. 拿到点
+```
+show master status;
+show master logs;
+```
+
+4. 逻辑导出所有数据库的SQL语句
+```
+mysqldump -uroot -p'pwd' -S /data/3306/mysql.sock -A -B --events | gzip >/opt/rep.sql.gz
+```
+
+5. 再拿到点,检查点是否变化
++ 如果和上面一致,说明备份完整了
+```
+show master status;
+```
+
+6. 给master打开锁
+```
+unlock tables;
+```
+
+7. 将导出的SQL语句传给slave服务器
+```
+rsync -avz -e 'ssh' /opt/rep.sql.gz orris@172.19.28.83:/home/orris/sql/
+```
+
+7. slave处导入SQL语句
+```
+gzip -d /home/orris/sql/rep.sql.gz
+mysql -uroot -p'pwd' < /home/orris/sql/rep.sql
+```
+
+8. slave处在MySQL的客户端里配置master的信息(信息会记录在对应MySQL实例的数据目录下的`master.info`里)
+```
+mysql -uroot -p'pwd'
+###
+CHANGE MASTER TO
+MASTER_HOST='172.19.28.82',
+MASTER_PORT=3306,
+MASTER_USER='rep',
+MASTER_PASSWORD='rep123',
+MASTER_LOG_FILE='mysql_bin.0000x', #如果--master-data=1的话,就不用写这句和下句了.根据上面show master status填
+MASTER_LOG_POS=xx; #根据上面show master status填
+```
+
+9. slave打开开关
+```
+# MySQL client:
+start slave;
+```
+
+10. 检查slave是否正常工作
+```
+# MySQL client:
+show slave status;
+####
+Slave_IO_Running: Yes
+Slave_SQL_Runing: Yes
+Seconds_Behind_Master: 0 # 落后master的秒数
+#### 
+```
+
 + slave要配置start slave
 + master=>slave(指定位置到当前的信息以及下一个binlog和binlog的位置)
-+ slave的IO线程将获取到的binlog信息写到中继日志中,并将新的binlog和binlog位置写到master-info中
++ slave的IO线程将获取到的binlog信息写到中继日志(relay-log)中,并将新的binlog和binlog位置写到master-info中
++ relay-log给SQL线程用,master-info给IO线程
 + slave的SQL线程实时检测中继日志,如果有新添加的内容,就会执行这些SQL语句,并清理应用过的日志
 
 1. slave要启动IO和SQL两个线程
