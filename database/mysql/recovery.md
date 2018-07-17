@@ -107,15 +107,17 @@ mysqlbinlog -d db_test mysqlbin_orris.000001 > /opt/db_default_bin_bak.sql
 0. 假定MySQL已经开启log-bin
 1. 先备份数据库db_test
 2. 各种操作+删除了db_test
-3. 停止写入数据库
+3. 停止写入数据库(防火墙或者锁表)
 4. 获取log-bin的起点和终点
 5. 在增量备份中去掉之前那个骚操作
 6. 逻辑备份+增量备份
-```
-# 定时的全量备份
-mysqldump -uroot -B db_test -S /data/3307/tmp/mysql.sock -p --master-data=2 --single-transaction | gzip >/opt/db_test.sql.gz
 
-# 一些操作
++ 定时的全量备份
+```
+mysqldump -uroot -B db_test -S /data/3307/tmp/mysql.sock -p --master-data=2 --single-transaction | gzip >/opt/db_test.sql.gz
+```
++ 一些操作
+```
 mysql -uroot -p -S /data/3307/tmp/mysql.sock
 ###
 create table db_test;
@@ -125,25 +127,46 @@ insert into table_test values(1);
 drop database db_test;
 exit;
 ###
-
-# 发现问题,只能暂停写入了
+```
++ 发现问题,只能暂停写入了
+```
 mysql -uroot -p -S /data/3307/tmp/mysql.sock
 ###
 flush table with read lock;
 ###
-
-# 获得增量备份的起点和终点
+```
++ 获得增量备份的起点和终点
+```
 mysqladmin -S /data/3307/tmp/mysql.sock -uroot -p flush-log
 gzip -d db_test.sql.gz
 grep -i 'change' db_test.sql
 # -- CHANGE MASTER TO MASTER_LOG_FILE='mysql_bin.000001', MASTER_LOG_POS=2871;
-
-# 获取增量备份
-mysqlbinlog -d db_test mysqlbin_orris.000001 > /opt/db_test_bin.sql
-# 删除误操作
+```
++ 获取增量备份
+```
+mysqlbinlog --no-defaults --start-position=2871 -d db_test /data/3307/logs/mysql_bin.000001 > /opt/db_test_bin.sql
+```
++ 删除误操作
+```
 sudo vim /opt/db_test_bin.sql
-# 用全量+增量恢复
-mysql -uroot -S /data/3307/tmp/mysql.sock  db_test -p</opt/db_test.sql
+# 将drop 操作下面的内容删除
+#drop database student
+#/*!*/;
+#SET @@SESSION.GTID_NEXT= 'AUTOMATIC' /* added by mysqlbinlog */ /*!*/;
+#DELIMITER ;
+#/*!50003 SET COMPLETION_TYPE=@OLD_COMPLETION_TYPE*/;
+#/*!50530 SET @@SESSION.PSEUDO_SLAVE_MODE=0*/;
+```
++ 解锁
+```
+mysql -uroot -p -S /data/3307/tmp/mysql.sock
+###
+unlock tables;
+###
+```
++ 用全量+增量恢复
+```
+mysql -uroot -S /data/3307/tmp/mysql.sock -p < /opt/db_test.sql
 mysql -uroot -S /data/3307/tmp/mysql.sock  db_test -p</opt/db_test_bin.sql
 逻辑导出sql语句,然后逻辑导出
 ```
