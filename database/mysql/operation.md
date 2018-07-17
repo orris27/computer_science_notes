@@ -386,7 +386,7 @@ possible_keys: index_name
 显示整个数据库的状态
 + 统计信息
 #### 4. show full processlist
-显示正在执行的SQL完整语句
+显示正在执行的SQL完整语句.如master/slave的情况
 #### 5. show variables
 显示参数
 #### 6. set global
