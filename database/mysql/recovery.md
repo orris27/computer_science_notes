@@ -42,9 +42,9 @@ mysqldump --user=root --all-databases --flush-privileges --single-transaction \
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -p db_test
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -p db_test table_test1 table_test2 # 不加-B的话,可以只备份一个表(前面是库,后面都是表)(从create table开始备份)
 # mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test
-mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test > /opt/db_test.sql # 推荐
-# mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test | gzip > /opt/db_test.sql.gz # 我不知道要怎么用
-# mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test db_test2 | gzip > /opt/db_test.sql.gz # 我不知道要怎么用
+mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test > /opt/db_test.sql 
+# mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test | gzip > /opt/db_test.sql.gz # 推荐
+# mysqldump -uroot -S /data/3307/tmp/mysql.sock -B -p db_test db_test2 | gzip > /opt/db_test.sql.gz # 推荐
 ```
 #### 分库备份
 将不同的库备份到各自对应的文件,这样以后可以方便局部还原
@@ -63,7 +63,13 @@ done
 ```
 #### 还原(-B)
 使用`-B`导出的sql文件会自动创建数据库并使用数据库,因此导出时不用指定数据库
+1. 没有压缩
 ```
+mysql -uroot -S /data/3307/tmp/mysql.sock -p < /opt/db_test.sql 
+```
+2.压缩
+```
+gzip -d db_test.sql.gz
 mysql -uroot -S /data/3307/tmp/mysql.sock -p < /opt/db_test.sql # 推荐
 ```
 #### 查看
