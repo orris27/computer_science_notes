@@ -247,7 +247,7 @@ Seconds_Behind_Master: 0 # 落后master的秒数
 => 配置文件错误.应该是`/usr/local`
 
 ### 原理
-类似于搬家工人一样,我们(master)将行李放到行李房(binlog),然后搬家工人(slave的IO)发现有有新的行李,这个新的行李上有指定的房间和位置(binlog的文件和位置),就带到目的地(根据master-info将master的log-bin添加到slave的relay-log中),目的地有另一个负责人,她发现多了行李,就会根据上面的信息搬到指定的位置
+类似于搬家工人一样,我们(master)将行李放到行李房(binlog),然后搬家工人(slave的IO)发现有有新的行李,这个新的行李上有指定的房间和位置(binlog的文件和位置),就带到目的地(根据master-info将master的log-bin添加到slave的relay-log中),目的地有另一个负责人,她发现多了行李,就会根据上面的信息搬到指定的位置. master确认slave的信息是自己的主进程来完成的.
 + `master-info`
 	- 记录master信息的文件
 	- 默认放在数据目录下
@@ -255,13 +255,14 @@ Seconds_Behind_Master: 0 # 落后master的秒数
 	- 记录的是对应master的log-bin的文件名和偏移量
 	- 同步一次=>IO进程就会更新master的log-bin的文件名和偏移量
 + `relay-log`
-
 	- 在slave配置文件里的参数
 	- 我们一般设置成`relay_bin`,因为它其实=master的`log-bin`
 	- IO负责写入
 	- SQL会查看
 	- SQL会执行
-
++ `relay-log-info-file`
+	- 记录`relay-log`的文件名和位置
+	- 记录master的log-bin的文件名和位置
 
 
 ## 读写分离
