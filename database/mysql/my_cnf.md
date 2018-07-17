@@ -17,7 +17,7 @@ server-id=1
 
 #auto_increment_increment = 2
 #auto_increment_offset = 2 # 2,4,6,...的方式递增,用于master-master的双向同步架构
-
+#autocommit = ON # 自动提交每一句SQL语句.如果OFF了,只有commit执行后才会写入磁盘,否则一直在内存.一旦退出会话,再进去就会消失
 
 port = 3306
 socket = /application/mysql-5.7.22/tmp/mysql.sock
