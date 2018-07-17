@@ -11,7 +11,7 @@
 7. `--master-data=1`:在输出信息中指定从哪个binlog的哪个位置开始.slave就可以不用添加MASTER_LOG_FILE和MASTER_LOG_POS的信息了.`=2`的话就是变成注释
 8. `-x`:锁所有表
 9. `-l`: Lock all tables for read
-10. `--single-transaction`: 适合InnoDB事务数据库备份.在备份期间如果有人修改数据库的话,备份过程不会理会
+10. `--single-transaction`: 适合InnoDB事务数据库备份.在备份期间如果有人修改数据库的话,备份过程不会理会.就是ACID中的I(隔离性)
 ##### 生产环境推荐
 ###### 常规备份
 `--master-data`选1或2根据自己习惯.下面给出的是整理所有的数据库
