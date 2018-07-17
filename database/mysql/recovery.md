@@ -92,6 +92,8 @@ egrep -v '#|\/|^$|--' /opt/db_test.sql
 导出/查看增量备份文件(二进制文件)
 + `-d`:指定数据库(不写`-d`就是所有的数据库都扔进去)
 + `--start-position=N`:指定从binlog的哪个位置开始解析成sql语句
++ `--no-defaults`:不读取配置文件,直接执行
++ `--base64-output="DECODE-ROWS" -v`:两个参数配合起来,可以解析ROW模式下的log-bin文件
 + `--stop-position=N`:指定到binlog的哪个位置结束解析成sql语句
 - `mysqlbinlog`有个bug,就是每次使用时都会读取MySQL的配置文件,而charset又被认为是错误的=>要么执行前注释掉,要么加`--no-defaults`参数
 ```
@@ -124,7 +126,7 @@ binlog_format = "ROW"
 
 ##### 实战
 ###### 1. 1个MySQL,没有主从,允许停机,只恢复db_test
-定时备份,然后增量.发现问题时,停止写入.根据全量备份的`--master-data=2`的参数获得binlog起点,刷新binlog得到终点.删除binlog中的错误操作.全量+增量(如果将一个表的name属性全变成orris的话,我发现增量备份里面没有这个语句.不知道为什么)
+定时备份,然后增量.发现问题时,停止写入.根据全量备份的`--master-data=2`的参数获得binlog起点,刷新binlog得到终点.删除binlog中的错误操作.全量+增量
 0. 假定MySQL已经开启log-bin
 1. 先备份数据库db_test
 2. 各种操作+删除了db_test
@@ -383,4 +385,12 @@ binlog-ignore-db=information_schema
 ```
 #### 4. 如果master重启MySQL,那么slave还能检测到吗?
 还能正常工作
+#### 5. 如果将一个表的name属性全变成orris的话,我发现增量备份里面没有这个语句.不知道为什么
+因为增量模式设置成ROW了.所以会把update给拆分成很多行级语句.直接用`mysqlbinlog`的话是会乱码的.
+##### 解决方法
+使用`mysqlbinlog --base64-output=DECODE-ROWS -v`可以查看ROW模式下的bin
+```
+sudo mysqlbinlog --no-defaults --base64-output="DECODE-ROWS" -v /data/3307/logs/mysql_bin.000004
+```
+`
 
