@@ -2,7 +2,8 @@
 ### 思路
 #### 1. 查找原因
 1. 在MySQL中使用`show full processlist`
-2. uptime
+2. `uptime`
+3. `top`+`strace -p 14094`
 #### 2. 根据原因解决问题
 ### 1. MySQL的`like '%杜冷丁%'`这样的语句太多
 #### 分析
