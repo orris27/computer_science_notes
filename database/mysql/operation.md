@@ -74,6 +74,7 @@ mysql -uroot -S /data/3307/tmp/mysql.sock -p
 ```
 mysql -uroot -S /data/3307/tmp/mysql.sock -p
 # alias mysql='mysql -S /data/3307/tmp/mysql.sock' # 设置别名,免去写sock的麻烦
+# unalias mysql # 取消别名
 # mysql -uroot -p
 ```
 #### 4-1. 创建数据库
