@@ -47,20 +47,35 @@ init_connect='SET NAMES utf8mb4'
 #innodb_data_file_path = ibdata1:128M:autoextend
 #innodb_thread_concurrency = 8
 
-innodb_flush_log_at_trx_commit = 2
+# Set this option if you would like the InnoDB tablespace files to be
+# stored in another location. By default this is the MySQL datadir.
+#innodb_data_home_dir = <directory>
+
+# If set to 1, InnoDB will flush (fsync) the transaction logs to the
+# disk at each commit, which offers full ACID behavior. If you are
+# willing to compromise this safety, and you are running small
+# transactions, you may set this to 0 or 2 to reduce disk I/O to the
+# logs. Value 0 means that the log is only written to the log file and
+# the log file flushed to disk approximately once per second. Value 2
+# means the log is written to the log file at each commit, but the log
+# file is only flushed to disk approximately once per second.
+innodb_flush_log_at_trx_commit = 2 # 设置成1的话,严格符合ACID
+
 innodb_log_buffer_size = 16M
-innodb_log_files_in_gr
-..		
-charset.md	Update charset.md	a day ago
-installation.mdoup = 3
+innodb_log_files_in_group = 3
 innodb_max_dirty_pages_pct = 90
 innodb_lock_wait_timeout = 120
-innodb_buffer_pool_size = 32M
+# InnoDB最重要的参数.设置InnoDB存储索引和数据的缓冲区大小.
+# 官方建议设置为内存的50%-80%,但是一般最高还是设置成2G会好.
+# show variables like 'innodb_buffer%';可以查看buffer_pool的情况
+# data/ib_buffer_pool就是我们设置的buffer_pool的大小
+# show status like 'innodb_buffer_pool%';可以查看buffer_pool_size的状态
+innodb_buffer_pool_size = 32M 
 innodb_log_file_size = 4M 
 innodb_file_per_table = 0 
 
 
-key_buffer_size = 256M
+key_buffer_size = 256M # MyISAM的重要参数,指定MyISAM用来缓存索引的大小
 
 log-error = /application/mysql-5.7.22/logs/mysql_error.log
 skip-name-resolve
