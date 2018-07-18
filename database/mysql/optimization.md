@@ -29,6 +29,7 @@ insert into test values(1,'orris'),(2,'mirai');
 4. web连接数据库的话,只能使用特定用户
 5. 设置指定用户访问权限层次,Web层使用Apache/Nginx用户验证,数据库层使用MySQL用户登录验证
 6. 统一所有数据库账户登录入口地址,禁止所有开发人员私自上传phpadmin等数据库管理程序
++ phpmyadmin是MySQl的图形化Web管理工具,可以放在Nginx/Apache里面,从而管理MySQL
 
 ### 7. 硬件优化
 1. CPU和内存 8-16核CPU(64G-128G,3-4个实例)|2-4核CPU(32G-64G,2个实例)
