@@ -46,7 +46,7 @@ init_connect='SET NAMES utf8mb4'
 #innodb_fast_shutdown
 #innodb_log_group_home_dir
 #innodb_flush_method=fdatasync
-#innodb_data_file_path = ibdata1:128M:autoextend
+#innodb_data_file_path = ibdata1:128M:autoextend # InnoDB的数据文件,一开始初始化是128M,以后自动扩展
 #innodb_thread_concurrency = 8
 
 # Set this option if you would like the InnoDB tablespace files to be
