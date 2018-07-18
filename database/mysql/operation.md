@@ -299,7 +299,8 @@ show index from table1\G;
 *************************** 1. row ***************************
         Table: index1
    Non_unique: 0 # 是否为唯一索引
-     Key_name: PRIMARY # 索引名字,我们可以在这里查看
+     Key_name: PRIMARY # 索proxy,amoeba.测试环境
+引名字,我们可以在这里查看
  Seq_in_index: 1
   Column_name: id
     Collation: A
@@ -446,6 +447,8 @@ mysql -uroot -S /data/3307/tmp/mysql.sock -p <2.sql
 #### 实现
 1. 程序控制.比如select语句交给读的服务器.大中型公司
 2. 代理软件.mysql-proxy,amoeba.测试环境
++ 代理软件一般都是代理很多对象,然后把自己伪装成这些对象.真正的对象放在池/集合里,然后调用时根据自己的一套算法来调用
++ amoeba本质上是自己开个3306进程,伪装成数据库.然后我们把真正的数据库加到她的配置文件里,这样我们访问的时候就通过amoeba来访问数据库
 3. 分布式dbproxy(读写分离,hash负载均衡,健康检查.门户网站
 
 #### 授权方案
