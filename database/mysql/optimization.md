@@ -20,3 +20,12 @@ insert into test values(1,'orris'),(2,'mirai');
 
 ### 5. 设置权限时采用最小权限
 增删改查(insert,delete,update,select)就足够了
+
+### 6. 安全
+#### 6-1. 客户端访问控制
+1. 更改client端口
+2. 数据库web client端统一部署在1-2台不对外服务的web上,限制ip及端口,只能从办公室内网访问
+3. 不做公网域名解析,用hosts实现访问,限制ip直接访问,或者用内网ip访问
+4. web连接数据库的话,只能使用特定用户
+5. 设置指定用户访问权限层次,Web层使用Apache/Nginx用户验证,数据库层使用MySQL用户登录验证
+6. 统一所有数据库账户登录入口地址,禁止所有开发人员私自上传phpadmin等数据库管理程序
