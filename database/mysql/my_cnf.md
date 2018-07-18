@@ -28,7 +28,7 @@ datadir = /application/mysql-5.7.22/data
 default_storage_engine = InnoDB
 max_allowed_packet = 512M
 max_connections = 2048
-open_files_limit = 65535
+open_files_limit = 65535 # 打开文件的数量,可以调大点
 
 skip-name-resolve
 lower_case_table_names=1
@@ -104,19 +104,24 @@ binlog-ignore-db = performance_schema
 binlog-ignore-db = information_schema
 
 #relay-log = /application/mysql-5.7.22/logs/relay_bin
-#relay-log-info-file = /application/mysql-5.7.22/logs/relay_log.info
+#relay-log-info-file = /application/mysql-5.7.22/logs/relay_bin.info
 
 slow_query_log = 1 # 打开慢查询日志功能
 slow_query_log_file = /application/mysql-5.7.22/logs/mysql_slow_query.log
 long_query_time = 2 # 超过2秒的查询记录下来
 
 
-tmp_table_size = 128M
-max_heap_table_size = 32M
+tmp_table_size = 256M
+max_heap_table_size = 256M
 #query_cache_type = 0
 query_cache_type = 1
-query_cache_size = 256M
-query_cache_limit = 2M
+query_cache_size = 64M # MySQL的缓存不是特别好,我们宁可选择memcache做缓存,所以这里就小点好
+query_cache_limit = 4M
+query_cache_min_res_unit = 2K
+
+read_buffer_size = 1M
+sort_buffer_size = 2M
+join_buffer_size = 2M # 这些都是针对一个线程来说的,所以调小点就行了
 
 [mysqldump]
 quick 
