@@ -39,4 +39,7 @@ sudo /application/nginx/sbin/nginx
 sudo /application/nginx/sbin/nginx -t
 sudo /application/nginx/sbin/nginx -s reload
 ```
+### 问题
+#### 1. nginx: [error] invalid PID number "" in "/application/nginx-1.14.0/logs/nginx.pid"
+没有启动Nginx,使用`sudo nginx`就行了
 
