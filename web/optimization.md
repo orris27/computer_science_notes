@@ -19,8 +19,11 @@
 
 ## 2. 会话保持
 1. 将会话集中存储到一个地方=>memcache{通知>广播}
-+ 会话的存储地方是一个参数=>配置文件里配置会话的存储(比如PHP)
++ 会话的存储地方是一个参数=>配置文件里配置会话的存储(比如PHP){I}
+> https://github.com/orris27/orris/blob/master/php/optimization.md
 2. 互相推送会话{通知>交谈}
++ 软件层可以做session复制
++ tomcat,resin,couchbase
 3. 从数据库中更新到每个服务器相应的会话信息{通知>传单}
 4. 使用cookies(效率优于memcache,大网站一般都是用cookies保持会话)
 
