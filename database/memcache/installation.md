@@ -6,12 +6,14 @@
 1. 是否有`so`文件
 ```
 ll /application/php/lib/php/extensions/no-debug-zts-20131226/
+# ll /application/php/lib/php/extensions/no-debug-non-zts-20131226/ # 根据PHP不同编译情况,会有差别
 ```
 2. 是否配置了memcache
 + `extension_dir`目录下是否有so文件
+- `extension_dir = "/application/php/lib/php/extensions/no-debug-non-zts-20131226/"`
 + 如果配置session的话,`php.ini`中的`session.save_handler`和`session.save_path`是否调整好
 - `session.save_handler = memcache`
-- `session.save_path = "tcp://10.0.0.7:11211"`
+- `session.save_path = "tcp://172.19.28.82:11211"`
 ## 2. 服务端
 ```
 sudo yum install libevent-devel -y
