@@ -70,7 +70,7 @@ innodb_lock_wait_timeout = 120
 # show variables like 'innodb_buffer%';可以查看buffer_pool的情况
 # data/ib_buffer_pool就是我们设置的buffer_pool的大小
 # show status like 'innodb_buffer_pool%';可以查看buffer_pool_size的状态
-innodb_buffer_pool_size = 32M 
+innodb_buffer_pool_size = 1G
 innodb_log_file_size = 4M 
 innodb_file_per_table = 0 
 
