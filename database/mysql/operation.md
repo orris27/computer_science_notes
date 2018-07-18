@@ -454,10 +454,10 @@ mysql -uroot -S /data/3307/tmp/mysql.sock -p <2.sql
 read-only参数
 1. master上创建一个web用户,可以增删改查,然后slave上也建一个同名用户(或者同步?),但是撤销增删改的权限
 + 利于开发
++ 如果同步mysql这个数据库的话,要么master上添加的用户会被同步到slave里,这时候slave可以revoke或者删除重新注册一个同名的用户
 2. master上创建一个web_w用户,而slave上创建一个web_r用户
 + 多套账密,不专业
 3. 不同步的情况下:可写服务器上建一个web用户,可以增删改查;而只读服务器上也建一个同名用户,只能查
-+ 
 
 ---------
 ## 问题
