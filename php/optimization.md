@@ -247,8 +247,18 @@ allow_url_fopen=Off
 cgi.fix_pathinfo=0 # 防止Nginx文件类型错误解析漏洞
 ```
 ### 10. 调整session存放位置(会话保持)
-默认是`/tmp`下的
+1. 安装`memcache`模块
+2. 配置文件中添加模块的目录
+3. 配置session参数
+#### 检验
+1. 是否有`so`文件
 ```
-session.save_handler=memcache
-session.save_path="tcp://10.0.0.18:11211" # 共享缓存的位置,从而实现会话保持.memcached的数据库缓存的ip和端口.适合LNMP和LAMP
+ll /application/php/lib/php/extensions/no-debug-zts-20131226/
+# ll /application/php/lib/php/extensions/no-debug-non-zts-20131226/ # 根据PHP不同编译情况,会有差别
 ```
+2. 是否配置了memcache
++ `extension_dir`目录下是否有so文件
+- `extension_dir = "/application/php/lib/php/extensions/no-debug-non-zts-20131226/"`
++ 如果配置session的话,`php.ini`中的`session.save_handler`和`session.save_path`是否调整好
+- `session.save_handler = memcache`
+- `session.save_path = "tcp://172.19.28.82:11211"`
