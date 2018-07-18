@@ -123,7 +123,10 @@ read_buffer_size = 1M
 sort_buffer_size = 2M
 join_buffer_size = 2M # 这些都是针对一个线程来说的,所以调小点就行了
 
+wait_timeout = 3600 # 不锁表的话,这两个参数在工作中就调小点,不然就默认28800就可以了
+interactive_timeout = 3600
+
 [mysqldump]
 quick 
-max_allowed_packet = 2M
+max_allowed_packet = 16M # 这个越大,备份会越快
 ```
