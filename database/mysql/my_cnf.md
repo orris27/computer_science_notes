@@ -5,6 +5,8 @@
 + 日志目录:`/application/mysql-5.7.22/logs`
 ### 注意
 1. 如果要配置`log-bin`的话,一定要写上`server-id`
+2. 官方注释看这个
+> https://github.com/orris27/orris/blob/master/database/mysql/my-innodb-heavy-4G.cnf
 ### my.cnf
 ```
 [client]
