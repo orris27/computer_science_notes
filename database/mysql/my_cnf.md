@@ -59,7 +59,7 @@ init_connect='SET NAMES utf8mb4'
 # the log file flushed to disk approximately once per second. Value 2
 # means the log is written to the log file at each commit, but the log
 # file is only flushed to disk approximately once per second.
-innodb_flush_log_at_trx_commit = 2 # 设置成1的话,严格符合ACID
+innodb_flush_log_at_trx_commit = 2 # 设置成1的话,严格符合ACID.0的话性能最好,安全最差.一般设置成1就好了
 
 innodb_log_buffer_size = 16M
 innodb_log_files_in_group = 3
@@ -70,7 +70,7 @@ innodb_lock_wait_timeout = 120
 # show variables like 'innodb_buffer%';可以查看buffer_pool的情况
 # data/ib_buffer_pool就是我们设置的buffer_pool的大小
 # show status like 'innodb_buffer_pool%';可以查看buffer_pool_size的状态
-innodb_buffer_pool_size = 1G
+innodb_buffer_pool_size = 2G
 innodb_log_file_size = 4M 
 innodb_file_per_table = 0 
 
