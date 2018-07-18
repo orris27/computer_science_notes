@@ -80,7 +80,7 @@ innodb_file_per_table = 0
 key_buffer_size = 256M # MyISAM的重要参数,指定MyISAM用来缓存索引的大小
 
 log-error = /application/mysql-5.7.22/logs/mysql_error.log
-skip-name-resolve
+skip-name-resolve # 如果不加这个参数,可能会导致权限错误
 slave-skip-errors = 1032, 1062, 1007
 
 
