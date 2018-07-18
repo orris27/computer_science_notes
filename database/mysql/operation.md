@@ -143,6 +143,7 @@ grant insert,delete,update,select on db_mirai.* to 'mirai'@'172.19.28.%' identif
 需要创建用户,这个用户的host表明哪些ip可以访问
 ```
 create user 'eru'@'172.19.28.%';
+grant select on *.* to 'mirai'@'%' identified by 'mirai'; # 允许所有外网访问
 ```
 #### 1. 多实例
 不用sock登录,而是直接指定端口就可以了
@@ -458,5 +459,9 @@ read-only参数
 + 
 
 ---------
-
+## 问题
+### 1. ERROR 1130 (HY000): Host '122.225.220.171' is not allowed to connect to this MySQL server
+1. 用户名和密码是否正确
+2. 用户是否有权限连接,比如host是否为'%'或者'172.19.28%'等
+3. 服务是否开启
 
