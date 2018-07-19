@@ -217,6 +217,9 @@ ls | a.txt
 ls | tee a.txt
 ```
 
+## 10. dirname, basename
+1. `dirname /server/scripts/n.sh`=>/server/scripts
+2. `basename /server/scripts/n.sh`=>n.sh
 
 
 ## 0. 实战
