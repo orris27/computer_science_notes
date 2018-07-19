@@ -21,7 +21,16 @@ time(
 ```
 
 ## 3. seq
-seq 10={1..10}={1,2,3,4,5,6,7,8,9,10}
+可以像{1..30}这样输出一段数字,而且可以用-s指定分隔符,默认为\n
++seq 10={1..10}={1,2,3,4,5,6,7,8,9,10}
+### 3-1. 建立img1,2,3的文件夹
+```
+mkdir img{1...10}
+```
+### 3-2. 以:分隔输出0到5的数字
+```
+seq -s: 0 5
+```
 
 ## 4. join
 把两个数据库类型的文件进行natural join
@@ -67,7 +76,10 @@ find . -type f -print | xargs -exec ls -l {} \;
 ```
 
 ## 6. sed
-### 6-1. options
+对文件进行行处理的stream editor
+### 6-1. 格式
+`sed option 'script' file1 file2 file3`
+### 6-2. options
 1. --version            显示sed版本。
 2. --help               显示帮助文档。
 3. **-n**,--quiet,--silent  静默输出，默认情况下，sed程序在所有的脚本指令执行完毕后，将自动打印模式空间中的内容，这些选项可以屏蔽自动打印。
@@ -90,8 +102,14 @@ sed 's/\<io//g;s/\<io//g' b.txt
 sed -e 's/\<io//g' -e 's/\<io//g' b.txt
 ```
 
-### 6-2. script
-#### 6-2-1. 指定行
+### 6-3. script
+#### 6-3-1. 语法
+总体结构是`/pattern/action`,而pattern可以是行数,如`空`,`5`,`2,4`.
+1. /pattern/p  # 打印匹配pattern的行
+2. /pattern/d  # 删除匹配pattern的行
+3. /pattern/s/pattern1/pattern2/   # 查找符合pattern的行，将该行第一个匹配pattern1的字符串替换为pattern2
+4. /pattern/s/pattern1/pattern2/g  # 查找符合pattern的行，将该行所有匹配pattern1的字符串替换为pattern2
+#### 6-3-2. 指定行
 1. 打印所有行
 ```
 sed 'p' b.txt 
@@ -100,7 +118,10 @@ sed 'p' b.txt
 ```
 sed '2,4d' b.txt
 ```
-#### 6-2-2. 替换时的& \1 \2
+#### 6-3-3. 替换时的& \1 \2
+```
+sed -r 's/[a-z]{3}/--&--/g' b.txt
+```
 ##### 查看交换分区的大小
 1. 查看交换分区大小:`free -m`;total列Swap行的就是了 
 2. 如果没有最后的".\*"的话,为什么结果是9624   0   9624?因为sed的s只把前面的替换成\1了,后面的还会输出.所以我们应该把后面的包括进来,一起替换. 
@@ -111,3 +132,49 @@ free -m | sed -nr '/\<Swap/s/Swap:\ +([0-9]+)\ .*/\1/p'
 # 或者
 free -m | sed -n '/Swap/p' | awk '{print $2}'
 ```
+
+## 7. awk
+根据分隔符(F,可以为多个)对文件按列处理
++ 按一个或多个空格或\t来分隔
+### 7-1. 格式
+```
+awk option 'script' file1 file2 ...
+awk option -f scriptfile file1 file2 ...
+```
+
+### 7-2. options
+1. `-F`: 指定列分隔符为冒号<=>`'BEGIN {FS=":"}'`
+
+
+### 7-3. script
+#### 7-3-1. 语法
+```
+/pattern/{actions}
+condition{actions}
+```
+##### condition用比较运算符实现缺货判断
+```
+awk '$2<60{print $0 "\treorder"} $2>=60 {print $0}' product.txt
+```
+#### 7-3-2. 变量
+1. `$0`表示一行
+2. `$1`,`$2`表示第1列,第2列
+3. `FILENAME`  当前输入文件的文件名，该变量是只读的
+4. `NR`  当前行的行号，该变量是只读的，R代表record
+5. `NF`  当前行所拥有的列数，该变量是只读的，F代表field
+6. `OFS` 输出格式的列分隔符，缺省是空格
+7. `FS`  输入文件的列分融符，缺省是连续的空格和Tab
+8. `ORS` 输出格式的行分隔符，缺省是换行符
+9. `RS`  输入文件的行分隔符，缺省是换行符
+##### 查看/etc/passwd的第1列
+```
+awk 'BEGIN {FS=":"} {print $1;}' /etc/passwd
+```
+##### 查看/etc/passwd的第1列和第7列
+```
+awk 'BEGIN {FS=":"} {printf "%s\t%s\n",$1, $7}' /etc/passwd
+```
+#### 7-3-3. BEGIN END
+1. 在'script'里面,如果直接空格`"condition{actions}"`的话,就两个同时处理
+2. 如果用END来处理,则先前面全部结束,之后再执行END后的操作
+3. 如果是BEGIN,则先处理BEGIN后面的`{actions}`,之后再处理下有一个`{actions}`
