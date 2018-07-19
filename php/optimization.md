@@ -30,7 +30,25 @@ sudo ./configure --with-php-config=/application/php/bin/php-config
 sudo make && sudo make install
 ll /application/php/lib/php/extensions/no-debug-zts-20131226/
 ```
+##### 4. phpredis (需要redis的话安装)
+```
+wget https://github.com/nicolasff/phpredis/archive/master.zip
+unzip master.zip
+cd phpredis-master/
 
+sudo /application/php/bin/phpize 
+sudo ./configure --with-php-config=/application/php/bin/php-config 
+sudo make && sudo make install
+ll /application/php-5.6.36/lib/php/extensions/no-debug-non-zts-20131226/
+sudo vim /application/php/lib/php.ini
+###
+extension = redis.so
+###
+sudo pkill php-fpm
+sudo /application/php/sbin/php-fpm 
+```
+##### 4-1. 检查
+通过phpinfo来看是否有redis模块.注意:`php.ini`里面的`disable_functions`如果设置了`phpinfo`就不能使用了!!!!
 #### 1-4. PHP访问数据库的新接口(不是优化,属于扩展功能)
 ```
 wget https://pecl.php.net/get/PDO_MYSQL-1.0.2.tgz
@@ -201,6 +219,8 @@ safe_mode_gid=Off
 ```
 disable_functions = system, passthru, exec, shell_exec, popen, phpinfo
 ```
+#### 3-1. 注意
+如果我们访问`index.php`而认为没有响应时,看看phpinfo是不是被禁止掉了!!(如果是lnmp的话,最后要重启php-fpm)
 ### 4. 隐藏php版本
 #### 解决方法
 ```
