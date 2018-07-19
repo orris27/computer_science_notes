@@ -6,7 +6,7 @@
 
 ### 主从同步
 1. master端要bind自己ip
-1. 在slave端设置好`slaveof`,`masterauth`就可以了!
+1. 在slave端设置好`slaveof`,`masterauth`就可以了!(slave不能写入)
 ```
 slaveof 172.19.28.82 6379
 # masterauth <master-password> # 如果有密码的话
