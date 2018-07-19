@@ -13,7 +13,10 @@ cd $LOG_DIR || {
 比如只有正确cd进目录才能执行,只有文件存在才能执行语句
 ### 2-1. cd
 ```
-cd /var/run/
+cd $LOG_DIR || {
+  echo "Cannot change to necessary directory." >&2
+  exit 1
+}
 ```
 ### 2-2. `make`成功后才能执行`make install`
 ```
