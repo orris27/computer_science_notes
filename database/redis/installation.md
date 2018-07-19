@@ -18,10 +18,15 @@ PATH=/application/redis/bin:$PATH
 source /etc/profile
 ```
 ### 3. 配置
+#### 3-1. 获取配置文件
 ```
 sudo mkdir /application/redis/conf
 sudo cp ~/tools/redis-4.0.10/redis.conf /application/redis/conf/
 ```
+#### 3-2. 更改配置文件
+> https://github.com/orris27/orris/blob/master/database/redis/redis_conf.md
+
+
 ### 4. 启动服务
 #### 4-1. 直接启动服务
 ```
