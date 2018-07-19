@@ -178,3 +178,9 @@ awk 'BEGIN {FS=":"} {printf "%s\t%s\n",$1, $7}' /etc/passwd
 1. 在'script'里面,如果直接空格`"condition{actions}"`的话,就两个同时处理
 2. 如果用END来处理,则先前面全部结束,之后再执行END后的操作
 3. 如果是BEGIN,则先处理BEGIN后面的`{actions}`,之后再处理下有一个`{actions}`
+
+## 8. 实战
+### 8-1. 找到/etc/passwd下的shell出现次数
+```
+cat /etc/passwd | awk -F: '$7!=""{print $7}' | sort | uniq -c
+```
