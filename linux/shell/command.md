@@ -179,8 +179,48 @@ awk 'BEGIN {FS=":"} {printf "%s\t%s\n",$1, $7}' /etc/passwd
 2. 如果用END来处理,则先前面全部结束,之后再执行END后的操作
 3. 如果是BEGIN,则先处理BEGIN后面的`{actions}`,之后再处理下有一个`{actions}`
 
-## 8. 实战
-### 8-1. 找到/etc/passwd下的shell出现次数
+## 8. paste
+将文件1和文件2按列组成一行
+### 字母的组合
+```
+seq 26 > a.log
+echo {a..z} | tr " " "\n" > b.log
+paste a.log b.log >c.log
+```
+
+
+## 9. 输入输出
+### 9-1. 重定向`>`, `<`, `>>`
+#### 9-1-1. `<`
+cat用来将文件名转换为内容
+```
+cat
+saber
+^C
+cat < a.txt
+cat a.txt
+```
+### 9-2. echo
+-e解析转义字符;-n不换行
+```
+echo "hello\n"
+echo -e "hello\n"
+echo -n "hello"
+```
+### 9-3. 管道,`|`
+左边的输出当做右边命令的输入
+### 9-4. tee
+输出到stdout,同时做一个副本到指定文件
+```
+ls
+ls | a.txt
+ls | tee a.txt
+```
+
+
+
+## 0. 实战
+### 0-1. 找到/etc/passwd下的shell出现次数
 ```
 cat /etc/passwd | awk -F: '$7!=""{print $7}' | sort | uniq -c
 ```
