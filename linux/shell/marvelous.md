@@ -7,6 +7,16 @@ cd $LOG_DIR || {
   exit 1
 }
 ```
+### 1-2. 参数及提醒
+```
+if [ $# -ne 1  ]
+then
+  echo "*****"
+	echo "Usage:source distribute.sh xxx"
+  echo "*****"
+  exit 1
+fi
+```
 
 
 ## 2. 每一句话都是有前提成立
