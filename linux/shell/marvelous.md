@@ -33,3 +33,11 @@ cd $LOG_DIR || {
 sudo make && sudo make install
 ```
 
+## 3. 版权信息
+```
+# Date:      16:29 2012-3-30
+# Author:    Created by xxx
+# Mail:      xxx@qq.com
+# Function:  This script function is ...
+# Version:   4.2.46
+```
