@@ -255,10 +255,74 @@ make && make install
 echo $?
 ```
 
-## 10. 特殊变量
+## 10.变量
+### 10-1. 环境变量
+#### 10-1-1. 定义
+等号不要有空格
+```
+export dinner=apple
+```
+
+#### 10-1-2. 定义环境变量的文件
+#### /etc/bashrc
+会执行`/etc/profile.d`下的所有脚本文件
+
+##### /etc/profile
+设置对**所有用户**生效的环境变量的脚本文件.会执行`/etc/profile.d`下的所有脚本文件.当用户登录时,它就会被执行
+
+##### ~/.bashrc
+设置**对应用户**的环境变量的shell脚本的脚本文件.该用户登录时,仅仅执行一次
++ Anaconda就备份了一个原始的~/.bashrc文件,在新的~/.bashrc里面为PATH变量添加了自己的位置
+
+##### ~/.bash_profile
+`~/.bash_profile`会先自动调用`~/.bashrc`,`~/.bash_profile`多定义环境变量,而`~/.bashrc`主要定义alias
+
+
+#### 10-1-3. 特殊环境变量
+##### 1. LANG
+Linux系统的默认字符集.我们的是en_US.utf-8.如果调成了中文的,一些命令什么的都会变成中文,不好
++ shell中输入`locale`可以看到语言,如果改变LANG变量,这些都会变化
+
+##### 2. PATH
+只有在PATH变量里出现过的目录下的程序,才能在shell里直接使用,PATH是用冒号分隔的.如果要执行某个命令,要么放到环境变量,要么指明其全路径.如果将chattr这样的程序改名字,那么对应地要使用该功能就要用新的名字
++ 只要是可执行文件,如sh文件,就能够作为bash的命令来使用
+###### 添加某个命令
+1. 对所有用户生效
+```
+echo 'export PATH=$PATH:/home/orris/dir1' >> /etc/profile # 也可以是`~/.bashrc` 将PATH环境变量写入到profile文件里,注意写进去的是$PATH这个原本的字符串,因为/etc/profile本身是个脚本文件,所以他会执行这段命令(我们输入的是命令)
+source /etc/profile # 执行该文件
+```
+2. 只对当前用户生效
+```
+echo 'export PATH=$PATH:/home/orris/tmp2' >> ~/.bashrc # 重启后PATH也会改变
+```
+
+##### 3. PWD, OLDPWD, HOME
+这些环境变量都会传递给python程序的open,shell的cd等等
+
+##### 4. HISTCONTROL
+###### 设置隐藏记录
+如果在命令前敲空格,就会隐藏其记录
+```
+HISTCONTROL=ignorespace
+echo 123
+ echo 12321
+```
+
+### 10-2. 局部变量
+作用域在子进程(一个shell脚本)里的变量
+#### 10-2-1. 定义
+字符串!所以dinner=123后,如果$dinner+3,结果为"123+3"
+1. `dinner="apple"`
+2. `dinner=apple`
+#### 10-2-2. 转换成环境变量
+1. `export dinner`
+2. `declare -x dinner`:不推荐
+
+### 10-3. 特殊变量
 真正的参数其实是在"./1.sh"后面的字符串.因此参数列表, 参数个数, shift都是针对$1, $2, ...
 ```
-$0  相当于C语言main函数的argv[0]
+$0  相当于C语言main函数的argv[0],获取执行我这个当前脚本的文件名和路径
 $1、$2...    这些称为位置参数（Positional Parameter），相当于C语言main函数的argv[1]、argv[2]...
 $#  相当于C语言main函数的argc - 1，注意这里的#后面不表示注释
 $@  表示参数列表"$1" "$2" ...，例如可以用在for循环中的in后面。
@@ -266,3 +330,5 @@ $*  表示参数列表"$1" "$2" ...，同上
 $?  上一条命令的Exit Status
 $$  当前进程号
 ```
+### 10-4. 大小写
+没有严格标准.不过可以环境变量大写,而局部变量小写
