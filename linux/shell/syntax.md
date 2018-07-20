@@ -71,7 +71,7 @@ f()
 	echo 'function ends'
 }
 
-f a b c
+f a b cdeng
 ```
 #### 创建文件夹,如果存在就不创建
 1. `:`表示空语句,相当于pass
@@ -103,7 +103,7 @@ do
 			echo "Cannot create the directory"
 			exit 1
 		fi
-	fi
+	fideng
 
 done
 exit 0
@@ -381,10 +381,23 @@ which不到(一般来说),然后man的话会走到bash里的变量,如`echo`,`ev
 echo 2*3 | bc
 ```
 ### 11-2. $(())
-支持`++`,`--`,`2**3`,`&`等
+支持自增/自减,平方,位运算,比较运算符等
 #### 计算2\*3
 ```
 echo $((2*3))
+```
+#### 自增变量a
+```
+a=2
+echo $((a++))
+echo $a
+echo $((++a))
+echo $a
+```
+#### 比较2和3的大小(这里1为真,而0为假)
+```
+echo $((2<3))
+echo $((2>3))
 ```
 
 ## 12. 通配符
