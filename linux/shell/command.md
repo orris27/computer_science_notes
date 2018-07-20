@@ -511,6 +511,33 @@ awk -F '[ ,]'  '{print $5,$9}' 1.txt # awk可以指定多个分隔符
 ```
 
 
+## 22. date
+### 按一定格式输出
+`date +xx`在xx的地方写下面的内容即可格式化输出日期.`+`后面不能有`:`
+1. `%y`:18
+2. `%Y`:2018
+3. `%m`:07
+4. `%d`:20
+5. `%F`:2018-07-20
+#### 18-06-27格式输出
+```
+date +%y-%m-%d
+```
+#### 备份dir1文件夹,加上日期
+在crontab中如果不是执行脚本文件而是直接写tar的话,`%`必须转义
+```
+tar -zcvf dir1-$(date +%F).tar.gz ./dir1
+```
+#### 输出三天以前的时间
+```
+date +%F --date='3 day ago'
+date +%F -d '3 day ago'
+date +%F -d '+3 day' # 3天后
+date +%F -d '-3 day'
+date +%F -d '3 day' # 3天后
+date +%F-%H -d '3 hour'
+```
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
