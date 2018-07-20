@@ -41,3 +41,7 @@ sudo make && sudo make install
 # Function:  This script function is ...
 # Version:   4.2.46
 ```
+
+## 4. 实战
+1. MySQL多实例脚本
+> https://github.com/orris27/orris/blob/master/database/mysql/mysqld_multi.md
