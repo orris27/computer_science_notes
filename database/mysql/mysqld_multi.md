@@ -193,13 +193,39 @@ server-id=3
 ```
 
 ### MySQL多实例脚本
-Usage: `/data/3307/mysql [start|stop|restart]`,3307根据自己的端口改就行了
+复制下面的文本,作为`/data/3306/mysql`,并赋予可执行权限,使用`/data/3307/mysql [start|stop|restart]`,3307根据自己的端口改就行了
 ```
 #! /bin/sh
 PASSWORD="serena2ash"
-PORT=3306
+PORT=3307
 
 source /etc/init.d/functions
+
+
+function start_mysql () {
+	/application/mysql/bin/mysqld_safe --defaults-file=/data/$PORT/my.cnf >/dev/null 2>&1 &
+	if [ $? -eq 0 ]
+		then 
+			action "Mysql starts successfully" /bin/true
+			return 0
+		else 
+			action "MySQL fails to start" /bin/false
+			return 1
+	fi
+}
+
+function stop_mysql(){
+	/application/mysql/bin/mysqladmin -uroot -S /data/$PORT/tmp/mysql.sock shutdown -p"$PASSWORD" >/dev/null 2>&1
+	if [ $? -eq 0 ]
+		then 
+			action "Mysql stops successfully" /bin/true
+			return 0
+		else 
+			action "MySQL fails to stop" /bin/false
+			return 1
+	fi
+}
+
 
 # ensure the number of arguments to be 1
 [ $# -ne 1 ] && {
@@ -221,31 +247,19 @@ if [ $1 = "start" ]
 			echo "Mysql is running"
 			exit 4
 		}
-		/application/mysql/bin/mysqld_safe --defaults-file=/data/$PORT/my.cnf >/dev/null 2>&1 &
-		[ $? -eq 0 ] && {
-			action "Mysql starts successfully" /bin/true
-			exit 0
-		}
+		start_mysql && exit 0 || exit 1
 fi
 
 # stop
 if [ $1 = "stop"  ]
 	then
-		/application/mysql/bin/mysqladmin -uroot -S /data/$PORT/tmp/mysql.sock shutdown -p"$PASSWORD" &>/dev/null
-		action "MySQL stops successfully" /bin/true
-		exit 0
+		stop_mysql && exit 0 || exit 1
 fi
 
 # restart 
 if [ $1 = "restart"  ]
 	then
-		/application/mysql/bin/mysqladmin -uroot -S /data/$PORT/tmp/mysql.sock shutdown -p"$PASSWORD" &>/dev/null
-		action "MySQL stops successfully" /bin/true
-		/application/mysql/bin/mysqld_safe --defaults-file=/data/$PORT/my.cnf >/dev/null 2>&1 &
-		[ $? -eq 0 ] && {
-			action "Mysql starts successfully" /bin/true
-			exit 0
-		}
+		stop_mysql && start_mysql && exit 1 || exit 0
 fi
 
 ```
