@@ -126,6 +126,7 @@ sed -r 's/[a-z]{3}/--&--/g' b.txt
 1. 查看交换分区大小:`free -m`;total列Swap行的就是了 
 2. 如果没有最后的".\*"的话,为什么结果是9624   0   9624?因为sed的s只把前面的替换成\1了,后面的还会输出.所以我们应该把后面的包括进来,一起替换. 
 3. 使用* +时一定要定义前后的字符,否则会从后面一路匹配过来
+basename include/stdio.h .h     -> "stdio"
 
 ```
 free -m | sed -nr '/\<Swap/s/Swap:\ +([0-9]+)\ .*/\1/p'
@@ -222,7 +223,7 @@ ls | tee a.txt
 2. `basename /server/scripts/n.sh`=>n.sh
 + 第二个参数可以跟它的后缀名,从而把后缀名也能剔除掉
 ```
-basename include/stdio.h .h     -> "stdio"
+basename include/stdio.h .h     # => "stdio"
 ```
 
 ## 0. 实战
