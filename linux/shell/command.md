@@ -220,7 +220,10 @@ ls | tee a.txt
 ## 10. dirname, basename
 1. `dirname /server/scripts/n.sh`=>/server/scripts
 2. `basename /server/scripts/n.sh`=>n.sh
-
++ 第二个参数可以跟它的后缀名,从而把后缀名也能剔除掉
+```
+basename include/stdio.h .h     -> "stdio"
+```
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
