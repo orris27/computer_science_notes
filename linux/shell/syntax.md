@@ -17,6 +17,7 @@ orris="I am a good boy"
 7. `${var1:-string}`:不指定变量的话(变量没定义/变量为空字符串),就给默认值.如果`var1`这个变量有值,那么就返回`$var1`;如果没有值的话,就返回string本身.相当于`get(,default=)`
 + `${var1-string}`=`${var1:-string}`
 - httpd的一个脚本里就有`pidfile=${PIDFILE-/var/run/httpd/httpd.pid}`
++ `${var1:=string}`:变量未定义/为空字符串,就给默认值并赋值给var1
 ```
 file=/dir1/dir2/dir3/my.file.txt
 ${file#*/}：删掉第一个 / 及其左边的字符串：dir1/dir2/dir3/my.file.txt
