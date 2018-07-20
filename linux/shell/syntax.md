@@ -1,8 +1,14 @@
-## 1. `${}`,`##`,`%%`
+## 1. Parameter Expansion
+`man bash`可以得到所有信息
 ### 1-1. 规则
+orris="I am a good boy"
 1. `${}`可以用来指定变量名的范围.如`${dir}_flag`指的是$dir这个变量
 2. `5:5`指的是从第5个位置开始的前5个 
 3. `/`或`.`都可以替换成其他字符,如`,`等
+4. `${#xxx}`:获取xxx变量的字符长度
+5. `${xxx:2}`:从第2字符开始取到最后,`${string:position}`
++ `${xxx:2:2}`:从第2字符开始取2个(`cut -c`也可以).`${string:position:length}`
+6. `${string/substring/replace}`:对字符串里substring的内容替换为replace
 ```
 file=/dir1/dir2/dir3/my.file.txt
 ${file#*/}：删掉第一个 / 及其左边的字符串：dir1/dir2/dir3/my.file.txt
