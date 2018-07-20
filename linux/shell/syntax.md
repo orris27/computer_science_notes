@@ -374,66 +374,7 @@ which不到(一般来说),然后man的话会走到bash里的变量,如`echo`,`ev
 没有严格标准.不过可以环境变量大写,而局部变量小写
 
 ## 11. 数学计算
-### 11-1. bc
-可以计算浮点数.
-#### 11-1-1. 使用
-1. `bc`进去就能算
-2. 管道交给`bc`处理
-#### 11-1-2. 计算2\*3
-```
-echo 2*3 | bc
-```
-### 11-2. $(())
-支持自增/自减,平方,位运算,比较运算符等
-#### 计算2\*3
-```
-echo $((2*3))
-```
-#### 自增变量a
-```
-a=2
-echo $((a++))
-echo $a
-echo $((++a))
-echo $a
-```
-#### 比较2和3的大小(这里1为真,而0为假)
-```
-echo $((2<3))
-echo $((2>3))
-```
-### 11-3. let
-先数学运算再赋值.但是`$(())`效率更高
-```
-a=5
-let b=a+10
-echo $b
-c=a+10
-echo $c
-```
-### 11-4. expr
-evaluate expression.和`$(())`类似,但是整数运算符左右必须有空格.如果使用`$[]`包住公式的话,就没有空格的限制
-#### 11-4-1. 判断扩展名
-`ssh-copy-id`里用来判断扩展名
-```
-if expr "$L_ID_FILE" : ".*\.pub$" >/dev/null 
-	then
-  		PUB_ID_FILE="$L_ID_FILE"
-	else
-  		PUB_ID_FILE="$L_ID_FILE.pub"
-fi
-```
-#### 11-4-2. 判断整数
-```
-expr 1 + $1 &> /dev/null 
-[ $? -eq 0 ] && echo "int" || echo "chars"
-```
-#### 例子
-```
-expr 1 + 2
-expr 1+2
-expr $[1+2]
-```
+> https://github.com/orris27/orris/blob/master/linux/shell/command.md
 
 
 ## 12. 通配符
