@@ -191,6 +191,75 @@ query_cache_limit = 2M
 
 server-id=3
 ```
+
+### MySQL多实例脚本
+Usage: sh mysql.sh [3306|3307] [start|stop|restart]
+```
+#! /bin/sh
+PASSWORD=""
+
+# ensure the number of arguments to be 2
+[ $# -ne 2 ] && {
+    echo "Usage: sh mysql.sh [3306|3307] [start|stop|restart] " 
+    exit 1
+}
+
+# ensure that the user is the root
+[ $UID -ne 0 ] && {
+	echo "You must be root"
+	exit 2
+}
+
+# check if the argument is an integet
+expr 1 + $1 &>/dev/null || {
+    echo "Please enter an integer"
+    exit 3
+}
+
+# start
+if [ $2 = "start" ]
+	then
+		# check if the mysql of the pid has been started 
+		[ `netstat -lntup | grep -E "$1.*mysqld" | wc -l` -ne 0 ] && {
+			echo "Mysql is running"
+			exit 4
+		}
+		/application/mysql/bin/mysqld_safe --defaults-file=/data/$1/my.cnf >/dev/null 2>&1 &
+		[ $? -eq 0 ] && {
+			echo "Mysql starts successfully"
+			exit 0
+		}
+fi
+
+# stop
+if [ $2 = "stop"  ]
+	then
+		/application/mysql/bin/mysqladmin -uroot -S /data/$1/tmp/mysql.sock shutdown -p"$PASSWORD" &>/dev/null
+		echo "MySQL stops successfully"
+		exit 0
+fi
+
+# restart 
+if [ $2 = "restart"  ]
+	then
+		/application/mysql/bin/mysqladmin -uroot -S /data/$1/tmp/mysql.sock shutdown -p"$PASSWORD" &>/dev/null
+		/application/mysql/bin/mysqld_safe --defaults-file=/data/$1/my.cnf >/dev/null 2>&1 &
+		[ $? -eq 0 ] && {
+			echo "Mysql restarts successfully"
+			exit 0
+		}
+fi
+```
+#### 问题
+1. MySQL启动时输出太多,怎么办
++ 参考`mysql.server`的处理,将`&`后台符号放到`>/dev/null 2>&1`后面就行了
+```
+/application/mysql/bin/mysqld_safe --defaults-file=/data/$1/my.cnf >/dev/null 2>&1 &
+```
+2. `netstat -lntup | grep -E '$1.*mysqld' | wc -l`这条语句在shell($1为3307)中输出1的时候,为什么在脚本里执行的时候,会变成0呢
++ 因为我用单引号包住了$1,实际上应该用`"$2.*mysqld"`
+
+
 ### 常见问题
 #### 1. 权限不够或找不到文件
 ##### 解决方法
