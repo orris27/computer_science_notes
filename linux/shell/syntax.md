@@ -366,9 +366,6 @@ unset dinner
 6. `$?`  上一条命令的Exit Status
 7. `$$`  当前进程号.可以用来输出到`pid`文件中
 
-### 10-4. bash内建变量
-which不到(一般来说),然后man的话会走到bash里的变量,如`echo`,`eval`,`exec`,`read`,`set`等
-+ bash内建变量/命令效率高于外部命令,比如用`${#xx}`就优于`wc -L`
 
 ### 10-5. 大小写
 没有严格标准.不过可以环境变量大写,而局部变量小写
@@ -376,6 +373,21 @@ which不到(一般来说),然后man的话会走到bash里的变量,如`echo`,`ev
 ## 11. 数学计算
 > https://github.com/orris27/orris/blob/master/linux/shell/command.md
 
+## 12. bash内建命令
+bash内部定义了的程序/命令.
++ which不到
+- pwd,echo都有两个版本,即`echo`和`/bin/echo`,前者为bash内建命令,而后者为外部命令
+- 如果which到了,说明有外部命令版本,但也可能存在bash内建命令的版本
+- shell会优先找bash内建命令,找不到才会去找外部命令
++ 然后man的话会走到bash里的变量,如`echo`,`eval`,`exec`,`read`,`set`等
++ bash内建变量/命令效率高于外部命令,比如用`${#xx}`就优于`wc -L`
+- 外部命令通常功能强大,需要单独创建一个子进程,而内部命令则不需要
+### 查看某个命令是不是内建命令
+```
+type nc
+type pwd
+type cd
+```
 
 ## 12. 通配符
 1. `*` 
