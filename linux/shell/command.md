@@ -264,7 +264,10 @@ echo $b
 c=a+10
 echo $c
 ```
-### 11-4. expr
+### 11,位运算,比较运算符等
+
+计算2*3
+echo $((2*3))-4. expr
 evaluate expression.和`$(())`类似,但是整数运算符左右必须有空格.如果使用`$[]`包住公式的话,就没有空格的限制
 #### 11-4-1. 判断扩展名
 `ssh-copy-id`里用来判断扩展名
@@ -286,6 +289,18 @@ expr 1 + $1 &> /dev/null
 expr 1 + 2
 expr 1+2
 expr $[1+2]
+```
+
+## 12. read
+### 12-1. 格式
+`read [option] [variable_name]`
+### 12-2. option
+1. `-p`:prompt
+2. `-t`:timeout
+### 12-3. 一个read命令输入多个变量
+直接在变量名的地方多写几个就行了,到时候输入的时候按空格分隔
+```
+read -t 60 -p 'input a&b:' a b
 ```
 
 
