@@ -194,16 +194,18 @@ server-id=3
 
 ### MySQL多实例脚本
 复制下面的文本,作为`/data/3306/mysql`,并赋予可执行权限,使用`/data/3307/mysql [start|stop|restart]`,3307根据自己的端口改就行了
++ 启动MySQL的话最好给个`sleep`时间,因为服务启动需要时间
 ```
 #! /bin/sh
-PASSWORD="serena2ash"
-PORT=3307
+PASSWORD=
+PORT=3306
 
 source /etc/init.d/functions
 
 
 function start_mysql () {
 	/application/mysql/bin/mysqld_safe --defaults-file=/data/$PORT/my.cnf >/dev/null 2>&1 &
+	sleep 2
 	if [ $? -eq 0 ]
 		then 
 			action "Mysql starts successfully" /bin/true
@@ -259,9 +261,12 @@ fi
 # restart 
 if [ $1 = "restart"  ]
 	then
-		stop_mysql && start_mysql && exit 1 || exit 0
+		stop_mysql 
+		start_mysql && exit 1 || exit 0
 fi
 
+echo "Usage: /data/$PORT/mysql [start|stop|restart]" 
+exit 1
 ```
 #### 问题
 1. MySQL启动时输出太多,怎么办
