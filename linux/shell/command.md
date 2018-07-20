@@ -569,6 +569,16 @@ strace cat b.txt
 strace sleep 2
 ```
 
+## 26. 网络
+### 26-12. curl
+获取页面的内容,并打印到stdout中
+#### option
+1. `-I`:获取响应头
+2. `-o`:输出到某个文件中,文件名自定
+3. `-O`:输出到某个文件中,文件名根据URL来确定(所以我们不用写参数)
+4. `-s`:silent,不输出错误信息和进度条
+5. `-w`:决定输出格式.如输出状态码`curl -I -s -w "%{http_code}" www.baidu.com -o /dev/null`
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
