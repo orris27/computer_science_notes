@@ -291,6 +291,8 @@ if expr "$L_ID_FILE" : ".*\.pub$" >/dev/null
 fi
 ```
 #### 11-4-2. 判断整数
+`&>/dev/null`=`>/dev/null 2>&1`,前面其实是把1,2,3,..都重定向到/dev/null
+> https://unix.stackexchange.com/questions/70963/difference-between-2-2-dev-null-dev-null-and-dev-null-21
 ```
 expr 1 + $1 &> /dev/null 
 [ $? -eq 0 ] && echo "int" || echo "chars"
