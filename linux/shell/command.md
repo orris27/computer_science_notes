@@ -538,6 +538,35 @@ date +%F -d '3 day' # 3天后
 date +%F-%H -d '3 hour'
 ```
 
+
+## 23. tree
+### 23-1. option
+1. `-L 1`可以指定显示1层
+2. `-d`可以只显示目录
+#### 显示/下的一层树结构
+```
+tree -L 1 /
+```
+
+
+## 24. locate
+通过updatedb,查找所有文件中文件名包含某个字符串的文件.查不到updatedb没有记录的文件.如果要的话,必须更新updatedb
+### 查找mkdir的位置
+```
+locate -n 1 mkdir # 显示前面1行
+```
+
+## 25. strace
+跟踪某个命令在系统中具体是怎么调用的
+### 跟踪cat 
+```
+strace cat b.txt
+```
+### 跟踪sleep
+```
+strace sleep 2
+```
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
