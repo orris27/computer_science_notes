@@ -14,7 +14,9 @@ orris="I am a good boy"
 + `${string/%substring/replace}`:表示从左到右第一个后缀(substring前面有字符)是substring的字符串,把这个前缀进行修改
 - `${orris/%I/yes}`就不会替换,因为第一个I前面没值
 - `${file/%jpg/png}`就能将后缀jpg替换为png了
-
+7. `${var1:-string}`:如果`var1`这个变量有值,那么就返回`$var1`;如果没有值的话,就返回string本身.相当于`get(,default=)`
++ `${var1-string}`=`${var1:-string}`
+- httpd的一个脚本里就有`pidfile=${PIDFILE-/var/run/httpd/httpd.pid}`
 ```
 file=/dir1/dir2/dir3/my.file.txt
 ${file#*/}：删掉第一个 / 及其左边的字符串：dir1/dir2/dir3/my.file.txt
