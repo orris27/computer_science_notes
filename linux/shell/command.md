@@ -428,6 +428,62 @@ EOF
 menu 
 ```
 
+## 18. 压缩
+### 18-1. tar
+注意不要用`/`开头,尽量`cd`进去压缩
++ `/`开头的话,在压缩包里面会多出这些目录来保持这种路径,比如说压缩`/application/mysql/*`的话,会在压缩包里创建`application/mysql`这个目录,之后才把内容放进去
+#### option
+1. 压缩技术:`-z`,`-j`
+2. 创建或提取:`-c`,`-x`
+3. 显示输出:`-v`
+4. 文件:`-f`
+5. 查看内容:`-tf`,比如查看`a.tar.gz`的内容:`tar tf a.tar.gz`
+6. 不压缩某个文件:`--exclude`
++ 不压缩一些文件:`--exclude-from`,指定的文件里面的内容就是我们不想要压缩进来的内容,当然要自己的文件名也要写进去,否则就自己就会被压缩进去
+7. 解压到某个位置:`-C`,解压new_house到house这个目录下:`tar -zxvf new_house.tar.gz -C house`
+#### 压缩时,会把文件夹也压缩进去吗?解压时,会产生和压缩包同名的目录吗?
+因为压缩时第二个文件名可以是正则表达式,所以可以为多个.所以就直接都放在了压缩包里.然后解压的时候,也是直接把里面的东西拿到目录下. `tar.gz`本身不会作为文件名导入导出
+1. 会
+2. 不会
+
+#### 实战
+##### 将当前目录下的除了4.txt以外的文件都打包到no_4.tar.gz
+```
+tar -zcvf no_4.tar.gz --exclude 4.txt *.txt
+```
+
+##### 将dir1以及内容打包到gz_dir1.tar.gz中并解压
+```
+tar -zcvf gz_dir1.tar.gz ./dir1
+tar -zxvf gz_dir1.tar.gz
+```
+
+##### 当前目录下除了1~3.txt的文件外,都打包到no_123.tar.gz里
+```
+for i in `seq 5` ; do touch $i.txt ; done # 当前文件夹下只有1~5.txt
+touch filter.txt 
+for i in `seq 3` ; do echo $i.txt >> filter.txt ; done 
+tar -zcvf no_123.tar.gz -X filter.txt *.txt # 最后会连filter.txt也压缩进来
+```
+
+### 18-2. zip
+#### 压缩minisql文件夹到minisql.zip
+```
+zip -r minisql.zip minisql/*
+```
+#### 解压zip
+```
+unzip xxx.zip
+unzip -o xxx.zip # 会直接覆盖已经存在的文件
+```
+
+### 18-3. unrar
+Linux不要用rar
+#### 解压python.rar文件到当前目录(本身不创建目录)
+```
+unrar x python.rar
+```
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
