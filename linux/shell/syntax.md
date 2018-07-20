@@ -1,10 +1,5 @@
 ## 1. Parameter Expansion
 `man bash`可以得到所有信息
-<table>
-    <tr>
-        <td>Foo</td>
-    </tr>
-</table>
 ### 1-1. 规则
 orris="I am a good boy"
 1. `${}`可以用来指定变量名的范围.如`${dir}_flag`指的是$dir这个变量
