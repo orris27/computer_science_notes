@@ -696,6 +696,29 @@ wget --spider --timeout=10 --tries=2 127.0.0.1
 echo $? # 如果Web正常,就是0;否则非0
 ```
 
+## 27. chkconfig
+设置开机自启动
+### 添加自定义服务到chkconfig
+类似于systemctl
+1. 根据对应语法添加到指定目录下
++ `chkconfig`的语法:只需要在开头加两行就行了,需要设定开机级别,启动优先级,关闭优先级(具体`man chkconfig`).`systemctl`则是模块的语法
++ `chkconfig`的指定目录:`/etc/init.d`
++ 添加的两行需要有注释
+```
+#! /bin/sh
+# chkconfig: 2345 21 60
+# description: Starts and stops mysqld_multi
+... # 比如说可以方mysql多实例 https://github.com/orris27/orris/blob/master/database/mysql/mysqld_multi.md
+```
+2. 对`chkconfig`重新加载下就好了
+```
+chkconfig --add xxx # 这里的xxx为放在指定目录下的文件名,如mysqld
+```
+3. 检查是否添加成功
+```
+chkconfig --list xxx # 如mysqld
+```
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
