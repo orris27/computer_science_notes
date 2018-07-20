@@ -400,6 +400,19 @@ hello
 fun
 EOF
 ```
+#### 用cat设计一个菜单
+cat 利用EOF可以更好地格式化输出,里面的tab也会得到保留
+```
+#! /bin/sh
+menu () {
+cat <<EOF
+	1. [install lamp]
+	2. [install lnmp]
+	3. [exit]
+EOF
+}
+menu 
+```
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
