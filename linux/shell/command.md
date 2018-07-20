@@ -570,6 +570,112 @@ strace sleep 2
 ```
 
 ## 26. 网络
+### 26-1. hostname
+#### 查看主机名
+```
+hostname # 查看当前主机名
+```
+#### 修改
+1. 登出登录才生效
+2. 短期
+```
+hostname new_orris # 临时修改当前主机名为new_orris
+```
+
+### 26-2. dig
+查看dns
+#### 查看百度的dns
+```
+dig www.baidu,com
+```
+
+
+### 26-3. nslookup
+查看dns(Ubuntu上有)
+#### 查看百度的dns
+```
+nslookup www.baidu.com
+```
+
+### 26-4. traceroute
+可以跟踪的ping方法
+
+### 26-5. telnet
+检测服务器的端口是否可以连通
+#### 检测
+如果接通的话,就是处于输入/输出状态;否则就是连接失败的错误提示,并返回shell
+```
+telnet 10.0.0.25 80
+telnet 10.0.0.25 111 # 查看111端口是否通
+telnet 127.0.0.1 11211 # 可以直接操作memcache
+```
+### 26-6. tcpdump
+抓包工具
+```
+tcpdump -n icmp -i eth0
+```
+
+
+### 26-7. route
+查看/修改网关
+#### option
+1. `-n`:查看网关
+
+#### 默认网关
+当上面几行的网关都不行的时候,就使用该网关
++ Destination为0.0.0.0那行的Gateway,同时也应该是最后一行
+
+##### 修改默认网关
+
+###### 修改配置文件
++ 修改/etc/sysconfig/network
++ 网卡的配置文件(ifcfg-eth0)(网卡的配置文件优先级高)
+
+###### 删除(临时生效)
+如果重启,服务器又会从配置文件里找默认网关
+```
+route del default gw 10.0.0.254 # 后面一个为实际电脑的默认网关
+```
+
+###### 添加(临时生效)
+```
+route add default gw 10.0.0.254
+```
+
+###### 重启网卡
+```
+/etc/init.d/network restart
+```
+
+
+
+
+### 26-8. netstat
+Print network connections, routing tables, interface sta‐tistics, masquerade connections, and multicast memberships
+
+
+
+### 26-9. ping
+#### option
+1. `-c`:发送几次
+#### ping 百度2次
+```
+ping -c2 www.baidu.com
+```
+
+
+### 26-10. scp
+secure copy (remote file copy program)
+#### option
+1. `-P`:指定端口
+
+### 26-11. nmap
+检查端口
+#### 查询10.0.0.7的从1到65535的端口情况
+```
+nmap 172.16.55.137 -p1-65535
+```
+
 ### 26-12. curl
 获取页面的内容,并打印到stdout中
 #### option
@@ -578,6 +684,17 @@ strace sleep 2
 3. `-O`:输出到某个文件中,文件名根据URL来确定(所以我们不用写参数)
 4. `-s`:silent,不输出错误信息和进度条
 5. `-w`:决定输出格式.如输出状态码`curl -I -s -w "%{http_code}" www.baidu.com -o /dev/null`
+
+### 26-13. wget
+#### option
+1. `--spider`:按爬虫的方式去爬,不会去下载东西,只是去确认这个网站是否存在
+2. `--tries=N`:设定重试次数,会一直重试N次,直到确实访问到网站
+3. `--timeout=seconds`:超时时间
+#### 用wget来确认Web是否正常
+```
+wget --spider --timeout=10 --tries=2 127.0.0.1
+echo $? # 如果Web正常,就是0;否则非0
+```
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
