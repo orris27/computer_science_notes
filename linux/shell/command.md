@@ -484,6 +484,33 @@ Linux不要用rar
 unrar x python.rar
 ```
 
+## 19. history
+### 删除序号为2000的命令的历史
+```
+history -d 2000
+```
+
+## 20. netstat
+查看网络状况,一般我们使用`sudo netstat -lntup | grep mysqld`这样的方式
+### option
+1. `-u`:udp
+2. `-t`:tcp
+
+## 21. cut
+截取内容
++ 指定分隔符(`-d`)取出对应列(`-f`)(类似于awk的用法)
++ 按照字节位置(`-c`)截取内容
+### 假定文件内容是`I am a good boy,and I am 20`取出boy和20
+```
+# 1
+cut -c 13-15,25-27 1.txt
+# 2
+cut -d" " -f5,8 1.txt  | sed -n 's/\,and//p'
+# 3
+awk -F '[ ,]'  '{print $5,$9}' 1.txt # awk可以指定多个分隔符
+```
+
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
