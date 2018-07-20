@@ -406,9 +406,12 @@ cat 利用EOF可以更好地格式化输出,里面的tab也会得到保留
 #! /bin/sh
 menu () {
 cat <<EOF
+	===========================
 	1. [install lamp]
 	2. [install lnmp]
 	3. [exit]
+	please input the number
+	===========================
 EOF
 }
 menu 
