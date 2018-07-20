@@ -193,14 +193,17 @@ server-id=3
 ```
 
 ### MySQL多实例脚本
-Usage: sh mysql.sh [3306|3307] [start|stop|restart]
+Usage: `/data/3307/mysql [start|stop|restart]`,3307根据自己的端口改就行了
 ```
 #! /bin/sh
-PASSWORD=""
+PASSWORD="serena2ash"
+PORT=3306
 
-# ensure the number of arguments to be 2
-[ $# -ne 2 ] && {
-    echo "Usage: sh mysql.sh [3306|3307] [start|stop|restart] " 
+source /etc/init.d/functions
+
+# ensure the number of arguments to be 1
+[ $# -ne 1 ] && {
+    echo "Usage: /data/$PORT/mysql [start|stop|restart]" 
     exit 1
 }
 
@@ -210,45 +213,41 @@ PASSWORD=""
 	exit 2
 }
 
-# check if the argument is an integet
-expr 1 + $1 &>/dev/null || {
-    echo "Please enter an integer"
-    exit 3
-}
-
 # start
-if [ $2 = "start" ]
+if [ $1 = "start" ]
 	then
 		# check if the mysql of the pid has been started 
-		[ `netstat -lntup | grep -E "$1.*mysqld" | wc -l` -ne 0 ] && {
+		[ `netstat -lntup | grep -E "${PORT}.*mysqld" | wc -l` -ne 0 ] && {
 			echo "Mysql is running"
 			exit 4
 		}
-		/application/mysql/bin/mysqld_safe --defaults-file=/data/$1/my.cnf >/dev/null 2>&1 &
+		/application/mysql/bin/mysqld_safe --defaults-file=/data/$PORT/my.cnf >/dev/null 2>&1 &
 		[ $? -eq 0 ] && {
-			echo "Mysql starts successfully"
+			action "Mysql starts successfully" /bin/true
 			exit 0
 		}
 fi
 
 # stop
-if [ $2 = "stop"  ]
+if [ $1 = "stop"  ]
 	then
-		/application/mysql/bin/mysqladmin -uroot -S /data/$1/tmp/mysql.sock shutdown -p"$PASSWORD" &>/dev/null
-		echo "MySQL stops successfully"
+		/application/mysql/bin/mysqladmin -uroot -S /data/$PORT/tmp/mysql.sock shutdown -p"$PASSWORD" &>/dev/null
+		action "MySQL stops successfully" /bin/true
 		exit 0
 fi
 
 # restart 
-if [ $2 = "restart"  ]
+if [ $1 = "restart"  ]
 	then
-		/application/mysql/bin/mysqladmin -uroot -S /data/$1/tmp/mysql.sock shutdown -p"$PASSWORD" &>/dev/null
-		/application/mysql/bin/mysqld_safe --defaults-file=/data/$1/my.cnf >/dev/null 2>&1 &
+		/application/mysql/bin/mysqladmin -uroot -S /data/$PORT/tmp/mysql.sock shutdown -p"$PASSWORD" &>/dev/null
+		action "MySQL stops successfully" /bin/true
+		/application/mysql/bin/mysqld_safe --defaults-file=/data/$PORT/my.cnf >/dev/null 2>&1 &
 		[ $? -eq 0 ] && {
-			echo "Mysql restarts successfully"
+			action "Mysql starts successfully" /bin/true
 			exit 0
 		}
 fi
+
 ```
 #### 问题
 1. MySQL启动时输出太多,怎么办
