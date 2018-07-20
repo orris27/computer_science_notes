@@ -8,7 +8,7 @@ orris="I am a good boy"
 4. `${#xxx}`:获取xxx变量的字符长度
 5. `${xxx:2}`:从第2字符开始取到最后,`${string:position}`
 + `${xxx:2:2}`:从第2字符开始取2个(`cut -c`也可以).`${string:position:length}`
-6. `${string/substring/replace}`:对字符串里substring的内容替换为replace
+6. `${string/substring/replace}`:对字符串里第一个匹配substring的内容替换为replace
 ```
 file=/dir1/dir2/dir3/my.file.txt
 ${file#*/}：删掉第一个 / 及其左边的字符串：dir1/dir2/dir3/my.file.txt
