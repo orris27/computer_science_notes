@@ -252,8 +252,10 @@ make && make install
 #### 9-2-2. 特殊OP
 ```
 [ -d DIR ] # 如果DIR存在并且是一个目录,为真
-[ -f FILE ] #　如果FILE存在并且为一个文件,为真
-[ -z STRING ] # 如果STRING的字符串长度为0,为真
+[ -f FILE ] #　如果FILE存在并且为一个普通文件,为真
+[ -x FILE ] # 如果FILE存在并且可执行,为真
+[ -s FILE ] # 如果FILE存在并且大小不为0,为真
+[ -z STRING ] # 如果STRING的字符串长度为0,为真(如果[ -z ]的话,那么也是真)
 [ -n STRING ] # 如果STRING的字符串长度不为0,为真
 [ STRING1 = STRING2 ] # 字符串相同,为真
 [ STRING1 != STRING2 ] # 字符串不相同,为假
