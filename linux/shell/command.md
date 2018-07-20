@@ -311,13 +311,12 @@ echo 1234 > b.txt
 vimdiff a.txt b.txt
 ```
 
-## 14. 文本处理
-### 14-1. head
+## 14. head
 获取前面几行,默认10行,`-n5`表示5行
 
-### 14-2. tail
+## 15. tail
 获取后面几行,默认10行,`-n5`表示5行
-#### option
+### option
 1. `-n`:几行
 2. `-f`:检测文件结尾的变化
 + 看日志很方便
@@ -325,31 +324,31 @@ vimdiff a.txt b.txt
 tail -f a.txt # 然后如果我们在a.txt里写点东西,就会看到结果了
 ```
 
-### 14-3. sort
+## 15. sort
 以行为单位排序,默认按字符进行比较,`-n`则按数字大小比较
-#### 格式
+### 格式
 `sort [option] file...`
-#### option
+### option
 1. `-f`: 忽略字符大小写；
 2. `-n`: 比较数值大小；
 3. `-t`: 指定分隔符
 4. `-k`: 分隔符给定后,指定第几列
 5. `-u`: 重复的行，只显示一次；
 6. `-r`: 倒排
-#### 对当前目录下的所有文件名排序输出
+### 对当前目录下的所有文件名排序输出
 ```
 ls | sort
 ```
-### 14-4. wc
-#### 格式
+## 16. wc
+### 格式
 `wc [option] [file]...`
-#### option
+### option
 ```
     -l: 统计行数
     -c: 统计字节数
     -w；统计单词数
 ```
-#### 查看当前目录下主人为orris的可执行文件数量
+### 查看当前目录下主人为orris的可执行文件数量
 找到所有普通文件后,打印相关信息,行处理这些信息筛选得到可执行文件,打印出来的输出作为wc的输入,统计行数就行了
 + wc如果参数为文件名,则会统计里面的结果.所以不能find的结果直接给wc
 + xargs一般配合`find .. |`,而不是单独的`|`
@@ -357,13 +356,13 @@ ls | sort
 echo "orris's bins: $(find ./ -type f -user orris -print | xargs ls -l | sed -n '/-..x/p' | wc -l)"
 ```
 
-### 14-5. uniq
+## 17. uniq
 移除相邻的重复的行
-#### option
+### option
 1. `-c`: 显示每行重复的次数
 2. `-d`: 仅显示重复过的行
 3. `-u`: 仅显示不曾重复的行
-#### 寻找出现次数前三的单词
+### 寻找出现次数前三的单词
 某个文件中第一列存的都是单词.先字典排序,重复的统计个数.这样第一列为个数,第二列为单词.根据第一列排序.最后取前三个
 1. 统计个数:因为uniq只处理相邻行,所以先排序
 2. 根据第一列排序方法:使用sort的k参数.k后面跟第几列
@@ -376,6 +375,31 @@ echo "orris's bins: $(find ./ -type f -user orris -print | xargs ls -l | sed -n 
 awk '{print $1}' $1 | sort | uniq -c | sort -k1nr | head -n3
 ```
 
+## 18. cat
+1. 打印文件内容
+2. 清空文件内容
+3. 合并两个文件内容
+```
+echo "123"> a.txt
+echo "456" > b.txt
+cat a.txt b.txt 
+cat a.txt b.txt  > ab.txt
+```
+4. 非交互式编辑/追加内容
++ 编辑
+```
+cat > ab.txt <<EOF
+hello
+fun
+EOF
+```
++ 追加
+```
+cat >> ab.txt <<EOF
+hello
+fun
+EOF
+```
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
