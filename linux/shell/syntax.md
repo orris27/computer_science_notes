@@ -308,6 +308,18 @@ HISTCONTROL=ignorespace
 echo 123
  echo 12321
 ```
+#### 10-1-3. 查看环境变量
+1. `env`
+2. `printenv`
+3. 查看dinner是不是环境变量
+```
+env | grep dinner
+env | grep 'dinner'
+```
+#### 10-1-4. 删除
+```
+unset dinner
+```
 
 ### 10-2. 局部变量
 作用域在子进程(一个shell脚本)里的变量
@@ -318,6 +330,15 @@ echo 123
 #### 10-2-2. 转换成环境变量
 1. `export dinner`
 2. `declare -x dinner`:不推荐
+
+#### 10-2-3. 查看局部变量
+```
+set | grep dinner
+```
+#### 10-2-4. 删除
+```
+unset dinner
+```
 
 ### 10-3. 特殊变量
 真正的参数其实是在"./1.sh"后面的字符串.因此参数列表, 参数个数, shift都是针对$1, $2, ....
@@ -345,3 +366,11 @@ echo 2*3 | bc
 ```
 echo $((2*3))
 ```
+
+## 12. 通配符
+1. `*` 
+2. `?` 
+3. `[]`
+### 例子
+`[abcdt]?.sh` => `t1.sh`
+
