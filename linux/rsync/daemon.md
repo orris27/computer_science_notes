@@ -84,7 +84,7 @@ rsync -avz --no-o --no-g /data/ rsync_backup@172.16.55.136::shared --password-fi
 
 ## rsyncd脚本
 具体细节参考
-> 
+> https://github.com/orris27/orris/blob/master/linux/shell/marvelous.md
 ```
 #! /bin/sh
 
