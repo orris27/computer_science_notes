@@ -82,5 +82,8 @@ rsync -avz --no-o --no-g /data/ rsync_backup@172.16.55.136::shared --password-fi
 1. `--daemon`:让rsync以daemon的形式启动
 2. `--config`:指定配置文件,默认是`/etc/rsyncd.config`
 
-
+## rsyncd脚本
+### 问题
+#### 1. 如果我`/server/scripts/rsync stop`的话,为什么会显示`Terminated`?而如果用`sh`执行的话就不会呢?
+> https://github.com/orris27/orris/blob/master/linux/shell/marvelous.md
 
