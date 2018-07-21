@@ -50,4 +50,4 @@ sudo make && sudo make install
 
 ### 注意
 1. **如果使用`pkill`的话,自己的脚本文件绝对不要用对应的名字!!!如`pkill rsync`的话,自己的脚本不要取名叫做`rsync`!!!,甚至包含也不行!!**
-+ 比如我脚本取名叫`rsync`,而我停止rsync服务端是用`pkil rsync`的,实际上就把包括自己脚本在内的所有包含`rsync`字符串的进程都kill了.而被kill之后就会显示Terminated.具体可看下面
++ 比如我脚本取名叫`rsync`,而我停止rsync服务端是用`pkil rsync`的,实际上就把包括自己脚本在内的所有包含`rsync`字符串的进程都kill了.而被kill之后就会显示Terminated.
