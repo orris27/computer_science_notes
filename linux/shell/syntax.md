@@ -507,3 +507,51 @@ cat /proc/sys/kernel/random/uuid
 # sudo yum install expect -y
 mkpasswd -l 8 # 8是位数
 ```
+
+## 15. 数组
+### 15-1. 定义
+1. 写法1
+```
+array=(orris 100 hello)
+```
+2. 写法2
+```
+array=(
+ orris
+ 100
+ hello
+)
+```
+### 15-2. 获取
+#### 15-2-1. 整体
+```
+echo ${array[*]}
+echo ${array[@]}
+```
+
+#### 15-2-2. 元素
+```
+echo ${array[2]}
+```
+
+#### 15-2-3. 长度
+```
+echo ${#array[*]}
+echo ${#array[@]}
+```
+
+### 15-3. 增加
+#### 15-3-1. 元素
+```
+array[3]=new
+```
+
+### 15-4. 删除
+#### 15-4-1. 元素
+```
+unset array[2]
+```
+#### 15-4-2. 整体
+```
+unset array
+```
