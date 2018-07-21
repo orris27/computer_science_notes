@@ -471,7 +471,7 @@ type cd
 > https://github.com/orris27/orris/blob/master/linux/shell/command.md
 
 ## 14. 随机数
-### 14-1. $RANDOM
+### 14-1. RANDOM
 Each time this parameter is referenced, a random integer between 0 and 32767 is  generated.(见`man bash`)
 + 使用`echo $RANDOM`就可以了
 #### 生成随机的0为字符串
@@ -479,4 +479,29 @@ Each time this parameter is referenced, a random integer between 0 and 32767 is 
 + `md5sum`可以做hash计算
 ```
 echo $RANDOM | md5sum | cut -c 1-8
+```
+
+### 14-2. openssl
+```
+openssl rand -base64 8
+```
+
+### 14-3. date
+```
+date +%s%N
+```
+
+### 14-4. urandom
+```
+head /dev/urandom | cksum
+```
+### 14-5. uuid
+```
+cat /proc/sys/kernel/random/uuid
+```
+
+### 14-6. mkpasswd
+```
+# sudo yum install expect -y
+mkpasswd -l 8 # 8是位数
 ```
