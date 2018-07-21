@@ -119,11 +119,6 @@ function stop(){
 }
 
 
-# ensure the number of arguments to be 1
-[ $# -ne 1 ] && {
-    echo "Usage: /server/scripts/rsync [start|stop|restart]" 
-    exit 1
-}
 
 # ensure that the user is the root
 [ $UID -ne 0 ] && {
