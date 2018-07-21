@@ -880,6 +880,19 @@ dos2unix xx.sh
 1. `-x`:将执行的内容和输出显示出来,用来调试
 + 如果要调试代码块的话,就在前后分别加上`set -x`,`set +x`就可以了
 
+## 32. arp
+具体介绍
+> https://coggle.it/diagram/WyYWb0Yeep9zuJ9R/t/protocol
+### option
+1. `-a`:查看arp缓存
+2. `-d address`:删除某个ip地址的arp缓存
+
+## 33. arping
+### ARP广播从而获取新的地址解析
+```
+/sbin/arping -I eth0 -c 3 -s 10.0.0.162 10.0.0.253
+/sbin/arping -U -I eth0 10.0.0.162
+```
 
 
 ## 0. 实战
