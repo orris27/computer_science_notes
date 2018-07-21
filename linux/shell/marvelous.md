@@ -49,6 +49,7 @@ sudo make && sudo make install
 1. kill的时候,不适用`pkill`(如果使用,需要注意自己的脚本文件是否会被kill掉),而是使用pid文件
 2. 使用pid文件需要判断pid文件是否存在
 3. `stop`后不能马上`start`,因为可能会导致pid文件还没被删除
+4. 如果使用`case`来判断`[start|stop|restart]`的话,就不用判断`$#`了
 > https://github.com/orris27/orris/blob/master/linux/rsync/daemon.md
 
 ### 注意
