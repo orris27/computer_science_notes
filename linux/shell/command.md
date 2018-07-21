@@ -342,6 +342,30 @@ expr $[1+2]
 ```
 read -t 60 -p 'input a&b:' a b
 ```
+### 12-4. 文件读取每一行处理
+1. 管道
+```
+cat a.log | while read line
+do
+	echo ==="$line"===
+done
+```
+2. 重定向
+```
+while read line
+do
+	echo ==="$line"===
+done < a.log
+```
+3. `exec`
+```
+exec < a.log
+while read line
+do
+	echo ==="$line"===
+done
+```
+
 
 ## 13. vimdiff
 比较两个文件(如两个txt文件)的差异
