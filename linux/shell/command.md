@@ -712,6 +712,7 @@ echo $? # 如果Web正常,就是0;否则非0
 类似于systemctl
 1. 根据对应语法添加到指定目录下
 + `chkconfig`的语法:只需要在开头加两行就行了,需要设定开机级别,启动优先级,关闭优先级(具体`man chkconfig`).`systemctl`则是模块的语法
+- `ll /etc/rc.d/rc3.d/`下面看有没有对应级别,有的话就换一个
 + `chkconfig`的指定目录:`/etc/init.d`
 + 添加的两行需要有注释
 ```
