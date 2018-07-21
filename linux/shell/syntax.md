@@ -557,8 +557,7 @@ unset array
 ```
 ### 15-5. 遍历
 ```
-total=`echo ${#array[*]}` 
-for i in `seq 0 $((total-1))`
+for ((i=0;i<${#array[*]};i++))
 do 
 	echo ${array[$i]}
 done
