@@ -45,3 +45,8 @@ sudo make && sudo make install
 ## 4. 实战
 1. MySQL多实例脚本
 > https://github.com/orris27/orris/blob/master/database/mysql/mysqld_multi.md
+2. rsync服务端脚本(参考MySQL多实例脚本)
+> https://github.com/orris27/orris/blob/master/linux/rsync/daemon.md
+
+### 注意
+**如果使用`pkill`的话,自己的脚本文件绝对不要用对应的名字!!!如`pkill rsync`的话,自己的脚本不要取名叫做`rsync`!!!,甚至包含也不行!!**
