@@ -149,6 +149,9 @@ do
 
 done
 ```
+#### 读取文件每一行处理
+> https://github.com/orris27/orris/blob/master/linux/shell/command.md
+
 ### 3-3. until
 比while就是先做,其他都一样
 ```
