@@ -93,6 +93,11 @@ PIDFILE=/var/run/rsyncd.pid
 source /etc/init.d/functions 
 
 function start() {
+	# if the server is running, just exit
+	[ -f "$PIDFILE" ] && {
+		echo "rsync is running"
+		return 0
+	}
 	rsync --daemon 
 	if [ $? -eq 0 ]
 		then 
@@ -107,7 +112,12 @@ function start() {
 
 
 function stop(){
-	[ -f "$PIDFILE" ] && kill `cat $PIDFILE`
+	[ -f "$PIDFILE" ] || {
+		echo "rsync isn't running"
+		return 0
+	}
+
+	kill `cat $PIDFILE` && rm -f "$PIDFILE"
 	if [ $? -eq 0 ]
 		then 
 			action "rsync stops successfully" /bin/true
@@ -129,26 +139,24 @@ function stop(){
 
 case "$1" in 
 start)
-	# check if the mysql of the pid has been started 
-	[ `netstat -lntup | grep -E "873.*rsync" | wc -l` -ne 0 ] && {
-		echo "rsync is running"
-		exit 4
-	}
-	start && exit 0 || exit 1
+	start 
+	RETVAL=$?
 	;;
 stop)
-	stop && exit 0 || exit 1
+	stop 
+	RETVAL=$?
 	;;
 restart)
 	stop 
-	sleep 1 # ensure that the pid file has been removed
-	start && exit 1 || exit 0
+	start 
+	RETVAL=$?
 	;;
 *)
 	echo "Usage: /server/scripts/rsync [start|stop|restart]" 
 	exit 1
 	;;
 esac
+exit $RETVAL
 ```
 ### 问题
 #### 1. 如果我`/server/scripts/rsync stop`的话,为什么会显示`Terminated`?而如果用`sh`执行的话就不会呢?
