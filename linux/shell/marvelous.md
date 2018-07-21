@@ -46,16 +46,17 @@ sudo make && sudo make install
 ### 4-1. MySQL多实例脚本
 > https://github.com/orris27/orris/blob/master/database/mysql/mysqld_multi.md
 ### 4-2. rsync服务端脚本(参考MySQL多实例脚本)
-1. kill的时候,不适用`pkill`(如果使用,需要注意自己的脚本文件是否会被kill掉),而是使用pid文件
+1. kill
++ 不推荐`pkill`(如果使用,需要注意自己的脚本文件是否会被kill掉),而是使用pid文件的`kill`
++ `kill -USR2`不会删除PID文件,需要手动删除
++ `kill`会删除PID文件,但需要时间
 2. 使用pid文件需要判断pid文件是否存在
-3. `stop`如果使用`kill`的方法的话,不能马上`start`,因为可能会导致pid文件还没被删除
-4. 如果使用`case`来判断`[start|stop|restart]`的话,就不用判断`$#`了
-5. 如果使用`kill -USR2`的话,pid文件不会被删除,而`kill`的话,pid文件会删除,但需要时间.
-6. 判断进程是否启动有很多种方法.如果使用pid的话,stop的时候要删除
-+ pid
+3. 如果使用`case`来判断`[start|stop|restart]`的话,就不用判断`$#`了
+4. 判断服务是否已经启动有很多种方法
++ pid文件(推荐,甚至也可以是其他flag文件)=>start检查pid;stop删除pid
 + 进程
 + 端口
-
+5. `case`里的返回值不使用`xx && exit 0 || exit 1`,而是使用`RETVAL`变量接收返回值并统一返回(模仿rpcbind)
 > https://github.com/orris27/orris/blob/master/linux/rsync/daemon.md
 
 ### 注意
