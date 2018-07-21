@@ -53,7 +53,9 @@ sudo make && sudo make install
 2. 使用pid文件需要判断pid文件是否存在
 3. 如果使用`case`来判断`[start|stop|restart]`的话,就不用判断`$#`了
 4. 判断服务是否已经启动有很多种方法
-+ pid文件(推荐,甚至也可以是其他flag文件)=>start检查pid;stop删除pid
++ 特殊文件(推荐)=>start检查文件是否存在;stop删除文件
+- `rsync`:pid文件
+- `mysql`:sock文件
 + 进程
 + 端口
 5. `case`里的返回值不使用`xx && exit 0 || exit 1`,而是使用`RETVAL`变量接收返回值并统一返回(模仿rpcbind)
