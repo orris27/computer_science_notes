@@ -69,10 +69,11 @@ chmod 600 /etc/rsync.password
 + 使用方法=普通的scp/rsync,只是要用`::`
 + 密码<=交互/非交互(命令行/文件)
 + 使用模块的认证用户登录,区分普通用户用`::`两个冒号
++ `--no-o`,`--no-g`:表示不保留owner和group,而`-a`则隐式地包含了要保留owner,group等,所以这里显示指出报错说`rsync: chgrp ".test.JwAACF" (in shared) failed: Operation not permitted (1)`
 ```
-rsync -avz rsync_backup@172.16.55.136::shared /data
-rsync -avz rsync_backup@172.16.55.136::shared /data --password-file=/etc/rsync.password
-rsync -avz /data/ rsync_backup@172.16.55.136::shared --password-file=/etc/rsync.password
+rsync -avz --no-o --no-g rsync_backup@172.16.55.136::shared /data
+rsync -avz --no-o --no-g rsync_backup@172.16.55.136::shared /data --password-file=/etc/rsync.password
+rsync -avz --no-o --no-g /data/ rsync_backup@172.16.55.136::shared --password-file=/etc/rsync.password
 ```
 
 
