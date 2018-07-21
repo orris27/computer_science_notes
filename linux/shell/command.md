@@ -894,6 +894,21 @@ dos2unix xx.sh
 /sbin/arping -U -I eth0 10.0.0.162
 ```
 
+## 34. lsmod
+Show the status of modules in the Linux Kernel
+### 34-1. 检测Linux内核是否已经有ipvs
+```
+lsmod | grep ip_vs
+```
+
+## 35. modprobe
+Add and remove modules from the Linux Kernel
+### 35-1. 添加ip_vs到Linux内核
+```
+modprobe ip_vs
+```
+
+
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
