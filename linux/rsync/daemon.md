@@ -1,7 +1,7 @@
 ## 配置
 ### 1. 服务端
 #### 1-1. 编辑配置文件
-rsyncd的配置文件是`/etc/rsyncd.conf`.
+rsyncd的配置文件是`/etc/rsyncd.conf`
 + `[shared]`为模块名
 + 模块名下的`path = /shared/`表示分享出来的文件夹
 + `auth users`表示允许以什么虚拟用户的身份访问,这个认证用户是假的,不用我们用`useradd`添加
@@ -75,5 +75,12 @@ rsync -avz --no-o --no-g rsync_backup@172.16.55.136::shared /data
 rsync -avz --no-o --no-g rsync_backup@172.16.55.136::shared /data --password-file=/etc/rsync.password
 rsync -avz --no-o --no-g /data/ rsync_backup@172.16.55.136::shared --password-file=/etc/rsync.password
 ```
+
+
+## 使用
+### option
+1. `--daemon`:让rsync以daemon的形式启动
+2. `--config`:指定配置文件,默认是`/etc/rsyncd.config`
+
 
 
