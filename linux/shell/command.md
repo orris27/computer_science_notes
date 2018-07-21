@@ -729,6 +729,11 @@ chkconfig --add xxx # 这里的xxx为放在指定目录下的文件名,如mysqld
 chkconfig --list xxx # 如mysqld
 ```
 
+## 28. kill
+#### Terminated
+如果进程A被杀死了,就会显示Terminated.见下面
+> https://github.com/orris27/orris/blob/master/linux/shell/marvelous.md
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
