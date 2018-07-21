@@ -555,3 +555,13 @@ unset array[2]
 ```
 unset array
 ```
+### 15-5. 遍历
+```
+total=`echo ${#array[*]}` 
+for i in `seq 0 $((total-1))`
+do 
+	echo ${array[$i]}
+done
+```
+### 15-6. 应用
+1. 在数组定义里执行命令,如`array=($(ls))`可以获取当前目录下的所有文件名
