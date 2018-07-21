@@ -197,17 +197,20 @@ server-id=3
 + 启动MySQL的话最好给个`sleep`时间,因为服务启动需要时间
 ```
 #! /bin/sh
-PASSWORD=
-PORT=3306
+# chkconfig: 2345 21 60
+# description: Starts and stops mysqld_multi
+
+PASSWORD="newpassword"
+PORT=3307
 
 source /etc/init.d/functions
 
 
 function start_mysql () {
 	/application/mysql/bin/mysqld_safe --defaults-file=/data/$PORT/my.cnf >/dev/null 2>&1 &
-	sleep 2
 	if [ $? -eq 0 ]
 		then 
+			sleep 2
 			action "Mysql starts successfully" /bin/true
 			return 0
 		else 
@@ -241,32 +244,29 @@ function stop_mysql(){
 	exit 2
 }
 
-# start
-if [ $1 = "start" ]
-	then
-		# check if the mysql of the pid has been started 
-		[ `netstat -lntup | grep -E "${PORT}.*mysqld" | wc -l` -ne 0 ] && {
-			echo "Mysql is running"
-			exit 4
-		}
-		start_mysql && exit 0 || exit 1
-fi
 
-# stop
-if [ $1 = "stop"  ]
-	then
-		stop_mysql && exit 0 || exit 1
-fi
+case "$1" in 
+start)
+	# check if the mysql of the pid has been started 
+	[ `netstat -lntup | grep -E "${PORT}.*mysqld" | wc -l` -ne 0 ] && {
+		echo "Mysql is running"
+		exit 4
+	}
+	start_mysql && exit 0 || exit 1
+	;;
+stop)
+	stop_mysql && exit 0 || exit 1
+	;;
+restart)
+	stop_mysql 
+	start_mysql && exit 1 || exit 0
+	;;
+*)
+	echo "Usage: /data/$PORT/mysql [start|stop|restart]" 
+	exit 1
+	;;
+esac
 
-# restart 
-if [ $1 = "restart"  ]
-	then
-		stop_mysql 
-		start_mysql && exit 1 || exit 0
-fi
-
-echo "Usage: /data/$PORT/mysql [start|stop|restart]" 
-exit 1
 ```
 #### 问题
 1. MySQL启动时输出太多,怎么办
