@@ -469,3 +469,14 @@ type cd
 ## 13. 后台
 如果脚本执行时间很长,那么可以考虑后台运行
 > https://github.com/orris27/orris/blob/master/linux/shell/command.md
+
+## 14. 随机数
+### 14-1. $RANDOM
+Each time this parameter is referenced, a random integer between 0 and 32767 is  generated.(见`man bash`)
++ 使用`echo $RANDOM`就可以了
+#### 生成随机的0为字符串
+先生成随机数,然后用hash算法加密,最后随便从加密后的字符串里取8位就可以了
++ `md5sum`可以做hash计算
+```
+echo $RANDOM | md5sum | cut -c 1-8
+```
