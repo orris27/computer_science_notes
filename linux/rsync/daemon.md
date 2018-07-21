@@ -83,6 +83,78 @@ rsync -avz --no-o --no-g /data/ rsync_backup@172.16.55.136::shared --password-fi
 2. `--config`:指定配置文件,默认是`/etc/rsyncd.config`
 
 ## rsyncd脚本
+具体细节参考
+> 
+```
+#! /bin/sh
+
+PIDFILE=/var/run/rsyncd.pid
+
+source /etc/init.d/functions 
+
+function start() {
+	rsync --daemon 
+	if [ $? -eq 0 ]
+		then 
+			sleep 2
+			action "rsync starts successfully" /bin/true
+			return 0
+		else 
+			action "rynsc fails to start" /bin/false
+			return 1
+	fi		
+}
+
+
+function stop(){
+	[ -f "$PIDFILE" ] && kill `cat $PIDFILE`
+	if [ $? -eq 0 ]
+		then 
+			action "rsync stops successfully" /bin/true
+			return 0
+		else 
+			action "rsync fails to stop" /bin/false
+			return 1
+	fi
+}
+
+
+# ensure the number of arguments to be 1
+[ $# -ne 1 ] && {
+    echo "Usage: /server/scripts/rsync [start|stop|restart]" 
+    exit 1
+}
+
+# ensure that the user is the root
+[ $UID -ne 0 ] && {
+	echo "You must be root"
+	exit 2
+}
+
+
+case "$1" in 
+start)
+	# check if the mysql of the pid has been started 
+	[ `netstat -lntup | grep -E "873.*rsync" | wc -l` -ne 0 ] && {
+		echo "rsync is running"
+		exit 4
+	}
+	start && exit 0 || exit 1
+	;;
+stop)
+	stop && exit 0 || exit 1
+	;;
+restart)
+	stop 
+	sleep 1 # ensure that the pid file has been removed
+	start && exit 1 || exit 0
+	;;
+*)
+	echo "Usage: /server/scripts/rsync [start|stop|restart]" 
+	exit 1
+	;;
+esac
+```
 ### 问题
 #### 1. 如果我`/server/scripts/rsync stop`的话,为什么会显示`Terminated`?而如果用`sh`执行的话就不会呢?
 > https://github.com/orris27/orris/blob/master/linux/shell/marvelous.md
