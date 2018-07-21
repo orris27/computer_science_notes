@@ -185,7 +185,7 @@ awk 'BEGIN {FS=":"} {printf "%s\t%s\n",$1, $7}' /etc/passwd
 3. 如果是BEGIN,则先处理BEGIN后面的`{actions}`,之后再处理下有一个`{actions}`
 
 ## 8. paste
-将文件1和文件2按列组成一行
+将文件1和文件2按列组成一行n
 ### 字母的组合
 ```
 seq 26 > a.log
@@ -833,6 +833,37 @@ md5sum -c md5sum.db # 由于我们是直接把md5sum的输出放到md5sum.db中�
 + 指纹存放在`/tmp/www_check/md5sum.db`
 + 正确的文件数放在`/tmp/www_check/total_file.log`
 + 错误日志放在`/tmp/www_check/error.log`
+###### 代码上线后,先更新指纹库等
+```
+find /tmp/www -type f | xargs md5sum >/tmp/www_check/md5sum.db
+find /tmp/www -type f | wc -l >/tmp/www_check/total_file.log
+```
+###### 定时检查
+```
+#! /bin/sh
+
+site="/tmp/www" # the site to be checked
+path="/tmp/www_check" # the directory to store info
+error_log="$path"/"error.log"
+md5sum_db="$path"/"md5sum.db"
+total_file="$path"/"total_file.log"
+tmp="$path"/"tmp"
+
+while true
+do
+
+    # check md5sum
+    md5sum -c "$md5sum_db" 2>/dev/null | grep -v 'OK' >"$error_log" 2>&1
+
+    # check number of files
+    file_total_res=`find "$site" -type f | wc -l`
+    [ `cat "$total_file"` != "$file_total_res" ] && {
+        echo "file number:correct:`cat ${total_file}`;;current:${file_total_res}" >> "$error_log"
+    }
+    break
+done
+```
+
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
