@@ -43,9 +43,12 @@ sudo make && sudo make install
 ```
 
 ## 4. 实战
-1. MySQL多实例脚本
+### 4-1. MySQL多实例脚本
 > https://github.com/orris27/orris/blob/master/database/mysql/mysqld_multi.md
-2. rsync服务端脚本(参考MySQL多实例脚本)
+### 4-2. rsync服务端脚本(参考MySQL多实例脚本)
+1. kill的时候,不适用`pkill`(如果使用,需要注意自己的脚本文件是否会被kill掉),而是使用pid文件
+2. 使用pid文件需要判断pid文件是否存在
+3. `stop`后不能马上`start`,因为可能会导致pid文件还没被删除
 > https://github.com/orris27/orris/blob/master/linux/rsync/daemon.md
 
 ### 注意
