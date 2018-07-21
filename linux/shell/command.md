@@ -860,7 +860,7 @@ do
     [ `cat "$total_file"` != "$file_total_res" ] && {
         echo "file number:correct:`cat ${total_file}`;;current:${file_total_res}" >> "$error_log"
     }
-    break
+    sleep 300
 done
 ```
 
