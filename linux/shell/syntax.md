@@ -121,6 +121,8 @@ exit 0
 
 ## 3. 循环
 ### 3-1. for
+#### 使用
+1. python写法
 ```
 #! /bin/sh
 
@@ -128,6 +130,17 @@ for GIRL in saber serena
 do
 	echo "I like $GIRL"
 done
+```
+2. C写法
+```
+#! /bin/sh
+
+sum=0
+for ((i=0;i<=100;i++))
+do
+	((sum=sum+i))
+done
+echo $sum
 ```
 ### 3-2. while
 可以用来设计定时任务
