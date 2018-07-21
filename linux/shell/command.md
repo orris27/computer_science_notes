@@ -823,20 +823,25 @@ md5sum -c md5sum.db # 由于我们是直接把md5sum的输出放到md5sum.db中�
 只使用`md5sum`的话,是检测不到新文件的(因为`-c`只检查里面出现过的文件名,由于新建的文件不在指纹库里面,所以也不会被检查),所以还要自己判断文件数.
 #### 思路
 1. 代码上线后,获得文件的指纹库
-2. 获得正确的文件数量
+2. 记录正确的文件名
 3. 每5分钟,对指纹库检查,如果有错就记录到错误日志中
-4. 同时检查文件数量和原来的是否相同,如果有错,就记录到错误日志中
+4. 记录当前的文件名,与原来的文件名库比较,如果有错,就记录到错误日志中
 5. 如果错误日志不为空,就发送邮件到管理人中
 #### 实战
 ##### 假设
 + 监听目录为`/tmp/www`
 + 指纹存放在`/tmp/www_check/md5sum.db`
-+ 正确的文件数放在`/tmp/www_check/total_file.log`
++ 正确的文件库放在`/tmp/www_check/files.log`
 + 错误日志放在`/tmp/www_check/error.log`
++ 当前的文件库放在`/tmp/www_check/curr_files.log`
 ###### 代码上线后,先更新指纹库等
 ```
-find /tmp/www -type f | xargs md5sum >/tmp/www_check/md5sum.db
-find /tmp/www -type f | wc -l >/tmp/www_check/total_file.log
+#! /bin/sh
+
+site="/tmp/www"
+
+find "$site" -type f | xargs md5sum >/tmp/www_check/md5sum.db
+find "$site" -type f > /tmp/www_check/files.log
 ```
 ###### 定时检查
 ```
@@ -846,21 +851,21 @@ site="/tmp/www" # the site to be checked
 path="/tmp/www_check" # the directory to store info
 error_log="$path"/"error.log"
 md5sum_db="$path"/"md5sum.db"
-total_file="$path"/"total_file.log"
+files="$path"/"files.log"
+curr_files="$path"/"curr_files.log"
 tmp="$path"/"tmp"
 
 while true
 do
+	
+	# check md5sum
+	md5sum -c "$md5sum_db" 2>"$error_log" | grep -v 'OK' >"$error_log" 2>&1
 
-    # check md5sum
-    md5sum -c "$md5sum_db" 2>/dev/null | grep -v 'OK' >"$error_log" 2>&1
+	# check files
+	find "$site" -type f > "$curr_files"
+	diff "$files" "$curr_files" >> "$error_log"
 
-    # check number of files
-    file_total_res=`find "$site" -type f | wc -l`
-    [ `cat "$total_file"` != "$file_total_res" ] && {
-        echo "file number:correct:`cat ${total_file}`;;current:${file_total_res}" >> "$error_log"
-    }
-    sleep 300
+	sleep 300
 done
 ```
 
