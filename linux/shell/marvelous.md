@@ -62,6 +62,10 @@ sudo make && sudo make install
 > https://github.com/orris27/orris/blob/master/linux/rsync/daemon.md
 
 ### 4-3. 检测站点文件是否被篡改
+1. 如果将文件放到变量中的话,最好不要在程序里拼接路径.
++ `path=/tmp`:目录不要加最后的`/`,因为这样可以在拼接路径时显式指出`/`
++ `error_log="$path"/error.log`:这样就可以避免了,不要写`error_log=error.log`,这样没有意义
+2. 如果管道前提示了错误信息就直接在管道前`2>/dev/null`
 > https://github.com/orris27/orris/blob/master/linux/shell/command.md
 
 
