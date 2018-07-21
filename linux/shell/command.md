@@ -807,6 +807,26 @@ chkconfig --list xxx # 如mysqld
 如果进程A被杀死了,就会显示Terminated.见下面
 > https://github.com/orris27/orris/blob/master/linux/shell/marvelous.md
 
+## 29. md5sum
+### 29-1. option
+1. `-c`:read MD5 sums from the FILEs and check them.
+### 29-2. 获得`a.txt`的指纹
+```
+md5sum a.txt # 比如说输出"ba1f2511fc30423bdbb183fe33f3dd0f  a.txt"
+```
+### 29-3. 比较指纹
+```
+md5sum -c md5sum.db # 由于我们是直接把md5sum的输出放到md5sum.db中的,所以格式都是<指纹,文件>的形式,所以我们只要指定指纹库,md5sum就会自动检查每一行的文件是否和该行的指纹对应
+```
+
+### 检测站点文件是否被篡改
+假设:
++ 监听目录为`/tmp/www`
++ 指纹存放在`/tmp/md5sum.db`
+
+1. 代码上线后,获得文件的指纹库
+
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
