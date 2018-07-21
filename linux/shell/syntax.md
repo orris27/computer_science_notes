@@ -79,6 +79,8 @@ f a b cdeng
 和高级语言的思路一样,将函数统一写在一个脚本文件里,然后在主脚本文件里用`source xx.sh`来调用里面的函数
 + `source`和`.`可以将里面的局部变量和函数导出到当前环境
 + `/etc/functions`就是这样使用的
+具体可看 
+> https://github.com/orris27/orris/blob/master/linux/shell/command.md
 
 #### 例子
 ###### 创建文件夹,如果存在就不创建
