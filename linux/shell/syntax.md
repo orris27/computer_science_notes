@@ -149,6 +149,17 @@ do
 
 done
 ```
+### 3-3. until
+比while就是先做,其他都一样
+```
+until <condition>
+do
+	<statements>
+done
+```
+
+
+
 
 ## 4. 双引号 vs 单引号
 ### 4-1. 双引号
