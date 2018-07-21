@@ -179,6 +179,8 @@ do
 	<statements>
 done
 ```
+### 3-4. break, continue
+`break`和`continue`可以用`break n`,`continue n`的形式,表示跳出几层,很少用
 
 
 
