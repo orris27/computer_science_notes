@@ -266,10 +266,26 @@ make && make install
 1. `test`
 2. `[  ]`:中括号两边一定要有空格
 3. `[[  ]]`:不太了解...
+4. `(())`:可以用`((i<400))`判断内容是否小于400
 ### 9-2. 条件
 `man test`可以查看
 #### 9-2-1. 算术OP
-`-eq`, `-ne`, `-lt`, `-le`, `-gt`, `-ge`
+`-eq`, `-ne`, `-lt`, `-le`, `-gt`, `-ge`或者用`(())`来判断
+##### 钱一直减少,减到极限为止
+```
+#! /bin/sh
+
+sum=1000
+limit=50
+
+while ((sum>limit))
+do
+    echo "current:$sum"
+    ((sum=sum-50))
+done
+
+echo "no money"
+```
 #### 9-2-2. 普通OP
 ```
 [ -d DIR ] # 如果DIR存在并且是一个目录,为真
