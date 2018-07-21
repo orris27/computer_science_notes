@@ -41,11 +41,21 @@ sudo make && sudo make install
 # Function:  This script function is ...
 # Version:   4.2.46
 ```
+## 4. 处理某条命令的输出
+### 4-1. 管道
+输出为任意行
++ 空的1行和完全空是不一样的.在命令行中就是,前者两个`[root@172-19-28-82 www_check]#`会有空隙,后者没有
+### 4-2. 重定向到文件
+输出为任意行
+### 4-3. 直接比较
+输出确定为1行,不能为0行
+### 4-4. 赋值到变量
+输出确定为1行,不能为0行
 
-## 4. 实战
-### 4-1. MySQL多实例脚本
+## 5. 实战
+### 5-1. MySQL多实例脚本
 > https://github.com/orris27/orris/blob/master/database/mysql/mysqld_multi.md
-### 4-2. rsync服务端脚本(参考MySQL多实例脚本)
+### 5-2. rsync服务端脚本(参考MySQL多实例脚本)
 1. kill
 + 不推荐`pkill`(如果使用,需要注意自己的脚本文件是否会被kill掉),而是使用pid文件的`kill`
 + `kill -USR2`不会删除PID文件,需要手动删除
@@ -61,7 +71,7 @@ sudo make && sudo make install
 5. `case`里的返回值不使用`xx && exit 0 || exit 1`,而是使用`RETVAL`变量接收返回值并统一返回(模仿rpcbind)
 > https://github.com/orris27/orris/blob/master/linux/rsync/daemon.md
 
-### 4-3. 检测站点文件是否被篡改
+### 5-3. 检测站点文件是否被篡改
 1. 如果将文件放到变量中的话,最好不要在程序里拼接路径.
 + `path=/tmp`:目录不要加最后的`/`,因为这样可以在拼接路径时显式指出`/`
 + `error_log="$path"/error.log`:这样就可以避免了,不要写`error_log=error.log`,这样没有意义
