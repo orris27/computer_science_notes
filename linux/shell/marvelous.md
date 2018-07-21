@@ -48,8 +48,14 @@ sudo make && sudo make install
 ### 4-2. rsync服务端脚本(参考MySQL多实例脚本)
 1. kill的时候,不适用`pkill`(如果使用,需要注意自己的脚本文件是否会被kill掉),而是使用pid文件
 2. 使用pid文件需要判断pid文件是否存在
-3. `stop`后不能马上`start`,因为可能会导致pid文件还没被删除
+3. `stop`如果使用`kill`的方法的话,不能马上`start`,因为可能会导致pid文件还没被删除
 4. 如果使用`case`来判断`[start|stop|restart]`的话,就不用判断`$#`了
+5. 如果使用`kill -USR2`的话,pid文件不会被删除,而`kill`的话,pid文件会删除,但需要时间.
+6. 判断进程是否启动有很多种方法.如果使用pid的话,stop的时候要删除
++ pid
++ 进程
++ 端口
+
 > https://github.com/orris27/orris/blob/master/linux/rsync/daemon.md
 
 ### 注意
