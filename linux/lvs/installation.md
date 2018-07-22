@@ -77,14 +77,15 @@ ipvsadm -L -n
 ```
 #### 2-2. Real Server
 ##### 2-2-1. 绑定VIP
-在Real Server上的环回接口(LO)设备上绑定VIP地址(其广播地址是其本身,子网掩码是255.255.255.255,采取可变长掩码方式把网段划分成只含一个主机地址的目的xx,避免ip地址冲突)
+在Real Server上的环回接口(LO)设备上绑定VIP地址(其广播地址是其本身,子网掩码是255.255.255.255,采取可变长掩码方式把网段划分成只含一个主机地址的目的xx,避免ip地址冲突).
++ 只能在阿里云的管理终端上配置
 ```
 ifconfig lo:0 172.19.28.82/32 up
 ```
 ##### 2-2-2. 抑制ARP
 当客户的数据包来到服务器集群的局域网时,需要知道VIP是谁.如果不抑制ARP的话,那么所有节点都会响应.通过抑制ARP,我们只允许调度器接收数据包
 ```
-echo "1" > /proc/sys/net/ipv4/conf/lo/arp_ignore
+echo "1" > /proc/sys/net/ipv4/conf/lo/arp_ignore # 原来是0
 echo "2" > /proc/sys/net/ipv4/conf/lo/arp_announce
 echo "1" > /proc/sys/net/ipv4/conf/all/arp_ignore
 echo "2" > /proc/sys/net/ipv4/conf/all/arp_announce
@@ -107,3 +108,5 @@ make: *** [libs] Error 2
 ```
 sudo yum install libnl* popt* -y
 ```
+#### 3-2. 在阿里云的远程连接里设置好LO的IP后,virutal server就ping不通real server了
+
