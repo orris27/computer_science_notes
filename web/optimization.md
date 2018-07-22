@@ -38,3 +38,6 @@
 
 > 如何检测文件是否被篡改
 > https://coggle.it/diagram/WyEPLdpZzYyocNzH/t/%E8%BF%90%E7%BB%B4
+
+## 5. Web服务器的磁盘满了,但是删除了日志后,磁盘还是满的,怎么办
+> https://coggle.it/diagram/WzL2LBN_z0F1AqoH/t/linux%E6%96%87%E4%BB%B6
