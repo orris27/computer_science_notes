@@ -532,7 +532,7 @@ unrar x python.rar
 history -d 2000
 ```
 
-## 20. netstat
+## 20. netstat(deleted)
 查看网络状况,一般我们使用`sudo netstat -lntup | grep mysqld`这样的方式
 ### option
 1. `-u`:udp
@@ -696,7 +696,6 @@ telnet 127.0.0.1 11211 # 可以直接操作memcache
 tcpdump -n icmp -i eth0
 ```
 
-
 ### 26-7. route
 查看/修改网关
 #### option
@@ -733,7 +732,10 @@ route add default gw 10.0.0.254
 
 ### 26-8. netstat
 Print network connections, routing tables, interface sta‐tistics, masquerade connections, and multicast memberships
-
++ 查看网络状况,一般我们使用`sudo netstat -lntup | grep mysqld`这样的方式
+### option
+1. `-u`:udp
+2. `-t`:tcp
 
 
 ### 26-9. ping
@@ -776,6 +778,15 @@ nmap 172.16.55.137 -p1-65535
 wget --spider --timeout=10 --tries=2 127.0.0.1
 echo $? # 如果Web正常,就是0;否则非0
 ```
+
+
+### 26-14. ifconfig
+#### 26-14-1. 在环回接口上配置IP地址
+```
+ifconfig lo:0 172.19.28.82/32 up
+```
+
+
 
 ## 27. chkconfig
 设置开机自启动.
