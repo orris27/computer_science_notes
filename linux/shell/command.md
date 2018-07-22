@@ -785,16 +785,10 @@ echo $? # 如果Web正常,就是0;否则非0
 ```
 ifconfig lo:0 172.19.28.82/32 up
 ```
-#### 26-14-2. 禁用网卡
+#### 26-14-2. 禁用网络接口
 ```
-ifconfig eth0 down
+ifconfig eth0:0 down
 ```
-#### 26-14-3. 启用网卡
-```
-ifconfig eth0 up
-```
-
-
 
 ## 27. chkconfig
 设置开机自启动.
