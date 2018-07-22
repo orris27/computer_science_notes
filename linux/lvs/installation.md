@@ -47,6 +47,8 @@ modprobe ip_vs
 lsmod | grep ip_vs
 ```
 ### 2. 配置
++ 可能VIP应该选一个新的,然后配合在调度器的`eth0:0`上
++ 可能调度器和真实服务器都要`route add -host 172.19.28.xx dev eth0`(真实服务器应该是lo)
 #### 2-1. 虚拟节点
 ##### 2-1-0. ipvsadm
 > https://github.com/orris27/orris/blob/master/linux/shell/command.md
