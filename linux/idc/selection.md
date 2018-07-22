@@ -50,4 +50,6 @@ H3C和Dlink相对便宜
 + H3C
 + DLINK
 
+## 2. RAID
+> https://coggle.it/diagram/WypbXGlbpFG7yZv7/t/%E7%A3%81%E7%9B%98
 
