@@ -1,0 +1,25 @@
+## 1. 生产环境负载均衡集群系统架构设备选购案例
+### 1-1. 依据
+1. 价格
+2. 性能
+3. 冗余
+### 1-2. 负载均衡器
++ LVS1 主: DELL R610 1U, CPU E5606\*2, 4G\*2 内存 硬盘:SAS 146G\*2 RAID1
++ LVS2 主: DELL R610 1U, CPU E5606\*2, 4G\*2 内存 硬盘:SAS 146G\*2 RAID1
+### 1-3. Web层
++ WWW 主站1 业务(两台):DELL R710, CPU E5606\*2, 4G\*4 内存 硬盘:SAS 300G\*2 RAID0
++ WWW 主站2 业务(两台):DELL R710, CPU E5606\*2, 4G\*4 内存 硬盘:SAS 300G\*2 RAID0
+
+### 1-4. 数据库层
++ MySQL 主库1-1 :DELL R710, CPU E5606\*2, 4G\*8 内存 硬盘:SAS 600G\*6(或146G\*6) RAID10
++ MySQL 主库1-2 :DELL R710, CPU E5606\*2, 4G\*8 内存 硬盘:SAS 600G\*6(或146G\*6) RAID10
++ MySQL 从库1-1 :DELL R710, CPU E5606\*2, 4G\*4 内存 硬盘:SAS 15k 600G\*4 RAID0/RAID5
++ MySQL 从库1-2 :DELL R710, CPU E5606\*2, 4G\*4 内存 硬盘:SAS 15k 600G\*4 RAID0/RAID5
++ MySQL 从库2-1 :DELL R710, CPU E5606\*2, 4G\*4 内存 硬盘:SAS 15k 600G\*4 RAID0/RAID5
++ MySQL 从库2-2 :DELL R710, CPU E5606\*2, 4G\*4 内存 硬盘:SAS 15k 600G\*4 RAID0/RAID5
+
+
+### 1-5. 存储层
+#### 1-5-1. 数据备份
++ DELL R610, CPU E5606\*2, 16G 内存 硬盘:SATA 10k 2T\*4 可以不做RAID交叉备份
++ DELL R710, CPU E5606\*2, 16G 内存 硬盘:SATA 10k 2T\*6 RAID5 做RAID5是折中方案
