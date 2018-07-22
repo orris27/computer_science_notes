@@ -949,7 +949,13 @@ ipvsadm -D -t 172.19.28.82:80
 #### 36-2-3. 配置操作
 > https://github.com/orris27/orris/blob/master/linux/lvs/installation.md
 
-
+## 37. 磁盘和文件系统
+### 37-1. dumpe2fs
+dump ext2, ext3, ext4 filesystem infomation
+#### 37-1-1. 查看`/dev/vda1`的文件系统信息
+```
+sudo dumpe2fs /dev/vda1
+```
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
