@@ -46,8 +46,38 @@ modprobe ip_vs
 ```
 lsmod | grep ip_vs
 ```
-### 2. 常见问题
-#### 2-1. 
+### 2. 配置
+#### ipvsadm
+
+#### 清空当前列表
+```
+ipvsadm -C
+```
+#### 设置tcp,tcpfin,udp的超时时间(可选)
+```
+ipvsadm --set 30 5 60
+```
+#### 添加virtual server
+设置`172.19.28.82:80`为虚拟节点
++ 最好写明端口
++ 这里写的`-p 22`不是必需的
+```
+ipvsadm -A -t 172.19.28.82:80 -s rr -p 20
+```
+#### 添加real server
+在`172.19.28.82:80`的虚拟节点上添加real server `172.19.28.8x:80`,工作模式为DR,权重为1
+```
+ipvsadm -a -t 172.19.28.82:80 -r 172.19.28.83:80 -g -w 1
+ipvsadm -a -t 172.19.28.82:80 -r 172.19.28.84:80 -g -w 1
+```
+#### 检查是否添加成功
+```
+ipvsadm -L -n
+```
+
+
+### 3. 常见问题
+#### 3-1. 
 ```
 In file included from libipvs.h:13:0,
                  from libipvs.c:23:
