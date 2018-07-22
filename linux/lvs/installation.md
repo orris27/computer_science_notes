@@ -47,32 +47,47 @@ modprobe ip_vs
 lsmod | grep ip_vs
 ```
 ### 2. 配置
-#### ipvsadm
-
-#### 清空当前列表
+#### 2-1. 虚拟节点
+##### 2-1-0. ipvsadm
+> https://github.com/orris27/orris/blob/master/linux/shell/command.md
+##### 2-1-1. 清空当前列表
 ```
 ipvsadm -C
 ```
-#### 设置tcp,tcpfin,udp的超时时间(可选)
+##### 2-1-2. 设置tcp,tcpfin,udp的超时时间(可选)
 ```
 ipvsadm --set 30 5 60
 ```
-#### 添加virtual server
+##### 2-1-3. 添加virtual server
 设置`172.19.28.82:80`为虚拟节点
 + 最好写明端口
 + 这里写的`-p 22`不是必需的
 ```
 ipvsadm -A -t 172.19.28.82:80 -s rr -p 20
 ```
-#### 添加real server
+##### 2-1-4. 添加real server
 在`172.19.28.82:80`的虚拟节点上添加real server `172.19.28.8x:80`,工作模式为DR,权重为1
 ```
 ipvsadm -a -t 172.19.28.82:80 -r 172.19.28.83:80 -g -w 1
 ipvsadm -a -t 172.19.28.82:80 -r 172.19.28.84:80 -g -w 1
 ```
-#### 检查是否添加成功
+##### 2-1-5. 检查是否添加成功
 ```
 ipvsadm -L -n
+```
+#### 2-2. Real Server
+##### 2-2-1. 绑定VIP
+在Real Server上的环回接口(LO)设备上绑定VIP地址(其广播地址是其本身,子网掩码是255.255.255.255,采取可变长掩码方式把网段划分成只含一个主机地址的目的xx,避免ip地址冲突)
+```
+ifconfig lo:0 172.19.28.82/32 up
+```
+##### 2-2-2. 抑制ARP
+当客户的数据包来到服务器集群的局域网时,需要知道VIP是谁.如果不抑制ARP的话,那么所有节点都会响应.通过抑制ARP,我们只允许调度器接收数据包
+```
+echo "1" > /proc/sys/net/ipv4/conf/lo/arp_ignore
+echo "2" > /proc/sys/net/ipv4/conf/lo/arp_announce
+echo "1" > /proc/sys/net/ipv4/conf/all/arp_ignore
+echo "2" > /proc/sys/net/ipv4/conf/all/arp_announce
 ```
 
 
