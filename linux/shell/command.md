@@ -953,7 +953,6 @@ ipvs的管理工具
 11. `--tcp-service,-t service-address`:service-address is host[:port]
 12. `--real-server,-r server-address`:server-address is host (and port)
 13. `--gatewaying,-g`:gatewaying (direct routing) (default)
-14. `-X`:清除自定义的规则
 ### 36-2. 实战
 #### 36-2-1. 删除real server
 ```
@@ -989,6 +988,8 @@ Administration tool for ipv4 and ipv6 packet filtering and NAT.
 10. `-p, --protocol potocol`:检查什么协议的数据包(tcp,  udp,  udplite,  icmp,  icmpv6,esp, ah, sctp, mh)
 11. `--line-numbers`:通过`iptables -L -n --line-numbers`:显示规则的序号,这样我们删除的时候可以根据序号删除
 12. `-I, --insert chain [rulenum] rule-specification`:在某个链上添加规则,默认添加到规则的开头(推荐).用法和`--append`一样
+13. `-X, --delete-chain [chain]`:删除用户自定义的链
+14. `-P, --policy chain target`:我感觉是设置默认某条链的规则
 ### 38-2. 显示iptables的filter和NAT表的规则
 ```
 sudo iptables -L -n # filter
@@ -1072,7 +1073,55 @@ sudo iptables -t filter -D INPUT 1 # 如果规则对应的number=1
 sudo iptables -F
 sudo iptables -X
 sudo iptables -Z
-
+```
+### 38-6. 生产环境下的iptables
+#### 38-6-1. 清空iptables原有设置
+```
+sudo iptables -F
+sudo iptables -X
+sudo iptables -Z
+```
+#### 38-6-1. 允许局域网内的所有IP访问
+```
+sudo iptables -t filter -A INPUT -p tpc -s 172.19.28.0/24 -j ACCEPT
+```
+#### 38-6-2. 允许自己LO访问
+```
+sudo iptables -t filter -A INPUT -i lo -j ACCEPT
+sudo iptables -t filter -A OUTPUT -o lo -j ACCEPT
+```
+#### 38-6-2. 设置默认的防火墙禁止和允许规则(如果不匹配上面的规则,就使用默认的规则)
++ 允许OUTPUT
++ 拒绝FORWARD和INPUT
+```
+sudo iptables -t filter -P OUTPUT ACCEPT
+sudo iptables -t filter -P FORWARD DROP
+sudo iptables -t filter -P INPUT DROP
+```
+#### 38-6-2. 允许其他机房(自己人)访问
+```
+sudo iptables -t filter -A INPUT -p all -s 124.43.62.96/27 -j ACCEPT # 办公室固定的IP段
+sudo iptables -t filter -A INPUT -p all -s 192.168.1.0/24 -j ACCEPT # IDC机房的内网网段
+sudo iptables -t filter -A INPUT -p all -s 10.0.0.0/24 -j ACCEPT # 其他机房的内网网段
+sudo iptables -t filter -A INPUT -p all -s 203.83.24.0/24 -j ACCEPT # IDC机房的外网网段 
+sudo iptables -t filter -A INPUT -p all -s 201.82.34.0/24 -j ACCEPT # 其他IDC机房的外网网段
+```
+#### 38-6-2. 如果对外提供Web服务:开启80端口
+```
+sudo iptables -t filter -A INPUT -p tcp --dport 80 -j ACCEPT
+```
+#### 38-6-2. 如果对外提供服务,如希望对方ping通:允许对方ping
+```
+sudo iptables -t filter -A INPUT -p icmp --icmp-type 8 -j ACCEPT
+```
+#### 38-6-2. 如果对外提供FTP服务(Web服务不要使用FTP服务)
+```
+sudo iptables -t filter -A INPUT -m state --state ESTABLISHED, RELATED -j ACCEPT
+sudo iptables -t filter -A OUTPUT -m state --state ESTABLISHED, RELATED -j ACCEPT
+```
+#### 其他设备扫描我们的服务器
+```
+nmap 47.100.185.187 -p 1-65535
 ```
 
 
