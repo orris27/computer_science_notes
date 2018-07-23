@@ -1041,6 +1041,12 @@ modprobe ipt_state
 iptables -t filter -A INPUT -p tcp --dport 22 -j DROP # 如果是删除的话,-A=>-D
 ```
 如果要删除该规则的话,直接`iptables --flush`就行了
+##### 38-4-1-1. 问题:添加了drop 22 tcp端口也还是能访问?
+因为阿里云默认iptables前面已经有accept的规则了.根据从上到下的原理,在上面的规则就已经accept了,所以还能访问
+###### 38-4-1-1-1. 解决
+清理规则`iptables --flush INPUT`再执行就行了
+
+
 
 
 
