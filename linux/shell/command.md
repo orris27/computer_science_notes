@@ -969,6 +969,7 @@ Administration tool for ipv4 and ipv6 packet filtering and NAT.
 7. `-j`:如果规则匹配上了,要做什么处理(drop/return/accept)
 8. `-A, --append chain rule-specification`:在某个链上添加规则
 9. `-D, --delete chain rule-specification`:在某个链上删除规则
+10. `-p, --protocol potocol`:检查什么协议的数据包(tcp,  udp,  udplite,  icmp,  icmpv6,esp, ah, sctp, mh)
 ### 38-2. 显示iptables的filter和NAT表的规则
 ```
 sudo iptables -L -n # filter
