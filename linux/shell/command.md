@@ -992,6 +992,7 @@ Administration tool for ipv4 and ipv6 packet filtering and NAT.
 13. `-X, --delete-chain [chain]`:删除用户自定义的链
 14. `-P, --policy chain target`:我感觉是设置默认某条链的规则\
 15. `rule-specification`:`-p`指定协议(all,tcp,icmp等);`--dport`指定端口;`-s`指定ip
+16. `-N, --new-chain chain`:添加自定义的链
 ### 38-2. 显示iptables的filter和NAT表的规则
 ```
 sudo iptables -L -n # filter
@@ -1154,6 +1155,16 @@ sudo iptables -t filter -A INPUT -p all -s 201.82.34.0/24 -j ACCEPT
 ```
 
 
+### 38-7. 自定义链来防止syn攻击
+好像有点小问题
++ 不指明`-t`的话,默认使用filter表
+```
+sudo iptables -N syn-flood
+sudo iptables -A INPUT -i eth0 -syn -j syn-flood
+sudo iptables -A syn-flood -m limit -limit 5000/s -limit-burst 200 -j RETURN
+sudo iptables -A syn-flood -j DROP
+
+```
 
 
 
