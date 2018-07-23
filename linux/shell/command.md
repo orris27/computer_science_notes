@@ -717,7 +717,7 @@ tcpdump -n icmp -i eth0
 route del default gw 10.0.0.254 # 后面一个为实际电脑的默认网关
 ```
 
-###### 添加(临时生效)
+###### 添加(临时生效)s
 ```
 route add default gw 10.0.0.254
 ```
@@ -955,6 +955,18 @@ dump ext2, ext3, ext4 filesystem infomation
 #### 37-1-1. 查看`/dev/vda1`的文件系统信息
 ```
 sudo dumpe2fs /dev/vda1
+```
+
+## 38. iptables
+Administration tool for ipv4 and ipv6 packet filtering and NAT.
+### 38-1. options
+1. `-L`:列出指定链的所有规则(默认链为filter)
+2. `-n`:数字格式输出IP和PORT.不设置该参数的话,`127.0.0.1`会显示成`localhost`等
+3. `-t`:指定表的类型
+### 38-2. 显示iptables的filter和NAT表的规则
+```
+sudo iptables -L -n # filter
+sudo iptables -L -n -t nat # nat
 ```
 
 ## 0. 实战
