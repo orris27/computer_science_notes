@@ -1154,7 +1154,6 @@ sudo iptables -t filter -A INPUT -p all -s 203.83.24.0/24 -j ACCEPT
 sudo iptables -t filter -A INPUT -p all -s 201.82.34.0/24 -j ACCEPT
 ```
 
-
 ### 38-7. 自定义链来防止syn攻击
 好像有点小问题
 + 不指明`-t`的话,默认使用filter表
@@ -1163,10 +1162,23 @@ sudo iptables -N syn-flood
 sudo iptables -A INPUT -i eth0 -syn -j syn-flood
 sudo iptables -A syn-flood -m limit -limit 5000/s -limit-burst 200 -j RETURN
 sudo iptables -A syn-flood -j DROP
-
 ```
 
+### 38-8. 封IP
+我们在filter表上的操作一般都是INPUT链
+```
+sudo iptables -I INPUT -s xxx.xxx.xxx.xxx -j DROP
+```
 
+### 38-9. 生产环境维护iptables
+1. 编辑iptables的配置文件
+2. 平滑重启iptables
+3. 检查
+```
+sudo vim /etc/sysconfig/iptables
+sudo systemctl reload iptables
+sudo iptables -L -n
+```
 
 
 
