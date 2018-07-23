@@ -574,7 +574,23 @@ tar -zcvf dir1-$(date +%F).tar.gz ./dir1
 ```
 date +%F --date='3 day ago'
 date +%F -d '3 day ago'
-date +%F -d '+3 day' # 3天后
+date +%F -d '+3 day' # 3天后Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
+ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            state NEW tcp dpt:22
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+DROP       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:22
+DROP       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:22
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+
 date +%F -d '-3 day'
 date +%F -d '3 day' # 3天后
 date +%F-%H -d '3 hour'
@@ -964,7 +980,7 @@ Administration tool for ipv4 and ipv6 packet filtering and NAT.
 2. `-n`:数字格式输出IP和PORT.不设置该参数的话,`127.0.0.1`会显示成`localhost`,`0.0.0.0`会显示成`anywhere`等
 3. `-t`:指定表的类型
 4. `-V`:版本号
-5. `--flush,-F`:清除所有规则(默认规则仍保留)
+5. `-F, --flush [chains]`:清除所有规则(默认规则仍保留)
 6. `-Z`:清零链的计数器
 7. `-j`:如果规则匹配上了,要做什么处理(drop/return/accept)
 8. `-A, --append chain rule-specification`:在某个链上添加规则
@@ -974,6 +990,25 @@ Administration tool for ipv4 and ipv6 packet filtering and NAT.
 ```
 sudo iptables -L -n # filter
 sudo iptables -L -n -t nat # nat
+```
+我的阿里云的情况是
+```
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
+ACCEPT     icmp --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     all  --  0.0.0.0/0            0.0.0.0/0           
+ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0            state NEW tcp dpt:22
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+DROP       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:22
+DROP       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:22
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+REJECT     all  --  0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
 ```
 ### 38-3. 启动iptables服务
 1. 由于CentOS7的默认防火墙是firewalld,而不是iptables,所以要手动安装systemctl能管理的iptables版本
