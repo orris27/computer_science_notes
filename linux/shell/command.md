@@ -989,7 +989,8 @@ Administration tool for ipv4 and ipv6 packet filtering and NAT.
 11. `--line-numbers`:通过`iptables -L -n --line-numbers`:显示规则的序号,这样我们删除的时候可以根据序号删除
 12. `-I, --insert chain [rulenum] rule-specification`:在某个链上添加规则,默认添加到规则的开头(推荐).用法和`--append`一样
 13. `-X, --delete-chain [chain]`:删除用户自定义的链
-14. `-P, --policy chain target`:我感觉是设置默认某条链的规则
+14. `-P, --policy chain target`:我感觉是设置默认某条链的规则\
+15. `rule-specification`:`-p`指定协议(all,tcp,icmp等);`--dport`指定端口;`-s`指定ip
 ### 38-2. 显示iptables的filter和NAT表的规则
 ```
 sudo iptables -L -n # filter
