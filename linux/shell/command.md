@@ -953,6 +953,7 @@ ipvs的管理工具
 11. `--tcp-service,-t service-address`:service-address is host[:port]
 12. `--real-server,-r server-address`:server-address is host (and port)
 13. `--gatewaying,-g`:gatewaying (direct routing) (default)
+14. `-X`:清除自定义的规则
 ### 36-2. 实战
 #### 36-2-1. 删除real server
 ```
@@ -1064,6 +1065,14 @@ sudo iptables --flush
 ```
 sudo iptables -L -n --line-numbers
 sudo iptables -t filter -D INPUT 1 # 如果规则对应的number=1
+```
+
+### 38-5. 完全清零iptables
+```
+sudo iptables -F
+sudo iptables -X
+sudo iptables -Z
+
 ```
 
 
