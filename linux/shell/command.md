@@ -983,9 +983,11 @@ Administration tool for ipv4 and ipv6 packet filtering and NAT.
 5. `-F, --flush [chains]`:清除所有规则(默认规则仍保留)
 6. `-Z`:清零链的计数器
 7. `-j`:如果规则匹配上了,要做什么处理(drop/return/accept)
-8. `-A, --append chain rule-specification`:在某个链上添加规则
+8. `-A, --append chain rule-specification`:在某个链的规则结尾上添加规则
 9. `-D, --delete chain rule-specification`:在某个链上删除规则
 10. `-p, --protocol potocol`:检查什么协议的数据包(tcp,  udp,  udplite,  icmp,  icmpv6,esp, ah, sctp, mh)
+11. `--line-numbers`:通过`iptables -L -n --line-numbers`:显示规则的序号,这样我们删除的时候可以根据序号删除
+12. `-I, --insert chain [rulenum] rule-specification`:在某个链上添加规则,默认添加到规则的开头(推荐).用法和`--append`一样
 ### 38-2. 显示iptables的filter和NAT表的规则
 ```
 sudo iptables -L -n # filter
@@ -1040,11 +1042,32 @@ modprobe ipt_state
 ```
 iptables -t filter -A INPUT -p tcp --dport 22 -j DROP # 如果是删除的话,-A=>-D
 ```
-如果要删除该规则的话,直接`iptables --flush`就行了
 ##### 38-4-1-1. 问题:添加了drop 22 tcp端口也还是能访问?
+##### 38-4-1-1-1. 方法1:清空规则
 因为阿里云默认iptables前面已经有accept的规则了.根据从上到下的原理,在上面的规则就已经accept了,所以还能访问
+##### 38-4-1-1-1. 方法2:将规则添加到第一个位置(推荐)
+```
+iptables -t filter -I INPUT -p tcp --dport 22 -j DROP # 如果是删除的话,-A=>-D
+```
 ###### 38-4-1-1-1. 解决
 清理规则`iptables --flush INPUT`再执行就行了
+#### 38-4-2. 删除"服务器不允许其他主机访问她的22端口"的规则
+##### 38-4-2-1. 方法1 (delete)
+```
+iptables -t filter -D INPUT -p tcp --dport 22 -j DROP
+```
+##### 38-4-2-2. 方法2 (flush)
+```
+sudo iptables --flush
+```
+##### 38-4-2-3. 方法3 (line-number)
+```
+sudo iptables -L -n --line-numbers
+sudo iptables -t filter -D INPUT 1 # 如果规则对应的number=1
+```
+
+
+
 
 
 
