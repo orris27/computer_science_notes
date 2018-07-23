@@ -1084,7 +1084,7 @@ sudo iptables -Z
 ```
 #### 38-6-2. 允许局域网内的所有IP访问
 ```
-sudo iptables -t filter -A INPUT -p tpc -s 172.19.28.0/24 -j ACCEPT
+sudo iptables -t filter -A INPUT -p tcp -s 172.19.28.0/24 -j ACCEPT
 ```
 #### 38-6-3. 允许自己LO访问
 ```
@@ -1117,8 +1117,8 @@ sudo iptables -t filter -A INPUT -p icmp --icmp-type 8 -j ACCEPT
 ```
 #### 38-6-8. 如果对外提供FTP服务(Web服务不要使用FTP服务)
 ```
-sudo iptables -t filter -A INPUT -m state --state ESTABLISHED, RELATED -j ACCEPT
-sudo iptables -t filter -A OUTPUT -m state --state ESTABLISHED, RELATED -j ACCEPT
+sudo iptables -t filter -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -t filter -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 ```
 #### 38-6-9. 其他设备扫描我们的服务器
 ```
