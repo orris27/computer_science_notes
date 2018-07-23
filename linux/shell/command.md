@@ -764,7 +764,7 @@ nmap 172.16.55.137 -p1-65535
 #### option
 1. `-I`:获取响应头
 2. `-o`:输出到某个文件中,文件名自定
-3. `-O`:输出到某个文件中,文件名根据URL来确定(所以我们不用写参数)
+3. `-O`:输出到某个文件中,文件名根据URL来确定(所以我们不用写参数)e that you're looking for used information that you entered. Returning 
 4. `-s`:silent,不输出错误信息和进度条
 5. `-w`:决定输出格式.如输出状态码`curl -I -s -w "%{http_code}" www.baidu.com -o /dev/null`
 
@@ -961,13 +961,36 @@ sudo dumpe2fs /dev/vda1
 Administration tool for ipv4 and ipv6 packet filtering and NAT.
 ### 38-1. options
 1. `-L`:列出指定链的所有规则(默认链为filter)
-2. `-n`:数字格式输出IP和PORT.不设置该参数的话,`127.0.0.1`会显示成`localhost`等
+2. `-n`:数字格式输出IP和PORT.不设置该参数的话,`127.0.0.1`会显示成`localhost`,`0.0.0.0`会显示成`anywhere`等
 3. `-t`:指定表的类型
+4. `-V`:版本号
 ### 38-2. 显示iptables的filter和NAT表的规则
 ```
 sudo iptables -L -n # filter
 sudo iptables -L -n -t nat # nat
 ```
+### 38-3. 启动iptables服务
+1. 由于CentOS7的默认防火墙是firewalld,而不是iptables,所以要手动安装systemctl能管理的iptables版本
+2. `systemctl`式启动服务
+```
+sudo yum install iptables-services -y
+sudo systemctl start iptables
+```
+#### 38-3-1. 问题:启动不了iptables
+##### 情况1
+虚拟机的话,就是在SetUp界面处的firewall configuration里enabled防火墙
+##### 情况2
+没有加载内核模块.iptables是基于内核的包过滤.需要的包通过`lsmod | egrep "nat|filter|ipt"`可以看到.如果没有足够的模块的话,需要加载这些模块
+```
+modprobe ip_tables
+modprobe iptable_filter
+modprobe iptable_nat
+modprobe ip_conntrack
+modprobe ip_conntrack_ftp
+modprobe ip_nat_ftp
+modprobe ipt_state
+```
+
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
