@@ -926,7 +926,8 @@ dos2unix xx.sh
 ## 34. lsmod
 Show the status of modules in the Linux Kernel
 ### 34-1. 检测Linux内核是否已经有ipvs
-```
+```sudo iptables -t filter -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -t filter -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 lsmod | grep ip_vs
 ```
 
@@ -1127,6 +1128,12 @@ sudo iptables -t filter -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 ```
 nmap 47.100.185.187 -p 1-65535
 ```
+#### 38-6-10. 将iptables的配置写入配置文件中
+之前的操作都是临时性的
+```
+sudo iptables-save > /etc/sysconfig/iptables
+```
+
 #### 38-6-0. 总结(只对内提供服务的情况)
 如果要对外服务的话,根据上面的另外配置
 ```
