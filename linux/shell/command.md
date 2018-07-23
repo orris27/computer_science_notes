@@ -1081,16 +1081,16 @@ sudo iptables -F
 sudo iptables -X
 sudo iptables -Z
 ```
-#### 38-6-1. 允许局域网内的所有IP访问
+#### 38-6-2. 允许局域网内的所有IP访问
 ```
 sudo iptables -t filter -A INPUT -p tpc -s 172.19.28.0/24 -j ACCEPT
 ```
-#### 38-6-2. 允许自己LO访问
+#### 38-6-3. 允许自己LO访问
 ```
 sudo iptables -t filter -A INPUT -i lo -j ACCEPT
 sudo iptables -t filter -A OUTPUT -o lo -j ACCEPT
 ```
-#### 38-6-2. 设置默认的防火墙禁止和允许规则(如果不匹配上面的规则,就使用默认的规则)
+#### 38-6-4. 设置默认的防火墙禁止和允许规则(如果不匹配上面的规则,就使用默认的规则)
 + 允许OUTPUT
 + 拒绝FORWARD和INPUT
 ```
@@ -1098,7 +1098,7 @@ sudo iptables -t filter -P OUTPUT ACCEPT
 sudo iptables -t filter -P FORWARD DROP
 sudo iptables -t filter -P INPUT DROP
 ```
-#### 38-6-2. 允许其他机房(自己人)访问
+#### 38-6-5. 允许其他机房(自己人)访问
 ```
 sudo iptables -t filter -A INPUT -p all -s 124.43.62.96/27 -j ACCEPT # 办公室固定的IP段
 sudo iptables -t filter -A INPUT -p all -s 192.168.1.0/24 -j ACCEPT # IDC机房的内网网段
@@ -1106,20 +1106,20 @@ sudo iptables -t filter -A INPUT -p all -s 10.0.0.0/24 -j ACCEPT # 其他机房�
 sudo iptables -t filter -A INPUT -p all -s 203.83.24.0/24 -j ACCEPT # IDC机房的外网网段 
 sudo iptables -t filter -A INPUT -p all -s 201.82.34.0/24 -j ACCEPT # 其他IDC机房的外网网段
 ```
-#### 38-6-2. 如果对外提供Web服务:开启80端口
+#### 38-6-6. 如果对外提供Web服务:开启80端口
 ```
 sudo iptables -t filter -A INPUT -p tcp --dport 80 -j ACCEPT
 ```
-#### 38-6-2. 如果对外提供服务,如希望对方ping通:允许对方ping
+#### 38-6-7. 如果对外提供服务,如希望对方ping通:允许对方ping
 ```
 sudo iptables -t filter -A INPUT -p icmp --icmp-type 8 -j ACCEPT
 ```
-#### 38-6-2. 如果对外提供FTP服务(Web服务不要使用FTP服务)
+#### 38-6-8. 如果对外提供FTP服务(Web服务不要使用FTP服务)
 ```
 sudo iptables -t filter -A INPUT -m state --state ESTABLISHED, RELATED -j ACCEPT
 sudo iptables -t filter -A OUTPUT -m state --state ESTABLISHED, RELATED -j ACCEPT
 ```
-#### 其他设备扫描我们的服务器
+#### 38-6-9. 其他设备扫描我们的服务器
 ```
 nmap 47.100.185.187 -p 1-65535
 ```
