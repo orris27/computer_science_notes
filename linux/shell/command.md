@@ -964,6 +964,11 @@ Administration tool for ipv4 and ipv6 packet filtering and NAT.
 2. `-n`:数字格式输出IP和PORT.不设置该参数的话,`127.0.0.1`会显示成`localhost`,`0.0.0.0`会显示成`anywhere`等
 3. `-t`:指定表的类型
 4. `-V`:版本号
+5. `--flush,-F`:清除所有规则(默认规则仍保留)
+6. `-Z`:清零链的计数器
+7. `-j`:如果规则匹配上了,要做什么处理(drop/return/accept)
+8. `-A, --append chain rule-specification`:在某个链上添加规则
+9. `-D, --delete chain rule-specification`:在某个链上删除规则
 ### 38-2. 显示iptables的filter和NAT表的规则
 ```
 sudo iptables -L -n # filter
@@ -990,6 +995,17 @@ modprobe ip_conntrack_ftp
 modprobe ip_nat_ftp
 modprobe ipt_state
 ```
+### 38-4. 添加/删除规则
+#### 38-4-1. 服务器不允许其他主机访问她的22端口
++ 给iptables的什么表的什么链添加/删除什么规则
++ 规则:根据什么采取什么处理
++ 处理:drop/return/accept
++ 拒绝服务=>drop
+```
+iptables -t filter -A INPUT -p tcp --dport 22 -j DROP # 如果是删除的话,-A=>-D
+```
+如果要删除该规则的话,直接`iptables --flush`就行了
+
 
 
 ## 0. 实战
