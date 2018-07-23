@@ -1076,6 +1076,8 @@ sudo iptables -X
 sudo iptables -Z
 ```
 ### 38-6. 生产环境下的iptables
+注意要在远程控制卡的情况下配置
++ 配置中途会拒绝ssh连接
 #### 38-6-1. 清空iptables原有设置
 ```
 sudo iptables -F
@@ -1100,6 +1102,7 @@ sudo iptables -t filter -P FORWARD DROP
 sudo iptables -t filter -P INPUT DROP
 ```
 #### 38-6-5. 允许其他机房(自己人)访问
++ 可以假定允许所有协议使用
 ```
 sudo iptables -t filter -A INPUT -p all -s 124.43.62.96/27 -j ACCEPT # 办公室固定的IP段
 sudo iptables -t filter -A INPUT -p all -s 192.168.1.0/24 -j ACCEPT # IDC机房的内网网段
@@ -1124,7 +1127,24 @@ sudo iptables -t filter -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 ```
 nmap 47.100.185.187 -p 1-65535
 ```
-
+#### 38-6-0. 总结(只对内提供服务的情况)
+如果要对外服务的话,根据上面的另外配置
+```
+sudo iptables -F
+sudo iptables -X
+sudo iptables -Z
+sudo iptables -t filter -A INPUT -p tcp -s 172.19.28.0/24 -j ACCEPT
+sudo iptables -t filter -A INPUT -i lo -j ACCEPT
+sudo iptables -t filter -A OUTPUT -o lo -j ACCEPT
+sudo iptables -t filter -P OUTPUT ACCEPT
+sudo iptables -t filter -P FORWARD DROP
+sudo iptables -t filter -P INPUT DROP
+sudo iptables -t filter -A INPUT -p all -s 124.43.62.96/27 -j ACCEPT
+sudo iptables -t filter -A INPUT -p all -s 192.168.1.0/24 -j ACCEPT
+sudo iptables -t filter -A INPUT -p all -s 10.0.0.0/24 -j ACCEPT 
+sudo iptables -t filter -A INPUT -p all -s 203.83.24.0/24 -j ACCEPT 
+sudo iptables -t filter -A INPUT -p all -s 201.82.34.0/24 -j ACCEPT
+```
 
 
 
