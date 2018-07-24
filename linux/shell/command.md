@@ -1192,13 +1192,14 @@ uptime
 #### 40-1. 安装
 ```
 sudo yum install OpenIPMI ipmitool -y
-lsmod | grep ipmi # 如果出现ipmi_devintf就算ok
+lsmod | grep ipmi # 如果出现ipmi_devintf,ipmi_si,ipmi_msghandler就算ok
 ```
 #### 40-2. 查看帮助
 ```
-impitool help
+ipmitool help
 ```
 #### 40-3. 监控
+只有物理机才能显示结果()
 ```
 ipmitool sensor list
 ```
