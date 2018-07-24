@@ -1188,6 +1188,43 @@ sudo iptables -L -n
 ```
 uptime
 ```
+### 40. ipmitool
+#### 40-1. 安装
+```
+sudo yum install OpenIPMI ipmitool -y
+lsmod | grep ipmi # 如果出现ipmi_devintf就算ok
+```
+#### 40-2. 查看帮助
+```
+impitool help
+```
+#### 40-3. 监控
+```
+ipmitool sensor list
+```
+
+### 41. CPU
+#### 41-1. lscpu
+Display information about the CPU architecture.(我们也可以通过`cat /proc/cpuinfo`来获取CPU信息)
++ CPU核数
++ CPU型号
++ 多级缓存
+#### 41-2. mpstat
+Report processors related statistics.'
+##### 41-2-1. 每隔1秒显示处理器信息
++ 用户态
++ 内核态
+```
+mpstat 1
+```
+
+
+### 42. vmstat
+Report virtual memory statistics.
+#### 42-1. 每隔1秒显示虚拟内存信息
+```
+vmstat 1
+```
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
