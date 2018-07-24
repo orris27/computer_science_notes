@@ -12,6 +12,7 @@ xxx | grep -vE 'crond|sshd|network|rsyslog'
 2. 创建20,000个目录需要循环20,000次,可以利用`{1..20000}`/`seq 20000`来创建1~20,000的数字
 ```
 time(
+
 	for i in {1..20000}
 	do
 		mkdir dir/$i
@@ -1180,7 +1181,13 @@ sudo systemctl reload iptables
 sudo iptables -L -n
 ```
 
-
+### 39. uptime
+可以看到服务器的1min,5min,15min内的负载情况,临界值是处理器的核数
++ 一般来说,1核CPU算3为正常.所以2核CPU负载应该在6左右算正常
+#### 39-1. 监控CPU负载情况
+```
+uptime
+```
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
