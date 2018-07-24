@@ -61,5 +61,15 @@ sudo systemctl restart zabbix-server zabbix-agent httpd
 # sudo systemctl enable zabbix-server zabbix-agent httpd
 ```
 
-### 1-6. 进入Zabbix的配置界面
+### 1-6. 安装Web的Zabbix
 1. 访问`http://47.100.185.187/zabbix/setup.php`.(ip地址为安装Zabbix的服务器的IP地址)
+2. 在`Check of pre-requisites`里,所有都要OK,并且`PHP databases support`为MySQL
+3. 配置数据库连接.端口0表示使用默认的端口,即3306
++ 如果是外网连接的话,授权的zabbix的host要为`%`,而不是`localhost`
++ 如果连接数据库失败的话,点击Next Step会出现error提示
+4. Host和Port不用改,Name就写`zabbix`
+5. `Congratulations! You have successfully installed Zabbix frontend.`说明配置成功
++ 本质上修改`/etc/zabbix/web/zabbix.conf.php`文件
+6. 自动跳转到`http://47.100.185.187/zabbix/index.php`
+
+### 1-7. 
