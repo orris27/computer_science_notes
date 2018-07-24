@@ -46,3 +46,20 @@ DBUser=zabbix
 DBPassword=zabbix
 ###
 ```
+### 1-4. 配置zabbix的时区
+```
+sudo vim /etc/httpd/conf.d/zabbix.conf
+###
+php_value date.timezone Asia/Shanghai
+###
+```
+
+### 1-5. Start Zabbix server and agent processes
+Start Zabbix server and agent processes and make it start at system boot
+```
+sudo systemctl restart zabbix-server zabbix-agent httpd
+# sudo systemctl enable zabbix-server zabbix-agent httpd
+```
+
+### 1-6. 进入Zabbix的配置界面
+1. 访问`http://47.100.185.187/zabbix/setup.php`.(ip地址为安装Zabbix的服务器的IP地址)
