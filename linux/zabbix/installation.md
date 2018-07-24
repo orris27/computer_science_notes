@@ -67,9 +67,21 @@ sudo systemctl restart zabbix-server zabbix-agent httpd
 3. 配置数据库连接.端口0表示使用默认的端口,即3306
 + 如果是外网连接的话,授权的zabbix的host要为`%`,而不是`localhost`
 + 如果连接数据库失败的话,点击Next Step会出现error提示
-4. Host和Port不用改,Name就写`zabbix`
+4. 在`Zabbix server details`里Host和Port不用改,Name就写`zabbix`
 5. `Congratulations! You have successfully installed Zabbix frontend.`说明配置成功
 + 本质上修改`/etc/zabbix/web/zabbix.conf.php`文件
 6. 自动跳转到`http://47.100.185.187/zabbix/index.php`
 
-### 1-7. 
+### 1-7. 使用Web的Zabbix
+1. 登录
++ User:Admin
++ Password:zabbix
+2. 修改密码
++ 只要在password和password(once again)修改就行了
+
+#### 1-7-1. 使用`systemctl start zabbix-server`结果Web还是显示`zabbix-server is not running`
++ 查看端口发现zabbix-server没有运转
++ 查看错误日志(通过zabbix-server的配置文件查看log的位置),发现`connection to database 'zabbix' failed: [2002] Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)`
+##### 1-7-1-1. 解决
+因为我编译MySQL时`mysql.sock`的位置在`/application/mysql-5.7.22/tmp/mysql.sock`里,所以应该添加软连接`sudo ln -s /application/mysql/tmp/mysql.sock /var/lib/mysql/mysql.sock`
++ 我本来想修改zabbix-server的配置文件,后来发现这样会很麻烦,所以直接用软连接了
