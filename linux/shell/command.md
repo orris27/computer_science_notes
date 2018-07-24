@@ -1181,38 +1181,38 @@ sudo systemctl reload iptables
 sudo iptables -L -n
 ```
 
-### 39. uptime
+## 39. uptime
 可以看到服务器的1min,5min,15min内的负载情况,临界值是处理器的核数
 + 一般来说,1核CPU算3为正常.所以2核CPU负载应该在6左右算正常
-#### 39-1. 监控CPU负载情况
+### 39-1. 监控CPU负载情况
 ```
 uptime
 ```
-### 40. ipmitool
-#### 40-1. 安装
+## 40. ipmitool
+### 40-1. 安装
 ```
 sudo yum install OpenIPMI ipmitool -y
 lsmod | grep ipmi # 如果出现ipmi_devintf,ipmi_si,ipmi_msghandler就算ok
 ```
-#### 40-2. 查看帮助
+### 40-2. 查看帮助
 ```
 ipmitool help
 ```
-#### 40-3. 监控
+### 40-3. 监控
 只有物理机才能显示结果()
 ```
 ipmitool sensor list
 ```
 
-### 41. CPU
-#### 41-1. lscpu
+## 41. CPU
+### 41-1. lscpu
 Display information about the CPU architecture.(我们也可以通过`cat /proc/cpuinfo`来获取CPU信息)
 + CPU核数
 + CPU型号
 + 多级缓存
-#### 41-2. mpstat
+### 41-2. mpstat
 Report processors related statistics.'
-##### 41-2-1. 每隔1秒显示处理器信息
+#### 41-2-1. 每隔1秒显示处理器信息
 + 用户态
 + 内核态
 ```
@@ -1220,12 +1220,34 @@ mpstat 1
 ```
 
 
-### 42. vmstat
+## 42. vmstat
 Report virtual memory statistics.
-#### 42-1. 每隔1秒显示虚拟内存信息
+### 42-1. 每隔1秒显示虚拟内存信息
 ```
 vmstat 1
 ```
+
+
+## 43. rpm
+rpm总共有三种模式.分别以各自的首字母作为第一个参数
+1. Query(q)
+2. Verify(V)
+3. Install(i)/Upgrade(U)/Freshen(F)/Reinstall
+4. Uninstall
+### 43-1. 查询是否安装了某个包
+使用`-qa`参数.
++ 不要`grep`.使用`grep`反而降低查询效率
+```
+rpm -qa gcc
+```
+### 43-2. 添加某个rpm包到当前yum仓库
+使用`-ivh`参数.
++ `-i`:install
++ `-h, --hash`:Print 50 hash marks as the package archive is unpacked.  Use with -v|--verbose for a nicer display.
+```
+sudo rpm -ivh https://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm
+```
+
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
