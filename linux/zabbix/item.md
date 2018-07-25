@@ -163,19 +163,40 @@ zabbix-proxy的配置类似于zabbix-server的配置方法
 > https://github.com/orris27/orris/blob/master/linux/zabbix/installation.md
 ### 8-1. 通过yum安装zabbix-proxy,zabbix-proxy-mysql(,mysql-server:如果之前没安装过MySQL的话)
 ### 8-2. 为zabbix-proxy创建数据库
-#### 8-2-1. 创建zabbix_proxy的数据库
-#### 8-2-2. 添加执行用户
-#### 8-2-3. 导入zabbix-proxy的schema(proxy版本不用导入其他表)
+1. 创建zabbix_proxy的数据库
+2. 添加执行用户
+3. 导入zabbix-proxy的schema(proxy版本不用导入其他表)
+```
+create database zabbix_proxy character set utf8 collate utf8_bin;
+use zabbix_proxy
+grant all privileges on zabbix_proxy.* to zabbix@localhost identified by 'zabbix';
+source ~/tools/zabbix-3.4.11/database/mysql/schema.sql
+```
 
 ### 8-3. 配置zabbix-proxy的配置文件并启动
-#### 8-3-1. ProxyMode=0=>主动式proxy.就是proxy主动跟老大说我要干活,然后老大安排它干活;之后proxy说其实我自己不干活,我叫agent干活(当然agent也分主动/和被动)
-#### 8-3-2. 如果是主动的话,Server=proxy-server的ip
-#### 8-3-3. Hostname一定要写自己的主机名,因为server会用这个来区分
-#### 8-3-4. 设置数据库相关
+1. ProxyMode=0=>主动式proxy.就是proxy主动跟老大说我要干活,然后老大安排它干活;之后proxy说其实我自己不干活,我叫agent干活(当然agent也分主动/和被动)
+2. 如果是主动的话,Server=proxy-server的ip
+3. Hostname一定要写自己的主机名,因为server会用这个来区分
+4. 设置数据库相关
 + name
 + user
 + password
-#### 8-3-5. 启动zabbix-proxy服务
+5. 启动zabbix-proxy服务
+```
+
+sudo find / -type s -name 'mysql.sock' # mysql.sock的类型是s,不是普通文件
+sudo vim /usr/local/etc/zabbix_proxy.conf # 我是编译安装的,所以这里的位置不一样
+###
+ProxyMode=0
+Server=172.19.28.82
+Hostname=linux-node3.example.com
+DBName=zabbix_proxy
+DBUser=zabbix
+DBPassword=zabbix
+###
+sudo ln -s /usr/local/mysql/run/mysql.sock /tmp
+sudo zabbix_proxy
+```
 
 ### 8-4. 配置zabbix-server
 #### 8-4-1. 点击Administration>Proxies>Create proxy
