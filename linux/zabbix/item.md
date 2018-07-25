@@ -206,6 +206,11 @@ sudo zabbix_proxy
 #### 8-4-2. 添加主机(监听对象)
 + 修改为proxy模式
 + 添加模板
+#### 8-4-3. 将agent端指向proxy端
+修改agent配置文件,使指向proxy的IP
+1. ServerActive(Server也可以考虑改下)改为proxy端IP
++ agent配置文件中ServerActive表示Zabbix servers and Zabbix proxies for active checks.
+2. Hostname改为proxy端的域名
 
 ### 8-0. 问题
 #### 8-0-1. 84的主机配置好主动agent和proxy后,server端还是接收不到IP为84的信息
