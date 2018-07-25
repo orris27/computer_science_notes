@@ -32,3 +32,15 @@ zabbix_get -s 47.100.185.187 -k login-user
 
 ### 1-5. 在items界面上查看状态
 如果是Enabled就ok了
+
+
+## 2. 为自定义监控项添加图
+### 2-1. 添加
+1. 点击Configuration>Hosts>Graphs>Create Graph
+2. 设置Name和Items就可以了
++ Name就取名key的名字,如`login-user`
++ Items可以同时添加多个item.选择`login-user`,设置Function等
+### 2-2. 查看图
+查看状态图一定是在Zabbix的Monitoring的Graphs里看的
++ 如果添加了最爱的话,Monitoring的首页也能看到
+
