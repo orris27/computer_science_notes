@@ -158,6 +158,35 @@ sudo systemctl restart zabbix-agent
 在新主机上添加模板`Template OS Linux Active`
 
 
+## 8. zabbix-proxy
+zabbix-proxy的配置类似于zabbix-server的配置方法
+> https://github.com/orris27/orris/blob/master/linux/zabbix/installation.md
+### 8-1. 通过yum安装zabbix-proxy,zabbix-proxy-mysql(,mysql-server:如果之前没安装过MySQL的话)
+### 8-2. 为zabbix-proxy创建数据库
+#### 8-2-1. 创建zabbix_proxy的数据库
+#### 8-2-2. 添加执行用户
+#### 8-2-3. 导入zabbix-proxy的schema(proxy版本不用导入其他表)
+
+### 8-3. 配置zabbix-proxy的配置文件并启动
+#### 8-3-1. ProxyMode=0=>主动式proxy.就是proxy主动跟老大说我要干活,然后老大安排它干活;之后proxy说其实我自己不干活,我叫agent干活(当然agent也分主动/和被动)
+#### 8-3-2. 如果是主动的话,Server=proxy-server的ip
+#### 8-3-3. Hostname一定要写自己的主机名,因为server会用这个来区分
+#### 8-3-4. 设置数据库相关
++ name
++ user
++ password
+#### 8-3-5. 启动zabbix-proxy服务
+
+### 8-4. 配置zabbix-server
+#### 8-4-1. 点击Administration>Proxies>Create proxy
++ Proxy Name在生产环境上设置有意义的名称
++ Proxy mode设置为active
+
+#### 8-4-2. 添加主机(监听对象)
++ 修改为proxy模式
++ 添加模板
+
+
 
 ## 0. 问题
 ### 0-1. 设置好action后不执行?
