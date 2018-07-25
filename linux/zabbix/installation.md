@@ -81,7 +81,7 @@ sudo systemctl restart zabbix-server zabbix-agent httpd
 #### 1-7-3. 连接Zabbix的agentd端和server端
 修改agentd端的`Server=47.100.185.187`,使Zabbix的agentd端连接到server端,并重启`sudo systemctl restart zabbix-agent`
 #### 1-7-4. 启用Zabbix
-在Configuration的Hosts里点击`Zabbix Server`,将第1个Host的地方勾选`enabled`
+在Configuration的Hosts里点击`Zabbix Server`,设置Agent Interfaces的ip地址为对应zabbix-agent服务器的ip地址,并将第1个Host的地方勾选`enabled`
 
 #### 1-7-1. 使用`systemctl start zabbix-server`结果Web还是显示`zabbix-server is not running`
 + 查看端口发现zabbix-server没有运转
