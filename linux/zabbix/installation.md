@@ -78,6 +78,8 @@ sudo systemctl restart zabbix-server zabbix-agent httpd
 + Password:zabbix
 2. 修改密码
 + 只要在password和password(once again)修改就行了
+3. 修改agentd端的`Server=47.100.185.187`,使Zabbix的agentd端连接到server端,并重启`sudo systemctl restart zabbix-agent`
+
 
 #### 1-7-1. 使用`systemctl start zabbix-server`结果Web还是显示`zabbix-server is not running`
 + 查看端口发现zabbix-server没有运转
