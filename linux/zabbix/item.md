@@ -90,9 +90,11 @@ sudo chmod +x /usr/lib/zabbix/alertscripts/send_mail.sh
 + 类型就是刚才取的Media名字
 + Send to写自己的邮件
 + 其他根据情况写
-4. 点击Configuration>Actions>Name栏下的`Report problems to Zabbix administrators`
-5. 在导航栏的Operations里edit Operations,在Send only to那里选择我们添加的media,如`send_mail`,点击内部的upgrade(不是外面的upgrade)
-6. 在Configuration>Actions的状态栏处激活action
+
+### 4-4. 设置Action
+1. 点击Configuration>Actions>Name栏下的`Report problems to Zabbix administrators`
+2. 在导航栏的Operations里edit Operations,在Send only to那里选择我们添加的media,如`send_mail`,点击内部的upgrade(不是外面的upgrade)
+3. 在Configuration>Actions的状态栏处激活action
 
 
 ## 5. 创建模板
