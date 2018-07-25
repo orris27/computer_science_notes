@@ -183,7 +183,6 @@ source ~/tools/zabbix-3.4.11/database/mysql/schema.sql
 + password
 5. 启动zabbix-proxy服务
 ```
-
 sudo find / -type s -name 'mysql.sock' # mysql.sock的类型是s,不是普通文件
 sudo vim /usr/local/etc/zabbix_proxy.conf # 我是编译安装的,所以这里的位置不一样
 ###
@@ -201,7 +200,8 @@ sudo zabbix_proxy
 ### 8-4. 配置zabbix-server
 #### 8-4-1. 点击Administration>Proxies>Create proxy
 + Proxy Name在生产环境上设置有意义的名称
-+ Proxy mode设置为active
++ Proxy mode设置为active(根据自己的proxy端情况设置)
++ 主机暂时不用添加(在添加主机时,下面的proxy选项会添加)
 
 #### 8-4-2. 添加主机(监听对象)
 + 修改为proxy模式
