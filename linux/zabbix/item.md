@@ -61,3 +61,11 @@ zabbix_get -s 47.100.185.187 -k login-user
 ### 3-3. 处理问题
 1. 如果报警条件满足,就会根据报警.在Problem栏里可以查看到问题
 2. 点击Ack,可以填写处理信息=>方便未来查看当初的问题是如何解决的,以及团队合作等
+
+
+## 4. 设置触发后的处理
+### 4-1. 添加Media Type
+1. 点击Administration>Media Types>Create media type
+2. 选择类型,一般都是Script
++ Zabbix的Email等类型都很辣鸡
+
