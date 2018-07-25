@@ -92,3 +92,15 @@ sudo echo 'echo $1 $2 $3 >> /tmp/test.log' | sudo tee send_mail.sh
 4. 点击Configuration>Actions>Name栏下的`Report problems to Zabbix administrators`
 5. 在导航栏的Operations里edit Operations,在Send only to那里选择我们添加的media,如`send_mail`,点击内部的upgrade(不是外面的upgrade)
 6. 在Configuration>Actions的状态栏处激活action
+
+
+## 5. 创建模板
+### 5-1. 在Configuration里创建模板
+1. 点击Configuration>Templates>Create Template
+2. 设置模板参数
++ Template name和Visible name比如说填`demo`
++ Groups选Templates
++ Host/templates将demo组下的主机,如`linux-node1`添加进来
+3. 点击Add
+
+
