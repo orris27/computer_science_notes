@@ -117,6 +117,48 @@ sudo chmod +x /usr/lib/zabbix/alertscripts/send_mail.sh
 + 在Applications里添加进去
 
 
+## 6. 克隆模板 
+以`Template OS Linux`为例
+### 6-1. 克隆本体
+1. 在Configuration的Templates下点击对应模板
+2. 点击Full Clone
+3. 新出现的界面下面的选项没有clone按钮=>这是克隆的结果=>修改下名字,点击add就能成功克隆了
+### 6-2. 克隆链接
+1. 查看克隆出来的新模板是否有链接
+2. 克隆链接的模板
+3. 对于原来的模板,删除旧链接,改连接到新克隆出来的链接模板
+
+## 7. 配置主动式agent
+### 7-1. 修改agent的配置文件并重启
+1. agent的StartAgents
+2. ServerActive=服务器的ip
+3. Hostname设自己的
+4. 重启
+```
+StartAgents=0
+ServerActive=47.100.185.187
+Hostname=linux-node1.example.com
+sudo systemctl restart zabbix-agent
+```
+
+### 7-2. 获得type为Zabbix agent(active)的模板
+以`Template OS Linux`为例
+### 7-2-1. 克隆原来的模板/新建模板
+克隆`Template OS Linux`及其链接的模板`Template App Zabbix Agent`,并将`Template OS Linux`的链接指向新的
+### 7-2-2. 批量修改新模板的类型,使允许主动式agent
+1. 选中模板的items,全选所有item,点击Mass Update
+2. 在批量修改界面中,Type改为`Zabbix agent(active)`并保存
+3. 两个模板都进行操作
+
+### 7-2. 在server端添加agent
+### 7-2-1. 添加新主机
+和普通的一样添加就行了
+> https://github.com/orris27/orris/blob/master/linux/zabbix/installation.md
+### 7-2-2. 使用Active版的模板
+在新主机上添加模板`Template OS Linux Active`
+
+
+
 ## 0. 问题
 ### 0-1. 设置好action后不执行?
 查看Dashboard对应的Problem里的Actions提示,里面会有错误提示,如`Cannot exectue command "/usr/lib/zabbix/alertscripts/send_mail.sh": [13] Permission denied`
