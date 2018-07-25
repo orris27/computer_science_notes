@@ -187,8 +187,8 @@ sudo find / -type s -name 'mysql.sock' # mysql.sock的类型是s,不是普通文
 sudo vim /usr/local/etc/zabbix_proxy.conf # 我是编译安装的,所以这里的位置不一样
 ###
 ProxyMode=0
-Server=172.19.28.82
-Hostname=linux-node3.example.com
+Server=172.19.28.82 # server端的ip地址
+Hostname=linux-node1.example.com # 名字必须和Web上Create proxy时的proxy名字相同
 DBName=zabbix_proxy
 DBUser=zabbix
 DBPassword=zabbix
@@ -199,7 +199,7 @@ sudo zabbix_proxy
 
 ### 8-4. 配置zabbix-server
 #### 8-4-1. 点击Administration>Proxies>Create proxy
-+ Proxy Name在生产环境上设置有意义的名称
++ Proxy Name在生产环境上设置有意义的名称,为proxy端设置的Hostname
 + Proxy mode设置为active(根据自己的proxy端情况设置)
 + 主机暂时不用添加(在添加主机时,下面的proxy选项会添加)
 
@@ -207,7 +207,11 @@ sudo zabbix_proxy
 + 修改为proxy模式
 + 添加模板
 
-
+### 8-0. 问题
+#### 8-0-1. 84的主机配置好主动agent和proxy后,server端还是接收不到IP为84的信息
+查看proxy日志发现`cannot send proxy data to server at "172.19.28.82": proxy "linux-node3.example.com" not found`
+##### 8-0-1-1. 解决
+将proxy配置文件中的Hostname等于Web上创建的proxy的名字,并重启
 
 ## 0. 问题
 ### 0-1. 设置好action后不执行?
