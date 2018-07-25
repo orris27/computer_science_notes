@@ -1,4 +1,4 @@
-## 1. 安装和配置
+## 1. 安装和配置(rpm)
 > https://www.zabbix.com/download
 ### 1-1. 配置zabbix的yum源
 将zabbix的rpm包放到CentOS的yum源下.
@@ -109,3 +109,54 @@ sudo systemctl restart zabbix-server zabbix-agent httpd
 ##### 1-7-0-1-1. 解决
 因为我编译MySQL时`mysql.sock`的位置在`/application/mysql-5.7.22/tmp/mysql.sock`里,所以应该添加软连接`sudo ln -s /application/mysql/tmp/mysql.sock /var/lib/mysql/mysql.sock`
 + 我本来想修改zabbix-server的配置文件,后来发现这样会很麻烦,所以直接用软连接了
+
+
+## 2. 编译安装
+### 2-1. 安装准备
+```
+sudo yum install -y net-snmp-devel
+sudo yum install -y libssh2-devel
+sudo yum install OpenIPMI-devel -y
+sudo yum install libevent-devel -y
+```
+### 2-2. 正常操作
+这里创建家目录其实等效于后续的`mkdir`+`chown`
+```
+tar -zxf zabbix-3.4.11.tar.gz 
+cd zabbix-3.4.11
+sudo groupadd --system zabbix
+sudo useradd --system -g zabbix -d /usr/lib/zabbix -s /sbin/nologin -c "Zabbix Monitoring System" zabbix
+./configure --help
+sudo ./configure \
+--enable-server \
+--enable-agent \
+--enable-proxy \
+--with-mysql \
+--enable-ipv6 \
+--with-net-snmp \
+--with-libcurl \
+--with-libxml2 \
+--with-ssh2 \
+--with-openssl \
+--with-openipmi 
+sudo make install
+```
+
+### 2-0. 问题
+#### 2-0-1. error: Invalid Net-SNMP directory - unable to find net-snmp-config
+```
+sudo yum install -y net-snmp-devel
+```
+#### 2-0-2. error: SSH2 library not found
+```
+sudo yum install -y libssh2-devel
+```
+#### 2-0-3. error: Unable to use libevent (libevent check failed)
+```
+sudo yum install OpenIPMI-devel -y
+```
+
+#### 2-0-4. error: Unable to use libevent (libevent check failed)
+```
+sudo yum install libevent-devel -y
+```
