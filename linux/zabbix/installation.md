@@ -82,10 +82,30 @@ sudo systemctl restart zabbix-server zabbix-agent httpd
 修改agentd端的`Server=47.100.185.187`,使Zabbix的agentd端连接到server端,并重启`sudo systemctl restart zabbix-agent`
 #### 1-7-4. 启用Zabbix
 在Configuration的Hosts里点击`Zabbix Server`,设置Agent Interfaces的ip地址为对应zabbix-agent服务器的ip地址,并将第1个Host的地方勾选`enabled`
+#### 1-7-5. 配置服务器
+1. 在`/etc/sysconfig/network`里配置`HOSTNAME=linux-node1.example.com`
+2. 修改当前主机名:`hostname linux-node1.example.com`
+3. 添加域名解析:`172.19.28.82 linux-node1.example.com  linux-node1`
 
-#### 1-7-1. 使用`systemctl start zabbix-server`结果Web还是显示`zabbix-server is not running`
+#### 1-7-6. 在Zabbix里添加监控对象
+1. 创建一个新的host group.名字就取demo,其他不用变
+2. 添加主机
++ Host Name:linux-node1.example.com
++ Visible name:linux-node1
++ 添加到demo组里
++ Agent的IP地址改成agent服务器所在的地址
++ templates(上面导航栏点击)添加`Template OS Linux`(需要点击Add按钮)
+
+#### 1-7-7. 查看监控对象的状态
+1. Monitoring里面就是监控对象的状态
+2. Monitoring>Graphs中,选好Groups,Host,Graph就能显示结果,比如说选择demo中的linux-node1主机的CPU使用率,就能查看到CPU的使用率情况
+
+
+
+#### 1-7-0. 问题
+#### 1-7-0-1. 使用`systemctl start zabbix-server`结果Web还是显示`zabbix-server is not running`
 + 查看端口发现zabbix-server没有运转
 + 查看错误日志(通过zabbix-server的配置文件查看log的位置),发现`connection to database 'zabbix' failed: [2002] Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (2)`
-##### 1-7-1-1. 解决
+##### 1-7-0-1-1. 解决
 因为我编译MySQL时`mysql.sock`的位置在`/application/mysql-5.7.22/tmp/mysql.sock`里,所以应该添加软连接`sudo ln -s /application/mysql/tmp/mysql.sock /var/lib/mysql/mysql.sock`
 + 我本来想修改zabbix-server的配置文件,后来发现这样会很麻烦,所以直接用软连接了
