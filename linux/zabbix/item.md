@@ -66,6 +66,29 @@ zabbix_get -s 47.100.185.187 -k login-user
 ## 4. 设置触发后的处理
 ### 4-1. 添加Media Type
 1. 点击Administration>Media Types>Create media type
-2. 选择类型,一般都是Script
+2. 设置action
++ Name比如说写`send_mail`
 + Zabbix的Email等类型都很辣鸡
++ Script name比如说写`send_mail.sh`
+
+### 4-2. 在Zabbix的server端写脚本
+1. 确定脚本写在哪个目录下
+```
+sudo cat /etc/zabbix/zabbix_server.conf | grep AlertScriptsPath
+```
+2. 在该目录下写脚本
+```
+cd /usr/lib/zabbix/alertscripts/
+sudo echo 'echo $1 $2 $3 >> /tmp/test.log' | sudo tee send_mail.sh
+```
+
+### 4-3. 给当前用户添加新创建的Media
+1. 点击Administration>User Groups>Zabbix Administrators里的Members栏(这个才是用户)
+2. 点击导航栏的Media
+3. 添加Media
++ 类型就是刚才取的Media名字
++ Send to写自己的邮件
++ 其他根据情况写
+4. 点击Configuration>Actions>Name栏下的`Report problems to Zabbix administrators`
+5. 在导航栏的Operations里edit Operations,在Send only to那里选择我们添加的media,如`send_mail`,点击内部的upgrade(不是外面的upgrade)
 
