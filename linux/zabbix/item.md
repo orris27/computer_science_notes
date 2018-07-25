@@ -80,6 +80,7 @@ sudo cat /etc/zabbix/zabbix_server.conf | grep AlertScriptsPath
 ```
 cd /usr/lib/zabbix/alertscripts/
 sudo echo 'echo $1 $2 $3 >> /tmp/test.log' | sudo tee send_mail.sh
+sudo chmod +x /usr/lib/zabbix/alertscripts/send_mail.sh
 ```
 
 ### 4-3. 给当前用户添加新创建的Media
@@ -104,3 +105,7 @@ sudo echo 'echo $1 $2 $3 >> /tmp/test.log' | sudo tee send_mail.sh
 3. 点击Add
 
 
+## 0. 问题
+### 0-1. 设置好action后不执行?
+查看Dashboard对应的Problem里的Actions提示,里面会有错误提示,如`Cannot exectue command "/usr/lib/zabbix/alertscripts/send_mail.sh": [13] Permission denied`
++ `sudo chmod +x /usr/lib/zabbix/alertscripts/send_mail.sh`
