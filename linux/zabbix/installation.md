@@ -73,13 +73,15 @@ sudo systemctl restart zabbix-server zabbix-agent httpd
 6. 自动跳转到`http://47.100.185.187/zabbix/index.php`
 
 ### 1-7. 使用Web的Zabbix
-1. 登录
+#### 1-7-1. 登录
 + User:Admin
 + Password:zabbix
-2. 修改密码
+#### 1-7-2. 修改密码
 + 只要在password和password(once again)修改就行了
-3. 修改agentd端的`Server=47.100.185.187`,使Zabbix的agentd端连接到server端,并重启`sudo systemctl restart zabbix-agent`
-
+#### 1-7-3. 连接Zabbix的agentd端和server端
+修改agentd端的`Server=47.100.185.187`,使Zabbix的agentd端连接到server端,并重启`sudo systemctl restart zabbix-agent`
+#### 1-7-4. 启用Zabbix
+在Configuration的Hosts里点击`Zabbix Server`,将第1个Host的地方勾选`enabled`
 
 #### 1-7-1. 使用`systemctl start zabbix-server`结果Web还是显示`zabbix-server is not running`
 + 查看端口发现zabbix-server没有运转
