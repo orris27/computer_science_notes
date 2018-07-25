@@ -104,6 +104,16 @@ sudo chmod +x /usr/lib/zabbix/alertscripts/send_mail.sh
 + Host/templates将demo组下的主机,如`linux-node1`添加进来
 3. 点击Add
 
+### 5-2. 给模板添加监控项
+在Configuration的Templates下点击对应模板的item就可以添加了
++ 添加item的设置和之前一样
+### 5-3. 给模板添加1个application
+在Configuration的Templates下点击对应模板的application就可以添加了
++ 只需要定义名字就可以了
+### 5-4. 将item添加到application下
+在Configuration的Templates下点击对应模板的items
++ 在Applications里添加进去
+
 
 ## 0. 问题
 ### 0-1. 设置好action后不执行?
