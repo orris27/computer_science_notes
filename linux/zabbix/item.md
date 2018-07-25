@@ -44,3 +44,20 @@ zabbix_get -s 47.100.185.187 -k login-user
 查看状态图一定是在Zabbix的Monitoring的Graphs里看的
 + 如果添加了最爱的话,Monitoring的首页也能看到
 
+## 3. 为自定义监控项添加触发器
+### 3-1. 添加触发器
+当自定义监控项达到一定值时,报警.设置的方法和添加自定义监控项/添加图一样
+1. 点击Configuration>Hosts>Triggers>Create Trigger
+2. 设置Trigger信息
++ 触发器的名字取报警条件,如`login-user > 3`
++ 级别一般选择Warning
++ 触发条件(表达式)
+- item(这里为`login-user`)
+- Function(一般选择Last (most recent) T value >/=/< N)
+- 设置N的值
+### 3-2. 报警提示
+在个人中心的Messaging里可以设置,按Play可以试听.一般设置High以上就好了
+
+### 3-3. 处理问题
+1. 如果报警条件满足,就会根据报警.在Problem栏里可以查看到问题
+2. 点击Ack,可以填写处理信息=>方便未来查看当初的问题是如何解决的,以及团队合作等
