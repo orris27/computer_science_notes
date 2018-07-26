@@ -132,7 +132,7 @@ sudo chmod +x /usr/lib/zabbix/alertscripts/send_mail.sh
 ### 7-1. 修改agent的配置文件并重启
 1. agent的StartAgents
 2. ServerActive=服务器的ip
-3. Hostname设自己的
+3. Hostname设proxy/server端的主机名
 4. 重启
 ```
 StartAgents=0
@@ -219,7 +219,7 @@ sudo zabbix_proxy
 将proxy配置文件中的Hostname等于Web上创建的proxy的名字,并重启
 
 
-## 9. 自动化监控
+## 9. 自动化监控(auto register)
 ### 9-1. agent端:修改agent配置文件并重启agent
 #### 9-1-1 修改agent配置文件
 + `HostMetadataItem=system.uname`(用来给server端识别并判断我是哪种操作系统的)
@@ -249,6 +249,45 @@ sudo zabbix_proxy
 1. 在`/etc/hostname`上改成自己的主机名.但还是没有
 2. 后来`pkill`了zabbix_proxy,多`pkill`了好几次,再重启zabbix_proxy,终于有用了
 3. 结果到头来不知道为什么就好了
+
+
+
+
+## 10. 配置被动式agent
+### 10-1. 修改agent的配置文件并重启
+1. agent的StartAgents改成3 
+2. Server=server端服务器的ip
+3. Hostname不用变
+4. ServerActive不需要,改成默认的127.0.0.1
+5. 重启
+```
+StartAgents=3
+ServerActive=127.0.0.1
+Hostname=linux-node1.example.com
+Server=172.19.28.82
+sudo systemctl restart zabbix-agent
+```
+
+
+## 11. 自动化监控(discovery)
+server端主动通过一些条件在指定IP段内寻找适合条件的agent,如果找到了,就执行Operations里定义的操作
+### 11-1. 点击Configuration>Discovery
+#### 11-1-1. 选择disabled的项
++ Name随意
++ ip端改成要搜寻的ip端,范围越小越容易发现,如`172.19.28.83-84`
++ Delay改成60
++ Checks就是`system.uname`
++ 以ip地址作为唯一标识
+#### 11-1-2. 使生效enable
+### 11-2. 将事件的来源改成Discovery
+点击Configuration>Action,将Event Source改成Discovery(可以考虑把其他的给disable掉)
+### 11-3. 修改默认的/添加新的Discovery,并enable
++ Conditions没有特别要改的地方
++ Operations改成和自动化监控(auto register)一样
+### 11-4. 在Monitoring>Events和Discovery可以查看是否发现了新主机
+
+
+
 
 
 ## 0. 问题
