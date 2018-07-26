@@ -778,12 +778,30 @@ nmap 172.16.55.137 -p1-65535
 
 ### 26-12. curl
 获取页面的内容,并打印到stdout中
-#### option
+#### 26-12-1. option
 1. `-I`:获取响应头
 2. `-o`:输出到某个文件中,文件名自定
 3. `-O`:输出到某个文件中,文件名根据URL来确定(所以我们不用写参数)e that you're looking for used information that you entered. Returning 
 4. `-s`:silent,不输出错误信息和进度条
 5. `-w`:决定输出格式.如输出状态码`curl -I -s -w "%{http_code}" www.baidu.com -o /dev/null`
+6. `-X`:指定请求方式,如POST,GET
+7. `-H`:指定请求头
+8. `-d`:指定数据
+#### 26-12-2. 给Zabbix传送登录的POST请求
+> https://github.com/orris27/orris/blob/master/linux/zabbix/item.md
+```
+curl -s -X POST -H 'Content-Type:application/json' -d '
+{
+    "jsonrpc": "2.0",
+    "method": "user.login",
+    "params": {
+        "user": "Admin",
+        "password": "zabbix"
+    },
+    "id": 1
+}' http://47.100.185.187/zabbix/api_jsonrpc.php  | python -mjson.tool
+```
+
 
 ### 26-13. wget
 #### option
