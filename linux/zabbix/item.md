@@ -218,6 +218,29 @@ sudo zabbix_proxy
 ##### 8-0-1-1. 解决
 将proxy配置文件中的Hostname等于Web上创建的proxy的名字,并重启
 
+
+## 9. 自动化监控
+### 1. agent端:修改agent配置文件并重启agent
+#### 1-1 修改agent配置文件
++ `HostMetadataItem=system.uname`(用来给server端识别并判断我是哪种操作系统的)
++ 也可以修改HostMetadata
+#### 1-2. 重启agent服务
+### 2. server的web端:
+点击Configuration>Actions>Auto Register>Create Action
+#### 2-1. Action:
++ 取名(随意)
++ 条件(筛选主动请求server的zabbix服务器)
+- 选择proxy(因为要自动注册的服务器是proxy模式)
+- metadata like 'linux'(获取到的数值有linux) 添加
+#### 2-2. Operations
++ Add host
++ Add to host groups: Linux servers
++ Link to templates: Template OS Linux Active
+
+
+
+
+
 ## 0. 问题
 ### 0-1. 设置好action后不执行?
 查看Dashboard对应的Problem里的Actions提示,里面会有错误提示,如`Cannot exectue command "/usr/lib/zabbix/alertscripts/send_mail.sh": [13] Permission denied`
