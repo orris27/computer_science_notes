@@ -290,7 +290,7 @@ server端主动通过一些条件在指定IP段内寻找适合条件的agent,如
 ## 12. 自动化监控(API)
 > https://www.zabbix.com/documentation/3.4/manual/api
 ### 12-1. 登陆server端的Web
-+ curl的json数据的右大括号前面不能有逗号,即~~`"id":1,`~~,内嵌的大括号内也不能出现最后的逗号
++ curl的json数据的右大括号前面不能有逗号,即~~"id":1,~~,内嵌的大括号内也不能出现最后的逗号
 + 传输的格式参考官方文档
 + `python -mjson.tool`用来将返回的json变成易读的模式
 ```
