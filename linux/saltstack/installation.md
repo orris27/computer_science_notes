@@ -29,7 +29,7 @@ sudo systemctl enable salt-minion
 5-0. 目录结构
 + /etc/salt/pki/minion/目录下有minion的秘钥和公钥(第一次启动minion服务的时候生成)
 + /etc/salt/pki/master/目录下有master的秘钥和公钥,
-+ minions_pre目录下有等待同一的minion服务器
++ minions_pre目录下有等待同一的minion服务器的公钥
 ```
 tree /etc/salt
 ```
@@ -43,15 +43,21 @@ tree /etc/salt
 salt-key
 # salt-key -A
 salt-key -a linux* 
+tree /etc/salt
 ```
 
-
 6. 远程执行
-`salt '*' test.ping`
-salt是命令,`'*'`单引号防止转义,`*`表示所有
-test.ping是SaltStack用来检测能不能和minion相通
-test是一个模块
-ping是一个方法
+> https://github.com/orris27/orris/blob/master/linux/shell/command.md
+```
+salt '*' test.ping
+### 返回结果
+linux-node3.example.com:
+    True
+linux-node1.example.com:
+    True
+###
+```
+
 
 
 
