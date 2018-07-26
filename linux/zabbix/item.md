@@ -289,7 +289,7 @@ server端主动通过一些条件在指定IP段内寻找适合条件的agent,如
 
 ## 12. 自动化监控(API)
 > https://www.zabbix.com/documentation/3.4/manual/api
-1. 登陆server端的Web
+### 12-1. 登陆server端的Web
 + curl的json数据的右大括号前面不能有逗号,即~~`"id":1,`~~,内嵌的大括号内也不能出现最后的逗号
 + 传输的格式参考官方文档
 + `python -mjson.tool`用来将返回的json变成易读的模式
@@ -312,7 +312,57 @@ curl -s -X POST -H 'Content-Type:application/json' -d '
 }
 ###
 ```
-2. 
+### 12-2. 添加主机
++ "host":添加的主机名
++ "type":1表示zabbix agent
++ "useip":1表示使用ip
++ "ip"填写agent的ip
++ "groups"下的"groupid"在Configuration>Host Group下,把鼠标悬停在`Linux Server`上,然后浏览器左下角中就会显示这个主机组的id;看url也行
++ "templateid"获取方式和`groupid`同理
++ "auth"填写之前登录时出现的"result"的值
+```
+curl -s -X POST -H 'Content-Type:application/json' -d '
+{
+    "jsonrpc": "2.0",
+    "method": "host.create",
+    "params": {
+        "host": "Linux server",
+        "interfaces": [
+            {
+                "type": 1,
+                "main": 1,
+                "useip": 1,
+                "ip": "172.19.28.84",
+                "dns": "",
+                "port": "10050"
+            }
+        ],
+        "groups": [
+            {
+                "groupid": "2"
+            }
+        ],
+        "templates": [
+            {
+                "templateid": "10001"
+            }
+        ]
+    },
+    "auth": "3a9e5445570f8f53dfc4f1b364ec469f",
+    "id": 1
+}' http://47.100.185.187/zabbix/api_jsonrpc.php  | python -mjson.tool
+### 返回结果如下
+{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "hostids": [
+            "10266"
+        ]
+    }
+}
+###
+```
 
 
 
