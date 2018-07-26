@@ -368,7 +368,7 @@ curl -s -X POST -H 'Content-Type:application/json' -d '
 
 0. 问题
 0-1. `Invalid JSON. An error occurred on the server while parsing the JSON text.`
-curl的json数据的右大括号前面不能有逗号,即~~`"id":1,`~~,内嵌的大括号内也不能出现最后的逗号
+curl的json数据的右大括号前面不能有逗号,即 ~~"id":1,~~ ,内嵌的大括号内也不能出现最后的逗号
 
 
 
