@@ -220,25 +220,35 @@ sudo zabbix_proxy
 
 
 ## 9. 自动化监控
-### 1. agent端:修改agent配置文件并重启agent
-#### 1-1 修改agent配置文件
+### 9-1. agent端:修改agent配置文件并重启agent
+#### 9-1-1 修改agent配置文件
 + `HostMetadataItem=system.uname`(用来给server端识别并判断我是哪种操作系统的)
 + 也可以修改HostMetadata
-#### 1-2. 重启agent服务
-### 2. server的web端:
+#### 9-1-2. 重启agent服务
+### 9-2. server的web端:
 点击Configuration>Actions>Auto Register>Create Action
-#### 2-1. Action:
+#### 9-2-1. Action:
 + 取名(随意)
 + 条件(筛选主动请求server的zabbix服务器)
 - 选择proxy(因为要自动注册的服务器是proxy模式)
 - metadata like 'linux'(获取到的数值有linux) 添加
-#### 2-2. Operations
+#### 9-2-2. Operations
 + Add host
 + Add to host groups: Linux servers
 + Link to templates: Template OS Linux Active
 
+### 9-3. 等待
+因为我们这里配置改来改去,可能发现会比较慢.可以尝试重启agent和proxy等.
 
 
+
+### 9-0. 问题
+#### 9-0-1. 84上的proxy报错`cannot send list of active checks to "172.19.28.84": host [linux-node3.example.com] not found`;而agent报错`no active checks on server [172.19.28.84:10051]: host [linux-node3.example.com] not found`
+如果是server&agent的情况:agent上的Hostname要和server端在Web上配置的Host的名字要相同
+##### 9-0-1-1. 解决
+1. 在`/etc/hostname`上改成自己的主机名.但还是没有
+2. 后来`pkill`了zabbix_proxy,多`pkill`了好几次,再重启zabbix_proxy,终于有用了
+3. 结果到头来不知道为什么就好了
 
 
 ## 0. 问题
