@@ -1290,6 +1290,72 @@ salt-key -a linux*
 ```
 salt '*' test.ping
 ```
+#### 44-2-2. 在minion端执行shell命令
+```
+salt '*' cmd.run 'uptime'
+```
+#### 44-2-3. 配置管理
+##### 44-2-3-1. 修改master端的配置文件的`file_roots`,并重启
++ 打开`file roots:`, `base:`(2个空格), `- /srv/salt`(4个空格)的注释
++ 不能使用tab,只能用空格
++ `-`后面有1个空格
++ base为指定的环境,默认必须有base环境
++ 文件存放在`/srv/salt`目录下
+```
+sudo vim /etc/salt/master
+###
+file_roots:
+  base:
+    - /srv/salt
+###
+sudo systemctl restart salt-master
+```
+##### 44-2-3-2. 设置命令
++ `sls`:固定写法
++ 层级:分别2个空格表示层级关系(非常重要)
++ `pkg.installed`:pkg为模块,installed为方法=>salt会使用yum/apt安装
++ enable表示开机自启动,reload表示
++ `apache-install`表示id
+```
+sudo mkdir /srv/salt
+cd /srv/salt/ 
+sudo vim apache.sls
+###
+apache-install:
+  pkg.installed:
+    - names:
+      - httpd
+      - httpd-devel
+apache-service:
+  service.running:
+    - name: httpd
+    - enable: True
+    - reload: True
+# :set list(如果空格处没有字符,就ok了=>没有使用tab=>正确)
+###
+```
+##### 44-2-3-3. 执行命令
+sls方法,执行apche这个状态.不用写apache.sls,因为这个就是sls方法
+```
+salt '*' state.sls apache
+```
+##### 44-2-3-0. 问题
+###### `expected <block end>, but found '-'`
++ 不要使用vim自带的缩进功能
++ 注意层级关系不要搞错.比如`apache-service`里面`- name`和`-enable`是同级关系 
+###### linux-node3出现1个fail
+```
+          ID: apache-service
+    Function: service.running
+        Name: httpd
+      Result: False
+     Comment: Service httpd has been enabled, and is dead
+     Started: 17:07:14.718335
+    Duration: 1322.589 ms
+     Changes:   
+```
+该主机上已经启动了nginx,所以应该关闭nginx再执行
+
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
