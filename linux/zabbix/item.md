@@ -272,19 +272,20 @@ sudo systemctl restart zabbix-agent
 ## 11. 自动化监控(discovery)
 server端主动通过一些条件在指定IP段内寻找适合条件的agent,如果找到了,就执行Operations里定义的操作
 ### 11-1. 点击Configuration>Discovery
-#### 11-1-1. 选择disabled的项
+#### 11-1-1. 修改默认的/新建项,并重启
+这里选择修改默认的disabled了的项
 + Name随意
 + ip端改成要搜寻的ip端,范围越小越容易发现,如`172.19.28.83-84`
 + Delay改成60
 + Checks就是`system.uname`
 + 以ip地址作为唯一标识
-#### 11-1-2. 使生效enable
 ### 11-2. 将事件的来源改成Discovery
 点击Configuration>Action,将Event Source改成Discovery(可以考虑把其他的给disable掉)
 ### 11-3. 修改默认的/添加新的Discovery,并enable
 + Conditions没有特别要改的地方
 + Operations改成和自动化监控(auto register)一样
 ### 11-4. 在Monitoring>Events和Discovery可以查看是否发现了新主机
+一般等待一会儿就能出现了
 
 
 
