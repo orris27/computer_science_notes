@@ -1270,6 +1270,27 @@ sudo rpm -ivh https://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.
 rpm -ql zabbix-release
 ```
 
+## 44. SaltStack
+### 44-1. salt-key
+#### 44-1-1. options
+1. `-L`:不写也是`-L`,表示查看当前keys状态
+2. `-A`:同意所有keys
+3. `-a`:允许通配符等指定主机名来添加
+#### 44-1-2. 添加以linux开头的主机
+> https://github.com/orris27/orris/blob/master/linux/saltstack/installation.md
+```
+salt-key -a linux* 
+```
+### 44-2. salt
+#### 44-2-1. 检测master和minion是否相通
++ salt是命令,`'*'`单引号防止转义,`*`表示所有
++ test.ping是SaltStack用来检测能不能和minion相通
++ test是一个模块
++ ping是一个方法
+```
+salt '*' test.ping
+```
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
