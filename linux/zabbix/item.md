@@ -287,6 +287,39 @@ server端主动通过一些条件在指定IP段内寻找适合条件的agent,如
 ### 11-4. 在Monitoring>Events和Discovery可以查看是否发现了新主机
 一般等待一会儿就能出现了
 
+## 12. 自动化监控(API)
+> https://www.zabbix.com/documentation/3.4/manual/api
+1. 登陆server端的Web
++ curl的json数据的右大括号前面不能有逗号,即~~`"id":1,`~~,内嵌的大括号内也不能出现最后的逗号
++ 传输的格式参考官方文档
++ `python -mjson.tool`用来将返回的json变成易读的模式
+```
+curl -s -X POST -H 'Content-Type:application/json' -d '
+{
+    "jsonrpc": "2.0",
+    "method": "user.login",
+    "params": {
+        "user": "Admin",
+        "password": "zabbix"
+    },
+    "id": 1
+}' http://47.100.185.187/zabbix/api_jsonrpc.php  | python -mjson.tool
+### 返回的结果如下
+{
+    "jsonrpc": "2.0",
+    "result": "3a9e5445570f8f53dfc4f1b364ec469f", # 这里就是我们要的tokens
+    "id": 1
+}
+###
+```
+2. 
+
+
+
+0. 问题
+0-1. `Invalid JSON. An error occurred on the server while parsing the JSON text.`
+curl的json数据的右大括号前面不能有逗号,即~~`"id":1,`~~,内嵌的大括号内也不能出现最后的逗号
+
 
 
 
