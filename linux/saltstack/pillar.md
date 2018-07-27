@@ -59,6 +59,20 @@ sudo salt '*' saltutil.refresh_pillar
 sudo salt -I 'apache:httpd' test.ping
 ```
 
+### 1-0. 问题
+#### 1-0-1. 使用`salt '*' test.ping`成功,但使用`salt -I 'apache:httpd' test.ping`却失败
+```
+linux-node3.example.com:
+    Minion did not return. [No response]
+linux-node1.example.com:
+    Minion did not return. [No response]
+```
+##### 1-0-1-1. 解决
+虽然master端重启了,但是minion端还不知道pillar已经更新过了,所以要通知pillar
+```
+sudo salt '*' saltutil.refresh_pillar
+```
+
 ## 2. master端开启pillar
 为了避免和筛选minion时冲突,所以如果筛选minion的话,要关闭pillar
 ### 2-1. master配置文件中开启pillar,并重启master
