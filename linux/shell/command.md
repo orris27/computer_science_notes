@@ -1318,7 +1318,7 @@ sudo systemctl restart salt-master
 + `apache-install`表示id
 ```
 sudo mkdir /srv/salt
-cd /srv/salt/ 
+cd /srv/salt/
 sudo vim apache.sls
 ###
 apache-install:
@@ -1355,6 +1355,24 @@ salt '*' state.sls apache
      Changes:   
 ```
 该主机上已经启动了nginx,所以应该关闭nginx再执行
+
+#### 44-2-4. grains
+##### 44-2-4-1. 获取key
+```
+sudo salt 'linux-node1*' grains.ls 
+```
+##### 44-2-4-2. 获取<key,value>
+```
+sudo salt 'linux-node1*' grains.items
+sudo salt 'linux-node1*' grains.get os # grains.get可以通过key获取value
+sudo salt 'linux-node1*' grains.item os # grains.item可以通过key获取value,同时也显示key
+```
+##### 44-2-4-3. 通过grains来筛选minion
+`man salt`并搜索`-G`就能找到例子了
+```
+sudo salt -G 'os:CentOS' test.ping
+```
+
 
 
 ## 0. 实战
