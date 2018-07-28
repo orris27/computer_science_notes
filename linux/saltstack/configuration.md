@@ -78,3 +78,10 @@ base:
 ```
 sudo salt '*' state.highstate
 ```
+
+## 3. 应用
+1. 系统初始化
+2. 功能模块
+3. 业务模块
+
+
