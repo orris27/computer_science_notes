@@ -1281,6 +1281,46 @@ rpm -ql zabbix-release
 ```
 salt-key -a linux* 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### 44-2. salt
 `salt target module params`=>returners
 #### 44-2-1. option
@@ -1290,41 +1330,112 @@ salt-key -a linux*
 2. `-C`:混合模式.支持逻辑比较符
 3. `-G`:Grains glob
 4. `-I`:Pillar glob
-#### 44-2-1. target
-1. minion_id 有关
-globbing and regex
-1-1. 通配符/严格匹配/中括号(逗号,折线)=>top file里面不用加`- match: pcre`
-1-1-1. 命令行
+
+
+
+#### 44-2-2. syntax
+##### 44-2-2-1. target
+###### 44-2-2-1-1. 和minion的id 有关
++ 通配符/严格匹配/中括号(逗号,折线)=>top file里面不用加`- match: pcre`
+- 命令行
 ```
-salt 'web[]-prod' test.ping
+salt 'web[1-4]-prod' test.ping
 ```
-1-1-2. top file
+- top file
 ```
 base:
   'web1-prod':
     - webserver
 ```
-1-2. 正则表达式=>`-E`参数/top file里面加`- match: pcre`
-1-2-1. 命令行
++ 正则表达式=>`-E`参数/top file里面加`- match: pcre`
+- 命令行
 ```
 salt -E 'web1-(prod|devel)' test.ping
 ```
-1-2-2. top file
+- top file
 ```
 base:
   'web1-(prod|devel)':
     - match: pcre
     - webserver
 ```
-列表
-2. minion_id 无关
-grains
-pillar
-subnet/ip address
 
 
 
-#### 44-2-1. 检测master和minion是否相通
+
+
+
+###### 44-2-2-1-2. 和minion的id无关
++ grains
++ pillar
++ subnet/ip address
+
+##### 44-2-2-2. module
+###### 44-2-2-2-1. 模块的访问控制
+让某个用户(Linux用户)只能允许某些模块(白名单)
++ 必须允许该用户读写日志.因为以该用户身份执行的话,只能以该用户去写日志.而每条语句又应该有日志,所以就该允许这用户读写日志
++ 指定用户
++ 指定模块(甚至方法)
+```
+
+sudo vim /etc/salt/master
+#######
+client_acl:
+  larry:
+    - test.ping
+    - network.*
+#######
+sudo chmod 777 /var/log/salt/master /var/cache/salt /var/cache/salt/master /var/cache/salt/master/jobs /var/run/salt/master /var/run/salt/master
+sudo systemctl restart salt-master
+# 稍微等一会儿
+su - orris
+salt '*' test.ping # 如果成功,就好了
+```
+
+
+
+###### 44-2-2-2-2. service
+使用的时候,指定`service`这个模块就好了
+> https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.rh_service.html#module-salt.modules.rh_service
++ 判断当前的的模块是否运行
+```
+sudo salt '*' service.available sshd
+```
++ 平滑重启某个服务
+```
+salt '*' service.reload httpd
+```
+查看某个服务的状态
+```
+salt '*' service.status httpd
+```
+关闭某个服务
+```
+salt '*' service.stop httpd
+```
+###### 44-2-2-2-3. network
+> https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.network.html#module-salt.modules.network
++ 返回所有的tcp连接
+```
+sudo salt '*' network.active_tcp
+```
++ 返回arp表
+```
+sudo salt '*' network.arp
+```
++ 查看ip地址
+```
+sudo salt '*' network.interface_ip eth0
+```
+
+
+
+
+
+
+
+
+#### 44-2-3. 检测master和minion是否相通
 + salt是命令,`'*'`单引号防止转义,`*`表示所有
 + test.ping是SaltStack用来检测能不能和minion相通
 + test是一个模块
@@ -1332,12 +1443,12 @@ subnet/ip address
 ```
 salt '*' test.ping
 ```
-#### 44-2-2. 在minion端执行shell命令
+#### 44-2-4. 在minion端执行shell命令
 ```
 salt '*' cmd.run 'uptime'
 ```
-#### 44-2-3. 配置管理
-##### 44-2-3-1. 修改master端的配置文件的`file_roots`,并重启
+#### 44-2-4. 配置管理
+##### 44-2-4-1. 修改master端的配置文件的`file_roots`,并重启
 + 打开`file roots:`, `base:`(2个空格), `- /srv/salt`(4个空格)的注释
 + 不能使用tab,只能用空格
 + `-`后面有1个空格
@@ -1352,7 +1463,7 @@ file_roots:
 ###
 sudo systemctl restart salt-master
 ```
-##### 44-2-3-2. 设置命令
+##### 44-2-4-2. 设置命令
 + `sls`:固定写法
 + 层级:分别2个空格表示层级关系(非常重要)
 + `pkg.installed`:pkg为模块,installed为方法=>salt会使用yum/apt安装
@@ -1376,12 +1487,12 @@ apache-service:
 # :set list(如果空格处没有字符,就ok了=>没有使用tab=>正确)
 ###
 ```
-##### 44-2-3-3. 执行命令
+##### 44-2-4-3. 执行命令
 sls方法,执行apche这个状态.不用写apache.sls,因为这个就是sls方法
 ```
 salt '*' state.sls apache
 ```
-##### 44-2-3-0. 问题
+##### 44-2-4-0. 问题
 ###### `expected <block end>, but found '-'`
 + 不要使用vim自带的缩进功能
 + 注意层级关系不要搞错.比如`apache-service`里面`- name`和`-enable`是同级关系 
@@ -1398,18 +1509,18 @@ salt '*' state.sls apache
 ```
 该主机上已经启动了nginx,所以应该关闭nginx再执行
 
-#### 44-2-4. grains
-##### 44-2-4-1. 获取key
+#### 44-2-5. grains
+##### 44-2-5-1. 获取key
 ```
 sudo salt 'linux-node1*' grains.ls 
 ```
-##### 44-2-4-2. 获取<key,value>
+##### 44-2-5-2. 获取<key,value>
 ```
 sudo salt 'linux-node1*' grains.items
 sudo salt 'linux-node1*' grains.get os # grains.get可以通过key获取value
 sudo salt 'linux-node1*' grains.item os # grains.item可以通过key获取value,同时也显示key
 ```
-##### 44-2-4-3. 通过grains来筛选minion
+##### 44-2-5-3. 通过grains来筛选minion
 `man salt`并搜索`-G`就能找到例子了
 ```
 sudo salt -G 'os:CentOS' test.ping
