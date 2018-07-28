@@ -1282,6 +1282,48 @@ rpm -ql zabbix-release
 salt-key -a linux* 
 ```
 ### 44-2. salt
+`salt target module params`=>returners
+#### 44-2-1. option
+1. `-S`:ip
++ `salt -S 192.168.40.20 test.ping`
++ `salt -S 192.168.40.0/24 test.ping`
+2. `-C`:混合模式.支持逻辑比较符
+3. `-G`:Grains glob
+4. `-I`:Pillar glob
+#### 44-2-1. target
+1. minion_id 有关
+globbing and regex
+1-1. 通配符/严格匹配/中括号(逗号,折线)=>top file里面不用加`- match: pcre`
+1-1-1. 命令行
+```
+salt 'web[]-prod' test.ping
+```
+1-1-2. top file
+```
+base:
+  'web1-prod':
+    - webserver
+```
+1-2. 正则表达式=>`-E`参数/top file里面加`- match: pcre`
+1-2-1. 命令行
+```
+salt -E 'web1-(prod|devel)' test.ping
+```
+1-2-2. top file
+```
+base:
+  'web1-(prod|devel)':
+    - match: pcre
+    - webserver
+```
+列表
+2. minion_id 无关
+grains
+pillar
+subnet/ip address
+
+
+
 #### 44-2-1. 检测master和minion是否相通
 + salt是命令,`'*'`单引号防止转义,`*`表示所有
 + test.ping是SaltStack用来检测能不能和minion相通
