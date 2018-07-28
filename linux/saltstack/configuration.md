@@ -9,7 +9,7 @@
 ```
 环境:
   匹配minion:
-    加载什么模块
+    - 加载什么模块
 ```
 ###### 例子
 ```
@@ -18,8 +18,8 @@ base:
     - match: grain
     - apache
 ```
-2. 普通状态
-2-1. 文件管理
+## 2. 普通状态
+### 2-1. 文件管理
 ```
 minion端的文件名:
   file.managed:
@@ -29,7 +29,7 @@ minion端的文件名:
     - 权限
     
 ```
-2-2. 配置
+#### ### 2-2. 配置
 2-2-1. 在master配置文件里设置top file的目录
 ```
 sudo vim /etc/salt/master
@@ -45,7 +45,7 @@ file_roots:
 sudo systemctl restart salt-master
 sudo mkdir /srv/salt/{base,test,prod}
 ```
-2-2-2. 写基本的文件管理
+#### 2-2-2. 写基本的文件管理
 ```
 sudo mkdir /srv/salt/base/files
 cd /srv/salt/base/
@@ -60,10 +60,21 @@ sudo vim dns.sls
 ###############
 sudo mv /etc/resolv.conf /srv/salt/base/files/
 ```
-2-2-3. 执行文件状态
-2-2-3-1. 直接执行
+#### 2-2-3. 执行文件状态
+##### 2-2-3-1. 直接执行
 ```
 sudo salt '*' state.sls dns
 ```
 
-2-2-3-2. 高级状态,每次执行状态都会执行
+##### 2-2-3-2. 高级状态,每次执行状态都会执行
+从top file开始读,top file怎么指定状态就执行
+1. 修改base环境下的`top.sls`文件
+```
+base:
+  '*':
+    - dns
+```
+2. 执行高级状态
+```
+sudo salt '*' state.highstate
+```
