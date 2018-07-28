@@ -40,3 +40,7 @@ sudo systemctl restart  salt-master
 有两种可能
 + 层级关系没有写好,如冒号没写
 + salt的target只能选择规定的主机
+
+
+## 2. client_acl_blacklist
+可以配置acl的黑名单形式
