@@ -1,4 +1,5 @@
 ## 1. 设置pillar
+`man pillar`中的Setting Up Pillar下面就介绍了如何设置pillar
 ### 1-1. master配置文件,并重启
 + top.sls一般就放在base环境下
 + 关闭pillar_opts: False
