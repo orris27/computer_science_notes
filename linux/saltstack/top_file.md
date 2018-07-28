@@ -44,3 +44,6 @@ sudo systemctl restart  salt-master
 
 ## 2. client_acl_blacklist
 可以配置acl的黑名单形式
+
+
+
