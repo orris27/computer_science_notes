@@ -1347,6 +1347,7 @@ salt-key -a linux*
 3. `-G`:Grains glob
 4. `-I`:Pillar glob
 5. `test=True`:不会实际上影响到具体文件,而是呈现出输出结果
+6. `env=prod`:指定使用prod的环境
 
 
 
