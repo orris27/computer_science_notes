@@ -275,10 +275,10 @@ sudo salt '*' state.highstate
         2. yes
     2. 在生产环境下创建依赖包和功能目录,如
     + pkg是所有功能的依赖包的目录,那么是不是通过不同的sls文件来进一步区分这个依赖包是属于哪个功能的?
-  ```
-  mkdir /srv/salt/{pkg,haproxy}
-  mkdir /srv/salt/haproxy/files
-  ```
+    ```
+    mkdir /srv/salt/{pkg,haproxy}
+    mkdir /srv/salt/haproxy/files
+    ``` 
 
 
 
