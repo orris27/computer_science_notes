@@ -351,17 +351,21 @@ export dinner=apple
 ```
 
 #### 10-1-2. 定义环境变量的文件
-#### /etc/bashrc
-会执行`/etc/profile.d`下的所有脚本文件
+在ssh创建会话的时候就会自动去加载的文件
+##### 10-1-2-0. 顺序
+`/etc/profile`=>`/etc/bashrc`=>`~/.bashrc`=>`~/.bashprofile`
 
-##### /etc/profile
+##### 10-1-2-1 /etc/profile
 设置对**所有用户**生效的环境变量的脚本文件.会执行`/etc/profile.d`下的所有脚本文件.当用户登录时,它就会被执行
 
-##### ~/.bashrc
+##### 10-1-2-2 /etc/bashrc
+会执行`/etc/profile.d`下的所有脚本文件
+
+##### 10-1-2-3 ~/.bashrc
 设置**对应用户**的环境变量的shell脚本的脚本文件.该用户登录时,仅仅执行一次
 + Anaconda就备份了一个原始的~/.bashrc文件,在新的~/.bashrc里面为PATH变量添加了自己的位置
 
-##### ~/.bash_profile
+##### 10-1-2-4 ~/.bash_profile
 `~/.bash_profile`会先自动调用`~/.bashrc`,`~/.bash_profile`多定义环境变量,而`~/.bashrc`主要定义alias
 
 
