@@ -2,6 +2,13 @@
 1. `:`表示层级关系
 2. `- `:表示列表项
 3. `  `:两个空格表示层级关系
+4. 检查命令
+    1. onlyif 检查的命令,仅当onlyif选项指向的命令返回true时才执行name定义的命令
+    2. unless 检查的命令,仅当unless选项指向的命令返回false时才执行name定义的命令
+        +unless 和 name同级
+5. 检查状态(requisites)
+    1. require:我依赖某个状态,里面的状态执行成功后才能执行cmd.run.是`cmd.run的子集`
+        + 放在某个模块下后,只有require里面的结果成立了,才会执行该模块
 
 
 
@@ -20,7 +27,7 @@
 
 
 
-## 1. 文件
+## 1. SaltStack状态文件
 
 ### 1-1. jinja
 同样是`sls`后缀的文件,可能是普通文件,也可能是模板文件
@@ -345,6 +352,8 @@ sudo ln -s /usr/local/haproxy-1.8.12/ /usr/local/haproxy
             + 改变内核参数中的ip_nonlocal_bind为1,即允许
         6. 创建配置文件的目录
             + 利用file.directory方法来创建`/etc/haproxy`
+        7. 执行状态
+            + 使用env指定prod
            
 ```
 sudo vim ~/tools/haproxy-1.8.12/examples/haproxy.init
@@ -375,18 +384,6 @@ haproxy-install:
       - pkg: pkg-init
       - file: haproxy-install
 
-
-net.ipv4.ip_nonlocal_bind:
-  sysctl.present:
-    - value: 1
-
-haproxy-config-dir:
-  file.directory:
-    - name: /etc/haproxy
-    - user: root
-    - group: root
-    - mode: 755
-
 haproxy-init:
   file.managed:
     - name: /etc/init.d/haproxy
@@ -401,17 +398,23 @@ haproxy-init:
     - unless: chkconfig --list | grep haproxy
     - require:
       - file: haproxy-init
+
+
+net.ipv4.ip_nonlocal_bind:
+  sysctl.present:
+    - value: 1
+
+haproxy-config-dir:
+  file.directory:
+    - name: /etc/haproxy
+    - user: root
+    - group: root
+    - mode: 755
 ##############
 
+salt 'linux-node1.*' state.sls haproxy.install env=prod
 ```
 
-onlyif 检查的命令,仅当onlyif选项指向的命令返回true时才执行name定义的命令
-unless 检查的命令,仅当unless选项指向的命令返回false时才执行name定义的命令
-unless 和 name同级
-
-requisites我依赖某个状态
-源码装不上
-require 我依赖某个状态,里面的状态执行成功后才能执行cmd.run.是`cmd.run的子集`
 
 
 
