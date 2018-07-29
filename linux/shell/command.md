@@ -528,10 +528,26 @@ unrar x python.rar
 ```
 
 ## 19. history
-### 删除序号为2000的命令的历史
+### 19-1. options
+1. `-d`:删除某条历史,如删除序号为2000的命令的历史为`history -d 2000`
+### 19-1. 空格隐藏历史
+可以将下面的语句写入到`/etc/profile`等中
 ```
-history -d 2000
+export HISTCONTROL=ignorespace
 ```
+### 19-2. 让每一条执行的命令都记录时间
+```
+export HISTTIMEFORMAT="%F %T `whoami`"
+```
+### 19-3. 将每1条记录输出到`/var/log/messages`
+和隐藏历史一样,可以定义一个全局变量来控制
+```
+export PROMPT_COMMAND='{ msg=$(history 1 | { read x y; echo $y; }); logger "[euid=$(whoami)]":$(who am i):[`pwd`]"$msg"; }'
+```
+
+
+
+
 
 ## 20. netstat(deleted)
 查看网络状况,一般我们使用`sudo netstat -lntup | grep mysqld`这样的方式
@@ -1526,7 +1542,12 @@ sudo salt 'linux-node1*' grains.item os # grains.item可以通过key获取value,
 sudo salt -G 'os:CentOS' test.ping
 ```
 
-
+## 45. logger
+向`/var/log/messages`里面输出信息
+```
+logger nice
+sudo tail /var/log/messages
+```
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
