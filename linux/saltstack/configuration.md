@@ -139,7 +139,7 @@ base:
 ### 2-1. 文件管理
 > https://docs.saltstack.com/en/latest/ref/states/all/salt.states.file.html#module-salt.states.file
 #### 2-1-1. 文件管理
-+ 文件管理有多种写法
+文件管理有多种写法.第一级不是id就是name声明
     1. 取id
         + 必须在`file.managed`子集中定义文件在minion端的具体位置
         + 例子在安装haproxy时的压缩包处理
@@ -335,11 +335,17 @@ sudo ln -s /usr/local/haproxy-1.8.12/ /usr/local/haproxy
         2. 管理文件
             + `haproxy-install:`是自定义的id,在里面写了个文件管理
             + 如何保证在某个目录下存在解锁包?
-        3. 远程执行命令
+        3. 远程编译安装
             + 在sls(salt state)文件中,用`&&`连接所有命令
             + require依赖时指明模块和id.格式为`模块: id名`=>这个id下面有xx模块,我们依赖这个模块
                 - `pkg: pkg-init`是在`pkg-init.sls`文件里定义的id(`pkg-init`)和这个id下使用的pkg模块
             + 1个id下1个模块只能使用1次
+        4. 远程启动服务
+        5. 允许备机监听其他服务器的ip和端口
+            + 改变内核参数中的ip_nonlocal_bind为1,即允许
+        6. 创建配置文件的目录
+            + 利用file.directory方法来创建`/etc/haproxy`
+           
 ```
 sudo vim ~/tools/haproxy-1.8.12/examples/haproxy.init
 ##############
@@ -368,7 +374,33 @@ haproxy-install:
     - require:
       - pkg: pkg-init
       - file: haproxy-install
-    
+
+
+net.ipv4.ip_nonlocal_bind:
+  sysctl.present:
+    - value: 1
+
+haproxy-config-dir:
+  file.directory:
+    - name: /etc/haproxy
+    - user: root
+    - group: root
+    - mode: 755
+
+haproxy-init:
+  file.managed:
+    - name: /etc/init.d/haproxy
+    - source: salt://haproxy/files/haproxy.init
+    - user: root
+    - group: root
+    - mode: 7q55
+    - require:
+      - cmd: haproxy-install
+  cmd.run:
+    - name: chkconfig --add haproxy
+    - unless: chkconfig --list | grep haproxy
+    - require:
+      - file: haproxy-init
 ##############
 
 ```
