@@ -268,6 +268,11 @@ sudo salt '*' state.highstate
 #### 3-2-1. 安装haproxy和keepalived
 1. 环境搭建
     1. 指定(假设)`/srv/salt/prod`是SaltStack-master的生产环境
+        1. hello
+            1. new
+            2. sadas
+            
+        2. yes
     2. 在生产环境下创建依赖包和功能目录,如
     + pkg是所有功能的依赖包的目录,那么是不是通过不同的sls文件来进一步区分这个依赖包是属于哪个功能的?
   ```
