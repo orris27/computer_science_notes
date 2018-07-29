@@ -198,6 +198,16 @@ sudo salt '*' state.highstate
 
 ## 3. 应用
 1. 系统初始化
+1-1. base环境设置为`/srv/salt/base`目录
+1-2. 在base环境下创建1个init文件夹,专门放系统初始化的文件
+结构为
+```
+.
+|-- init
+`-- top.sls
+```
+1-3. 放置系统初始化文件
+/etc/resolv.conf
 2. 功能模块
 3. 业务模块
 
