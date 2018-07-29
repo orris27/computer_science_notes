@@ -262,6 +262,27 @@ sudo salt '*' state.highstate
 
 
 ### 3-2. 功能模块
+1. 功能模块统一放在生产环境下,因为不是所有服务器都要安装这些功能
+2. 不同sls文件对应不同功能
+3. 功能可能需要依赖包,我们单独创建1个pkg目录存放
+#### 3-2-1. 安装haproxy和keepalived
+1. 环境搭建
+  1. 指定(假设)`/srv/salt/prod`是SaltStack-master的生产环境
+  2. 在生产环境下创建依赖包和功能目录,如
+    + pkg是所有功能的依赖包的目录,那么是不是通过不同的sls文件来进一步区分这个依赖包是属于哪个功能的?
+  ```
+  mkdir /srv/salt/{pkg,haproxy}
+  mkdir /srv/salt/haproxy/files
+  ```
+
+
+
+
+
+
+
+
+
 ### 3-3. 业务模块
 
 
