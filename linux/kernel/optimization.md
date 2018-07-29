@@ -1,5 +1,8 @@
 ## Linux内核优化
 具体的优化参数根据服务器的不同要求会有所不同,下面的代码只是一个参考,以后我会考虑弄个更加专门的内核参数
++ 文件描述符加大
++ ip_local_port_range的范围可以扩大
+- 进程在随机选取端口监听的时候,只会在这个范围内寻找端口监听
 ### 1. 下面的代码追加到系统内核(`/etc/sysctl.conf`)
 ```
 net.ipv4.tcp_fin_timeout = 2
@@ -12,7 +15,7 @@ net.ipv4.tcp_syncookies = 1
 
 net.ipv4.tcp_keepalive_time = 600
 
-net.ipv4.ip_local_port_range = 1024 65000
+net.ipv4.ip_local_port_range = 10000 65000
 
 net.ipv4.tcp_max_syn_backlog = 16384
 
