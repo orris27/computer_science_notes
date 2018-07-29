@@ -137,6 +137,8 @@ base:
 
 ## 2. 普通状态
 ### 2-1. 文件管理
+> https://docs.saltstack.com/en/latest/ref/states/all/salt.states.file.html#module-salt.states.file
+#### 2-1-1. 文件管理
 ```
 minion端的文件名:
   file.managed:
@@ -146,8 +148,42 @@ minion端的文件名:
     - 权限
     
 ```
-#### ### 2-2. 配置
-2-2-1. 在master配置文件里设置top file的目录
+#### 2-1-2. 文件追加
+内容不用加双引号
+```
+minion端的文件名:
+  file.append:
+    - text:
+      - 内容
+```
+#### 2-1-3. 修改内核参数
+```
+net.ipv4.ip_local_port_range:
+  sysctl.present:    Data failed to compile:
+----------
+    Detected conflicting IDs, SLS IDs need to be globally unique.
+    The conflicting ID is '/etc/profile' and is found in SLS 'base:init.history' and SLS 'base:init.audit'
+
+    - value: 10000 65000
+fs.file-mas:
+  sysctl.present:
+    - value: 100000
+```
+#### 2-1-4. 包含其他sls文件
+当执行包含其他sls文件的sls文件时,会依次执行里面的sls文件
++ top file只需要使用这个sls文件,就可以执行里面的所有文件
++ 该文件命名随意
++ 如果该文件在base环境下的init目录下,和`dns.sls`等同级,但include这些同级文件时,仍然要从base环境本身目录找起
+```
+include:
+  - init.dns
+  - init.history
+  - init.audit
+  - init.sysctl
+```
+
+### 2-2. 配置
+#### 2-2-1. 在master配置文件里设置top file的目录
 ```
 sudo vim /etc/salt/master
 ##############
@@ -197,18 +233,40 @@ sudo salt '*' state.highstate
 ```
 
 ## 3. 应用
-1. 系统初始化
-1-1. base环境设置为`/srv/salt/base`目录
-1-2. 在base环境下创建1个init文件夹,专门放系统初始化的文件
+### 3-1. 系统初始化
+#### 3-1-1. base环境设置为`/srv/salt/base`目录
+#### 3-1-2. 在base环境下创建1个init文件夹,专门放系统初始化的文件
 结构为
 ```
 .
 |-- init
+|   |-- audit.sls
+|   |-- dns.sls
+|   |-- files
+|   |   `-- resolv.conf
+|   |-- history.sls
+|   `-- sysctl.sls
 `-- top.sls
 ```
-1-3. 放置系统初始化文件
-/etc/resolv.conf
-2. 功能模块
-3. 业务模块
+#### 3-1-3. 放置系统初始化文件
+> https://github.com/orris27/orris/tree/master/linux/saltstack/example/init_example
+
+#### 3-1-0. 问题
+##### 3-1-0-1. 出现冲突的id
+```
+    Data failed to compile:
+----------
+    Detected conflicting IDs, SLS IDs need to be globally unique.
+    The conflicting ID is '/etc/profile' and is found in SLS 'base:init.history' and SLS 'base:init.audit'
+```
+###### 3-1-0-1-1. 解决
+`init/history.sls`和`init/audit.sls`都对同一个文件进行追加操作,比如说第一行都是`/etc/profile:`
++ 合并
++ 其中一个妥协
+  - `init/audit.sls`换成`/etc/bashrc:`
+
+
+### 3-2. 功能模块
+### 3-3. 业务模块
 
 
