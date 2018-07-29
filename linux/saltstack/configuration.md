@@ -139,6 +139,15 @@ base:
 ### 2-1. 文件管理
 > https://docs.saltstack.com/en/latest/ref/states/all/salt.states.file.html#module-salt.states.file
 #### 2-1-1. 文件管理
++ 文件管理有多种写法
+    1. 取id
+        + 必须在`file.managed`子集中定义文件在minion端的具体位置
+        + 下面是1个例子
+    ```
+asdas
+    ```
+    2. 不取id
+
 ```
 minion端的文件名:
   file.managed:
@@ -198,7 +207,7 @@ sudo mkdir /srv/salt/{base,test,prod}
 sudo mkdir /srv/salt/base/files
 cd /srv/salt/base/
 sudo vim dns.sls
-###############
+############### 不取id
 /etc/resolv.conf:
   file.managed:
     - source: salt://files/resolv.conf
@@ -271,28 +280,105 @@ sudo salt '*' state.highstate
     2. 在生产环境下创建依赖包和功能目录
         + 1个功能<=>1个目录
         + pkg是所有功能的依赖包的目录,那么是不是通过不同的sls文件来进一步区分这个依赖包是属于哪个功能的?
+        + 配置文件的修改单独放到另一个地方,因为配置文件的修改如果放到安装里面,复用性就会下降
     ```
     sudo mkdir /srv/salt/prod/{pkg,haproxy}
     sudo mkdir /srv/salt/prod/haproxy/files
     cd /srv/salt/prod/pkg/
     ``` 
 2. 编辑依赖包安装
+    + `pkg-init`是id
+    + `pkg.installed`为模块下的一个方法
 ```
 sudo vim /srv/salt/prod/pkg/pkg-init.sls
 ###############
 pkg-init:
-  
+  pkg.installed:
+    - names:
+      - gcc
+      - gcc-c++
+      - glibc
+      - make
+      - autoconf
+      - openssl
+      - openssl-devel
 ###############
 ```
+3. 源码安装haproxy
+    1. 下载源码
+    2. 解压并进入目录
+    3. 设置编译参数
+        + haproxy的linux内核参数通过`less README`可以查看到
+    4. 编译并安装
+    5. 设置软连接
+```
+wget http://www.haproxy.org/download/1.8/src/haproxy-1.8.12.tar.gz
+tar -zxf haproxy-1.8.12.tar.gz
+cd haproxy-1.8.12
+sudo make TARGET=linux2628 PREFIX=/usr/local/haproxy-1.8.12 && \
+sudo make install PREFIX=/usr/local/haproxy-1.8.12
+sudo ln -s /usr/local/haproxy-1.8.12/ /usr/local/haproxy
+```
+4. 编写salt版本的
+    1. 将haproxy的源码压缩包放到生产环境中haproxy的目录下
+    2. 修改`examples/haproxy.init`文件,将`BIN=/usr/sbin/$BASENAME`修改成`BIN=/usr/local/haproxy/sbin/$BASENAME`
+        + `/usr/local/haproxy`是我们安装haproxy的目录,因此要在这个目录下的`sbin`中去找`$BASENAME`("hapoxy.init")
+    3. 拷贝`examples/haproxy.init`到salt生产环境下的功能目录下的files中
+        + `haproxy.init`是实在的文件,所以放入files目录中
+    4. 编写安装haproxy的sls文件
+        1. 安装依赖包
+        2. 管理文件
+            + `haproxy-install:`是自定义的id,在里面写了个文件管理
+            + 如何保证在某个目录下存在解锁包?
+        3. 远程执行命令
+            + 在sls(salt state)文件中,用`&&`连接所有命令
+            + require依赖时指明模块和id.格式为`模块: id名`=>这个id下面有xx模块,我们依赖这个模块
+                - `pkg: pkg-init`是在`pkg-init.sls`文件里定义的id(`pkg-init`)和这个id下使用的pkg模块
+            + 1个id下1个模块只能使用1次
+```
+sudo vim ~/tools/haproxy-1.8.12/examples/haproxy.init
+##############
+# BIN=/usr/sbin/$BASENAME
+BIN=/usr/local/haproxy/sbin/$BASENAME
+##############
+
+sudo cp ~/tools/haproxy-1.8.12.tar.gz /srv/salt/prod/haproxy/files/
+sudo cp haproxy.init /srv/salt/prod/haproxy/files/
+cd /srv/salt/prod/haproxy
+sudo vim install.sls
+##############
+include:
+  - pkg.pkg-init
+
+haproxy-install:
+  file.managed:
+    - name: /home/orris/tools/haproxy-1.8.12.tar.gz
+    - source: salt://haproxy/files/haproxy-1.8.12.tar.gz
+    - user: root
+    - group: root
+    - mode: 755
+  cmd.run:
+    - name: cd /home/orris/tools && tar -zxf haproxy-1.8.12.tar.gz && cd haproxy-1.8.12 && sudo make TARGET=linux2628 PREFIX=/usr/local/haproxy-1.8.12 && sudo make install PREFIX=/usr/local/haproxy-1.8.12 && sudo ln -s /usr/local/haproxy-1.8.12/ /usr/local/haproxy
+    - unless: test -d /usr/local/haproxy
+    - require:
+      - pkg: pkg-init
+      - file: haproxy-install
+    
+##############
+
+```
+
+onlyif 检查的命令,仅当onlyif选项指向的命令返回true时才执行name定义的命令
+unless 检查的命令,仅当unless选项指向的命令返回false时才执行name定义的命令
+unless 和 name同级
+
+requisites我依赖某个状态
+源码装不上
+require 我依赖某个状态,里面的状态执行成功后才能执行cmd.run.是`cmd.run的子集`
 
 
 
-
-
-
-
-
-
+---------------------------
 ### 3-3. 业务模块
 
 
