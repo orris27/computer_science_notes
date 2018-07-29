@@ -1346,6 +1346,7 @@ salt-key -a linux*
 2. `-C`:混合模式.支持逻辑比较符
 3. `-G`:Grains glob
 4. `-I`:Pillar glob
+5. `test=True`:不会实际上影响到具体文件,而是呈现出输出结果
 
 
 
