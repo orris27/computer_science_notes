@@ -146,7 +146,6 @@ minion端的文件名:
     - 用户
     - 组
     - 权限
-    
 ```
 #### 2-1-2. 文件追加
 内容不用加双引号
@@ -159,13 +158,9 @@ minion端的文件名:
 #### 2-1-3. 修改内核参数
 ```
 net.ipv4.ip_local_port_range:
-  sysctl.present:    Data failed to compile:
-----------
-    Detected conflicting IDs, SLS IDs need to be globally unique.
-    The conflicting ID is '/etc/profile' and is found in SLS 'base:init.history' and SLS 'base:init.audit'
-
+  sysctl.present:
     - value: 10000 65000
-fs.file-mas:
+fs.file-max:
   sysctl.present:
     - value: 100000
 ```
