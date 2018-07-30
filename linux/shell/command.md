@@ -1416,6 +1416,7 @@ salt '*' test.ping # 如果成功,就好了
 使用的时候,指定`service`这个模块就好了
 > https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.rh_service.html#module-salt.modules.rh_service
 + 判断当前的的模块是否运行
++ service模块根据操作系统版本,会自动使用对应的服务管理.如CentOS7就是使用`systemctl`
 ```
 sudo salt '*' service.available sshd
 ```
