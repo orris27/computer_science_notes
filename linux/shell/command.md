@@ -537,7 +537,7 @@ export HISTCONTROL=ignorespace
 ```
 ### 19-2. 让每一条执行的命令都记录时间
 ```
-export HISTTIMEFORMAT="%F %T `whoami`"
+export HISTTIMEFORMAT="%F %T `whoami` "
 ```
 ### 19-3. 将每1条记录输出到`/var/log/messages`
 和隐藏历史一样,可以定义一个全局变量来控制
