@@ -437,7 +437,7 @@ cd /srv/salt/prod/cluster/files
 创建外网的负载均衡
 vim haproxy-outside.cfg
 #################
-g
+
 
 
 
