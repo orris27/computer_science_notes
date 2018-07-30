@@ -503,14 +503,29 @@ EOF
 ```
 4. minion端开放相关端口
     1. 关闭minion端的80端口服务
-    2. minion端修改原来Web服务的监听端口为8080
+    2. minion端修改原来Web服务的监听端口为8080,并启动
     + 比如说`linux-node1`(既是master也是minion的服务器)上修改httpd配置文件,使监听8080,并启动
+    ```
+    vim /etc/httpd/conf/httpd.conf
+    ##################
+    # Listen 80
+    Listen 8080
+    ##################
+    apachectl
+    ```
+    
 5. 执行salt命令
 ```
 salt '*' state.highstate test=True
 salt '*' state.highstate
 ```
 
+6. 访问haproxy的网站
+    1. 在浏览器里输入`http://47.100.185.187:8888/haproxy-status`
+    2. 用户名和密码为`haproxy`和`saltstack`(均在haproxy的配置文件里写着)
+    
+    
+    
 #### 3-3-0. 问题
 1. `Too many functions declared in state 'file' in SLS 'cluster.haproxy-outside'`
 + 我的`haproxy-outside.sls`文件中的`mode:644`的冒号后面没有空格.加了空格后就好了
