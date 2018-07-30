@@ -422,8 +422,19 @@ salt 'linux-node3.*' state.sls haproxy.install env=prod
 
 #### 3-2-0. 问题
 1. ` The function "state.highstate" is running as PID 6570 and was started at 2018, Jul 29 13:32:06.608152 with jid 20180729133206608152`
-+ 重启master和minion服务
-
+    1. 产生原因
+    + 执行了`state.highstate`+`Ctrl+C`,导致minion端上有1个job还在执行
+    2. 解决
+        1. 查看现在运行中的job
+        ```
+        salt-run jobs.active
+        ```
+        2. 温柔kill这个job
+        + `15`是singal_job指定的信号,不能改变
+        + `20180730215933414927`是job id
+        ```
+        salt '*' saltutil.signal_job 20180730215933414927 15
+        ```
 
 ### 3-3. 业务模块
 配置文件放在业务模块
