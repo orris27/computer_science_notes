@@ -514,3 +514,8 @@ salt '*' state.highstate
 #### 3-3-0. 问题
 1. `Too many functions declared in state 'file' in SLS 'cluster.haproxy-outside'`
 + 我的`haproxy-outside.sls`文件中的`mode:644`的冒号后面没有空格.加了空格后就好了
+2. 每次执行`salt.highstate`的时候,同时为master和minion的服务器总是没有响应
+    1. 原因
+    + 在salt执行的命令中有修改内核参数的命令,如初始化系统时修改ip_local_port_range和文件描述符,以及安装haproxy的时候修改是否能监听非本机ip/port
+    2. 解决
+    + 要么区分这个服务器和纯minion服务器,要么直接都不修改内核参数
