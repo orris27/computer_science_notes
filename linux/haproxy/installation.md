@@ -37,7 +37,7 @@ frontend frontend_www_example_com
     option httplog
     default_backend backend_www_example_com
 
-backend backend_www_example.com
+backend backend_www_example_com
     option forwardfor header X-REAL-IP
     option httpchk HEAD / HTTP/1.0
     balance source
