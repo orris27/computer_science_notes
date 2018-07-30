@@ -1,5 +1,5 @@
-## 1. 安装
-1. 编译安装
+## 1. 编译安装
+1. 安装
 > https://github.com/orris27/orris/blob/master/linux/saltstack/configuration.md
 2. 写配置文件
 ```
@@ -13,7 +13,15 @@ sudo vim haproxy.cfg
 ```
 sudo /usr/local/haproxy/sbin/haproxy -f /etc/haproxy/haproxy.cfg
 ```
-## 2. 配置文件
+
+--------------------------------------
+
+## 2. salt安装
+以下为完整的salt安装过程
+> https://github.com/orris27/orris/blob/master/linux/haproxy/installation.md
+
+
+## 3. 配置文件
 1. 外网的haproxy
     + 详细介绍看
     > https://blog.csdn.net/u012758088/article/details/78643704
