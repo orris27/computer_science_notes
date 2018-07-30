@@ -503,7 +503,7 @@ EOF
 ```
 4. minion端开放相关端口
     1. 关闭minion端的80端口服务
-    2. minion端修改原来Web服务的监听端口为8080,并启动
+    2. 所有的minion端修改原来Web服务的监听端口为8080,并启动
     + 比如说`linux-node1`(既是master也是minion的服务器)上修改httpd配置文件,使监听8080,并启动
     ```
     vim /etc/httpd/conf/httpd.conf
@@ -523,7 +523,19 @@ salt '*' state.highstate
 6. 访问haproxy的网站
     1. 在浏览器里输入`http://47.100.185.187:8888/haproxy-status`
     2. 用户名和密码为`haproxy`和`saltstack`(均在haproxy的配置文件里写着)
-    
+
+7. 发现proxy的网站中两个节点都没有工作
++ 通过看backend下面的第一列,如这里的web-node1和web-node2,如果是红色的,就说明没有工作;如果是绿色的就是工作状态
+    1. 查看错误信息,使用`curl -I http://172.19.28.82:8080`,发现是403错误
+    + 注意是查看8080端口,因为我们的Web服务器就是启动在8080端口
+    2. 检查对应minion端的Web服务是否在8080端口开启
+    3. 检查Web服务器的物理目录`/var/www/html`处是否有index文件,如果没有index文件,就创建一个
+    ```
+    cat > /var/www/html/index.html<<EOF
+    linux-node1
+    EOF
+    ```
+    4. 刷新proxy网页,即`http://47.100.185.187:8888/haproxy-status`,发现两个节点都变绿色了,说明正常工作了
     
     
 #### 3-3-0. 问题
