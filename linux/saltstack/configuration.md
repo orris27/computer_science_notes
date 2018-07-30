@@ -425,6 +425,7 @@ salt 'linux-node3.*' state.sls haproxy.install env=prod
     1. 产生原因
     + 执行了`state.highstate`+`Ctrl+C`,导致minion端上有1个job还在执行
     2. 解决
+    + 可以直接执行`salt '*' saltutil.signal_job $(salt-run jobs.active | head -n1 | cut -c 1-20) 15`
         1. 查看现在运行中的job
         ```
         salt-run jobs.active
@@ -435,6 +436,7 @@ salt 'linux-node3.*' state.sls haproxy.install env=prod
         ```
         salt '*' saltutil.signal_job 20180730215933414927 15
         ```
+        
 
 ### 3-3. 业务模块
 配置文件放在业务模块
