@@ -448,7 +448,14 @@ vim haproxy-outside.cfg
 ###########################
 # 使用第一个配置文件,即含有keepalived的配置文件
 ###########################
-
+```
+3. 设置状态文件
+    1. 设置haproxy的状态文件
+        1. 设置将haproxy中的配置文件推送到minion端
+        2. 设置开机自启动
+    2. 设置top file
+    + top file中使用prod环境
+```
 cd /srv/salt/prod/cluster
 cat > haproxy-outside.sls <<EOF
 include:
@@ -480,6 +487,9 @@ prod:
   'linux-node3.example.com':
     - cluster.haproxy-outside
 EOF
+```
+4. 执行salt命令
+```
 salt '*' state.highstate test=True
 salt '*' state.highstate
 ```
