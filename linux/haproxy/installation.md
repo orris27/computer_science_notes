@@ -9,7 +9,7 @@
 global
     log 127.0.0.1 local3 info
     uid 99
-    group 99
+    gid 99
     daemon
     nbproc 1
     maxconn 100000
