@@ -435,7 +435,8 @@ mkdir /srv/salt/prod/cluster/files
 2. 配置haproxy
     + 在cluster的files里存放haproxy的实际配置文件
     + 实际的配置文件对应不同的状态文件
-    + 不同的配置方式采用不同的名字命名
+    + 不同的配置方式在master端采用不同的名字(cfg文件/sls文件)命名.但是状态文件在传输配置文件时,都会统一变成对应配置文件
+        - haproxy-outside.cfg & haproxy-outside.sls (master) => haproxy.cfg (minion)
     + enable表示允许开机自启动
     + `reload`是根据`watch`来决定的,即如果watch的对象(这里是haproxy的配置文件)如果发生变化的话,就reload
     + `reload`如果不写就是restart,具体怎么reloa因情况而异
