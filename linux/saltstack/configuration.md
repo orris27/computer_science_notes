@@ -499,7 +499,11 @@ prod:
     - cluster.haproxy-outside
 EOF
 ```
-4. 执行salt命令
+4. minion端开放相关端口
+    1. 关闭minion端的80端口服务
+    2. minion端修改原来Web服务的监听端口为8080
+    + 比如说`linux-node1`(既是master也是minion的服务器)上修改httpd配置文件,使监听8080,并启动
+5. 执行salt命令
 ```
 salt '*' state.highstate test=True
 salt '*' state.highstate
