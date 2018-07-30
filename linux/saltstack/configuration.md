@@ -7,8 +7,9 @@
     2. unless 检查的命令,仅当unless选项指向的命令返回false时才执行name定义的命令
         +unless 和 name同级
 5. 检查状态(requisites)
-    1. require:我依赖某个状态,里面的状态执行成功后才能执行cmd.run.是`cmd.run的子集`
+    1. require: 我依赖某个状态,里面的状态执行成功后才能执行cmd.run.是`cmd.run的子集`
         + 放在某个模块下后,只有require里面的结果成立了,才会执行该模块
+    2. watch: 我关注某个状态
 
 
 
@@ -432,17 +433,56 @@ mkdir /srv/salt/prod/cluster
 mkdir /srv/salt/prod/cluster/files
 ```
 2. 配置haproxy
+    + 在cluster的files里存放haproxy的实际配置文件
+    + 实际的配置文件对应不同的状态文件
+    + 不同的配置方式采用不同的名字命名
+    + enable表示允许开机自启动
+    + `reload`是根据`watch`来决定的,即如果watch的对象(这里是haproxy的配置文件)如果发生变化的话,就reload
+    + `reload`如果不写就是restart,具体怎么reloa因情况而异
+> https://github.com/orris27/orris/blob/master/linux/haproxy/installation.md
 ```
 cd /srv/salt/prod/cluster/files
 创建外网的负载均衡
 vim haproxy-outside.cfg
-#################
+###########################
+# 使用第一个配置文件,即含有keepalived的配置文件
+###########################
 
+cd /srv/salt/prod/cluster
+cat > haproxy-outside.sls <<EOF
+include:
+  - haproxy.install
 
+haproxy-service:
+  file.managed:
+    - name: /etc/haproxy/haproxy.cfg
+    - source: salt://cluster/files/haproxy-outside.cfg
+    - user: root
+    - group: root
+    - mode: 644
+  service.running:
+    - name: haproxy
+    - enable: True
+    - reload: True
+    - require:
+      - cmd: haproxy-init
+    - watch:
+      - file: haproxy-service
+EOF
 
+cd /srv/salt/base
+cat >> top.sls <<EOF
 
-
-
-#################
-
+prod:
+  'linux-node1.example.com':
+    - cluster.haproxy-outside
+  'linux-node3.example.com':
+    - cluster.haproxy-outside
+EOF
+salt '*' state.highstate test=True
+salt '*' state.highstate
 ```
+
+#### 3-3-0. 问题
+1. `Too many functions declared in state 'file' in SLS 'cluster.haproxy-outside'`
++ 我的`haproxy-outside.sls`文件中的`mode:644`的冒号后面没有空格.加了空格后就好了
