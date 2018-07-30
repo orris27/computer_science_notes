@@ -21,7 +21,7 @@
 
 
 
-
+----------------------------------------------------------------
 
 
 
@@ -139,6 +139,7 @@ base:
 
 
 
+----------------------------------------------------------------
 
 
 
@@ -247,6 +248,7 @@ base:
 ```
 sudo salt '*' state.highstate
 ```
+---------------------------
 
 ## 3. 应用
 ### 3-1. 系统初始化
@@ -422,7 +424,25 @@ salt 'linux-node3.*' state.sls haproxy.install env=prod
 + 重启master和minion服务
 
 
----------------------------
 ### 3-3. 业务模块
+配置文件放在业务模块
+1. 创建集群用的配置文件
+```
+mkdir /srv/salt/prod/cluster
+mkdir /srv/salt/prod/cluster/files
+```
+2. 配置haproxy
+```
+cd /srv/salt/prod/cluster/files
+创建外网的负载均衡
+vim haproxy-outside.cfg
+#################
+g
 
 
+
+
+
+#################
+
+```
