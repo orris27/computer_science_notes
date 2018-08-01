@@ -28,7 +28,7 @@ curl -s http://172.19.28.82:2379/v2/keys/my_key1 | python -m json.tool
 ```
 curl -s http://172.19.28.82:2379/v2/keys/my_key1 -XDELETE  | python -m json.tool
 ```
-4. 设置ttl
+4. 设置过期时间
 + ttl的单位是秒,下面的代码就是5s后过期
 ```
 curl -s http://172.19.28.82:2379/v2/keys/my_key2 -XPUT -d value="my_value2" -d ttl=5 | python -m json.tool
