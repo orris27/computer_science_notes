@@ -96,3 +96,5 @@ sudo pip install urllib3 --upgrade
     ```
     1. 进一步使用haproxy的check功能检查,即`haproxy -c -f /etc/haproxy/haproxy.cfg`,发现报错`[ALERT] 213/003053 (27918) : parsing [/etc/haproxy/haproxy.cfg:36] : 'server web-node1' unknown keyword 'fail'. Registered keywords :`
     + 说明`fail`写错=>实际上为`fall`
+6. 执行完SaltStack的状态文件后,为什么我的haproxy服务是停止的,而必须要手动开启?
++ 因为我只对一个服务器(linux-node1)执行状态文件了=>如果我对两个服务器都执行状态文件,那么haproxy服务器最终就是开启的
