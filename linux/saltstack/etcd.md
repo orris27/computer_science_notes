@@ -134,13 +134,14 @@ Traceback (most recent call last):
 AttributeError: 'module' object has no attribute 'Client'
 ```
 
-- 没有安装`python-etcd`/错误地安装了`etcd`而不是`python-etcd`
+- 错误地安装了不应该安装的`etcd`而没有/覆盖了本应安装`python-etcd`
 
   1. 我的Ubuntu直接安装`python-etcd`,而不安装`pip install etcd`时,就能执行`import etcd`和`etcd.Client()`
   2. 不要安装`pip install etcd`
   3. 如果安装了`python-etcd`还是显示这个,说明`urllib3`应该更换(并且会出现第4条错误)
 
   ```
+  sudo pip uninstall etcd
   sudo pip uninstall urllib3
   sudo pip install urllib3 --upgrade
   python
