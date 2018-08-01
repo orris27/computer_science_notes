@@ -1,4 +1,4 @@
-## 1. 安装
+## 1. 安装(master-minion)
 1. 在master端安装master和minion两个版本
 ```
 sudo yum install salt-master salt-minion -y
@@ -58,7 +58,23 @@ linux-node1.example.com:
 ###
 ```
 
-
-
+## 2. 安装(Syndic)
+1. yum安装
+```
+sudo yum install salt-master salt-syndic -y
+```
+2. 修改Syndic端的master
++ 改成老大的
+```
+sudo vim /etc/salt/master
+######################
+syndic_master: 172.19.28.82
+######################
+```
+3. 启动salt-master和salt-syndic
+```
+sudo systemctl start salt-master
+sudo systemctl start salt-syndic
+```
 
 
