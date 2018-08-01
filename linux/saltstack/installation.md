@@ -74,8 +74,8 @@ syndic_master: 172.19.28.82
 ######################
 ```
 3. 启动服务
-1. salt-master
-2. salt-syndic
+    1. salt-master
+    2. salt-syndic
 ```
 sudo systemctl start salt-master
 sudo systemctl start salt-syndic
