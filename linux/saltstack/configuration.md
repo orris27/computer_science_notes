@@ -334,17 +334,17 @@ sudo make TARGET=linux2628 PREFIX=/usr/local/haproxy-1.8.12 && \
 sudo make install PREFIX=/usr/local/haproxy-1.8.12
 sudo ln -s /usr/local/haproxy-1.8.12/ /usr/local/haproxy
 ```
-4. 编写salt版本的
-    1. 拷贝hapoxy的源码压缩包到salt生产环境下的功能目录下的files中
-    2. 修改`examples/haproxy.init`文件,将`BIN=/usr/sbin/$BASENAME`修改成`BIN=/usr/local/haproxy/sbin/$BASENAME`
-        + `/usr/local/haproxy`是我们安装haproxy的目录,因此要在这个目录下的`sbin`中去找`$BASENAME`("hapoxy.init")
-    3. 拷贝`examples/haproxy.init`到salt生产环境下的功能目录下的files中
-        + `haproxy.init`是实在的文件,所以放入files目录中
-    4. 编写安装haproxy的sls文件
+4. 编写salt版本的haproxy
+    1. 修改并拷贝实体文件到salt-master指定环境下
+        1. 拷贝hapoxy的源码压缩包到salt生产环境下的功能目录下的files中
+        2. 修改`examples/haproxy.init`文件,将`BIN=/usr/sbin/$BASENAME`修改成`BIN=/usr/local/haproxy/sbin/$BASENAME`
+            + `/usr/local/haproxy`是我们安装haproxy的目录,因此要在这个目录下的`sbin`中去找`$BASENAME`("hapoxy.init")
+        3. 拷贝`examples/haproxy.init`到salt生产环境下的功能目录下的files中
+            + `haproxy.init`是实在的文件,所以放入files目录中
+    2. 编写安装haproxy的sls文件
         1. 安装依赖包
         2. 将master端的源码压缩包发送到minion端
             + `haproxy-install:`是自定义的id,在里面写了个文件管理
-            + 如何保证在某个目录下存在解锁包?
         3. 远程编译安装
             + 在sls(salt state)文件中,用`&&`连接所有命令
             + 如果实现已经安装了haproxy,就不用执行这里的安装
@@ -352,13 +352,15 @@ sudo ln -s /usr/local/haproxy-1.8.12/ /usr/local/haproxy
             + 如果依赖包安装成功并且压缩包确定送达,才能执行
             + require依赖时指明模块和id.格式为`模块: id名`=>这个id下面有xx模块,我们依赖这个模块
                 - `pkg: pkg-init`是在`pkg-init.sls`文件里定义的id(`pkg-init`)和这个id下使用的pkg模块
-        4. 将解压后的`examples/haproxy.init`推送的minion的`/etc/init.d`下
-            + 普通文件f1移动到目录d下,则`name`应该写`d/f2`的形式,这样f1重命名成f2,并放在d目录下
-        5. 允许备机监听其他服务器的ip和端口
-            + 改变内核参数中的ip_nonlocal_bind为1,即允许
+        4. 推送其他相关实体文件
+            1. 将解压后的`examples/haproxy.init`推送的minion的`/etc/init.d`下
+                + 普通文件f1移动到目录d下,则`name`应该写`d/f2`的形式,这样f1重命名成f2,并放在d目录下
+        5. (部分服务可选)修改minion端相关内核参数等
+            1. 允许备机监听其他服务器的ip和端口
+                + 改变内核参数中的ip_nonlocal_bind为1,即允许
         6. 创建配置文件的目录
             + 利用file.directory方法来创建`/etc/haproxy`
-    5. 在master端执行状态
+    3. 在master端执行状态
         + 使用env指定prod
 ```
 sudo vim ~/tools/haproxy-1.8.12/examples/haproxy.init
@@ -430,7 +432,7 @@ salt 'linux-node3.*' state.sls haproxy.install env=prod
         ```
         salt-run jobs.active
         ```
-        2. 温柔kill这个job
+        2. 温柔kill这个jobdeng
         + `15`是singal_job指定的信号,不能改变
         + `20180730215933414927`是job id
         ```
@@ -440,7 +442,7 @@ salt 'linux-node3.*' state.sls haproxy.install env=prod
 
 ### 3-3. 业务模块
 配置文件放在业务模块
-1. 创建集群用的配置文件
+1. 创建集群用的配置文件的salt目录
 ```
 mkdir /srv/salt/prod/cluster
 mkdir /srv/salt/prod/cluster/files
@@ -481,7 +483,7 @@ haproxy-service:
     - user: root
     - group: root
     - mode: 644
-  service.running:
+  service.running:.
     - name: haproxy
     - enable: True
     - reload: True
