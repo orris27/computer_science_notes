@@ -119,7 +119,25 @@ sudo salt '*' state.highstate
 base:
   'web:hello':
     - match: grain
-    - apache
+    - apachezabbix-agent-install:
+  pkg.installed
+    - name: zabbix-agent
+
+  file.managed:
+    - name: /etc/zabbix_agentd.conf
+    - source: salt://init/files/zabbix_agentd.
+conf
+    - template: jinja
+    - defaults:
+      Server: {{ pillar['zabbix_agent']['Zabbi
+x_Server'] }}
+    - require:
+      - pkg: zabbix-agent-install:
+ 
+  service.running:
+    - enable: True
+    - watch:
+
 ```
 
 
@@ -499,7 +517,25 @@ cat >> top.sls <<EOF
 prod:
   'linux-node1.example.com':
     - cluster.haproxy-outside
-  'linux-node3.example.com':
+  'linux-node3.example.com':zabbix-agent-install:
+  pkg.installed
+    - name: zabbix-agent
+
+  file.managed:
+    - name: /etc/zabbix_agentd.conf
+    - source: salt://init/files/zabbix_agentd.
+conf
+    - template: jinja
+    - defaults:
+      Server: {{ pillar['zabbix_agent']['Zabbi
+x_Server'] }}
+    - require:
+      - pkg: zabbix-agent-install:
+ 
+  service.running:
+    - enable: True
+    - watch:
+
     - cluster.haproxy-outside
 EOF
 ```
@@ -548,3 +584,73 @@ salt '*' state.highstate
     + 在salt执行的命令中有修改内核参数的命令,如初始化系统时修改ip_local_port_range和文件描述符,以及安装haproxy的时候修改是否能监听非本机ip/port
     2. 解决
     + 要么区分这个服务器和纯minion服务器,要么直接都不修改内核参数
+
+
+
+--------------------------------------
+## 4. Zabbix
+1. 创建zabbix所需目录环境
++ 使用base环境下的init目录就好了
+```
+cd /srv/salt/base/init/
+```
+2. 写zabbix状态文件
+```
+cat > zabbix-agent.sls<<EOF
+zabbix-agent-install:
+  pkg.installed
+    - name: zabbix-agent
+
+  file.managed:
+    - name: /etc/zabbix_agentd.conf
+    - source: salt://init/files/zabbix_agentd.
+conf
+    - template: jinja
+    - defaults:
+      Server: {{ pillar['zabbix_agent']['Zabbi
+x_Server'] }}
+    - require:
+      - pkg: zabbix-agent-install:
+ 
+  service.running:
+    - enable: True
+    - watch:
+      - pkg: zabbix-agent-install
+      - file: zabbix-agent-install
+EOF
+```
+3. 写pillar
+> https://github.com/orris27/orris/blob/master/linux/saltstack/pillar.md
+    1. 在master配置文件添加pillar目录及环境,并重启
+    ```
+    sudo vim /etc/salt/master
+    ############################
+    pillar_roots:
+      base:
+        - /srv/pillar/base
+    ############################
+    sudo systemctl restart salt-master
+    ```
+    2. 创建/srv/pillar/base目录
+    ```
+    sudo mkdir /srv/pillar/base
+    ```
+    3. 在pillar的base环境下随便编写1个apahce.sls
+    ```
+    cd /srv/pillar/base
+    cat >zabbix.agent
+    ```
+    4. 写状态文件(top.sls)
+    ```
+    cd /srv/pillar/base
+    cat > top.sls <<EOF
+    base:
+      '*':
+        - zabbix
+    EOF
+    ```
+    5. 检测master端是否能获得minion的pillar数据
+    6. 通知minion我们已经设置了pillar
+    7. 检测
+
+
