@@ -620,7 +620,7 @@ x_Server'] }}
 EOF
 ```
 3. 写pillar
-> https://github.com/orris27/orris/blob/master/linux/saltstack/pillar.md
++ > https://github.com/orris27/orris/blob/master/linux/saltstack/pillar.md
     1. 在master配置文件添加pillar目录及环境,并重启
     ```
     sudo vim /etc/salt/master
