@@ -123,6 +123,14 @@ haproxy-service:
 salt '*' state.highstate
 ```
 
+6. 添加1个新的节点
+    1. 添加1个新的pillar
+    2. 重新执行状态文件
+    3. 访问浏览器`http://47.100.185.187:8888/haproxy-status`,看是否成功添加
+```
+curl -s http://172.19.28.82:2379/v2/keys/salt/haproxy/backend_www_oldboyedu_com/web-node2 -XPUT -d value="172.19.28.84:8080" | python -m json.tool
+salt '*' state.highstate
+```
 
 
 ### 2-0. 问题
