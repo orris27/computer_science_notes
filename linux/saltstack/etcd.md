@@ -14,8 +14,7 @@ etcd.Client() # 只要没有提示说'module' object has no attribute 'Client',�
 ###################
 ```
 
-1. 常规操作
-
+2. 常规操作
 - etcd运行在后台
 
 ```
@@ -43,19 +42,19 @@ sudo netstat -lntup | grep etcd
 curl -s http://172.19.28.82:2379/v2/keys/my_key1 -XPUT -d value="my_value1" | python -m json.tool
 ```
 
-1. get key
+2. get key
 
 ```
 curl -s http://172.19.28.82:2379/v2/keys/my_key1 | python -m json.tool
 ```
 
-1. delete key
+3. delete key
 
 ```
 curl -s http://172.19.28.82:2379/v2/keys/my_key1 -XDELETE  | python -m json.tool
 ```
 
-1. 设置过期时间
+4. 设置过期时间
 
 - ttl的单位是秒,下面的代码就是5s后过期
 
@@ -87,7 +86,7 @@ ext_pillar:
 sudo systemctl restart salt-master
 ```
 
-1. 检测etcd是否正常工作
+2. 检测etcd是否正常工作
 
 ```
 curl -s http://172.19.28.82:2379/v2/keys/salt/haproxy/backend_www_oldboyedu_com/web-node1 -XPUT -d value="172.19.28.82:8080" | python -m json.tool
@@ -101,7 +100,7 @@ salt '*' pillar.items
 
 - 在master的日志文件中查找,如`tail /var/log/salt/master`
 
-1. 不能导入etcd
+2. 不能导入etcd
 
 ```
 2018-08-01 19:50:39,942 [salt.pillar      ][ERROR   ][11797] Failed to load ext_pillar etcd: (unable to import etcd, module most likely not installed)
@@ -119,7 +118,7 @@ CommandExecutionError: (unable to import etcd, module most likely not installed)
 
 - `sudo pip install etcd`
 
-1. module里面没有Client属性
+3. module里面没有Client属性
 
 ```
 2018-08-01 20:02:26,145 [salt.pillar      ][ERROR   ][14730] Failed to load ext_pillar etcd: 'module' object has no attribute 'Client'
@@ -152,7 +151,7 @@ AttributeError: 'module' object has no attribute 'Client'
   
   ```
 
-1. `cannot import name UnrewindableBodyError`
+4. `cannot import name UnrewindableBodyError`
 
 - 如果只安装了`python-etcd`,而没有安装`etcd`的话,会出现该错误提示(注意:这个是正确的步骤,千万不要安装`etcd`)
 - 解决方法:重新卸载并安装`urllib3`
