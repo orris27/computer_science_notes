@@ -34,8 +34,9 @@ apache: apache2
 ###############
 ```
 
-4. 执行状态文件(top.sls)
-指定哪个minion能使用 
+4. 写pillar的状态文件(top.sls)
++ 指定哪个minion能使用 
++ 这个top file是写在pillar目录下的
 ```
 sudo vim /srv/pillar/top.sls
 #############
