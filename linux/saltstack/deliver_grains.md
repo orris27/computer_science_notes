@@ -12,7 +12,7 @@ def my_grains():
     '''
     My Custom Grains
     '''
-    grains={'my_key1':'my_value1','my_key1':'my_value1'}
+    grains={'my_key1':'my_value1','my_key2':'my_value2'}
     return grains
 EOF
 # cat >> my_grains.py <<EOF
