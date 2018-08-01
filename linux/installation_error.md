@@ -10,10 +10,76 @@ echo '/usr/local/lib' >> /etc/ld.so.conf # 将这个路径放到/etc/ld.so.conf�
 # echo '/usr/local/lib64' >> /etc/ld.so.conf
 ldconfig # 生效该配置文件
 ```
-## 2. Haproxy
+## 2. SaltStack
 ### 2-1. etcd版本的SaltStack推送haproxy配置文件
 > https://github.com/orris27/orris/blob/master/linux/saltstack/etcd.md
-1. 推送完后启动haproxy失败
+
+1. 我在etcd设置好后执行`salt '*' pillar.items`却没有获取到设置的<key,valule>
+
+- 在master的日志文件中查找,如`tail /var/log/salt/master`
+
+2. 不能导入etcd
+
+```
+2018-08-01 19:50:39,942 [salt.pillar      ][ERROR   ][11797] Failed to load ext_pillar etcd: (unable to import etcd, module most likely not installed)
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/salt/pillar/__init__.py", line 538, in ext_pillar
+    key)
+  File "/usr/lib/python2.7/site-packages/salt/pillar/__init__.py", line 508, in _external_pillar_data
+    val)
+  File "/usr/lib/python2.7/site-packages/salt/pillar/etcd_pillar.py", line 97, in ext_pillar
+    client = salt.utils.etcd_util.get_conn(__opts__, profile)
+  File "/usr/lib/python2.7/site-packages/salt/utils/etcd_util.py", line 81, in get_conn
+    '(unable to import etcd, '
+CommandExecutionError: (unable to import etcd, module most likely not installed)
+```
+
+- `sudo pip install etcd`
+
+3. module里面没有Client属性
+
+```
+2018-08-01 20:02:26,145 [salt.pillar      ][ERROR   ][14730] Failed to load ext_pillar etcd: 'module' object has no attribute 'Client'
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/salt/pillar/__init__.py", line 538, in ext_pillar
+    key)
+  File "/usr/lib/python2.7/site-packages/salt/pillar/__init__.py", line 508, in _external_pillar_data
+    val)
+  File "/usr/lib/python2.7/site-packages/salt/pillar/etcd_pillar.py", line 97, in ext_pillar
+    client = salt.utils.etcd_util.get_conn(__opts__, profile)
+  File "/usr/lib/python2.7/site-packages/salt/utils/etcd_util.py", line 78, in get_conn
+    return etcd.Client(host, port)
+AttributeError: 'module' object has no attribute 'Client'
+```
+
+- 错误地安装了不应该安装的`etcd`而没有/覆盖了本应安装`python-etcd`
+
+  1. 我的Ubuntu直接安装`python-etcd`,而不安装`pip install etcd`时,就能执行`import etcd`和`etcd.Client()`
+  2. 不要安装`pip install etcd`
+  3. 如果安装了`python-etcd`还是显示这个,说明`urllib3`应该更换(并且会出现第4条错误)
+
+  ```
+  sudo pip uninstall etcd
+  sudo pip uninstall urllib3
+  sudo pip install urllib3 --upgrade
+  python
+  ###################
+  import etcd
+  etcd.Client() # 只要没有提示说'module' object has no attribute 'Client',就是正确了
+  ###################
+  
+  ```
+
+4. `cannot import name UnrewindableBodyError`
+
+- 如果只安装了`python-etcd`,而没有安装`etcd`的话,会出现该错误提示(注意:这个是正确的步骤,千万不要安装`etcd`)
+- 解决方法:重新卸载并安装`urllib3`
+
+```
+sudo pip uninstall urllib3
+sudo pip install urllib3 --upgrade
+```
+5. 推送完后启动haproxy失败
     使用`systemctl status haproxy`发现如下错误信息
     ```
     Aug 02 00:26:40 linux-node1.example.com haproxy[27178]: [ ALL] send-proxy-v2 [dflt_ok]
