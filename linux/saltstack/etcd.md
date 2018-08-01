@@ -3,6 +3,7 @@
 ```
 # sudo yum install python-pip -y
 sudo pip install python-etcd
+sudo pip install etcd
 ```
 2. 常规操作
 + etcd运行在后台
@@ -66,4 +67,39 @@ sudo systemctl restart salt-master
 ```
 curl -s http://172.19.28.82:2379/v2/keys/salt/haproxy/backend_www_oldboyedu_com/web-node1 -XPUT -d value="172.19.28.82:8080" | python -m json.tool
 salt '*' pillar.items
+
+```
+
+### 2-0. 问题
+1. 我在etcd设置好后执行`salt '*' pillar.items`却没有获取到设置的<key,valule>
++ 在master的日志文件中查找,如`tail /var/log/salt/master`
+2. 不能导入etcd
+```
+2018-08-01 19:50:39,942 [salt.pillar      ][ERROR   ][11797] Failed to load ext_pillar etcd: (unable to import etcd, module most likely not installed)
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/salt/pillar/__init__.py", line 538, in ext_pillar
+    key)
+  File "/usr/lib/python2.7/site-packages/salt/pillar/__init__.py", line 508, in _external_pillar_data
+    val)
+  File "/usr/lib/python2.7/site-packages/salt/pillar/etcd_pillar.py", line 97, in ext_pillar
+    client = salt.utils.etcd_util.get_conn(__opts__, profile)
+  File "/usr/lib/python2.7/site-packages/salt/utils/etcd_util.py", line 81, in get_conn
+    '(unable to import etcd, '
+CommandExecutionError: (unable to import etcd, module most likely not installed)
+```
++ `sudo pip install etcd`
+
+3. module里面没有Client属性
+```
+2018-08-01 20:02:26,145 [salt.pillar      ][ERROR   ][14730] Failed to load ext_pillar etcd: 'module' object has no attribute 'Client'
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/salt/pillar/__init__.py", line 538, in ext_pillar
+    key)
+  File "/usr/lib/python2.7/site-packages/salt/pillar/__init__.py", line 508, in _external_pillar_data
+    val)
+  File "/usr/lib/python2.7/site-packages/salt/pillar/etcd_pillar.py", line 97, in ext_pillar
+    client = salt.utils.etcd_util.get_conn(__opts__, profile)
+  File "/usr/lib/python2.7/site-packages/salt/utils/etcd_util.py", line 78, in get_conn
+    return etcd.Client(host, port)
+AttributeError: 'module' object has no attribute 'Client'
 ```
