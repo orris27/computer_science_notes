@@ -1,4 +1,4 @@
-## 安装及配置
+## 1. 安装及配置
 ### 1. 编译安装(需要读`README.md`,和普通的有点差异)
 ```
 wget http://download.redis.io/releases/redis-4.0.10.tar.gz
@@ -62,4 +62,22 @@ echo never > /sys/kernel/mm/transparent_hugepage/enabled
 ```
 sudo redis-cli shutdown
 sudo redis-server /application/redis/conf/redis.conf &
+```
+
+## 2. 安全
+> https://github.com/orris27/orris/blob/master/linux/security/security.md
+1. 利用防火墙防止6379端口暴露在外网
+```
+iptables -t filter -A INPUT -p tcp --dport 6379 -j DROP
+```
+2. 设置redis密码
+```
+vim /application/redis/conf/redis.conf
+#####################################
+requirepass my_password
+#####################################
+redis-cli -h 172.19.28.82 shutdown
+redis-server /application/redis/conf/redis.conf &
+redis-cli -h 172.19.28.82  # 能进去,但访问受限
+redis-cli -h 172.19.28.82 -a my_password
 ```
