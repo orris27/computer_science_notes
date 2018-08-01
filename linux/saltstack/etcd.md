@@ -1,12 +1,23 @@
 ## 1. 安装
+
 1. 安装依赖包
+
 ```
 # sudo yum install python-pip -y
+sudo pip uninstall urllib3
+sudo pip install urllib3 --upgrade
 sudo pip install python-etcd
-sudo pip install etcd
+python
+###################
+import etcd
+etcd.Client() # 只要没有提示说'module' object has no attribute 'Client',就是正确了
+###################
 ```
-2. 常规操作
-+ etcd运行在后台
+
+1. 常规操作
+
+- etcd运行在后台
+
 ```
 cd ~/tools/
 wget https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz
@@ -23,33 +34,46 @@ sudo nohup etcd --name auto_scale --data-dir /data/etcd/ \
 
 sudo netstat -lntup | grep etcd
 ```
+
 ## 2.操作
+
 1. set key
+
 ```
 curl -s http://172.19.28.82:2379/v2/keys/my_key1 -XPUT -d value="my_value1" | python -m json.tool
 ```
-2. get key
+
+1. get key
+
 ```
 curl -s http://172.19.28.82:2379/v2/keys/my_key1 | python -m json.tool
 ```
-3. delete key
+
+1. delete key
+
 ```
 curl -s http://172.19.28.82:2379/v2/keys/my_key1 -XDELETE  | python -m json.tool
 ```
-4. 设置过期时间
-+ ttl的单位是秒,下面的代码就是5s后过期
+
+1. 设置过期时间
+
+- ttl的单位是秒,下面的代码就是5s后过期
+
 ```
 curl -s http://172.19.28.82:2379/v2/keys/my_key2 -XPUT -d value="my_value2" -d ttl=5 | python -m json.tool
 curl -s http://172.19.28.82:2379/v2/keys/my_key2 | python -m json.tool
 ```
 
-
 ### 1-0. 问题
+
 1. `-bash: /usr/local/bin/etcd: cannot execute binary file`
-+ 我下载了个arm版本,其实应该是amd版本才对
+
+- 我下载了个arm版本,其实应该是amd版本才对
 
 ## 2. SaltStack配置etcd
+
 1. 告诉master我们的pillar是从etcd那里获取的
+
 ```
 sudo vim /etc/salt/master
 ###########################
@@ -63,7 +87,8 @@ ext_pillar:
 sudo systemctl restart salt-master
 ```
 
-2. 检测etcd是否正常工作
+1. 检测etcd是否正常工作
+
 ```
 curl -s http://172.19.28.82:2379/v2/keys/salt/haproxy/backend_www_oldboyedu_com/web-node1 -XPUT -d value="172.19.28.82:8080" | python -m json.tool
 salt '*' pillar.items
@@ -71,9 +96,13 @@ salt '*' pillar.items
 ```
 
 ### 2-0. 问题
+
 1. 我在etcd设置好后执行`salt '*' pillar.items`却没有获取到设置的<key,valule>
-+ 在master的日志文件中查找,如`tail /var/log/salt/master`
-2. 不能导入etcd
+
+- 在master的日志文件中查找,如`tail /var/log/salt/master`
+
+1. 不能导入etcd
+
 ```
 2018-08-01 19:50:39,942 [salt.pillar      ][ERROR   ][11797] Failed to load ext_pillar etcd: (unable to import etcd, module most likely not installed)
 Traceback (most recent call last):
@@ -87,9 +116,11 @@ Traceback (most recent call last):
     '(unable to import etcd, '
 CommandExecutionError: (unable to import etcd, module most likely not installed)
 ```
-+ `sudo pip install etcd`
 
-3. module里面没有Client属性
+- `sudo pip install etcd`
+
+1. module里面没有Client属性
+
 ```
 2018-08-01 20:02:26,145 [salt.pillar      ][ERROR   ][14730] Failed to load ext_pillar etcd: 'module' object has no attribute 'Client'
 Traceback (most recent call last):
@@ -102,4 +133,31 @@ Traceback (most recent call last):
   File "/usr/lib/python2.7/site-packages/salt/utils/etcd_util.py", line 78, in get_conn
     return etcd.Client(host, port)
 AttributeError: 'module' object has no attribute 'Client'
+```
+
+- 没有安装`python-etcd`/错误地安装了`etcd`而不是`python-etcd`
+
+  1. 我的Ubuntu直接安装`python-etcd`,而不安装`pip install etcd`时,就能执行`import etcd`和`etcd.Client()`
+  2. 不要安装`pip install etcd`
+  3. 如果安装了`python-etcd`还是显示这个,说明`urllib3`应该更换(并且会出现第4条错误)
+
+  ```
+  sudo pip uninstall urllib3
+  sudo pip install urllib3 --upgrade
+  python
+  ###################
+  import etcd
+  etcd.Client() # 只要没有提示说'module' object has no attribute 'Client',就是正确了
+  ###################
+  
+  ```
+
+1. `cannot import name UnrewindableBodyError`
+
+- 如果只安装了`python-etcd`,而没有安装`etcd`的话,会出现该错误提示(注意:这个是正确的步骤,千万不要安装`etcd`)
+- 解决方法:重新卸载并安装`urllib3`
+
+```
+sudo pip uninstall urllib3
+sudo pip install urllib3 --upgrade
 ```
