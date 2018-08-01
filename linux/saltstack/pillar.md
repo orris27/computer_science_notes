@@ -1,9 +1,9 @@
 ## 1. 设置pillar
 `man pillar`中的Setting Up Pillar下面就介绍了如何设置pillar
-### 1-1. master配置文件,并重启
+1. master配置文件,并重启
 + top.sls一般就放在base环境下
 + 关闭pillar_opts: False
-- 防止获得master的pillar.items
+    - 防止获得master的pillar.items
 ```
 sudo vim /etc/salt/master
 ##############
@@ -15,12 +15,12 @@ pillar_opts: False
 ##############
 sudo systemctl restart salt-master
 ```
-### 1-2. 创建/srv/pillar目录
+2. 创建/srv/pillar目录
 ```
 sudo mkdir /srv/pillar
 ```
 
-### 1-3. 在pillar的base环境下随便编写1个apahce.sls
+3. 在pillar的base环境下随便编写1个apahce.sls
 + 语法为Django的template下的python语法
 + 冒号后面一定要有空格!!
 ```
@@ -34,7 +34,7 @@ apache: apache2
 ###############
 ```
 
-### 1-4. top.sls
+4. 执行状态文件(top.sls)
 指定哪个minion能使用 
 ```
 sudo vim /srv/pillar/top.sls
@@ -45,17 +45,17 @@ base:
 #############
 ```
 
-### 1-5. 检测master端是否能获得minion的pillar数据
+5. 检测master端是否能获得minion的pillar数据
 ```
 sudo salt '*' pillar.items
 ```
 
-### 1-6. 通知minion我们已经设置了pillar
+6. 通知minion我们已经设置了pillar
 ```
 sudo salt '*' saltutil.refresh_pillar
 ```
 
-### 1-7. 检测
+7. 检测
 ```
 sudo salt -I 'apache:httpd' test.ping
 ```
