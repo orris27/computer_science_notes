@@ -91,8 +91,39 @@ sudo systemctl restart salt-master
 ```
 curl -s http://172.19.28.82:2379/v2/keys/salt/haproxy/backend_www_oldboyedu_com/web-node1 -XPUT -d value="172.19.28.82:8080" | python -m json.tool
 salt '*' pillar.items
-
 ```
+
+3. 检测haproxy是否正常工作
+    1. 在浏览器中输入`http://47.100.185.187:8888/haproxy-status`,看能否正常访问
+4. 配置haproxy的配置文件
+    1. 将配置文件用jinja变量获取节点
+    2. 告诉状态文件我们的实体文件要用jinja变量
+    + 只要添加`- template: jinja`就可以了
+```
+vim /srv/salt/prod/cluster/haproxy-outside.sls # 我们发现watch了haproxy的配置文件,因此不用我们手动重启
+vim /srv/salt/prod/cluster/files/haproxy-outside.cfg 
+###########################
+{% for web,web_ip in pillar.backend_www_oldboyedu_com.iteritems() %}
+server {{ web }} {{ web_ip }} check inter 2000 rise 30 fail 15
+{% endfor %}
+###########################
+
+vim /srv/salt/prod/cluster/haproxy-outside.sls
+
+#######################
+haproxy-service:
+  file.managed:
+    - name: /etc/haproxy/haproxy.cfg
+    - template: jinja 
+#######################
+```
+5. 执行状态文件
++ 必须保证所有minion都能获取到web-node的值
+```
+salt '*' state.highstate
+```
+
+
 
 ### 2-0. 问题
 
