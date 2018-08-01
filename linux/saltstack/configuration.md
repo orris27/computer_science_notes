@@ -689,9 +689,13 @@ EOF
       - init.zabbix_agent
     EOF
     ```
-    7. 执行状态
-    ```
-    salt '*' salt.highstate
-    ```
-
-
+4. 执行状态
+```
+salt '*' state.highstate
+```
+## 4-0. 问题
+1. `Specified SLS init.zabbix_agent in saltenv base is not available on the salt master or through a configured fileserver`
+    1. 原因
+    + 我`/srv/salt/base/init/zabbix-agent.sls`这里的source多了个回车`- source: salt://init/files/zabbix_agentd.\nconf`
+    2. 解决
+    + 删除回车就好了
