@@ -12,6 +12,7 @@ ldconfig # 生效该配置文件
 ```
 ## 2. Haproxy
 ### 2-1. etcd版本的SaltStack推送haproxy配置文件
+> https://github.com/orris27/orris/blob/master/linux/saltstack/etcd.md
 1. 推送完后启动haproxy失败
     使用`systemctl status haproxy`发现如下错误信息
     ```
