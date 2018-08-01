@@ -707,21 +707,21 @@ salt '*' state.highstate
     + `vim zabbix_agent.sls`,改成`pillar['zabbix-agent']['Zabbix_Server']`
     
 3. mapping values are not allowed here
-```
-    Data failed to compile:
-----------
-    Rendering SLS 'base:init.zabbix_agent' failed: mapping values are not allowed here; line 3
+    ```
+        Data failed to compile:
+    ----------
+        Rendering SLS 'base:init.zabbix_agent' failed: mapping values are not allowed here; line 3
 
----
-zabbix-agent-install:
-  pkg.installed
-    - name: zabbix_agent    <======================
-  file.managed:
-    - name: /etc/zabbix/zabbix_agentd.conf
-    - source: salt://init/files/zabbix_agentd.conf
-    - template: jinja
-    - defaults:
-[...]
-```
+    ---
+    zabbix-agent-install:
+      pkg.installed
+        - name: zabbix_agent    <======================
+      file.managed:
+        - name: /etc/zabbix/zabbix_agentd.conf
+        - source: salt://init/files/zabbix_agentd.conf
+        - template: jinja
+        - defaults:
+    [...]
+    ```
     1. 原因
     + `pkg.installed`后面缺少冒号
