@@ -17,3 +17,13 @@ def my_grains():
     return grains
 #############
 ```
+2. 把master端在`_grains`定义的grains同步到minion端
++ 默认放在minion的`/var/cache/salt/minion/extmods/grains`里面
+```
+salt '*' saltutil.sync_grains
+```
+3. 检测
+```
+salt '*' grains.item my_key1
+salt '*' grains.item my_key2
+```
