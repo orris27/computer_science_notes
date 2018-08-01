@@ -59,22 +59,107 @@ linux-node1.example.com:
 ```
 
 ## 2. 安装(Syndic)
-1. yum安装
+从左到右分别是从属关系:172.19.28.82(minion)+172.19.28.84(minion)=>172.19.28.84(master+syndic)=>172.19.28.84(高级master)
+1. yum安装master和Syndic
++ syndic必须依赖于master
 ```
 sudo yum install salt-master salt-syndic -y
 ```
-2. 修改Syndic端的master
-+ 改成老大的
+2. 在syndic端指定高级master
++ 在修改Syndic端的master配置文件
 ```
 sudo vim /etc/salt/master
 ######################
 syndic_master: 172.19.28.82
 ######################
 ```
-3. 启动salt-master和salt-syndic
+3. 启动服务
+1. salt-master
+2. salt-syndic
 ```
 sudo systemctl start salt-master
 sudo systemctl start salt-syndic
 ```
+4. 提醒高级master自己已经是高级master,而不是原来普通的master
+```
+############################################
+# 在高级master,也就是172.19.28.82里设置
+############################################
+
+sudo vim /etc/salt/master
+####################
+order_masters: True
+####################
+sudo systemctl restart salt-master
+```
+5. 如果之前的环境有master-minion相关参数,就要初始化
+    1. 暂停之前的minion
+    ```
+    ##############################
+    # 在两台机器上都执行
+    ##############################
+    sudo systemctl stop salt-minion
+    ```
+    2. 清除之前master的key
+    ```
+    ##############################
+    # 在之前的master环境删除(172.19.28.82)
+    ##############################
+    salt-key
+    salt-key -D
+    ```
+    3. 删除之前的公钥的实体文件
+    ```
+    ############################
+    # 两台机器都执行
+    ############################
+    cd /etc/salt/pki/minion
+    rm -f *
+    ```
+    4. 可能要清除minion_id
+    ```
+    cd /etc/salt/pki
+    cat minion_id # 这里暂且不删除
+    ```
+6. 给Syndic认几个小弟
++ 根据我们的架构,82和84都是84的小弟,所以这里的minion就要配置
+```
+###################################
+# 在82和84上都执行
+###################################
 
 
+
+sudo vim /etc/salt/minion
+####################
+master: 172.19.28.84
+####################
+sudo systemctl start salt-minion
+```
+7. 建立从属关系
+    1. 高级master收低级master为徒
+    2. 低级master(syndic)收minion为徒
+```
+####################################
+# 172.19.28.84
+####################################
+salt-key
+####################################
+# 172.19.28.82
+####################################
+salt-key # 如果下面有84的id,那么这就是syndic
+salt-key -A
+
+####################################
+# 172.19.28.84
+####################################
+salt-key -A
+
+```
+8. 检测
+```
+####################################
+# 172.19.28.82
+####################################
+salt '*' test.ping
+```
