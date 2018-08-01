@@ -740,4 +740,4 @@ salt '*' state.highstate
     ```
     1. 原因
     + 没有找到zabbix_agent这个yum包=>yum安装的话,应该是zabbix-agent,所以这里改成zabbix-agent会更好
-    
+    + 已经编译安装了zabbix-agent,那么也会报这个错误,因为会认为没有安装过zabbix-agent
