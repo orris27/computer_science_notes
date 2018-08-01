@@ -163,3 +163,11 @@ salt-key -A
 ####################################
 salt '*' test.ping
 ```
+
+### 2-0. 问题
+1. 在高级master里测试`salt '*' test.ping`的时候,node3连接不上
+```
+linux-node1.example.com:
+    Minion did not return. [Not connected]
+```
++ 在低级master端先后重启master和syndic就好了
