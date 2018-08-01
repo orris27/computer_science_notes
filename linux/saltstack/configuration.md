@@ -599,6 +599,7 @@ salt '*' state.highstate
 #### 3-3-0. 问题
 1. `Too many functions declared in state 'file' in SLS 'cluster.haproxy-outside'`
 + 我的`haproxy-outside.sls`文件中的`mode:644`的冒号后面没有空格.加了空格后就好了
++ 也有可能是因为`service.running`后面直接跟`- zabbix-agent`=>`- name: zabbix-agent`
 2. 每次执行`salt.highstate`的时候,同时为master和minion的服务器总是没有响应
     1. 原因
     + 在salt执行的命令中有修改内核参数的命令,如初始化系统时修改ip_local_port_range和文件描述符,以及安装haproxy的时候修改是否能监听非本机ip/port
@@ -619,7 +620,7 @@ cd /srv/salt/base/init/
 cat > zabbix_agent.sls<<EOF
 zabbix-agent-install:
   pkg.installed:
-    - name: zabbix_agent
+    - name: zabbix-agent
 
   file.managed:
     - name: /etc/zabbix/zabbix_agentd.conf
@@ -630,8 +631,8 @@ zabbix-agent-install:
     - require:
       - pkg: zabbix-agent-install
  
-  service.running:
-    - zabbix-agent
+  service.running:xiecheng
+    - name: zabbix-agent
     - enable: True
     - watch:
       - pkg: zabbix-agent-install
@@ -725,3 +726,18 @@ salt '*' state.highstate
     ```
     1. 原因
     + `pkg.installed`后面缺少冒号
+
+4. `The following package(s) were not found, and no possible matches were found in the package db: zabbix_agent`
+    ```
+          ID: zabbix-agent-install
+    Function: pkg.installed
+        Name: zabbix_agent
+      Result: False
+     Comment: The following package(s) were not found, and no possible matches were found in the package db: zabbix_agent
+     Started: 13:24:08.862737
+    Duration: 20761.04 ms
+     Changes:   
+    ```
+    1. 原因
+    + 没有找到zabbix_agent这个yum包=>yum安装的话,应该是zabbix-agent,所以这里改成zabbix-agent会更好
+    
