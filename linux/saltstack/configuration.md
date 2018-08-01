@@ -53,7 +53,11 @@ sudo vim dns.sls
     - group: root
     - mode: 644
     - template: jinja
-    - defaults:
+    - defaults:cd /srv/pillar/base
+cat >zabbix.agent <<EOF
+zabbix-agent:
+  Zabbix_Server: 172.19.28.82
+EOF
       DNS_SERVER: happy
 ###############
 ```
@@ -97,7 +101,11 @@ sudo salt '*' state.highstate
 
 
 
-
+cd /srv/pillar/base
+cat >zabbix.agent <<EOF
+zabbix-agent:
+  Zabbix_Server: 172.19.28.82
+EOF
 
 
 ### 1-2. top.sls
@@ -122,7 +130,11 @@ base:
     - apachezabbix-agent-install:
   pkg.installed
     - name: zabbix-agent
-
+cd /srv/pillar/base
+cat >zabbix.agent <<EOF
+zabbix-agent:
+  Zabbix_Server: 172.19.28.82
+EOF
   file.managed:
     - name: /etc/zabbix_agentd.conf
     - source: salt://init/files/zabbix_agentd.
@@ -143,6 +155,11 @@ x_Server'] }}
 
 
 
+cd /srv/pillar/base
+cat >zabbix.agent <<EOF
+zabbix-agent:
+  Zabbix_Server: 172.19.28.82
+EOF
 
 
 
@@ -152,8 +169,11 @@ x_Server'] }}
 
 
 
-
-
+cd /srv/pillar/base
+cat >zabbix.agent <<EOF
+zabbix-agent:
+  Zabbix_Server: 172.19.28.82
+EOF
 
 
 
@@ -636,10 +656,10 @@ EOF
     ```
     sudo mkdir /srv/pillar/base
     ```
-    3. 在pillar的base环境下随便编写1个apahce.sls
+    3. 在pillar的base环境下随便编写1个zabbix.sls
     ```
     cd /srv/pillar/base
-    cat >zabbix.agent <<EOF
+    cat >zabbix.sls <<EOF
     zabbix-agent:
       Zabbix_Server: 172.19.28.82
     EOF
