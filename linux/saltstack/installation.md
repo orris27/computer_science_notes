@@ -93,6 +93,7 @@ order_masters: True
 sudo systemctl restart salt-master
 ```
 5. 如果之前的环境有master-minion相关参数,就要初始化
+    + 先赶走手下,然后在自己家里清除手下的痕迹
     1. 暂停之前的minion
     ```
     ##############################
@@ -164,6 +165,7 @@ salt-key -A
 salt '*' test.ping
 ```
 
+
 ### 2-0. 问题
 1. 在高级master里测试`salt '*' test.ping`的时候,node3连接不上
 ```
@@ -171,3 +173,67 @@ linux-node1.example.com:
     Minion did not return. [Not connected]
 ```
 + 在低级master端先后重启master和syndic就好了
+
+
+
+
+
+
+-----------
+## 3. 将中间的Syndic层去除,使高级master直接管理Syndic下的minion
+1. 暂停minion服务
+```
+#####################
+# 两台机器都执行
+#####################
+sudo systemctl stop salt-minion
+```
+2. 在Syndic里清除minion痕迹
+```
+#####################
+# Syndic
+#####################
+cd /etc/salt/pki
+mv * /tmp
+```
+3. 停止Syndic+master服务,(网课上还要求停止master的服务)
+```
+#####################
+# Syndic服务器上执行
+#####################
+sudo systemctl stop salt-master
+sudo systemctl stop salt-syndic
+
+#####################
+# 高级master服务器上执行
+#####################
+sudo systemctl stop salt-master
+```
+4. 在高级master里清除Syndic+master痕迹
+```
+#####################
+# 高级master
+#####################
+cd /etc/salt/pki
+mv * /tmp
+```
+5. 高级master不再承认自己是高级master,并重启
+```
+#####################
+# 高级master
+#####################
+vim /etc/salt/master
+###########
+order_masters: False
+###########
+```
+6. minion指明要认原来的高级master,并启动
+```
+#####################
+# 所有minion端
+#####################
+vim /etc/salt/minion
+
+```
+原高级master承认新的minion
+
