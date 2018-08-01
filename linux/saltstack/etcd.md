@@ -192,3 +192,4 @@ AttributeError: 'module' object has no attribute 'Client'
 sudo pip uninstall urllib3
 sudo pip install urllib3 --upgrade
 ```
+> https://github.com/orris27/orris/blob/master/linux/installation_error.md
