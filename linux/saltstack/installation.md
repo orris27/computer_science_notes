@@ -244,4 +244,7 @@ sudo systemctl start salt-minion
 salt-key
 salt-key -A
 ```
-
+8. 测试
+```
+salt '*' test.ping
+```
