@@ -1545,12 +1545,26 @@ sudo salt 'linux-node1*' grains.item os # grains.item可以通过key获取value,
 sudo salt -G 'os:CentOS' test.ping
 ```
 
+
+### 44-3. salt-cp
+将master端的某个文件推送到指定minion端
+1. 例子
+    1. 推送当前目录下的`a.sh`到所有minion端的`/tmp`目录下
+    ```
+    salt-cp  '*' a.sh /tmp/
+    ```
+
+
+
+
 ## 45. logger
 向`/var/log/messages`里面输出信息
 ```
 logger nice
 sudo tail /var/log/messages
 ```
+
+
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
