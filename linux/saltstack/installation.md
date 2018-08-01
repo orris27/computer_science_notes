@@ -196,7 +196,7 @@ sudo systemctl stop salt-minion
 cd /etc/salt/pki
 mv * /tmp
 ```
-3. 停止Syndic+master服务,(网课上还要求停止master的服务)
+3. 停止Syndic+master服务(网课上还要求停止master的服务)
 ```
 #####################
 # Syndic服务器上执行
@@ -226,6 +226,7 @@ vim /etc/salt/master
 ###########
 order_masters: False
 ###########
+sudo systemctl start salt-master
 ```
 6. minion指明要认原来的高级master,并启动
 ```
@@ -233,7 +234,14 @@ order_masters: False
 # 所有minion端
 #####################
 vim /etc/salt/minion
-
+##########
+master: 172.19.28.82
+##########
+sudo systemctl start salt-minion
 ```
-原高级master承认新的minion
+7. 原高级master承认新的minion
+```
+salt-key
+salt-key -A
+```
 
