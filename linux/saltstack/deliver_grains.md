@@ -6,8 +6,7 @@ cd /srv/salt/base
 mkdir _grains
 cd _grains
 
-vim my_grains.py
-#############
+cat > my_grains.py <<EOF
 #!/usr/bin/env python
 def my_grains():
     '''
@@ -15,7 +14,11 @@ def my_grains():
     '''
     grains={'my_key1':'my_value1','my_key1':'my_value1'}
     return grains
-#############
+EOF
+# cat >> my_grains.py <<EOF
+# my_grains()
+# EOF
+# python my_grains.py # 可以在py文件里调用这个函数,然后用python检验下是否正确
 ```
 2. 把master端在`_grains`定义的grains同步到minion端
 + 默认放在minion的`/var/cache/salt/minion/extmods/grains`里面
