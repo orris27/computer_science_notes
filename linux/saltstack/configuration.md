@@ -628,7 +628,7 @@ zabbix-agent-install:
     - defaults:
       Server: {{ pillar['zabbix_agent']['Zabbix_Server'] }}
     - require:
-      - pkg: zabbix-agent-install:
+      - pkg: zabbix-agent-install
  
   service.running:
     - zabbix-agent
