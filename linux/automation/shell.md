@@ -22,20 +22,26 @@ salt '*' state.sls nginx.install env=prod
 ```
 #! /bin/sh
 
+NODE_NUM="web-node5"
+ADD_HOST="172.19.28.82"
+ADD_HOST_PORT="8080"
+
 create_host() {
 	echo "create host ok"
 }
 
 deploy_service(){
-	salt 'linux-node1.example.com' state.sls nginx.install env=prod
+#salt 'linux-node1.example.com' state.sls nginx.install env=prod
+	echo "deploy service ok"
 }
+
 
 deploy_code(){
 	echo "deploy code ok"
 
 }
 service_check(){
-	STATUS=$( curl -s --head http://172.19.28.82/ | grep '200 OK')
+	STATUS=$( curl -s --head http://"$ADD_HOST":"$ADD_HOST_PORT"/ | grep '200 OK')
 	if [ -n "$STATUS" ]
 	then
 		echo "ok"
@@ -46,12 +52,12 @@ service_check(){
 }
 
 etcd_key(){
-	curl -s http://172.19.28.82:2379/v2/keys/salt/haproxy/backend_www_oldboyedu_com/web-node1 -XPUT -d value="172.19.28.82:8080" | python -m json.tool
+	curl -s http://172.19.28.82:2379/v2/keys/salt/haproxy/backend_www_oldboyedu_com/"$NODE_NUM" -XPUT -d value=""$ADD_HOST":"$ADD_HOST_PORT"" | python -m json.tool
 }
 
 
 sync_state(){
-	salt 'linux-node1.example.com' state.sls cluster.haproxy-outside env=prod
+	salt 'linux-node[1,3].example.com' state.sls cluster.haproxy-outside env=prod
 }
 
 
@@ -59,5 +65,10 @@ main(){
 	create_host
 	deploy_service
 	deploy_code
+	service_check
+	etcd_key
+	sync_state
 }
+
+main
 ```
