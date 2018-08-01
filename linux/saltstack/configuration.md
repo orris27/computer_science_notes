@@ -661,7 +661,7 @@ EOF
     cd /srv/pillar/base
     cat >zabbix.sls <<EOF
     zabbix-agent:
-      Zabbix_Server: 172.19.28.82
+      Zabbix_Server: 47.100.185.187
     EOF
     ```
     4. 写状态文件(top.sls)
@@ -673,8 +673,9 @@ EOF
         - zabbix
     EOF
     ```
-    5. 修改zabbix_agent的配置文件
+    5. 修改zabbix_agent的配置文件,并放置到salt的files目录下
     ```
+    cd /srv/salt/base/init/files
     cp /etc/zabbix/zabbix_agentd.conf .
     vim zabbix_agentd.conf
     ###########################
