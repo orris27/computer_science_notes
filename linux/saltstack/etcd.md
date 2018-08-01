@@ -104,7 +104,7 @@ vim /srv/salt/prod/cluster/haproxy-outside.sls # 我们发现watch了haproxy的�
 vim /srv/salt/prod/cluster/files/haproxy-outside.cfg 
 ###########################
 {% for web,web_ip in pillar.backend_www_oldboyedu_com.iteritems() %}
-server {{ web }} {{ web_ip }} check inter 2000 rise 30 fail 15
+server {{ web }} {{ web_ip }} check inter 2000 rise 30 fall 15
 {% endfor %}
 ###########################
 
