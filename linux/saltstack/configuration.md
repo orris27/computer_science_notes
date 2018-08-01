@@ -602,7 +602,7 @@ zabbix-agent-install:
     - name: zabbix-agent
 
   file.managed:
-    - name: /etc/zabbix_agentd.conf
+    - name: /etc/zabbix/zabbix_agentd.conf
     - source: salt://init/files/zabbix_agentd.
 conf
     - template: jinja
@@ -613,6 +613,7 @@ x_Server'] }}
       - pkg: zabbix-agent-install:
  
   service.running:
+    - zabbix-agent
     - enable: True
     - watch:
       - pkg: zabbix-agent-install
@@ -638,7 +639,10 @@ EOF
     3. 在pillar的base环境下随便编写1个apahce.sls
     ```
     cd /srv/pillar/base
-    cat >zabbix.agent
+    cat >zabbix.agent <<EOF
+    zabbix-agent:
+      Zabbix_Server: 172.19.28.82
+    EOF
     ```
     4. 写状态文件(top.sls)
     ```
@@ -649,8 +653,24 @@ EOF
         - zabbix
     EOF
     ```
-    5. 检测master端是否能获得minion的pillar数据
-    6. 通知minion我们已经设置了pillar
-    7. 检测
+    5. 修改zabbix_agent的配置文件
+    ```
+    cp /etc/zabbix/zabbix_agentd.conf .
+    vim zabbix_agentd.conf
+    ###########################
+    Server={{ Server }}
+    ###########################
+    ```
+    6. 修改系统初始化的状态文件
+    ```
+    cd /srv/salt/base/init
+    cat >> env_init.sls <<EOF
+      - init.zabbix_agent
+    EOF
+    ```
+    7. 执行状态
+    ```
+    salt '*' salt.highstate
+    ```
 
 
