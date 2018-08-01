@@ -616,19 +616,17 @@ cd /srv/salt/base/init/
 ```
 2. 写zabbix状态文件
 ```
-cat > zabbix-agent.sls<<EOF
+cat > zabbix_agent.sls<<EOF
 zabbix-agent-install:
-  pkg.installed
-    - name: zabbix-agent
+  pkg.installed:
+    - name: zabbix_agent
 
   file.managed:
     - name: /etc/zabbix/zabbix_agentd.conf
-    - source: salt://init/files/zabbix_agentd.
-conf
+    - source: salt://init/files/zabbix_agentd.conf
     - template: jinja
     - defaults:
-      Server: {{ pillar['zabbix_agent']['Zabbi
-x_Server'] }}
+      Server: {{ pillar['zabbix_agent']['Zabbix_Server'] }}
     - require:
       - pkg: zabbix-agent-install:
  
@@ -660,7 +658,7 @@ EOF
     ```
     cd /srv/pillar/base
     cat >zabbix.sls <<EOF
-    zabbix-agent:
+    zabbix_agent:
       Zabbix_Server: 47.100.185.187
     EOF
     ```
@@ -696,6 +694,34 @@ salt '*' state.highstate
 ## 4-0. 问题
 1. `Specified SLS init.zabbix_agent in saltenv base is not available on the salt master or through a configured fileserver`
     1. 原因
-    + 我`/srv/salt/base/init/zabbix-agent.sls`这里的source多了个回车`- source: salt://init/files/zabbix_agentd.\nconf`
+    + 在base环境的init目录下,没有`zabbix_agent.sls`文件;因为我命令为`zabbix-agent.sls`了
+    + (我`/srv/salt/base/init/zabbix-agent.sls`这里的source多了个回车`- source: salt://init/files/zabbix_agentd.\nconf`)
     2. 解决
-    + 删除回车就好了
+    + `cd /srv/salt/base/init/;mv zabbix-agent.sls zabbix_agent.sls`
+    + (删除回车就好了)
+    
+2. `Rendering SLS 'base:init.zabbix_agent' failed: Jinja variable 'dict object' has no attribute 'zabbix_agent'`
+    1. 原因
+    + 没有zabbix_agent这个字典对象;因为我写成了`zabbix-agent`
+    2. 解决
+    + `vim zabbix_agent.sls`,改成`pillar['zabbix-agent']['Zabbix_Server']`
+    
+3. mapping values are not allowed here
+```
+    Data failed to compile:
+----------
+    Rendering SLS 'base:init.zabbix_agent' failed: mapping values are not allowed here; line 3
+
+---
+zabbix-agent-install:
+  pkg.installed
+    - name: zabbix_agent    <======================
+  file.managed:
+    - name: /etc/zabbix/zabbix_agentd.conf
+    - source: salt://init/files/zabbix_agentd.conf
+    - template: jinja
+    - defaults:
+[...]
+```
+    1. 原因
+    + `pkg.installed`后面缺少冒号
