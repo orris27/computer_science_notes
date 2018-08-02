@@ -100,7 +100,9 @@ gksudo bash ./VMware-Workstation-Full-14.1.2-8497320.x86_64.bundle
 5. Installation Summary
     1. Language during the installation process:选择英文把
     + 是安装过程中选择什么语言,~~系统的语言~~
+    
     2. 键盘选择默认的(英文)
+    
     3. Language Support:选择英文(操作系统安装的语言版本)
     
     
@@ -110,49 +112,54 @@ gksudo bash ./VMware-Workstation-Full-14.1.2-8497320.x86_64.bundle
     + ~~localhost~~,选择localhost肯定很危险
     
     
+    5. Installation Destination
+    + 选择I will configure partitioning
+        1. 创建分区:选择Free,点击create.选择Standard Partition,点击Create
+
+        2. 增加分区:/boot=>sda1
+        + Mount Point: /boot
+        + File System Type: ext4(CentOS7拿xfs做默认文件系统)
+        + Size(MB): 100-200M(老师选了200M)
+        + Additional Size Options:Fixed size(表示就是给200M)
+        + Force to be a primary partition:让它成为主分区(不是必须的)
+
+        3. 增加分区:swap
+        + Mount Point: 无
+        + File System Type: swap
+        + Size(MB): 1G(内存空间的1.5M,因为我们的内存空间可能为512M)
+        + Additional Size Options:Fixed size
+        + Force to be a primary partition:让它成为主分区(不是必须的)
+
+        4. 增加分区:/
+        + Mount Point: /
+        + File System Type: ext4
+        + Additional Size Options:Fill to maximum allowable size(Size里面随便填没关系)
+        + Force to be a primary partition:让它成为主分区(不是必须的)
+
+        5. 选择Next
+
+        6. 格式化警告=>选择要
+
+        7. 把配置写入磁盘=>选择要(不会丢笔记本的数据,而是虚拟磁盘的数据)
+        
+        8. Storage Device Warning:要不要把虚拟的10G给删除掉:选择Yes
+        + 因为我们要装系统,所以肯定要删除原来的数据(初始化)
+    
+    6. 时区选择亚洲上海
+    + 时区很重要
+    + UTC不必选择这个=>老师最后取消勾选`System clock uses UTC`
+    
+    7. 确认"SOFTWARE SELECTION"是否为"Minimal Install"，如果不是，则点击进去选择"Minimal Install"
+
+    
+6. Root Password和Confirm(再输入一遍):这里设置root的密码
++ 不用Create User,这是创建普通用户的意思
++ 系统此时已经正在安装所需要的包了
     
 7. 安装什么类型的设备=>选择Basic Storage Devices(基础的存储设备)就行了
 + ~~Specialized Storage Devices~~
 
-8. Storage Device Warning:要不要把虚拟的10G给删除掉:选择Yes
-+ 因为我们要装系统,所以肯定要删除原来的数据(初始化)
 
-
-
-10. 时区选择亚洲上海
-+ 时区很重要
-+ UTC不必选择这个=>老师最后取消勾选`System clock uses UTC`
-
-11. Root Password和Confirm(再输入一遍):这里设置root的密码
-
-12. 安装类型=>Create Custom Layout
-    1. 创建分区:选择Free,点击create.选择Standard Partition,点击Create
-    
-    2. 增加分区:/boot=>sda1
-    + Mount Point: /boot
-    + File System Type: ext4(CentOS7拿xfs做默认文件系统)
-    + Size(MB): 100-200M(老师选了200M)
-    + Additional Size Options:Fixed size(表示就是给200M)
-    + Force to be a primary partition:让它成为主分区(不是必须的)
-    
-    3. 增加分区:swap
-    + Mount Point: 无
-    + File System Type: swap
-    + Size(MB): 1G(内存空间的1.5M,因为我们的内存空间可能为512M)
-    + Additional Size Options:Fixed size
-    + Force to be a primary partition:让它成为主分区(不是必须的)
-    
-    4. 增加分区:/
-    + Mount Point: /
-    + File System Type: ext4
-    + Additional Size Options:Fill to maximum allowable size(Size里面随便填没关系)
-    + Force to be a primary partition:让它成为主分区(不是必须的)
-    
-    5. 选择Next
-    
-    6. 格式化警告=>选择要
-    
-    7. 把配置写入磁盘=>选择要(不会丢笔记本的数据,而是虚拟磁盘的数据)
 
 13. Linux需要引导,即为`Install boot loader on /dev/sda`(默认就行)
 + 选择默认的磁盘就好,如果有其他磁盘做引导的话,就选其他的
@@ -175,6 +182,18 @@ gksudo bash ./VMware-Workstation-Full-14.1.2-8497320.x86_64.bundle
     + 如果忘记包名,就用`yum grouplist`
 
 
-
-
+15. 重启
+16. 关掉光盘(现在可能比较智能,自动就会关掉)
+17. 检查网卡 ifconfig
+    1. 输入`setup`
+    2. 选择Network Configuration
+    3. 选择Device Configuration
+    4. eth0就是默认的第一块网卡,选择eth0,回车
+    5. 默认情况下DHCP,要给DNS配置,老师是`8.8.8.8`.
+    + 因为我们是NAT,所以选择DHCP就行
+    6. `/etc/init.d/network restart`
+    7. `/etc/sysconfig/`
+    + ONBOOT=yes
+    + UUID删除
+    + MAC删除
 `Ctrl+Alt`退出全屏
