@@ -25,7 +25,7 @@ network --hostname=Cobbler #设置主机名
 
 #network --bootproto=dhcp --device=eth1 --onboot=yes --noipv6 --hostname=CentOS7            #可以使用dhcp方式设置网络
 
-timezone --utc Asia/Shanghai #设置时区
+timezone --utc Asia/Shanghai #设置时区unable to open input kickstart file
 
 authconfig --enableshadow --passalgo=sha512 #设置密码格式
 
@@ -99,7 +99,7 @@ text
 
 lang en_US.UTF-8
 
-keyboard u
+keyboard us
 
 #
 rootpw --iscrypted $default_password_crypted
