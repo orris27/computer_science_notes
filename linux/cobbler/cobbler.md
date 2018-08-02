@@ -185,3 +185,17 @@ udp6       0      0 ::1:323                 :::*                                
 12. 问题如`you have specified that the group base should be installed`和`cobbler PXE-E53:No boot filename received`等见下面的网站
 > https://github.com/orris27/orris/blob/master/linux/installation_error.md
 
+
+## 3. 定制
+1. 获取mac地址,如`00:0C:29:96:5F:3D`
++ Setting>Network Adapter>Advanced>MAC Address
+
+2. 为这个主机定制主机名,ip地址等
+```
+cobbler system add --name=orris --mac=00:0C:29:96:5F:3D --profile=CentOS-7.5-x86_64 --ip-address=192.168.1.100 --subnet=255.255.255.0 --gateway=192.168.1.1 --interface=eth0 --static=1 --hostname=orris.example.com --name-servers="8.8.8.8 114.114.114.114"
+```
+3. 检查状态
+```
+cobbler system list # 能看到orris
+```
+4. 启动测试用虚拟机,如果不询问我直接安装,就说明安装成功
