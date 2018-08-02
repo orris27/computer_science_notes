@@ -193,7 +193,7 @@ reboot
 + 直接切换成ssh客户端
 
 
-14. 安装setup
+14. 安装setup(不需要)
 +  按tab建切换到下面
 ```
 yum install ntsysv -y
