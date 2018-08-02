@@ -172,3 +172,7 @@ ProtocolError: <ProtocolError for 127.0.0.1:80/cobbler_api: 503 Service Unavaila
     2. 虚拟机使用桥接模式
     3. 也有尝试下面网站的方法,修改了cobbler的配置文件并且安装了dnsmasq
     > https://blog.csdn.net/zhaihaifei/article/details/56674655
+
+
+4. `you have specified that the group base should be installed`
++ 我使用的CentOS是minimal版本,没有base等包=>在cfg文件里删除这些包就可以了
