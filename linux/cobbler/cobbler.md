@@ -143,6 +143,7 @@ cobbler sync
     + 网络类型选择NAT
     + 过程如下
     > https://github.com/orris27/orris/blob/master/linux/vmware/installation.md
-    2. 点击菜单栏VM>Power>Power On to Firmware
 
+    2. 点击菜单栏VM>Power>Power On to Firmware
+    3. 进入Boot里面,将`Network boot from Intel E1000`移动到最上面.保存并退出
 
