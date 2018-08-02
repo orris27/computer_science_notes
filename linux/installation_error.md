@@ -178,3 +178,11 @@ ProtocolError: <ProtocolError for 127.0.0.1:80/cobbler_api: 503 Service Unavaila
 
 4. `you have specified that the group base should be installed`
 + 我使用的CentOS是minimal版本,没有base等包=>在cfg文件里删除这些包就可以了
+
+
+5. `unable to open input kickstart file: curl#37 "Couldn't open file /tmp/pre_install_network_config"`
+
+
+6. 浏览器里输入`http://192.168.1.2/cobbler_web`时返回`403 Forbidden`
++ 输入`https://192.168.1.2/cobbler_web`,这里一定是`https`
++ 如果浏览器阻止的话,选高级,强行进入
