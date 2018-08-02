@@ -138,3 +138,10 @@ The VMware Tools package is not running in this virtual machine. The package mig
 VMware Workstation can remind you to install the VMware Tools package when you power on the VM. Select OK to enable the reminder.
 ```
 + 不用安装(放大字体=>ssh客户端)
+
+
+
+## 4. Cobbler
+### 4-1. 安装
+1. yum中没有找到`cobbler`
++ `yum -y install epel-release`,更新yum的epel
