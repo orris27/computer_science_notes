@@ -191,6 +191,7 @@ udp6       0      0 ::1:323                 :::*                                
 + Setting>Network Adapter>Advanced>MAC Address
 
 2. 为这个主机定制主机名,ip地址等
++ profile:指定在用网卡启动时,使用`(local)`还是`CentOS-7.5-x86_64`
 ```
 cobbler system add --name=orris --mac=00:0C:29:96:5F:3D --profile=CentOS-7.5-x86_64 --ip-address=192.168.1.100 --subnet=255.255.255.0 --gateway=192.168.1.1 --interface=eth0 --static=1 --hostname=orris.example.com --name-servers="8.8.8.8 114.114.114.114"
 ```
@@ -199,3 +200,14 @@ cobbler system add --name=orris --mac=00:0C:29:96:5F:3D --profile=CentOS-7.5-x86
 cobbler system list # 能看到orris
 ```
 4. 启动测试用虚拟机,如果不询问我直接安装,就说明安装成功
+
+
+## 4. cobbler_web 
+1. 在浏览器里输入`https://192.168.1.2/cobbler_web`
++ 一定是`https`
+
+
+2. 用户名和密码都是cobbler
++ 修改用户名和密码在`/etc/cobbler/users.conf`+`/etc/cobbler/users.digest`
+
+
