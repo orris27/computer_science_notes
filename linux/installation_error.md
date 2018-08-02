@@ -145,3 +145,22 @@ VMware Workstation can remind you to install the VMware Tools package when you p
 ### 4-1. 安装
 1. yum中没有找到`cobbler`
 + `yum -y install epel-release`,更新yum的epel
+2. Protocol Error
+```
+httpd does not appear to be running and proxying cobbler, or SELinux is in the way. Original traceback:
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/site-packages/cobbler/cli.py", line 251, in check_setup
+    s.ping()
+  File "/usr/lib64/python2.7/xmlrpclib.py", line 1233, in __call__
+    return self.__send(self.__name, args)
+  File "/usr/lib64/python2.7/xmlrpclib.py", line 1591, in __request
+    verbose=self.__verbose
+  File "/usr/lib64/python2.7/xmlrpclib.py", line 1273, in request
+    return self.single_request(host, handler, request_body, verbose)
+  File "/usr/lib64/python2.7/xmlrpclib.py", line 1321, in single_request
+    response.msg,
+ProtocolError: <ProtocolError for 127.0.0.1:80/cobbler_api: 503 Service Unavailable>
+```
++ 需要关闭SELinux才能正常执行
+    1. 查看SELinux状态,`getenforce`
+    2. 关闭SElinux,`setenforce 0`
