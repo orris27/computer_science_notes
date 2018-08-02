@@ -109,20 +109,20 @@ zerombr
 bootloader --location=mbr --driveorder=sda 
 
 $SNIPPET('network_config')
-network --bootproto=static --device=eth0 --gateway=10.0.0.254 --ip=10.0.0.63 --nameserver=223.5.5.5 --netmask=255.255.255.0 --activate #配置eth0网卡（--activate开机自启）
+#network --bootproto=static --device=eth0 --gateway=10.0.0.254 --ip=10.0.0.63 --nameserver=223.5.5.5 --netmask=255.255.255.0 --activate
 
-network --bootproto=static --device=eth1 --ip=172.16.1.63 --netmask=255.255.255.0 --activate #配置eth1网卡
 
-network --hostname=Cobbler #设置主机名
+#network --bootproto=static --device=eth1 --ip=172.16.1.63 --netmask=255.255.255.0 --activate
 
-#network --bootproto=dhcp --device=eth1 --onboot=yes --noipv6 --hostname=CentOS7            #可以使用dhcp方式设置网络
+#network --hostname=Cobbler
 
-timezone --utc Asia/Shanghai #设置时区
+#network --bootproto=dhcp --device=eth1 --onboot=yes --noipv6 --hostname=CentOS7
+
+timezone --utc Asia/Shanghai
 
 #authconfig --enableshadow --passalgo=sha512 
 auth --useshadow --enablemd5
 
-rootpw --iscrypted $6$X20eRtuZhkHznTb4$dK0BJByOSAWSDD8jccLVFz0CscijS9ldMWwpoCw/ZEjYw2BTQYGWlgKsn945fFTjRC658UXjuocwJbAjVI5D6/ #密文密码
 
 clearpart --all --initlabel
 
@@ -132,13 +132,13 @@ part swap --size 1024 --ondisk sda
 
 part / --fstype xfs --size 1 --grow --ondisk sda
 
-firstboot --disable #负责协助配置redhat一些重要的信息
+firstboot --disable
 
 selinux --disabled
 
 firewall --disabled
 
-logging --level=info #设置日志级别
+logging --level=info
 
 reboot
 
@@ -166,7 +166,7 @@ $SNIPPET('pre_anamon')
 
 @development
 
-tree #软件包
+tree
 
 nmap
 sysstat
@@ -194,4 +194,5 @@ bash-completion
 %post
 systemctl disable postfix.service
 %end
+
 ```
