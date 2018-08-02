@@ -176,4 +176,8 @@ udp6       0      0 ::1:323                 :::*                                
     2. 修改虚拟机的网络类型为桥接模式
     3. 点击菜单栏VM>Power>Power On to Firmware
     4. 进入Boot里面,将`Network boot from Intel E1000`移动到最上面.保存并退出
+    5. 重新启动虚拟机,选择`(local)`下面的`CentOS-7.5-xxx`,回车即开始安装
+
+10. 问题如`you have specified that the group base should be installed`和`cobbler PXE-E53:No boot filename received`等见下面的网站
+> https://github.com/orris27/orris/blob/master/linux/installation_error.md
 
