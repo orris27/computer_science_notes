@@ -139,7 +139,7 @@ VMware Workstation can remind you to install the VMware Tools package when you p
 ```
 + 不用安装(放大字体=>ssh客户端)
 
-
+https://blog.csdn.net/zhaihaifei/article/details/56674655
 
 ## 4. Cobbler
 ### 4-1. 安装
@@ -170,3 +170,5 @@ ProtocolError: <ProtocolError for 127.0.0.1:80/cobbler_api: 503 Service Unavaila
 + 连不上网
     1. 关闭Cobbler服务器上的防火墙,iptables和firewalld
     2. 虚拟机使用桥接模式
+    3. 也有尝试下面网站的方法,修改了cobbler的配置文件并且安装了dnsmasq
+    > https://blog.csdn.net/zhaihaifei/article/details/56674655
