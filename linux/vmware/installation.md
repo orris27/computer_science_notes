@@ -107,10 +107,9 @@ gksudo bash ./VMware-Workstation-Full-14.1.2-8497320.x86_64.bundle
     
     
     4. Network and Hostname
-    
-    Hostname:主机名,比如说选择template(这个主机作为模板)
-    + ~~localhost~~,选择localhost肯定很危险
-    
+        1. Hostname:主机名,比如说选择template(这个主机作为模板)
+        + ~~localhost~~,选择localhost肯定很危险
+        2. 如果打开Network的话,后面我们就不用自己配置了
     
     5. Installation Destination
     + 选择I will configure partitioning
@@ -155,16 +154,78 @@ gksudo bash ./VMware-Workstation-Full-14.1.2-8497320.x86_64.bundle
 6. Root Password和Confirm(再输入一遍):这里设置root的密码
 + 不用Create User,这是创建普通用户的意思
 + 系统此时已经正在安装所需要的包了
+
+7. 安装完所需要的包后,点击Reboot
+    
+8. 进入CentOS后,输入`yum install net-tools -y`后,点击`ifconfig`,查看网络状态
+
     
 7. 安装什么类型的设备=>选择Basic Storage Devices(基础的存储设备)就行了
 + ~~Specialized Storage Devices~~
 
 
+8. 关闭CentOS
++ 右击左侧栏的虚拟机,选择Power>Power Off,直接确认
 
-13. Linux需要引导,即为`Install boot loader on /dev/sda`(默认就行)
+9. 将虚拟机的网络连接方式改成桥接模式
+    1. 右击左侧栏的虚拟机,选择Setting
+    2. Network Adapter下改成Bridged
+    + Replicate不用勾选
+10. 将虚拟机的驱动方式改成物理光驱,而非原来的CD-ROM
+    1. 右击左侧栏的虚拟机,选择Setting
+    2. DCD/DVD下改成Use physical drive
+    + Replicate不用勾选
+
+11. 启动虚拟机
+    1. 出现提示`Cannot connect the virtual device ide1:0 because no corresponding device is available on the host.Do you want to try to connect this virtual device every time you power on the virtual machine?`,不用管他,直接yes
+
+12. 关闭终端的警告音
+```
+vi /etc/inputrc
+################
+set bell-style none
+################
+reboot
+```
+
+
+13. 字体太小
++ 直接切换成ssh客户端
+
+
+14. 安装setup
++  按tab建切换到下面
+```
+yum install ntsysv -y
+yum install iptables -y
+yum install system-config-securitylevel-tui -y
+setup
+nmtui
+```
+
+15. 设置桥接模式
++ 其他字段保持不变就行了,我们只要修改/增加这些字段
++ GATEWAY根据我们的局域网决定,比如说在自己电脑上敲`route -n`,`0.0.0.0`栏的第一个就是默认网关了
++ 可以删除UUID,MAC等
+```
+vi /etc/sysconfig/network-scripts/ifcfg-ens33
+##############################
+DEVICE=ens33 # 自己的网卡
+BOOTPROTO=static
+IPADDR=192.168.1.12 # 必须和自己电脑在一个局域网且不被人占用
+GATEWAY=192.168.1.1 # 跟自己电脑的默认网关一样
+ONBOOT=yes
+DNS1=8.8.8.8 # 大家都用8.8.8.8
+DNS2=114.114.114.114
+##############################
+systemctl restart network
+```
+### 3-1. 其他
+
+1. Linux需要引导,即为`Install boot loader on /dev/sda`(默认就行)
 + 选择默认的磁盘就好,如果有其他磁盘做引导的话,就选其他的
 
-14. 安装哪些软件包
+2. 安装哪些软件包
 + 选择Minimal(工作中)/Basic Server都行
 + 老师选择了最下面的Customize now(上面的包都不会安装),自定义
     1. `Customize now`的选择(总共6个)
@@ -182,9 +243,9 @@ gksudo bash ./VMware-Workstation-Full-14.1.2-8497320.x86_64.bundle
     + 如果忘记包名,就用`yum grouplist`
 
 
-15. 重启
-16. 关掉光盘(现在可能比较智能,自动就会关掉)
-17. 检查网卡 ifconfig
+3. 重启
+4. 关掉光盘(现在可能比较智能,自动就会关掉)
+5. 检查网卡 ifconfig
     1. 输入`setup`
     2. 选择Network Configuration
     3. 选择Device Configuration
