@@ -164,3 +164,9 @@ ProtocolError: <ProtocolError for 127.0.0.1:80/cobbler_api: 503 Service Unavaila
 + 需要关闭SELinux才能正常执行
     1. 查看SELinux状态,`getenforce`
     2. 关闭SElinux,`setenforce 0`
+
+
+3. `cobbler PXE-E53:No boot filename received`
++ 连不上网
+    1. 关闭Cobbler服务器上的防火墙,iptables和firewalld
+    2. 虚拟机使用桥接模式
