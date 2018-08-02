@@ -131,3 +131,10 @@ Failed to start the virtual machine.
     1. 进入BIOS
     2. 进入CPU Configuration
     3. 将Intel虚拟技术选择启动
+    
+2. 需要安装VMware Tools
+```
+The VMware Tools package is not running in this virtual machine. The package might be necessary for the guest operating system to run at resolutions higher than 640x480 with 16 colors. The package provides significant performance benefits as well. To install it, choose VM > Install VMware Tools… after the guest operating system starts.
+VMware Workstation can remind you to install the VMware Tools package when you power on the VM. Select OK to enable the reminder.
+```
++ 不用安装(放大字体=>ssh客户端)
