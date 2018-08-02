@@ -98,3 +98,19 @@ sudo pip install urllib3 --upgrade
     + 说明`fail`写错=>实际上为`fall`
 6. 执行完SaltStack的状态文件后,为什么我的haproxy服务是停止的,而必须要手动开启?
 + 因为我只对一个服务器(linux-node1)执行状态文件了=>如果我对两个服务器都执行状态文件,那么haproxy服务器最终就是开启的
+
+
+## 3. VMware Workstation
+### 3-1. 安装
+1. `(vmware-installer.py:10466): Gtk-WARNING **: Unable to locate theme engine in module_path: "murrine"`
+    1. 安装组件
+    ```
+    sudo apt-get install murrine-themes
+    sudo apt-get install gtk2-engines-murrine
+    sudo apt-get install libgtkmm-2.4-1c2a
+    sudo apt-get install libgtkmm-2.4-dev
+    sudo apt-get install libcanberra-gtk-module:i386
+    sudo apt-get install gnome-tweak-tool
+    sudo apt-get install gksu
+    ```
+    2. 最后使用:`gksudo bash ./VMware-Workstation-Full-12.1.1-3770994.x86_64.bundle`安装
