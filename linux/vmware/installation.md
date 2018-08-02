@@ -283,3 +283,14 @@ NAME=ens33
     + UUID删除
     + MAC删除
 `Ctrl+Alt`退出全屏
+
+## 4. 克隆
+1. power off虚拟机
+2. 右击虚拟机,选择Manage>Clone
+3. 安装界面
+    1. 选择从当前状态开始
+    2. Create a linked clone
+    3. Name改成`orris-centos2`
+
+4. 修改网络的ip地址就好了
+5. 启动时出现`It appears that other virtual machines are running. Some host devices may be unavailable to this vir`不用管
