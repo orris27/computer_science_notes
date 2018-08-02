@@ -170,7 +170,9 @@ ProtocolError: <ProtocolError for 127.0.0.1:80/cobbler_api: 503 Service Unavaila
 + 连不上网
     1. 关闭Cobbler服务器上的防火墙,iptables和firewalld
     2. 虚拟机使用桥接模式
-    3. 也有尝试下面网站的方法,修改了cobbler的配置文件并且安装了dnsmasq
+    3. 是否下面链接里的所有服务都启动了,如dhcp一定要启动
+    > https://github.com/orris27/orris/blob/master/linux/cobbler/cobbler.md
+    4. 也有尝试下面网站的方法,修改了cobbler的配置文件并且安装了dnsmasq
     > https://blog.csdn.net/zhaihaifei/article/details/56674655
 
 
