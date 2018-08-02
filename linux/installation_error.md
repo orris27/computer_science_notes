@@ -101,7 +101,7 @@ sudo pip install urllib3 --upgrade
 
 
 ## 3. VMware Workstation
-### 3-1. 安装
+### 3-1. 安装VMware Workstation
 1. `(vmware-installer.py:10466): Gtk-WARNING **: Unable to locate theme engine in module_path: "murrine"`
     1. 安装组件
     ```
@@ -114,3 +114,20 @@ sudo pip install urllib3 --upgrade
     sudo apt-get install gksu
     ```
     2. 最后使用:`gksudo bash ./VMware-Workstation-Full-12.1.1-3770994.x86_64.bundle`安装
+### 3-2. 安装CentOS
+1. 此主机支持 Intel VT-x，但 Intel VT-x 处于禁用状态
+```
+This host supports Intel VT-x, but Intel VT-x is disabled.
+Intel VT-x might be disabled if it has been disabled in the BIOS/firmware settings or the host has not been power-cycled since changing this setting.
+(1) Verify that the BIOS/firmware settings enable Intel VT-x and disable 'trusted execution.'
+(2) Power-cycle the host if either of these BIOS/firmware settings have been changed.
+(3) Power-cycle the host if you have not done so since installing VMware Workstation.
+(4) Update the host's BIOS/firmware to the latest version.
+This host does not support "Intel EPT" hardware assisted MMU virtualization.
+Module 'CPUIDEarly' power on failed.
+Failed to start the virtual machine.
+```
++ Intel的虚拟技术处于关闭状态=>在BIOS中开启intel virtual technology
+    1. 进入BIOS
+    2. 进入CPU Configuration
+    3. 将Intel虚拟技术选择启动
