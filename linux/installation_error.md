@@ -1,4 +1,5 @@
-## 1. `error while loading shared libraries: libpcre.so.1: cannot open shared object file: No such file or directory`
+## 1. PHP
+1. `error while loading shared libraries: libpcre.so.1: cannot open shared object file: No such file or directory`
 解决办法:  
 指定库或者在安装xx的时候指定目录   
 下面给出的是指定库的方法  
@@ -181,7 +182,12 @@ ProtocolError: <ProtocolError for 127.0.0.1:80/cobbler_api: 503 Service Unavaila
 
 
 5. `unable to open input kickstart file: curl#37 "Couldn't open file /tmp/pre_install_network_config"`
-
++ 提示说的很清除,是在kickstart里面出现问题
+    1. 检查Kickstart文件
+    ```
+    vim /var/lib/cobbler/kickstarts/CentOS-7.5-x86_64.cfg
+    
+    ```
 
 6. 浏览器里输入`http://192.168.1.2/cobbler_web`时返回`403 Forbidden`
 + 输入`https://192.168.1.2/cobbler_web`,这里一定是`https`
