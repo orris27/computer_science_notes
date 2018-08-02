@@ -78,3 +78,141 @@ The following are potential configuration items that you may want to fix:
 Restart cobblerd and then run 'cobbler sync' to apply changes.
 ########################
 ```
+
+
+## 2. 配置
+1. 设置dhcp,修改`/etc/cobbler/dhcp.template`,并执行
++ 下面的内容都要修改成对应的值
++ 每次修改`dhcp.template`后都要执行`cobbler sync`
++ 执行完`cobbler sync`后就会对应修改`/etc/dhcp/dhcpd.conf `
+```
+vim /etc/cobbler/dhcp.template
+################################
+subnet 192.168.1.0 netmask 255.255.255.0 { # 子网+子网掩码
+     option routers             192.168.1.1; # 我们所在的默认网关
+     option domain-name-servers 8.8.8.8; # DNS服务器
+     option subnet-mask         255.255.255.0; # 子网掩码
+     range dynamic-bootp        192.168.1.100 192.168.1.200; # dhcp分配域名的范围
+#...
+################################
+cobbler sync
+```
+
+2. 导入镜像文件
++ 最终位置是在`/var/www/cobbler/ks_mirror/`
+```
+# mount /dev/cdrom /mnt
+cobbler import --path=/mnt/ --name=CentOS-7.5-x86_64 --arch=x86_64
+```
+
+3. 将Kickstart文件放到指定的目录下``
+```
+mv CentOS-7.5-x86_64.cfg /var/lib/cobbler/kickstarts/
+##############################
+# CentOS-7.5-x86_64.cfg
+##############################
+install
+
+#url --url="http://172.16.1.201/CentOS7/"
+url --url=$tree
+
+text
+
+lang en_US.UTF-8
+
+keyboard u
+
+#
+rootpw --iscrypted $default_password_crypted
+
+zerombr
+
+bootloader --location=mbr --driveorder=sda 
+
+$SNIPPET('network_config')
+network --bootproto=static --device=eth0 --gateway=10.0.0.254 --ip=10.0.0.63 --nameserver=223.5.5.5 --netmask=255.255.255.0 --activate #配置eth0网卡（--activate开机自启）
+
+network --bootproto=static --device=eth1 --ip=172.16.1.63 --netmask=255.255.255.0 --activate #配置eth1网卡
+
+network --hostname=Cobbler #设置主机名
+
+#network --bootproto=dhcp --device=eth1 --onboot=yes --noipv6 --hostname=CentOS7            #可以使用dhcp方式设置网络
+
+timezone --utc Asia/Shanghai #设置时区
+
+#authconfig --enableshadow --passalgo=sha512 
+auth --useshadow --enablemd5
+
+rootpw --iscrypted $6$X20eRtuZhkHznTb4$dK0BJByOSAWSDD8jccLVFz0CscijS9ldMWwpoCw/ZEjYw2BTQYGWlgKsn945fFTjRC658UXjuocwJbAjVI5D6/ #密文密码
+
+clearpart --all --initlabel
+
+part /boot --fstype xfs --size 1024 --ondisk sda
+
+part swap --size 1024 --ondisk sda
+
+part / --fstype xfs --size 1 --grow --ondisk sda
+
+firstboot --disable #负责协助配置redhat一些重要的信息
+
+selinux --disabled
+
+firewall --disabled
+
+logging --level=info #设置日志级别
+
+reboot
+
+skipx
+
+
+%pre
+$SNIPPET('log_ks_pre')
+$SNIPPET('kickstart_start')
+$SNIPPET('pre_instlal_network_config')
+
+$SNIPPET('pre_anamon')
+%end
+
+%packages
+
+@^minimal
+
+@ base
+@ core
+
+@compat-libraries
+
+@debugging
+
+@development
+
+tree #软件包
+
+nmap
+sysstat
+iptraf
+ntp
+lrzsz
+ncurses-devel
+openssl-devel
+zlib-devel
+OpenIPMI-tools
+mysql
+screen
+
+dos2unix
+
+telnet
+
+wget
+
+vim
+
+bash-completion
+%end
+
+%post
+systemctl disable postfix.service
+%end
+```
