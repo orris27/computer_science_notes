@@ -192,6 +192,7 @@ udp6       0      0 ::1:323                 :::*                                
 
 2. 为这个主机定制主机名,ip地址等
 + profile:指定在用网卡启动时,使用`(local)`还是`CentOS-7.5-x86_64`
++ 移除的话使用`cobbler system remove --name=orris`
 ```
 cobbler system add --name=orris --mac=00:0C:29:96:5F:3D --profile=CentOS-7.5-x86_64 --ip-address=192.168.1.100 --subnet=255.255.255.0 --gateway=192.168.1.1 --interface=eth0 --static=1 --hostname=orris.example.com --name-servers="8.8.8.8 114.114.114.114"
 ```
