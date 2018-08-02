@@ -90,7 +90,7 @@ vim /etc/cobbler/dhcp.template
 ################################
 subnet 192.168.1.0 netmask 255.255.255.0 { # 子网+子网掩码
      option routers             192.168.1.1; # 我们所在的默认网关
-     option domain-name-servers 8.8.8.8; # DNS服务器
+     option domain-name-servers 192.168.1.210,192.168.1.211; # DNS服务器
      option subnet-mask         255.255.255.0; # 子网掩码
      range dynamic-bootp        192.168.1.100 192.168.1.200; # dhcp分配域名的范围
 #...
