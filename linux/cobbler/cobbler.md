@@ -178,6 +178,10 @@ udp6       0      0 ::1:323                 :::*                                
     4. 进入Boot里面,将`Network boot from Intel E1000`移动到最上面.保存并退出
     5. 重新启动虚拟机,选择`(local)`下面的`CentOS-7.5-xxx`,回车即开始安装
 
-10. 问题如`you have specified that the group base should be installed`和`cobbler PXE-E53:No boot filename received`等见下面的网站
+10. 安装完成后,由于还是网卡启动,所以进入`(local)`和`CentOS-7.5-xxx`的选项,选择local
+
+11. 用户名为root,密码为cobbler,这样就能登录成功了!!!
+
+12. 问题如`you have specified that the group base should be installed`和`cobbler PXE-E53:No boot filename received`等见下面的网站
 > https://github.com/orris27/orris/blob/master/linux/installation_error.md
 
