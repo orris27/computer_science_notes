@@ -85,9 +85,96 @@ gksudo bash ./VMware-Workstation-Full-14.1.2-8497320.x86_64.bundle
 + 选择x86_64,不要选i386
 + 我选择了`CentOS-7-x86_64-Minimal-1804.iso`
 + 其他保持默认,如选择了`Connect at power on`(这个默认勾选就行)
-2. 点`Power on this virtual Machine`开始安装
+2. 点`Power on this virtual Machine`/`Start on this guest...`开始安装
 + 如果没有弹出安装界面=>按F2(需要重启虚拟机)可以调出虚拟机的BIOS,在BOOT下面将CD-ROM Drive移动到最上面
 + 老师设置成默认的,就是说没有将CD-ROM Drive放到最上面
+
 3. 点击Install or upgrade an existing system
 + Install System with basic video driver几乎不用
 + Rescure installed system是救援系统=>Linux出现问题才使用
++ CentOS7没有这个,直接就安装了
+
+4. Disc Found:要不要检查
++ 忽略检查光盘(这个很费时间,而且基本不做)
+
+5. Installation Summary
+    1. Language during the installation process:选择英文把
+    + 是安装过程中选择什么语言,~~系统的语言~~
+    2. 键盘选择默认的(英文)
+    3. Language Support:选择英文(操作系统安装的语言版本)
+    
+    
+    4. Network and Hostname
+    
+    Hostname:主机名,比如说选择template(这个主机作为模板)
+    + ~~localhost~~,选择localhost肯定很危险
+    
+    
+    
+7. 安装什么类型的设备=>选择Basic Storage Devices(基础的存储设备)就行了
++ ~~Specialized Storage Devices~~
+
+8. Storage Device Warning:要不要把虚拟的10G给删除掉:选择Yes
++ 因为我们要装系统,所以肯定要删除原来的数据(初始化)
+
+
+
+10. 时区选择亚洲上海
++ 时区很重要
++ UTC不必选择这个=>老师最后取消勾选`System clock uses UTC`
+
+11. Root Password和Confirm(再输入一遍):这里设置root的密码
+
+12. 安装类型=>Create Custom Layout
+    1. 创建分区:选择Free,点击create.选择Standard Partition,点击Create
+    
+    2. 增加分区:/boot=>sda1
+    + Mount Point: /boot
+    + File System Type: ext4(CentOS7拿xfs做默认文件系统)
+    + Size(MB): 100-200M(老师选了200M)
+    + Additional Size Options:Fixed size(表示就是给200M)
+    + Force to be a primary partition:让它成为主分区(不是必须的)
+    
+    3. 增加分区:swap
+    + Mount Point: 无
+    + File System Type: swap
+    + Size(MB): 1G(内存空间的1.5M,因为我们的内存空间可能为512M)
+    + Additional Size Options:Fixed size
+    + Force to be a primary partition:让它成为主分区(不是必须的)
+    
+    4. 增加分区:/
+    + Mount Point: /
+    + File System Type: ext4
+    + Additional Size Options:Fill to maximum allowable size(Size里面随便填没关系)
+    + Force to be a primary partition:让它成为主分区(不是必须的)
+    
+    5. 选择Next
+    
+    6. 格式化警告=>选择要
+    
+    7. 把配置写入磁盘=>选择要(不会丢笔记本的数据,而是虚拟磁盘的数据)
+
+13. Linux需要引导,即为`Install boot loader on /dev/sda`(默认就行)
++ 选择默认的磁盘就好,如果有其他磁盘做引导的话,就选其他的
+
+14. 安装哪些软件包
++ 选择Minimal(工作中)/Basic Server都行
++ 老师选择了最下面的Customize now(上面的包都不会安装),自定义
+    1. `Customize now`的选择(总共6个)
+        1. Application什么都不选
+        2. Base System:
+        + Base
+        + Compatiblility libraries
+        + Debugging Tools
+        + Dial-up Networking Support
+        + Hardware monitoring utilities
+        + Performance tools
+        3. Development
+        + Development tools
+    2. 如果安装时忘了选,就用`yum groupinstall`来安装
+    + 如果忘记包名,就用`yum grouplist`
+
+
+
+
+`Ctrl+Alt`退出全屏
