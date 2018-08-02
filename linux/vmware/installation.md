@@ -32,7 +32,7 @@ gksudo bash ./VMware-Workstation-Full-14.1.2-8497320.x86_64.bundle
     4. 注册码激活一下
     5. 安装完成
 
-## 2. 安装Linux
+## 2. 创建虚拟机
 1. 点击菜单栏的File>New Virtual Machine
 2. 选择Custom,点击Next
 3. `Workstation 14.x`这里选择默认的就好
@@ -78,3 +78,16 @@ gksudo bash ./VMware-Workstation-Full-14.1.2-8497320.x86_64.bundle
 
 15. 选择Finish就完成了
 
+
+## 3. 安装CentOS
+1. 右击左侧栏中我们创建的虚拟机,选择Setting,在ISO处选择选择`CentOS-5.5-x86_64_bin-DVD.iso`
++ CD版比DVD版大很多,我们一般就选择DVD版
++ 选择x86_64,不要选i386
++ 我选择了`CentOS-7-x86_64-Minimal-1804.iso`
++ 其他保持默认,如选择了`Connect at power on`(这个默认勾选就行)
+2. 点`Power on this virtual Machine`开始安装
++ 如果没有弹出安装界面=>按F2(需要重启虚拟机)可以调出虚拟机的BIOS,在BOOT下面将CD-ROM Drive移动到最上面
++ 老师设置成默认的,就是说没有将CD-ROM Drive放到最上面
+3. 点击Install or upgrade an existing system
++ Install System with basic video driver几乎不用
++ Rescure installed system是救援系统=>Linux出现问题才使用
