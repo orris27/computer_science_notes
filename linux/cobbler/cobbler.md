@@ -136,14 +136,44 @@ MENU TITLE Cobbler By orris | http://www.orris.com/
 ##########################################################################
 cobbler sync
 ```
-7. 创建一个新的虚拟机,并且通过BIOS启动
+7. 检测其他主机是否能连接上我们
+```
+curl 192.168.1.2 #最好在局域网的其他主机上也测试
+#systemctl stop firewalld
+#systemctl stop iptables
+```
+
+8. 最后我的Cobbler服务器上的端口情况
+```
+netstat -lntup
+#######################################################################################################
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 127.0.0.1:25151         0.0.0.0:*               LISTEN      1913/python2        
+tcp        0      0 0.0.0.0:873             0.0.0.0:*               LISTEN      502/rsync           
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      862/sshd            
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      1067/master         
+tcp6       0      0 :::873                  :::*                    LISTEN      502/rsync           
+tcp6       0      0 :::80                   :::*                    LISTEN      865/httpd           
+tcp6       0      0 :::22                   :::*                    LISTEN      862/sshd            
+tcp6       0      0 ::1:25                  :::*                    LISTEN      1067/master         
+tcp6       0      0 :::443                  :::*                    LISTEN      865/httpd           
+udp        0      0 127.0.0.1:323           0.0.0.0:*                           514/chronyd         
+udp        0      0 0.0.0.0:67              0.0.0.0:*                           1635/dhcpd          
+udp        0      0 0.0.0.0:69              0.0.0.0:*                           867/xinetd          
+udp6       0      0 ::1:323                 :::*                                514/chronyd         
+#######################################################################################################
+```
+
+9. 创建一个新的虚拟机,并且通过BIOS启动
     1. 创建虚拟机
     + 创建了个名字为`orris-test`
     + 内存设置为2G
-    + 网络类型选择NAT
+    + 网络类型选择Bridged(非常重要)
     + 过程如下
     > https://github.com/orris27/orris/blob/master/linux/vmware/installation.md
 
-    2. 点击菜单栏VM>Power>Power On to Firmware
-    3. 进入Boot里面,将`Network boot from Intel E1000`移动到最上面.保存并退出
+    2. 修改虚拟机的网络类型为桥接模式
+    3. 点击菜单栏VM>Power>Power On to Firmware
+    4. 进入Boot里面,将`Network boot from Intel E1000`移动到最上面.保存并退出
 
