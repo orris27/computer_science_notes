@@ -220,6 +220,31 @@ DNS2=114.114.114.114
 ##############################
 systemctl restart network
 ```
+我个人的最终结果
+```
+cat /etc/sysconfig/network-scripts/ifcfg-ens33
+################################
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+DEVICE=ens33
+BOOTPROTO=static
+IPADDR=192.168.1.2
+GATEWAY=192.168.1.1
+ONBOOT=yes
+DNS1=8.8.8.8
+DNS2=114.114.114.114
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=ens33
+################################
+```
+
 ### 3-1. 其他
 
 1. Linux需要引导,即为`Install boot loader on /dev/sda`(默认就行)
