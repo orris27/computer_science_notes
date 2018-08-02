@@ -126,3 +126,23 @@ cobbler profile edit --name=CentOS-7.5-x86_64 --kopts='net.ifnames=0 biosdevname
 # cobbler profile report
 cobbler sync
 ```
+
+6. 更改Cobbler安装提示,并sync执行
+```
+vim /etc/cobbler/pxe/pxedefault.template
+##########################################################################
+# MENU TITLE Cobbler | http://cobbler.github.io/ 可以改成自己想要的
+MENU TITLE Cobbler By orris | http://www.orris.com/
+##########################################################################
+cobbler sync
+```
+7. 创建一个新的虚拟机,并且通过BIOS启动
+    1. 创建虚拟机
+    + 创建了个名字为`orris-test`
+    + 内存设置为2G
+    + 网络类型选择NAT
+    + 过程如下
+    > https://github.com/orris27/orris/blob/master/linux/vmware/installation.md
+    2. 点击菜单栏VM>Power>Power On to Firmware
+
+
