@@ -1019,7 +1019,7 @@ sudo dumpe2fs /dev/vda1
 
 ## 38. iptables
 Administration tool for ipv4 and ipv6 packet filtering and NAT.
-### 38-1. options
+### 38-1. optionshostnamectl set-hostname <new_hostname>
 1. `-L`:列出指定链的所有规则(默认链为filter)
 2. `-n`:数字格式输出IP和PORT.不设置该参数的话,`127.0.0.1`会显示成`localhost`,`0.0.0.0`会显示成`anywhere`等
 3. `-t`:指定表的类型
@@ -1572,6 +1572,12 @@ logger nice
 sudo tail /var/log/messages
 ```
 
+
+## 46. hostname
+永久修改主机名
+```
+hostnamectl set-hostname <new_hostname>
+```
 
 
 ## 0. 实战
