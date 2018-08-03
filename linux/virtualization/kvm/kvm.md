@@ -96,10 +96,117 @@ the console to complete the installation process.
 
 
 10. 查看
-```
+```start
 ps -axu| grep kvm
 cd /etc/libvirt/qemu # 生成了xml,不要修改,要修改使用`virsh edit`
 cat CentOS-7.5-x86_64.xml # 自动生成的,我们不要管
 ```
 
+11. 安装好CentOS后,点击Reboot(密码设置好,安装好后下面就有Reboot),VNC客户端会退出
 
+
+12. 利用virsh启动虚拟机
+```
+virsh list --all # 获得名字
+########################################################## 结果
+ Id    Name                           State
+----------------------------------------------------
+ -     CentOS-7.5-x86_64              shut off
+##########################################################
+
+
+# 通过这里的名字启动
+virsh start CentOS-7.5-x86_64
+########################################################## 结果
+Domain CentOS-7.5-x86_64 started
+##########################################################
+```
+
+13. 使用VNC客户端连接,直接输入`192.168.1.2:5900`或者直接点击VNC客户端里的黑框就行
++ 需要等待一会儿时间(因为在启动),之后就进来了
+
+
+
+14. 输入`ip ad li`查看ip情况,发现没有IP地址
++ `ifconfig`默认没有安装
++ 没有IP地址是因为没有启动网卡(设置里面没有说开机自启动网卡)
+
+15. 启动网卡
+    1. 设置网卡开机自启动
+    ```
+    vi /etc/sysconfig/network-scripts/ifcfg-eth0
+    ###############
+    ONBOOT=yes
+    ###############
+    ```
+    2. 重启网卡
+    ```
+    systemctl restart network
+    ```
+    3. 查看网络状态,发现ip地址是192.168.122.102
+    + 这个ip地址是因为内嵌虚拟机使用了虚拟机的dnsmasq服务
+    ```
+    ip ad li
+    ```
+    4. 查看主虚拟机的dnsmasq服务的配置文件,里面的dhcp-range就是分配的范围
+    ```
+    ps aux | grep dns # --conf-file就是配置文件位置
+    cat /var/lib/libvirt/dnsmasq/default.conf
+    ########################################################
+    dhcp-range=192.168.122.2,192.168.122.254
+    ########################################################
+    ```
+    5. 安装ifconfig
+    ```
+    # ping baidu.com # 发现能ping通,说明可以上网了
+    yum install -y net-tools
+    ```
+
+16. 配置CPU并热添加
+    1. 设置CPU参数
+    + 通过XML指定
+    + 设置成1个CPU,最大值为4个CPU=>CentOS可以热添加CPU
+    + 也可以安装的时候`virt-install`来指定
+    ```
+    virsh list # 得到名字,复制到下面
+    virsh edit CentOS-7.5-x86_64
+    ########################### 将static改成auto模式
+    # 原来的:<vcpu placement='static'>1</vcpu>
+    <vcpu placement='auto' current='1'>4</vcpu>
+    ###########################
+    ```
+    2. 关闭虚拟机
+    + 改变XML都要重启才行
+    ```
+    virsh shutdown CentOS-7.5-x86_64
+    virsh list
+    virsh list --all
+    ```
+    3. 重新启动虚拟机
+    ```
+    virsh start CentOS-7.5-x86_64
+    ```
+    
+    4. 热添加CPU
+    + CentOS7才能热添加CPU
+    + 不支持热删除
+    + 热添加的个数也不能超过最大值
+    ```
+    ##################################
+    # 内嵌虚拟机
+    ##################################
+    cat /proc/cpuinfo
+    
+    ##################################
+    # 主虚拟机
+    ##################################    
+    virsh setvcpus CentOS-7.5-x86_64 2 --live
+    
+    
+    ##################################
+    # 内嵌虚拟机
+    ##################################
+    # cat /sys/devices/system/cpu/cpu{0,1}/online # 有些版本可能要给这个文件echo 1才能生效
+    # 也可能不需要echo 1
+    cat /proc/cpuinfo
+    ```
