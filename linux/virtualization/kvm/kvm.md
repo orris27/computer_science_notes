@@ -303,3 +303,14 @@ Domain CentOS-7.5-x86_64 started
     ```
     5. 验证
     + 使用ssh连接验证就好
+
+
+19. 删除虚拟机
+    1. 彻底删除虚拟机
+    ```
+    virsh undefine
+    ```
+    2. 如果删除后意外/想要恢复,注意备份`/etc/libvirt/qemu`
+    ```
+    virsh --help | grep dump # dumpxml可以管理
+    ```
