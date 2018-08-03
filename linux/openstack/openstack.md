@@ -71,4 +71,28 @@ mysql_secure_installation
 # 删除默认的test数据:Y
 # 刷新权限:Y
 mysql -u root -p 
+###############################################
+create database keystone;
+grant all privileges on keystone.* to 'keystone'@'localhost' identified by 'keystone';
+grant all privileges on keystone.* to 'keystone'@'%' identified by 'keystone';
+
+create database glance;
+grant all privileges on glance.* to 'glance'@'localhost' identified by 'glance';
+grant all privileges on glance.* to 'glance'@'%' identified by 'glance';
+
+create database nova;
+grant all privileges on nova.* to 'nova'@'localhost' identified by 'nova';
+grant all privileges on nova.* to 'nova'@'%' identified by 'nova';
+
+create database neutron;
+grant all privileges on neutron.* to 'neutron'@'localhost' identified by 'neutron';
+grant all privileges on neutron.* to 'neutron'@'%' identified by 'neutron';
+
+create database cinder;
+grant all privileges on cinder.* to 'cinder'@'localhost' identified by 'cinder';
+grant all privileges on cinder.* to 'cinder'@'%' identified by 'cinder';
+
+show databases;
+
+###############################################
 ```
