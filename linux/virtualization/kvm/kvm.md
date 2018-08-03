@@ -60,7 +60,7 @@ dd if=/dev/cdrom of=/opt/CentOS-7.5.iso
     + 如果没有显示进度条,不要着急,它其实已经在安装了
 
 
-8. 指定啊
+8. 安装内嵌的虚拟机
 + 区名称
 + 内存大小
 + CPU信息(默认1个1核CPU)
@@ -82,5 +82,17 @@ the console to complete the installation process.
     1. 点击VNC客户端,输入`192.168.1.2:5900`,然后按tab键,追加net.ifnames=0 biosdevname=0
     + ip地址是我们的虚拟机的地址
     + 端口是从5900开始
+    
+    2. 安装CentOS-7.5
+    + 老师只进行了手动分区
+        + swap 2G
+        + / 7991M左右
+        + /boot 1G
+  
+    + 时区老师没有改变
+    + 没有主动打开网络,即OFF状态
+    + 老师设置了root密码
+    + 我手动分区了,并且时区改成中国,网络没有打开,设置了root密码
+    
 
 
