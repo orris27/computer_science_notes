@@ -138,7 +138,18 @@ show databases;
     7. (可选)监听的话,使用`HTTP api`(在网页的最下面,很小的字)
     
 5. 部署keystone(验证服务)
+    1. 安装OpenStack的queens版本的rpm包
+    + `No+package+openstack-keystone+available.`的错误是因为没有安装足够的源
+    + 以前的如juno等都不可用了,可以在下面链接里查看可用的版本
+    > https://repos.fedorapeople.org/repos/openstack
+    2. 配置keystone的配置文件
+    + 前面不能有空格
+    + 配置数据库=>保存验证信息
+        - 用户名:密码@主机/数据库名
 ```
+yum install yum-plugin-priorities # 如果使用阿里的yum源的话,就需要换成原来的源
+yum install -y https://repos.fedorapeople.org/repos/openstack/openstack-queens/rdo-release-queens-1.noarch.rpm
+
 yum install -y openstack-keystone httpd mod_wsgi memcached python-memcached
 yum install -y lrzsz
 
@@ -147,12 +158,22 @@ openssl rand -hex 10 # 随机生成一个字符串作为admin的token
 b337e9fd9ef8eee3cf2e
 #########################
 
-vim /etc/keystone/keystone.cnf
+vim /etc/keystone/keystone.conf
 #######################################
 #admin_token = ADMIN # keystone默认没有用户,这样就验证不进去,所以提供了admin的token
-admin_token = 
-#######################################
+admin_token = b337e9fd9ef8eee3cf2e
 
+[database]
+connection = mysql://keystone:keystone@192.168.56.11/keystone
+#######################################
+su -s /bin/sh -c "keystone-manage db_sync" keystone # 切换到keystone用户是因为让下面的日志文件的属主为keystone,这样就可以读写日志文件
+# tail /var/log/keystone/keystone.log
+
+mysql -h 192.168.56.11 -u keystone -pkeystone
+######################
+use keystone;
+show tables;
+######################
 ```
 6. glance
 ```
