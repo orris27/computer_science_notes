@@ -1580,6 +1580,11 @@ hostnamectl set-hostname <new_hostname>
 ```
 
 
+## 47. Virtualization
+### 47-1. virsh
+#### option
+
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
