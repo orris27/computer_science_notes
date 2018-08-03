@@ -314,3 +314,49 @@ Domain CentOS-7.5-x86_64 started
     ```
     virsh --help | grep dump # dumpxml可以管理
     ```
+    
+    
+20. 目前为止主虚拟机和内嵌虚拟机的端口状态
+```
+#####################################################################################################
+# 主虚拟机
+#####################################################################################################
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 127.0.0.1:25151         0.0.0.0:*               LISTEN      772/python2         
+tcp        0      0 0.0.0.0:873             0.0.0.0:*               LISTEN      519/rsync           
+tcp        0      0 0.0.0.0:5900            0.0.0.0:*               LISTEN      3770/qemu-kvm       
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN      524/rpcbind         
+tcp        0      0 192.168.122.1:53        0.0.0.0:*               LISTEN      1391/dnsmasq        
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      770/sshd            
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      1010/master         
+tcp6       0      0 :::873                  :::*                    LISTEN      519/rsync           
+tcp6       0      0 :::111                  :::*                    LISTEN      524/rpcbind         
+tcp6       0      0 :::80                   :::*                    LISTEN      778/httpd           
+tcp6       0      0 :::22                   :::*                    LISTEN      770/sshd            
+tcp6       0      0 ::1:25                  :::*                    LISTEN      1010/master         
+tcp6       0      0 :::443                  :::*                    LISTEN      778/httpd           
+udp        0      0 127.0.0.1:323           0.0.0.0:*                           546/chronyd         
+udp        0      0 0.0.0.0:693             0.0.0.0:*                           524/rpcbind         
+udp        0      0 192.168.122.1:53        0.0.0.0:*                           1391/dnsmasq        
+udp        0      0 0.0.0.0:67              0.0.0.0:*                           4286/dhcpd          
+udp        0      0 0.0.0.0:67              0.0.0.0:*                           1391/dnsmasq        
+udp        0      0 0.0.0.0:69              0.0.0.0:*                           775/xinetd          
+udp        0      0 0.0.0.0:111             0.0.0.0:*                           524/rpcbind         
+udp6       0      0 ::1:323                 :::*                                546/chronyd         
+udp6       0      0 :::693                  :::*                                524/rpcbind         
+udp6       0      0 :::111                  :::*                                524/rpcbind      
+
+#####################################################################################################
+# 内嵌虚拟机
+#####################################################################################################
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      822/sshd            
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      1297/master         
+tcp6       0      0 :::22                   :::*                    LISTEN      822/sshd            
+tcp6       0      0 ::1:25                  :::*                    LISTEN      1297/master         
+udp        0      0 0.0.0.0:68              0.0.0.0:*                           644/dhclient   
+
+
+```
