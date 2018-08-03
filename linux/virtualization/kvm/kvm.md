@@ -93,6 +93,20 @@ the console to complete the installation process.
     + 没有主动打开网络,即OFF状态
     + 老师设置了root密码
     + 我手动分区了,并且时区改成中国,网络没有打开,设置了root密码
-    
+
+
+10. 查看
+```
+ps -axu| grep kvm
+cd /etc/libvirt/qemu生成了xml,不要修改,要修改使用`virsh edit`
+```
+
+11. 虚拟机管理工具
++ virt-manager:图形界面
+
+```
+
+libvirt
+```
 
 
