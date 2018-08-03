@@ -131,15 +131,28 @@ show databases;
     ```
     5. 浏览器访问`192.168.56.11:15672`(Web管理页面)
     + 默认的用户密码都是guest
-    + Admin这里赋值admin的tags,然后点击openstack,然后在Update this user的地方,复制刚才的tags进这个的Tags并修改密码,然后update
+    + Admin这里赋值admin的tags(administrator),然后点击openstack,然后在Update this user的地方,复制刚才的tags进这个的Tags并修改密码,然后update
     
     6. 浏览器访问`192.168.56.11:15672`,然后可以输入刚才的用户名和密码(如openstack:openstack)
     
     7. (可选)监听的话,使用`HTTP api`(在网页的最下面,很小的字)
     
-5. keystone
+5. 部署keystone(验证服务)
 ```
 yum install -y openstack-keystone httpd mod_wsgi memcached python-memcached
+yum install -y lrzsz
+
+openssl rand -hex 10 # 随机生成一个字符串作为admin的token
+#########################
+b337e9fd9ef8eee3cf2e
+#########################
+
+vim /etc/keystone/keystone.cnf
+#######################################
+#admin_token = ADMIN # keystone默认没有用户,这样就验证不进去,所以提供了admin的token
+admin_token = 
+#######################################
+
 ```
 6. glance
 ```
