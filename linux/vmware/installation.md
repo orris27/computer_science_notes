@@ -294,3 +294,55 @@ NAME=ens33
 
 4. 修改网络的ip地址就好了
 5. 启动时出现`It appears that other virtual machines are running. Some host devices may be unavailable to this vir`不用管
+
+
+## 5. NAT模式下虚拟机连接外网
+### 5-1. 配置情况
+1. 物理机
+    1. 真实IP:`192.168.1.104`
+    2. vmnet8:`192.168.56.1`
+2. 虚拟机
+    1. 外部
+        1. setting:NAT
+        2. Edit>Virtual Network Adapter:选中NAT
+        + 选中NAT,只勾选`Connect a host virtual adapter(vmnet8) to this network`
+        + 不要勾选`Use local DHCP service to distribute IP addresses to VMs`
+        + Subnet IP:`192.168.56.0`
+        + Subnet mask:`255.255.255.0`
+        3. Edit>Virtual Network Adapter>NAT Settings:
+        + Gateway IP:`192.168.56.2`
+    2. 内部
+        1. 真实IP地址:`192.168.56.11`
+        2. 默认网关
+        ```
+        Kernel IP routing table
+        Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+        0.0.0.0         192.168.56.2    0.0.0.0         UG    100    0        0 eth0
+        192.168.56.0    0.0.0.0         255.255.255.0   U     100    0        0 eth0
+        192.168.122.0   0.0.0.0         255.255.255.0   U     0      0        0 virbr0
+        ```
+        3. 网卡配置
+        + 真实ip地址:`192.168.56.11`
+        + 默认网关:`192.168.56.2`
+        + DNS服务:`8.8.8.8`,`114.114.114.114`
+        + 静态分配IP地址
+        ```
+        TYPE=Ethernet
+        PROXY_METHOD=none
+        BROWSER_ONLY=no
+        DEVICE=eth0
+        BOOTPROTO=static
+        IPADDR=192.168.56.11
+        GATEWAY=192.168.56.2
+        ONBOOT=yes
+        DNS1=8.8.8.8
+        DNS2=114.114.114.114
+        DEFROUTE=yes
+        IPV4_FAILURE_FATAL=no
+        IPV6INIT=yes
+        IPV6_AUTOCONF=yes
+        IPV6_DEFROUTE=yes
+        IPV6_FAILURE_FATAL=no
+        IPV6_ADDR_GEN_MODE=stable-privacy
+        NAME=eth0
+        ```
