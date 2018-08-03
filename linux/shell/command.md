@@ -1582,8 +1582,17 @@ hostnamectl set-hostname <new_hostname>
 
 ## 47. Virtualization
 ### 47-1. virsh
+> https://github.com/orris27/orris/blob/master/linux/virtualization/kvm/kvm.md
 #### option
-
+1. `list [--all]`:all显示所有,没有all只显示开启状态的虚拟机
+2. `start`:开启虚拟机
+3. `shutdown`:虚拟机电源关闭
+4. `setvcpus`:热添加CPU
+5. `qemu-monitor-command`:设置内存的
+```
+virsh qemu-monitor-command CentOS-7.5-x86_64 --hmp --cmd info balloon # 查看信息
+virsh qemu-monitor-command CentOS-7.5-x86_64 --hmp --cmd balloon 2000    
+```
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
