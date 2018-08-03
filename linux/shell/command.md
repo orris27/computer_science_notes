@@ -1594,6 +1594,37 @@ virsh qemu-monitor-command CentOS-7.5-x86_64 --hmp --cmd info balloon # 查看�
 virsh qemu-monitor-command CentOS-7.5-x86_64 --hmp --cmd balloon 2000    
 ```
 
+### 47-2. qemu-img
+管理磁盘
+#### 47-2-1. 查看帮助
+```
+qemu-img --help
+```
+
+### 47-3. brctl
+ethernet bridge administration
+> https://github.com/orris27/orris/blob/master/linux/virtualization/kvm/kvm.md
+1. 查看帮助
+```
+man brctl
+brctl --help
+```
+2. 显示当前网桥信息
+```
+brctl show
+```
+3. 添加名为br0的网桥
+```
+brctl addbr br0
+```
+
+4. 将interface添加到指定的网桥上
+```
+brctl addif br0 eth0
+brctl show
+```
+
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
