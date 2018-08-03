@@ -286,6 +286,7 @@ Domain CentOS-7.5-x86_64 started
     brctl addif br0 eth0 # 执行后会断网,ssh会连接不上
     ```
     4. 启动网桥
+    + 如果提示说`Unreachable`的话,注意是否执行`ifconfig br0 192.168.1.2/24 up`
     ```
     ##################################
     # 主虚拟机
@@ -295,7 +296,7 @@ Domain CentOS-7.5-x86_64 started
     ip addr del dev eth0 192.168.1.2/24
     ifconfig br0 192.168.1.2/24 up
     
-    ip ro li # 发现没有路由=>添加默认网关
+    ip ro li # 发现没有路由=>添加默认网关(也有情况自己不用添加默认网关)
     route add defaultt gw 192.168.1.1
     # systemctl stop iptables
     # systemctl stop firewalld
