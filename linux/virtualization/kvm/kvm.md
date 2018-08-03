@@ -284,11 +284,21 @@ Domain CentOS-7.5-x86_64 started
     # 主虚拟机
     ##################################  
     brctl addif br0 eth0 # 执行后会断网,ssh会连接不上
+    ```
+    4. 启动网桥
+    ```
+    ##################################
+    # 主虚拟机
+    ################################## 
     ifconfig
     brctl show
     ip addr del dev eth0 192.168.1.2/24
     ifconfig br0 192.168.1.2/24 up
     
-    ip ro li # 发现没有路由
-    route add defaultt gw 192.168.1.
+    ip ro li # 发现没有路由=>添加默认网关
+    route add defaultt gw 192.168.1.1
+    # systemctl stop iptables
+    # systemctl stop firewalld
     ```
+    5. 验证
+    + 使用ssh连接验证就好
