@@ -60,18 +60,27 @@ dd if=/dev/cdrom of=/opt/CentOS-7.5.iso
     + 如果没有显示进度条,不要着急,它其实已经在安装了
 
 
-8. 
+8. 指定啊
 + 区名称
 + 内存大小
-+ CPU信息
++ CPU信息(默认1个1核CPU)
 + 指定安装用的光驱
 + 执行磁盘路径
 + 指定虚拟化的类型
 ```
 virt-install --help
-virt-install --name CentOS-7.5-x86_64 --virt-type kvm --ram 1024 --cdrom=/opt/CentOS-7.5.iso --disk path=/opt/CentOS-7.5.raw --network network=default --graphics vnc,listen=0.0.0.0 --noautoconsole
+virt-install --name CentOS-7.5-x86_64 --virt-type kvm --ram 1024 --cdrom=/opt/CentOS-7.5.iso --disk path=/opt/CentOS-7.5-x86_64.raw --network network=default --graphics vnc,listen=0.0.0.0 --noautoconsole
+#################################################################### 结果
+Starting install...
+Domain installation still in progress. You can reconnect to 
+the console to complete the installation process.
+####################################################################
+
 ```
 
-
+9. 使用VNC客户端安装内嵌的CentOS
+    1. 点击VNC客户端,输入`192.168.1.2:5900`,然后按tab键,追加net.ifnames=0 biosdevname=0
+    + ip地址是我们的虚拟机的地址
+    + 端口是从5900开始
 
 
