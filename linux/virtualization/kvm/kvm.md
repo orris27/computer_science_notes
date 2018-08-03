@@ -98,15 +98,8 @@ the console to complete the installation process.
 10. 查看
 ```
 ps -axu| grep kvm
-cd /etc/libvirt/qemu生成了xml,不要修改,要修改使用`virsh edit`
-```
-
-11. 虚拟机管理工具
-+ virt-manager:图形界面
-
-```
-
-libvirt
+cd /etc/libvirt/qemu # 生成了xml,不要修改,要修改使用`virsh edit`
+cat CentOS-7.5-x86_64.xml # 自动生成的,我们不要管
 ```
 
 
