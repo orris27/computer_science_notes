@@ -1,12 +1,17 @@
 ## 1. 安装
 1. 环境准备
     1. CentOS-7.1 系统2台,每台2G内存
-        1. linux-node1.oldboyedu.com 192.168.56.11 网卡NAT eth0
-        2. linux-node2.oldboyedu.com 192.168.56.12 网卡NAT eth0
+    + linux-node1.oldboyedu.com 192.168.56.11 网卡NAT eth0 控制节点
+    + linux-node2.oldboyedu.com 192.168.56.12 网卡NAT eth0 计算节点
+        1. 点击菜单栏Edit>Virtual Network Editor>选择NAT模式,调整子网IP,取消勾选使用本地DHCP服务将IP地址分给虚拟机
+        2. Settings里设置成NAT
+        3. 在宿主机上看能不能远程连接`ssh root@192.168.56.11`或者使用`telnet`
+        + 会有点慢
+        
+        
     
     2. 域名解析
     + OpenStack主机名很重要
-        1. 点击菜单栏Edit>Virtual Network Editor>选择NAT模式,调整子网IP,取消勾选使用本地DHCP服务将IP地址分给虚拟机
     ```
     192.168.56.11 linux-node1 linux-node1.oldboyedu.com
     192.168.56.12 linux-node2 linux-node2.oldboyedu.com
