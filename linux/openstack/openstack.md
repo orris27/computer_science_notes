@@ -5,8 +5,7 @@
     + linux-node2.oldboyedu.com 192.168.56.12 网卡NAT eth0 计算节点
         1. 点击菜单栏Edit>Virtual Network Editor>选择NAT模式,调整子网IP,取消勾选使用本地DHCP服务将IP地址分给虚拟机
         2. Settings里设置成NAT
-        3. 在宿主机上看能不能远程连接`ssh root@192.168.56.11`或者使用`telnet`
-        + 会有点慢
+        > https://github.com/orris27/orris/blob/master/linux/vmware/installation.md
         
         
     
