@@ -688,6 +688,9 @@ sudo nohup netease-cloud-music &
 + `sh`无法引入被执行的文件里的变量
 3. `./`:我们只讨论指定解释器的可执行脚本,如`#! /bin/sh`.这种情况下就是用指定的解释器去执行它,换句话说,等效于`/bin/sh ./xx.sh`,所以也是单独开一个进程处理脚本文件
 
+### 25-8. taskset
+将进程绑定到某个CPU上
++ CPU亲和力
 
 
 
@@ -1628,6 +1631,9 @@ brctl addbr br0
 brctl addif br0 eth0
 brctl show
 ```
+
+
+
 
 
 ## 0. 实战
