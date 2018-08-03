@@ -47,8 +47,8 @@ timedatectl set-timezone Asia/Shanghai
 date # 和当前的时间一样
 ```
 
-3. 
-+ yum源可以考虑使用阿里的源
+3. 安装数据库
++ yum源可以考虑使用阿里的源,执行`yum install -y wget;mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak;wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo`
 ```
 yum install -y mariadb mariadb-server MySQL-python
 cp /usr/share/mysql/my-medium.cnf /etc/my.cnf
@@ -60,4 +60,15 @@ collation-server = utf8_general_ci
 init-connect = 'SET NAMES utf8'
 character-set-server = utf8
 ########################################
+systemctl enable mariadb.service
+systemctl start mariadb.service # 启动的服务还是叫mysqld
+
+mysql_secure_installation
+# 设置当前密码:Y
+# 输入密码
+# 移除匿名用户:Y
+# 关闭root远程登录:Y
+# 删除默认的test数据:Y
+# 刷新权限:Y
+mysql -u root -p 
 ```
