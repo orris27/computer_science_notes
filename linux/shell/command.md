@@ -1586,16 +1586,21 @@ hostnamectl set-hostname <new_hostname>
 #### option
 1. `list [--all]`:all显示所有,没有all只显示开启状态的虚拟机
 2. `start`:开启虚拟机
-3. `shutdown`:虚拟机电源关闭
+3. `shutdown`:对虚拟机正常关机
 4. `setvcpus`:热添加CPU
 5. `qemu-monitor-command`:设置内存的
 ```
 virsh qemu-monitor-command CentOS-7.5-x86_64 --hmp --cmd info balloon # 查看信息
 virsh qemu-monitor-command CentOS-7.5-x86_64 --hmp --cmd balloon 2000    
 ```
+6. `undefine`:彻底删除虚拟机
+7. `destory`:直接关机,相当于直接电源拔掉(也可以kill -9)
+8. `suspend`:中止虚拟机
+9. `resume`:继续执行之前中止的虚拟机
 
 ### 47-2. qemu-img
 管理磁盘
++ 不建议对磁盘扩大/缩小=>有失败率
 #### 47-2-1. 查看帮助
 ```
 qemu-img --help
