@@ -30,7 +30,7 @@
     7. 使用L版OpenStack
 
 
-2. 同步时间
+2. 同步时间m
 ```
 ##################################
 # 控制节点
@@ -63,7 +63,7 @@ collation-server = utf8_general_ci
 init-connect = 'SET NAMES utf8'
 character-set-server = utf8
 ########################################
-systemctl enable mariadb.service
+systemctl enable mariadb.servicem
 systemctl start mariadb.service # 启动的服务还是叫mysqld
 
 mysql_secure_installation
@@ -142,39 +142,47 @@ show databases;
     + `No+package+openstack-keystone+available.`的错误是因为没有安装足够的源
     + 以前的如juno等都不可用了,可以在下面链接里查看可用的版本
     > https://repos.fedorapeople.org/repos/openstack
+    ```
+    yum install yum-plugin-priorities # 如果使用阿里的yum源的话,就需要换成原来的源
+    yum install -y https://repos.fedorapeople.org/repos/openstack/openstack-queens/rdo-release-queens-1.noarch.rpm
+
+    yum install -y openstack-keystone httpd mod_wsgi memcached python-memcached
+    yum install -y lrzsz
+    ```
+    
+    
     2. 配置keystone的配置文件
     + 前面不能有空格
     + 配置数据库=>保存验证信息
         - 用户名:密码@主机/数据库名
-```
-yum install yum-plugin-priorities # 如果使用阿里的yum源的话,就需要换成原来的源
-yum install -y https://repos.fedorapeople.org/repos/openstack/openstack-queens/rdo-release-queens-1.noarch.rpm
+    ```
+    openssl rand -hex 10 # 随机生成一个字符串作为admin的token
+    #########################
+    b337e9fd9ef8eee3cf2e
+    #########################
 
-yum install -y openstack-keystone httpd mod_wsgi memcached python-memcached
-yum install -y lrzsz
+    vim /etc/keystone/keystone.conf
+    #######################################
+    #admin_token = ADMIN # keystone默认没有用户,这样就验证不进去,所以提供了admin的token
+    admin_token = b337e9fd9ef8eee3cf2e
 
-openssl rand -hex 10 # 随机生成一个字符串作为admin的token
-#########################
-b337e9fd9ef8eee3cf2e
-#########################
+    [database]
+    connection = mysql://keystone:keystone@192.168.56.11/keystone
+    #######################################
+    ```
 
-vim /etc/keystone/keystone.conf
-#######################################
-#admin_token = ADMIN # keystone默认没有用户,这样就验证不进去,所以提供了admin的token
-admin_token = b337e9fd9ef8eee3cf2e
+    3. 导入数据库
 
-[database]
-connection = mysql://keystone:keystone@192.168.56.11/keystone
-#######################################
-su -s /bin/sh -c "keystone-manage db_sync" keystone # 切换到keystone用户是因为让下面的日志文件的属主为keystone,这样就可以读写日志文件
-# tail /var/log/keystone/keystone.log
+    ```
+    su -s /bin/sh -c "keystone-manage db_sync" keystone # 切换到keystone用户是因为让下面的日志文件的属主为keystone,这样就可以读写日志文件
+    # tail /var/log/keystone/keystone.log
 
-mysql -h 192.168.56.11 -u keystone -pkeystone
-######################
-use keystone;
-show tables;
-######################
-```
+    mysql -h 192.168.56.11 -u keystone -pkeystone
+    ######################
+    use keysmtone;
+    show tables; # 如果出现表就说明导入数据库成功了
+    ######################
+    ```
 6. glance
 ```
 yum install -y openstack-glance python-glance python-glanceclient
