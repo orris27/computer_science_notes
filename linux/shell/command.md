@@ -1632,8 +1632,11 @@ brctl addif br0 eth0
 brctl show
 ```
 
-
-
+## 48. dmesg
+### 48-1. 查看操作系统支持的IO调度算法
+```
+dmesg | grep -i scheduler
+```
 
 
 ## 0. 实战
