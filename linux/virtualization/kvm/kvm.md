@@ -35,7 +35,7 @@ kvm                   578518  1 kvm_intel
 
 5. 查看libvirtd状态
 ```
-systemctl enable libvirtd.service
+systemctl enable libinfovirtd.service
 systemctl start libvirtd.service
 systemctl status libvirtd.service
 ```
@@ -252,9 +252,43 @@ Domain CentOS-7.5-x86_64 started
     virsh qemu-monitor-command CentOS-7.5-x86_64 --hmp --cmd info balloon # 查看信息
     virsh qemu-monitor-command CentOS-7.5-x86_64 --hmp --cmd balloon 2000
     
-    
     ##################################
     # 内嵌虚拟机
     ##################################
     free -m
+    ```
+
+
+18. 设置虚拟机为网桥模式
+    1. 查看网桥情况
+    + 如果没有`brctl`的话,就要安装`bridge-utils`这个包
+    ```
+    ##################################
+    # 主虚拟机
+    ##################################  
+    brctl show
+    ```
+    2. 添加一个网桥
+    ```
+    ##################################
+    # 主虚拟机
+    ##################################  
+    brctl addbr br0
+    brctl show
+    ```
+    3. 将eth0加入到网桥
+    + 断网问题:实际工作中可以写脚本来执行,虚拟机的环境的话,使用VMware Workstation来连接
+    + br0没有IP,而eth0有IP,关联br0
+    ```
+    ##################################
+    # 主虚拟机
+    ##################################  
+    brctl addif br0 eth0 # 执行后会断网,ssh会连接不上
+    ifconfig
+    brctl show
+    ip addr del dev eth0 192.168.1.2/24
+    ifconfig br0 192.168.1.2/24 up
+    
+    ip ro li # 发现没有路由
+    route add defaultt gw 192.168.1.
     ```
