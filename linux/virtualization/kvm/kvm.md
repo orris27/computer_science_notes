@@ -210,3 +210,51 @@ Domain CentOS-7.5-x86_64 started
     # 也可能不需要echo 1
     cat /proc/cpuinfo
     ```
+
+
+17. 配置内存并热添加/删除
+    1. 设置内存参数
+    + 通过XML指定
+    + 设置最大的内存空间
+    + 也可以安装的时候`virt-install`来指定
+    ```
+    virsh list # 得到名字,复制到下面
+    virsh edit CentOS-7.5-x86_64
+    ########################### 
+    # 原来的:<memory unit='KiB'>1048576</memory>
+    <memory unit='KiB'>4048576</memory>
+    ###########################
+    ```
+    2. 关闭虚拟机
+    + 改变XML都要重启才行
+    + 关闭虚拟机需要一定时间,如果`virsh list`里面不显示了,就说明关闭成功
+    ```
+    virsh shutdown CentOS-7.5-x86_64
+    virsh list
+    virsh list --all
+    ```
+    3. 重新启动虚拟机
+    ```
+    virsh start CentOS-7.5-x86_64
+    ```
+    
+    4. 热添加/删除内存
+    ```
+    ##################################
+    # 内嵌虚拟机
+    ##################################
+    free -m
+    
+    ##################################
+    # 主虚拟机
+    ##################################    
+    virsh qemu-monitor-command --help # <domain>是这里的名字
+    virsh qemu-monitor-command CentOS-7.5-x86_64 --hmp --cmd info balloon # 查看信息
+    virsh qemu-monitor-command CentOS-7.5-x86_64 --hmp --cmd balloon 2000
+    
+    
+    ##################################
+    # 内嵌虚拟机
+    ##################################
+    free -m
+    ```
