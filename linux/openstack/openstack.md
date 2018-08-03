@@ -48,6 +48,9 @@ date # 和当前的时间一样
 ```
 
 3. 安装数据库
+    1. yum安装数据库
+    2. 修改数据库的配置文件
+    3. 创建db和新用户
 + yum源可以考虑使用阿里的源,执行`yum install -y wget;mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak;wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo`
 ```
 yum install -y mariadb mariadb-server MySQL-python
@@ -96,3 +99,62 @@ show databases;
 
 ###############################################
 ```
+
+
+
+4. 安装消息队列(交通枢纽)
+    1. 安装Rabbitmq
+    + Rabbitmq可以做集群
+    ```
+    yum install -y rabbitmq-server
+    ```
+    2. 启动Rabbitmq服务
+    + rabbitmq-server启动服务后端口是5672
+    ```
+    systemctl enable rabbitmq-server.service
+    systemctl start rabbitmq-server.service
+    ```
+    3. 添加消息队列的认证
+    + 消息队列肯定要有认证系统
+    ```
+    netstat -lntup | grep 5672
+
+    rabbitmqctl add_user openstack openstack
+    rabbitmqctl set_permissions openstack ".*" ".*" ".*"
+    rabbitmq-plugins list
+    rabbitmq-plugins enable rabbitmq_management
+    systemctl restart rabbitmq-server.service
+    ```
+    4. 检查网络状态
+    ```
+    netstat -lntup | grep 15672
+    ```
+    5. 浏览器访问`192.168.56.11:15672`(Web管理页面)
+    + 默认的用户密码都是guest
+    + Admin这里赋值admin的tags,然后点击openstack,然后在Update this user的地方,复制刚才的tags进这个的Tags并修改密码,然后update
+    
+    6. 浏览器访问`192.168.56.11:15672`,然后可以输入刚才的用户名和密码(如openstack:openstack)
+    
+    7. (可选)监听的话,使用`HTTP api`(在网页的最下面,很小的字)
+    
+5. keystone
+```
+yum install -y openstack-keystone httpd mod_wsgi memcached python-memcached
+```
+6. glance
+```
+yum install -y openstack-glance python-glance python-glanceclient
+```
+
+7. Nova
+```
+yum install -y openstack-nova-api openstack-nova-cert \
+openstack-nova-conductor openstack-nova-console \
+openstack-nova-novncproxy openstack-nova-scheduler 
+```
+
+
+
+
+
+
