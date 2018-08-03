@@ -28,3 +28,36 @@
     6. 理解SOA,RestAPI,消息队列,对象存储
     
     7. 使用L版OpenStack
+
+
+2. 同步时间
+```
+##################################
+# 控制节点
+##################################
+yum install chrony -y
+vim /etc/chrony.conf
+####################
+allow  192.168/16 # 取消注释就行了
+####################
+systemctl enable chronyd.service
+systemctl start chronyd.service
+
+timedatectl set-timezone Asia/Shanghai
+date # 和当前的时间一样
+```
+
+3. 
++ yum源可以考虑使用阿里的源
+```
+yum install -y mariadb mariadb-server MySQL-python
+cp /usr/share/mysql/my-medium.cnf /etc/my.cnf
+vim /etc/my.cnf
+######################################## 下面的内容添加到/etc/my.cnf的[mysqld]下面
+default-storage-engine = innodb
+innodb_file_per_table
+collation-server = utf8_general_ci
+init-connect = 'SET NAMES utf8'
+character-set-server = utf8
+########################################
+```
