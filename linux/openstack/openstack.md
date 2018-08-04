@@ -996,17 +996,52 @@ systemctl status etcd
     ######################################
     # Controller
     ######################################
-    openstack host list # 如果注册过来的话这里就会显示"compute nova"这个行
+    openstack host list # 测试和compute是否连接正常,如果注册过来的话这里就会显示"compute nova"这个行
     vim /var/log/nova/nova-compute.log # 如果没有注册过来看日志
-    #nova image-list # 测试glance是否连接正常
-    openstack image list
-    #nova endpoints
-    openstack endpoint list
+    openstack image list # 测试和glance是否连接正常
+    openstack endpoint list # 测试和keystone是否连接正常
     
     ```
 
 
+10. Neutron控制节点 > [官方文档](https://docs.openstack.org/neutron/queens/install/controller-install-rdo.html)
+    1. 注册keystone
+```
+######################################################
+# Controller
+######################################################
+openstack service create --name neutron \
+  --description "OpenStack Networking" network
 
+openstack endpoint create --region RegionOne \
+  network public http://controller:9696
+
+openstack endpoint create --region RegionOne \
+  network internal http://controller:9696
+
+openstack endpoint create --region RegionOne \
+  network admin http://controller:9696
+
+mysql -u root -p
+MariaDB [(none)] CREATE DATABASE neutron;
+
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' \
+  IDENTIFIED BY 'NEUTRON_DBPASS';
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' \
+  IDENTIFIED BY 'NEUTRON_DBPASS';
+  
+source admin-openrc
+  
+  
+openstack user create --domain default --password-prompt neutron
+
+openstack role add --project service --user neutron admin
+
+
+
+
+
+```
 
 
 
