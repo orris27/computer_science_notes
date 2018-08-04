@@ -383,84 +383,168 @@ systemctl status etcd
     #----------------------------------------------------------------------
     ```
     
-    2. 配置数据库
+        
+    2.在keystone上创建服务
+    ```
+    source ~/admin-openrc.sh
+    openstack user create --domain default --password=glance glance # 如果报错说明现在的环境变量有问题,应该source admin-openrc.sh
+    openstack role add --project service --user glance admin 
+
+    openstack service create --name glance --description "OpenStack Image" image
+    
+    openstack endpoint create --region RegionOne image public http://controller:9292
+    openstack endpoint create --region RegionOne image internal http://controller:9292
+    openstack endpoint create --region RegionOne image admin http://controller:9292
+    ```
+    
+    3. 配置数据库
     ```
     vim /etc/glance/glance-api.conf
     ###########################################
     [database]
-    connection=mysql://glance:glance@192.168.56.11/glance
+    connection = mysql+pymysql://glance:glance@controller/glance
     ###########################################
     
     vim /etc/glance/glance-registry.conf
     ###########################################
     [database]
-    connection=mysql://glance:glance@192.168.56.11/glance
+    connection = mysql+pymysql://glance:glance@controller/glance
     ###########################################
     
-    su -s /bin/sh -C "glance-manage db_sync" glance # No handlers提示可以忽略
+    su -s /bin/sh -c "glance-manage db_sync" glance # No handlers提示可以忽略
     
     mysql -uglance -pglance
     ###########################################
     use glance;
     show tables;
+    exit;
     ###########################################
-    
     ```
     
-    3. 配置keystone
+    4. 配置keystone
     ```
-    openstack user create --domain default --password=glance glance # 如果报错说明现在的环境变量有问题,应该source admin-openrc.sh
-    openstack role add --project service --user glance admin 
-    
     vim /etc/glance/glance-api.conf
     ###########################################
+    #其他都是注释的
     [keystone_authtoken]
-    # 其他都是注释的
-    auth_uri = http://192.168.56.11:5000
-    auth_url = http://192.168.56.11:35357
-    auth_plugin = password
-    project_domain_id = default
-    user_domain_id = default
+    auth_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = Default
+    user_domain_name = Default
     project_name = service
     username = glance
     password = glance
     
     [paste_deploy]
-    flavor=keystone
+    flavor = keystone
     
-    #...
-    notification_driver = noop # glance不需要用到消息队列
+    [glance_store]
+    stores = file,http
+    default_store = file
+    filesystem_store_datadir = /var/lib/glance/images/
+    #----------------------------------------------------------
+    #其他都是注释的
+    #auth_uri = http://192.168.56.11:5000
+    #auth_url = http://192.168.56.11:35357
+    #auth_plugin = password
+    #project_domain_id = default
+    #user_domain_id = default
+    #project_name = service
+    #username = glance
+    #password = glance
     
-    [glanc_store]
-    default_store=file 
+    ##...egrep -v '^$|^#' /etc/glance/glance-api.conf 
+    #notification_driver = noop # glance不需要用到消息队列
     
-    #...
-    filesystem_store_datadir=/var/lib/glance/images # 存放镜像的位置
+    ##...
+    #verbose=True
+    #----------------------------------------------------------
     
-    #...
-    verbose=True
     ###########################################
     
     vim /etc/glance/glance-registry.conf
     ###########################################
     [keystone_authtoken]
-    # 其他都是注释的
-    auth_uri = http://192.168.56.11:5000
-    auth_url = http://192.168.56.11:35357
-    auth_plugin = password
-    project_domain_id = default
-    user_domain_id = default
+    auth_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = Default
+    user_domain_name = Default
     project_name = service
     username = glance
     password = glance
-    
+
     [paste_deploy]
-    flavor=keystone
+    flavor = keystone
+    
+    #------------------------------------------
+    #[keystone_authtoken]
+    ## 其他都是注释的
+    #auth_uri = http://192.168.56.11:5000
+    #auth_url = http://192.168.56.11:35357
+    #auth_plugin = password
+    #project_domain_id = default
+    #user_domain_id = default
+    #project_name = service
+    #username = glance
+    #password = glance
+
+    #------------------------------------------
+    ###########################################
+    
+    
+    
+    
+    
+    
+    
+    
+    # 验证
+    egrep -v '^$|^#' /etc/glance/glance-api.conf 
+    ###########################################
+    [DEFAULT]
+    [cors]
+    [database]
+    connection = mysql+pymysql://glance:glance@controller/glance
+    [glance_store]
+    stores = file,http
+    default_store = file
+    filesystem_store_datadir = /var/lib/glance/images
+    [image_format]
+    echo "export OS_IMAGE_API_VERSION=2" >> demo-openrc.sh
+    [keystone_authtoken]
+    auth_uri = http://controller:5000
+    auth_url = http://controller:5000
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_name = Default
+    user_domain_name = Default
+    project_name = service
+    username = glance
+    password = glance
+    [matchmaker_redis]
+    [oslo_concurrency]
+    [oslo_messaging_amqp]
+    [oslo_messaging_kafka]
+    [oslo_messaging_notifications]
+    [oslo_messaging_rabbit]
+    [oslo_messaging_zmq]
+    [oslo_middleware]
+    [oslo_policy]
+    [paste_deploy]
+    flavor = keystone
+    [profiler]
+    [store_type_location_strategy]
+    [task]
+    [taskflow_executor]
     ###########################################
     ```
     
     
-    4. 启动glance
+    5. 启动glance
     ```
     systemctl enable openstack-glance-api
     systemctl enable openstack-glance-registry
@@ -472,21 +556,13 @@ systemctl status etcd
     netstat -lntup | grep 9191 # registry
     netstat -lntup | grep 9292 # api
     ```
-    
-    5.在keystone上创建服务
-    ```
-    source ~/admin-openrc.sh
-    openstack service create --name glance --description "OpenStack Image Service" image
-    
-    openstack endpoint create --region RegionOne image public http://192.168.56.11:9292
-    openstack endpoint create --region RegionOne image internal http://192.168.56.11:9292
-    openstack endpoint create --region RegionOne image admin http://192.168.56.11:9292
-    ```
+
     
     6. 加下环境变量
     ```
     cd ~
-    echo "export OS_IMAGE_API_VERSION=2" > | tee -a admin-openrc.sh demo-openrc.sh
+    #echo "export OS_IMAGE_API_VERSION=2" >> admin-openrc.sh # 之前写openrc的时候就已经写入了
+    #echo "export OS_IMAGE_API_VERSION=2" >> demo-openrc.sh
     cat admin-openrc.sh 
     cat demo-openrc.sh
     glance image-list # 如果出现表格就说明成功了.空是因为还没有上传镜像
