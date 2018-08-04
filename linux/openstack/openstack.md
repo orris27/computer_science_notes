@@ -565,20 +565,24 @@ systemctl status etcd
     #echo "export OS_IMAGE_API_VERSION=2" >> demo-openrc.sh
     cat admin-openrc.sh 
     cat demo-openrc.sh
-    glance image-list # 如果出现表格就说明成功了.空是因为还没有上传镜像
+    #glance image-list # 如果出现表格就说明成功了.空是因为还没有上传镜像
+    openstack image list
     ```
     
     
-    7. 上传镜像
+    7. 上传一个镜像测试
     ```
     wget http://download.cirrors-cloud.net/0.3.4-x84_64-disk.img
-    glance image-create --name "cirros" \
-    --file cirros-0.3.4-x86_64-disk.img \
+    
+    openstack image create "cirros" \
+    --file cirros-0.4.0-x86_64-disk.img \
     --disk-format qcow2 \
     --container-format bare \
-    --visibility public \
-    --progree 
-    glance image-list # 如果出现一行就ok了
+    --public
+    
+    
+    #glance image-list # 老版本使用,新版本使用openstack image list
+    openstack image list # 如果出现一行就ok了
     ll /var/lib/glance/images
     ```
     
