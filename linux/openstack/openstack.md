@@ -253,7 +253,12 @@ show databases;
     
     7. (可选)监听的话,使用`HTTP api`(在网页的最下面,很小的字)
     
-5. 部署keystone(验证服务)
+    
+    
+    
+    
+    
+5. 部署keystone(验证服务)[官方文档](https://docs.openstack.org/keystone/queens/install/keystone-install-rdo.html)
     1. 安装OpenStack的queens版本的rpm包
     + `No+package+openstack-keystone+available.`的错误是因为没有安装足够的源
     + 以前的如juno等都不可用了,可以在下面链接里查看可用的版本
@@ -411,11 +416,17 @@ show databases;
     + 环境变量来连接
     + 版本的好处是保持前端和后端的版本同步更新等
     ```
+    #############################################################################
+    # openstack --help | less => 查看最新的环境变量来登录
+    #############################################################################
     export OS_TOKEN=b337e9fd9ef8eee3cf2e
     export OS_URL=http://192.168.56.11:35357/v3 # 管理员使用35357端口,版本是v3
     export OS_IDENTITY_API_VERSION=3
     
     #yum -y install python-pip
+    yum install centos-release-openstack-queens -y
+    #yum upgrade
+    yum install python-openstackclient -y # 安装了这个后才有openstack命令
     openstack user list
     ```
     
