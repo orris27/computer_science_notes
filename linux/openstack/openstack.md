@@ -1006,7 +1006,7 @@ systemctl status etcd
 
 10. Neutron控制节点 > [官方文档](https://docs.openstack.org/neutron/queens/install/controller-install-rdo.html)
     1. 注册keystone
-    
+    > Configure networking options 下面的所有蓝点都很重要!!
 ```
 
 ######################################################
