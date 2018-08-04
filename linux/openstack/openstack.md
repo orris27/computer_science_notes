@@ -86,7 +86,7 @@ yum install python2-PyMySQL -y
     # 刷新权限:Y
     mysql -u root -p 
     #######################wendang########################
-    create database keystone;
+    create database keystone;ok
     grant all privileges on keystone.* to 'keystone'@'localhost' identified by 'keystone';
     grant all privileges on keystone.* to 'keystone'@'%' identified by 'keystone';
 
@@ -152,7 +152,7 @@ yum install python2-PyMySQL -y
     
     
 5. 安装memcache
-```
+```ok
 yum install memcached python-memcached -y
 vim /etc/sysconfig/memcached
 ##################################################
@@ -200,6 +200,8 @@ systemctl status etcd
     + 前面不能有空格
     + 配置数据库=>保存验证信息
         - 用户名:密码@主机/数据库名
+    + 修改`keystone.conf`后要重启httpd服务
+    + 不能修改token和revoke的driver为memcache,否则会500错误
     ```
     vim /etc/keystone/keystone.conf
     #######################################
@@ -207,7 +209,6 @@ systemctl status etcd
     connection = connection = mysql+pymysql://keystone:keystone@controller/keystone
     [token]
     provider = fernet
-
     #######################################
     ```
 
@@ -270,205 +271,6 @@ systemctl status etcd
     ```
     openstack domain create --description "An Example Domain" example # 如果输出id等表格,就说明ok
     ```
-    4. 连接keystone和memcache
-    ```
-    vim /etc/keystone/keystone.conf
-    ###########################################
-    verbose = true # 我这里好像是#debug = false,老师讲这个说是为了让日志级别=info=>好排除问题
-    
-    [memcache]
-    servers = 192.168.56.11:11211 # 我这里只有:memcache_servers = 192.168.56.11:11211
-    
-    [token]
-    provider = uuid # 指定
-    driver = memcache # 指定token写在memcache里,而非MySQL
-    
-    [revoke] # 回滚
-    driver = sql
-    ###########################################
-    grep '^[a-Z]' /etc/keystone/keystone.conf 
-    #######################################################################
-    admin_token = b337e9fd9ef8eee3cf2e
-    memcache_servers = 192.168.56.11:11211
-    ### 三个#表示是老师的操作,而下一行是官方文档中Queen的操作
-    ###connection = mysql://keystone:keystone@192.168.56.11/keystone
-    connection = mysql+pymysql://keystone:keystone@192.168.56.11/keystone
-    driver = sql
-    provider = uuid
-    driver = memcache
-    #######################################################################
-    ```
-    5. 启动keystone
-    ```
-    systemctl start memcached.service
-    
-    
-    ############################################################################
-    # 老师的做法 starts
-    ############################################################################
-    vim /etc/httpd/conf.d/wsgi-keystone.conf
-    ############################################################
-    Listen 5000
-    Listen 35357
-
-    <VirtualHost *:5000>
-        WSGIDaemonProcess keystone-public processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP}
-        WSGIProcessGroup keystone-public
-        WSGIScriptAlias / /usr/bin/keystone-wsgi-publi
-        WSGIApplicationGroup %{GLOBAL}
-        WSGIPassAuthorization On
-        <IfVersion >= 2.4>
-            ErrorLogFormat "%{cu}t %M"
-        </IfVersion>
-
-        ErrorLog /var/log/httpd/keystone-error.log
-        CustomLog /var/log/httpd/keystone-access.log combined
-
-        <Directory /usr/bin>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-        </Directory>
-    </VirtualHost>
-
-
-    <VirtualHost *:35537>
-        WSGIDaemonProcess keystone-admin processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP}
-        WSGIProcessGroup keystone-admin
-        WSGIScriptAlias / /usr/bin/keystone-wsgi-admin
-        WSGIApplicationGroup %{GLOBAL}
-        WSGIPassAuthorization On
-
-        <IfVersion >= 2.4>
-            ErrorLogFormat "%{cu}t %M"
-        </IfVersion>
-
-        ErrorLog /var/log/httpd/keystone-error.log
-        CustomLog /var/log/httpd/keystone-access.log combined
-
-        <Directory /usr/bin>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-        </Directory>
-    </VirtualHost>
-    ############################################################
-    ############################################################################
-    # 老师的做法 ends
-    ############################################################################
-
-
-
-
-    ############################################################################
-    # 官方的做法starts
-    ############################################################################
-    ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/
-    ############################################################################
-    # 官方的做法ends
-    ############################################################################
-
-
-
-
-
-    vim /etc/httpd/conf/httpd.conf
-    ############################################################
-    ServerName 192.168.56.11:80 # 如果不启动这个,OpenStack就启动不了
-    ############################################################
-    systemctl enable memcached
-    systemctl enable httpd
-    systemctl start httpd
-    ```
-
-    6. 验证
-    + 如果启动了下面的端口就说明正常
-    + 如果缺少35357和5000的话,可以重启下httpd(我第一次时就遇到这个情况)
-    ```
-    netstat -lntup | grep httpd 
-    #################################################################################################
-    tcp6       0      0 :::35357                :::*                    LISTEN      5201/httpd          
-    tcp6       0      0 :::5000                 :::*                    LISTEN      5201/httpd          
-    tcp6       0      0 :::80                   :::*                    LISTEN      5201/httpd    
-    #################################################################################################
-    ```
-    
-    7. 登录
-    + 环境变量来连接
-    + 版本的好处是保持前端和后端的版本同步更新等
-    ```
-    #############################################################################
-    # openstack --help | less => 查看最新的环境变量来登录
-    #############################################################################
-    export OS_TOKEN=b337e9fd9ef8eee3cf2e
-    export OS_URL=http://192.168.56.11:35357/v3 # 管理员使用35357端口,版本是v3
-    export OS_IDENTITY_API_VERSION=3
-    
-    #yum -y install python-pip
-    yum install centos-release-openstack-queens -y
-    #yum upgrade
-    yum install python-openstackclient -y # 安装了这个后才有openstack命令
-    openstack user list
-    
-    
-    ################################################################################
-    # 为了实现openstack domain 能够创造的尝试 (有人重启httpd就解决了...)
-    ################################################################################
-    ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/ # openstack domain的错误提示变成了500
-    keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
-    keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
-    tail /var/log/httpd/keystone.log
-    keystone-manage bootstrap --bootstrap-password ADMIN_PASS \
-      --bootstrap-admin-url http://192.168.56.11:5000/v3/ \
-      --bootstrap-internal-url http://192.168.56.11:5000/v3/ \
-      --bootstrap-public-url http://192.168.56.11:5000/v3/ \
-      --bootstrap-region-id RegionOne
-    ######################
-    [token]
-    # ...
-    provider = fernet
-    ######################
-    
-    
-    
-    export OS_USERNAME=admin
-    export OS_PASSWORD=ADMIN_PASS
-    export OS_PROJECT_NAME=admin
-    export OS_USER_DOMAIN_NAME=Default
-    export OS_PROJECT_DOMAIN_NAME=Default
-    export OS_AUTH_URL=http://192.168.56.11:35357/v3
-    export OS_IDENTITY_API_VERSION=3
-    
-    openstack domain create default
-    openstack project create --domain default --description "Admin Project" admin
-    ```
-    
-    ```
-    keystone-manage bootstrap --bootstrap-password ADMIN_PASS \
-      --bootstrap-admin-url http://controller:5000/v3/ \
-      --bootstrap-internal-url http://controller:5000/v3/ \
-      --bootstrap-public-url http://controller:5000/v3/ \
-      --bootstrap-region-id RegionOne
-    ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/
-    
-    
-    export OS_USERNAME=admin
-    export OS_PASSWORD=ADMIN_PASS
-    export OS_PROJECT_NAME=admin
-    export OS_USER_DOMAIN_NAME=Default
-    export OS_PROJECT_DOMAIN_NAME=Default
-    export OS_AUTH_URL=http://192.168.56.11:35357/v3
-    export OS_IDENTITY_API_VERSION=3
-    ```
-    
 6. glance
 ```
 yum install -y openstack-glance python-glance python-glanceclient
@@ -493,6 +295,8 @@ openstack-nova-novncproxy openstack-nova-scheduler
 
 
 ## 2. 安装(失败品,根据老师的L版操作的)
++ 失败的原因是在`/etc/keystone/keystone.conf`中让token和revoke使用了`memcache`,结果就导致了`Failed to discover available identity versions when contacting http://controller:35357/v3. Attempting to parse version from URL.Internal Server Error (HTTP 500)`错误
++ 使用`/etc/keystone/keystone.conf`的话,要重启httpd
 1. 环境准备
     1. CentOS-7.1 系统2台,每台2G内存
     + linux-node1.oldboyedu.com 192.168.56.11 网卡NAT eth0 控制节点
