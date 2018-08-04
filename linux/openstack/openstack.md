@@ -74,7 +74,7 @@ mysql_secure_installation
 # 删除默认的test数据:Y
 # 刷新权限:Y
 mysql -u root -p 
-###############################################
+#######################wendang########################
 create database keystone;
 grant all privileges on keystone.* to 'keystone'@'localhost' identified by 'keystone';
 grant all privileges on keystone.* to 'keystone'@'%' identified by 'keystone';
@@ -232,7 +232,7 @@ show databases;
     ```
     3. 添加消息队列的认证
     + 消息队列肯定要有认证系统
-    ```
+    ```wendang
     netstat -lntup | grep 5672
 
     rabbitmqctl add_user openstack openstack
@@ -258,7 +258,7 @@ show databases;
     
     
     
-5. 部署keystone(验证服务)[官方文档](https://docs.openstack.org/keystone/queens/install/keystone-install-rdo.html)
+5. 部署keystone(验证服务)>[官方文档](https://docs.openstack.org/keystone/queens/install/keystone-install-rdo.html)
     1. 安装OpenStack的queens版本的rpm包
     + `No+package+openstack-keystone+available.`的错误是因为没有安装足够的源
     + 以前的如juno等都不可用了,可以在下面链接里查看可用的版本
@@ -325,7 +325,9 @@ show databases;
     #######################################################################
     admin_token = b337e9fd9ef8eee3cf2e
     memcache_servers = 192.168.56.11:11211
-    connection = mysql://keystone:keystone@192.168.56.11/keystone
+    ### 三个#表示是老师的操作,而下一行是官方文档中Queen的操作
+    ###connection = mysql://keystone:keystone@192.168.56.11/keystone
+    connection = mysql+pymysql://keystone:keystone@192.168.56.11/keystone
     driver = sql
     provider = uuid
     driver = memcache
@@ -335,6 +337,10 @@ show databases;
     ```
     systemctl start memcached.service
     
+    
+    ############################################################################
+    # 老师的做法 starts
+    ############################################################################
     vim /etc/httpd/conf.d/wsgi-keystone.conf
     ############################################################
     Listen 5000
@@ -390,6 +396,24 @@ show databases;
         </Directory>
     </VirtualHost>
     ############################################################
+    ############################################################################
+    # 老师的做法 ends
+    ############################################################################
+
+
+
+
+    ############################################################################
+    # 官方的做法starts
+    ############################################################################
+    ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/
+    ############################################################################
+    # 官方的做法ends
+    ############################################################################
+
+
+
+
 
     vim /etc/httpd/conf/httpd.conf
     ############################################################
@@ -428,6 +452,56 @@ show databases;
     #yum upgrade
     yum install python-openstackclient -y # 安装了这个后才有openstack命令
     openstack user list
+    
+    
+    ################################################################################
+    # 为了实现openstack domain 能够创造的尝试
+    ################################################################################
+    ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/ # openstack domain的错误提示变成了500
+    keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+    keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
+    tail /var/log/httpd/keystone.log
+    keystone-manage bootstrap --bootstrap-password ADMIN_PASS \
+      --bootstrap-admin-url http://192.168.56.11:5000/v3/ \
+      --bootstrap-internal-url http://192.168.56.11:5000/v3/ \
+      --bootstrap-public-url http://192.168.56.11:5000/v3/ \
+      --bootstrap-region-id RegionOne
+    ######################
+    [token]
+    # ...
+    provider = fernet
+    ######################
+    
+    
+    
+    export OS_USERNAME=admin
+    export OS_PASSWORD=ADMIN_PASS
+    export OS_PROJECT_NAME=admin
+    export OS_USER_DOMAIN_NAME=Default
+    export OS_PROJECT_DOMAIN_NAME=Default
+    export OS_AUTH_URL=http://192.168.56.11:35357/v3
+    export OS_IDENTITY_API_VERSION=3
+    
+    openstack domain create default
+    openstack project create --domain default --description "Admin Project" admin
+    ```
+    
+    ```
+    keystone-manage bootstrap --bootstrap-password ADMIN_PASS \
+      --bootstrap-admin-url http://controller:5000/v3/ \
+      --bootstrap-internal-url http://controller:5000/v3/ \
+      --bootstrap-public-url http://controller:5000/v3/ \
+      --bootstrap-region-id RegionOne
+    ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/
+    
+    
+    export OS_USERNAME=admin
+    export OS_PASSWORD=ADMIN_PASS
+    export OS_PROJECT_NAME=admin
+    export OS_USER_DOMAIN_NAME=Default
+    export OS_PROJECT_DOMAIN_NAME=Default
+    export OS_AUTH_URL=http://192.168.56.11:35357/v3
+    export OS_IDENTITY_API_VERSION=3
     ```
     
 6. glance
