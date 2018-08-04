@@ -394,194 +394,7 @@ show databases;
     systemctl enable httpd
     systemctl start httpd
     ```
-    
-6. glance
-```
-yum install -y openstack-glance python-glance python-glanceclient
-```
 
-7. Nova
-```
-yum install -y openstack-nova-api openstack-nova-cert \
-openstack-nova-conductor openstack-nova-console \
-openstack-nova-novncproxy openstack-nova-scheduler 
-```
-
-
-
-
-
-
-
-    + 消息队列肯定要有认证系统
-    ```
-    netstat -lntup | grep 5672
-
-    rabbitmqctl add_user openstack openstack
-    rabbitmqctl set_permissions openstack ".*" ".*" ".*"
-    rabbitmq-plugins list
-    rabbitmq-plugins enable rabbitmq_management
-    systemctl restart rabbitmq-server.service
-    ```
-    4. 检查网络状态
-    ```
-    netstat -lntup | grep 15672
-    ```
-    5. 浏览器访问`192.168.56.11:15672`(Web管理页面)
-    + 默认的用户密码都是guest
-    + Admin这里赋值admin的tags(administrator),然后点击openstack,然后在Update this user的地方,复制刚才的tags进这个的Tags并修改密码,然后update
-    
-    6. 浏览器访问`192.168.56.11:15672`,然后可以输入刚才的用户名和密码(如openstack:openstack)
-    
-    7. (可选)监听的话,使用`HTTP api`(在网页的最下面,很小的字)
-    
-5. 部署keystone(验证服务)
-    1. 安装OpenStack的queens版本的rpm包
-    + `No+package+openstack-keystone+available.`的错误是因为没有安装足够的源
-    + 以前的如juno等都不可用了,可以在下面链接里查看可用的版本
-    > https://repos.fedorapeople.org/repos/openstack
-    ```
-    yum install yum-plugin-priorities # 如果使用阿里的yum源的话,就需要换成原来的源
-    yum install -y https://repos.fedorapeople.org/repos/openstack/openstack-queens/rdo-release-queens-1.noarch.rpm
-
-    yum install -y openstack-keystone httpd mod_wsgi memcached python-memcached
-    yum install -y lrzsz
-    ```
-    
-    
-    2. 配置keystone的配置文件
-    + 前面不能有空格
-    + 配置数据库=>保存验证信息
-        - 用户名:密码@主机/数据库名
-    ```
-    openssl rand -hex 10 # 随机生成一个字符串作为admin的token
-    #########################
-    b337e9fd9ef8eee3cf2e
-    #########################
-
-    vim /etc/keystone/keystone.conf
-    #######################################
-    #admin_token = ADMIN # keystone默认没有用户,这样就验证不进去,所以提供了admin的token
-    admin_token = b337e9fd9ef8eee3cf2e
-
-    [database]
-    connection = mysql://keystone:keystone@192.168.56.11/keystone
-    #######################################
-    ```
-
-    3. 导入数据库
-
-    ```
-    su -s /bin/sh -c "keystone-manage db_sync" keystone # 切换到keystone用户是因为让下面的日志文件的属主为keystone,这样就可以读写日志文件
-    # tail /var/log/keystone/keystone.log
-
-    mysql -h 192.168.56.11 -u keystone -pkeystone
-    ######################
-    use keysmtone;
-    show tables; # 如果出现表就说明导入数据库成功了
-    ######################
-    ```
-    
-    4. 连接keystone和memcache
-    ```
-    vim /etc/keystone/keystone.conf
-    ###########################################
-    verbose = true # 我这里好像是#debug = false,老师讲这个说是为了让日志级别=info=>好排除问题
-    
-    [memcache]
-    servers = 192.168.56.11:11211 # 我这里只有:memcache_servers = 192.168.56.11:11211
-    
-    [token]
-    provider = uuid # 指定
-    driver = memcache # 指定token写在memcache里,而非MySQL
-    
-    [revoke] # 回滚
-    driver = sql
-    ###########################################
-    grep '^[a-Z]' /etc/keystone/keystone.conf 
-    #######################################################################
-    admin_token = b337e9fd9ef8eee3cf2e
-    memcache_servers = 192.168.56.11:11211
-    connection = mysql://keystone:keystone@192.168.56.11/keystone
-    driver = sql
-    provider = uuid
-    driver = memcache
-    #######################################################################
-    ```
-    5. 启动keystone
-    ```
-    systemctl start memcached.service
-    
-    vim /etc/httpd/conf.d/wsgi-keystone.conf
-    ############################################################
-    Listen 5000
-    Listen 35357
-
-    <VirtualHost *:5000>
-        WSGIDaemonProcess keystone-public processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP}
-        WSGIProcessGroup keystone-public
-        WSGIScriptAlias / /usr/bin/keystone-wsgi-publi
-        WSGIApplicationGroup %{GLOBAL}
-        WSGIPassAuthorization On
-        <IfVersion >= 2.4>
-            ErrorLogFormat "%{cu}t %M"
-        </IfVersion>
-
-        ErrorLog /var/log/httpd/keystone-error.log
-        CustomLog /var/log/httpd/keystone-access.log combined
-
-        <Directory /usr/bin>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-        </Directory>
-    </VirtualHost>
-
-
-    <VirtualHost *:35537>
-        WSGIDaemonProcess keystone-admin processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP}
-        WSGIProcessGroup keystone-admin
-        WSGIScriptAlias / /usr/bin/keystone-wsgi-admin
-        WSGIApplicationGroup %{GLOBAL}
-        WSGIPassAuthorization On
-
-        <IfVersion >= 2.4>
-            ErrorLogFormat "%{cu}t %M"
-        </IfVersion>
-
-        ErrorLog /var/log/httpd/keystone-error.log
-        CustomLog /var/log/httpd/keystone-access.log combined
-
-        <Directory /usr/bin>
-            <IfVersion >= 2.4>
-                Require all granted
-            </IfVersion>
-            <IfVersion < 2.4>
-                Order allow,deny
-                Allow from all
-            </IfVersion>
-        </Directory>
-    </VirtualHost>
-    ############################################################
-
-    vim /etc/httpd/conf/httpd.conf
-    ############################################################
-    ServerName 192.168.56.11:80 # 如果不启动这个,OpenStack就启动不了
-    ############################################################
-    systemctl enable memcached
-
-
-    apachectl -t
-    systemctl enable httpd
-    systemctl start httpd
-    
-    
-    ```
-    
     6. 验证
     + 如果启动了下面的端口就说明正常
     + 如果缺少35357和5000的话,可以重启下httpd(我第一次时就遇到这个情况)
@@ -592,6 +405,18 @@ openstack-nova-novncproxy openstack-nova-scheduler
     tcp6       0      0 :::5000                 :::*                    LISTEN      5201/httpd          
     tcp6       0      0 :::80                   :::*                    LISTEN      5201/httpd    
     #################################################################################################
+    ```
+    
+    7. 登录
+    + 环境变量来连接
+    + 版本的好处是保持前端和后端的版本同步更新等
+    ```
+    export OS_TOKEN=b337e9fd9ef8eee3cf2e
+    export OS_URL=http://192.168.56.11:35357/v3 # 管理员使用35357端口,版本是v3
+    export OS_IDENTITY_API_VERSION=3
+    
+    #yum -y install python-pip
+    openstack user list
     ```
     
 6. glance
