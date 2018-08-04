@@ -14,7 +14,7 @@ yum install qemu-kvm qemu-kvm-tools virt-manager libvirt virt-install -y
     egrep '(vmx|svm)' /proc/cpuinfo # 只要出现一个就说明支持虚拟化
     ```
     3. 如果不支持虚拟化,对于VMware Workstation来说,点击Setting>Process>勾选`Disable acceleration for binary translation`和`Virtualize Intel VT-x/EPT or AMD-V/RVI`
-    + 如果不能勾选的话,是因为内dev存太小的缘故,设置内存为4GB
+    + 如果不能勾选的话,主要原因是虚拟机没有关机,主要power off就行了.也可能是因为内dev存太小的缘故,设置内存为4GB
     + 因为我这里的选项不一样而且三个,所以我三个都勾选,包括`Intel VT-x/EPT or AMD-V/RVI`,`CPU`和`IOMMU`
     
 3. 创建一个硬盘
