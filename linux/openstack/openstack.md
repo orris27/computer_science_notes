@@ -455,7 +455,7 @@ show databases;
     
     
     ################################################################################
-    # 为了实现openstack domain 能够创造的尝试
+    # 为了实现openstack domain 能够创造的尝试 (有人重启httpd就解决了...)
     ################################################################################
     ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/ # openstack domain的错误提示变成了500
     keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
