@@ -814,11 +814,14 @@ systemctl status etcd
     ```
     6. 启动服务
         1. 数据库导入
+        + `/usr/lib/python2.7/site-packages/oslo_db/sqlalchemy/enginefacade.py:332: NotSupportedWarning: Configuration option(s) ['use_tpool'] not supported.exception.NotSupportedWarning`,如果报这个警告,可以无视
         ```
         su -s /bin/sh -c "nova-manage api_db sync" nova
         su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova
         su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova 
         su -s /bin/sh -c "nova-manage db sync" nova
+        
+        
         
         nova-manage cell_v2 list_cells # 确认cell0和cell1注册成功
         mysql -unova -pnova
