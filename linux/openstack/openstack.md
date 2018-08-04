@@ -1004,7 +1004,7 @@ systemctl status etcd
     ```
 
 
-10. Neutron控制节点 > [第三方文档](https://blog.csdn.net/LL_JCB/article/details/80193734)+[官方文档](https://docs.openstack.org/neutron/queens/install/controller-install-rdo.html)+官方文档下面的蓝点(里面包含网络的配置文件)
+10. Neutron控制节点 > [第三方文档](https://blog.csdn.net/LL_JCB/article/details/80193734)(需要在新窗口打开,否则502错误)+[官方文档](https://docs.openstack.org/neutron/queens/install/controller-install-rdo.html)+官方文档下面的蓝点(里面包含网络的配置文件)
 + 所有的操作都在控制节点Controller里完成
     1. 准备数据库和数据库账户
     
