@@ -271,6 +271,82 @@ systemctl status etcd
     ```
     openstack domain create --description "An Example Domain" example # 如果输出id等表格,就说明ok
     ```
+    
+    
+    9. 创建管理员和普通用户的project,user,role
+    ```
+    openstack project create --domain default --description "Admin Project" admin
+    openstack user create --domain default --password-prompt admin # 这里密码简单地设置为admin
+    openstack role create admin
+    openstack role add --project admin --user admin admin
+
+    openstack project create --domain default --description "Demo Project" demo
+    openstack user create --domain default --password=demo demo
+    openstack role create user
+    openstack role add --project demo --user demo user # demo用户加入到demo项目中,赋予user角色
+    
+    openstack project create --domain default --description "Service Project" service
+    
+    openstack user list
+    openstack role list
+    openstack project list
+    
+    ```
+    
+    10. 加入keystone服务到keystone里
+    + 公共:互联网上,可以对外(5000+v2)
+    + 内部的:内部用(5000+v2)
+    + 管理:内部用(35357+v3),但好像还是v3
+    ```
+    openstack service create --name keystone --description "Openstack Identity" identity # 最后一个为类型,不能写错
+    openstack endpoint create --region RegionOne identity public http://192.168.56.11:5000/v2.0
+    openstack endpoint create --region RegionOne identity internal http://192.168.56.11:5000/v2.0
+    openstack endpoint create --region RegionOne identity admin http://192.168.56.11:35357/v2.0
+    
+    openstack endpoint list
+    # openstack endpoint delete <id> # 可以删除
+    ```
+    
+    11. 连接上OpenStack拿token完
+        1. 去除原来的环境变量(一定要去掉) 
+        + 不去除的话会冲突
+        ```
+        unset OS_TOKEN
+        unset OS_URL
+        ```
+        2. 连接OpenStack
+        + 只有这里获取到tokens才能说keystone创建成功
+        ```
+        openstack --os-auth-url http://192.168.56.11:35357/v3 \
+        --os-project-domain-id default \
+        --os-user-domain-id default \
+        --os-project-name admin \
+        --os-username admin \
+        --os-auth-type password \
+        token issue # 输入密码admin.如果能拿到id(token)就说明keystone成功
+        ```
+        
+        3. 配置keystone环境变量,方便执行命令
+        ```
+        cd ~
+        vim admin-openrc.sh
+        ######################################################
+        export OS_PROJECT_DOMAIN_ID=default
+        export OS_USER_DOMAIN_ID=default
+        export OS_PROJECT_NAME=admin
+        export OS_TENANT_NAME=admin
+        export OS_USERNAME=admin
+        export OS_PASSWORD=admin # 这里为密码
+        export OS_AUTH_URL=http://192.168.56.11:35357/v3
+        export OS_IDENTITY_API_VERSION=3
+        ######################################################
+        chmod +x admin-openrc.sh
+        
+        source admin-openrc.sh
+        openstack token issue # 这样就可以执行了
+        ```
+    
+    
 6. glance
 ```
 yum install -y openstack-glance python-glance python-glanceclient
