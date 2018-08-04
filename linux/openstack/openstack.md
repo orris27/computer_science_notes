@@ -293,7 +293,7 @@ systemctl status etcd
     
     ```
     
-    10. 加入keystone服务到keystone里
+    10. 加入keystone服务到keystone里(他人文档和官方文档里没有这个步骤,所以我先跳过了)
     + 公共:互联网上,可以对外(5000+v2)
     + 内部的:内部用(5000+v2)
     + 管理:内部用(35357+v3),但好像还是v3
@@ -310,13 +310,43 @@ systemctl status etcd
     11. 连接上OpenStack拿token完
         1. 去除原来的环境变量(一定要去掉) 
         + 不去除的话会冲突
+        + `#-------`范围内的是老师上课讲的,其余是官方文档/他人文档的,我采用的是官方文档/他人文档
         ```
+        unset OS_AUTH_URL OS_PASSWORD
+        #--------------------------------------
         unset OS_TOKEN
         unset OS_URL
+        #--------------------------------------
         ```
         2. 连接OpenStack
         + 只有这里获取到tokens才能说keystone创建成功
+        + controller写成`192.168.56.11`也可以
+        + Default小写default也可以
         ```
+        #################################################################
+        # admin
+        #################################################################
+        openstack --os-auth-url http://controller:35357/v3 \
+        --os-project-domain-name Default \
+        --os-user-domain-name Default \
+        --os-project-name admin \
+        --os-username admin \
+        token issue # 我的密码是ADMIN_PASS(在bootstrap那里设置的...)
+        
+        #################################################################
+        # demo
+        #################################################################
+        
+        
+        openstack --os-auth-url http://controller:35357/v3 \
+        --os-project-domain-name Default \
+        --os-user-domain-name Default \
+        --os-project-name demo \
+        --os-username demo \
+        token issue # 密码是demo
+        
+        
+        #-----------------------------------------------------------
         openstack --os-auth-url http://192.168.56.11:35357/v3 \
         --os-project-domain-id default \
         --os-user-domain-id default \
@@ -324,10 +354,44 @@ systemctl status etcd
         --os-username admin \
         --os-auth-type password \
         token issue # 输入密码admin.如果能拿到id(token)就说明keystone成功
+        #-----------------------------------------------------------
         ```
         
         3. 配置keystone环境变量,方便执行命令
         ```
+        
+        cd ~
+        vim admin-openrc.sh
+        ######################################################
+        export OS_PROJECT_DOMAIN_NAME=Default
+        export OS_USER_DOMAIN_NAME=Default
+        export OS_PROJECT_NAME=admin
+        export OS_USERNAME=admin
+        export OS_PASSWORD=ADMIN_PASS
+        export OS_AUTH_URL=http://controller:5000/v3
+        export OS_IDENTITY_API_VERSION=3
+        export OS_IMAGE_API_VERSION=2
+        ######################################################
+        
+        vim demo-openrc.sh
+        ######################################################
+        export OS_PROJECT_DOMAIN_NAME=Default
+        export OS_USER_DOMAIN_NAME=Default
+        export OS_PROJECT_NAME=demo
+        export OS_USERNAME=demo
+        export OS_PASSWORD=demo
+        export OS_AUTH_URL=http://controller:5000/v3
+        export OS_IDENTITY_API_VERSION=3
+        export OS_IMAGE_API_VERSION=2
+        ######################################################
+        
+        source admin-openrc.sh
+        openstack token issue # 这样就可以执行了
+        
+        
+        
+        
+        #-----------------------------------------------------------
         cd ~
         vim admin-openrc.sh
         ######################################################
@@ -344,6 +408,7 @@ systemctl status etcd
         
         source admin-openrc.sh
         openstack token issue # 这样就可以执行了
+        #-----------------------------------------------------------
         ```
     
     
