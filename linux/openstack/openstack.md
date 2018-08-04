@@ -868,7 +868,73 @@ systemctl status etcd
     ```
     openstack host list # 列出4个就算正常了
     ```
-
+10. Compute节点
++ 不特别说明,其他章节都是针对控制节点,而该章节针对Compute节点
+    1. 在控制节点将nova的配置文件传输过去
+    ```
+    ######################################
+    # Controller
+    ######################################
+    scp /etc/nova/nova.conf 192.168.56.12:/etc/nova/
+    
+    
+    
+    
+    ######################################
+    # Compute
+    ######################################
+    
+    vim /etc/nova/nova.conf
+    #########################################
+    my_ip=192.168.56.12
+    
+    novncproxy_base_url=http://192.168.56.11:6080/vnc_auto,html 
+    vncserver_listen=0.0.0.0
+    vncserver_proxyclient_address=192.168.56.12
+    vnc_enabled=true
+    vnc_keymap=en-us  
+    
+    virt_type=kvm # grep -E '(vmx|svm)' /proc/cpuinfo,没有的话,只能用qemu
+    
+    [glance]
+    host=192.168.56.11
+    
+    
+    #########################################
+    
+    ```
+    2. 和Controller节点同步时间
+    ```
+    yum install -y chrony
+    vim /etc/chrony.conf
+    #############################################
+    # 删除所有
+    server 192.168.56.11 iburst
+    #############################################
+    tiemedatectl set-timezone Asia/Shanghai
+    
+    systemctl enable chronyd.service
+    systemctl start chronyd.service
+    
+    chronyc sources # 验证
+    ```
+    3. 启动计算节点
+    ```
+    systemctl enable libvirtd openstack-nova-compute
+    systemctl start libvirtd openstack-nova-compute
+    systemctl status libvirtd openstack-nova-compute
+    ```
+    4. 验证
+    ```
+    ######################################
+    # Controller
+    ######################################
+    openstack host list # 如果注册过来的话这里就会显示"compute nova"这个行
+    vim /var/log/nova/nova-compute.log # 如果没有注册过来看日志
+    nova image-list # 测试glance是否连接正常
+    nova endpoints
+    
+    ```
 
 
 
