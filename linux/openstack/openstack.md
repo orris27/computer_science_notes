@@ -151,49 +151,77 @@ yum install python2-PyMySQL -y
     
     
     
+5. 安装memcache
+```
+yum install memcached python-memcached -y
+vim /etc/sysconfig/memcached
+##################################################
+OPTIONS="-l 127.0.0.1,::1,controller"
+##################################################
+systemctl enable memcached.service
+systemctl start memcached.service
+systemctl status memcached.service
+```
     
-    
-    
+6. 安装etcd
++ 他人文档里写的是`ETCD_NAME="controller"`,但这样会报错
++ 日志文件:`/var/log/messages`
+```
+yum install etcd -y
+vim /etc/etcd/etcd.conf
+########################################################################
+ETCD_DATA_DIR="/var/lib/etcd/default.etcd"
+ETCD_LISTEN_PEER_URLS="http://192.168.56.11:2380"
+ETCD_LISTEN_CLIENT_URLS="http://192.168.56.11:2379"
+ETCD_NAME="default"
+ETCD_INITIAL_ADVERTISE_PEER_URLS="http://192.168.56.11:2380"
+ETCD_ADVERTISE_CLIENT_URLS="http://192.168.56.11:2379"
+ETCD_INITIAL_CLUSTER="default=http://192.168.56.11:2380"
+ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster-01"
+ETCD_INITIAL_CLUSTER_STATE="new"
+########################################################################
+grep -v "^#" /etc/etcd/etcd.conf
+systemctl enable etcd
+systemctl start etcd
+systemctl status etcd
+```
+
+
+
 5. 部署keystone(验证服务)>[官方文档](https://docs.openstack.org/keystone/queens/install/keystone-install-rdo.html)
     1. 安装OpenStack的queens版本的rpm包
     + `No+package+openstack-keystone+available.`的错误是因为没有安装足够的源
     + 以前的如juno等都不可用了,可以在下面链接里查看可用的版本
     > https://repos.fedorapeople.org/repos/openstack
     ```
-    yum install yum-plugin-priorities # 如果使用阿里的yum源的话,就需要换成原来的源
-    yum install -y https://repos.fedorapeople.org/repos/openstack/openstack-queens/rdo-release-queens-1.noarch.rpm
-
-    yum install -y openstack-keystone httpd mod_wsgi memcached python-memcached
-    yum install -y lrzsz
+    yum install openstack-keystone httpd mod_wsgi -y --enablerepo=base
     ```
-    
-    
     2. 配置keystone的配置文件
     + 前面不能有空格
     + 配置数据库=>保存验证信息
         - 用户名:密码@主机/数据库名
     ```
-    openssl rand -hex 10 # 随机生成一个字符串作为admin的token
-    #########################
-    b337e9fd9ef8eee3cf2e
-    #########################
-
     vim /etc/keystone/keystone.conf
     #######################################
-    #admin_token = ADMIN # keystone默认没有用户,这样就验证不进去,所以提供了admin的token
-    admin_token = b337e9fd9ef8eee3cf2e
-
     [database]
-    connection = mysql://keystone:keystone@192.168.56.11/keystone
+    connection = connection = mysql+pymysql://keystone:keystone@controller/keystone
+    [token]
+    provider = fernet
+
     #######################################
     ```
 
     3. 导入数据库
-
+    + 切换到keystone用户是因为让下面的日志文件的属主为keystone,这样就可以读写日志文件
     ```
-    su -s /bin/sh -c "keystone-manage db_sync" keystone # 切换到keystone用户是因为让下面的日志文件的属主为keystone,这样就可以读写日志文件
+    su -s /bin/sh -c "keystone-manage db_sync" keystone
     # tail /var/log/keystone/keystone.log
 
+    # Initialize Fernet key repositories
+    keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+    keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
+    
+    
     mysql -h 192.168.56.11 -u keystone -pkeystone
     ######################
     use keysmtone;
@@ -201,6 +229,47 @@ yum install python2-PyMySQL -y
     ######################
     ```
     
+    4. Bootstrap the Identity service
+    + 密码变成了`ADMIN_PASS`...
+    ```
+    keystone-manage bootstrap --bootstrap-password ADMIN_PASS   --bootstrap-admin-url http://controller:5000/v3/   --bootstrap-internal-url http://controller:5000/v3/   --bootstrap-public-url http://controller:5000/v3/   --bootstrap-region-id RegionOne
+    ```
+    
+    5. 修改httpd配置文件
+        1. 让httpd服务指向controller节点
+        ```
+        vim /etc/httpd/conf/httpd.conf
+        ###################################
+        ServerName controller
+        ###################################
+        ```
+        2. 引入OpenStack的web配置文件
+        ```
+        ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/
+        ```
+
+    6. 启动httpd服务
+    ```
+    systemctl enable httpd.service
+    systemctl start httpd.service
+    systemctl status httpd.service
+    ```
+    
+    7. 输入登录用的账户(基于环境变量)
+    ```
+    export OS_USERNAME=admin
+    export OS_PASSWORD=ADMIN_PASS
+    export OS_PROJECT_NAME=admin
+    export OS_USER_DOMAIN_NAME=Default
+    export OS_PROJECT_DOMAIN_NAME=Default
+    export OS_AUTH_URL=http://controller:35357/v3
+    export OS_IDENTITY_API_VERSION=3
+    ```
+    
+    8. 验证
+    ```
+    openstack domain create --description "An Example Domain" example # 如果输出id等表格,就说明ok
+    ```
     4. 连接keystone和memcache
     ```
     vim /etc/keystone/keystone.conf
