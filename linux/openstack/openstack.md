@@ -985,6 +985,7 @@ systemctl status etcd
     + 如果启动不了的话,尝试下面方法
         1. 看`/var/log/messages`:如果不能打开`/etc/nova/nova.conf`=>没有权限=>查看属主,发现root:root,改成root:nova
         2. 看`/var/log/nova/nova-compute.log`:如果说`AMQP server on controller:5672 is unreachable`,说明controller开了防火墙=>关闭防火墙
+        3. 看`/var/log/nova/nova-compute.log`:如果说`MessageDeliveryFailure: Unable to connect to AMQP server on 192.168.56.11:5672 after None tries: (0, 0): (403) ACCESS_REFUSED - Login was refused using authentication mechanism AMQPLAIN. For details see the broker logfile.`=>没有rabbitmq的权限=>登录`http://192.168.56.11:15672`,查看是否有openstack这个用户,没有的话创建一个并赋予权限,然后在web中添加administrator标签(具体方法参考该文档上面内容)
     ```
     systemctl enable libvirtd openstack-nova-compute
     systemctl start libvirtd openstack-nova-compute
@@ -997,8 +998,10 @@ systemctl status etcd
     ######################################
     openstack host list # 如果注册过来的话这里就会显示"compute nova"这个行
     vim /var/log/nova/nova-compute.log # 如果没有注册过来看日志
-    nova image-list # 测试glance是否连接正常
-    nova endpoints
+    #nova image-list # 测试glance是否连接正常
+    openstack image list
+    #nova endpoints
+    openstack endpoint list
     
     ```
 
