@@ -481,11 +481,30 @@ systemctl status etcd
     openstack endpoint create --region RegionOne image public http://192.168.56.11:9292
     openstack endpoint create --region RegionOne image internal http://192.168.56.11:9292
     openstack endpoint create --region RegionOne image admin http://192.168.56.11:9292
-    
-    
-    
     ```
     
+    6. 加下环境变量
+    ```
+    cd ~
+    echo "export OS_IMAGE_API_VERSION=2" > | tee -a admin-openrc.sh demo-openrc.sh
+    cat admin-openrc.sh 
+    cat demo-openrc.sh
+    glance image-list # 如果出现表格就说明成功了.空是因为还没有上传镜像
+    ```
+    
+    
+    7. 上传镜像
+    ```
+    wget http://download.cirrors-cloud.net/0.3.4-x84_64-disk.img
+    glance image-create --name "cirros" \
+    --file cirros-0.3.4-x86_64-disk.img \
+    --disk-format qcow2 \
+    --container-format bare \
+    --visibility public \
+    --progree 
+    glance image-list # 如果出现一行就ok了
+    ll /var/lib/glance/images
+    ```
     
 
 9. Nova
