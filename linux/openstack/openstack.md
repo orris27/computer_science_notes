@@ -1106,6 +1106,25 @@ neutron agent-list
 ######################################################
 # Controller
 ######################################################
+
+
+mysql -u root -p
+#########################################
+CREATE DATABASE neutron;
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' \
+  IDENTIFIED BY 'neutron';
+GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' \
+  IDENTIFIED BY 'neutron';
+#########################################
+
+
+source ~/admin-openrc.sh    
+  
+  
+openstack user create --domain default --password=neutron neutron
+
+openstack role add --project service --user neutron admin
+
 openstack service create --name neutron \
   --description "OpenStack Networking" network
 
@@ -1118,23 +1137,173 @@ openstack endpoint create --region RegionOne \
 openstack endpoint create --region RegionOne \
   network admin http://controller:9696
 
-mysql -u root -p
-MariaDB [(none)] CREATE DATABASE neutron;
 
-MariaDB [(none)]> GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' \
-  IDENTIFIED BY 'NEUTRON_DBPASS';
-MariaDB [(none)]> GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' \
-  IDENTIFIED BY 'NEUTRON_DBPASS';
-  
+
+yum install openstack-neutron openstack-neutron-ml2 \
+  openstack-neutron-linuxbridge ebtables -y
+
+vim /etc/neutron/neutron.conf
+############################################ok
+[database]
+connection = mysql+pymysql://neutron:neutron@controller/neutron
+...
+
+[DEFAULT]
+core_plugin = ml2
+#service_plugins = router
+service_plugins = 
+#allow_overlapping_ips = true
+transport_url = rabbit://openstack:openstack@controller
+auth_strategy = keystone
+notify_nova_on_port_status_changes = true
+notify_nova_on_port_data_changes = true
+...
+
+[keystone_authtoken]
+auth_uri = http://controller:5000
+auth_url = http://controller:35357
+memcached_servers = controller:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = neutron
+password = neutron
+...
+
+[nova]
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = RegionOne
+project_name = service
+username = nova
+password = nova
+...
+
+[oslo_concurrency]
+lock_path = /var/lib/neutron/tmp
+...
+############################################ok
+
+
+vim /etc/neutron/plugins/ml2/ml2_conf.ini
+############################################ok
+[ml2]
+type_drivers = flat,vlan
+tenant_network_types =  # 他人文档里是vxlan
+#mechanism_drivers = linuxbridge,l2population
+mechanism_drivers = linuxbridge
+extension_drivers = port_security
+...
+
+[ml2_type_flat]
+flat_networks = provider
+...
+
+#[ml2_type_vxlan]
+#vni_ranges = 1:1000
+...
+
+[securitygroup]
+enable_ipset = true
+...
+
+############################################ok
+
+vim /etc/neutron/plugins/ml2/linuxbridge_agent.ini
+############################################ok
+[linux_bridge]
+#physical_interface_mappings = provider:enp0s8   #第二张网卡网卡名
+physical_interface_mappings = provider:eth0 # 官网(eth0是我自己换的)
+#physical_interface_mappings = physnet1:eth0 # 老师
+...
+
+[vxlan]
+enable_vxlan = false
+...
+
+[securitygroup]
+enable_security_group = true
+firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
+
+...
+############################################ok
+```
+
+1. 确认内核支持网桥filters并作如下设置，编辑/etc/sysctl.conf增加以下内容
+```
+net.bridge.bridge-nf-call-iptables=1
+net.bridge.bridge-nf-call-ip6tables=1
+```
+2. 载入br_netfilter模块
+```
+modprobe br_netfilter
+```
+3.从配置文件加载内核参数
+```
+sysctl -p
+```
+```
+vim /etc/neutron/dhcp_agent.ini 
+############################################ok
+[DEFAULT]
+interface_driver = linuxbridge
+dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
+enable_isolated_metadata = true
+...
+############################################ok
+
+
+
+vim /etc/neutron/metadata_agent.ini
+############################################ok
+[DEFAULT]
+nova_metadata_host = controller
+metadata_proxy_shared_secret = neutron # METADATA_SECRET的密码
+...
+############################################ok
+
+
+
+vim /etc/nova/nova.conf
+############################################ok
+[neutron]
+url = http://controller:9696
+auth_url = http://controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = RegionOne
+project_name = service
+username = neutron
+password = neutron
+service_metadata_proxy = true
+metadata_proxy_shared_secret = neutron
+...
+############################################ok
+
+ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
+
 source admin-openrc
-  
-  
-openstack user create --domain default --password-prompt neutron
+    
 
-openstack role add --project service --user neutron admin
+su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
+  --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron
 
+systemctl restart openstack-nova-api.service
+systemctl enable neutron-server.service \
+  neutron-linuxbridge-agent.service neutron-dhcp-agent.service \
+  neutron-metadata-agent.service
+systemctl start neutron-server.service \
+  neutron-linuxbridge-agent.service neutron-dhcp-agent.service \
+  neutron-metadata-agent.service
 
+systemctl enable neutron-l3-agent.service
+systemctl start neutron-l3-agent.service
 
+neutron agent-list
 
 
 ```
