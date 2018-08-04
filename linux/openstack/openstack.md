@@ -44,7 +44,8 @@ allow  192.168/16 # 取消注释就行了
 systemctl enable chronyd.service
 systemctl start chronyd.service
 
-timedatectl set-timezone Asia/Shanghai
+timedatectl set-
+timezone Asia/Shanghai
 date # 和当前的时间一样
 ```
 
@@ -188,7 +189,7 @@ systemctl status etcd
 
 
 
-5. 部署keystone(验证服务)>[官方文档](https://docs.openstack.org/keystone/queens/install/keystone-install-rdo.html)
+7. 部署keystone(验证服务)>[官方文档](https://docs.openstack.org/keystone/queens/install/keystone-install-rdo.html)
     1. 安装OpenStack的queens版本的rpm包
     + `No+package+openstack-keystone+available.`的错误是因为没有安装足够的源
     + 以前的如juno等都不可用了,可以在下面链接里查看可用的版本
@@ -313,10 +314,6 @@ systemctl status etcd
         + `#-------`范围内的是老师上课讲的,其余是官方文档/他人文档的,我采用的是官方文档/他人文档
         ```
         unset OS_AUTH_URL OS_PASSWORD
-        #--------------------------------------
-        unset OS_TOKEN
-        unset OS_URL
-        #--------------------------------------
         ```
         2. 连接OpenStack
         + 只有这里获取到tokens才能说keystone创建成功
@@ -336,25 +333,12 @@ systemctl status etcd
         #################################################################
         # demo
         #################################################################
-        
-        
         openstack --os-auth-url http://controller:35357/v3 \
         --os-project-domain-name Default \
         --os-user-domain-name Default \
         --os-project-name demo \
         --os-username demo \
         token issue # 密码是demo
-        
-        
-        #-----------------------------------------------------------
-        openstack --os-auth-url http://192.168.56.11:35357/v3 \
-        --os-project-domain-id default \
-        --os-user-domain-id default \
-        --os-project-name admin \
-        --os-username admin \
-        --os-auth-type password \
-        token issue # 输入密码admin.如果能拿到id(token)就说明keystone成功
-        #-----------------------------------------------------------
         ```
         
         3. 配置keystone环境变量,方便执行命令
@@ -387,37 +371,15 @@ systemctl status etcd
         
         source admin-openrc.sh
         openstack token issue # 这样就可以执行了
-        
-        
-        
-        
-        #-----------------------------------------------------------
-        cd ~
-        vim admin-openrc.sh
-        ######################################################
-        export OS_PROJECT_DOMAIN_ID=default
-        export OS_USER_DOMAIN_ID=default
-        export OS_PROJECT_NAME=admin
-        export OS_TENANT_NAME=admin
-        export OS_USERNAME=admin
-        export OS_PASSWORD=admin # 这里为密码
-        export OS_AUTH_URL=http://192.168.56.11:35357/v3
-        export OS_IDENTITY_API_VERSION=3
-        ######################################################
-        chmod +x admin-openrc.sh
-        
-        source admin-openrc.sh
-        openstack token issue # 这样就可以执行了
-        #-----------------------------------------------------------
         ```
     
     
-6. glance
+8. glance
 ```
 yum install -y openstack-glance python-glance python-glanceclient
 ```
 
-7. Nova
+9. Nova
 ```
 yum install -y openstack-nova-api openstack-nova-cert \
 openstack-nova-conductor openstack-nova-console \
@@ -826,6 +788,111 @@ show databases;
     export OS_AUTH_URL=http://192.168.56.11:35357/v3
     export OS_IDENTITY_API_VERSION=3
     ```
+    
+    
+    11. 连接上OpenStack拿token完
+        1. 去除原来的环境变量(一定要去掉) 
+        + 不去除的话会冲突
+        + `#-------`范围内的是老师上课讲的,其余是官方文档/他人文档的,我采用的是官方文档/他人文档
+        ```
+        unset OS_AUTH_URL OS_PASSWORD
+        #--------------------------------------
+        unset OS_TOKEN
+        unset OS_URL
+        #--------------------------------------
+        ```
+        2. 连接OpenStack
+        + 只有这里获取到tokens才能说keystone创建成功
+        + controller写成`192.168.56.11`也可以
+        + Default小写default也可以
+        ```
+        #################################################################
+        # admin
+        #################################################################
+        openstack --os-auth-url http://controller:35357/v3 \
+        --os-project-domain-name Default \
+        --os-user-domain-name Default \
+        --os-project-name admin \
+        --os-username admin \
+        token issue # 我的密码是ADMIN_PASS(在bootstrap那里设置的...)
+        
+        #################################################################
+        # demo
+        #################################################################
+        
+        
+        openstack --os-auth-url http://controller:35357/v3 \
+        --os-project-domain-name Default \
+        --os-user-domain-name Default \
+        --os-project-name demo \
+        --os-username demo \
+        token issue # 密码是demo
+        
+        
+        #-----------------------------------------------------------
+        openstack --os-auth-url http://192.168.56.11:35357/v3 \
+        --os-project-domain-id default \
+        --os-user-domain-id default \
+        --os-project-name admin \
+        --os-username admin \
+        --os-auth-type password \
+        token issue # 输入密码admin.如果能拿到id(token)就说明keystone成功
+        #-----------------------------------------------------------
+        ```
+        
+        3. 配置keystone环境变量,方便执行命令
+        ```
+        
+        cd ~
+        vim admin-openrc.sh
+        ######################################################
+        export OS_PROJECT_DOMAIN_NAME=Default
+        export OS_USER_DOMAIN_NAME=Default
+        export OS_PROJECT_NAME=admin
+        export OS_USERNAME=admin
+        export OS_PASSWORD=ADMIN_PASS
+        export OS_AUTH_URL=http://controller:5000/v3
+        export OS_IDENTITY_API_VERSION=3
+        export OS_IMAGE_API_VERSION=2
+        ######################################################
+        
+        vim demo-openrc.sh
+        ######################################################
+        export OS_PROJECT_DOMAIN_NAME=Default
+        export OS_USER_DOMAIN_NAME=Default
+        export OS_PROJECT_NAME=demo
+        export OS_USERNAME=demo
+        export OS_PASSWORD=demo
+        export OS_AUTH_URL=http://controller:5000/v3
+        export OS_IDENTITY_API_VERSION=3
+        export OS_IMAGE_API_VERSION=2
+        ######################################################
+        
+        source admin-openrc.sh
+        openstack token issue # 这样就可以执行了
+        
+        
+        
+        
+        #-----------------------------------------------------------
+        cd ~
+        vim admin-openrc.sh
+        ######################################################
+        export OS_PROJECT_DOMAIN_ID=default
+        export OS_USER_DOMAIN_ID=default
+        export OS_PROJECT_NAME=admin
+        export OS_TENANT_NAME=admin
+        export OS_USERNAME=admin
+        export OS_PASSWORD=admin # 这里为密码
+        export OS_AUTH_URL=http://192.168.56.11:35357/v3
+        export OS_IDENTITY_API_VERSION=3
+        ######################################################
+        chmod +x admin-openrc.sh
+        
+        source admin-openrc.sh
+        openstack token issue # 这样就可以执行了
+        #-----------------------------------------------------------
+        ```
     
 6. glance
 ```
