@@ -1006,6 +1006,102 @@ systemctl status etcd
 
 10. Neutron控制节点 > [官方文档](https://docs.openstack.org/neutron/queens/install/controller-install-rdo.html)
     1. 注册keystone
+    
+```
+
+######################################################
+# Controller
+######################################################
+openstack service create --name neutron \
+  --description "OpenStack Networking" network
+
+openstack endpoint create --region RegionOne \
+  network public http://controller:9696
+
+openstack endpoint create --region RegionOne \
+  network internal http://controller:9696
+
+openstack endpoint create --region RegionOne \
+  network admin http://controller:9696
+
+vim /etc/neutron/neutron.conf
+############################################
+[database]
+connection = mysql://neutron:neutron@192.168.56.11:3306/neutron
+[keystone_authtoken]
+...
+
+rabbit_xx
+
+core_plugin=ml2
+
+
+service_plugins=router
+notify_nova_on
+
+[nova]
+...
+
+
+lock_path
+
+
+############################################
+cp /opt/config/m12_conf.ini /etc/neutron/plugins/ml2
+vim /etc/neutron/plugins/ml2/m12_conf.ini
+############################################
+type_drivers=flat,vlan,gre,vxlan,geneve #全写上
+tenant_network_types=vlan,gre,vxlan,geneve
+mech
+############################################
+
+vim /etc/neutron/plugins/ml2/linuxbridge_agent.ini
+############################################
+############################################
+
+vim /etc/neutron/plugins/ml2/dhcp_agent.ini
+############################################
+interface_driver#打开注释
+dhcp_driver# 打开注释
+enable_isolated_metadata=true# 不要大写
+############################################
+vim /etc/neutron/metadata_agent.conf
+############################################
+
+############################################
+
+
+
+vim /etc/nova/nova.conf
+############################################
+[neutron]
+见图片
+service_metadata_proxy=true
+metadata_proxy_shared_secret=neutron
+############################################
+
+ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
+
+source admin-openrc
+  
+  
+openstack user create --domain default --password=neutron neutron
+
+openstack role add --project service --user neutron admin
+
+su -s # 见图片
+
+systemctl restart openstack-nova-api
+systemctl enable openstack-server xxx# 见图片
+
+neutron agent-list
+
+```
+    
+    
+    
+    
+    
 ```
 ######################################################
 # Controller
