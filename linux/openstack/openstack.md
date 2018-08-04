@@ -610,19 +610,19 @@ systemctl status etcd
     CREATE DATABASE nova_cell0;
     
     GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'localhost' \
-      IDENTIFIED BY 'NOVA_DBPASS';
+      IDENTIFIED BY 'nova';
     GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'%' \
-      IDENTIFIED BY 'NOVA_DBPASS';
+      IDENTIFIED BY 'nova';
 
     GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' \
-      IDENTIFIED BY 'NOVA_DBPASS';
+      IDENTIFIED BY 'nova';
     GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' \
-      IDENTIFIED BY 'NOVA_DBPASS';
+      IDENTIFIED BY 'nova';
 
     GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'localhost' \
-      IDENTIFIED BY 'NOVA_DBPASS';
+      IDENTIFIED BY 'nova';
     GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' \
-      IDENTIFIED BY 'NOVA_DBPASS';
+      IDENTIFIED BY 'nova';
     
     
     exit;
