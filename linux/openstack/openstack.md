@@ -601,52 +601,125 @@ systemctl status etcd
     openstack-nova-console openstack-nova-novncproxy \
     openstack-nova-scheduler openstack-nova-placement-api
     ```
-    2. 在keystone上创建用户
+    2. 准备数据库
+    ```
+    mysql -uroot -p
+    ###################################################################
+    CREATE DATABASE nova_api;
+    CREATE DATABASE nova;
+    CREATE DATABASE nova_cell0;
+    
+    GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'localhost' \
+      IDENTIFIED BY 'NOVA_DBPASS';
+    GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'%' \
+      IDENTIFIED BY 'NOVA_DBPASS';
+
+    GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' \
+      IDENTIFIED BY 'NOVA_DBPASS';
+    GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' \
+      IDENTIFIED BY 'NOVA_DBPASS';
+
+    GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'localhost' \
+      IDENTIFIED BY 'NOVA_DBPASS';
+    GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' \
+      IDENTIFIED BY 'NOVA_DBPASS';
+    
+    
+    exit;
+    ###################################################################
+    
+    ```
+    3. 在keystone上创建用户nova和placement
     ```
     source ~/admin-openrc.sh
     openstack user create --domain default --password=nova nova # 如果报错说明现在的环境变量有问题,应该source admin-openrc.sh
-    openstack role add --project service --user nova admin 
+    openstack role add --project service --user nova admin
     echo $?
+    
+    
+    openstack service create --name nova --description "OpenStack Compute" compute
+    
+    #-------------------------------------------------------------------------------------------------------------
+    #openstack endpoint create --region RegionOne compute public http://192.168.56.11:8774/v2/%\(tenant_id\)s
+    #openstack endpoint create --region RegionOne compute internal http://192.168.56.11:8774/v2/%\(tenant_id\)s
+    #openstack endpoint create --region RegionOne compute admin http://192.168.56.11:8774/v2/%\(tenant_id\)s
+    #-------------------------------------------------------------------------------------------------------------
 
+    openstack endpoint create --region RegionOne compute public http://controller:8774/v2.1
+    openstack endpoint create --region RegionOne compute internal http://controller:8774/v2.1
+    openstack endpoint create --region RegionOne compute admin http://controller:8774/v2.1
+    
+    
+    
+    openstack user create --domain default --password=placement placement
+    openstack role add --project service --user placement admin
+    openstack service create --name placement --description "Placement API" placement
 
+    openstack endpoint create --region RegionOne placement public http://controller:8778
+    openstack endpoint create --region RegionOne placement internal http://controller:8778
+    openstack endpoint create --region RegionOne placement admin http://controller:8778
     ```
-    3. 配置文件
+    
+    
+    4. 配置文件
         1. 数据库
         ```
         vim /etc/nova/nova.conf
         ###########################################
+        [api_database]
+        connection = mysql+pymysql://nova:nova@controller/nova_api
+        
         [database]
-        connection = mysql+pymysql://nova:nova@192.168.56.11/nova
+        connection = mysql+pymysql://nova:nova@controller/nova
         ###########################################
-        su -s /bin/sh -c "nova-manage db sync" nova
-        mysql -unova -pnova
-        ###########################################
-        use nova;
-        show tables;
-        ###########################################
+        
+        
+        
+
         ```
         2. keystone
         ```
         vim /etc/nova/nova.conf
         ###########################################
+        [api]
+        auth_strategy = keystone
+
         [keystone_authtoken]
-        auth_uri = http://192.168.56.11:5000
-        auth_url = http://192.168.56.11:35357
-        auth_plugin = password
-        project_domain_id = default
-        user_domain_id = default
+        auth_url = http://controller:5000/v3
+        memcached_servers = controller:11211
+        auth_type = password
+        project_domain_name = default
+        user_domain_name = default
         project_name = service
-        username = glance
+        username = nova
         password = nova
         
-        [DEFAULT]
-        auth_strategy=keystnoe # 一定要在default下面
+        
+        #---------------------------------------------------
+        #[keystone_authtoken]
+        #auth_uri = http://192.168.56.11:5000
+        #auth_url = http://192.168.56.11:35357
+        #auth_plugin = password
+        #project_domain_id = default
+        #user_domain_id = default
+        #project_name = service
+        #username = nova
+        #password = nova
+        #
+        #[DEFAULT]
+        #auth_strategy=keystnoe # 一定要在default下面
+        #---------------------------------------------------
         ###########################################
         ```
         3. rabbitmq
         ```
         vim /etc/nova/nova.conf
         ###########################################
+        [DEFAULT]
+        transport_url = rabbit://openstack:openstack@controller # 根据rabbitmq密码而定
+        
+        
+        #---------------------------------------------------
         rpc_backend=rabbit
         
         [oslo_messaging_rabbit]
@@ -660,65 +733,135 @@ systemctl status etcd
         ```
         vim /etc/nova/nova.conf
         ###########################################
-        network_api_class=nova.network.neutronv2.api.API # 是python的site-packages的nova目录结构
+        [DEFAULT]
+        use_neutron = True
+        firewall_driver = nova.virt.firewall.NoopFirewallDriver # 用Neutron来实现防火墙,而非Nova
         
-        security_group_api=neutron
+        #----------------------------------------------------------------------------------------
+        #network_api_class=nova.network.neutronv2.api.API # 是python的site-packages的nova目录结构
         
-        # 注意要取消注释+添加Neutron
-        linuxnet_interface_driver=nova.network.linux_net.NeutronLinuxBridgeInterfaceDriver
+        #security_group_api=neutron
         
-        firewall_driver=nova.virt.firewall.NoopFirewallDriver # 用Neutron来实现防火墙,而非Nova
+        ## 注意要取消注释+添加Neutron
+        #linuxnet_interface_driver=nova.network.linux_net.NeutronLinuxBridgeInterfaceDriver
+        #----------------------------------------------------------------------------------------
+        
         ###########################################
         
         ```
         5. vnc
         ```
+        [DEFAULT]
+        enabled_apis=osapi_compute,metdata # 删掉ec2,因为我们没有
         my_ip=192.168.56.11
         
-        vncserver_listen=$my_ip
+        [vnc]
+        enabled = true
+        # ...
+        server_listen = $my_ip
+        server_proxyclient_address = $my_ip
         
-        vncserver_proxyclient_address=$my_ip
-        
-        lock_path=/var/lib/nova/tmp
-        
-        enabled_apis=osapi_compute,metdata # 删掉ec2,因为我们没有
         
         [glance]
-        host=$my_ip
+        # ...
+        api_servers = http://controller:9292
         
+        [oslo_concurrency]
+        # ...
+        lock_path = /var/lib/nova/tmp
+        
+        [placement]
+        # ...
+        os_region_name = RegionOne
+        project_domain_name = Default
+        project_name = service
+        auth_type = password
+        user_domain_name = Default
+        auth_url = http://controller:5000/v3
+        username = placement
+        password = placement
+        #------------------------------------------
+        
+        #vncserver_listen=$my_ip
+        
+        #vncserver_proxyclient_address=$my_ip
+        
+        #lock_path=/var/lib/nova/tmp
 
-        ```
-    4. 启动服务
-    ```
-    systemctl enable openstack-nova-api.service \
-        openstack-nova-consoleauth.service \
-        openstack-nova-cert.service \
-        openstack-nova-scheduler.service \
-        openstack-nova-conductor.service \
-        openstack-nova-novncproxy.service
-    systemctl start openstack-nova-api.service \
-        openstack-nova-consoleauth.service \
-        openstack-nova-cert.service \
-        openstack-nova-scheduler.service \
-        openstack-nova-conductor.service \
-        openstack-nova-novncproxy.service
-    systemctl status openstack-nova-api.service \
-        openstack-nova-consoleauth.service \
-        openstack-nova-cert.service \
-        openstack-nova-scheduler.service \
-        openstack-nova-conductor.service \
-        openstack-nova-novncproxy.service
-    ```
-    5. 在keystone那里注册
-    ```
-    source ~/admin-openrc.sh
-    openstack service create --name nova --description "OpenStack Compute" compute
-    openstack endpoint create --region RegionOne compute public http://192.168.56.11:8774/v2/%\(tenant_id\)s
-    openstack endpoint create --region RegionOne compute internal http://192.168.56.11:8774/v2/%\(tenant_id\)s
-    openstack endpoint create --region RegionOne compute admin http://192.168.56.11:8774/v2/%\(tenant_id\)s
-    ```
         
-    6. 验证
+        
+        #[glance]
+        #host=$my_ip
+        
+        #--------------------------------------------
+        ```
+        
+    5. 由于bug,所以要手动追加下面内容
+    ```
+    sudo vim /etc/httpd/conf.d/00-nova-placement-api.conf
+    ###########################################################
+    <Directory /usr/bin>
+       <IfVersion >= 2.4>
+          Require all granted
+       </IfVersion>
+       <IfVersion < 2.4>
+          Order allow,deny
+          Allow from all
+       </IfVersion>
+    </Directory>
+    ###########################################################
+    systemctl restart httpd
+    ```
+    6. 启动服务
+        1. 数据库导入
+        ```
+        su -s /bin/sh -c "nova-manage api_db sync" nova
+        su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova
+        su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova 
+        su -s /bin/sh -c "nova-manage db sync" nova
+        
+        nova-manage cell_v2 list_cells # 确认cell0和cell1注册成功
+        mysql -unova -pnova
+        ###########################################
+        use nova;
+        show tables;
+        ###########################################
+        ```
+        2. 启动nova服务
+        ```
+        systemctl enable openstack-nova-api.service \
+          openstack-nova-consoleauth.service openstack-nova-scheduler.service \
+          openstack-nova-conductor.service openstack-nova-novncproxy.service
+        systemctl start openstack-nova-api.service \
+          openstack-nova-consoleauth.service openstack-nova-scheduler.service \
+          openstack-nova-conductor.service openstack-nova-novncproxy.service
+        systemctl status openstack-nova-api.service \
+          openstack-nova-consoleauth.service openstack-nova-scheduler.service \
+          openstack-nova-conductor.service openstack-nova-novncproxy.service
+          
+          
+        #---------------------------------------------------
+        #systemctl enable openstack-nova-api.service \
+            openstack-nova-consoleauth.service \
+            openstack-nova-cert.service \
+            openstack-nova-scheduler.service \
+            openstack-nova-conductor.service \
+            openstack-nova-novncproxy.service
+        #systemctl start openstack-nova-api.service \
+            openstack-nova-consoleauth.service \
+            openstack-nova-cert.service \
+            openstack-nova-scheduler.service \
+            openstack-nova-conductor.service \
+            openstack-nova-novncproxy.service
+        #systemctl status openstack-nova-api.service \
+            openstack-nova-consoleauth.service \
+            openstack-nova-cert.service \
+            openstack-nova-scheduler.service \
+            openstack-nova-conductor.service \
+            openstack-nova-novncproxy.service
+        #---------------------------------------------------
+        ```
+    7. 验证
     ```
     openstack host list # 列出4个就算正常了
     ```
