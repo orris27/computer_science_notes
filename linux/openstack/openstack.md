@@ -183,6 +183,102 @@ show databases;
     show tables; # 如果出现表就说明导入数据库成功了
     ######################
     ```
+    
+    4. 连接keystone和memcache
+    ```
+    vim /etc/keystone/keystone.conf
+    ###########################################
+    verbose = true # 我这里好像是#debug = false,老师讲这个说是为了让日志级别=info=>好排除问题
+    
+    [memcache]
+    servers = 192.168.56.11:11211 # 我这里只有:memcache_servers = 192.168.56.11:11211
+    
+    [token]
+    provider = uuid # 指定
+    driver = memcache # 指定token写在memcache里,而非MySQL
+    
+    [revoke] # 回滚
+    driver = sql
+    ###########################################
+    grep '^[a-Z]' /etc/keystone/keystone.conf 
+    #######################################################################
+    admin_token = b337e9fd9ef8eee3cf2e
+    memcache_servers = 192.168.56.11:11211
+    connection = mysql://keystone:keystone@192.168.56.11/keystone
+    driver = sql
+    provider = uuid
+    driver = memcache
+    #######################################################################
+    ```
+    5. 启动keystone
+    ```
+    systemctl start memcached.service
+    
+    vim /etc/httpd/conf.d/wsgi-keystone.conf
+    ############################################################
+    Listen 5000
+    Listen 35357
+
+    <VirtualHost *:5000>
+        WSGIDaemonProcess keystone-public processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP}
+        WSGIProcessGroup keystone-public
+        WSGIScriptAlias / /usr/bin/keystone-wsgi-publi
+        WSGIApplicationGroup %{GLOBAL}
+        WSGIPassAuthorization On
+        <IfVersion >= 2.4>
+            ErrorLogFormat "%{cu}t %M"
+        </IfVersion>
+
+        ErrorLog /var/log/httpd/keystone-error.log
+        CustomLog /var/log/httpd/keystone-access.log combined
+
+        <Directory /usr/bin>
+            <IfVersion >= 2.4>
+                Require all granted
+            </IfVersion>
+            <IfVersion < 2.4>
+                Order allow,deny
+                Allow from all
+            </IfVersion>
+        </Directory>
+    </VirtualHost>
+
+
+    <VirtualHost *:35537>
+        WSGIDaemonProcess keystone-admin processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP}
+        WSGIProcessGroup keystone-admin
+        WSGIScriptAlias / /usr/bin/keystone-wsgi-admin
+        WSGIApplicationGroup %{GLOBAL}
+        WSGIPassAuthorization On
+
+        <IfVersion >= 2.4>
+            ErrorLogFormat "%{cu}t %M"
+        </IfVersion>
+
+        ErrorLog /var/log/httpd/keystone-error.log
+        CustomLog /var/log/httpd/keystone-access.log combined
+
+        <Directory /usr/bin>
+            <IfVersion >= 2.4>
+                Require all granted
+            </IfVersion>
+            <IfVersion < 2.4>
+                Order allow,deny
+                Allow from all
+            </IfVersion>
+        </Directory>
+    </VirtualHost>
+    ############################################################
+
+    vim /etc/httpd/conf/httpd.conf
+    ############################################################
+    ServerName 192.168.56.11:80 # 如果不启动这个,OpenStack就启动不了
+    ############################################################
+    systemctl enable memcached
+    systemctl enable httpd
+    systemctl start httpd
+    ```
+    
 6. glance
 ```
 yum install -y openstack-glance python-glance python-glanceclient
