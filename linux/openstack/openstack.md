@@ -868,10 +868,72 @@ systemctl status etcd
     ```
     openstack host list # 列出4个就算正常了
     ```
-10. Compute节点
+10. Compute节点 > [官方文档](https://docs.openstack.org/nova/queens/install/compute-install-rdo.html)
 + 不特别说明,其他章节都是针对控制节点,而该章节针对Compute节点
-    1. 在控制节点将nova的配置文件传输过去
+
+    1. 安装依赖包
     ```
+    yum install centos-release-openstack-queens -y
+    yum install openstack-nova-compute -y
+    ```
+    2. 在控制节点将nova的配置文件传输过去
+    ```
+    
+    
+    vim /etc/nova/nova.conf
+    ##################################################################
+    [DEFAULT]
+    enabled_apis = osapi_compute,metadata
+    use_neutron = True
+    firewall_driver = nova.virt.firewall.NoopFirewallDriver
+    my_ip = 192.168.56.12
+    transport_url = rabbit://openstack:openstack@192.168.56.11
+    
+    [api]
+    # ...
+    auth_strategy = keystone
+
+    [keystone_authtoken]
+    # ...
+    auth_url = http://192.168.56.11:5000/v3
+    memcached_servers = 192.168.56.11:11211
+    auth_type = password
+    project_domain_name = default
+    user_domain_name = default
+    project_name = service
+    username = nova
+    password = nova
+    
+    [vnc]
+    # ...
+    enabled = true
+    server_listen = 0.0.0.0
+    server_proxyclient_address = 192.168.56.12
+    novncproxy_base_url = http://192.168.56.11:6080/vnc_auto.html
+    
+    [glance]
+    # ...
+    api_servers = http://192.168.56.11:9292
+    
+    [oslo_concurrency]
+    # ...
+    lock_path = /var/lib/nova/tmp
+    
+    [placement]
+    # ...
+    os_region_name = RegionOne
+    project_domain_name = Default
+    project_name = service
+    auth_type = password
+    user_domain_name = Default
+    auth_url = http://192.168.56.11:5000/v3
+    username = placement
+    password = placement
+    ##################################################################
+    
+    
+    
+    #------------------------------------------------------------------------
     ######################################
     # Controller
     ######################################
@@ -899,11 +961,12 @@ systemctl status etcd
     [glance]
     host=192.168.56.11
     
+    #------------------------------------------------------------------------
     
     #########################################
     
     ```
-    2. 和Controller节点同步时间
+    3. 和Controller节点同步时间
     ```
     yum install -y chrony
     vim /etc/chrony.conf
@@ -911,20 +974,23 @@ systemctl status etcd
     # 删除所有
     server 192.168.56.11 iburst
     #############################################
-    tiemedatectl set-timezone Asia/Shanghai
+    timedatectl set-timezone Asia/Shanghai
     
     systemctl enable chronyd.service
     systemctl start chronyd.service
     
     chronyc sources # 验证
     ```
-    3. 启动计算节点
+    4. 启动计算节点
+    + 如果启动不了的话,尝试下面方法
+        1. 看`/var/log/messages`:如果不能打开`/etc/nova/nova.conf`=>没有权限=>查看属主,发现root:root,改成root:nova
+        2. 看`/var/log/nova/nova-compute.log`:如果说`AMQP server on controller:5672 is unreachable`,说明controller开了防火墙=>关闭防火墙
     ```
     systemctl enable libvirtd openstack-nova-compute
     systemctl start libvirtd openstack-nova-compute
     systemctl status libvirtd openstack-nova-compute
     ```
-    4. 验证
+    5. 验证
     ```
     ######################################
     # Controller
