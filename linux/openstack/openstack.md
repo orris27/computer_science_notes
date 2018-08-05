@@ -574,7 +574,7 @@ systemctl status etcd
     
     7. 上传一个镜像测试
     ```
-    wget http://download.cirrors-cloud.net/0.3.4-x84_64-disk.img
+    wget http://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img
     
     openstack image create "cirros" \
     --file cirros-0.4.0-x86_64-disk.img \
