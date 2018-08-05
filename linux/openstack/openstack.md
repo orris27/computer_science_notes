@@ -1660,7 +1660,23 @@ nova get-vnc-console hello-instance novnc
     2. 在dashoard的instances下的Overview下的Fault这里,我看到`Host 'compute' is not mapped to any cell`        
         1. 根据[这个网站](https://www.leolan.top/index.php/posts/209.html),我执行了`nova-manage cell_v2 discover_hosts`后,创建新的server,结果显示BUILD,但还是无法连接Neutron
     3. 在compute节点的neutron日志文件中,发现错误`Unserializable message: ('#ERROR', ValueError('I/O operation on closed file',))`
-        1. [这个网站](https://www.cnblogs.com/yaohong/p/7719357.html)说这个错误不影响使用..
+        1. [这个网站](https://www.cnblogs.com/yaohong/p/7719357.html)说这个错误不影响使用..=>所以我没有理会这个错误
+    4. 过了一段时间后,刚才创建的server挂了,从BUILD变成ERROR,然后看错误显示说`Failed to allocate the network(s), not rescheduling.`
+        1. 根据[这个网站](https://blog.csdn.net/sfdst/article/details/70809935),我修改了配置文件并重启服务,再删除原来的服务后再用3.4版本的镜像重新创建一个后就ACTIVE了!!
+        ```
+        vim /etc/nova/nova.conf
+        ###########################################################################################
+        #Fail instance boot if vif plugging fails  
+        vif_plugging_is_fatal = False  
+
+        #Number of seconds to wait for neutron vif  
+        #plugging events to arrive before continuing or failing  
+        #(see vif_plugging_is_fatal). If this is set to zero and  
+        #vif_plugging_is_fatal is False, events should not be expected to arrive at all.  
+        vif_plugging_timeout = 0  
+        ###########################################################################################
+        systemctl restart openstack-nova-compute.service
+        ```
 6. `More than one SecurityGroup exists with the name 'default'.`
 + 需要切换到demo用户才能创建server
 
