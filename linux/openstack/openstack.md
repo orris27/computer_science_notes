@@ -1657,7 +1657,7 @@ nova get-vnc-console hello-instance novnc
         + compute节点和controller节点时间可能不同步
         + eht0网卡可能申明不正确=>都对的
         2. 我重启了compute的`systemctl restart neutron-linuxbridge-agent.service`,发现变成`:-)`,ok了,但是server还是ERROR状态
-        
+    2. 在dashoard的instances下的Overview下的Fault这里,我看到`Host 'compute' is not mapped to any cell`        
 
 
 6. `More than one SecurityGroup exists with the name 'default'.`
