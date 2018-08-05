@@ -1656,6 +1656,7 @@ nova get-vnc-console hello-instance novnc
         1. 根据[这篇文档](https://blog.csdn.net/controllerha/article/details/78837637)
         + compute节点和controller节点时间可能不同步
         + eht0网卡可能申明不正确=>都对的
+        2. 我重启了compute的`systemctl restart neutron-linuxbridge-agent.service`,发现变成`:-)`,ok了,但是server还是ERROR状态
         
 
 
