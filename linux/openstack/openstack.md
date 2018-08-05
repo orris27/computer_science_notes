@@ -1652,8 +1652,11 @@ nova get-vnc-console hello-instance novnc
 
 5. 安装dashboard,然后启动/骚操作实例,然后会有报错
 + 我的报错是:`Unable to connect to Neutron.`
-
-
+    1. 使用`openstack network agent list`,发现compute节点的alive是"XXX"
+        1. 根据[这篇文档](https://blog.csdn.net/controllerha/article/details/78837637)
+        + compute节点和controller节点时间可能不同步
+        + eht0网卡可能申明不正确=>都对的
+        
 
 
 
