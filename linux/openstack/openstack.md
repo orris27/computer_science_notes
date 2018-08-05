@@ -1659,5 +1659,6 @@ nova get-vnc-console hello-instance novnc
         
 
 
-
+6. `More than one SecurityGroup exists with the name 'default'.`
++ 需要切换到demo用户才能创建server
 
