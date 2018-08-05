@@ -931,6 +931,9 @@ systemctl status etcd
     auth_url = http://192.168.56.11:5000/v3
     username = placement
     password = placement
+    
+    [libvirt]
+    virt_type = kvm
     ##################################################################
     
     
@@ -958,7 +961,7 @@ systemctl status etcd
     vnc_enabled=true
     vnc_keymap=en-us  
     
-    virt_type=kvm # grep -E '(vmx|svm)' /proc/cpuinfo,没有的话,只能用qemu
+    virt_type=qemu # grep -E '(vmx|svm)' /proc/cpuinfo,没有的话,只能用qemu
     
     [glance]
     host=192.168.56.11
@@ -968,7 +971,19 @@ systemctl status etcd
     #########################################
     
     ```
-    3. 和Controller节点同步时间
+    3. 添加计算机节点
+    ```
+    ############################################################################################################
+    # Controller
+    ############################################################################################################
+    . admin-openrc
+    
+    openstack compute service list --service nova-compute
+    su -s /bin/sh -c "nova-manage cell_v2 discover_hosts --verbose" nova
+    
+    nova-manage cell_v2 discover_hosts # run on the controller node to register those new compute nodes. 
+    ```
+    4. 和Controller节点同步时间
     ```
     yum install -y chrony
     vim /etc/chrony.conf
@@ -983,7 +998,7 @@ systemctl status etcd
     
     chronyc sources # 验证
     ```
-    4. 启动计算节点
+    5. 启动计算节点
     + 如果启动不了的话,尝试下面方法
         1. 看`/var/log/messages`:如果不能打开`/etc/nova/nova.conf`=>没有权限=>查看属主,发现root:root,改成root:nova
         2. 看`/var/log/nova/nova-compute.log`:如果说`AMQP server on controller:5672 is unreachable`,说明controller开了防火墙=>关闭防火墙
@@ -993,7 +1008,7 @@ systemctl status etcd
     systemctl start libvirtd openstack-nova-compute
     systemctl status libvirtd openstack-nova-compute
     ```
-    5. 验证
+    6. 验证
     ```
     ######################################
     # Controller
