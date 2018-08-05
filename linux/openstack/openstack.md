@@ -1658,7 +1658,8 @@ nova get-vnc-console hello-instance novnc
         + eht0网卡可能申明不正确=>都对的
         2. 我重启了compute的`systemctl restart neutron-linuxbridge-agent.service`,发现变成`:-)`,ok了,但是server还是ERROR状态
     2. 在dashoard的instances下的Overview下的Fault这里,我看到`Host 'compute' is not mapped to any cell`        
-
+        1. 根据[这个网站](https://www.leolan.top/index.php/posts/209.html),我执行了`nova-manage cell_v2 discover_hosts`后,创建新的server,结果显示BUILD,但还是无法连接Neutron
+    3. 在compute节点的neutron日志文件中,发现错误`Unserializable message: ('#ERROR', ValueError('I/O operation on closed file',))`
 
 6. `More than one SecurityGroup exists with the name 'default'.`
 + 需要切换到demo用户才能创建server
