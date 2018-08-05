@@ -1372,6 +1372,54 @@ systemctl status etcd
 
 
 
+11. 创建1个实例
+```
+############################################################
+# Controller
+############################################################
+source admin-openrc.sh
+
+grep physical_interface_mappings /etc/neutron/plugins/ml2/linuxbridge_agent.ini
+#######################
+physical_interfacae_mappings = physnet1:eth0 #physnet1是随便设的
+#######################
+
+# 创建网络
+
+
+#-------------------------------------------------------------------
+#neutron net-create flat --shared \
+#  --provider:physical_network physnet1 \
+#  --provider:network_type flat
+#-------------------------------------------------------------------
+
+openstack network create  --share --external \
+  --provider-physical-network provider \
+  --provider-network-type flat provider # 可能不应该创建external的.provider应该是网络名把
+
+
+
+
+# 创建子网
+#-------------------------------------------------------------------
+#neutron subnet-create flat 192.168.56.0/24 --name flat-subnet \
+#  --alocation-pool start=192.168.56.100,end=192.168.56.200
+#  --dns-nameserver 192.168.56.2 --gateway 192.168.56.2  
+#-------------------------------------------------------------------
+  
+  
+openstack subnet create --network provider \
+  --allocation-pool start=192.168.56.100,end=192.168.56.200 \
+  --dns-nameserver 8.8.8.8 --gateway 192.168.56.2 \
+  --subnet-range 192.168.56.0/24 provider
+
+neutron net-list # DHCP一定要关闭(菜单栏的NAT那里不要勾选DHCP就可以了)
+
+
+
+
+```
+
 
 
 
