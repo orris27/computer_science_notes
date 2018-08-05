@@ -80,6 +80,9 @@ sudo make && sudo make install
 > https://github.com/orris27/orris/blob/master/linux/shell/command.md
 
 
+## 6. 关键
+1. lock文件
+2. 日志文件
 
 
 ### 注意
