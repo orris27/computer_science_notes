@@ -1373,6 +1373,8 @@ systemctl status etcd
 
 
 11. 创建1个实例
+> [官方provider网络文档](https://docs.openstack.org/install-guide/launch-instance-networks-provider.html)
+> [官方创建实例](https://docs.openstack.org/install-guide/launch-instance.html#create-virtual-networks)
 ```
 ############################################################
 # Controller
@@ -1417,10 +1419,172 @@ neutron net-list # DHCP一定要关闭(菜单栏的NAT那里不要勾选DHCP就�
 
 
 
+# 自己创建一个flavour(虚拟机的配置,包括内存大小啊,磁盘等)
+source ~/admin-openrc.sh
+openstack flavor create --id 0 --vcpus 1 --ram 64 --disk 1 m1.nano # 需要admin身份
+
+source ~/demo-openrc.sh
+ssh-keygen -q -N "" # 需要完整输入/root/.ssh/id_rsa确认
+ls .ssh/ # 出现了就行
+openstack keypair create --public-key ~/.ssh/id_rsa.pub mykey 
+openstack keypair list
+
+openstack security group rule create --proto icmp default
+openstack security group rule create --proto tcp --dst-port 22 default
+openstack flavor list
+
+openstack image list
+openstack network list
+openstack security group list
+openstack keypair list
+
+openstack server create --flavor m1.nano --image cirros \
+  --nic net-id=8846d656-c107-4216-9fc9-22402f49484b --security-group default \
+  --key-name mykey provider-instance
+
+
+openstack server list
+
+openstack console url show provider-instance
+
+#-----------------------------------------------------------
+source ~/demo-openrc.sh
+ssh-keygen -q -N ""
+ls .ssh/
+# 创建虚拟机的时候,把公钥放在虚拟机里面=>可以直接连接了
+nova keypair-add --pub-key .ssh/id_rsa.pub mykey
+nova keypair-list # 列出来就没问题了
+
+# 防火墙,安全组默认只有的default
+nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
+nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
+
+# 查看有哪些虚拟机
+nova flavor-list # 选个最小的虚拟机
+
+nova image-list # 需要什么镜像
+
+neutron net-list # 需要什么网络
+# 配置 镜像 网络 安全组 钥匙对 名称
+nova boot --flavor ml.tiny --image cirrors \
+  --nic net-id=b997cxxxx --security-group default \
+  --key-name mykey hello-instance # 这些flavour,image,id什么的都是看上面的.hello-instance
+
+nova list # 创建出来就是状态成功了=>status如果是active就好了
+# ping 下这个网络就好了
+ssh cirros@192.168.56.101 # 就可以连接了
+############################################################
+ifconfig # controller和新虚拟机上都可以尝试
+############################################################
+
+nova get-vnc-console hello-instance novnc 
+# 通过url就去访问
 
 ```
+image所需要的磁盘空间可能和我们的flavour不一致
+
+12. OpenStack最终配置情况如下:
+```
+[root@controller ~]# openstack flavor list
++----+---------+-----+------+-----------+-------+-----------+
+| ID | Name    | RAM | Disk | Ephemeral | VCPUs | Is Public |
++----+---------+-----+------+-----------+-------+-----------+
+| 0  | m1.nano |  64 |    1 |         0 |     1 | True      |
++----+---------+-----+------+-----------+-------+-----------+
+[root@controller ~]# openstack image list
++--------------------------------------+--------+--------+
+| ID                                   | Name   | Status |
++--------------------------------------+--------+--------+
+| fa5f5dcb-6c1d-4d6b-8550-bdcc95a2df60 | cirros | active |
++--------------------------------------+--------+--------+
+[root@controller ~]# openstack network list
++--------------------------------------+----------+--------------------------------------+
+| ID                                   | Name     | Subnets                              |
++--------------------------------------+----------+--------------------------------------+
+| 8846d656-c107-4216-9fc9-22402f49484b | provider | 2efa14c6-ce85-4188-b6c8-47e323da638f |
++--------------------------------------+----------+--------------------------------------+
+[root@controller ~]# openstack security group list
++--------------------------------------+---------+------------------------+----------------------------------+
+| ID                                   | Name    | Description            | Project                          |
++--------------------------------------+---------+------------------------+----------------------------------+
+| 31a4714b-a9c5-41a7-a446-56e28ca3a5e9 | default | Default security group | 00dba441e74d4f02815ed3076142d5c8 |
++--------------------------------------+---------+------------------------+----------------------------------+
+[root@controller ~]# openstack keypair list
++-------+-------------------------------------------------+
+| Name  | Fingerprint                                     |
++-------+-------------------------------------------------+
+| mykey | d0:3c:33:47:62:e3:87:d2:46:3d:44:78:8b:17:d6:6d |
++-------+-------------------------------------------------+
+[root@controller ~]# openstack server create --flavor m1.nano --image cirros \
+>   --nic net-id=8846d656-c107-4216-9fc9-22402f49484b --security-group default \
+>   --key-name mykey provider-instance
++-----------------------------+-----------------------------------------------+
+| Field                       | Value                                         |
++-----------------------------+-----------------------------------------------+
+| OS-DCF:diskConfig           | MANUAL                                        |
+| OS-EXT-AZ:availability_zone |                                               |
+| OS-EXT-STS:power_state      | NOSTATE                                       |
+| OS-EXT-STS:task_state       | scheduling                                    |
+| OS-EXT-STS:vm_state         | building                                      |
+| OS-SRV-USG:launched_at      | None                                          |
+| OS-SRV-USG:terminated_at    | None                                          |
+| accessIPv4                  |                                               |
+| accessIPv6                  |                                               |
+| addresses                   |                                               |
+| adminPass                   | dnvBf3n97Q3Z                                  |
+| config_drive                |                                               |
+| created                     | 2018-08-05T06:13:06Z                          |
+| flavor                      | m1.nano (0)                                   |
+| hostId                      |                                               |
+| id                          | c6698a7b-e2e9-4de9-91de-3c6b2b4c0531          |
+| image                       | cirros (fa5f5dcb-6c1d-4d6b-8550-bdcc95a2df60) |
+| key_name                    | mykey                                         |
+| name                        | provider-instance                             |
+| progress                    | 0                                             |
+| project_id                  | 00dba441e74d4f02815ed3076142d5c8              |
+| properties                  |                                               |
+| security_groups             | name='31a4714b-a9c5-41a7-a446-56e28ca3a5e9'   |
+| status                      | BUILD                                         |
+| updated                     | 2018-08-05T06:13:06Z                          |
+| user_id                     | 61db932328f844b8b5f1b3a8d38bfd2f              |
+| volumes_attached            |                                               |
++-----------------------------+-----------------------------------------------+
+
+[root@controller nova]# openstack server list
++--------------------------------------+-------------------+--------+----------+--------+---------+
+| ID                                   | Name              | Status | Networks | Image  | Flavor  |
++--------------------------------------+-------------------+--------+----------+--------+---------+
+| c6698a7b-e2e9-4de9-91de-3c6b2b4c0531 | provider-instance | ERROR  |          | cirros | m1.nano |
++--------------------------------------+-------------------+--------+----------+--------+---------+
 
 
+[root@controller nova]# openstack image show fa5f5dcb-6c1d-4d6b-8550-bdcc95a2df60
++------------------+------------------------------------------------------+
+| Field            | Value                                                |
++------------------+------------------------------------------------------+
+| checksum         | 443b7623e27ecf03dc9e01ee93f67afe                     |
+| container_format | bare                                                 |
+| created_at       | 2018-08-04T09:41:29Z                                 |
+| disk_format      | qcow2                                                |
+| file             | /v2/images/fa5f5dcb-6c1d-4d6b-8550-bdcc95a2df60/file |
+| id               | fa5f5dcb-6c1d-4d6b-8550-bdcc95a2df60                 |
+| min_disk         | 0                                                    |
+| min_ram          | 0                                                    |
+| name             | cirros                                               |
+| owner            | e471412bd08b4b5292066e4cf5e7e45b                     |
+| protected        | False                                                |
+| schema           | /v2/schemas/image                                    |
+| size             | 12716032                                             |
+| status           | active                                               |
+| tags             |                                                      |
+| updated_at       | 2018-08-04T09:41:29Z                                 |
+| virtual_size     | None                                                 |
+| visibility       | public                                               |
++------------------+------------------------------------------------------+
+
+
+
+```
 
 
 
