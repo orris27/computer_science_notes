@@ -1481,9 +1481,59 @@ nova get-vnc-console hello-instance novnc
 # 通过url就去访问
 
 ```
-image所需要的磁盘空间可能和我们的flavour不一致
 
-12. OpenStack最终配置情况如下:
+12. 安装dashboard > [第三方文档](https://blog.csdn.net/LL_JCB/article/details/80221646)
+    1. 安装软件包
+    ```
+    yum install openstack-dashboard -y
+    ```
+    
+    2. 编辑`/etc/openstack-dashboard/local_settings`文件完成如下配置
+    ```
+    vim /etc/openstack-dashboard/local_settings
+    ############################################################################################
+    ...
+    OPENSTACK_HOST = "controller"   #配置界面在控制节点使用
+    ...
+    ALLOWED_HOSTS = ['*']           #允许所有主机访问
+    ...
+    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'   #配置memcached存储服务
+    ...
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': 'controller:11211',
+        },
+    }
+    ...
+    OPENSTACK_KEYSTONE_URL = "http://%s:5000/v3" % OPENSTACK_HOST  #启动v3的认证api
+    ...
+    OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT = True  #启用domain支持
+    ...
+    OPENSTACK_API_VERSIONS = {     #配置api版本
+        "identity": 3,
+        "image": 2,
+        "volume": 2,
+    }
+    ...
+    OPENSTACK_KEYSTONE_DEFAULT_DOMAIN = 'Default'  #配置default为默认域
+    ...
+    OPENSTACK_KEYSTONE_DEFAULT_ROLE = "user"       #配置user角色为默认角色
+    ...
+    TIME_ZONE = "Asia/Shanghai"   #设置时区
+    ############################################################################################
+    ```
+    3. 重启httpd和memcached服务
+    ```
+    systemctl restart httpd.service memcached.service
+    ```
+    
+    4. 验证
+        1. 在浏览器输入http://192.168.0.77/dashboard
+        2. 使用admin用户或者demo用户登录，default作为默认域
+        + admin:ADMIN_PASS demo:demo
+
+13. OpenStack最终配置情况如下:
 ```
 [root@controller ~]# openstack flavor list
 +----+---------+-----+------+-----------+-------+-----------+
@@ -1590,6 +1640,7 @@ image所需要的磁盘空间可能和我们的flavour不一致
 
 
 创建出来的虚拟机是ERROR状态
+
 1. 同步时间
 + 子节点通过暂停chronyd,然后变成正确时间后再打开服务同步了,但还是没用...
 
@@ -1599,8 +1650,8 @@ image所需要的磁盘空间可能和我们的flavour不一致
 3. compute要有可用资源 
 4.查看所有服务是不是都是正常的
 
-
-
+5. 安装dashboard,然后启动/骚操作实例,然后会有报错
++ 我的报错是:`Unable to connect to Neutron.`
 
 
 
