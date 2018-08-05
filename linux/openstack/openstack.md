@@ -1695,6 +1695,10 @@ nova get-vnc-console hello-instance novnc
         ```
     5. 登录url后发现`stuck in ""Booting from Hard Disk ... GRUB"`
         1. 根据[这个网站](https://github.com/AJNOURI/COA/issues/50),可能是我的virt_type=kvm不太好,所以可以考虑改成qemu=>改成了qemu后,确实跳过`GRUB`了,但是卡在`further output written to /dev/ttyS0`了
+    6. 通过URL的VNC登录虚拟机发现卡在`further output written to /dev/ttyS0`
+        1. 这不是问题.过段时间就好了,并且能登录了!!根据提示的用户名和密码登录
+        + 我这边显示的用户名是`cirros`,密码是`cubswin:)`(包括后面的表情)
+    7. 上面步骤创建的虚拟机没有网络...ping不通也ssh不通
 6. `More than one SecurityGroup exists with the name 'default'.`
 + 需要切换到demo用户才能创建server
 
