@@ -852,6 +852,19 @@ ifconfig lo:0 172.19.28.82/32 up
 ifconfig eth0:0 down
 ```
 
+### 26-15. ip
+#### 26-15-1. ip ad li
+类似于`ifconfig`
+#### 26-15-2. ip netns
+1. `li`: 列出所有命名空间
+2. `exec`:在指定命名空间中执行命令
+```
+ip netns exec qdhcp-8846d656-c107-4216-9fc9-22402f49484b ifconfig
+ip netns exec qdhcp-8846d656-c107-4216-9fc9-22402f49484b netstat -lntup
+```
+
+
+
 ## 27. chkconfig
 设置开机自启动.
 + 如果是自己设计的脚本的话,想要开机启动,可以添加到`/etc/rc.local`(添加的方法类似于`crontab`)
