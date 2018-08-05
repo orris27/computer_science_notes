@@ -1677,6 +1677,8 @@ nova get-vnc-console hello-instance novnc
         ###########################################################################################
         systemctl restart openstack-nova-compute.service
         ```
+    5. 登录url后发现`stuck in ""Booting from Hard Disk ... GRUB"`
+        1. 根据[这个网站](https://github.com/AJNOURI/COA/issues/50),可能是我的virt_type=kvm不太好,所以可以考虑改成qemu
 6. `More than one SecurityGroup exists with the name 'default'.`
 + 需要切换到demo用户才能创建server
 
