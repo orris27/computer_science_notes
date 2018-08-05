@@ -1197,6 +1197,7 @@ systemctl status etcd
             auth_url = http://controller:35357
             auth_type = password
             project_domain_name = default
+10. Neutron控制节点 > [第三方文档](https://blog.csdn.net/LL_JCB/article/details/80193734)(需要在新窗口打开,否则502错误)+[官方文档](https://docs.openstack.org/neutron/queens/install/controller-install-rdo.html)+官方文档下面的蓝点(里面包含网络的配置文件)
             user_domain_name = default
             region_name = RegionOne
             project_name = service
@@ -1246,6 +1247,149 @@ systemctl status etcd
     ```
     neutron agent-list # 出来结果就说明安装成功
     ```
+    
+    
+    
+10. Neutron计算节点 > [第三方文档](https://blog.csdn.net/LL_JCB/article/details/80193734)(需要在新窗口打开,否则502错误)+[官方文档](https://docs.openstack.org/neutron/queens/install/compute-install-rdo.html)+官方文档下面的蓝点(里面包含网络的配置文件)
+```
+################################################################
+# Compute
+################################################################
+yum install openstack-neutron-linuxbridge ebtables ipset -y
+
+scp /etc/neutron/neutron,conf 192.168.56.12:/etc/neutron/
+scp /etc/neutron/plugins/ml2/linuxbridge_agent.ini 192.168.56.12:/etc/neutron/plugins/ml2/
+scp /etc/neutron/plugins/ml2/ml2_conf.ini 192.168.56.12:/etc/neutron/plugins/ml2/
+
+vim /etc/nova/nova.conf
+#################################################
+[neutron]
+url=
+auth_url=
+...
+
+#################################################
+systemctl restart openstack-nova-compute
+
+ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
+
+
+systemctl enable xxx
+systemctl start xxxx
+
+
+################################################################
+# Controller
+################################################################
+neutron agent list # 总共4个
+
+```
+
+
+
+
+
+```
+################################################################
+# Compute
+################################################################
+yum install openstack-neutron-linuxbridge ebtables ipset -y
+
+vim /etc/neutron/neutron.conf
+#########################################################ok
+[DEFAULT]
+transport_url = rabbit://openstack:openstack@192.168.56.11
+auth_strategy = keystone
+...
+
+[keystone_authtoken]
+auth_uri = http://192.168.56.11:5000
+auth_url = http://192.168.56.11:35357
+memcached_servers = 192.168.56.11:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = neutron
+password = neutron
+...
+
+[oslo_concurrency]
+lock_path = /var/lib/neutron/tmp
+...
+#########################################################
+
+
+vim /etc/neutron/plugins/ml2/linuxbridge_agent.ini
+#########################################################
+[linux_bridge]
+physical_interface_mappings = provider:eth0  #第二张网卡名
+...
+
+[vxlan]
+enable_vxlan = false
+...
+
+[securitygroup]
+enable_security_group = true
+firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
+...
+#########################################################
+
+
+vim /etc/nova/nova.conf
+#########################################################ok
+[neutron]
+url = http://192.168.56.11:9696
+auth_url = http://192.168.56.11:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = RegionOne
+project_name = service
+username = neutron
+password = neutron
+...
+#########################################################
+
+
+
+vim /etc/sysctl.conf
+#########################################################
+net.bridge.bridge-nf-call-iptables=1
+net.bridge.bridge-nf-call-ip6tables=1
+#########################################################
+modprobe br_netfilter
+sysctl -p
+
+
+systemctl restart openstack-nova-compute.service
+systemctl status openstack-nova-compute.service
+
+systemctl enable neutron-linuxbridge-agent.service
+systemctl start neutron-linuxbridge-agent.service
+systemctl status neutron-linuxbridge-agent.service
+
+
+#=============================================================
+# Compute
+################################################################
+source ~/admin-openrc.sh
+
+openstack extension list --network # 会输出很多
+openstack network agent list # 如果出现linux bridge agent并且节点是compute,就说明neutron安装好了
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 
