@@ -1653,9 +1653,8 @@ nova get-vnc-console hello-instance novnc
 
 
 
-
+## 3. 问题
 创建出来的虚拟机是ERROR状态
-
 1. 同步时间
 + 子节点通过暂停chronyd,然后变成正确时间后再打开服务同步了,但还是没用...
 
