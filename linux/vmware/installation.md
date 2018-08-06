@@ -351,3 +351,17 @@ NAME=ens33
         IPV6_ADDR_GEN_MODE=stable-privacy
         NAME=eth0
         ```
+
+
+## 6. Ubuntu双系统安装
+1. 下载desktop的镜像文件`ubuntu-18.04.1-desktop-amd64.iso`.
+2. 刻录到U盘
+    1. 下载`ultraios`软件
+    2. 打开下载好的Ubuntu镜像文件
+    3. 点击Bootable>Write Disk Image,然后选择写入(U盘数据会丢失)
+    4. 刻录好或,关闭`ultraios`软件
+3. 获得未分配的磁盘
+    1. 打开"计算机管理"
+    2. 选择一个比较大的磁盘,右击>Shrink Volumes
+    3. 填入要给Ubuntu的磁盘空间
+    
