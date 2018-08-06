@@ -53,11 +53,7 @@ sudo vim dns.sls
     - group: root
     - mode: 644
     - template: jinja
-    - defaults:cd /srv/pillar/base
-cat >zabbix.agent <<EOF
-zabbix-agent:
-  Zabbix_Server: 172.19.28.82
-EOF
+    - defaults:
       DNS_SERVER: happy
 ###############
 ```
@@ -99,15 +95,6 @@ sudo salt '*' state.highstate
 
 
 
-
-
-cd /srv/pillar/base
-cat >zabbix.agent <<EOF
-zabbix-agent:
-  Zabbix_Server: 172.19.28.82
-EOF
-
-
 ### 1-2. top.sls
 + 一定放在base环境下
 + `top.sls`是top file,因为master配置文件里写着`state_top: top.sls`
@@ -145,31 +132,6 @@ base:
     - watch:
 
 ```
-
-
-
-
-cd /srv/pillar/base
-cat >zabbix.agent <<EOF
-zabbix-agent:
-  Zabbix_Server: 172.19.28.82
-EOF
-
-
-
-
-
-
-
-
-
-cd /srv/pillar/base
-cat >zabbix.agent <<EOF
-zabbix-agent:
-  Zabbix_Server: 172.19.28.82
-EOF
-
-
 
 
 ----------------------------------------------------------------
