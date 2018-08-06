@@ -537,25 +537,7 @@ cat >> top.sls <<EOF
 prod:
   'linux-node1.example.com':
     - cluster.haproxy-outside
-  'linux-node3.example.com':zabbix-agent-install:
-  pkg.installed
-    - name: zabbix-agent
-
-  file.managed:
-    - name: /etc/zabbix_agentd.conf
-    - source: salt://init/files/zabbix_agentd.
-conf
-    - template: jinja
-    - defaults:
-      Server: {{ pillar['zabbix_agent']['Zabbi
-x_Server'] }}
-    - require:
-      - pkg: zabbix-agent-install:
- 
-  service.running:
-    - enable: True
-    - watch:
-
+  'linux-node3.example.com':
     - cluster.haproxy-outside
 EOF
 ```
