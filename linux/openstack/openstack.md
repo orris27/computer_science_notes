@@ -1645,7 +1645,23 @@ nova get-vnc-console hello-instance novnc
     2. Compute
         1. 给compute节点添加一块新的磁盘
         + shutdown虚拟机,然后点击settings>添加>硬盘(下一步)>SCSI(下一步)>创建新虚拟磁盘(下一步)>50G>随便放哪里
-        2. 给lvm上添加一个filter,说明只有实例能访问磁盘
+        2. 执行下面代码
+            1. 安装软件包
+            2. 启动lvm2-lvmetad服务
+            3. 创建LVM的物理卷和物理卷的组`cinder-volumes`
+            4. 给lvm上添加一个filter,说明只有实例能访问磁盘
+            5. 修改cinder的配置文件
+                1. 设置连接数据库的身份验证
+                2. 设置连接keystone的身份验证
+                3. 设置连接RabbitMQ的身份验证
+                4. 设置连接glance的信息
+                5. 启动LVM,并设置LVM信息,如使用什么物理卷组或协议等
+                6. 设置lock的位置
+            6. 确认下cinder是否都处于up状态
+            + 时间不同步可能会down状态=>同步时间(比如在compute节点上执行`ntpdate ntp1.aliyun.com`)
+            + 如果还是down状态,重启下openstack-cinder-volume
+            7. 登录dashboard,创建云硬盘
+            +
         ```
         yum install lvm2 device-mapper-persistent-data -y
         yum install openstack-cinder targetcli python-keystone -y
@@ -1711,7 +1727,11 @@ nova get-vnc-console hello-instance novnc
         
         systemctl enable openstack-cinder-volume.service target.service
         systemctl start openstack-cinder-volume.service target.service
+        systemctl status openstack-cinder-volume.service target.service
         
+        
+        
+        cinder service-list # 都up才行
         
         ```
 
