@@ -102,6 +102,7 @@ exit
   ```
   2. exit不会终止容器式进入容器
   + 这样真的是进入容器了吗?我感觉好像如果修改里面的文件会直接影响到我的物理机?
+  + 我觉得还是`docker exec -it <docker_name> /bin/bash`比较好?
   ```
   yum install util-linux  # 如果没有nsenter的话就需要安装这个包
   docker start <docker_id>
