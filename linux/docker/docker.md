@@ -292,9 +292,7 @@ RUN echo "daemon off;">>/etc/nginx/nginx.conf
 EXPOSE 80
 CMD ["nginx"]
 #######################################################
-docker run -d -p 5000:5000 registry
 
-curl 192.168.56.10:5000/v1/search
 
 docker build -t oldboyedu/orris_nginx:v3 /opt/dockerfile/nginx
 
@@ -304,7 +302,14 @@ docker run --name nginxv3 -d -p 83:80 oldboyedu/orris_nginx:v3
 ```
 
 ## 7. 仓库
+1. Dockfile构建镜像
+2. 打上标签,push到仓库里
+3. 其他节点直接pull下来
 ```
+
+docker run -d -p 5000:5000 registry
+curl 192.168.56.10:5000/v1/search
+
 docker tag oldboyedu/mynginx:v3 192.168.56.10:5000/oldboyedu/mynginx:latest
 docker push 192.168.56.10:5000/oldboyedu/mynginx:latest
 
@@ -315,17 +320,97 @@ yum install -y nginx
 cd /etc/nginx/conf.d/ # nginx会默认去包含这个目录下的conf文件
 ################################################
 upstream docker-registry {
+  server 127.0.0.1:5000;
+}
 
+server {
+  listen 443;
+  server_name registry.oldboyedu.com;
+  ssl on;
+  ssl_certificate /etc/ssl/nginx.crt;
+  ssl_certificate_key /etc/ssl/nginx.key;
+  proxy_set_header Host $http_host;
+  proxy_set header X-Real_IP $remote_addr;
+  client_max_body_size 0;
+  chunked_transfer_encoding on;
+  location / {
+    auth_basic "Docker";
+    auth_basic_user_file /etc/nginx/conf.d/docer-registry.htpasswd;
+    proxy_pass http://docker-registry;
+  }
+  location /_ping {
+    auth_basic off;
+    proxy_pass http://docker-registry;
+  }
+  location /v1/_ping {
+    auth_basic off;
+    proxy_pass http://docker-registry;
+  }
 }
 ################################################
+
+
+# 做https的认证(sign和commit的时候按y)
 
 cd /etc/pki/CA
 touch ./{serial,index.txt}
 echo "00">serial
 openssl genrsa -out private/cakey.pem 2048
+openssl req -new -x509 -key private/cakey.pem -days 3650 -out cacert.pem
+################################################生成一个根证书
+CN
+Beijing
+Beijing
+oldboyedu
+docker
+registry.oldboyedu.com
+admin@oldboyedu.com
+################################################
+cd /etc/ssl
+openssl genrsa -out nginx.key 2048
+openssl req -new -key nginx.key -out nginx.csr
+################################################
+CN
+Beijing
+Beijing
+oldboyedu
+docker
+registry.oldboyedu.com
+admin@oldboyedu.com
+################################################
+# 签发证书
+openssl ca -in nginx.csr -days 3650 -out nginx.crt
 
+# 让系统接收/承认我们自签发的证书
+cat /etc/pki/CA/cacert.pem >>/etc/pki/tls/certs/ca-bundle.crt
 
+htpasswd -c /etc/nginx/conf.d/docker-registry.htpasswd oldboy
+#########密码设置成123123
+123123
+123123
+#########
+systemctl start nginx
 
+netstat -lntup | grep 443 # 如果有的话,就是nginx有了
+
+# 做个绑定
+echo "192.168.56.10 registry.oldboyedu.com" >> /etc/hosts
+
+docker login -u oldboy -p 123123 -e admin@oldboyedu.com registry.oldboyedu.com
+
+# 如果登录失败的话,就只能修改成ip地址了,否则我们可以直接使用域名push
+vim /etc/sysconfig/docker 
+####################################
+OPTIONS='--selinux-enabled --insecure-registry 192.168.56.10:5000'
+####################################
+systemctl rstart docker 
+docker start <docker_id>
+
+docker tag oldboyedu/mynginx:v3 192.168.56.10:5000/oldboyedu/nginx:latest
+docker push 192.168.56.10:5000/oldboyedu/nginx:latest
+
+# 其他节点可以直接pull下来
+docker pull 192.168.56.10:5000/oldboyedu/nginx
 
 ```
 
