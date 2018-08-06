@@ -114,22 +114,7 @@ sudo salt '*' state.highstate
 base:
   'web:hello':
     - match: grain
-    - apachezabbix-agent-install:
-  pkg.installed
-    - name: zabbix-agent
-
-  file.managed:
-    - name: /etc/zabbix_agentd.conf
-    - source: salt://init/files/zabbix_agentd.conf
-    - template: jinja
-    - defaults:
-      Server: {{ pillar['zabbix_agent']['Zabbix_Server'] }}
-    - require:
-      - pkg: zabbix-agent-install:
- 
-  service.running:
-    - enable: True
-    - watch:
+    - apache
 
 ```
 
