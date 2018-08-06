@@ -1646,14 +1646,70 @@ nova get-vnc-console hello-instance novnc
         + shutdown虚拟机,然后点击settings>添加>硬盘(下一步)>SCSI(下一步)>创建新虚拟磁盘(下一步)>50G>随便放哪里
         2. 给lvm上添加一个filter,说明只有实例能访问磁盘
         ```
+        yum install lvm2 device-mapper-persistent-data -y
+        yum install openstack-cinder targetcli python-keystone -y
+        
+        systemctl enable lvm2-lvmetad.service
+        systemctl start lvm2-lvmetad.service
+        
+        # Create the LVM physical volume /dev/sdb:
         pvcreate /dev/sdb
+        # Create the LVM volume group cinder-volumes:
         vgcreate cinder-volumes /dev/sdb
+        
         vim /etc/lvm/lvm.conf
         ######################################
         devices{
             # ...
-            filter = [ "a/sdb/", "r/.*/" ]
+            filter = [ "a/sdb/", "r/.*/"]
         }
+        ######################################
+        
+        
+        vim /etc/cinder/cinder.conf 
+        ######################################
+        [DEFAULT]
+        # ...
+        transport_url = rabbit://openstack:openstack@controller
+        auth_strategy = keystone
+        my_ip = 192.168.56.12
+        enabled_backends = lvm
+        glance_api_servers = http://192.168.56.11:9292
+        
+        
+        
+        [database]
+        # ...
+        connection = mysql+pymysql://cinder:cinder@192.168.56.11/cinder
+        
+        
+        [keystone_authtoken]
+        # ...
+        auth_uri = http://192.168.56.11:5000
+        auth_url = http://192.168.56.11:35357
+        memcached_servers = 192.168.56.11:11211
+        auth_type = password
+        project_domain_id = default
+        user_domain_id = default
+        project_name = service
+        username = cinder
+        password = cinder
+        
+        [lvm] # If the [lvm] section does not exist, create it
+        volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+        volume_group = cinder-volumes
+        iscsi_protocol = iscsi
+        iscsi_helper = lioadm
+        
+        [oslo_concurrency]
+        # ...
+        lock_path = /var/lib/cinder/tmp
+        ######################################
+        
+        systemctl enable openstack-cinder-volume.service target.service
+        systemctl start openstack-cinder-volume.service target.service
+        
+        
         ```
 
 
