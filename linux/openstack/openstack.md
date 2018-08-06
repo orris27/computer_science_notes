@@ -1660,6 +1660,7 @@ nova get-vnc-console hello-instance novnc
             6. 确认下cinder是否都处于up状态
             + 时间不同步可能会down状态=>同步时间(比如在compute节点上执行`ntpdate ntp1.aliyun.com`)
             + 如果还是down状态,重启下openstack-cinder-volume
+            + 如果出现
             7. 登录dashboard,创建云硬盘
             +
         ```
@@ -1714,7 +1715,8 @@ nova get-vnc-console hello-instance novnc
         username = cinder
         password = cinder
         
-        [lvm] # If the [lvm] section does not exist, create it
+        # If the [lvm] section does not exist, create it.这个提示不能和[lvm]放在同一行,否则openstack-cinder-volume.service会无法启动
+        [lvm]
         volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
         volume_group = cinder-volumes
         iscsi_protocol = iscsi
