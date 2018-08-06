@@ -308,6 +308,8 @@ curl 192.168.56.10:5000/v2/_catalog # 查看仓库里的镜像
 ```
 ### 7-2. push的前置条件
 #### 7-2-1. 自己配置HTTPS
+使用openssl自行签发证书 > [参考文档](https://yeasy.gitbooks.io/docker_practice/repository/registry_auth.html)
++ 这里假设我们将要搭建的私有仓库地址为`registry.oldboyedu.com`,下面我们介绍使用 openssl 自行签发`registry.oldboyedu.com`的站点 SSL 证书。
 ```
 # 如果没有nginx包的话,执行这个:rpm -ivh https://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm
 yum install -y nginx
@@ -328,7 +330,7 @@ server {
   ssl_certificate /etc/ssl/nginx.crt;
   ssl_certificate_key /etc/ssl/nginx.key;
   proxy_set_header Host $http_host;
-  proxy_set header X-Real_IP $remote_addr;
+  proxy_set_header X-Real-IP $remote_addr;
   client_max_body_size 0;
   chunked_transfer_encoding on;
   location / {
@@ -384,6 +386,7 @@ openssl ca -in nginx.csr -days 3650 -out nginx.crt
 # 让系统接收/承认我们自签发的证书
 cat /etc/pki/CA/cacert.pem >>/etc/pki/tls/certs/ca-bundle.crt
 
+# 如果没有htpasswd这个命令的话,需要安装httpd
 htpasswd -c /etc/nginx/conf.d/docker-registry.htpasswd oldboy
 #########密码设置成123123
 123123
