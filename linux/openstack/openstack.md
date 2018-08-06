@@ -1895,3 +1895,20 @@ nova get-vnc-console hello-instance novnc
 6. `More than one SecurityGroup exists with the name 'default'.`
 + 需要切换到demo用户才能创建server
 
+
+## 4. 允许在Dashboard上修改密码(未完全)
+1. 修改Dashboard的配置文件,允许输入密码,然后重启httpd服务
+2. 在compute节点上修改nova的配置文件
+```
+vim /etc/openstack-dashboard/local_settings
+###################################################################
+OPENSTACK_HYPERVISOR_FEATURES = {
+    'can_set_mount_point': True,
+    'can_set_password': True,
+    'requires_keypair': True,
+    'enable_quotas': True
+}
+###################################################################
+systemctl restart httpd
+```
+
