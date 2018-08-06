@@ -1652,6 +1652,7 @@ nova get-vnc-console hello-instance novnc
         
         systemctl enable lvm2-lvmetad.service
         systemctl start lvm2-lvmetad.service
+        systemctl status lvm2-lvmetad.service
         
         # Create the LVM physical volume /dev/sdb:
         pvcreate /dev/sdb
@@ -1665,6 +1666,7 @@ nova get-vnc-console hello-instance novnc
             filter = [ "a/sdb/", "r/.*/"]
         }
         ######################################
+        systemctl restart lvm2-lvmetad.service
         
         
         vim /etc/cinder/cinder.conf 
