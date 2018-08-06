@@ -1729,7 +1729,9 @@ nova get-vnc-console hello-instance novnc
         systemctl start openstack-cinder-volume.service target.service
         systemctl status openstack-cinder-volume.service target.service
         
-        
+        #######################################################################################
+        # Controller
+        #######################################################################################
         
         cinder service-list # 都up才行
         
