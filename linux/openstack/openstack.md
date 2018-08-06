@@ -1548,7 +1548,105 @@ nova get-vnc-console hello-instance novnc
         2. 使用admin用户或者demo用户登录，default作为默认域
         + admin:ADMIN_PASS demo:demo
 
-13. OpenStack最终配置情况如下:
+
+
+13. Cinder > [官方文档](https://docs.openstack.org/cinder/queens/install/index-rdo.html)
+    1. Controller
+        1. 创建需要的数据库
+        2. Keystone
+            1. 注册用户并授予admin在service项目下的admin角色
+            2. 注册服务
+            + keyston需要v2,v3都注册
+        3. 安装软件包
+        4. 修改配置文件
+            1. 设置连接数据库的身份验证
+            2. 设置连接Keystone的身份验证
+            3. 设置连接RabbitMQ的身份验证 (transport_url)
+            3. 其他配置
+        5. 导入数据库
+        6. 告诉Nova我们要使用Cinder
+        + 在Nova的配置文件里提醒Nova
+        7. 启动服务
+    
+    ```
+    mysql -u root -p
+    ###########################################################################
+    CREATE DATABASE cinder;
+    GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'localhost' \
+      IDENTIFIED BY 'cinder';
+    GRANT ALL PRIVILEGES ON cinder.* TO 'cinder'@'%' \
+      IDENTIFIED BY 'cinder';
+    exit;
+    ###########################################################################
+    source ~/admin-openrc.sh
+
+    openstack user create --domain default --password=cinder cinder
+    openstack role add --project service --user cinder admin
+
+    openstack service create --name cinderv2 --description "OpenStack Block Storage" volumev2
+    openstack service create --name cinderv3 --description "OpenStack Block Storage" volumev3
+
+    openstack endpoint create --region RegionOne volumev2 public http://controller:8776/v2/%\(project_id\)s
+    openstack endpoint create --region RegionOne volumev2 internal http://controller:8776/v2/%\(project_id\)s
+    openstack endpoint create --region RegionOne volumev2 admin http://controller:8776/v2/%\(project_id\)s
+
+
+    openstack endpoint create --region RegionOne volumev3 public http://controller:8776/v3/%\(project_id\)s
+    openstack endpoint create --region RegionOne volumev3 internal http://controller:8776/v3/%\(project_id\)s
+    openstack endpoint create --region RegionOne volumev3 admin http://controller:8776/v3/%\(project_id\)s
+
+
+    yum install openstack-cinder -y
+
+    vim /etc/cinder/cinder.conf
+    ################################################################
+    [DEFAULT]
+    transport_url = rabbit://openstack:openstack@controller
+    auth_strategy = keystone
+    my_ip = 192.168.56.11 # ip_addr of the controller node
+    glance_api_servers = 192.168.56.11 # 默认是$my_ip,不过老师说$my_ip太多会混乱,所以不推荐,而是直接写IP地址
+    
+    [database]
+    connection = mysql+pymysql://cinder:cinder@controller/cinder
+
+    [keystone_authtoken]
+    auth_uri = http://controller:5000
+    auth_url = http://controller:35357
+    memcached_servers = controller:11211
+    auth_type = password
+    project_domain_id = default
+    user_domain_id = default
+    project_name = service
+    username = cinder
+    password = cinder
+
+    [oslo_concurrency]
+    lock_path = /var/lib/cinder/tmp
+    ################################################################
+    su -s /bin/sh -c "cinder-manage db sync" cinder
+
+
+    # Configure the Nova to use the cinder
+    #################################################################
+    [cinder]
+    os_region_name = RegionOne
+    #################################################################
+
+
+    # Restart the service
+    systemctl restart openstack-nova-api.service
+
+    systemctl enable openstack-cinder-api.service openstack-cinder-scheduler.service
+    systemctl start openstack-cinder-api.service openstack-cinder-scheduler.service
+    systemctl status openstack-cinder-api.service openstack-cinder-scheduler.service
+    ```
+
+
+
+
+
+
+14. OpenStack最终配置情况如下:
 ```
 [root@controller ~]# openstack flavor list
 +----+---------+-----+------+-----------+-------+-----------+
