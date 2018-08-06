@@ -35,7 +35,8 @@ docker rmi <image_id>
 ### 3-1. `docker run`
 1. `-t`:分配一个伪终端
 2. `--name`:
-3. `-i`:保持打开的状态,`-t -i`一起执行
+3. `-i`:保持打开的状态,`-it`一起执行
+4. `-d`:让程序已启动就在后台运行
 ### 3-2. `nsenter`
 1. `-m`:挂载namespace
 2. `-n`:进入网络的namespace
@@ -54,6 +55,7 @@ docker run --name mydocker -t -i centos /bin/bash # 启动时指定容器名称
 
 
 2. 使用存在的容器启动
++ 只有启动容器时指定了`-it`的才能用start,否则还是处于exit状态
 ```
 docker start <docker_id>
 ```
@@ -99,6 +101,7 @@ exit
   docker attach <docker_id>
   ```
   2. exit不会终止容器式进入容器
+  + 这样真的是进入容器了吗?我感觉好像如果修改里面的文件会直接影响到我的物理机?
   ```
   yum install util-linux  # 如果没有nsenter的话就需要安装这个包
   docker start <docker_id>
@@ -145,4 +148,51 @@ CONTAINER ID  IMAGE   COMMAND                CREATED          STATUS        PORT
 docker logs <docker_id>
 ```
 
+
+## 5. 管理数据卷
+一个特殊的容器,存储数据.其他容器可以从这个容器里获取数据.类似于NFS
+### 5-1. 创建并启动数据卷容器
+#### 5-1-1. 使用系统默认的物理位置
++ 物理机某目录<=>数据卷容器
++ 指定容器自己的`/data`为数据卷
+```
+docker run -it --name volume-test1 -v /data centos # 将容器的/data目录用作类似NFS的工作
+docker run -d --name nfs -v /data centos # 不进去
+```
+#### 5-1-2. 使用指定的物理位置
++ 容器里的/opt<=>物理机的/opt
++ 有利于开发
++ 可以设置权限
+```
+docker run -it --name volume-test1 -v /opt:/opt centos 
+docker run -it --name volume-test1 -v /opt:/opt:ro centos # 只读
+docker run -it --name volume-test1 -v /opt:/opt:rw centos # 读写
+```
+#### 5-1-3. 只挂载单个文件(很少用)
+```
+docker run -it --name volume-test1 -v ~/.bash_history:.bash_history centos 
+```
+
+
+
+### 5-2. 创建一个使用该数据卷的容器
++ 新容器的/data<=>指定数据卷容器的/data
++ 使用上面容器的/data卷
++ 指定数据卷的容器无论运行中还是停止状态,都可以访问
+```
+docker run -it --name test1 --volumes-from nfs centos
+```
+
+### 5-3. 创建数据卷容器时,数据卷在物理机上的位置
+`docker inspect <docker_id>`下的"Mounts"下的"Sources"里面,容器里的数据卷,如上面操作中的`/data`<=>物理机下的Mounts>Sources
+
+
+
+
+
+
+
+
+
+```
 
