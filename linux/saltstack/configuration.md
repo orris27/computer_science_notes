@@ -130,19 +130,13 @@ base:
     - apachezabbix-agent-install:
   pkg.installed
     - name: zabbix-agent
-cd /srv/pillar/base
-cat >zabbix.agent <<EOF
-zabbix-agent:
-  Zabbix_Server: 172.19.28.82
-EOF
+
   file.managed:
     - name: /etc/zabbix_agentd.conf
-    - source: salt://init/files/zabbix_agentd.
-conf
+    - source: salt://init/files/zabbix_agentd.conf
     - template: jinja
     - defaults:
-      Server: {{ pillar['zabbix_agent']['Zabbi
-x_Server'] }}
+      Server: {{ pillar['zabbix_agent']['Zabbix_Server'] }}
     - require:
       - pkg: zabbix-agent-install:
  
