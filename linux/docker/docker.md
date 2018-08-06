@@ -37,6 +37,8 @@ docker rmi <image_id>
 2. `--name`:
 3. `-i`:保持打开的状态,`-it`一起执行
 4. `-d`:让程序已启动就在后台运行
+5. `-c`:指定CPU的权重.多个容器同时使用CPU,然后利用这个值来确定相同CPU给哪个容器用
+6. `-m`:设定最大内存大小
 
 ### 3-2. `docker commit`
 1. `-m`:message
@@ -413,7 +415,7 @@ docker login -u oldboy -p 123123 -e admin@oldboyedu.com registry.oldboyedu.com
 # 如果登录失败的话,就只能修改成ip地址了,否则我们可以直接使用域名push
 vim /etc/sysconfig/docker 
 ####################################
-OPTIONS='--selinux-enabled --insecure-registry 192.168.56.10:5000'
+OPTIONS='--selinux-enabled --log-driver=journald --insecure-registry 192.168.56.10:5000'
 ####################################
 systemctl restart docker 
 docker start <docker_id> # 启动registry容器,因为重启docker会暂停所有容器
@@ -463,6 +465,23 @@ docker pull 192.168.56.10:5000/oldboyedu/mynginx
 ```
 
 
+## 8. 监控Docker
++ 可以使用Shipyard这个外部依赖来管理Docker.Shipyard是Docker的Dashboard(不过作者弃坑了)
++ Shipyard的替代品比较好是Docker UI
+1. 修改Docker的options,让Docker监听235端口
+2. 重启Docker服务
+3. 通过网络监控Docker
+```
 
+vim /etc/sysctl/docker
+##################################################################################
+OPTIONS='--selinux-enabled --log-driver=journald --insecure-registry 192.168.56.10:5000 -H tcp://0.0.0.0:235 -H unix://var/run/docker.sock'
+##################################################################################
+
+systemctl restart docker
+netstat -lntup | grep 235
+
+curl -s http://192.168.56.10:235/info | python -mjson.tool
+```
 
 
