@@ -252,6 +252,7 @@ docker run -d -p 82:80 oldboyedu/nginxv2:v2 nginx # 前面是镜像,最后的ngi
 + `Dockerfile`首字母大写
 + 里面的命令都大写
 + 状态保持=>第二次执行时会更快
++ 最后是`CMD`,而不是`RUN`,如果最后没有`CMD`的话,创建镜像的时候就会一直卡在那里
 #### 6-2-1. Dockerfile书写结构
 1. `FROM`:所有Dockfile创建的镜像都必须基于一个已有的镜像(继承)=>妈妈
 2. `MAINTAIN`:制作者=>爸爸
@@ -260,7 +261,7 @@ docker run -d -p 82:80 oldboyedu/nginxv2:v2 nginx # 前面是镜像,最后的ngi
 5. `WORKDIR`:=cd
 6. `VOLUME`:给我一个存放行李的地方,目录挂载
 7. `EXPOSE`:镜像要暴露什么端口
-8. `RUN`:最终要执行什么命令=>我们在用镜像启动容器的时候,最后都要写命令嘛,这个地方就是那个命令=>我们用该镜像启动容器就不需要重复输入命令了
+8. `CMD`:最终要执行什么命令=>我们在用镜像启动容器的时候,最后都要写命令嘛,这个地方就是那个命令=>我们用该镜像启动容器就不需要重复输入命令了
 #### 6-2-2. 利用Dockerfile创建上述nginx版本的容器
 Dockfile=>镜像=>容器
 1. 创建存放Dockfile的目录A
@@ -289,8 +290,11 @@ ADD index.html /usr/share/nginx/html/index.html
 RUN echo "daemon off;">>/etc/nginx/nginx.conf
 
 EXPOSE 80
-RUN ["nginx"]
+CMD ["nginx"]
 #######################################################
+docker run -d -p 5000:5000 registry
+
+curl 192.168.56.10:5000/v1/search
 
 docker build -t oldboyedu/orris_nginx:v3 /opt/dockerfile/nginx
 
@@ -299,6 +303,31 @@ docker run --name nginxv3 -d -p 83:80 oldboyedu/orris_nginx:v3
 # 在浏览器里输入`http://192.168.56.10:83`看看结果就行了(该ip地址为我docker的服务器的IP地址)
 ```
 
+## 7. 仓库
+```
+docker tag oldboyedu/mynginx:v3 192.168.56.10:5000/oldboyedu/mynginx:latest
+docker push 192.168.56.10:5000/oldboyedu/mynginx:latest
+
+yum install -y nginx
+
+# 配置nginx,用户认证https
+
+cd /etc/nginx/conf.d/ # nginx会默认去包含这个目录下的conf文件
+################################################
+upstream docker-registry {
+
+}
+################################################
+
+cd /etc/pki/CA
+touch ./{serial,index.txt}
+echo "00">serial
+openssl genrsa -out private/cakey.pem 2048
+
+
+
+
+```
 
 
 
