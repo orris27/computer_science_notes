@@ -307,7 +307,7 @@ docker run --name nginxv3 -d -p 83:80 oldboyedu/orris_nginx:v3
 curl 192.168.56.10:5000/v2/_catalog # 查看仓库里的镜像
 ```
 ### 7-2. push的前置条件
-#### 7-2-1. 自己配置HTTPS
+#### 7-2-1. 自己配置HTTPS(未成功)
 使用openssl自行签发证书 > [参考文档](https://yeasy.gitbooks.io/docker_practice/repository/registry_auth.html)
 + 这里假设我们将要搭建的私有仓库地址为`registry.oldboyedu.com`,下面我们介绍使用 openssl 自行签发`registry.oldboyedu.com`的站点 SSL 证书。
 ```
@@ -355,9 +355,13 @@ server {
 cd /etc/pki/CA
 touch ./{serial,index.txt}
 echo "00">serial
-openssl genrsa -out private/cakey.pem 2048
+
+# 创建一个CA私钥
+openssl genrsa -out private/cakey.pem 2048 
+
+# 利用私钥创建 CA 根证书请求文件
 openssl req -new -x509 -key private/cakey.pem -days 3650 -out cacert.pem
-################################################生成一个根证书
+################################################
 CN
 Beijing
 Beijing
@@ -366,6 +370,9 @@ dockercangku
 registry.oldboyedu.com
 admin@oldboyedu.com
 ################################################
+
+
+
 cd /etc/ssl
 openssl genrsa -out nginx.key 2048
 openssl req -new -key nginx.key -out nginx.csr
@@ -408,10 +415,9 @@ vim /etc/sysconfig/docker
 ####################################
 OPTIONS='--selinux-enabled --insecure-registry 192.168.56.10:5000'
 ####################################
-systemctl rstart docker 
-docker start <docker_id>
+systemctl restart docker 
+docker start <docker_id> # 启动registry容器,因为重启docker会暂停所有容器
 
-docker tag oldboyedu/mynginx:v3 192.168.56.10:5000/oldboyedu/nginx:latest
 ```
 
 ### 7-2. 创建1个仓库
@@ -446,8 +452,13 @@ Get https://192.168.56.10:5000/v1/_ping: http: server gave HTTP response to HTTP
 curl 192.168.56.10:5000/v2/_catalog # 查看仓库里的镜像
 docker push 192.168.56.10:5000/oldboyedu/nginx:latest
 
+curl 192.168.56.10:5000/v2/_catalog # 查看仓库里的镜像
+#---------------------------------------------------------------------------------------
+{"repositories":["oldboyedu/mynginx"]}
+#---------------------------------------------------------------------------------------
+
 # 其他节点可以直接pull下来
-docker pull 192.168.56.10:5000/oldboyedu/nginx
+docker pull 192.168.56.10:5000/oldboyedu/mynginx
 
 ```
 
