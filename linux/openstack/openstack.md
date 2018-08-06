@@ -1640,8 +1640,21 @@ nova get-vnc-console hello-instance novnc
     systemctl start openstack-cinder-api.service openstack-cinder-scheduler.service
     systemctl status openstack-cinder-api.service openstack-cinder-scheduler.service
     ```
-
-
+    
+    2. Compute
+        1. 给compute节点添加一块新的磁盘
+        + shutdown虚拟机,然后点击settings>添加>硬盘(下一步)>SCSI(下一步)>创建新虚拟磁盘(下一步)>50G>随便放哪里
+        2. 给lvm上添加一个filter,说明只有实例能访问磁盘
+        ```
+        pvcreate /dev/sdb
+        vgcreate cinder-volumes /dev/sdb
+        vim /etc/lvm/lvm.conf
+        ######################################
+        devices{
+            # ...
+            filter = [ "a/sdb/", "r/.*/" ]
+        }
+        ```
 
 
 
