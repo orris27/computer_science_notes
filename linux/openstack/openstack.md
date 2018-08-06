@@ -1,4 +1,5 @@
-## 1. 安装
+## 1. 安装(最终虚拟机成功启动但是没有网络)
++ SaltStack版本参考[赵班长的文档](https://github.com/unixhot/salt-openstack)
 + 整个安装参考[他人文档](http://blog.51cto.com/andyliu/2154044)+[官方文档](https://docs.openstack.org/keystone/queens/install/keystone-install-rdo.html)
 + 第一次keystone的失败原因是在`/etc/keystone/keystone.conf`中让token和revoke使用了`memcache`,结果就导致了`Failed to discover available identity versions when contacting http://controller:35357/v3. Attempting to parse version from URL.Internal Server Error (HTTP 500)`错误
 + 使用`/etc/keystone/keystone.conf`的话,要重启httpd
