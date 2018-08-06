@@ -40,14 +40,18 @@ docker rmi <image_id>
 1. `-m`:挂载namespace
 2. `-n`:进入网络的namespace
 3. `-p`:进入pid的namespace
-### 3-2. 启动容器
+### 3-3. 启动容器
 1. 创建并启动容器
 + 镜像的名称
 + 执行的命令
++ 容器有名称+ID=>容器的主机名=容器的ID
++ 容器的名称如果不指定会自动生成
 ```
 docker run centos /bin/echo "hello world"
 docker run --rm centos /bin/echo "hello world" # 执行结束后会自动删除容器=>防止我们启动太多容器占用资源
+docker run --name mydocker -t -i centos /bin/bash # 启动时指定容器名称
 ```
+
 
 2. 使用存在的容器启动
 ```
@@ -59,12 +63,6 @@ docker start <docker_id>
 docker run --help
 ```
 
-4. 容器的名称
-+ 容器有名称+ID=>容器的主机名=容器的ID
-+ 容器的名称如果不指定会自动生成
-```
-docker run --name mydocker -t -i centos /bin/bash
-```
 
 5. 删除容器
     1. 删除停止的容器
@@ -117,5 +115,34 @@ exit
   ###############################################################
   ```
   
+
+## 4. 启用一个Nginx的容器
++ 默认帮我们做一个NAT的操作,docker0的桥接网卡
++ 使用的Nginx是从本地/DockerHub上的
+```
+iptables -t nat -vnL
+docker run -d -P nginx # 随机映射,回容器的id
+docker run -d -p 81:80 nginx # 指定端口映射,返回容器的id
+```
+### 4-1. 端口映射
+1. 随机映射:`-P` => 不会冲突
+2. 指定端口映射:`-p`
++ `-p hostPort:containerPort[:udp]`物理机的端口:对应容器里的端口
+
+### 4-2. 查看容器的Nginx信息
++ "nginx -g 'daemon off'" => 放在前台运行,因为nginx会fork进程
++ 把随机端口32769映射到80端口 => 可以访问`http://192.168.56.10:32769`(我的虚拟机ip为192.168.56.10)
+```
+docker ps 
+###################################################################################################
+CONTAINER ID  IMAGE   COMMAND                CREATED          STATUS        PORTS                   NAMES
+1156d0b1257a  nginx   "nginx -g 'daemon ..." 4 seconds ago    Up 3 seconds  0.0.0.0:32768->80/tcp   distracted_goldberg
+###################################################################################################
+```
+
+### 4-3. 查看容器Nginx的日志信息
+```
+docker logs <docker_id>
+```
 
 
