@@ -1627,6 +1627,7 @@ nova get-vnc-console hello-instance novnc
 
 
     # Configure the Nova to use the cinder
+    vim /etc/nova/nova.conf
     #################################################################
     [cinder]
     os_region_name = RegionOne
