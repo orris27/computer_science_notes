@@ -302,22 +302,20 @@ docker run --name nginxv3 -d -p 83:80 oldboyedu/orris_nginx:v3
 ```
 
 ## 7. 仓库
-1. Dockfile构建镜像
-2. 打上标签,push到仓库里
-3. 其他节点直接pull下来
+### 7-1. 查看仓库里的镜像文件
 ```
-
-docker run -d -p 5000:5000 registry
-curl 192.168.56.10:5000/v1/search
-
-docker tag oldboyedu/mynginx:v3 192.168.56.10:5000/oldboyedu/mynginx:latest
-docker push 192.168.56.10:5000/oldboyedu/mynginx:latest
-
+curl 192.168.56.10:5000/v2/_catalog # 查看仓库里的镜像
+```
+### 7-2. push的前置条件
+#### 7-2-1. 自己配置HTTPS
+```
+# 如果没有nginx包的话,执行这个:rpm -ivh https://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm
 yum install -y nginx
 
 # 配置nginx,用户认证https
 
 cd /etc/nginx/conf.d/ # nginx会默认去包含这个目录下的conf文件
+vim docker-registry.conf
 ################################################
 upstream docker-registry {
   server 127.0.0.1:5000;
@@ -362,7 +360,7 @@ CN
 Beijing
 Beijing
 oldboyedu
-docker
+dockercangku
 registry.oldboyedu.com
 admin@oldboyedu.com
 ################################################
@@ -374,9 +372,11 @@ CN
 Beijing
 Beijing
 oldboyedu
-docker
+dockercangku
 registry.oldboyedu.com
 admin@oldboyedu.com
+
+# challenge password和optional company name跳过
 ################################################
 # 签发证书
 openssl ca -in nginx.csr -days 3650 -out nginx.crt
@@ -397,7 +397,9 @@ netstat -lntup | grep 443 # 如果有的话,就是nginx有了
 echo "192.168.56.10 registry.oldboyedu.com" >> /etc/hosts
 
 docker login -u oldboy -p 123123 -e admin@oldboyedu.com registry.oldboyedu.com
-
+```
+#### 7-2-2. 修改docker配置文件,使允许非HTTPS推送镜像
+```
 # 如果登录失败的话,就只能修改成ip地址了,否则我们可以直接使用域名push
 vim /etc/sysconfig/docker 
 ####################################
@@ -407,14 +409,44 @@ systemctl rstart docker
 docker start <docker_id>
 
 docker tag oldboyedu/mynginx:v3 192.168.56.10:5000/oldboyedu/nginx:latest
+```
+
+### 7-2. 创建1个仓库
+1. 利用官网的registry镜像来做成容器运行仓库
+2. Dockfile构建镜像I
+3. 给镜像I打上标签 (注意:此时`docker images`里面会有该镜像I_tag,但仓库里没有)
+4. 配置HTTPS/修改Docker配置文件使允许非HTTPS的推送
+5. 将打上标签的镜像I_tag push到仓库里 (本质上是直接对`docker images`里的完整I_tag做push而已)
+6. 其他节点直接pull下来
+```
+docker pull registry
+docker run -d -p 5000:5000 --name registry registry
+curl 192.168.56.10:5000/v1/search
+
+# 这里选择将已有的oldboyedu/orris_nginx:v3镜像打上标签后上传到仓库
+docker tag oldboyedu/orris_nginx:v3 192.168.56.10:5000/oldboyedu/mynginx:latest
+docker push 192.168.56.10:5000/oldboyedu/mynginx:latest
+#-----------------------------------------------------------------------------------------
+The push refers to a repository [192.168.56.10:5000/oldboyedu/mynginx]
+Get https://192.168.56.10:5000/v1/_ping: http: server gave HTTP response to HTTPS client
+#-----------------------------------------------------------------------------------------
+# 执行push后会报上面的错误,`echo $?`为1
+# 这是因为Docker默认不允许非HTTPS方式推送镜像
+# 解决方法=>1. 自己配置HTTPS 2. 修改docker配置文件,使允许非HTTPS推送镜像
+
+#######################################################################################
+#                                                                                     #
+#                  这块区域执行7-2里的push前置条件中的任何一个!!!                           #
+#                                                                                     #
+#######################################################################################
+
+curl 192.168.56.10:5000/v2/_catalog # 查看仓库里的镜像
 docker push 192.168.56.10:5000/oldboyedu/nginx:latest
 
 # 其他节点可以直接pull下来
 docker pull 192.168.56.10:5000/oldboyedu/nginx
 
 ```
-
-
 
 
 
