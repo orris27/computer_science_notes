@@ -279,7 +279,7 @@ vim /etc/security/limits.conf
     ################################################################
     
     su -s /bin/sh -c "/usr/share/elasticsearch/bin/elasticsearch" elasticsearch
-    #su -s /bin/sh -c "/usr/share/elasticsearch/bin/elasticsearch" elasticsearch
+    #su -s /bin/sh -c "/usr/share/elasticsearch/bin/elasticsearch -d" elasticsearch # -d在后台运行
     ```
 
 3. `max number of threads [2048] for user [elasticsearch] is too low, increase to at least [4096]`
