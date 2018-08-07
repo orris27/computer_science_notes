@@ -17,7 +17,7 @@ rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
 
 # Create a file called elasticsearch.repo in the /etc/yum.repos.d/ directory for RedHat based distributions, or in the /etc/zypp/repos.d/ directory for OpenSuSE based distributions, containing:
-#############################################################
+cat > /etc/yum.repos.d/elasticsearch.repo <<EOF
 [elasticsearch-6.x]
 name=Elasticsearch repository for 6.x packages
 baseurl=https://artifacts.elastic.co/packages/6.x/yum
@@ -26,16 +26,16 @@ gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
 enabled=1
 autorefresh=1
 type=rpm-md
-#############################################################
-sudo yum install elasticsearch
+EOF
+
+sudo yum install elasticsearch -y
 
 #mkdir -p /data/es-data
 #chown -R elasticsearch:elasticsearch /data/es-data
 
-cd /etc/elasticsearch
-vim elasticsearch.yml
+vim /etc/elasticsearch/elasticsearch.yml
 #############################################################
-cluster.name: oldboy # 名称不一样就不是一个集群,日志也是根据
+cluster.name: oldboy # 名称不一样就不是一个集群,日志也是根据集群名称来显示的
 node.name: linux-node1 
 
 path.data: /var/lib/elasticsearch
@@ -59,7 +59,7 @@ vim /etc/security/limits.conf
 #@faculty        hard    nproc           50
 #ftp             hard    nproc           0
 #@student        -       maxlogins       4
-*                hard    memlock         unlimited # 这个不要自己输入,而是取消注释!!(也可能是和顺序有关)
+*                hard    memlock         unlimited
 *                soft    memlock         unlimited
 *                soft nofile 65536
 *                hard nofile 65536
@@ -140,20 +140,19 @@ http.cors.enabled: true
 http.cors.allow-origin: "*"
 ##################################################
 
-#Basic Authentication
+#Basic Authentication(可选)
 #elasticsearch-head will add basic auth headers to each request if you pass in the correct url parameters
 #You will also need to add http.cors.allow-headers: Authorization to the elasticsearch configuration
 
-
-# 浏览器访问http://192.168.56.10:9100/
+##  浏览器访问http://192.168.56.10:9100/
 
 ```
 
 #### 3-2-2. 使用
 ##### 3-2-2-1. 基本操作
-1. 浏览器访问`192.168.56.10:9200/_plugin/head/`
-2. 点击复合查询
-3. 在"查询"里填写信息
+1. 浏览器访问`192.168.56.10:9100`
+2. 最上面一行输入`http://192.168.56.10:9200/`,点击Connect
+3. 如果Connect成功了,就可以点击复合查询等自由玩耍了
 ##### 3-2-2-2. 设置数据
 1. URL:`http://192.168.56.10:9200/index-demo/test`
 + Query第一行不能是`localhost`
@@ -243,3 +242,35 @@ http.cors.allow-origin: "*"
 }
 #-------------------------------------------------------
 ```
+#### 3-2-3. 信息
++ 一个索引=>5份=>每份又复制一份+搜索更快
++ 粗框:主分片
++ 细框:副本分片
++ 集群健康值:黄色中5 of 10:总共有10个分片,只有5个分片是好的
+
+## 4. 集群
+### 4-1. 配置ES节点并加入集群
+配置`192.168.56.10`和`192.168.56.20`的集群
++ ES启动的时候会自动发送组播,如果cluster.name相同的话就会加入集群
+1. 安装Elasticsearch,直到浏览器里可以访问URL
++ 除了配置文件以外,其他过程都相同
++ 配置文件中只有`node.name`和主节点不同
++ 修改Elasticsearch的配置文件,设置cluster.name为集群的名字
+```
+vim /etc/elasticsearchelasticsearch.yml
+###########################################
+cluster.name: oldboy 
+node.name: linux-node2
+
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
+
+bootstrap.mlockall: true 
+
+network.host: 0.0.0.0 
+http.port: 9200
+###########################################
+```
+
+
+
