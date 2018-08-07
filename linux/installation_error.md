@@ -296,6 +296,21 @@ elasticsearch                hard　　memlock　　unlimited
 ```
 
 
+## 6. node
+1. 执行`npm install`产生如下报错如下所示
+    ```
+    npm ERR! code ELIFECYCLE
+    npm ERR! errno 1
+    npm ERR! phantomjs-prebuilt@2.1.16 install: `node install.js`
+    npm ERR! Exit status 1
+    npm ERR! 
+    npm ERR! Failed at the phantomjs-prebuilt@2.1.16 install script.
+    npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
 
-
+    npm ERR! A complete log of this run can be found in:
+    npm ERR!     /root/.npm/_logs/2018-08-07T07_44_05_677Z-debug.log
+    ```
+    > 原因:不知道
+    1. 解决方法:
+    + 不用管,直接可以执行`npm run install`
 
