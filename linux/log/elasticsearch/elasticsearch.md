@@ -86,17 +86,67 @@ curl 192.168.56.10:9200 # 出现结果就说明成功了,不过需要等一下
 + 查询的东西
 + `pretty`让数据更美观
 ```
-curl -i -XGET 'http://192.168.56.10:9200/_count?pretty' -d '
+curl -i -XGET 'http://192.168.56.10:9200/_count?pretty' -d \
+'{
 "query": {
   "match_all": {}
 }
 }'
 ```
 ## 3. 插件
-官方有个Web插件来管理
+官方有个Marvel插件来管理
+### 3-1. Marvel
+#### 3-1-1. 安装
+> 官方文档: https://www.elastic.co/downloads/x-pack
+1. ES v5以下版本
 ```
 cd /usr/share/elasticsearch
 sudo bin/plugin install license
 sudo bin/plugin install marvelous-agent
+```
+2. ES v5
++ 安装X-pack,因为Marvel已经被融合进去了
+```
+cd /usr/share/elasticsearch
+bin/elasticsearch-plugin install x-pack
+#----------------------------------------------------------------------------------
+ERROR: this distribution of Elasticsearch contains X-Pack by default
+#----------------------------------------------------------------------------------
+```
+3. ES v6
++ The following installation instructions are only valid for versions 6.2 and older. In versions 6.3 and later, X-Pack is included with the default distributions of Elastic Stack, with all free features enabled by default. An opt-in trial is available to enable 
++ 不用自己安装了
+
+### 3-2. head插件(推荐)
+#### 3-2-1. 安装
+>　官方文档:https://github.com/mobz/elasticsearch-head
++ head插件在ES v5以上就不作为head插件来使用了,而必须是单独的head服务才行
+1. 安装Head服务
+2. 连接Head和Elasticseach
+    1. 使Elasticsearch允许跨域请求,并设置跨域请求的范围
+    2. 设置身份验证信息(可选)
+3. 使用Head服务自己监听的9100端口来访问
+```
+git clone git://github.com/mobz/elasticsearch-head.git
+cd elasticsearch-head
+npm install
+npm run start
+
+
+vim 
+##################################################
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+##################################################
+
+#Basic Authentication
+#elasticsearch-head will add basic auth headers to each request if you pass in the correct url parameters
+#You will also need to add http.cors.allow-headers: Authorization to the elasticsearch configuration
+
+
+# 浏览器访问http://localhost:9100/
 
 ```
+
+#### 3-2-2. 使用
+
