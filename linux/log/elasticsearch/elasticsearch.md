@@ -63,7 +63,7 @@ vim /etc/security/limits.conf
 *                soft    memlock         unlimited
 *                soft nofile 65536
 *                hard nofile 65536
-*                soft nproc 4096
+*                soft nproc 2048
 *                hard nproc 4096
 ################################################################
 
@@ -76,6 +76,9 @@ curl 192.168.56.10:9200 # 出现结果就说明成功了,不过需要等一下
 # 浏览器可以访问"192.168.56.10:9200"验证
 
 ```
+
+### 1-0. 报错
+> https://github.com/orris27/orris/blob/master/linux/installation_error.md
 
 ## 2. 交互
 ### 2-1. Java API
