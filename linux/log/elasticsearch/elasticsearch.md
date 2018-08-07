@@ -133,7 +133,7 @@ npm install
 npm run start
 
 
-vim 
+vim /etc/elasticsearch/elasticsearch.yml
 ##################################################
 http.cors.enabled: true
 http.cors.allow-origin: "*"
@@ -144,9 +144,36 @@ http.cors.allow-origin: "*"
 #You will also need to add http.cors.allow-headers: Authorization to the elasticsearch configuration
 
 
-# 浏览器访问http://localhost:9100/
+# 浏览器访问http://192.168.56.10:9100/
 
 ```
 
 #### 3-2-2. 使用
+1. 浏览器访问`192.168.56.10:9200/_plugin/head/`
+2. 点击复合查询
+3. 在"查询"里填写信息
+    1. URL:`/index-demo/test`
+    2. 请求方式:`POST`
+    3. 数据:
+    ```
+    {
+      "user": "oldboy",
+      "mesg": "hello world"
+    }
+    ```
+    4. 发送请求
+    5. 获得`"_id"`
+4. 请求某个ID
+    1. URL:`/index-demo/test/<_id>`
+    2. 请求方式:`GET`
+    3. 数据:
+    ```
+    {
+      "user": "oldboy",
+      "mesg": "hello world"
+    }
+    ```
+    4. 发送请求
+    5. 从`_source`处可以获取到刚才提交的数据
+
 
