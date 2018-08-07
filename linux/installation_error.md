@@ -306,7 +306,6 @@ elasticsearch                hard　　memlock　　unlimited
     npm ERR! 
     npm ERR! Failed at the phantomjs-prebuilt@2.1.16 install script.
     npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
-https://example.com
     npm ERR! A complete log of this run can be found in:
     npm ERR!     /root/.npm/_logs/2018-08-07T07_44_05_677Z-debug.log
     ```
