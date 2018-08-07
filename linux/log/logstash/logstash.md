@@ -22,6 +22,7 @@ EOF
 
 sudo yum install logstash -y
 
+rpm -ql logstash
 
 #++++++++++++++++++++++++++++++++++
 # 前台执行进行验证
@@ -32,19 +33,33 @@ sudo yum install logstash -y
 
 ## 2. 使用
 + 插件=>改变输入和输出
-+ ruby可以对事件来处理,codec可以理解为编解码器
-
++ 事件
++ codec可以理解为编解码器
++ 启动费时
 ### 2-1. 前台执行
+1. 前台交互(Logstash-6.3版本中写不写codec都等于以前写codec了)
 ```
-/opt/logstash/bin/logstash -e 'input { stdin{} } output { stdout{} }'
-
-# 显示的更加详细
-/opt/logstash/bin/logstash -e 'input { stdin{} } output { stdout{codec => rubydebug} }'
-
-# 将输出发送到Elasticsearch里面 => 刷新原来的Head网页,发生变化,并且点击数据浏览,刷新,会有源源不断的数据过来
-/opt/logstash/bin/logstash -e 'input { stdin{} } output { elasticsearch{hosts => ["192.168.56.10:9200"] }'
-
-# 将输出发送到Elasticsearch和当前终端里
-/opt/logstash/bin/logstash -e 'input { stdin{} } output { elasticsearch{hosts => ["192.168.56.10:9200"] } stdout {codec => rubydebug}'
+/usr/share/logstash/bin/logstash -e 'input { stdin{} } output { stdout{} }'
+#------------------------------------------------------------------------------------
+hello
+{
+    "@timestamp" => 2018-08-07T10:28:56.862Z,
+          "host" => "es-master",
+      "@version" => "1",
+       "message" => "hello"
+}
+#------------------------------------------------------------------------------------
+```
+2. 显示的更加详细
+```
+/usr/share/logstash/bin/logstash -e 'input { stdin{} } output { stdout{codec => rubydebug} }'
+```
+3. 将输出发送到Elasticsearch里面 => 刷新原来的Head网页,发生变化,并且点击数据浏览,刷新,会有源源不断的数据过来
+```
+/usr/share/logstash/bin/logstash -e 'input { stdin{} } output { elasticsearch{hosts => ["192.168.56.10:9200"] }'
+```
+4. 将输出发送到Elasticsearch和当前终端里
+```
+/usr/share/logstash/bin/logstash -e 'input { stdin{} } output { elasticsearch{hosts => ["192.168.56.10:9200"] } stdout {codec => rubydebug}'
 
 ```
