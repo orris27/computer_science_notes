@@ -45,6 +45,7 @@ set autoindent " 如果在tab1次的情况下回车或o,那么就会自动锁紧
 ```
 
 ### 2. 无注释
+如果打开3个注释的话,就会复制粘贴时自动缩进
 ```
 set nocompatible 
 set tabstop=4
