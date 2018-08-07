@@ -203,60 +203,83 @@ vim /etc/security/limits.conf
 ```
 2. `memory locking requested for elasticsearch process but memory is not locked`
 > 原因: 发生系统swapping的时候ES节点的性能会非常差，也会影响节点的稳定性。所以要不惜一切代价来避免swapping.要么是bootstrap.memory_lock: true这个没设置，要么就是max locked memory这个没配置么
-  1. 尝试
-  ```
-  # 尝试修改/etc/security/limits.conf => 结果还是报同样的错误
-  vim /etc/security/limits.conf 
-  ################################################################
-  *   soft　　memlock　　unlimited
-  *   hard　　memlock　　unlimited
-  ################################################################
+    1. 尝试
+    ```
+    
+    # 尝试修改/etc/security/limits.conf => 结果还是报同样的错误
+    vim /etc/security/limits.conf 
+    ################################################################
+    *   soft　　memlock　　unlimited
+    *   hard　　memlock　　unlimited
+    ################################################################
 
 
-  # 尝试修改/etc/systemd/system.conf => 结果还是报同样的错误
-  vim /etc/systemd/system.conf
-  ################################################################
-  DefaultLimitNOFILE=65536
-  DefaultLimitNPROC=32000
-  DefaultLimitMEMLOCK=infinity
-  ################################################################
+    # 尝试修改/etc/systemd/system.conf => 结果还是报同样的错误
+    vim /etc/systemd/system.conf
+    ################################################################
+    DefaultLimitNOFILE=65536
+    DefaultLimitNPROC=32000
+    DefaultLimitMEMLOCK=infinity
+    ################################################################
 
 
-  # 根据https://blog.csdn.net/gebitan505/article/details/54709515,尝试在配置文件里取消注释 => 结果还是报同样的错误
-  vim /etc/elasticsearch/elasticsearch.yml
-  ################################################################
-  discovery.zen.ping.unicast.hosts: ["192.168.56.10"]
-  discovery.zen.minimum_master_nodes: 3
-  ################################################################
+    # 根据https://blog.csdn.net/gebitan505/article/details/54709515,尝试在配置文件里取消注释 => 结果还是报同样的错误
+    vim /etc/elasticsearch/elasticsearch.yml
+    ################################################################
+    discovery.zen.ping.unicast.hosts: ["192.168.56.10"]
+    discovery.zen.minimum_master_nodes: 3
+    ################################################################
 
 
 
-  # 尝试修改/etc/security/limits.conf => 结果还是报同样的错误+第3个错误,即threads不够用
-  vim /etc/security/limits.conf 
-  ################################################################
-  elasticsearch                soft nofile 65536
-  elasticsearch                hard nofile 65536
-  elasticsearch                soft nproc 2048
-  elasticsearch                hard nproc 4096
-  elasticsearch                soft　　memlock　　unlimited
-  elasticsearch                hard　　memlock　　unlimited
-  ################################################################
+    # 尝试修改/etc/security/limits.conf => 结果还是报同样的错误+第3个错误,即threads不够用
+    vim /etc/security/limits.conf 
+    ################################################################
+    elasticsearch                soft nofile 65536
+    elasticsearch                hard nofile 65536
+    elasticsearch                soft nproc 2048
+    elasticsearch                hard nproc 4096
+    elasticsearch                soft　　memlock　　unlimited
+    elasticsearch                hard　　memlock　　unlimited
+    ################################################################
 
-  # 尝试修改/etc/security/limits.conf,注释里面刚好有memlock unlimited,我就取消这个注释,发现执行su -s /bin/sh -c "/usr/share/elasticsearch/bin/elasticsearch" elasticsearch成功,
-  vim /etc/security/limits.conf 
-  ################################################################
-  #*               soft    core            0
-  #*               hard    rss             10000
-  #@student        hard    nproc           20
-  #@faculty        soft    nproc           20
-  #@faculty        hard    nproc           50
-  #ftp             hard    nproc           0
-  #@student        -       maxlogins       4
-  *                hard    memlock         unlimited
-  *                soft    memlock         unlimited
-  ################################################################
-  ```
-  2. 最终解决方案
+    # 尝试修改/etc/security/limits.conf,注释里面刚好有memlock unlimited,我就取消这个注释,发现执行su -s /bin/sh -c "/usr/share/elasticsearch/bin/elasticsearch" elasticsearch成功,但是执行systemctl start elasticsearch失败,还是报memory is not locked的错误
+    vim /etc/security/limits.conf 
+    ################################################################
+    #*               soft    core            0
+    #*               hard    rss             10000
+    #@student        hard    nproc           20
+    #@faculty        soft    nproc           20
+    #@faculty        hard    nproc           50
+    #ftp             hard    nproc           0
+    #@student        -       maxlogins       4
+    *                hard    memlock         unlimited
+    *                soft    memlock         unlimited
+    ################################################################
+    ```
+    2. 最终解决方案
+        1. 修改limits的参数(建议关闭防火墙和selinux等)
+        2. 使用yum安装时自带的`elasticsearch`用户启动
+    ```
+    vim /etc/security/limits.conf 
+    ################################################################
+    #*               soft    core            0
+    #*               hard    rss             10000
+    #@student        hard    nproc           20
+    #@faculty        soft    nproc           20
+    #@faculty        hard    nproc           50
+    #ftp             hard    nproc           0
+    #@student        -       maxlogins       4
+    *                hard    memlock         unlimited # 这个不要自己输入,而是取消注释!!(也可能是和顺序有关)
+    *                soft    memlock         unlimited
+    *                soft nofile 65536
+    *                hard nofile 65536
+    *                soft nproc 2048
+    *                hard nproc 4096
+    ################################################################
+    
+    su -s /bin/sh -c "/usr/share/elasticsearch/bin/elasticsearch" elasticsearch
+    ```
 
 3. `max number of threads [2048] for user [elasticsearch] is too low, increase to at least [4096]`
 ```
