@@ -98,7 +98,7 @@ curl -i -XGET 'http://192.168.56.10:9200/_count?pretty' -d \
 ```
 ## 3. 插件
 官方有个Marvel插件来管理
-### 3-1. Marvel
+### 3-1. Marvel(不推荐)
 #### 3-1-1. 安装
 > 官方文档: https://www.elastic.co/downloads/x-pack
 1. ES v5以下版本
@@ -120,7 +120,7 @@ ERROR: this distribution of Elasticsearch contains X-Pack by default
 + The following installation instructions are only valid for versions 6.2 and older. In versions 6.3 and later, X-Pack is included with the default distributions of Elastic Stack, with all free features enabled by default. An opt-in trial is available to enable 
 + 不用自己安装了
 
-### 3-2. head插件(推荐)
+### 3-2. head插件
 #### 3-2-1. 安装
 >　官方文档:https://github.com/mobz/elasticsearch-head
 + head插件在ES v5以上就不作为head插件来使用了,而必须是单独的head服务才行
@@ -250,12 +250,13 @@ http.cors.allow-origin: "*"
 + 细框:副本分片
 + 集群健康值:黄色中5 of 10:总共有10个分片,只有5个分片是好的
 
-#### 3-3. bigdesk(推荐)
-
-
+#### 3-3. bigdesk
+做监控,并且用图形显示出来
+#### 3-4. kopf
 
 
 ## 4. 集群
+在Head组件中星号表示master
 ### 4-1. 配置ES节点并加入集群
 配置`192.168.56.10`和`192.168.56.20`的集群
 + ES启动的时候会自动发送组播/单播,如果cluster.name相同的话就会加入集群
@@ -284,9 +285,8 @@ discovery.zen.ping.unicast.hosts: ["192.168.56.10", "192.168.56.20"] # 说明给
 
 ## 启动服务并且成功
 
-## 在原来节点的head网页里再连接192.168.56.10:9200,就会出现2个节点都连接上的效果
+## 在原来节点的head网页里再连接任何一个,如192.168.56.10:9200,就会出现2个节点都连接上的效果
 ```
-### 4-2. 信息
-星号表示master
+
 
 
