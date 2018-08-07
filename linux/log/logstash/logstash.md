@@ -64,10 +64,6 @@ hello
 /usr/share/logstash/bin/logstash -e 'input { stdin{} } output { elasticsearch{hosts => ["192.168.56.10:9200"] } stdout {codec => rubydebug}}'
 ```
 
-5. 利用配置文件将输出发送到Elasticsearch和当前终端里
-```
-
-```
 ## 3. logstash
 ### 3-1. options
 1. `-e`:用字符串充当配置文件
@@ -103,15 +99,23 @@ output插件可以将输出存放到stdout,redis,elasticsearch等里面
 
 2. 格式
     1. 语法
-    + 可以写多个
-    + 支持数组
-    + 注释:`#`
-    + 值:数字/字符串(双引号)/数组
+        1. + 可以写多个
+        2. + 支持数组
+        3. + 注释:`#`
+        4. 值
+            + 数字
+            + 字符串(双引号)
+            + 数组
+        5. 对输入做if判断
+            1. 基于字段,尤其是type
+            2. 不同的插件收集到的数据放到不同的输出源里面
     ```
     输入/过滤/输出 {
-        插件 {
-            参数名 => 值
-        }
+        #if [type] == "xxx" { # 一般放在输出里.中括号里面没有双引号
+            插件 {
+                参数名 => 值
+            }
+        #}
     }
     ```
     2. 模板
@@ -136,7 +140,71 @@ output插件可以将输出存放到stdout,redis,elasticsearch等里面
 3. `discover_interval`:多久时间看下被监视的文件,默认15秒
 4. `path`:指定哪个文件.支持通配符`*`,如`"/var/log/*.log"`
 5. `type`:主要用在filter行为上. ≠Elasticsearch里面的`_type`. 如`"system"`
-##### 4-1-1-2. 实例:收集系统日志到Elasticsearch和stdout
+6. `codec`
+    
+
+
+
+#### 4-1-3. codec
+> https://www.elastic.co/guide/en/logstash/current/codec-plugins.html
+1. 编解码器
+2. 可以处理字符串
+3. 可以放在input下的任何模块里,比如file,stdin等.
+##### 4-1-3-1. multiline
++ 可以用来处理多行数据
++ 匹配字符串成功后,不会马上输出,而是要等下一行(因为要看下一行是否要合并进来)
+###### 4-1-3-1-1. options
+1. `pattern`:正则表达式,匹配字符串.在什么情况下合并起来
+2. `negate`:是匹配成功的执行what,还是匹配不成功的执行what.`true`或`false`
+3. `what`:对匹配成功(`negate=false`)/匹配失败(`negate=true`)的事件处理.那么是合并到上面还是下面.`"previous"`或`"next"`
+###### 4-1-3-1-2. 实例
+1. 模板
+```
+input {
+  stdin {
+    codec => multiline {
+      pattern => "pattern, a regexp"
+      negate => true / false
+      what => "previous" / "next"
+    }
+  }
+}
+```
+2. 对于下面的语段进行合并
+```
+[orris]hello
+my name is orris
+are you ok?
+[mirai]hi
+I am mirai
+[orris]bye
+[mirai]bye
+```
+=>
+```
+# 如果开头不是左中括号的话,就合并到上面
+input {
+  stdin {
+    codec => multiline {
+      pattern => "^\["
+      negate => true
+      what => "previous"
+    }
+  }
+}
+
+```
+
+### 4-3. 输出
+#### 4-3-1. elasticsearch
+> https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
+##### 4-3-1-1. 参数
+1. `hosts`:指定Elasticsearch.如`["192.168.56.10:9200"]`
+2. `index`:存放在Elasticserch里的索引的名称.可以支持日期格式,如`"logstash-%{+YYYY.MM.dd}"`.等于Elasticsearch里面的`_index`
+
+
+### 4-4. 实例
+1. 收集系统日志到Elasticsearch和stdout
 ```
 vim /etc/logstash/conf.d/get_messages.conf
 ##################################################
@@ -163,9 +231,90 @@ output {
 # 之后通过Head检查下就行了,注意发现间隔是15秒,所以要等一会
 #+++++++++++++++++++++++++++++++++++++++++++++++++
 ```
-### 4-2. 输出
-#### 4-2-1. elasticsearch
-> https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
-##### 4-1-1-1. 参数
-1. `hosts`:指定Elasticsearch.如`["192.168.56.10:9200"]`
-2. `index`:存放在Elasticserch里的索引的名称.可以支持日期格式,如`"logstash-%{+YYYY.MM.dd}"`.等于Elasticsearch里面的`_index`
+2. 收集系统日志和Java日志(Elasticsearch的)到Elasticsearch的不同index里面
+```
+vim /etc/logstash/conf.d/if.conf
+##################################################
+input {
+    file {
+        path => "/var/log/messages"
+        type => "system"
+        start_position => "end"
+    }
+    file {
+        path => "/var/log/elasticsearch/oldboy.log"
+        type => "java"
+        start_position => "end"
+    }
+}
+output {
+    if [type] == "system" {
+        elasticsearch {
+            hosts =>  ["192.168.56.10:9200"]
+            index => "system-%{+YYYY.MM.dd}"
+        }
+    }
+    if [type] == "java" {
+        elasticsearch {
+            hosts =>  ["192.168.56.10:9200"]
+            index => "java-%{+YYYY.MM.dd}"
+        }
+    }
+    stdout {
+        codec => rubydebug
+    }
+}
+##################################################
+/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/if.conf
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+# 之后通过Head检查下就行了,注意发现间隔是15秒,所以要等一会
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+```
+
+3. 收集系统日志和Java日志(Elasticsearch的)到Elasticsearch的不同index里面,并且Java日志多行处理成一行(一个事件)
+```
+vim /etc/logstash/conf.d/multiline.conf
+##################################################
+input {
+    file {
+        path => "/var/log/messages"
+        type => "system"
+        start_position => "end"
+    }
+    file {
+        path => "/var/log/elasticsearch/oldboy.log"
+        type => "java"
+        start_position => "end"
+        codec => multiline {
+            pattern => "^\["
+            negate => true
+            what => "previous"
+        }
+    }
+}
+output {
+    if [type] == "system" {
+        elasticsearch {
+            hosts =>  ["192.168.56.10:9200"]
+            index => "system-%{+YYYY.MM.dd}"
+        }
+    }
+    if [type] == "java" {
+        elasticsearch {
+            hosts =>  ["192.168.56.10:9200"]
+            index => "java-%{+YYYY.MM.dd}"
+        }
+    }
+    stdout {
+        codec => rubydebug
+    }
+}
+
+##################################################
+/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/multiline.conf
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+# 之后通过Head检查下就行了,注意如果收集到的日志太多的话,Web页面是看不到的.可以利用Browser标签下面左侧的搜索工具查找.注意发现间隔是15秒,所以要等一会
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+```
