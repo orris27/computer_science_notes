@@ -194,6 +194,56 @@ input {
 }
 
 ```
+### 4-2. filter
+[Grok filter文档](https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html)+[Github的文档](https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns)(里面有很多已经写好的匹配代码)
++ 整体采用的是和Django匹配URL一样的思路,即<类型:变量/字段名>.这里的变量名就是输出的字段名
+#### 4-2-1. 类型
+1. IP
+2. WORD
+3. URIPATHPARAM
+4. NUMBER
+#### 4-2-2. filter的官方例子
+```
+# 我们选取官方文档里匹配"55.3.244.1 GET /index.html 15824 0.043"的例子
+vim /etc/logstash/conf.d/filter_example.conf
+###############################################
+input {
+    stdin {
+        
+    }
+}
+filter {
+  grok {
+    match => { "message" => "%{IP:client} %{WORD:method} %{URIPATHPARAM:request} %{NUMBER:bytes} %{NUMBER:duration}" }
+  }
+}
+output {
+    stdout {
+        codec => "rubydebug"
+    }
+}
+###############################################
+/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/filter_example.conf
+
+# 往里面输入对应字符串
+###############################################
+55.3.244.1 GET /index.html 15824 0.043
+###############################################
+#----------------------------------------------
+{
+       "message" => "55.3.244.1 GET /index.html 15824 0.043",
+      "duration" => "0.043",
+          "host" => "es-master",
+         "bytes" => "15824",
+    "@timestamp" => 2018-08-07T18:01:47.175Z,
+      "@version" => "1",
+        "method" => "GET",
+       "request" => "/index.html",
+        "client" => "55.3.244.1"
+}
+#----------------------------------------------
+```
+
 
 ### 4-3. 输出
 #### 4-3-1. elasticsearch
@@ -461,3 +511,4 @@ nc 192.168.56.10:6666 < /etc/resolv.conf
 #echo "alien" > /dev/tcp/192.168.56.10/6666 # "abs的高级shell编程"这本书里有伪设备
 
 ```
+
