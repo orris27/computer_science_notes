@@ -389,9 +389,46 @@ output {
 
 
 ##################################################
-/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/.conf
+/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/json.conf
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++
 # 之后通过Head/Kibana检查下就行了,注意Nginx写日志有缓存,不会马上写入,而且发现间隔也是15秒,所以可能要等待
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+```
+
+4. 将系统日志写到指定端口,然后我们的Logstash直接从该端口拿日志内容
+	> 原理: 启动Logstash的syslog插件,让syslog插件去监听514端口.然后rsyslog服务将日志推送到514端口上
+```
+vim /etc/logstash/conf.d/syslog.conf
+# syslog插件默认监听514端口
+################################
+input {
+	syslog {
+		type => "system-syslog"
+		host => "192.168.56.10"
+		port => "514"
+	}
+}
+output {
+	if [type] == "system-syslog" {
+		elasticsearch {
+            hosts =>  ["192.168.56.10:9200"]
+            index => "system-syslog-%{+YYYY.MM.dd}"
+		} 
+	}
+	stdout {
+		codec => "rubydebug"
+	}
+}
+################################
+
+vim /etc/rsyslog.conf
+################################
+*.* @@192.168.56.10:514 # 在最下面被注释的一块
+################################
+systemctl restart rsyslog
+/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/syslog.conf
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+# 之后通过Head/Kibana检查下就行了
 #+++++++++++++++++++++++++++++++++++++++++++++++++
 ```
