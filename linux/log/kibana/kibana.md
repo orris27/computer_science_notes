@@ -39,7 +39,7 @@ screen -ls
 
 ```
 ## 2. 使用
-1. 点击Discover,第一次的时候创建一个index去跟踪
+1. 点击Management>Index Patterns>Create Index Pattern,创建一个index去跟踪
     1. 填写index名字
         + 如`es-error-*`.用`*`会匹配时间
     2. 选择`@timestamp`
