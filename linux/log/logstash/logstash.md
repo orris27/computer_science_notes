@@ -237,29 +237,13 @@ vim /etc/logstash/conf.d/if.conf
 ##################################################
 input {
     file {
-        path => "/var/log/messages"
-        type => "system"
-        start_position => "end"
-    }
-    file {
-        path => "/var/log/elasticsearch/oldboy.log"
-        type => "java"
-        start_position => "end"
+        path => "/var/log/nginx/nginx-acces.log"
+        type => "nginx-access"
+        start_position => "beginning"
+        codec => "json"
     }
 }
 output {
-    if [type] == "system" {
-        elasticsearch {
-            hosts =>  ["192.168.56.10:9200"]
-            index => "system-%{+YYYY.MM.dd}"
-        }
-    }
-    if [type] == "java" {
-        elasticsearch {
-            hosts =>  ["192.168.56.10:9200"]
-            index => "java-%{+YYYY.MM.dd}"
-        }
-    }
     stdout {
         codec => rubydebug
     }
@@ -372,6 +356,12 @@ input {
             what => "previous"
         }
     }
+    file {
+	path => "/var/log/nginx/access-json.log"
+	type => "nginx-access"
+	start_position => "beginning"
+	codec => "json"
+    }
 }
 output {
     if [type] == "system" {
@@ -386,10 +376,17 @@ output {
             index => "java-%{+YYYY.MM.dd}"
         }
     }
+    if [type] == "nginx-access" {
+        elasticsearch {
+            hosts =>  ["192.168.56.10:9200"]
+            index => "nginx-access-%{+YYYY.MM.dd}"
+        }
+    }
     stdout {
         codec => rubydebug
     }
 }
+
 
 ##################################################
 /usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/.conf
