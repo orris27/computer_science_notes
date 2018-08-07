@@ -64,12 +64,83 @@ hello
 /usr/share/logstash/bin/logstash -e 'input { stdin{} } output { elasticsearch{hosts => ["192.168.56.10:9200"] } stdout {codec => rubydebug}}'
 ```
 
+5. 利用配置文件将输出发送到Elasticsearch和当前终端里
+```
+
+```
 ## 3. logstash
 ### 3-1. options
 1. `-e`:用字符串充当配置文件
+2. `-f`:指定配置文件
 
 
 ### 3-2. 使用插件
 #### 3-2-1. ouput插件
 output插件可以将输出存放到stdout,redis,elasticsearch等里面
 > https://www.elastic.co/guide/en/logstash/current/output-plugins.html
+
+
+## 4. 配置文件
+1. 插件
+    1. 输入
+    ```
+    input {
+        #...
+    }
+    ```
+    2. 过滤
+    ```
+    filter {
+        #...
+    }
+    ```
+    3. 输出
+    ```
+    output {
+        #..
+    }
+    ```
+
+2. 格式
+    1. 语法
+    + 可以写多个
+    + 支持数组
+    + 注释:`#`
+    ```
+    输入/过滤/输出 {
+        插件 {
+           参数名 => 值
+        }
+    }
+    ```
+    2. 模板
+    ```
+    input {
+        插件 {
+           参数名 => 值
+        }
+    }
+    output {
+        插件 {
+           参数名 => 值
+        }
+    }
+    ```
+### 4-1. 输入
+#### 4-1-1. file
+##### 4-1-1-1. 参数
+1. `sincedb_path`:记录读到哪里,默认文件根下,为隐藏文件=>如果Logstash挂了可以知道下次从哪里开始读  
+2. `start_position`:从文件的哪个地方开始收集.默认是尾部
+3. `discover_interval`:多久时间看下被监视的文件.
+##### 4-1-1-2. 实例:收集系统日志到Elasticsearch
+```
+vim /etc/logstash/conf.d/get_messages.conf
+##################################################
+
+
+##################################################
+```
+### 4-2. 输出
+#### 4-2-1. elasticsearch
+##### 4-1-1-1. 参数
+1. `index`:存放在Elasticserch里的索引的名称
