@@ -814,6 +814,7 @@ nmap 172.16.55.137 -p1-65535
 6. `-X`:指定请求方式,如POST,GET
 7. `-H`:指定请求头
 8. `-d`:指定数据
+9. `-i`:返回响应头+响应体(数据)
 #### 26-12-2. 给Zabbix传送登录的POST请求
 > https://github.com/orris27/orris/blob/master/linux/zabbix/item.md
 ```
