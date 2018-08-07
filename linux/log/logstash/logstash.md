@@ -318,3 +318,83 @@ output {
 # 之后通过Head检查下就行了,注意如果收集到的日志太多的话,Web页面是看不到的.可以利用Browser标签下面左侧的搜索工具查找.注意发现间隔是15秒,所以要等一会
 #+++++++++++++++++++++++++++++++++++++++++++++++++
 ```
+4. 在上面的基础上,再获取用JSON格式记录访问日志的Nginx的日志
+    + 标准化的日志是统一目录,统一命名规范
+    + 不推荐正则表达式:麻烦+调试难+效率低
+    1. 修改Nginx的配置文件,使Nginx用JSON格式记录访问日志
+    2. 写监控Nginx得到访问日志的Logstash
+        1. 输入是访问日志
+        2. 用json格式解码
+        3. 输出到Elasticsearch
+    3. 启动Logstash
+    4. 使用Head或Kibana查看收集到的数据
+```
+vim /etc/nginx/nginx.conf
+#####################################################
+http {
+    # ...
+    log_format json_log_name '{ "@timestamp": "$time_local", '
+        '"remote_addr": "$remote_addr", '
+        '"referer": "$http_referer", '
+        '"request": "$request", '
+        '"status": $status, '
+        '"bytes": $body_bytes_sent, '
+        '"agent": "$http_user_agent", '
+        '"x_forwarded": "$http_x_forwarded_for", '
+        '"up_addr": "$upstream_addr",'
+        '"up_host": "$upstream_http_host",'
+        '"up_resp_time": "$upstream_response_time",'
+        '"request_time": "$request_time"'
+        ' }';
+    server {
+        # ...
+        access_log /var/log/nginx/access-json.log json_log_name;
+    }
+}
+#####################################################
+nginx -s reload
+
+vim /etc/logstash/conf.d/json.conf
+##################################################
+input {
+    file {
+        path => "/var/log/messages"
+        type => "system"
+        start_position => "end"
+    }
+    file {
+        path => "/var/log/elasticsearch/oldboy.log"
+        type => "java"
+        start_position => "end"
+        codec => multiline {
+            pattern => "^\["
+            negate => true
+            what => "previous"
+        }
+    }
+}
+output {
+    if [type] == "system" {
+        elasticsearch {
+            hosts =>  ["192.168.56.10:9200"]
+            index => "system-%{+YYYY.MM.dd}"
+        }
+    }
+    if [type] == "java" {
+        elasticsearch {
+            hosts =>  ["192.168.56.10:9200"]
+            index => "java-%{+YYYY.MM.dd}"
+        }
+    }
+    stdout {
+        codec => rubydebug
+    }
+}
+
+##################################################
+/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/.conf
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+# 之后通过Head/Kibana检查下就行了,注意Nginx写日志有缓存,不会马上写入,而且发现间隔也是15秒,所以可能要等待
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+```
