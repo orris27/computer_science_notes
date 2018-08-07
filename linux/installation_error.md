@@ -186,3 +186,92 @@ ProtocolError: <ProtocolError for 127.0.0.1:80/cobbler_api: 503 Service Unavaila
 6. 浏览器里输入`http://192.168.1.2/cobbler_web`时返回`403 Forbidden`
 + 输入`https://192.168.1.2/cobbler_web`,这里一定是`https`
 + 如果浏览器阻止的话,选高级,强行进入
+
+
+## 5. Elasticsearch
+
+1. `max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536].`
++ 修改`/etc/security/limits.conf`只要修改就生效了,不用类似于内核参数一样修改完文件后还要执行`sysctl -p`或者修改配置文件后重启服务等
+```
+vim /etc/security/limits.conf
+################################################################
+* soft nofile 65536
+* hard nofile 65536
+* soft nproc 2048
+* hard nproc 4096
+################################################################
+```
+2. `memory locking requested for elasticsearch process but memory is not locked`
+> 原因: 发生系统swapping的时候ES节点的性能会非常差，也会影响节点的稳定性。所以要不惜一切代价来避免swapping.要么是bootstrap.memory_lock: true这个没设置，要么就是max locked memory这个没配置么
+  1. 尝试
+  ```
+  # 尝试修改/etc/security/limits.conf => 结果还是报同样的错误
+  vim /etc/security/limits.conf 
+  ################################################################
+  *   soft　　memlock　　unlimited
+  *   hard　　memlock　　unlimited
+  ################################################################
+
+
+  # 尝试修改/etc/systemd/system.conf => 结果还是报同样的错误
+  vim /etc/systemd/system.conf
+  ################################################################
+  DefaultLimitNOFILE=65536
+  DefaultLimitNPROC=32000
+  DefaultLimitMEMLOCK=infinity
+  ################################################################
+
+
+  # 根据https://blog.csdn.net/gebitan505/article/details/54709515,尝试在配置文件里取消注释 => 结果还是报同样的错误
+  vim /etc/elasticsearch/elasticsearch.yml
+  ################################################################
+  discovery.zen.ping.unicast.hosts: ["192.168.56.10"]
+  discovery.zen.minimum_master_nodes: 3
+  ################################################################
+
+
+
+  # 尝试修改/etc/security/limits.conf => 结果还是报同样的错误+第3个错误,即threads不够用
+  vim /etc/security/limits.conf 
+  ################################################################
+  elasticsearch                soft nofile 65536
+  elasticsearch                hard nofile 65536
+  elasticsearch                soft nproc 2048
+  elasticsearch                hard nproc 4096
+  elasticsearch                soft　　memlock　　unlimited
+  elasticsearch                hard　　memlock　　unlimited
+  ################################################################
+
+  # 尝试修改/etc/security/limits.conf,注释里面刚好有memlock unlimited,我就取消这个注释,发现执行su -s /bin/sh -c "/usr/share/elasticsearch/bin/elasticsearch" elasticsearch成功,
+  vim /etc/security/limits.conf 
+  ################################################################
+  #*               soft    core            0
+  #*               hard    rss             10000
+  #@student        hard    nproc           20
+  #@faculty        soft    nproc           20
+  #@faculty        hard    nproc           50
+  #ftp             hard    nproc           0
+  #@student        -       maxlogins       4
+  *                hard    memlock         unlimited
+  *                soft    memlock         unlimited
+  ################################################################
+  ```
+  2. 最终解决方案
+
+3. `max number of threads [2048] for user [elasticsearch] is too low, increase to at least [4096]`
+```
+vim /etc/security/limits.conf # 上面的修改成下面的,即soft nproc改成4096 => 结果又报第2个错误,即memory is not locked
+################################################################
+elasticsearch                soft nofile 65536
+elasticsearch                hard nofile 65536
+elasticsearch                soft nproc 4096
+elasticsearch                hard nproc 4096
+elasticsearch                soft　　memlock　　unlimited
+elasticsearch                hard　　memlock　　unlimited
+################################################################
+```
+
+
+
+
+
