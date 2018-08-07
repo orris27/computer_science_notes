@@ -54,12 +54,22 @@ hello
 ```
 /usr/share/logstash/bin/logstash -e 'input { stdin{} } output { stdout{codec => rubydebug} }'
 ```
-3. 将输出发送到Elasticsearch里面 => 刷新原来的Head网页,发生变化,并且点击数据浏览,刷新,会有源源不断的数据过来
+3. 将输出发送到Elasticsearch里面 => 刷新原来的Head网页,发生变化,并且点击Browser,刷新,会有源源不断的数据过来
+> 语法参考:[Logstash官网output插件文档](https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html)
 ```
-/usr/share/logstash/bin/logstash -e 'input { stdin{} } output { elasticsearch{hosts => ["192.168.56.10:9200"] }'
+/usr/share/logstash/bin/logstash -e 'input { stdin{} } output { elasticsearch{hosts => ["192.168.56.10:9200"]} }'
 ```
 4. 将输出发送到Elasticsearch和当前终端里
 ```
-/usr/share/logstash/bin/logstash -e 'input { stdin{} } output { elasticsearch{hosts => ["192.168.56.10:9200"] } stdout {codec => rubydebug}'
-
+/usr/share/logstash/bin/logstash -e 'input { stdin{} } output { elasticsearch{hosts => ["192.168.56.10:9200"] } stdout {codec => rubydebug}}'
 ```
+
+## 3. logstash
+### 3-1. options
+1. `-e`:用字符串充当配置文件
+
+
+### 3-2. 使用插件
+#### 3-2-1. ouput插件
+output插件可以将输出存放到stdout,redis,elasticsearch等里面
+> https://www.elastic.co/guide/en/logstash/current/output-plugins.html
