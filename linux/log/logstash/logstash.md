@@ -106,10 +106,11 @@ output插件可以将输出存放到stdout,redis,elasticsearch等里面
     + 可以写多个
     + 支持数组
     + 注释:`#`
+    + 值:数字/字符串(双引号)/数组
     ```
     输入/过滤/输出 {
         插件 {
-           参数名 => 值
+            参数名 => 值
         }
     }
     ```
@@ -117,30 +118,54 @@ output插件可以将输出存放到stdout,redis,elasticsearch等里面
     ```
     input {
         插件 {
-           参数名 => 值
+            参数名 => 值
         }
     }
     output {
         插件 {
-           参数名 => 值
+            参数名 => 值
         }
     }
     ```
 ### 4-1. 输入
 #### 4-1-1. file
+> https://www.elastic.co/guide/en/logstash/current/plugins-inputs-file.html
 ##### 4-1-1-1. 参数
 1. `sincedb_path`:记录读到哪里,默认文件根下,为隐藏文件=>如果Logstash挂了可以知道下次从哪里开始读  
-2. `start_position`:从文件的哪个地方开始收集.默认是尾部
-3. `discover_interval`:多久时间看下被监视的文件.
-##### 4-1-1-2. 实例:收集系统日志到Elasticsearch
+2. `start_position`:从文件的哪个地方开始收集.默认是尾部,如`"end"`
+3. `discover_interval`:多久时间看下被监视的文件,默认15秒
+4. `path`:指定哪个文件.支持通配符`*`,如`"/var/log/*.log"`
+5. `type`:主要用在filter行为上. ≠Elasticsearch里面的`_type`. 如`"system"`
+##### 4-1-1-2. 实例:收集系统日志到Elasticsearch和stdout
 ```
 vim /etc/logstash/conf.d/get_messages.conf
 ##################################################
-
-
+input {
+    file {
+        path => "/var/log/messages"
+        type => "system"
+        start_position => "end"
+    }
+}
+output {
+    elasticsearch {
+        hosts =>  ["192.168.56.10:9200"]
+        index => "system-%{+YYYY.MM.dd}"
+    }
+    stdout {
+        codec => rubydebug
+    }
+}
 ##################################################
+/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/get_messages.conf
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+# 之后通过Head检查下就行了,注意发现间隔是15秒,所以要等一会
+#+++++++++++++++++++++++++++++++++++++++++++++++++
 ```
 ### 4-2. 输出
 #### 4-2-1. elasticsearch
+> https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html
 ##### 4-1-1-1. 参数
-1. `index`:存放在Elasticserch里的索引的名称
+1. `hosts`:指定Elasticsearch.如`["192.168.56.10:9200"]`
+2. `index`:存放在Elasticserch里的索引的名称.可以支持日期格式,如`"logstash-%{+YYYY.MM.dd}"`.等于Elasticsearch里面的`_index`
