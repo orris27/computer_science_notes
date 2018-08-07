@@ -1,14 +1,16 @@
 ## 1. 安装
 Elasticsearch的最好安装方法就是yum安装. > [官方rpm安装文档](https://www.elastic.co/guide/en/elasticsearch/reference/current/rpm.html)
 + 参数的调整其实最终还是对JVM的调优
-1. 安装Java
+1. 确认自己的内存至少有2GB
++ 内存太小启动不了ES
+2. 安装Java
 + ES是Java开发的
-2. 导入GPG的key
-3. 配置yum仓库
-4. yum安装
-5. 修改ES配置文件和`limits.conf`参数
-6. 启动服务
-7. 验证
+3. 导入GPG的key
+4. 配置yum仓库
+5. yum安装
+6. 修改ES配置文件和`limits.conf`参数
+7. 启动服务
+8. 验证
 ```
 yum install -y java
 java -version # 验证
@@ -254,13 +256,15 @@ http.cors.allow-origin: "*"
 + ES启动的时候会自动发送组播,如果cluster.name相同的话就会加入集群
 1. 安装Elasticsearch,直到浏览器里可以访问URL
 + 除了配置文件以外,其他过程都相同
-+ 配置文件中只有`node.name`和主节点不同
++ 配置文件中只有`node.name`和`discovery.zen.ping.unicast.hosts`与主节点不同
 + 修改Elasticsearch的配置文件,设置cluster.name为集群的名字
+2. 访问`192.168.56.10:9100`验证
++ 不断点connect`http://192.168.56.10:9200/`,就会出现了
 ```
 vim /etc/elasticsearchelasticsearch.yml
 ###########################################
-cluster.name: oldboy 
-node.name: linux-node2
+cluster.name: oldboy # 集群名字必须相同
+node.name: linux-node2 # 节点名字必须不同
 
 path.data: /var/lib/elasticsearch
 path.logs: /var/log/elasticsearch
@@ -269,7 +273,13 @@ bootstrap.mlockall: true
 
 network.host: 0.0.0.0 
 http.port: 9200
+
+discovery.zen.ping.unicast.hosts: ["192.168.56.10", "192.168.56.20"]
 ###########################################
+
+## 启动服务并且成功
+
+## 在原来节点的head网页里再连接192.168.56.10:9200,就会出现2个节点都连接上的效果
 ```
 
 
