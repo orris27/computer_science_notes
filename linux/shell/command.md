@@ -1652,6 +1652,12 @@ brctl show
 dmesg | grep -i scheduler
 ```
 
+## 49. su
+### 49-1. 暂时切换到某个账户执行命令
+```
+su -s /bin/sh -c "keystone-manage db_sync" keystone
+```
+
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
