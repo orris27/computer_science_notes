@@ -1659,6 +1659,10 @@ su -s /bin/sh -c "keystone-manage db_sync" keystone
 ```
 
 
+## 50. logstash
+> https://github.com/orris27/orris/blob/master/linux/log/logstash/logstash.md
+
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
