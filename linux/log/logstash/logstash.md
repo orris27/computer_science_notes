@@ -397,7 +397,7 @@ output {
 ```
 
 4. 将系统日志写到指定端口,然后我们的Logstash直接从该端口拿日志内容
-	> 原理: 启动Logstash的syslog插件,让syslog插件去监听514端口.然后rsyslog服务将日志推送到514端口上
+    > 原理: 启动Logstash的syslog插件,让syslog插件去监听514端口.然后rsyslog服务将日志推送到514端口上
 ```
 vim /etc/logstash/conf.d/syslog.conf
 # syslog插件默认监听514端口
@@ -431,4 +431,33 @@ systemctl restart rsyslog
 #+++++++++++++++++++++++++++++++++++++++++++++++++
 # 之后通过Head/Kibana检查下就行了
 #+++++++++++++++++++++++++++++++++++++++++++++++++
+```
+5. 使用tcp插件监听某个端口来的日志
+    1. 启动Logstash,使监听一个端口
+    2. 往端口里写数据
+    	+ nc
+        + 伪设备 
+	    + 如`echo "oldboy" > /dev/tcp/192.168.56.10/6666`
+```
+vim /etc/logstash/conf.d/tcp.conf
+###############################################
+input {
+    tcp {
+        host => "192.168.56.10"
+	port => "6666"
+    }
+}
+output {
+    stdout {
+        codec => "rubydebug"
+    }
+}
+###############################################
+/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/tcp.conf
+
+
+yum install nc -y
+nc 192.168.56.10:6666 < /etc/resolv.conf
+#echo "alien" > /dev/tcp/192.168.56.10/6666 # "abs的高级shell编程"这本书里有伪设备
+
 ```
