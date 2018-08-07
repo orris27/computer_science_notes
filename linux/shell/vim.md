@@ -27,6 +27,10 @@ set fileformats=unix,dos,mac
 set nobomb "禁止utf-8 bom
 
 filetype on "自动识别文件类型
+[root@es-master conf.d]# vim /etc/logstash/conf.d/tcp.conf
+[root@es-master conf.d]# vim ~/.vimrc 
+[root@es-master conf.d]# vim /etc/logstash/conf.d/tcp.conf
+[root@es-master conf.d]# vim ~/.vimrc 
 
 " 设置界面
 set number
@@ -45,10 +49,10 @@ set autoindent " 如果在tab1次的情况下回车或o,那么就会自动锁紧
 set nocompatible 
 set tabstop=4
 
-set softtabstop=4
+"set softtabstop=4
 set shiftwidth=4  
-set autoindent
-set cindent
+"set autoindent
+"set cindent
 set cinoptions={0,1s,t0,n-2,p2s,(03s,=.5s,>1s,=1s,:1s
 set nu 
 set hlsearch
@@ -65,5 +69,4 @@ set nobomb
 filetype on
 set number
 
-set autoindent
 ```
