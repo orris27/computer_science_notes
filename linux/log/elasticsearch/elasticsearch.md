@@ -86,6 +86,7 @@ curl 192.168.56.10:9200 # 出现结果就说明成功了,不过需要等一下
 + 查询的东西
 + `pretty`让数据更美观
 ```
+# 这个请求不能成功
 curl -i -XGET 'http://192.168.56.10:9200/_count?pretty' -d \
 '{
 "query": {
@@ -149,31 +150,96 @@ http.cors.allow-origin: "*"
 ```
 
 #### 3-2-2. 使用
+##### 3-2-2-1. 基本操作
 1. 浏览器访问`192.168.56.10:9200/_plugin/head/`
 2. 点击复合查询
 3. 在"查询"里填写信息
-    1. URL:`/index-demo/test`
-    2. 请求方式:`POST`
-    3. 数据:
-    ```
-    {
-      "user": "oldboy",
-      "mesg": "hello world"
+##### 3-2-2-2. 设置数据
+1. URL:`http://192.168.56.10:9200/index-demo/test`
++ Query第一行不能是`localhost`
++ Query第二行不能以`/`开头
+2. 请求方式:`POST`
+3. 数据:
+```
+{
+  "user": "oldboy",
+  "mesg": "hello world"
+}
+```
+4. 发送请求
+5. 获得`"_id"`,如`W5ZmE2UB4D62RSdOrpQM`
+```
+{
+  "_index": "index-demo",
+  "_type": "test",
+  "_id": "W5ZmE2UB4D62RSdOrpQM",
+  "_version": 1,
+  "result": "created",
+  "_shards": {
+    "total": 2,
+    "successful": 1,
+    "failed": 0
+    },
+  "_seq_no": 1,
+  "_primary_term": 1
+}
+```
+##### 3-2-2-3. 请求某个id的数据
+1. URL:`http://192.168.56.10:9200/index-demo/test/<_id>`
++ 如`http://192.168.56.10:9200/index-demo/test/W5ZmE2UB4D62RSdOrpQM`
+2. 请求方式:`GET`
+3. 数据:
+```
+{
+  "user": "oldboy",
+  "mesg": "hello world"
+}
+```
+4. 发送请求
+5. 从`_source`处可以获取到刚才提交的数据
+```
+#-------------------------------------------------------
+{
+  "_index": "index-demo",
+  "_type": "test",
+  "_id": "W5ZmE2UB4D62RSdOrpQM",
+  "_version": 1,
+  "found": true,
+  "_source": {
+    "user": "oldboy",
+    "mesg": "hello world"
     }
-    ```
-    4. 发送请求
-    5. 获得`"_id"`
-4. 请求某个ID
-    1. URL:`/index-demo/test/<_id>`
-    2. 请求方式:`GET`
-    3. 数据:
-    ```
-    {
-      "user": "oldboy",
-      "mesg": "hello world"
-    }
-    ```
-    4. 发送请求
-    5. 从`_source`处可以获取到刚才提交的数据
-
-
+}
+#-------------------------------------------------------
+```
+##### 3-2-2-4. 删除某个id的数据
+1. URL:`http://192.168.56.10:9200/index-demo/test/<_id>`
++ 如`http://192.168.56.10:9200/index-demo/test/W5ZmE2UB4D62RSdOrpQM`
+2. 请求方式:`DELETE`
+3. 数据:
+```
+{
+  "user": "oldboy",
+  "mesg": "hello world"
+}
+```
+4. 发送请求
+5. 从`_source`处可以获取到刚才提交的数据
+```
+#-------------------------------------------------------
+{
+  "_index": "index-demo",
+  "_type": "test",
+  "_id": "W5ZmE2UB4D62RSdOrpQM",
+  "_version": 2,
+  "result": "deleted",
+  "_shards": {
+    "total": 2,
+    "successful": 1,
+    "failed": 0
+    },
+  "_seq_no": 2,
+  "_primary_term": 1
+}
+#-------------------------------------------------------
+```
