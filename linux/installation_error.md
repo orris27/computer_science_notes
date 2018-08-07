@@ -202,7 +202,7 @@ vim /etc/security/limits.conf
 ################################################################
 ```
 2. `memory locking requested for elasticsearch process but memory is not locked`
-> 原因: 发生系统swapping的时候ES节点的性能会非常差，也会影响节点的稳定性。所以要不惜一切代价来避免swapping.要么是bootstrap.memory_lock: true这个没设置，要么就是max locked memory这个没配置么
+    > 原因: 发生系统swapping的时候ES节点的性能会非常差，也会影响节点的稳定性。所以要不惜一切代价来避免swapping.要么是bootstrap.memory_lock: true这个没设置，要么就是max locked memory这个没配置么
     1. 尝试
     ```
     
