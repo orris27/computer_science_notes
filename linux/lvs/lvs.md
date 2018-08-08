@@ -60,8 +60,10 @@ libcrc32c              12644  3 xfs,ip_vs,nf_conntrack
 3. 创建一个虚拟服务(ip+port组成)
 4. 给虚拟服务添加真实服务器
 5. 给真实服务器在环回接口上绑定虚拟服务的VIP
-6. 给真实服务器抑制ARP响应
+6. 对真实服务器抑制ARP响应
     > 修改内核参数就可以了
+7. 永久生效(写脚本)
+    > 上面写的内容都是临时生效
 
 ```
 #####################################
@@ -92,10 +94,15 @@ ifconfig lo:0 10.0.0.10/32 up
 # 添加主机路由(仅仅route -n时多了一行,可选)
 route add -host 10.0.0.10 dev eth0
 
+# 1表示只回答目标IP地址是来访网络接口本地地址的ARP查询请求
 echo "1" > /proc/sys/net/ipv4/conf/lo/arp_ignore # 原来是0
 echo "2" > /proc/sys/net/ipv4/conf/lo/arp_announce
 echo "1" > /proc/sys/net/ipv4/conf/all/arp_ignore
 echo "2" > /proc/sys/net/ipv4/conf/all/arp_announce
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 可以写个脚本使永久生效
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
 
 
