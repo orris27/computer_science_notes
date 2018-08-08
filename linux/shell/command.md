@@ -999,31 +999,6 @@ modprobe ip_vs
 ```
 
 ## 36. ipvsadm
-ipvs的管理工具
-### 36-1. option
-1. `--add-service,-A`:add virtual service with options
-2. `--delete-service,-D`:delete virtual service
-3. `--clear,-C`:clear the whole table
-4. `--add-server,-a`:add real server with options
-5. `--delete-server,-d`:delete real server
-6. `--list,-L|-l`:list the table
-7. `--persistent,-p[timeout]`:persistent service
-8. `--weight,-w`:capacity of real server
-9. `--scheduler,-s scheduler`:one of rr|wrr|lc|wlc|lblc|lblcr|dh|sh|sed|nq, the default is wlc
-10. `--set tcp tcpfin udp`:set connection timeout values
-11. `--tcp-service,-t service-address`:service-address is host[:port]
-12. `--real-server,-r server-address`:server-address is host (and port)
-13. `--gatewaying,-g`:gatewaying (direct routing) (default)
-### 36-2. 实战
-#### 36-2-1. 删除real server
-```
-ipvsadm -d -t 172.19.28.82:80 -r 172.19.28.83:80
-```
-#### 36-2-2. 删除virtual server
-```
-ipvsadm -D -t 172.19.28.82:80
-```
-#### 36-2-3. 配置操作
 > https://github.com/orris27/orris/blob/master/linux/lvs/installation.md
 
 ## 37. 磁盘和文件系统
@@ -1782,6 +1757,7 @@ su -s /bin/sh -c "keystone-manage db_sync" keystone
 
 ## 50. logstash
 > https://github.com/orris27/orris/blob/master/linux/log/logstash/logstash.md
+
 
 
 ## 0. 实战
