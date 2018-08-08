@@ -381,3 +381,21 @@ elasticsearch                hard　　memlock　　unlimited
     # -t nat而不是NAT!!大小写敏感的
     iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j SNAT --to-source 192.168.1.100
     ```
+## 9. LVS
+1. 安装LVS时出现下面错误
+```
+In file included from libipvs.h:13:0,
+                 from libipvs.c:23:
+ip_vs.h:15:29: fatal error: netlink/netlink.h: No such file or directory
+ #include <netlink/netlink.h>
+ compilation terminated.
+make[1]: *** [libipvs.o] Error 1
+make[1]: Leaving directory `/home/orris/tools/ipvsadm-1.26/libipvs'
+make: *** [libs] Error 2
+```
+解决
+```
+sudo yum install libnl* popt* -y
+```
+2. 在阿里云的远程连接里设置好LO的IP后,virutal server就ping不通real server了
+    > 可能阿里云的服务器不支持把.只能在虚拟机做的样子
