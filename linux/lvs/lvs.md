@@ -154,6 +154,11 @@ ipvsadm --clear
 ipvsadm --list -n
 ```
 
+## 4. arping
+清空局域网内所有ARP表
+```
+arping -c 1 -I eth0 -s $VIP 10.0.0.254 > /dev/null 2>&1
+```
 
 
 
