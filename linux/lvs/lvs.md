@@ -77,6 +77,7 @@ ipvsadm --add-service -t 10.0.0.10:80 --scheduler rr -p 20
 ipvsadm --add-server -t 10.0.0.10:80 --real-server 10.0.0.8 --gatewaying
 ipvsadm --add-server -t 10.0.0.10:80 --real-server 10.0.0.9 --gatewaying
 
+ipvsadm --list -n
 
 ```
 
