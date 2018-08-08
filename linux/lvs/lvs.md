@@ -57,6 +57,12 @@ libcrc32c              12644  3 xfs,ip_vs,nf_conntrack
 用户访问的地址(VIP)是
 1. 配置VIP
 2. 删除原来的LVS配置
+3. 创建一个虚拟服务(ip+port组成)
+4. 给虚拟服务添加真实服务器
+5. 给真实服务器在环回接口上绑定虚拟服务的VIP
+6. 给真实服务器抑制ARP响应
+    > 修改内核参数就可以了
+
 ```
 #####################################
 # LVS01
@@ -79,13 +85,24 @@ ipvsadm --add-server -t 10.0.0.10:80 --real-server 10.0.0.9 --gatewaying
 
 ipvsadm --list -n
 
+#####################################
+# Web01 & Web02
+#####################################
+ifconfig lo:0 10.0.0.10/32 up
+# 添加主机路由(仅仅route -n时多了一行,可选)
+route add -host 10.0.0.10 dev eth0
+
+echo "1" > /proc/sys/net/ipv4/conf/lo/arp_ignore # 原来是0
+echo "2" > /proc/sys/net/ipv4/conf/lo/arp_announce
+echo "1" > /proc/sys/net/ipv4/conf/all/arp_ignore
+echo "2" > /proc/sys/net/ipv4/conf/all/arp_announce
 ```
 
 
 
 ## 3. ipvsadm
 ipvs的管理工具
-### 36-1. options
+### 3-1. options
 1. `--add-service,-A`:add virtual service with options.LVS里服务是ip+port的形式
 2. `--delete-service,-D`:delete virtual service
 3. `--clear,-C`:clear the whole table
@@ -100,8 +117,8 @@ ipvs的管理工具
 12. `--real-server,-r server-address`:server-address is host (and port)
 13. `--gatewaying,-g`:gatewaying (direct routing) (default)
 
-### 36-2. 实例
-#### 36-2-1. 添加
+### 3-2. 实例
+#### 3-2-1. 添加
 1. virtual service
 ```
 ipvsadm --add-service -t 10.0.0.10:80 --scheduler rr -p 20 
@@ -110,7 +127,7 @@ ipvsadm --add-service -t 10.0.0.10:80 --scheduler rr -p 20
 ```
 ipvsadm --add-server -t 10.0.0.10:80 --real-server 10.0.0.8 --gatewaying
 ```
-#### 36-2-2. 删除
+#### 3-2-2. 删除
 1. real server
     > 指明服务和节点
 ```
@@ -121,7 +138,7 @@ ipvsadm -d -t 172.19.28.82:80 -r 172.19.28.83:80
 ```
 ipvsadm -D -t 172.19.28.82:80
 ```
-#### 36-2-3. 查看LVS情况
+#### 3-2-3. 查看LVS情况
 ```
 ipvsadm --list -n
 ```
