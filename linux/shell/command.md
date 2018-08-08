@@ -1241,39 +1241,96 @@ sudo iptables -L -n
 ```
 
 ### 38-10. 实例
-1. 使用iptables实现Linux网关(三个网卡都是桥接模式的吗?)
+1. 使用iptables实现Linux网关(三个网卡都是桥接模式的吗? 是的!!)
     1. 准备
-		1. 假设2台服务器,A和B,A作为B的网关.假设都为桥接模式
-		2. A上配置2个网卡,eth0对外(`192.168.1.100`),eth1对内(`10.0.0.7`)
-		    1. 在虚拟机点击Settings后,下方的Add选中Network Adapter.然后选择桥接模式
-		3. B上配置1个网卡,eth0(`10.0.0.8`)
-		4. B:
-		    1. 网关=>A的IP地址
-			2. DNS=>`8.8.8.8`
-			3. 关闭防火墙等服务
-	    5. A:
-		    1. eth0(外部网卡)
-			    1. 网关=>物理机的网关
-				2. DNS=>`8.8.8.8`
-		    2. eth1(内部网卡)
-			    1. 网关=>无
-			    2. DNS=>无
-		    3. 内核参数允许转发
-			4. iptables允许转发,INPUT和OUTPUT都要ACCEPT
-			5. 加载内核模块
-	    6. 检测
-		    1. A和B能ping通
-			2. A能上网
+        1. 假设2台服务器,A和B,A作为B的网关.都为桥接模式
+        2. A上配置2个网卡,eth0对外(`192.168.1.100`),eth1对内(`10.0.0.7`)
+            1. 在虚拟机点击Settings后,下方的Add选中Network Adapter.然后选择桥接模式
+        3. B上配置1个网卡,eth0(`10.0.0.8`)
+        4. B:
+            1. 网关=>A的IP地址
+            2. DNS=>`8.8.8.8`
+            3. 关闭防火墙等服务
+        5. A:
+            1. eth0(外部网卡)
+                1. 网关=>物理机的网关
+                2. DNS=>`8.8.8.8`
+            2. eth1(内部网卡)
+                1. 网关=>无
+                2. DNS=>无
+            3. 内核参数允许转发
+            4. iptables允许转发,INPUT和OUTPUT都要ACCEPT
+            5. 加载内核模块
+        6. 检测
+            1. A和B能ping通
+            2. A能上网
 
-	2. 配置NAT表
-	    1. 对于A这个网关,如果从我的外部网卡出去的话,那么我就将数据包的源地址改成我的地址
+    2. 配置NAT表
+        1. 对于A这个网关,如果从我的外部网卡出去的话,那么我就将数据包的源地址改成我的地址
+    3. 在B服务器上检查能否上网
+        1. ping百度就行了
 ```
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 准备工作
+
+###########################################################################################
+# A节点 eth0可以上网
+###########################################################################################
+ifconfig
+###########################################################################################
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.100  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::a8e3:8c83:5cc5:4a4f  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:b1:82:9e  txqueuelen 1000  (Ethernet)
+        RX packets 700  bytes 65229 (63.7 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 500  bytes 56315 (54.9 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+eth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.0.0.7  netmask 255.0.0.0  broadcast 10.255.255.255
+        inet6 fe80::9a11:f4c8:ed39:7d75  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:b1:82:a8  txqueuelen 1000  (Ethernet)
+        RX packets 110  bytes 9594 (9.3 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 24  bytes 1915 (1.8 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+###########################################################################################
+
+###########################################################################################
+# B节点
+###########################################################################################
+ifconfig
+###########################################################################################
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.0.0.8  netmask 255.0.0.0  broadcast 10.255.255.255
+        inet6 fe80::cf75:db9c:d7a6:d3e  prefixlen 64  scopeid 0x20<link>
+        inet6 fe80::a8e3:8c83:5cc5:4a4f  prefixlen 64  scopeid 0x20<link>
+        ether 00:0c:29:6d:a8:94  txqueuelen 1000  (Ethernet)
+        RX packets 361  bytes 35042 (34.2 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 301  bytes 28006 (27.3 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+###########################################################################################
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+###########################################################################################
+# A节点
+###########################################################################################
+vim /etc/sysctl.conf
+###########################################
 net.ipv4.ip_forward = 1
+###########################################
 sysctl -p
-iptables 的filter的NAT的FORWARD要打开
+
+# iptables 的filter的NAT的FORWARD要打开
 iptables -P INPUT ACCEPT
 iptables -F
-iptables -P FORWARD ACCEPT或者直接停止iptables功能
+iptables -P FORWARD ACCEPT
 		
 lsmod | egrep ^ip
 modprobe ip_tables
@@ -1281,14 +1338,25 @@ modprobe iptable_filter
 modprobe iptable_nat
 modprobe ip_conntrack
 modprobe ip_conntrack_ftp
-		
 modprobe ip_nat_ftp
 modprobe ipt_state
 lsmod | egrep ^ip
+#-----------------------------------------------------------------------------------------
+iptable_filter         12810  0 
+iptable_nat            12875  0 
+ip_tables              27126  2 iptable_filter,iptable_nat
+#-----------------------------------------------------------------------------------------
 
 # 所有数据包从eth0路由处理后,如果源地址是在192.168.1.0/24这个网段,我就将数据包的源地址改成10.0.0.7
-iptables -t NAT -A POSTROUTING -s 192.168.1.0/24 -o eth0 -j SNAT --to-source 10.0.0.7
-	
+# -t nat而不是NAT!!大小写敏感的
+iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j SNAT --to-source 192.168.1.100
+
+
+
+###########################################################################################
+# B节点
+###########################################################################################
+ping baidu.com # 成功!
 ```
 	
 		
