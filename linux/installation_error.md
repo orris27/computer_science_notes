@@ -343,3 +343,9 @@ elasticsearch                hard　　memlock　　unlimited
     1. 解决方法
     + 安装最新版的npm就好了
 
+## 7. GateOne
+1. `'module' object has no attribute 'MarkerEvaluation'`
+    > 原因:distribute版本太老了,更新就好,参考[这个网站](https://github.com/kevin1024/vcrpy/issues/178)
+    ```
+    pip install --upgrade distribute --user
+    ```
