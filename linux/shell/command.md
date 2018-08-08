@@ -1036,7 +1036,7 @@ sudo dumpe2fs /dev/vda1
 
 ## 38. iptables
 Administration tool for ipv4 and ipv6 packet filtering and NAT.
-### 38-1. optionshostnamectl set-hostname <new_hostname>
+### 38-1. options
 1. `-L`:列出指定链的所有规则(默认链为filter)
 2. `-n`:数字格式输出IP和PORT.不设置该参数的话,`127.0.0.1`会显示成`localhost`,`0.0.0.0`会显示成`anywhere`等
 3. `-t`:指定表的类型
@@ -1239,6 +1239,59 @@ sudo vim /etc/sysconfig/iptables
 sudo systemctl reload iptables
 sudo iptables -L -n
 ```
+
+### 38-10. 实例
+1. 使用iptables实现Linux网关(三个网卡都是桥接模式的吗?)
+    1. 准备
+		1. 假设2台服务器,A和B,A作为B的网关.假设都为桥接模式
+		2. A上配置2个网卡,eth0对外(`192.168.1.100`),eth1对内(`10.0.0.7`)
+		    1. 在虚拟机点击Settings后,下方的Add选中Network Adapter.然后选择桥接模式
+		3. B上配置1个网卡,eth0(`10.0.0.8`)
+		4. B:
+		    1. 网关=>A的IP地址
+			2. DNS=>`8.8.8.8`
+			3. 关闭防火墙等服务
+	    5. A:
+		    1. eth0(外部网卡)
+			    1. 网关=>物理机的网关
+				2. DNS=>`8.8.8.8`
+		    2. eth1(内部网卡)
+			    1. 网关=>无
+			    2. DNS=>无
+		    3. 内核参数允许转发
+			4. iptables允许转发,INPUT和OUTPUT都要ACCEPT
+			5. 加载内核模块
+	    6. 检测
+		    1. A和B能ping通
+			2. A能上网
+
+	2. 配置NAT表
+	    1. 对于A这个网关,如果从我的外部网卡出去的话,那么我就将数据包的源地址改成我的地址
+```
+net.ipv4.ip_forward = 1
+sysctl -p
+iptables 的filter的NAT的FORWARD要打开
+iptables -P INPUT ACCEPT
+iptables -F
+iptables -P FORWARD ACCEPT或者直接停止iptables功能
+		
+lsmod | egrep ^ip
+modprobe ip_tables
+modprobe iptable_filter
+modprobe iptable_nat
+modprobe ip_conntrack
+modprobe ip_conntrack_ftp
+		
+modprobe ip_nat_ftp
+modprobe ipt_state
+lsmod | egrep ^ip
+
+# 所有数据包从eth0路由处理后,如果源地址是在192.168.1.0/24这个网段,我就将数据包的源地址改成10.0.0.7
+iptables -t NAT -A POSTROUTING -s 192.168.1.0/24 -o eth0 -j SNAT --to-source 10.0.0.7
+	
+```
+	
+		
 
 ## 39. uptime
 可以看到服务器的1min,5min,15min内的负载情况,临界值是处理器的核数
