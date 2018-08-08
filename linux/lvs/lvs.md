@@ -75,14 +75,17 @@ ipvsadm --add-service -t 10.0.0.10:80 --scheduler rr -p 20
 
 # 给10.0.0.10:80这个虚拟ip:port添加一个节点,其真实服务器IP是10.0.0.8,采用DR模式
 ipvsadm --add-server -t 10.0.0.10:80 --real-server 10.0.0.8 --gatewaying
+ipvsadm --add-server -t 10.0.0.10:80 --real-server 10.0.0.9 --gatewaying
+
+
 ```
 
 
 
 ## 3. ipvsadm
 ipvs的管理工具
-### 36-1. option
-1. `--add-service,-A`:add virtual service with options
+### 36-1. options
+1. `--add-service,-A`:add virtual service with options.LVS里服务是ip+port的形式
 2. `--delete-service,-D`:delete virtual service
 3. `--clear,-C`:clear the whole table
 4. `--add-server,-a`:add real server with options
@@ -96,14 +99,30 @@ ipvs的管理工具
 12. `--real-server,-r server-address`:server-address is host (and port)
 13. `--gatewaying,-g`:gatewaying (direct routing) (default)
 
-### 36-2. 实战
-#### 36-2-1. 删除real server
+### 36-2. 实例
+#### 36-2-1. 添加
+1. virtual service
+```
+ipvsadm --add-service -t 10.0.0.10:80 --scheduler rr -p 20 
+```
+2. real server
+```
+ipvsadm --add-server -t 10.0.0.10:80 --real-server 10.0.0.8 --gatewaying
+```
+#### 36-2-2. 删除
+1. real server
+    > 指明服务和节点
 ```
 ipvsadm -d -t 172.19.28.82:80 -r 172.19.28.83:80
 ```
-#### 36-2-2. 删除virtual server
+2. virtual server
+    > 指明服务
 ```
 ipvsadm -D -t 172.19.28.82:80
+```
+#### 36-2-3. 查看LVS情况
+```
+ipvsadm --list -n
 ```
 
 
