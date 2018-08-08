@@ -1,3 +1,4 @@
+## 1. 安装
 ```
 yum install -y readline-devel pcre-devel openssl-devel
 cd /usr/local/src
