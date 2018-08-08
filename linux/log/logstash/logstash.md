@@ -407,10 +407,10 @@ input {
         }
     }
     file {
-	path => "/var/log/nginx/access-json.log"
-	type => "nginx-access"
-	start_position => "beginning"
-	codec => "json"
+        path => "/var/log/nginx/access-json.log"
+        type => "nginx-access"
+        start_position => "beginning"
+        codec => "json"
     }
 }
 output {
@@ -509,6 +509,151 @@ output {
 yum install nc -y
 nc 192.168.56.10:6666 < /etc/resolv.conf
 #echo "alien" > /dev/tcp/192.168.56.10/6666 # "abs的高级shell编程"这本书里有伪设备
+
+```
+6. Redis做消息中间件
+```
+
+
+yum install -y redis
+
+##################################################
+daemonize yes;
+# bind 192.168.1.100 10.0.0.1
+# bind 127.0.0.1 ::1 # <=注意不要改在这个地方,而是改在没有取消注释的bind 127.0.0.1
+bind 192.168.56.10;
+##################################################
+systemctl start redis
+
+redis-cli -h 192.168.56.10
+
+vim /etc/logstash/conf.d/shipper.conf
+##################################################
+input {
+    file {
+        path => "/var/log/messages"
+        type => "system"
+        start_position => "end"
+    }
+    file {
+        path => "/var/log/elasticsearch/oldboy.log"
+        type => "java"
+        start_position => "end"
+        codec => multiline {
+            pattern => "^\["
+            negate => true
+            what => "previous"
+        }
+    }
+    file {
+        path => "/var/log/nginx/access-json.log"
+        type => "nginx-access"
+        start_position => "beginning"
+        codec => "json"
+    }
+}
+output {
+    if [type] == "system" {
+        redis {
+            host => "192.168.56.10"
+            port =>  "6379"
+            db => "6"
+            data_type => "list"
+            key => "system"
+        }
+    }
+    if [type] == "java" {
+        redis {
+            host => "192.168.56.10"
+            port =>  "6379"
+            db => "6"
+            data_type => "list"
+            key => "java"
+        }
+    }
+    if [type] == "nginx-access" {
+        redis {
+            host => "192.168.56.10"
+            port =>  "6379"
+            db => "6"
+            data_type => "list"
+            key => "nginx-access"
+        }
+    }
+    stdout {
+        codec => rubydebug
+    }
+}
+##################################################
+/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/shipper.conf
+
+
+redis-cli -h 192.168.56.10
+##################################################
+select 6
+lindex demo -1 
+llen demo
+##################################################
+
+
+
+vim /etc/logstash/conf.d/indexer.conf
+##################################################
+input {
+    redis {
+        type => "system"
+        host => "192.168.56.10"
+        port =>  "6379"
+        db => "6"
+        data_type => "list"
+        key => "system"
+    }
+    redis {
+        type => "java"
+        host => "192.168.56.10"
+        port =>  "6379"
+        db => "6"
+        data_type => "list"
+        key => "java"
+    }
+    redis {
+        type => "nginx-access"
+        host => "192.168.56.10"
+        port =>  "6379"
+        db => "6"
+        data_type => "list"
+        key => "nginx-access"
+    }
+}
+output {
+    if [type] == "system" {
+        elasticsearch {
+            hosts =>  ["192.168.56.10:9200"]
+            index => "system-%{+YYYY.MM.dd}"
+        }
+    }
+    if [type] == "java" {
+        elasticsearch {
+            hosts =>  ["192.168.56.10:9200"]
+            index => "java-%{+YYYY.MM.dd}"
+        }
+    }
+    if [type] == "nginx-access" {
+        elasticsearch {
+            hosts =>  ["192.168.56.10:9200"]
+            index => "nginx-access-%{+YYYY.MM.dd}"
+        }
+    }
+    stdout {
+        codec => rubydebug
+    }
+}
+##################################################
+/usr/share/logstash/bin/logstash -f /etc/logstash/conf.d/indexer.conf
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++
+# 之后通过Head/Kibana检查下就行了
+#+++++++++++++++++++++++++++++++++++++++++++++++++
 
 ```
 
