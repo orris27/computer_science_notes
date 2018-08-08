@@ -354,3 +354,6 @@ elasticsearch                hard　　memlock　　unlimited
     ```
     pip install tornado==4.5.3
     ```
+3. `[W 180808 12:26:53 iostream:1332] SSL Error on 12 ('192.168.56.1', 33256): [SSL: HTTP_REQUEST] http request (_ssl.c:579)`
+    > 没有使用HTTPS协议
+    使用HTTPS去访问就好了
