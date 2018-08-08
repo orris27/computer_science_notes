@@ -31,6 +31,8 @@ sudo  useradd nginx -s /sbin/nologin -M
 sudo ./configure --user=nginx --group=nginx --prefix=/application/nginx-1.14.0 --with-http_stub_status_module --with-http_ssl_module
 sudo make && sudo make install
 sudo ln -s /application/nginx-1.14.0/ /application/nginx
+
+sudo ln -s /application/nginx/sbin/nginx /usr/local/bin/
 ```
 
 ### 使用
