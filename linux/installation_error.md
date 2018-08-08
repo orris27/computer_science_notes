@@ -349,3 +349,8 @@ elasticsearch                hard　　memlock　　unlimited
     ```
     pip install --upgrade distribute --user
     ```
+2. `"'AutoExpireDict' object has no attribute '_key_watcher'" in <bound method AutoExpireDict.__del__ of {}> ignored`
+    > 使用了最新版的tornado,而这个支持比如说4.5.3的tornado
+    ```
+    pip install tornado==4.5.3
+    ```
