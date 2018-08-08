@@ -128,22 +128,26 @@ ipvs的管理工具
 #### 3-2-1. 添加
 1. virtual service
 ```
-ipvsadm --add-service -t 10.0.0.10:80 --scheduler rr -p 20 
+ipvsadm --add-service --tcp-service 10.0.0.10:80 --scheduler rr -p 20 
 ```
 2. real server
 ```
-ipvsadm --add-server -t 10.0.0.10:80 --real-server 10.0.0.8 --gatewaying
+ipvsadm --add-server --tcp-service 10.0.0.10:80 --real-server 10.0.0.8 --gatewaying
 ```
 #### 3-2-2. 删除
 1. real server
     > 指明服务和节点
 ```
-ipvsadm -d -t 172.19.28.82:80 -r 172.19.28.83:80
+ipvsadm --delete-server -t 172.19.28.82:80 -r 172.19.28.83:80
 ```
 2. virtual server 
-    > 指明服务,这个就是整个负载均衡的删除
+    > 指明服务
 ```
-ipvsadm -D -t 172.19.28.82:80
+ipvsadm --delete-service -t 172.19.28.82:80
+```
+3. 所有服务
+```
+ipvsadm --clear
 ```
 #### 3-2-3. 查看LVS情况
 ```
