@@ -357,3 +357,27 @@ elasticsearch                hard　　memlock　　unlimited
 3. `[W 180808 12:26:53 iostream:1332] SSL Error on 12 ('192.168.56.1', 33256): [SSL: HTTP_REQUEST] http request (_ssl.c:579)`
     > 没有使用HTTPS协议
     使用HTTPS去访问就好了
+
+
+## 8. iptables
+1. `iptables v1.4.21: can't initialize iptables table NAT': Table does not exist (do you need to insmod?)Perhaps iptables or your kernel needs to be upgraded.`
+    > 除了加载该加载的模块外,NAT不能大写
+    ```
+    modprobe ip_tables
+    modprobe iptable_filter
+    modprobe iptable_nat
+    modprobe ip_conntrack
+    modprobe ip_conntrack_ftp
+    modprobe ip_nat_ftp
+    modprobe ipt_state
+    lsmod | egrep ^ip
+    #-----------------------------------------------------------------------------------------
+    iptable_filter         12810  0 
+    iptable_nat            12875  0 
+    ip_tables              27126  2 iptable_filter,iptable_nat
+    #-----------------------------------------------------------------------------------------
+
+    # 所有数据包从eth0路由处理后,如果源地址是在192.168.1.0/24这个网段,我就将数据包的源地址改成10.0.0.7
+    # -t nat而不是NAT!!大小写敏感的
+    iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j SNAT --to-source 192.168.1.100
+    ```
