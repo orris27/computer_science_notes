@@ -999,7 +999,7 @@ modprobe ip_vs
 ```
 
 ## 36. ipvsadm
-> https://github.com/orris27/orris/blob/master/linux/lvs/installation.md
+> https://github.com/orris27/orris/blob/master/linux/lvs/lvs.md
 
 ## 37. 磁盘和文件系统
 ### 37-1. dumpe2fs
