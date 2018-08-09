@@ -28,8 +28,38 @@ curl 192.168.56.10
     + server里使用upstream的名字来指定
     
 ### 2-1. upstream
-1. 6和8是Web应用
-2. 7和9是负载均衡器.nginx+keepalived
+#### 2-1-1. 支持的代理方式
+1. `proxy_pass`: 反向代理
+2. `fastcgi_pass`: 和动态应用程序交互(Tomcat可以用proxy_pass)
+3. `memcached_pass`: 和NoSQL做交互
+#### 2-1-2. 位置
+http标签内
+```
+http {
+    upstream {
+        server 10.0.0.10:80 weight=1 max_fails=2 fail_timeout=20s bakcup
+    }
+}
+```
+#### 2-1-2. 语法
+1. `max_fails`:最大尝试失败次数.向下面curl2次
+    + 京东1次,蓝讯10次.
+    + 京东是为了用户体验
+    + 蓝讯用户体验没京东大,但是给很多公司提供CDN,里面的服务器不能随意替换
+2. `fail_timeout`: 睡眠时间为20秒(curl的间隔)
+    + 常规业务2-3秒
+3. `backup`: backup会在上面的服务都挂了就顶上去=>说明Nginx可以实现节点高可用
+4. real server. 不写端口就是80
+5. `weight`: 权重
+6. 调度算法:默认权重轮询wrr
+
+
+### 2-2. 架构实例
+1. 高可用集群
+    + 7和9是负载均衡器
+    + nginx+keepalived
+2. 负载均衡集群
+    + 6和8是Web应用
 ```
 #########################################################
 # 2个LBS
