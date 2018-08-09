@@ -42,66 +42,8 @@ ps -ef | grep keep # 有3个keepalivd就是成功
 #-------------------------------------------------------------------
 ```
 
-## 2. 单实例
-```
-###########################################################################
-global_defs {
-    notification_email {
-        xxx@qq.com
-    }
-    notification_email_from Alexandre.Cassen@firewall.loc
-    smtp_server 10.0.0.1
-    smtp_connect_timeout 30 ! 以上都可以删掉不选
-    router_id LVS_7 ! 相当于MySQL的id
-}
 
-vrrp_instance VI_1 { ! 虚拟的路由实例
-    state MASTER
-    interface eth0 ! 内网的接口
-    virtual_router_id 55 ! 虚拟的路由ID
-    priority 150 ! Keepalived通过竞选机制来选取备的,这里就是优先级
-    advert_int 1 ! 高可用间监控的时间监控.1秒
-    authentication { ! Keepalived之间用这个来认证
-        auth_type PASS
-        auth_pass 1111
-    }
-    virtual_ipaddress { ! VIP,一定要给24
-        10.0.0.10/24
-    }
-}
-###########################################################################
-
-###########################################################################
-global_defs {
-    notification_email {
-        xxx@qq.com
-    }
-    notification_email_from Alexandre.Cassen@firewall.loc
-    smtp_server 10.0.0.1
-    smtp_connect_timeout 30
-    router_id LVS_2 ! 不一样的路由ID
-}
-
-vrrp_instance VI_1 {
-    state BACKUP ! 这里也不一样!
-    interface eth0
-    virtual_route_id 55 ! 虚拟的路由ID.相同的实例要一样
-    priority 100 ! 官方推荐差50
-    advert_int 1
-    authentication {
-        auth_type PASS
-        auth_pass 1111
-    }
-    virtual_ipaddress {
-        10.0.0.10/24
-    }
-}
-###########################################################################
-
-```
-
-
-## 3. 配置LVS-Keepalived
+## 2. 配置LVS-Keepalived
 假设有2台服务器,分别记作A(`10.0.0.7`)和B(`10.0.0.9`).在2台服务器上都配置LVS和Keepalived.然后A为master而B为backup.
 1. 在A和B上安装LVS,安装到`lsmod | grep ip_vs`出现结果就行了
 2. 在A和B上安装Keepalived,安装到服务能成功启动为止
@@ -249,4 +191,73 @@ ip add # 看是否有10.0.0.10,应该要没有才行=>因为现在10.0.0.9只是
 # 我们可以不断ping这个VIP,然后kill掉一个LVS,看是不是还能ping通
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
+
+
+
+## 3. 配置文件
+1. 单实例
+    1. Master的配置文件.
+        + VIP是`10.0.0.10/24`
+    ```
+    vim /etc/keepalived/keepalived.conf
+    ###########################################################################
+    global_defs {
+        notification_email {
+            xxx@qq.com
+        }
+        notification_email_from Alexandre.Cassen@firewall.loc
+        smtp_server 10.0.0.1
+        smtp_connect_timeout 30 ! 以上都可以删掉不选
+        router_id LVS_7 ! 相当于MySQL的id
+    }
+
+    vrrp_instance VI_1 { ! 虚拟的路由实例
+        state MASTER
+        interface eth0 ! 内网的接口
+        virtual_router_id 55 ! 虚拟的路由ID
+        priority 150 ! Keepalived通过竞选机制来选取备的,这里就是优先级
+        advert_int 1 ! 高可用间监控的时间监控.1秒
+        authentication { ! Keepalived之间用这个来认证
+            auth_type PASS
+            auth_pass 1111
+        }
+        virtual_ipaddress { ! VIP,一定要给24
+            10.0.0.10/24
+        }
+    }
+    ###########################################################################
+    ```
+    2. Backup的配置文件.
+        + VIP是`10.0.0.10/24`    
+    ```
+    vim /etc/keepalived/keepalived.conf
+    ###########################################################################
+    global_defs {
+        notification_email {
+            xxx@qq.com
+        }
+        notification_email_from Alexandre.Cassen@firewall.loc
+        smtp_server 10.0.0.1
+        smtp_connect_timeout 30
+        router_id LVS_2 ! 不一样的路由ID
+    }
+
+    vrrp_instance VI_1 {
+        state BACKUP ! 这里也不一样!
+        interface eth0
+        virtual_route_id 55 ! 虚拟的路由ID.相同的实例要一样
+        priority 100 ! 官方推荐差50
+        advert_int 1
+        authentication {
+            auth_type PASS
+            auth_pass 1111
+        }
+        virtual_ipaddress {
+            10.0.0.10/24
+        }
+    }
+    ###########################################################################
+
+    ```
+
 
