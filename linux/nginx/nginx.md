@@ -37,6 +37,7 @@ http标签内
 ```
 http {
     upstream {
+        ip_hash;
         server 10.0.0.10:80 weight=1 max_fails=2 fail_timeout=20s bakcup
     }
 }
@@ -176,8 +177,22 @@ echo "10.0.0.10 blog.etiantian.org" >> /etc/hosts
 5. `/`: 默认
 
 ### 3-3. proxy_pass
-属于ngx_http_proxy_module模块,可以将请求发送到另一个server
+属于ngx_http_proxy_module模块,可以将请求发送到另一个server.
++ 代理层是Nginx,但是传过去的服务器可能也会是Nginx,Apache
 #### 3-3-1. 参数
 1. `proxy_set_header`: 让后端的服务器获得用户的IP.用户请求代理,代理去请求后端服务器.对于后端服务器来说,代理是客户.但设置了这个参数后,用户才是客户
+    1. `proxy_set_header X-Forwarded-For $remote_addr`:如果后端服务器的程序需要获取用户IP,从该Header头中获取
+        + 保持用户的IP
+        + `$remote_addr`:用户的IP
+        + 如果修改日志格式,后台Web服务器日志会记录用户的IP,而不是记录代理的IP
+            + 接收代理的服务器要修改日志格式才能够生效
+                1. `Apache`:`LogFomat "\"${X-Forwarded-For}i\" %l %u ..." LogFormatName`
+                2. `Nginx`:`log_format log_format_name 'xx "$http_x_forwarded_for"'`
+    2. `proxy_set_header Host $host`:传给的下一个比如说是Nginx的话,上面如果配置有多个虚拟主机,用该host区分域名
+        + 保持用户的域名
+        + 主要解决域名=>代理=>Nginx/Apache时域名的保持,否则发第一个
+        + 后台Web服务器会区分www和blog等
+        
 2. `client_body_buffer_size`:可以先保存到本地一些数据大小,然后传给用户
 3. `proxy_connect_timeout`: 代理与后端的服务器连接的超时时间
+`
