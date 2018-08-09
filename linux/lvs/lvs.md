@@ -142,6 +142,10 @@ ipvsadm --clear
 #### 3-2-3. 查看LVS情况
 ```
 ipvsadm --list -n
+ipvsadm --list -n --stats
+ipvsadm --list -n --thresholds
+ipvsadm --list -n --timeout
+ipvsadm -Lnc
 ```
 
 ## 4. arping
