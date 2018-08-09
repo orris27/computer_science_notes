@@ -1,51 +1,40 @@
 ## 1. 安装
 ipvs的安装除了普通的编译安装外,更重要的是添加到系统内核中
 1. 检测Linux内核是否已经有ipvs
-```
-lsmod | grep ip_vs # 如果什么都没有,就说明没有
-```
 2. 当前环境
+3. 软连接
+    + 将内核的目录软连接到`/usr/src/linux`
+    + `/usr/src/kernels`下如果有多个目录就根据自己的内核参数决定,即选择`uname -r`
+4. 安装依赖包
+5. 常规的编译安装
+6. 检测Linux内核是否已经有ipvs
+7. 添加ipvs到内核中(下面两种方式任选1个)
+    1. 方法1: `sudo /sbin/ipvsadm`
+    2. 方法2: `modprobe ip_vs`
+8. 检测Linux内核是否已经有ipvs
 ```
+########################################################################
+# 直接复制粘贴能成功!
+########################################################################
+lsmod | grep ip_vs # 如果什么都没有,就说明没有
 cat /etc/redhat-release
 uname -rm
-```
-3. 软连接
-将内核的目录软连接到`/usr/src/linux`
-+ `/usr/src/kernels`下如果有多个目录就根据自己的内核参数决定,即选择`uname -r`
-```
-sudo ln -s /usr/src/kernels/3.10.0-862.6.3.el7.x86_64.debug/ /usr/src/linux
-```
-4. 安装依赖包
-```
+
+sudo ln -s /usr/src/kernels/`uname -r`/ /usr/src/linux
 sudo yum install kernel-devel -y
 sudo yum install libnl* popt* -y
+sudo yum install -y wget
+sudo yum groupinstall "Development Tools" -y
 
-```
-5. 常规的编译安装
-```
-#yum install -y wget
-#yum groupinstall "Development Tools" -y
-
+mkdir ~/tools
+cd ~/tools
 wget http://www.linuxvirtualserver.org/software/kernel-2.6/ipvsadm-1.26.tar.gz
 tar -zxf ipvsadm-1.26.tar.gz
 cd ipvsadm-1.26
 sudo make && sudo make install
-```
-6. 检测Linux内核是否已经有ipvs
-```
 lsmod | grep ip_vs
-```
-7. 添加ipvs到内核中(下面两种方式任选1个)
-    1. 方法1
-    ```
-    sudo /sbin/ipvsadm
-    ```
-    2. 方法2
-    ```
-    modprobe ip_vs
-    ```
-8. 检测Linux内核是否已经有ipvs
-```
+sudo /sbin/ipvsadm
+modprobe ip_vs
 lsmod | grep ip_vs
 #----------------------------------------------------------
 ip_vs                 141432  0 
