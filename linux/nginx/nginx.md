@@ -191,6 +191,7 @@ echo "10.0.0.10 blog.etiantian.org" >> /etc/hosts
                 2. `Nginx`:`log_format log_format_name 'xx "$http_x_forwarded_for"'`(不是remote_addr!!!)
                     + 同理对于接收代理请求的Nginx服务器的配置文件来说,$host就是`blog.orris.com`,而$http_x_forwarded_for就是用户的IP
                     + 这些变量名是固定的!!!不能自己胡乱修改!!!
+                    + 在代理层是$proxy_add_x_forwarded_for,而在Web层是$http_x_forwarded_for.不一样!!
     2. `proxy_set_header Host $host`:传给的下一个比如说是Nginx的话,上面如果配置有多个虚拟主机,用该host区分域名
         + 保持用户的域名
         + 主要解决域名=>代理=>Nginx/Apache时域名的保持,否则发第一个
