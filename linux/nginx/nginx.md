@@ -181,13 +181,15 @@ echo "10.0.0.10 blog.etiantian.org" >> /etc/hosts
 + 代理层是Nginx,但是传过去的服务器可能也会是Nginx,Apache
 #### 3-3-1. 参数
 1. `proxy_set_header`: 让后端的服务器获得用户的IP.用户请求代理,代理去请求后端服务器.对于后端服务器来说,代理是客户.但设置了这个参数后,用户才是客户
-    1. `proxy_set_header X-Forwarded-For $remote_addr`:如果后端服务器的程序需要获取用户IP,从该Header头中获取
+    1. `proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;`:如果后端服务器的程序需要获取用户IP,从该Header头中获取
         + 保持用户的IP
         + `$remote_addr`:用户的IP
         + 如果修改日志格式,后台Web服务器日志会记录用户的IP,而不是记录代理的IP
             + 接收代理的服务器要修改日志格式才能够生效
                 1. `Apache`:`LogFomat "\"${X-Forwarded-For}i\" %l %u ..." LogFormatName`
-                2. `Nginx`:`log_format log_format_name 'xx "$http_x_forwarded_for"'`
+                2. `Nginx`:`log_format log_format_name 'xx "$http_x_forwarded_for"'`(不是remote_addr!!!)
+                    + 同理对于接收代理请求的Nginx服务器的配置文件来说,$host就是`blog.orris.com`,而$http_x_forwarded_for就是用户的IP
+                    + 这些变量名是固定的!!!不能自己胡乱修改!!!
     2. `proxy_set_header Host $host`:传给的下一个比如说是Nginx的话,上面如果配置有多个虚拟主机,用该host区分域名
         + 保持用户的域名
         + 主要解决域名=>代理=>Nginx/Apache时域名的保持,否则发第一个
@@ -203,7 +205,7 @@ vim extra/proxy.conf
 #######################################
 proxy_redirect off;
 proxy_set_header Host $host;
-proxy_set_header X-Forwarded-For $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 proxy_connect_timeout 90;
 proxy_send_timeout 90;
 proxy_read_timeout 90;
