@@ -399,3 +399,12 @@ sudo yum install libnl* popt* -y
 ```
 2. 在阿里云的远程连接里设置好LO的IP后,virutal server就ping不通real server了
     > 可能阿里云的服务器不支持把.只能在虚拟机做的样子
+
+
+## 10. Keepalived
+
+1. `!!! OpenSSL is not properly installed on your system. !!! !!! Can not include OpenSSL headers files.!!!`
+    > 没有安装openssl
+    ```
+    yum install -y openssl*
+    ```
