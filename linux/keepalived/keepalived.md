@@ -43,7 +43,7 @@ ps -ef | grep keep # 有3个keepalivd就是成功
 ```
 
 
-## 2. 配置LVS-Keepalived
+## 2. 配置LVS-https://github.com/orris27/orris/blob/master/linux/keepalived/keepalived.mdKeepalived
 ### 2-1. 单实例
 假设有2台服务器,分别记作A(`10.0.0.7`)和B(`10.0.0.9`).在2台服务器上都配置LVS和Keepalived.然后A为master而B为backup.
 1. 在A和B上安装LVS,安装到`lsmod | grep ip_vs`出现结果就行了
@@ -195,6 +195,117 @@ ip add # 看是否有10.0.0.10,应该要没有才行=>因为现在10.0.0.9只是
 ```
 ### 2-1. 多实例
 ```
+###########################################################################
+# 10.0.0.7
+###########################################################################
+cp /etc/keepalived/keepalived.conf /etc/keepalived/keepalived.conf.bak
+
+cat > /etc/keepalived/keepalived.conf <<EOF
+global_defs {
+    notification_email {
+        xxx@qq.com
+    }
+    notification_email_from Alexandre.Cassen@firewall.loc
+    smtp_server 10.0.0.1
+    smtp_connect_timeout 30
+    router_id LVS_7
+}
+
+vrrp_instance VI_1 {
+    state BACKUP
+    interface eth0
+    virtual_router_id 51
+    priority 100
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    virtual_ipaddress {
+        10.0.0.130/24
+    }
+}
+vrrp_instance VI_2 {
+    state MASTER
+    interface eth0
+    virtual_router_id 52
+    priority 150
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    virtual_ipaddress {
+        10.0.0.140/24
+    }
+}
+EOF
+ifconfig lo:0 down
+systemctl stop iptables
+systemctl disable iptables
+systemctl stop iptables
+systemctl disable firewalld
+setenfore 0
+
+systemctl restart keepalived
+
+ip add 
+
+
+
+
+###########################################################################
+# 10.0.0.9
+###########################################################################
+cp /etc/keepalived/keepalived.conf /etc/keepalived/keepalived.conf.bak
+
+cat > /etc/keepalived/keepalived.conf <<EOF
+global_defs {
+    notification_email {
+        xxx@qq.com
+    }
+    notification_email_from Alexandre.Cassen@firewall.loc
+    smtp_server 10.0.0.1
+    smtp_connect_timeout 30
+    router_id LVS_7
+}
+
+vrrp_instance VI_1 {
+    state MASTER
+    interface eth0
+    virtual_router_id 51
+    priority 150
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    virtual_ipaddress {
+        10.0.0.130/24
+    }
+}
+vrrp_instance VI_2 {
+    state BACKUP
+    interface eth0
+    virtual_router_id 52
+    priority 100
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    virtual_ipaddress {
+        10.0.0.140/24
+    }
+}
+EOF
+systemctl stop iptables
+systemctl disable iptables
+systemctl stop firewalld
+systemctl disable firewalld
+setenfore 0
+systemctl restart keepalived
+ip add 
 
 ```
 
