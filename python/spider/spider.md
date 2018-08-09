@@ -23,14 +23,24 @@
     1. handler对象
         1. ProxyHandler
             + 使用代理IP地址
-        2. 
+        2. HTTPCookieProcessor
+            1. 需要配合CookieJar对象
 ```
 handler=ProxyHandler({"http":"222.222.169.60:53281"})
 opener=build_opener(handler)
 response=opener.open(request)
 ```
 
-## 2. 实例
+
+
+## 2. 数据提取
+### 2-1. re模块
+> https://github.com/orris27/orris/blob/master/python/re/re.md
+
+
+
+
+## 3. 实例
 1. 使用随机用户代理
     1. 导入request库和random库
     2. 利用URL构造Request对象
@@ -330,7 +340,7 @@ with open('../html/test.html','w') as f:
 
 
 
-## 3. 常用代码
+## 4. 常用代码
 1. user-agent
 ```
 ua_list=[
@@ -397,7 +407,7 @@ chardet.detect(json.dumps(dictStr, ensure_ascii=False))
 
 
 
-## 4. scrapy
+## 5. scrapy
 
 
 
