@@ -325,7 +325,7 @@ elasticsearch                hard　　memlock　　unlimited
     npm ERR! 
     npm ERR! Failed at the phantomjs-prebuilt@2.1.16 install script 'node install.js'.
     npm ERR! Make sure you have the latest version of node.js and npm installed.
-    npm ERR! If you do, this is most likely a problem with the phantomjs-prebuilt package,
+    npm ERR! If you do, this is most configure: error: libnfnetlink headers missinglikely a problem with the phantomjs-prebuilt package,
     npm ERR! not with npm itself.
     npm ERR! Tell the author that this fails on your system:
     npm ERR!     node install.js
@@ -408,3 +408,7 @@ sudo yum install libnl* popt* -y
     ```
     yum install -y openssl*
     ```
+2. `configure: error: libnfnetlink headers missing`
+```
+yum install -y libnfnetlink-devel
+```
