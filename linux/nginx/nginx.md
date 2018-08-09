@@ -162,7 +162,15 @@ echo "10.0.0.10 blog.etiantian.org" >> /etc/hosts
 
 
 
-
-
+## 3. 模块
+### 3-1. upstream
+见上面
+### 3-2. location
+处理请求的URI
+#### 3-2-1. 语法
+1. 所有请求
+```
+location / 
+```
 
 
