@@ -370,7 +370,7 @@ Keepalived不通过ipvsadm来管理LVS,而是有自己的接口
     1. 修改配置文件
         1. 主要修改1个`virtual_server`和2个`real_server`
     2. 下面的配置文件追加到Keepalived的配置文件里面
-    3. real server绑定VIP和抑制ARP
+    3. real server绑定VIP和抑制ARP,LVS上用eth0绑定VIP(如果有个服务器既是LVS又是real server,用eth0:0还是lo:0绑定VIP我不知道.最好还是不要这样设计冲突的架构)
     4. NAT模式打开内核参数的`net.ipv4.ip_forward = 1`
     5. 重启Keepalived服务
 ```
