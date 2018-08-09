@@ -19,9 +19,9 @@ cd keepalived-2.0.6
 ./configure
 
 ################################################################确保有3个YES
-Use IPVS Framework       : Yes # 框架要YES,这样就可以和LVS同步
-IPVS sync daemon support : Yes # 我这里没有这个属性,但我还是继续执行了
-Use VRRP Framework       : Yes
+# Use IPVS Framework       : Yes # 框架要YES,这样就可以和LVS同步
+# IPVS sync daemon support : Yes # 我这里没有这个属性,但我还是继续执行了
+# Use VRRP Framework       : Yes
 ################################################################
 make && make install 
 
@@ -34,11 +34,11 @@ systemctl start keepalived
 
 ps -ef | grep keep # 有3个keepalivd就是成功
 #-------------------------------------------------------------------
-[root@vls01 init.d]# ps aux | grep keepalived
-root       9207  0.0  0.1  69520  1020 ?        Ss   14:45   0:00 /usr/local/sbin/keepalived -D
-root       9208  0.0  0.2  69652  2128 ?        S    14:45   0:00 /usr/local/sbin/keepalived -D
-root       9209  0.0  0.1  69520  1608 ?        S    14:45   0:00 /usr/local/sbin/keepalived -D
-root       9236  0.0  0.0 112704   972 pts/0    S+   14:46   0:00 grep --color=auto keepalived
+# [root@vls01 init.d]# ps aux | grep keepalived
+# root       9207  0.0  0.1  69520  1020 ?        Ss   14:45   0:00 /usr/local/sbin/keepalived -D
+# root       9208  0.0  0.2  69652  2128 ?        S    14:45   0:00 /usr/local/sbin/keepalived -D
+# root       9209  0.0  0.1  69520  1608 ?        S    14:45   0:00 /usr/local/sbin/keepalived -D
+# root       9236  0.0  0.0 112704   972 pts/0    S+   14:46   0:00 grep --color=auto keepalived
 #-------------------------------------------------------------------
 ```
 
@@ -119,11 +119,11 @@ libcrc32c              12644  3 xfs,ip_vs,nf_conntrack
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ps -ef | grep keep # 有3个keepalivd就是成功
 #-------------------------------------------------------------------
-[root@vls01 init.d]# ps aux | grep keepalived
-root       9207  0.0  0.1  69520  1020 ?        Ss   14:45   0:00 /usr/local/sbin/keepalived -D
-root       9208  0.0  0.2  69652  2128 ?        S    14:45   0:00 /usr/local/sbin/keepalived -D
-root       9209  0.0  0.1  69520  1608 ?        S    14:45   0:00 /usr/local/sbin/keepalived -D
-root       9236  0.0  0.0 112704   972 pts/0    S+   14:46   0:00 grep --color=auto keepalived
+# [root@vls01 init.d]# ps aux | grep keepalived
+# root       9207  0.0  0.1  69520  1020 ?        Ss   14:45   0:00 /usr/local/sbin/keepalived -D
+# root       9208  0.0  0.2  69652  2128 ?        S    14:45   0:00 /usr/local/sbin/keepalived -D
+# root       9209  0.0  0.1  69520  1608 ?        S    14:45   0:00 /usr/local/sbin/keepalived -D
+# root       9236  0.0  0.0 112704   972 pts/0    S+   14:46   0:00 grep --color=auto keepalived
 #-------------------------------------------------------------------
 
 ```
