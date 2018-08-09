@@ -44,6 +44,7 @@ ps -ef | grep keep # 有3个keepalivd就是成功
 
 
 ## 2. 配置LVS-Keepalived
+### 2-1. 单实例
 假设有2台服务器,分别记作A(`10.0.0.7`)和B(`10.0.0.9`).在2台服务器上都配置LVS和Keepalived.然后A为master而B为backup.
 1. 在A和B上安装LVS,安装到`lsmod | grep ip_vs`出现结果就行了
 2. 在A和B上安装Keepalived,安装到服务能成功启动为止
@@ -93,6 +94,7 @@ ps -ef | grep keep # 有3个keepalivd就是成功
 ########################################################
 ifconfig eth0:0 down # 取消掉无用的网络接口
 
+### 2-1. 单实例
 cp /etc/keepalived/keepalived.conf /etc/keepalived/keepalived.conf.bak
 
 cat > /etc/keepalived/keepalived.conf <<EOF
@@ -190,6 +192,10 @@ ip add # 看是否有10.0.0.10,应该要没有才行=>因为现在10.0.0.9只是
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 我们可以不断ping这个VIP,然后kill掉一个LVS,看是不是还能ping通
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
+### 2-1. 多实例
+```
+
 ```
 
 
