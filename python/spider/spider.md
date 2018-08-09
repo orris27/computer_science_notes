@@ -16,6 +16,9 @@
                 + `urlencode(字典).encode(utf-8)`
                 + bytes类型
                 + 不能出现中文,使用url编码
+    3. 发送请求
+        1. urlopen
+        2. opener对象
 2. opener对象
     1. handler对象
         1. ProxyHandler
@@ -256,6 +259,75 @@ response=opener.open(request)
 with open('../html/handler2.html','w') as f:
     f.write(response.read().decode('utf-8'))
 ```
+
+
+7. 使用CookieJar来保存cookie信息
+    > 和直接使用cookie不同,CookieJar是需要先请求后才会将里面的cookie保存起来.也就是说,先登录之后才能拿到Cookie
+    1. 构造Request对象
+        1. URL
+        2. 请求头
+        3. 请求体
+    2. 利用CookieJar和HTTPCookieProcessor构造opener("浏览器")
+    3. 利用该浏览器先发送第一次request请求,获得Cookie
+    4. 再利用原浏览器发送第二次request请求,这次浏览器发送时带有cookie
+        + 使用原来的opener
+        + 或者将opener注册到全局,这样urlopen会直接使用该opener
+    5. 输出响应
+```
+from urllib.request import *
+from urllib.parse import *
+from http.cookiejar import CookieJar
+import random
+
+##############################################################
+# Create an opener
+##############################################################
+cookiejar=CookieJar()
+handler=HTTPCookieProcessor(cookiejar)
+opener=build_opener(handler)
+
+ua_list=[
+    "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36 SE 2.X MetaSr 1.0",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.87 Safari/537.36 OPR/37.0.2178.32,",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36",
+]
+user_agent=random.choice(ua_list)
+
+headers={
+    'User-Agent':user_agent,
+}
+url="http://www.renren.com/PLogin.do/"
+
+data={
+   "email":"18868107624",
+    "password":"jiwumingshi",
+}
+data=urlencode(data).encode('utf-8')
+
+##############################################################
+# 1st Request
+##############################################################
+request=Request(url,data=data,headers=headers)
+response=opener.open(request)
+
+
+##############################################################
+# 2nd Request
+##############################################################
+install_opener(opener)
+request2=Request('http://www.renren.com/965835048/profile')
+# response2=urlopen(request2)
+response2=opener.open(request2)
+
+
+with open('../html/test.html','w') as f:
+    # f.write(response.read().decode('utf-8'))
+    # f.write(response2.read().decode('utf-8'))
+    f.write(response2.read().decode('utf-8'))
+
+```
+
 
 
 ## 3. 常用代码
