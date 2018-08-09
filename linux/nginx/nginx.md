@@ -169,6 +169,7 @@ echo "10.0.0.10 blog.etiantian.org" >> /etc/hosts
 ### 3-2. location
 处理请求的URI
 #### 3-2-1. 语法
+> [location官方文档](http://nginx.org/en/docs/http/ngx_http_core_module.html#location)
 不同location有优先级,不是根据配置文件的先后顺序
 1. `=`: 精确匹配
 2. `~`: 区分大小写,正则
