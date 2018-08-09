@@ -197,7 +197,10 @@ echo "10.0.0.10 blog.etiantian.org" >> /etc/hosts
 3. `proxy_connect_timeout`: 代理与后端的服务器连接的超时时间
 #### 3-3-2. 生产环境
 ```
-cat > extra/proxy.conf <<EOF
+cd /application/nginx/conf
+vim extra/proxy.conf
+# 不能cat多行输入,因为$符号会被解析为Shell变量
+#######################################
 proxy_redirect off;
 proxy_set_header Host $host;
 proxy_set_header X-Forwarded-For $remote_addr;
@@ -208,7 +211,7 @@ proxy_buffer_size 4k;
 proxy_buffer 4 32k;
 proxy_busy_buffers_size 64k;
 proxy_temp_file_write_size 64k;
-EOF
+#######################################
 
 vim nginx.conf
 #######################################
