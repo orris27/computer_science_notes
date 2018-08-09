@@ -11,9 +11,15 @@
 
 #### 编译安装
 ```
+#######################################################################################
+# 可以直接复制粘贴!!
+#######################################################################################
+
+
 sudo yum install pcre pcre-devel -y
 sudo yum install openssl openssl-devel -y
 sudo yum groupinstall "Development Tools" -y
+sudo yum install wget -y
 
 mkdir ~/tools
 cd ~/tools
