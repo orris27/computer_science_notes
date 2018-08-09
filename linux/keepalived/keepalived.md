@@ -43,7 +43,7 @@ ps -ef | grep keep # 有3个keepalivd就是成功
 ```
 
 
-## 2. 配置LVS-Keepalived
+## 2. 配置Keepalived
 ### 2-1. 单实例
 假设有2台服务器,分别记作A(`10.0.0.7`)和B(`10.0.0.9`).在2台服务器上都配置LVS和Keepalived.然后A为master而B为backup.
 1. 在A和B上安装LVS,安装到`lsmod | grep ip_vs`出现结果就行了
@@ -357,11 +357,76 @@ systemctl restart keepalived
 
 
 
+## 5.配置LVS+keepalived
+Keepalived不通过ipvsadm来管理LVS,而是有自己的接口
+1. 介绍
+    1. virtual_server<=>添加主机
+    2. 默认用端口检查
+    3. Keepalived自动实现健康检查
+        + 健康检查有`TCP_CHECK`等方法
+    4. Keepalived的语法检查比较辣鸡,要自己检查
+    5. 配置好后,只要启动Keepalived后,自动就会生成ipvsadm的表
+2. 使用
+    1. 修改配置文件
+        1. 主要修改1个`virtual_server`和2个`real_server`
+    2. 下面的配置文件追加到Keepalived的配置文件里面
+    3. real server绑定VIP和抑制ARP
+    4. NAT模式打开内核参数的`net.ipv4.ip_forward = 1`
+    5. 重启Keepalived服务
+```
+# virtual_server
+#ipvsadm --add-service --tcp-service 10.0.0.29:80 --scheduler wrr --persistent 20
+
+
+cat >> /etc/keepalived/keepalived.conf <<EOF
+virtual_server 10.0.0.10 80{
+    delay_loop 6
+    lb_algo wrr
+    lb_kind DR
+    nat_mask 255.255.255.0
+    persistence_timeout 300
+    protocol TCP
+    real_server 10.0.0.8 80 {
+        weight 1
+        TCP_CHECK {
+            connect_timeout 8
+            nb_get_retry 8
+            delay_before_retry 3
+            connect_port 80
+        }
+    }
+    real_server 10.0.0.9 80 {
+        weight 1
+        TCP_CHECK {
+            connect_timeout 8
+            nb_get_retry 3
+            delay_before_retry 3
+            connect_port 80
+        }
+    }
+}
+EOF
+
+ifconfig eth0:0 10.0.0.10/24 up # LVS01
+
+ifconfig lo:0 10.0.0.10/32 up # Real servers
+echo "1" > /proc/sys/net/ipv4/conf/lo/arp_ignore
+echo "2" > /proc/sys/net/ipv4/conf/lo/arp_announce
+echo "1" > /proc/sys/net/ipv4/conf/all/arp_ignore
+echo "2" > /proc/sys/net/ipv4/conf/all/arp_announce
+
+
+echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+sysctl -p
+
+systemctl restart keepalived
+
+
+```
 
 
 
-
-## 5. 配置文件
+## 6. 配置文件
 1. 单实例
     1. Master的配置文件.
         + VIP是`10.0.0.10/24`
