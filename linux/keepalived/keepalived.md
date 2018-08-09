@@ -321,8 +321,12 @@ ip add
 ```
 
 
+## 3. Keepalived接管Web
+如果A和B都配置好Web和Keepalived,不需要配置Web和Keepalived的联系
+    > 原因: 当我们curl VIP的时候,会自动找到拥有VIP的主机,然后就找到了这个主机,这样就是curl 这个主机了(我们本质也是通过VIP找到主机)
 
-## 3. 配置文件
+
+## 4. 配置文件
 1. 单实例
     1. Master的配置文件.
         + VIP是`10.0.0.10/24`
