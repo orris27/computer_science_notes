@@ -326,7 +326,42 @@ ip add
     > 原因: 当我们curl VIP的时候,会自动找到拥有VIP的主机,然后就找到了这个主机,这样就是curl 这个主机了(我们本质也是通过VIP找到主机)
 
 
-## 4. 配置文件
+## 4. 修改日志存放文件
+Keepalived默认的日志存放文件是`/var/log/messages`
+1. 告诉Keepalived我们的日志存放文件是设备0
+2. 告诉系统,日志设备0对应的文件是`/var/log/keepalived.log`
+    + 系统的syslog有8个级别,分别是0-8
+3. 重启rsyslog和keepalived
+4. 好像没有生效...
+```
+
+sed  -i 's/KEEPALIVED_OPTIONS="-D"/#KEEPALIVED_OPTIONS="-D"\nKEEPALIVED_OPTIONS="-D -d -S 0"/' /etc/sysconfig/keepalived 
+############################################################################
+#KEEPALIVED_OPTIONS="-D"
+KEEPALIVED_OPTIONS="-D -d -S 0"
+############################################################################
+
+
+cp /etc/rsyslog.conf /etc/rsyslog.conf.bak
+echo "local0.*                                                /var/log/keepalived.log" >>/etc/rsyslog.conf
+############################################################################
+# Save boot messages also to boot.log
+local7.*                                                /var/log/boot.log
+local0.*                                                /var/log/keepalived.log
+############################################################################
+
+systemctl restart rsyslog
+systemctl restart keepalived
+
+```
+
+
+
+
+
+
+
+## 5. 配置文件
 1. 单实例
     1. Master的配置文件.
         + VIP是`10.0.0.10/24`
