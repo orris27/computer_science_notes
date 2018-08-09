@@ -52,11 +52,27 @@ response=opener.open(request)
 > https://github.com/orris27/orris/blob/master/python/re/re.md
 
 ### 2-2. JSONPath
-处理JSON.
+处理JSON. 响应体=bytes => 表示JSON的字符串 => Python的字典对象
++ 最终得到的数据类型是list
+```
+jn=response.read().decode('utf-8')
+jn=json.loads(jn)
+city_list=jsonpath.jsonpath(jn,'$..A[1:4].name')
+for city in city_list:
+    print(city)
+```
 
 ### 2-3. etree + XPath
-
-
+通过html标签的层级关系提取数据.响应体bytes => 字符串 => dom => 数据列表(xpath处理后一定是个列表对象)
++ 最终得到的数据类型是list
+```
+#response=urlopen(...)
+html=response.read().decode("utf-8")
+dom=etree.HTML(html,parser=etree.HTMLParser(encoding='utf-8'))
+data_list=dom.xpath('//div[@class="nav-con fl"]/ul/li/a/@href')
+for data in data_list:
+    #....
+```
 
 
 ## 3. 实例
