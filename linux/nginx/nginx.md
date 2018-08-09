@@ -195,4 +195,25 @@ echo "10.0.0.10 blog.etiantian.org" >> /etc/hosts
         
 2. `client_body_buffer_size`:可以先保存到本地一些数据大小,然后传给用户
 3. `proxy_connect_timeout`: 代理与后端的服务器连接的超时时间
-`
+#### 3-3-2. 生产环境
+```
+cat > extra/proxy.conf <<EOF
+proxy_redirect off;
+proxy_set_header Host $host;
+proxy_set_header X-Forwarded-For $remote_addr;
+proxy_connect_timeout 90;
+proxy_send_timeout 90;
+proxy_read_timeout 90;
+proxy_buffer_size 4k;
+proxy_buffer 4 32k;
+proxy_busy_buffers_size 64k;
+proxy_temp_file_write_size 64k;
+EOF
+
+vim nginx.conf
+#######################################
+location xx {
+    include extra/proxy.conf
+}
+#######################################
+```
