@@ -17,14 +17,28 @@
                 + bytes类型
                 + 不能出现中文,使用url编码
     3. 发送请求
-        1. urlopen
-        2. opener对象
+        1. Request对象
+        2. 发送方式
+            1. urlopen
+            2. opener对象
+        3. context
+            1. HTTPS: `context=ssl._create_unverified_context()`
+            
 2. opener对象
     1. handler对象
         1. ProxyHandler
             + 使用代理IP地址
         2. HTTPCookieProcessor
             1. 需要配合CookieJar对象
+3. respone
+    > urlopen或者opener.open的返回值,包含响应头和响应体
+    1. 状态码: `response.getcode()`
+    2. 请求的URL: `response.geturl()`
+    3. 响应体: `response.read()`(bytes类型,转换的话需要decode)
+        1. 字符串: `response.read().decode('utf-8')`
+        2. 处理成JSON: `json.loads(response.read().decode('utf-8'))`
+            > bytes=>表示JSON的字符串=>Python的字典
+            
 ```
 handler=ProxyHandler({"http":"222.222.169.60:53281"})
 opener=build_opener(handler)
@@ -36,6 +50,11 @@ response=opener.open(request)
 ## 2. 数据提取
 ### 2-1. re模块
 > https://github.com/orris27/orris/blob/master/python/re/re.md
+
+### 2-2. JSONPath
+处理JSON.
+
+### 2-3. etree + XPath
 
 
 
@@ -339,6 +358,95 @@ with open('../html/test.html','w') as f:
 ```
 
 
+8. 处理https
+    > 发送请求的时候说明无视SSL证书
+```
+from urllib.request import *
+from urllib.parse import *
+import random
+import ssl
+context=ssl._create_unverified_context()
+url="https://www.12306.cn/mormhweb/"
+ua_list=[
+    "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36 SE 2.X MetaSr 1.0",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.87 Safari/537.36 OPR/37.0.2178.32,",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36",
+]
+user_agent=random.choice(ua_list)
+headers={
+    'User-Agent':user_agent,
+}
+request=Request(url,headers=headers)
+
+response=urlopen(request,context=context)
+with open('https2.html','w') as f:
+    f.write(response.read().decode('utf-8'))
+```
+
+
+9. JSONPath处理JSON
+    > 响应体=bytes => 表示JSON的字符串 => Python的字典对象
+    1. 构造Request请求
+    2. 发送请求
+    3. 接收响应体
+    4. 将响应体转换成python的字典对象
+    5. 对字典对象采用JSONPath处理获得想要的数据
+    
+```
+import jsonpath
+from urllib.request import *
+import json
+from urllib.parse import *
+url = 'http://www.lagou.com/lbs/getAllCitySearchLabels.json'
+headers={
+       'User-Agent':"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36",
+}
+request=Request(url,headers=headers)
+response=urlopen(request)
+
+jn=response.read().decode('utf-8')
+jn=json.loads(jn)
+city_list=jsonpath.jsonpath(jn,'$..A[1:4].name')
+for city in city_list:
+    print(city)
+```
+
+
+10. etree和XPath提取数据
+    1. 构造Request请求
+    2. 发送请求
+    3. 接收响应
+    4. 通过响应获得dom,再读dom进行xpath处理提取数据
+        > 响应体bytes => 字符串 => dom => 数据列表(xpath处理后一定是个列表对象)
+        ```
+        html=response.read().decode("utf-8")
+        dom=etree.HTML(html,parser=etree.HTMLParser(encoding='utf-8'))
+        data_list=dom.xpath('//div[@class="nav-con fl"]/ul/li/a/@href')
+        for data in data_list:
+            #....
+        ```
+```
+from urllib.request import *
+from urllib.parse import *
+from lxml import etree
+
+url="http://www.bilibili.com"
+headers={
+    'User-Agent':"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36",
+}
+request=Request(url,headers=headers)
+response=urlopen(request)
+html=response.read().decode("utf-8")
+dom=etree.HTML(html,parser=etree.HTMLParser(encoding='utf-8'))
+with open('pic.html','w') as f:
+    f.write(etree.tostring(dom).decode('utf-8'))
+link_list=dom.xpath('//div[@class="nav-con fl"]/ul/li/a/@href')
+
+print(link_list)
+for link in link_list:
+    print(link)
+```
 
 ## 4. 常用代码
 1. user-agent
