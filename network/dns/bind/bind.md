@@ -308,7 +308,7 @@ shanks     A   1.2.3.4
 op         A   1.2.3.4
 a          A   10.0.0.100 ;添加了新的A记录后,要增大serial值,原来是2000,现在变成了2001
 ############################################################
-
+rndc reload
 
 
 
@@ -332,8 +332,111 @@ ll /var/named/chroot/etc #如果出现slave.lnh.com.zone,就说明正常了.因�
 
 
 ##############################################################
-# 10.0.0.8 DNS从服务器
+# 10.0.0.8 DNS主服务器
 ##############################################################
 dig @10.0.0.8 a.lnh.com 
 dig @10.0.0.7 a.lnh.com # 如果都出现10.0.0.100,就说明解析成功
 ```
+
+
+## 4. 测试
+```
+##############################################################
+# 10.0.0.8 DNS主服务器
+##############################################################
+
+vim /var/named/chroot/etc/lnh.com.zone
+############################################################
+$ORIGIN .
+$TTL 3600 ; 1hour
+lnh.com      IN SOA op.lnh.com. dns.lnh.com. (
+    2002    ; serial
+    900     ; refresh (15 minutes)
+    600     ; retry (10 minutes)
+    86400   ; expire (1 day)
+    3600    ; minimum (1 hour)
+            ) 
+          NS op.lnh.com.
+$ORIGIN lnh.com.
+shanks     A   1.2.3.4
+op         A   1.2.3.4
+a          A   10.0.0.100 
+a          A   192.168.122.100 ;2001=>2002
+############################################################
+rndc reload
+
+host a.lnh.com 127.0.0.1 # 使用DNS主服务器测试解析a.lnh.com的结果
+host a.lnh.com 10.0.0.7 # 使用DNS从服务器测试解析a.lnh.com的结果
+# 如果都出现10.0.0.100 和 192.168.122.100,就说明正确
+
+
+
+
+
+
+
+
+vim /var/named/chroot/etc/lnh.com.zone
+# serial +1 是为了能让解析同步到slave上
+############################################################
+$ORIGIN .
+$TTL 3600 ; 1hour
+lnh.com      IN SOA op.lnh.com. dns.lnh.com. (
+    2003    ; serial
+    900     ; refresh (15 minutes)
+    600     ; retry (10 minutes)
+    86400   ; expire (1 day)
+    3600    ; minimum (1 hour)
+            ) 
+          NS op.lnh.com.
+$ORIGIN lnh.com.
+shanks     A   1.2.3.4
+op         A   1.2.3.4
+a          A   10.0.0.100 
+a          A   192.168.122.100 
+cname      CNAME a.lnh.com.      ;2002=>2003
+############################################################
+rndc reload
+
+host cname.lnh.com 127.0.0.1
+host cname.lnh.com 10.0.0.7
+# 如果都出现10.0.0.100 和 192.168.122.100,就说明正确
+# cname.lnh.com is an alias for a.lnh.com
+
+
+
+
+vim /var/named/chroot/etc/lnh.com.zone
+# MX加2条时, serial只+1
+############################################################
+$ORIGIN .
+$TTL 3600 ; 1hour
+lnh.com      IN SOA op.lnh.com. dns.lnh.com. (
+    2004    ; serial
+    900     ; refresh (15 minutes)
+    600     ; retry (10 minutes)
+    86400   ; expire (1 day)
+    3600    ; minimum (1 hour)
+            ) 
+          NS op.lnh.com.
+$ORIGIN lnh.com.
+shanks     A   1.2.3.4
+op         A   1.2.3.4
+a          A   10.0.0.100 
+a          A   192.168.122.100 
+cname      CNAME a.lnh.com.      
+mx         MX 5  192.168.122.101  
+mx         MX 10 192.168.123.101 ;2003=>2004
+############################################################
+rndc reload
+
+host mx.lnh.com 127.0.0.1
+host mx.lnh.com 10.0.0.7
+# 如果都出现下面的,说明就好了
+#mx.lnh.com mail is handled by 5 192.168.122.101.lnh.com.
+#mx.lnh.com mail is handled by 5 192.168.123.101.lnh.com.
+
+
+```
+
+
