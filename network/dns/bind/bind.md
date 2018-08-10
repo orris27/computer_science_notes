@@ -107,6 +107,31 @@ view "View" {
 };
 ############################################################
 
+vim /var/named/chroot/etc/lnh.com.zone
+############################################################
+$ORIGIN .
+$TTL 3600 ; 1hour
+lnh.com      IN SOA op.lnh.com. dns.lnh.com. (
+    2000    ; serial
+    900     ; refresh (15 minutes)
+    600     ; retry (10 minutes)
+    86400   ; expire (1 day)
+    3600    ; minimum (1 hour)
+            ) 
+          NS op.lnh.com.
+$ORIGIN lnh.com.
+shanks     A   1.2.3.4
+op         A   1.2.3.4
+############################################################
+
+
+cd /var && chown -R named.named named/
+systemctl start named
+systemctl enable named
+
+dig @127.0.0.1 shanks.lnh.com
+# 1.2.3.4就说明部署成功了
+
 ```
 
 
@@ -128,4 +153,13 @@ view "View" {
 2. `/var/named/chroot /etc/view.conf`
     1. `allow-transfer`:允许谁来向我这边请求数据
     2. `also-notify`:我更新数据了,同时去通知这些slaves
+    3. `zone`:我应该去为哪个域解析.
+    4. `file`:解析记录的存放位置
 
+3. `/var/named/chroot/etc/lnh.com.zone`
+    1. `ORIGIN`:如果配置`.`的话,声明我们的环境在`.`下用的
+    2. `refresh`:每隔多久slave去更新数据
+    3. `retry`:如果slave请求master数据失败,重试次数
+    4. `expire`:多长时间内slave不能请求到master,那么slave就放弃master
+    5. `NS`:nameserver域的名称
+    6. `A`记录:NS的记录一定要放在A记录里,这样就能定位下一个DNS服务
