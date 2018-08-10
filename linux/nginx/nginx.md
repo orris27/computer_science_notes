@@ -224,3 +224,66 @@ location xx {
 }
 #######################################
 ```
+
+
+## 4. 动静分离
+根据用户请求的URL判断访问动态服务器还是静态服务器
+1. 规定static开头的URL访问静态服务器,而dynamic开头的URL访问动态服务器
+2. location通过URL判断,用proxy_pass传给其他server(指upstream)
+    + 如果是`location /static/`的话,那么URI为`/static`的话curl是找不到的,但浏览器可以找到,因为会自动添加末尾的`/`
+3. 为不同的upstream模块static_pools/dynamic_pools分配响应的静态服务器和动态服务器
+4. 在静态服务器上开放可以响应static开头URL请求的功能,而使动态服务器能响应dynamic开头URL的请求
+```
+#####################################################################################
+# static servers 10.0.0.6
+#####################################################################################
+cd /application/nginx/html/www
+mkdir static
+echo "www-10.0.0.6-static" > static/index.html
+
+
+
+#####################################################################################
+# dynamic servers 10.0.0.8
+#####################################################################################
+cd /application/nginx/html/www
+mkdir dynamic
+echo "www-10.0.0.8-dynamic" > dynamic/index.html
+
+
+
+#####################################################################################
+# LBS
+#####################################################################################
+
+vim /application/nginx/conf/nginx.conf
+#######################################################################
+upstream static_pools {
+    server 10.0.0.6:80 weight=5 max_fails=2 fail_timeout=20s;
+}
+upstream dynamic_pools {
+    server 10.0.0.8:80 weight=5 max_fails=2 fail_timeout=20s;
+}
+
+server {
+    location /static/ {
+        proxy_pass http://static_pools;
+        include extra/proxy.conf;
+    }
+    location /dynamic/ {
+        proxy_pass http://dynamic_pools;
+        include extra/proxy.conf;
+    }
+}
+#######################################################################
+nginx -t
+nginx -s reload
+
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 浏览器分别访问www.orris.com/static(10.0.0.10绑定了VIP和www.orris.com)
+# 浏览器分别访问www.orris.com/dynamic
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+```
