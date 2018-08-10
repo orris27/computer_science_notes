@@ -945,7 +945,39 @@ scrapy crawl itcast
 
 
 ### 3-2. Scrapy结构
-#### 3-2-1. pipeline
+#### 3-2-1. 语法
+1. spiders下的写法
+
+    1. response对象的方法
+        1. `xpath()`: 传入xpath表达式，返回该表达式所对应的所有节点的selector list列表
+        2. `extract()`: 序列化该节点为Unicode字符串并返回list
+        3. `css()`: 传入CSS表达式，返回该表达式所对应的所有节点的selector list列表，语法同 BeautifulSoup4
+        4. `re()`: 根据传入的正则表达式对数据进行提取，返回Unicode字符串list列表
+        5. 常用
+        ```
+        for each in response.xpath("//div[@class='li_txt']"):
+            # ...
+            name = each.xpath("h3/text()").extract()[0]
+        ```
+   
+2. pipelines
+    1. items对象=>json字符串:在`process_item`里写`j=json.dumps(dict(item),ensure_ascii=False)+'\n'`
+        
+3. crawlSpider
+    1. 创造crawlSpider:`scrapy genspider -t crawl tencent tencent.com`
+    2. 类:`class scrapy.spiders.CrawlSpider`
+    3. rule
+    ```  
+    from scrapy.linkextractors import LinkExtractor
+    from scrapy.spiders import CrawlSpider, Rule
+    #....
+    class SunSpider(CrawlSpider):
+        rules = (
+            Rule(LinkExtractor(allow=r'type=4&page=\d+'),follow=True,process_links='handle_links'), # 默认交给process_item
+            Rule(LinkExtractor(allow=r'question/\d+/\d+.shtml'),callback='parse_item',follow=False)
+        )
+    ```
+#### 3-2-2. pipeline
 ```
 import something
 
@@ -970,13 +1002,11 @@ class SomethingPipeline(object):
         # 可选实现，当spider被关闭时，这个方法被调用
 ```
 
+
+
 ### 3-3. scrapy shell
 `scrapy shell "http://www.itcast.cn/channel/teacher.shtml"`
-#### 3-3-1. 语法
-1. `xpath()`: 传入xpath表达式，返回该表达式所对应的所有节点的selector list列表
-2. `extract()`: 序列化该节点为Unicode字符串并返回list
-3. `css()`: 传入CSS表达式，返回该表达式所对应的所有节点的selector list列表，语法同 BeautifulSoup4
-4. `re()`: 根据传入的正则表达式对数据进行提取，返回Unicode字符串list列表
+
 ### 3-4. scrapy redis
 
 1. 为什么分布式做不起来
