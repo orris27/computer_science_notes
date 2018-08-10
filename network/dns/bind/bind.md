@@ -642,3 +642,33 @@ dig @10.0.0.8 view.viewlnh.com
 dig @10.0.0.8 view.viewlnh.com 
 # 出现192.168.122.2 就说明正确
 ```
+## 5. 压测
+queryperf会将指定的文件里的所有域名进行对DNS请求,从而得到结果
+```
+named -v
+mkdir ~/tools
+cd ~/tools
+wget http://ftp.isc.org/isc/bind9/9.9.4/bind-9.9.4.tar.gz
+
+tar zxf bind-9.9.4.tar.gz
+cd bind-9.9.4/contrib/queryperf
+./configure
+make
+
+
+vim testdns.txt
+##############################
+www.lnh.com A
+www.lnh.com A
+# ...*100000
+##############################
+./queryperf  -d testdns.txt -s 10.0.0.8
+#--------------------------------------------------------------------------
+# Percentage completed: 100.00% # 说明DNS全部都解析成功了
+# Queries per second:   20774.927217 qps # 表示每秒可以提供10606的DNS解析
+# # 可以通过看DNS日志来确定这些不是从系统缓存过来的
+# # 多测试几次,取平均值来做
+#--------------------------------------------------------------------------
+
+```
+
