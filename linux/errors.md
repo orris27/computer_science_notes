@@ -412,3 +412,8 @@ sudo yum install libnl* popt* -y
 ```
 yum install -y libnfnetlink-devel
 ```
+
+
+## 11. bind
+1. `lnh.com.zone:10: ignoring out-of-zone data (NS)`
+    > 可能是您设定了一个记录项超出了当前 ORIGIN 的范围﹐例如 localhost. 或 siyongc. (也就是错误使用 FQDN )﹔或是错误的使用了 $ORIGIN 设定﹔或是在 named.conf 中有多个 zone 在分享同一份记录文件﹕ 
