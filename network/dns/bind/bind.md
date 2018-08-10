@@ -27,13 +27,6 @@ options {
   memstatistics-file "log/mem_stats";
   empty-zones-enable no;
   forwarders {202.106.196.115;8.8.8.8; };
-  recursion yes;
-  dnssec-enable yes;
-  dnssec-validation yes;
-  /* Path to ISC DLV key */
-  bindkeys-file "/etc/named.iscdlv.key";
-  managed-keys-directory "/var/named/dynamic";
-  session-keyfile "/run/named/session.key";
 };
 
 key "rndc-key" {
