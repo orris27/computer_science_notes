@@ -564,48 +564,43 @@ EOF
 
 vim /var/named/group1.viewlnh.com.zone
 ############################################################
-$ORIGIN .
-$TTL 3600 ; 1hour
-viewlnh.com      IN SOA op.viewlnh.com. dns.viewlnh.com. (
-    2005    ; serial
-    900     ; refresh (15 minutes)
-    600     ; retry (10 minutes)
-    86400   ; expire (1 day)
-    3600    ; minimum (1 hour)
-            ) 
-          NS op.viewlnh.com.
-$ORIGIN viewlnh.com.
-op           A   192.168.122.1
-view         A   192.168.122.1
+$TTL 3600
+@       IN SOA          viewlnh.com. root (
+                                        2005       ; serial
+                                        900        ; refresh
+                                        600        ; retry
+                                        86400      ; expire
+                                        3600 )     ; minimum
+
+           IN      NS      viewlnh.com.
+           IN      A       192.168.122.1
+view       IN      A       192.168.122.1
 ############################################################
 
 
 vim /var/named/group2.viewlnh.com.zone
 ############################################################
-$ORIGIN .
-$TTL 3600 ; 1hour
-viewlnh.com      IN SOA op.viewlnh.com. dns.viewlnh.com. (
-    2005    ; serial
-    900     ; refresh (15 minutes)
-    600     ; retry (10 minutes)
-    86400   ; expire (1 day)
-    3600    ; minimum (1 hour)
-            ) 
-          NS op.viewlnh.com.
-$ORIGIN viewlnh.com.
-op           A   192.168.122.2
-view         A   192.168.122.2
+$TTL 3600
+@       IN SOA          viewlnh.com. root (
+                                        2005       ; serial
+                                        900        ; refresh
+                                        600        ; retry
+                                        86400      ; expire
+                                        3600 )     ; minimum
+
+           IN      NS      viewlnh.com.
+           IN      A       192.168.122.2
+view       IN      A       192.168.122.2
 ############################################################
 chown named.named /var/named/group1.viewlnh.com.zone
 chown named.named /var/named/group2.viewlnh.com.zone
+systemctl restart named
 rndc reload
 
 
 ##############################################################
 # 10.0.0.7 DNS从服务器
 ##############################################################
-
-dig @10.0.0.7 view.viewlnh.com 
 dig @10.0.0.8 view.viewlnh.com 
 # 出现192.168.122.1 就说明正确
 
@@ -615,8 +610,6 @@ dig @10.0.0.8 view.viewlnh.com
 ##############################################################
 # 10.0.0.8 DNS主服务器
 ##############################################################
-dig @10.0.0.7 view.viewlnh.com 
 dig @10.0.0.8 view.viewlnh.com 
 # 出现192.168.122.2 就说明正确
-
 ```
