@@ -761,7 +761,7 @@ class RandomUserAgent(object):
 ## 3. Scrapy
 > [传智博客Scrapy课件](http://www.chinahufei.com/notes/Spider/file/part04/4.html)
 ### 3-1. 实践
-1. 创建1个Scrapy项目,获得传智播客的老师名单
+1. 创建1个Scrapy项目,获得传智播客的老师名单,并写入到`teacher.json`文件中
     1. 创建scrapy项目
     2. 在`items.py`中写下自己的心愿单
         + 自己想要抓取什么样的数据
@@ -931,6 +931,8 @@ scrapy crawl itcast
 # 查看当前目录是否生成teacher.json
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
+2. 
+
 
 ### 3-2. Scrapy结构
 #### 3-2-1. pipeline
