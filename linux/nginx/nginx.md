@@ -226,12 +226,12 @@ location xx {
 ```
 
 
-## 4. 动静分离
+## 4. 动静分离(Nginx代理层=>Nginx后台服务器)
 根据用户请求的URL判断访问动态服务器还是静态服务器
 1. 规定static开头的URL访问静态服务器,而dynamic开头的URL访问动态服务器
 2. location通过URL判断,用proxy_pass传给其他server(指upstream)
     + 如果是`location /static/`的话,那么URI为`/static`的话curl是找不到的,但浏览器可以找到,因为会自动添加末尾的`/`
-3. 为不同的upstream模块static_pools/dynamic_pools分配响应的静态服务器和动态服务器
+3. 为不同的upstream模块static_pools/dynamic_pools分配相应的静态服务器和动态服务器
 4. 在静态服务器上开放可以响应static开头URL请求的功能,而使动态服务器能响应dynamic开头URL的请求
     + URI要匹配2次.代理层和Web层均要匹配1次
 ```
@@ -287,4 +287,21 @@ nginx -s reload
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+```
+## 5. PC端和移动端分离(Nginx代理层=>Nginx后台服务器)
+根据用户请求的URL判断访问PC端服务器还是移动端服务器
+1. location里面通过用户代理(变量)来判断,用proxy_pass传给其他server(指upstream)
+    + 如果包含iphone或android,就去找移动端服务器
+    + 默认发给PC端服务器比较好
+2. 为不同的upstream模块static_pools/dynamic_pools分配相应的PC端服务器和移动端服务器
+```
+# 以下只是示例,非生产环境的代码
+location / {
+    if ($http_user_agent ~* 'android') {
+        proxy_pass http://android_pools;
+    }
+    if ($http_user_agent ~* 'iphone') {
+        proxy_pass http://android_pools;
+    }
+}
 ```
