@@ -311,3 +311,7 @@ location / {
 Nginx尽管有健康检查,但默认不能像LVS一样查看后台服务器的状态.思路如下
 + `nginx_upstream_check_module`模块
 + 自己写脚本,对每个后台服务器做健康检查
+
+
+## 7. 静态缓存
+proxy_cache
