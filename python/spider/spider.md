@@ -977,6 +977,7 @@ scrapy crawl itcast
             Rule(LinkExtractor(allow=r'question/\d+/\d+.shtml'),callback='parse_item',follow=False)
         )
     ```
+    4. 命令爬虫去爬:`scrapy crawl tencent`
 #### 3-2-2. pipeline
 ```
 import something
