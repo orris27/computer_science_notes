@@ -1,143 +1,122 @@
 ## 1. 安装
+> [安装失败的文档](https://github.com/orris27/orris/blob/master/network/dns/bind/bind_fail.md)
 1. 安装软件包
 2. 修改配置文件
 
 ```
 ############################################################
-# 10.0.0..8 DNS主
+# 10.0.0.8 DNS主
 ############################################################
-
-
-
-
 yum install bind-utils bind bind-devel bind-chroot -y
 #rpm -qa | grep bind
 
-vim /etc/named.conf
-############################################################
+cat > /etc/named.conf <<EOF
 options {
-  version "1.1.1";
-  listen-on port 53 { any; };
-  directory  "/var/named/chroot/etc/";
-  pid-file "/var/named/chroot/var/run/named/named.pid";
-  allow-query     { any; };
-  dump-file  "/var/named/chroot/var/log/binddump.db";
-  statistics-file "/var/named/chroot/var/log/named_stats";
-  zone-statistics yes;
-  memstatistics-file "log/mem_stats";
-  empty-zones-enable no;
-  forwarders {202.106.196.115;8.8.8.8; };
+	listen-on port 53 { any; };
+	directory  "/var/named";
+	dump-file  "/var/named/data/cache_dump.db";
+	statistics-file "/var/named/data/named_stats.txt";
+	memstatistics-file "/var/named/data/named_mem_stats.txt";
+	allow-query     { any; };
+
+	recursion yes;
+
+	dnssec-enable yes;
+	dnssec-validation yes;
+
+	/* Path to ISC DLV key */
+	bindkeys-file "/etc/named.iscdlv.key";
+
+	managed-keys-directory "/var/named/dynamic";
+
+	pid-file "/run/named/named.pid";
+	session-keyfile "/run/named/session.key";
 };
 
 key "rndc-key" {
-  algorithm hmac-md5;
-  secret "Eqw4hClGExUWeDkKBX/pBg==";
+	algorithm hmac-md5;
+	secret "j423aIVHqh8OzW2O2JDcRA==";
 };
 
 controls {
-  inet 127.0.0.1 port 953
-      allow { 127.0.0.1; } keys { "rndc-key"; };
+	inet 127.0.0.1 port 953
+		allow { 127.0.0.1; } keys { "rndc-key"; };
 };
 
 
 logging {
-  channel warning {
-    file "/var/named/chroot/var/log/dns_warning" versions 10 size 10m;
-    severity warning;
-    print-category yes;
-    print-severity yes;
-    print-time yes;
-  };
-  channel general_dns {
-    file "/var/named/chroot/var/log/dns_log" versions 10 size 100m;
-    severity info;
-    print-category yes;
-    print-severity yes;
-    print-time yes;
-  }; 
-  category default {
-    warning;
-  };
-  category queries {
-   general_dns;
-  };
+        channel default_debug {
+                file "data/named.run";
+                severity dynamic;
+        };
 };
 
-include "/var/named/chroot/etc/view.conf";
-############################################################
-# md5sum /etc/named.conf
+include "/var/named/view.conf";
+EOF
 
 
-vim /etc/rndc.key
-############################################################
+cat > /etc/rndc.key <<EOF
 key "rndc-key" {
     algorithm hmac-md5;
-    secret "Eqw4hClGExUWeDkKBX/pBg==";
+    secret "j423aIVHqh8OzW2O2JDcRA==";
 };
-############################################################
+EOF
 
-
-vim /etc/rndc.conf
-# options表示用什么key去连接哪个服务器
-############################################################
+cat > /etc/rndc.conf<<EOF
 key "rndc-key" {
-    algorithm hmac-md5;
-    secret "Eqw4hClGExUWeDkKBX/pBg==";
+	algorithm hmac-md5;
+	secret "j423aIVHqh8OzW2O2JDcRA==";
 };
+
 options {
-    default-key "rndc-key";
-    default-server 127.0.0.1;
-    default-port 953;
-
+	default-key "rndc-key";
+	default-server 127.0.0.1;
+	default-port 953;
 };
-############################################################
+EOF
 
-vim /var/named/chroot/etc/view.conf
-############################################################
-view "View" {
-    zone "lnh.com" {
+
+cat > /var/named/view.conf <<EOF
+view "View"{
+    zone "lnh.com" IN {
         type master;
         file "lnh.com.zone";
         allow-transfer {
-			10.0.0.7;
+            10.0.0.7;
         };
         notify yes;
         also-notify {
-			10.0.0.7;
+            10.0.0.7;
         };
     };
 };
-############################################################
-
-vim /var/named/chroot/etc/lnh.com.zone
-############################################################
-$ORIGIN .
-$TTL 3600 ; 1hour
-lnh.com      IN SOA op.lnh.com. dns.lnh.com. (
-    2000    ; serial
-    900     ; refresh (15 minutes)
-    600     ; retry (10 minutes)
-    86400   ; expire (1 day)
-    3600    ; minimum (1 hour)
-            ) 
-          NS op.lnh.com.
-$ORIGIN lnh.com.
-shanks     A   1.2.3.4
-op         A   1.2.3.4
-############################################################
+EOF
 
 
-cd /var && chown -R named.named named/
+# \$TTL实际上是$TTL!!!
+cat >/var/named/lnh.com.zone<<EOF
+\$TTL 1D
+@       IN SOA          lnh.com. root (
+                                        2000       ; serial
+                                        900        ; refresh
+                                        600        ; retry
+                                        86400      ; expire
+                                        3600 )     ; minimum
+
+           IN      NS      lnh.com.
+           IN      A       1.2.3.4
+shanks     IN      A       1.2.3.4
+op         IN      A       1.2.3.4
+EOF
+
 systemctl start named
 systemctl enable named
 
 
 
-named-checkzone /etc/named.rfc1912.zones  /var/named/chroot/etc/lnh.com.zone
 
 dig @127.0.0.1 shanks.lnh.com
 # 1.2.3.4就说明部署成功了
-
 ```
 
 
