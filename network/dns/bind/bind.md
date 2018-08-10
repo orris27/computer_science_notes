@@ -9,25 +9,24 @@ yum install bind-utils bind bind-devel bind-chroot -y
 vim /etc/named.conf
 ############################################################
 options {
-  versions "1.1.1";
-  listen-on port 53 { any; };
-  directory  "/var/named/chroot/etc/";
-  pid-file "/var/named/chroot/var/run/named/named.pid";
-  allow-query     { any; };
-  dump-file  "/var/named/chroot/var/log/binddump.db";
-  statistics-file "/var/named/chroot/var/log/named_stats";
+  	version "1.1.1";
+	listen-on port 53 { any; };
+	directory  "/var/named/chroot/etc/";
+	pid-file "/var/named/chroot/var/run/named/named.pid";
+	allow-query     { any; };
+	dump-file  "/var/named/chroot/var/log/binddump.db";
+	statistics-file "/var/named/chroot/var/log/named_stats";
   zone-statistics yes;
-  memstatistics-file "log/mem_stats";
+	memstatistics-file "log/mem_stats";
   empty-zones-enable no;
   forwarders {202.106.196.115;8.8.8.8; };
-  
-  recursion yes;
-  dnssec-enable yes;
-  dnssec-validation yes;
-  /* Path to ISC DLV key */
-  bindkeys-file "/etc/named.iscdlv.key";
-  managed-keys-directory "/var/named/dynamic";
-  session-keyfile "/run/named/session.key";
+	recursion yes;
+	dnssec-enable yes;
+	dnssec-validation yes;
+	/* Path to ISC DLV key */
+	bindkeys-file "/etc/named.iscdlv.key";
+	managed-keys-directory "/var/named/dynamic";
+	session-keyfile "/run/named/session.key";
 };
 
 key "rndc-key" {
@@ -49,15 +48,18 @@ logging {
     print-severity yes;
     print-time yes;
   };
-  channel general_nds {
+  channel general_dns {
     file "/var/named/chroot/var/log/dns" versions 10 size 100m;
     severity info;
     print-category yes;
     print-severity yes;
     print-time yes;
   }; 
-  channel default {
+  category default {
     warning;
+  };
+  category queries {
+   general_dns;
   };
 };
 
