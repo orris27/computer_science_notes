@@ -12,35 +12,38 @@ yum install bind-utils bind bind-devel bind-chroot -y
 
 cat > /etc/named.conf <<EOF
 options {
-	listen-on port 53 { any; };
-	directory  "/var/named";
-	dump-file  "/var/named/data/cache_dump.db";
-	statistics-file "/var/named/data/named_stats.txt";
-	memstatistics-file "/var/named/data/named_mem_stats.txt";
-	allow-query     { any; };
-
-	recursion yes;
-
-	dnssec-enable yes;
-	dnssec-validation yes;
-
-	/* Path to ISC DLV key */
-	bindkeys-file "/etc/named.iscdlv.key";
-
-	managed-keys-directory "/var/named/dynamic";
-
-	pid-file "/run/named/named.pid";
-	session-keyfile "/run/named/session.key";
+    listen-on port 53 { any; };
+    directory  "/var/named";
+    dump-file  "/var/named/data/cache_dump.db";
+    statistics-file "/var/named/data/named_stats.txt";
+    memstatistics-file "/var/named/data/named_mem_stats.txt";
+    allow-query     { any; };
+    
+    forwarders {202.106.196.115;8.8.8.8; };
+    
+    
+    recursion yes;
+    
+    dnssec-enable yes;
+    dnssec-validation yes;
+    
+    /* Path to ISC DLV key */
+    bindkeys-file "/etc/named.iscdlv.key";
+    
+    managed-keys-directory "/var/named/dynamic";
+    
+    pid-file "/run/named/named.pid";
+    session-keyfile "/run/named/session.key";
 };
 
 key "rndc-key" {
-	algorithm hmac-md5;
-	secret "j423aIVHqh8OzW2O2JDcRA==";
+    algorithm hmac-md5;
+    secret "j423aIVHqh8OzW2O2JDcRA==";
 };
 
 controls {
-	inet 127.0.0.1 port 953
-		allow { 127.0.0.1; } keys { "rndc-key"; };
+    inet 127.0.0.1 port 953
+        allow { 127.0.0.1; } keys { "rndc-key"; };
 };
 
 
@@ -95,7 +98,7 @@ EOF
 
 # \$TTL实际上是$TTL!!!
 cat >/var/named/lnh.com.zone<<EOF
-\$TTL 1D
+\$TTL 3600
 @       IN SOA          lnh.com. root (
                                         2000       ; serial
                                         900        ; refresh
@@ -163,125 +166,102 @@ dig @127.0.0.1 shanks.lnh.com
 yum install bind-utils bind bind-devel bind-chroot -y
 #rpm -qa | grep bind
 
-vim /etc/named.conf
-############################################################
+cat > /etc/named.conf <<EOF
 options {
-  version "1.1.1";
-  listen-on port 53 { any; };
-  directory  "/var/named/chroot/etc/";
-  pid-file "/var/named/chroot/var/run/named/named.pid";
-  allow-query     { any; };
-  dump-file  "/var/named/chroot/var/log/binddump.db";
-  statistics-file "/var/named/chroot/var/log/named_stats";
-  zone-statistics yes;
-  memstatistics-file "log/mem_stats";
-  empty-zones-enable no;
-  forwarders {202.106.196.115;8.8.8.8; };
-  recursion yes;
-  dnssec-enable yes;
-  dnssec-validation yes;
-  /* Path to ISC DLV key */
-  bindkeys-file "/etc/named.iscdlv.key";
-  managed-keys-directory "/var/named/dynamic";
-  session-keyfile "/run/named/session.key";
+	listen-on port 53 { any; };
+	directory  "/var/named";
+	dump-file  "/var/named/data/cache_dump.db";
+	statistics-file "/var/named/data/named_stats.txt";
+	memstatistics-file "/var/named/data/named_mem_stats.txt";
+	allow-query     { any; };
+
+	recursion yes;
+
+	dnssec-enable yes;
+	dnssec-validation yes;
+
+	/* Path to ISC DLV key */
+	bindkeys-file "/etc/named.iscdlv.key";
+
+	managed-keys-directory "/var/named/dynamic";
+
+	pid-file "/run/named/named.pid";
+	session-keyfile "/run/named/session.key";
 };
 
 key "rndc-key" {
-  algorithm hmac-md5;
-  secret "Eqw4hClGExUWeDkKBX/pBg==";
+	algorithm hmac-md5;
+	secret "j423aIVHqh8OzW2O2JDcRA==";
 };
 
 controls {
-  inet 127.0.0.1 port 953
-      allow { 127.0.0.1; } keys { "rndc-key"; };
+	inet 127.0.0.1 port 953
+		allow { 127.0.0.1; } keys { "rndc-key"; };
 };
 
 
 logging {
-  channel warning {
-    file "/var/named/chroot/var/log/dns_warning" versions 10 size 10m;
-    severity warning;
-    print-category yes;
-    print-severity yes;
-    print-time yes;
-  };
-  channel general_dns {
-    file "/var/named/chroot/var/log/dns_log" versions 10 size 100m;
-    severity info;
-    print-category yes;
-    print-severity yes;
-    print-time yes;
-  }; 
-  category default {
-    warning;
-  };
-  category queries {
-   general_dns;
-  };
+        channel default_debug {
+                file "data/named.run";
+                severity dynamic;
+        };
 };
 
-include "/var/named/chroot/etc/view.conf";
-############################################################
-# md5sum /etc/named.conf
+include "/var/named/view.conf";
+EOF
 
-
-vim /etc/rndc.key
-############################################################
+cat > /etc/rndc.key <<EOF
 key "rndc-key" {
     algorithm hmac-md5;
-    secret "Eqw4hClGExUWeDkKBX/pBg==";
+    secret "j423aIVHqh8OzW2O2JDcRA==";
 };
-############################################################
+EOF
 
 
-vim /etc/rndc.conf
-# options表示用什么key去连接哪个服务器
-############################################################
+cat > /etc/rndc.conf<<EOF
 key "rndc-key" {
-    algorithm hmac-md5;
-    secret "Eqw4hClGExUWeDkKBX/pBg==";
+	algorithm hmac-md5;
+	secret "j423aIVHqh8OzW2O2JDcRA==";
 };
+
 options {
-    default-key "rndc-key";
-    default-server 127.0.0.1;
-    default-port 953;
-
+	default-key "rndc-key";
+	default-server 127.0.0.1;
+	default-port 953;
 };
-############################################################
+EOF
 
-vim /var/named/chroot/etc/view.conf
+
 # 修改下master的IP,如果多个master就用分号隔开.要保证master完全相同
-############################################################
-view "SlaveView" {
-    zone "lnh.com" {
+cat > /var/named/view.conf <<EOF
+view "SlaveView"{
+    zone "lnh.com" IN {
         type slave;
-		master { 10.0.0.8; };
+	masters { 10.0.0.8; };
         file "slave.lnh.com.zone";
     };
 };
-############################################################
-
+EOF
 
 
 ##############################################################
 # 10.0.0.8 DNS主服务器
 ##############################################################
-vim /var/named/chroot/etc/lnh.com.zone
+vim /var/named/lnh.com.zone
 ############################################################
-$ORIGIN .
-$TTL 3600 ; 1hour
-lnh.com      IN SOA op.lnh.com. dns.lnh.com. (
-    2001    ; serial
-    900     ; refresh (15 minutes)
-    600     ; retry (10 minutes)
-    86400   ; expire (1 day)
-    3600    ; minimum (1 hour)
-            ) 
-          NS op.lnh.com.
-$ORIGIN lnh.com.
-shanks     A   1.2.3.4
-op         A   1.2.3.4
-a          A   10.0.0.100 ;添加了新的A记录后,要增大serial值,原来是2000,现在变成了2001
+$TTL 3600
+@       IN SOA          lnh.com. root (
+                                        2001       ; serial
+                                        900        ; refresh
+                                        600        ; retry
+                                        86400      ; expire
+                                        3600 )     ; minimum
+
+           IN      NS      lnh.com.
+           IN      A       1.2.3.4
+shanks     IN      A       1.2.3.4
+op         IN      A       1.2.3.4
+a          IN      A       10.0.0.100 ;添加了新的A记录后,要增大serial值,原来是2000,现在变成了2001
 ############################################################
 rndc reload
 
@@ -295,14 +275,11 @@ rndc reload
 ##############################################################
 # 10.0.0.7 DNS从服务器
 ##############################################################
-
-
-cd /var && chown -R named.named named/
 systemctl start named
 systemctl enable named
 
 
-ll /var/named/chroot/etc #如果出现slave.lnh.com.zone,就说明正常了.因为这个是master同步过来的
+ll /var/named/ #如果出现slave.lnh.com.zone,就说明正常了.因为这个是master同步过来的
 
 
 
@@ -320,23 +297,22 @@ dig @10.0.0.7 a.lnh.com # 如果都出现10.0.0.100,就说明解析成功
 # 10.0.0.8 DNS主服务器
 ##############################################################
 
-vim /var/named/chroot/etc/lnh.com.zone
+vim /var/named/lnh.com.zone
 ############################################################
-$ORIGIN .
-$TTL 3600 ; 1hour
-lnh.com      IN SOA op.lnh.com. dns.lnh.com. (
-    2002    ; serial
-    900     ; refresh (15 minutes)
-    600     ; retry (10 minutes)
-    86400   ; expire (1 day)
-    3600    ; minimum (1 hour)
-            ) 
-          NS op.lnh.com.
-$ORIGIN lnh.com.
-shanks     A   1.2.3.4
-op         A   1.2.3.4
-a          A   10.0.0.100 
-a          A   192.168.122.100 ;2001=>2002
+$TTL 3600
+@       IN SOA          lnh.com. root (
+                                        2002       ; serial
+                                        900        ; refresh
+                                        600        ; retry
+                                        86400      ; expire
+                                        3600 )     ; minimum
+
+           IN      NS      lnh.com.
+           IN      A       1.2.3.4
+shanks     IN      A       1.2.3.4
+op         IN      A       1.2.3.4
+a          IN      A       10.0.0.100
+a          IN      A       192.168.122.100 ;2001=>2002
 ############################################################
 rndc reload
 
@@ -351,25 +327,24 @@ host a.lnh.com 10.0.0.7 # 使用DNS从服务器测试解析a.lnh.com的结果
 
 
 
-vim /var/named/chroot/etc/lnh.com.zone
+vim /var/named/lnh.com.zone
 # serial +1 是为了能让解析同步到slave上
 ############################################################
-$ORIGIN .
-$TTL 3600 ; 1hour
-lnh.com      IN SOA op.lnh.com. dns.lnh.com. (
-    2003    ; serial
-    900     ; refresh (15 minutes)
-    600     ; retry (10 minutes)
-    86400   ; expire (1 day)
-    3600    ; minimum (1 hour)
-            ) 
-          NS op.lnh.com.
-$ORIGIN lnh.com.
-shanks     A   1.2.3.4
-op         A   1.2.3.4
-a          A   10.0.0.100 
-a          A   192.168.122.100 
-cname      CNAME a.lnh.com.      ;2002=>2003
+$TTL 3600
+@       IN SOA          lnh.com. root (
+                                        2003       ; serial
+                                        900        ; refresh
+                                        600        ; retry
+                                        86400      ; expire
+                                        3600 )     ; minimum
+
+           IN      NS      lnh.com.
+           IN      A       1.2.3.4
+shanks     IN      A       1.2.3.4
+op         IN      A       1.2.3.4
+a          IN      A       10.0.0.100
+a          IN      A       192.168.122.100
+cname      IN      CNAME   a.lnh.com.      ;2002=>2003
 ############################################################
 rndc reload
 
@@ -381,27 +356,26 @@ host cname.lnh.com 10.0.0.7
 
 
 
-vim /var/named/chroot/etc/lnh.com.zone
+vim /var/named/lnh.com.zone
 # MX加2条时, serial只+1
 ############################################################
-$ORIGIN .
-$TTL 3600 ; 1hour
-lnh.com      IN SOA op.lnh.com. dns.lnh.com. (
-    2004    ; serial
-    900     ; refresh (15 minutes)
-    600     ; retry (10 minutes)
-    86400   ; expire (1 day)
-    3600    ; minimum (1 hour)
-            ) 
-          NS op.lnh.com.
-$ORIGIN lnh.com.
-shanks     A   1.2.3.4
-op         A   1.2.3.4
-a          A   10.0.0.100 
-a          A   192.168.122.100 
-cname      CNAME a.lnh.com.      
-mx         MX 5  192.168.122.101  
-mx         MX 10 192.168.123.101 ;2003=>2004
+$TTL 3600
+@       IN SOA          lnh.com. root (
+                                        2004       ; serial
+                                        900        ; refresh
+                                        600        ; retry
+                                        86400      ; expire
+                                        3600 )     ; minimum
+
+           IN      NS      lnh.com.
+           IN      A       1.2.3.4
+shanks     IN      A       1.2.3.4
+op         IN      A       1.2.3.4
+a          IN      A       10.0.0.100
+a          IN      A       192.168.122.100
+cname      IN      CNAME   a.lnh.com.
+mx         IN      MX   5  192.168.122.101  
+mx         IN      MX  10  192.168.123.101 ;2003=>2004
 ############################################################
 rndc reload
 
@@ -423,7 +397,7 @@ host mx.lnh.com 10.0.0.7
 # 10.0.0.8 DNS主服务器
 ##############################################################
 
-vim /var/named/chroot/etc/view.conf
+vim /var/named/view.conf
 ############################################################
 view "View" {
     zone "lnh.com" {
@@ -453,22 +427,23 @@ view "View" {
 
 
 
-vim /var/named/chroot/etc/168.192.zone
+vim /var/named/168.192.zone
 # 因为是新添加的zone文件,所以serial可以不用更改
 ############################################################
-$TTL 3600 ; 1hour
-@      IN SOA op.lnh.com. dns.lnh.com. (
-    2004    ; serial
-    900     ; refresh (15 minutes)
-    600     ; retry (10 minutes)
-    86400   ; expire (1 day)
-    3600    ; minimum (1 hour)
-            ) 
-		     NS op.lnh.com.
-102.100         IN       PTR       a.lnh.com.
+$TTL 3600
+@       IN SOA          lnh.com. root (
+                                        2004       ; serial
+                                        900        ; refresh
+                                        600        ; retry
+                                        86400      ; expire
+                                        3600 )     ; minimum
+
+           IN      NS      lnh.com.
+           IN      A       1.2.3.4
+102.122    IN      PTR     a.lnh.com.
 ############################################################
-chown named.named /var/named/chroot/etc/168.192.zone
-rndc reload # 一定要注意
+chown named.named /var/named/168.192.zone
+systemctl restart named # 一定要注意
 
 
 
@@ -478,17 +453,17 @@ rndc reload # 一定要注意
 ##############################################################
 # 10.0.0.7 DNS从服务器
 ##############################################################
-vim /var/named/chroot/etc/view.conf
+vim /var/named/view.conf
 ############################################################
 view "SlaveView" {
     zone "lnh.com" {
         type slave;
-        master { 10.0.0.8; };
+        masters { 10.0.0.8; };
         file "slave.lnh.com.zone";
     };
     zone "168.192.in-addr.arpa" {
         type slave;
-        master { 10.0.0.8; };
+        masters { 10.0.0.8; };
         file "slave.168.192.zone";
     };
 };
@@ -510,29 +485,30 @@ host 192.168.122.102 10.0.0.8
 ##############################################################
 # 10.0.0.8 DNS主服务器
 ##############################################################
-vim /var/named/chroot/etc/lnh.com.zone
+vim /var/named/lnh.com.zone
 # 建议同样类型的域名放一起
 ############################################################
-$ORIGIN .
-$TTL 3600 ; 1hour
-lnh.com      IN SOA op.lnh.com. dns.lnh.com. (
-    2005    ; serial
-    900     ; refresh (15 minutes)
-    600     ; retry (10 minutes)
-    86400   ; expire (1 day)
-    3600    ; minimum (1 hour)
-            ) 
-          NS op.lnh.com.
-$ORIGIN lnh.com.
-shanks     A   1.2.3.4
-op         A   1.2.3.4
-a          A   10.0.0.100 
-a          A   192.168.122.100
-a          A   192.168.122.102 ;2004=>2005
+$TTL 3600
+@       IN SOA          lnh.com. root (
+                                        2005       ; serial
+                                        900        ; refresh
+                                        600        ; retry
+                                        86400      ; expire
+                                        3600 )     ; minimum
 
-cname      CNAME a.lnh.com.      
-mx         MX 5  192.168.122.101  
-mx         MX 10 192.168.123.101 
+           IN      NS      lnh.com.
+           IN      A       1.2.3.4
+shanks     IN      A       1.2.3.4
+op         IN      A       1.2.3.4
+a          IN      A       10.0.0.100
+a          IN      A       192.168.122.100
+a          IN      A       192.168.122.102 ;2004=>2005
+
+
+
+cname      IN      CNAME   a.lnh.com.
+mx         IN      MX   5  192.168.122.101
+mx         IN      MX  10  192.168.123.101
 ############################################################
 rndc reload
 
@@ -553,81 +529,21 @@ host a.lnh.com 10.0.0.7
 ##############################################################
 # 10.0.0.8 DNS主服务器
 ##############################################################
-vim /var/named/chroot/etc/namd.conf
+vim /etc/named.conf
 ############################################################
-options {
-  version "1.1.1";
-  listen-on port 53 { any; };
-  directory  "/var/named/chroot/etc/";
-  pid-file "/var/named/chroot/var/run/named/named.pid";
-  allow-query     { any; };
-  dump-file  "/var/named/chroot/var/log/binddump.db";
-  statistics-file "/var/named/chroot/var/log/named_stats";
-  zone-statistics yes;
-  memstatistics-file "log/mem_stats";
-  empty-zones-enable no;
-  forwarders {202.106.196.115;8.8.8.8; };
-  recursion yes;
-  dnssec-enable yes;
-  dnssec-validation yes;
-  /* Path to ISC DLV key */
-  bindkeys-file "/etc/named.iscdlv.key";
-  managed-keys-directory "/var/named/dynamic";
-  session-keyfile "/run/named/session.key";
-};
-
-key "rndc-key" {
-  algorithm hmac-md5;
-  secret "Eqw4hClGExUWeDkKBX/pBg==";
-};
-
-controls {
-  inet 127.0.0.1 port 953
-      allow { 127.0.0.1; } keys { "rndc-key"; };
-};
-
-
-logging {
-  channel warning {
-    file "/var/named/chroot/var/log/dns_warning" versions 10 size 10m;
-    severity warning;
-    print-category yes;
-    print-severity yes;
-    print-time yes;
-  };
-  channel general_dns {
-    file "/var/named/chroot/var/log/dns_log" versions 10 size 100m;
-    severity info;
-    print-category yes;
-    print-severity yes;
-    print-time yes;
-  }; 
-  category default {
-    warning;
-  };
-  category queries {
-   general_dns;
-  };
-};
-
-// 只要编辑这下面的内容就可以了!!!
+// 只要添加这下面的内容就可以了!!!
 acl group1 {
     10.0.0.7;
 };
 acl group2 {
     10.0.0.8;
 };
-
-
-include "/var/named/chroot/etc/view.conf";
 ############################################################
 
 
-
-vim /var/named/chroot/etc/view.conf
 # view的名字和acl里的名字不需要相同
 # 真正调用的是match_clients里面的,里面的名字要和acl的名字相同
-############################################################
+cat > /var/named/view.conf<<EOF
 view "GROUP1" {
     match-clients { group1; };
     zone "viewlnh.com" {
@@ -643,9 +559,10 @@ view "GROUP2" {
         file "group2.viewlnh.com.zone";
     };
 };
-############################################################
+EOF
 
-vim /var/named/chroot/etc/group1.viewlnh.com.zone
+
+vim /var/named/group1.viewlnh.com.zone
 ############################################################
 $ORIGIN .
 $TTL 3600 ; 1hour
@@ -663,7 +580,7 @@ view         A   192.168.122.1
 ############################################################
 
 
-vim /var/named/chroot/etc/group2.viewlnh.com.zone
+vim /var/named/group2.viewlnh.com.zone
 ############################################################
 $ORIGIN .
 $TTL 3600 ; 1hour
@@ -679,8 +596,8 @@ $ORIGIN viewlnh.com.
 op           A   192.168.122.2
 view         A   192.168.122.2
 ############################################################
-chown named.named /var/named/chroot/etc/group1.viewlnh.com.zone
-chown named.named /var/named/chroot/etc/group2.viewlnh.com.zone
+chown named.named /var/named/group1.viewlnh.com.zone
+chown named.named /var/named/group2.viewlnh.com.zone
 rndc reload
 
 
