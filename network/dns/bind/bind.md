@@ -438,5 +438,92 @@ host mx.lnh.com 10.0.0.7
 
 
 ```
+反向解析(PTR)
++ `zone "168.192.in-addr.arpa"`:表示`192.168`这个网段,而这个网段的PTR名称规定就是这样的
+```
+##############################################################
+# 10.0.0.8 DNS主服务器
+##############################################################
+
+vim /var/named/chroot/etc/view.conf
+############################################################
+view "View" {
+    zone "lnh.com" {
+        type master;
+        file "lnh.com.zone";
+        allow-transfer {
+		10.0.0.7;
+        };
+        notify yes;
+        also-notify {
+		10.0.0.7;
+        };
+    };
+    zone "168.192.in-addr.arpa" {
+        type master;
+        file "168.192.zone";
+        allow-transfer {
+		10.0.0.7;
+        };
+        notify yes;
+        also-notify {
+		10.0.0.7;
+        };
+    };
+};
+############################################################
 
 
+
+vim /var/named/chroot/etc/168.192.zone
+# 因为是新添加的zone文件,所以serial可以不用更改
+############################################################
+$TTL 3600 ; 1hour
+@      IN SOA op.lnh.com. dns.lnh.com. (
+    2004    ; serial
+    900     ; refresh (15 minutes)
+    600     ; retry (10 minutes)
+    86400   ; expire (1 day)
+    3600    ; minimum (1 hour)
+            ) 
+		     NS op.lnh.com.
+102.100         IN       PTR       a.lnh.com.
+############################################################
+chown named.named /var/named/chroot/etc/168.192.zone
+rndc reload # 一定要注意
+
+
+
+
+
+
+##############################################################
+# 10.0.0.7 DNS从服务器
+##############################################################
+vim /var/named/chroot/etc/view.conf
+############################################################
+view "SlaveView" {
+    zone "lnh.com" {
+        type slave;
+        master { 10.0.0.8; };
+        file "slave.lnh.com.zone";
+    };
+    zone "168.192.in-addr.arpa" {
+        type slave;
+        master { 10.0.0.8; };
+        file "slave.168.192.zone";
+    };
+};
+############################################################
+rndc reload
+
+host 192.168.122.102 127.0.0.1
+host 192.168.122.102 10.0.0.8
+#-----------------------------------------------------------
+# 102.122.168.192.in-addr.arpa domain name pointer a.lnh.com.
+#-----------------------------------------------------------
+
+
+
+
+```
