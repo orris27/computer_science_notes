@@ -126,8 +126,18 @@ shanks     IN      A       1.2.3.4
 op         IN      A       1.2.3.4
 EOF
 
+
+systemctl stop iptables
+systemctl disable iptables
+systemctl stop firewalld
+systemctl disable firewalld
+setenforce 0
+sed -i 's/SELINUX=(.*)/SELINUX=disabled/g' /etc/selinux/config
+echo -e '* soft nproc 65535\n* hard nproc 65535\n* soft nofile 65535\n* hard nofile 65535\n' >>/etc/security/limits.conf
+
 systemctl start named
 systemctl enable named
+
 
 
 
