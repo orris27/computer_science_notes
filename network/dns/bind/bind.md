@@ -1,5 +1,5 @@
 ## 1. 安装
-> [安装失败的文档](https://github.com/orris27/orris/blob/master/network/dns/bind/bind_fail.md)
+> [安装失败的文档](https://github.com/orris27/orris/blob/master/network/dns/bind/bind_fail.md).
 > 老师给出了安装bind-9.9的方式:`./configure --prefix=/usr/local/bind --enable-threads --with-libtool && make && make install`
 1. 安装软件包
 2. 修改配置文件
