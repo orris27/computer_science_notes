@@ -758,12 +758,214 @@ class RandomUserAgent(object):
 
 
 
+## 3. Scrapy
+> [传智博客Scrapy课件](http://www.chinahufei.com/notes/Spider/file/part04/4.html)
+### 3-1. 实践
+1. 创建1个Scrapy项目,获得传智播客的老师名单
+    1. 创建scrapy项目
+    2. 在`items.py`中写下自己的心愿单
+        + 自己想要抓取什么样的数据
+    3. 创建1个爬虫
+    4. 告诉这个爬虫要怎样才能爬取到我想要的东西
+        1. 在哪里爬
+        2. 不要爬出去
+        3. 获得的响应怎么预先处理
+            + extract出来的结果是utf8,如果直接return并写入到json文件的话,是显示`\uxxxx`的形式,但是如果使用yield的话,我们后来在pipelines中decode('utf8')就可以转换成正常的字符串了
+        4. 是return好呢还是yield给pipelines做数据收集呢
+    5. return/yield
+        1. 如果是return的话,直接让爬虫爬,并指定文件名,通过扩展名来确定存储方式
+        2. 如果是yield的话,编辑`pipelines.py`文件处理传过来的items(本质是处理这个"字典"数据),并告诉Scrapy要使用这个pipelines
+            1. 在pipelines中说明要怎么存储已经被spider处理好的数据
+                1. 存储到文件:items类型的数据(基本可以当python字典用) => JSON字符串 => 文件
+                2. 存储到数据库:调用对应数据库的接口实现
+            2. 在`settings.py`里告诉Scrapy我们要用这个pipelines
+```
+pip install --upgrade pip
+sudo apt-get install python-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
+sudo pip install scrapy
+
+scrapy # 如果有输出就说明安装成功了
+
+scrapy startproject mySpider
+#-----------------------------------------------
+# ...
+# You can start your first spider with:
+#     cd mySpider
+#     scrapy genspider example example.com
+#-----------------------------------------------
+tree .
+#-----------------------------------------------
+#.
+#└── mySpider
+#    ├── mySpider
+#    │   ├── __init__.py
+#    │   ├── items.py
+#    │   ├── middlewares.py
+#    │   ├── pipelines.py
+#    │   ├── __pycache__
+#    │   ├── settings.py
+#    │   └── spiders
+#    │       ├── __init__.py
+#    │       └── __pycache__
+#    └── scrapy.cfg
+#-----------------------------------------------
+
+
+cd mySpider/mySpider/
+vim items.py
+import scrapy
+
+############################################################
+class MyspiderItem(scrapy.Item):
+    name = scrapy.Field()
+    level = scrapy.Field()
+    info = scrapy.Field()
+############################################################
+
+# 在当前目录下输入命令，将在mySpider/spider目录下创建一个名为itcast的爬虫，并指定爬取域的范围：
+scrapy genspider itcast "itcast.cn"
+
+cd spiders/
+vim itcast.py
+
+############################################################
+# -*- coding: utf-8 -*-
+import scrapy
+class ItcastSpider(scrapy.Spider):
+    name = 'itcast'
+    allowed_domains = ['itcast.cn']
+    start_urls = ["http://www.itcast.cn/channel/teacher.shtml",]
+    
+    def parse(self, response):
+        with open("teacher.html","w") as f:
+            f.write(response.text)
+############################################################
+scrapy crawl itcast # 默认teacher.html会下载到执行这个命令时的目录下
+
+vim itcast.py
+
+############################################################
+# -*- coding: utf-8 -*-
+import scrapy
+from mySpider.items import MyspiderItem
+
+class ItcastSpider(scrapy.Spider):
+    name = 'itcast'
+    allowed_domains = ['itcast.cn']
+    start_urls = ["http://www.itcast.cn/channel/teacher.shtml",]
+
+    def parse(self, response):
+        items = []
+
+        for each in response.xpath("//div[@class='li_txt']"):
+            # 将我们得到的数据封装到一个 `ItcastItem` 对象
+            item = MyspiderItem()
+            #extract()方法返回的都是unicode字符串
+            name = each.xpath("h3/text()").extract()[0]
+            level = each.xpath("h4/text()").extract()[0]
+            info = each.xpath("p/text()").extract()[0]
+
+            #xpath返回的是包含一个元素的列表
+            item['name'] = name[0]
+            item['level'] = level[0]
+            item['info'] = info[0]
+
+            items.append(item)
+            
+            #yield item
+
+        # 直接返回最后数据
+        return items
+############################################################
+
+############################################################
+# return
+############################################################
+
+# json格式，默认为Unicode编码
+scrapy crawl itcast -o teachers.json
+
+# json lines格式，默认为Unicode编码
+scrapy crawl itcast -o teachers.jsonl
+
+# csv 逗号表达式，可用Excel打开
+scrapy crawl itcast -o teachers.csv
+
+# xml格式
+scrapy crawl itcast -o teachers.xml
+
+############################################################
+# yield (将return注释,将yield取消注释)
+############################################################
 
 
 
+cd ..
+vim pipelines.py
+############################################################
+# -*- coding: utf-8 -*-
 
+import json
 
-## 3. scrapy redis
+class MyspiderPipeline(object):
+    def __init__(self):
+        self.file = open('teacher.json', 'wb')
+
+    def process_item(self, item, spider):
+        content = json.dumps(dict(item), ensure_ascii=False) + "\n"
+        self.file.write(content.encode('utf8'))
+        return item
+
+    def close_spider(self, spider):
+        self.file.close()
+############################################################
+
+vim settings.py
+############################################################
+ITEM_PIPELINES = {
+    'mySpider.pipelines.MyspiderPipeline': 300,
+}
+############################################################
+scrapy crawl itcast
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 查看当前目录是否生成teacher.json
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
+
+### 3-2. Scrapy结构
+#### 3-2-1. pipeline
+```
+import something
+
+class SomethingPipeline(object):
+    def __init__(self):    
+        # 可选实现，做参数初始化等
+        # doing something
+
+    def process_item(self, item, spider):
+        # item (Item 对象) – 被爬取的item
+        # spider (Spider 对象) – 爬取该item的spider
+        # 这个方法必须实现，每个item pipeline组件都需要调用该方法，
+        # 这个方法必须返回一个 Item 对象，被丢弃的item将不会被之后的pipeline组件所处理。
+        return item
+
+    def open_spider(self, spider):
+        # spider (Spider 对象) – 被开启的spider
+        # 可选实现，当spider被开启时，这个方法被调用。
+
+    def close_spider(self, spider):
+        # spider (Spider 对象) – 被关闭的spider
+        # 可选实现，当spider被关闭时，这个方法被调用
+```
+
+### 3-3. scrapy shell
+`scrapy shell "http://www.itcast.cn/channel/teacher.shtml"`
+#### 3-3-1. 语法
+1. `xpath()`: 传入xpath表达式，返回该表达式所对应的所有节点的selector list列表
+2. `extract()`: 序列化该节点为Unicode字符串并返回list
+3. `css()`: 传入CSS表达式，返回该表达式所对应的所有节点的selector list列表，语法同 BeautifulSoup4
+4. `re()`: 根据传入的正则表达式对数据进行提取，返回Unicode字符串list列表
+### 3-4. scrapy redis
 
 1. 为什么分布式做不起来
 
