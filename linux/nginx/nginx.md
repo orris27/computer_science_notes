@@ -233,6 +233,7 @@ location xx {
     + 如果是`location /static/`的话,那么URI为`/static`的话curl是找不到的,但浏览器可以找到,因为会自动添加末尾的`/`
 3. 为不同的upstream模块static_pools/dynamic_pools分配响应的静态服务器和动态服务器
 4. 在静态服务器上开放可以响应static开头URL请求的功能,而使动态服务器能响应dynamic开头URL的请求
+    + URI要匹配2次.代理层和Web层均要匹配1次
 ```
 #####################################################################################
 # static servers 10.0.0.6
