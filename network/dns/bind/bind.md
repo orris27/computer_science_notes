@@ -16,24 +16,24 @@ yum install bind-utils bind bind-devel bind-chroot -y
 vim /etc/named.conf
 ############################################################
 options {
-  	version "1.1.1";
-	listen-on port 53 { any; };
-	directory  "/var/named/chroot/etc/";
-	pid-file "/var/named/chroot/var/run/named/named.pid";
-	allow-query     { any; };
-	dump-file  "/var/named/chroot/var/log/binddump.db";
-	statistics-file "/var/named/chroot/var/log/named_stats";
+  version "1.1.1";
+  listen-on port 53 { any; };
+  directory  "/var/named/chroot/etc/";
+  pid-file "/var/named/chroot/var/run/named/named.pid";
+  allow-query     { any; };
+  dump-file  "/var/named/chroot/var/log/binddump.db";
+  statistics-file "/var/named/chroot/var/log/named_stats";
   zone-statistics yes;
-	memstatistics-file "log/mem_stats";
+  memstatistics-file "log/mem_stats";
   empty-zones-enable no;
   forwarders {202.106.196.115;8.8.8.8; };
-	recursion yes;
-	dnssec-enable yes;
-	dnssec-validation yes;
-	/* Path to ISC DLV key */
-	bindkeys-file "/etc/named.iscdlv.key";
-	managed-keys-directory "/var/named/dynamic";
-	session-keyfile "/run/named/session.key";
+  recursion yes;
+  dnssec-enable yes;
+  dnssec-validation yes;
+  /* Path to ISC DLV key */
+  bindkeys-file "/etc/named.iscdlv.key";
+  managed-keys-directory "/var/named/dynamic";
+  session-keyfile "/run/named/session.key";
 };
 
 key "rndc-key" {
@@ -160,6 +160,9 @@ dig @127.0.0.1 shanks.lnh.com
     7. `zone-statistics`: 是不是要把每个zone的状态都保存数据=>方便分析
     8. `memstatistics-file`: 内存状态的文件
     9. `forwarders`: DNS有递归和迭代两种方式.这里是迭代,表示如果我这里没有我就找他们
+        + 如果我没有zone和缓存,就转发出去
+        + 如果我有缓存,或者我有zone,就返回结果
+            + 如果我有zone但是里面没有记录,就返回我自己的IP地址(我不太确定对不对?)
     10. `rndc-key`:允许哪些ip和认证可以对我进行reload操作
     11. `logging`:日志
 
@@ -191,24 +194,24 @@ yum install bind-utils bind bind-devel bind-chroot -y
 vim /etc/named.conf
 ############################################################
 options {
-  	version "1.1.1";
-	listen-on port 53 { any; };
-	directory  "/var/named/chroot/etc/";
-	pid-file "/var/named/chroot/var/run/named/named.pid";
-	allow-query     { any; };
-	dump-file  "/var/named/chroot/var/log/binddump.db";
-	statistics-file "/var/named/chroot/var/log/named_stats";
+  version "1.1.1";
+  listen-on port 53 { any; };
+  directory  "/var/named/chroot/etc/";
+  pid-file "/var/named/chroot/var/run/named/named.pid";
+  allow-query     { any; };
+  dump-file  "/var/named/chroot/var/log/binddump.db";
+  statistics-file "/var/named/chroot/var/log/named_stats";
   zone-statistics yes;
-	memstatistics-file "log/mem_stats";
+  memstatistics-file "log/mem_stats";
   empty-zones-enable no;
   forwarders {202.106.196.115;8.8.8.8; };
-	recursion yes;
-	dnssec-enable yes;
-	dnssec-validation yes;
-	/* Path to ISC DLV key */
-	bindkeys-file "/etc/named.iscdlv.key";
-	managed-keys-directory "/var/named/dynamic";
-	session-keyfile "/run/named/session.key";
+  recursion yes;
+  dnssec-enable yes;
+  dnssec-validation yes;
+  /* Path to ISC DLV key */
+  bindkeys-file "/etc/named.iscdlv.key";
+  managed-keys-directory "/var/named/dynamic";
+  session-keyfile "/run/named/session.key";
 };
 
 key "rndc-key" {
@@ -440,6 +443,9 @@ host mx.lnh.com 10.0.0.7
 ```
 反向解析(PTR)
 + `zone "168.192.in-addr.arpa"`:表示`192.168`这个网段,而这个网段的PTR名称规定就是这样的
+    1. 在master上添加新的zone
+    2. 配置zone文件,并重启rndc
+    3. 告诉slave要同步新的zone文件,并重启rndc
 ```
 ##############################################################
 # 10.0.0.8 DNS主服务器
@@ -522,8 +528,206 @@ host 192.168.122.102 10.0.0.8
 #-----------------------------------------------------------
 # 102.122.168.192.in-addr.arpa domain name pointer a.lnh.com.
 #-----------------------------------------------------------
+```
+
+通过DNS实现服务的负载均衡
++ 高效粗暴
++ 只能轮询
++ 没有健康检测
+```
+##############################################################
+# 10.0.0.8 DNS主服务器
+##############################################################
+vim /var/named/chroot/etc/lnh.com.zone
+# 建议同样类型的域名放一起
+############################################################
+$ORIGIN .
+$TTL 3600 ; 1hour
+lnh.com      IN SOA op.lnh.com. dns.lnh.com. (
+    2005    ; serial
+    900     ; refresh (15 minutes)
+    600     ; retry (10 minutes)
+    86400   ; expire (1 day)
+    3600    ; minimum (1 hour)
+            ) 
+          NS op.lnh.com.
+$ORIGIN lnh.com.
+shanks     A   1.2.3.4
+op         A   1.2.3.4
+a          A   10.0.0.100 
+a          A   192.168.122.100
+a          A   192.168.122.102 ;2004=>2005
+
+cname      CNAME a.lnh.com.      
+mx         MX 5  192.168.122.101  
+mx         MX 10 192.168.123.101 
+############################################################
+rndc reload
+
+
+host a.lnh.com 127.0.0.1
+host a.lnh.com 10.0.0.7
+# 出现三个就行
+```
+
+配置DNS视图(智能DNS)
+1. acl
+    1. 在组里配置了acl的名称和对应的ip池
+    2. 如果IP在ip池α里面,那么对应的acl组名就是对应的
+        + 比如10.0.0.7去访问的话,就是group2(group2名字随意命名)
+2. 原理
+    > 通过不同IP请求,分配到不同ACL组里,然后ACL组各自对应一个zone文件,用各自的zone文件来处理这个IP的DNS请求
+```
+##############################################################
+# 10.0.0.8 DNS主服务器
+##############################################################
+vim /var/named/chroot/etc/namd.conf
+############################################################
+options {
+  version "1.1.1";
+  listen-on port 53 { any; };
+  directory  "/var/named/chroot/etc/";
+  pid-file "/var/named/chroot/var/run/named/named.pid";
+  allow-query     { any; };
+  dump-file  "/var/named/chroot/var/log/binddump.db";
+  statistics-file "/var/named/chroot/var/log/named_stats";
+  zone-statistics yes;
+  memstatistics-file "log/mem_stats";
+  empty-zones-enable no;
+  forwarders {202.106.196.115;8.8.8.8; };
+  recursion yes;
+  dnssec-enable yes;
+  dnssec-validation yes;
+  /* Path to ISC DLV key */
+  bindkeys-file "/etc/named.iscdlv.key";
+  managed-keys-directory "/var/named/dynamic";
+  session-keyfile "/run/named/session.key";
+};
+
+key "rndc-key" {
+  algorithm hmac-md5;
+  secret "Eqw4hClGExUWeDkKBX/pBg==";
+};
+
+controls {
+  inet 127.0.0.1 port 953
+      allow { 127.0.0.1; } keys { "rndc-key"; };
+};
+
+
+logging {
+  channel warning {
+    file "/var/named/chroot/var/log/dns_warning" versions 10 size 10m;
+    severity warning;
+    print-category yes;
+    print-severity yes;
+    print-time yes;
+  };
+  channel general_dns {
+    file "/var/named/chroot/var/log/dns_log" versions 10 size 100m;
+    severity info;
+    print-category yes;
+    print-severity yes;
+    print-time yes;
+  }; 
+  category default {
+    warning;
+  };
+  category queries {
+   general_dns;
+  };
+};
+
+// 只要编辑这下面的内容就可以了!!!
+acl group1 {
+    10.0.0.7;
+};
+acl group2 {
+    10.0.0.8;
+};
+
+
+include "/var/named/chroot/etc/view.conf";
+############################################################
 
 
 
+vim /var/named/chroot/etc/view.conf
+# view的名字和acl里的名字不需要相同
+# 真正调用的是match_clients里面的,里面的名字要和acl的名字相同
+############################################################
+view "GROUP1" {
+    match-clients { group1; };
+    zone "viewlnh.com" {
+        type master;
+        file "group1.viewlnh.com.zone";
+    };
+};
+
+view "GROUP2" {
+    match-clients { group2; };
+    zone "viewlnh.com" {
+        type master;
+        file "group2.viewlnh.com.zone";
+    };
+};
+############################################################
+
+vim /var/named/chroot/etc/group1.viewlnh.com.zone
+############################################################
+$ORIGIN .
+$TTL 3600 ; 1hour
+viewlnh.com      IN SOA op.viewlnh.com. dns.viewlnh.com. (
+    2005    ; serial
+    900     ; refresh (15 minutes)
+    600     ; retry (10 minutes)
+    86400   ; expire (1 day)
+    3600    ; minimum (1 hour)
+            ) 
+          NS op.viewlnh.com.
+$ORIGIN viewlnh.com.
+op           A   192.168.122.1
+view         A   192.168.122.1
+############################################################
+
+
+vim /var/named/chroot/etc/group2.viewlnh.com.zone
+############################################################
+$ORIGIN .
+$TTL 3600 ; 1hour
+viewlnh.com      IN SOA op.viewlnh.com. dns.viewlnh.com. (
+    2005    ; serial
+    900     ; refresh (15 minutes)
+    600     ; retry (10 minutes)
+    86400   ; expire (1 day)
+    3600    ; minimum (1 hour)
+            ) 
+          NS op.viewlnh.com.
+$ORIGIN viewlnh.com.
+op           A   192.168.122.2
+view         A   192.168.122.2
+############################################################
+chown named.named /var/named/chroot/etc/group1.viewlnh.com.zone
+chown named.named /var/named/chroot/etc/group2.viewlnh.com.zone
+rndc reload
+
+
+##############################################################
+# 10.0.0.7 DNS从服务器
+##############################################################
+
+dig @10.0.0.7 view.viewlnh.com 
+dig @10.0.0.8 view.viewlnh.com 
+# 出现192.168.122.1 就说明正确
+
+
+
+
+##############################################################
+# 10.0.0.8 DNS主服务器
+##############################################################
+dig @10.0.0.7 view.viewlnh.com 
+dig @10.0.0.8 view.viewlnh.com 
+# 出现192.168.122.2 就说明正确
 
 ```
