@@ -634,14 +634,32 @@ locate -n 1 mkdir # 显示前面1行
 ## 25. 进程
 ### 25-1. strace
 跟踪某个命令在系统中具体是怎么调用的
-#### 跟踪cat 
+
+
+
+#### 25-1-1. 实例
+1. 跟踪cat 
 ```
 strace cat b.txt
 ```
-#### 跟踪sleep
+2. 跟踪sleep
 ```
 strace sleep 2
 ```
+3. 通过进程号来跟踪httpd服务
+```
+[root@lbs07 apache]# ps aux | grep httpd
+root      90722  0.0  0.2  71040  2948 ?        Ss   19:17   0:00 /application/apache-2.4.34/bin/httpd
+daemon    91561  0.0  0.5 425540  5032 ?        Sl   19:23   0:00 /application/apache-2.4.34/bin/httpd
+daemon    91562  0.0  0.4 491076  4772 ?        Sl   19:23   0:00 /application/apache-2.4.34/bin/httpd
+daemon    91563  0.0  0.4 425540  4252 ?        Sl   19:23   0:00 /application/apache-2.4.34/bin/httpd
+[root@lbs07 apache]# strace -p 90722
+strace: Process 90722 attached
+select(0, NULL, NULL, NULL, {0, 951279}) = 0 (Timeout)
+wait4(-1, 0x7ffcfd44de04, WNOHANG|WSTOPPED, NULL) = 0
+select(0, NULL, NULL, NULL, {1, 0})     = 0 (Timeout)
+```
+
 ### 25-2. ltrace
 跟踪进程调用库函数的情况
 #### 跟踪cat 
@@ -1759,6 +1777,30 @@ su -s /bin/sh -c "keystone-manage db_sync" keystone
 ## 50. logstash
 > https://github.com/orris27/orris/blob/master/linux/log/logstash/logstash.md
 
+## 51. lsof
+list open files
+### 51-1. 应用
+1. 查看端口号
+```
+lsof -i :22
+```
+2. 查看进程号为90722的进程打开的所有文件
+```
+[root@lbs07 fd]# lsof -p 90722
+COMMAND   PID USER   FD   TYPE DEVICE SIZE/OFF     NODE NAME
+httpd   90722 root  cwd    DIR    8,3      243       64 /
+httpd   90722 root  rtd    DIR    8,3      243       64 /
+httpd   90722 root  txt    REG    8,3  2256344 26473814 /application/apache-2.4.34/bin/httpd
+httpd   90722 root  mem    REG    8,3    62184    17156 /usr/lib64/libnss_files-2.17.so
+httpd   90722 root  mem    REG    8,3    60256 17390986 /application/apache-2.4.34/modules/mod_alias.so
+httpd   90722 root  mem    REG    8,3    37568 17390982 /application/apache-2.4.34/modules/mod_dir.so
+httpd   90722 root  mem    REG    8,3   128640 17390976 /application/apache-2.4.34/modules/mod_autoindex.so
+httpd   90722 root  mem    REG    8,3    82736 17390975 /application/apache-2.4.34/modules/mod_status.so
+httpd   90722 root  mem    REG    8,3    37792 17390973 /application/apache-2.4.34/modules/mod_unixd.so
+httpd   90722 root  mem    REG    8,3    27376 17390949 /application/apache-2.4.34/modules/mod_version.so
+```
+
+
 
 
 ## 0. 实战
@@ -1766,3 +1808,4 @@ su -s /bin/sh -c "keystone-manage db_sync" keystone
 ```
 cat /etc/passwd | awk -F: '$7!=""{print $7}' | sort | uniq -c
 ```
+-
