@@ -18,7 +18,135 @@ sudo /usr/local/haproxy/sbin/haproxy -f /etc/haproxy/haproxy.cfg
 
 ## 2. salt安装
 以下为完整的salt安装过程
-> https://github.com/orris27/orris/blob/master/linux/haproxy/installation.md
+1. 安装SaltStack
+    1. 安装epel源
+    2. 安装salt-master和salt-minion
+    3. 自己PC上做主从
+2. 准备salt命令
+    
+    1. salt-master上配置环境
+        1. base:`/srv/salt/base`
+        2. prod:`/srv/salt/prod`
+        3. 创建对应物理目录
+    2. 依赖包
+        1. 在prod的`pkg`目录下放安装依赖包的状态文件
+    3. 编写安装Haproxy的状态文件
+        1. 在prod目录下创建haproxy目录,写安装haproxy的状态文件
+    4. 将需要传输过去的压缩包等放到`prod/haproxy/files`下
+3. 执行salt命令:`salt '*' state.sls haproxy.install env=prod`
+ 
+```
+##################################################################################################
+# 安装SaltStack.master和minion都是自己10.0.0.7
+##################################################################################################
+wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+
+sudo yum install salt-master salt-minion -y
+sudo systemctl start salt-master
+sudo systemctl enable salt-master
+
+sudo vim /etc/salt/minion
+#####################################################
+master: 172.19.28.82
+#id:
+#####################################################
+sudo systemctl start salt-minion
+sudo systemctl enable salt-minion
+
+salt-key
+salt-key -A
+
+##################################################################################################
+# 编写SaltStack
+##################################################################################################
+vim /etc/salt/master
+########################################################
+file_roots:
+  base:
+    - /srv/salt/base
+  prod:
+    - /srv/salt/prod
+########################################################
+sudo systemctl restart salt-master
+sudo mkdir -p /srv/salt/{base,prod}
+
+mkdir -p /srv/salt/prod/pkg
+cat > /srv/salt/prod/pkg/pkg-init.sls <<EOF
+pkg-init:
+  pkg.installed:
+    - names:
+      - gcc
+      - gcc-c++
+      - glibc
+      - make
+      - autoconf
+      - openssl
+      - openssl-devel
+EOF
+
+cd ~/tools/
+wget http://www.haproxy.org/download/1.8/src/haproxy-1.8.12.tar.gz
+tar zxf haproxy-1.8.12.tar.gz 
+cd haproxy-1.8.12
+vim examples/haproxy.init
+##############################################################################
+# BIN=/usr/sbin/$BASENAME
+BIN=/usr/local/haproxy/sbin/$BASENAME
+##############################################################################
+mkdir -p /srv/salt/prod/haproxy/files
+sudo cp ~/tools/haproxy-1.8.12.tar.gz /srv/salt/prod/haproxy/files/
+sudo cp ~/tools/haproxy-1.8.12/examples/haproxy.init /srv/salt/prod/haproxy/files/
+cd /srv/salt/prod/haproxy
+sudo vim install.sls
+##############################################################################
+include:
+  - pkg.pkg-init
+
+haproxy-install:
+  file.managed:
+    - name: /root/tools/haproxy-1.8.12.tar.gz
+    - source: salt://haproxy/files/haproxy-1.8.12.tar.gz
+    - user: root
+    - group: root
+    - mode: 755
+  cmd.run:
+    - name: cd /root/tools && tar -zxf haproxy-1.8.12.tar.gz && cd haproxy-1.8.12 && sudo make TARGET=linux2628 PREFIX=/usr/local/haproxy-1.8.12 && sudo make install PREFIX=/usr/local/haproxy-1.8.12 && sudo ln -s /usr/local/haproxy-1.8.12/ /usr/local/haproxy
+    - unless: test -d /usr/local/haproxy
+    - require:
+      - pkg: pkg-init
+      - file: haproxy-install
+
+haproxy-init:
+  file.managed:
+    - name: /etc/init.d/haproxy
+    - source: salt://haproxy/files/haproxy.init
+    - user: root
+    - group: root
+    - mode: 755
+    - require:
+      - cmd: haproxy-install
+  cmd.run:
+    - name: chkconfig --add haproxy
+    - unless: chkconfig --list | grep haproxy
+    - require:
+      - file: haproxy-init
+
+
+haproxy-config-dir:
+  file.directory:
+    - name: /etc/haproxy
+    - user: root
+    - group: root
+    - mode: 755
+##############################################################################
+
+
+##################################################################################################
+# 执行salt命令
+##################################################################################################
+salt '*' state.sls haproxy.install env=prod
+
+```
 
 
 ## 3. 配置文件
