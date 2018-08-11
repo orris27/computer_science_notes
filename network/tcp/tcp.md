@@ -68,16 +68,71 @@ tcp6       0      0 ::1:25                  :::*                    LISTEN
 ```
 
 ## 3. TCP优化
-tcp_timestamp
-支持TIME_WAIT
-快速回收+重用=>解决TIME_WAIT=>解决端口不够
-主动关闭socket的一端(=TIME_WAIT多的一端)增加IP=>解决端口不够
-比如说我们在eth0:0上新增10.0.0.10,然后让redis启动在10.0.0.10,那么就会使用这个IP来连接了
+### 3-1. 端口不够
+#### 3-1-1. 思路
+1. 快速回收+重用=>解决TIME_WAIT=>解决端口不够
+2. 主动关闭socket的一端(=TIME_WAIT多的一端)增加IP=>解决端口不够
+    + 比如说我们在eth0:0上新增10.0.0.10,然后让redis启动在10.0.0.10,那么就会使用这个IP来连接了
+#### 3-1-2. 概念
+1. `tcp_timestamp`
+    + 支持TIME_WAIT
+2. `tcp_rw_recycle`: 快速回收
+    + 如果客户端工作在NAT中的话,可能是会有问题的=>为了安全,服务端不要开快速回收
+    + 我们还是不要开了,因为安全有点问题
+3. `tcp_tw_reuse`: 重用
+    + 默认是关闭的.直接拿TIME_WAIT的数据包来工作,当然可能也会有保留,所以可能比较安全
+    + 我们可以开,是安全的
+4. 结论
+    1. 关闭快速回收
+    2. 开启重用
+    
+### 3-2. 用Nginx和curl来测试socket的内部工作机制
+1. 用户用curl去请求Web的时候,用户端开启了随机端口
+2. 用户端的随机端口连接的是Web的80端口(多对一)
+3. 随机端口的范围的确是由`ip_local_port_range`来控制的
+4. Linux里TIME_WAIT=2MSL=1min
+#### 3-2-1. 实例
+1. `10.0.0.7`去curl `10.0.0.8`的话,查看socket的情况
+```
+curl 10.0.0.7
 
-tcp_rw_recycle 快速回收
-如果客户端工作在NAT中的话,可能是会有问题的=>为了安全,服务端不要开快速回收
-我们还是不要开了,因为安全有点问题
+[root@lbs07 ~]# netstat -nat | grep 'TIME_WAIT' # 10.0.0.7处有TIME_WAIT的套接字
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 10.0.0.7:34846          10.0.0.8:80             TIME_WAIT  
+[root@master-8 ~]# netstat -nat | grep 'TIME_WAIT' # 10.0.0.8没任何TIME_WAIT的套接字
+```
+> 1. 说明curl是在本地随机生成一个34846这样的端口,然后去连接Web服务器的80端口,建立连接
+> 2. 简单的Web连接是用户主动关闭的 => TIME_WAIT在用户
+> 3. 产生的随机端口是在用户端
+> 4. 综合2和3,用户产生随机端口并且处于TIME_WAIT => 用户会有端口不够的问题
+> 5. 从4中得出,代理服务器去请求后台服务器就是这里的用户端 => 代理服务器会有端口不够的
 
-tcp_tw_reuse 重用
-默认是关闭的.直接拿TIME_WAIT的数据包来工作,当然可能也会有保留,所以可能比较安全
-我们可以开,是安全的
+2. 缩短随机端口的分配范围,查看系统的行为
+```
+############################################################################
+# 10.0.0.7
+############################################################################
+echo 'net.ipv4.ip_local_port_range = 60000 60010' >>/etc/sysctl.conf
+sysctl -p
+
+for i in `seq 15`;do curl 10.0.0.8;done
+#----------------------------------------------------------------------------
+10.0.0.8:80
+10.0.0.8:80
+10.0.0.8:80
+10.0.0.8:80
+10.0.0.8:80
+10.0.0.8:80
+10.0.0.8:80
+10.0.0.8:80
+10.0.0.8:80
+10.0.0.8:80
+10.0.0.8:80
+curl: (7) Failed to connect to 10.0.0.8: Cannot assign requested address
+curl: (7) Failed to connect to 10.0.0.8: Cannot assign requested address
+curl: (7) Failed to connect to 10.0.0.8: Cannot assign requested address
+curl: (7) Failed to connect to 10.0.0.8: Cannot assign requested address
+#----------------------------------------------------------------------------
+```
+> 1. 说明随机端口的范围的确是由`ip_local_port_range`来控制的
+> 2. 如果端口不够就无法正确完成命令
