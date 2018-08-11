@@ -26,6 +26,20 @@ curl 192.168.56.10
     1. location判断域名+URI
 2. server=>upstream
     + server里使用upstream的名字来指定
+```
+upstream blog_real_servers {
+    server 10.0.0.6:80 weight=5;
+    server 10.0.0.8:80 weight=10;
+}
+server {
+    listen 80;
+    server_name blog.etiantian.org;
+    location / {
+        proxy_pass http://blog_real_servers;
+        include extra/proxy.conf;
+    }
+}
+```
     
 ### 2-1. upstream
 #### 2-1-1. 支持的代理方式
@@ -53,6 +67,7 @@ http {
 4. real server. 不写端口就是80
 5. `weight`: 权重
 6. 调度算法:默认权重轮询wrr
+7. `down`:这个服务器不加入负载均衡集群里.也就是说我们不用注释它,而是直接加个down就行了.
 
 
 ### 2-2. 架构实例
