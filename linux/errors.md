@@ -101,6 +101,14 @@ sudo pip install urllib3 --upgrade
 + 因为我只对一个服务器(linux-node1)执行状态文件了=>如果我对两个服务器都执行状态文件,那么haproxy服务器最终就是开启的
 
 
+7. `No package salt-master available.`
+> 因为没有安装epel源,所以要安装
+```
+wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+```
+
+
+
 ## 3. VMware Workstation
 ### 3-1. 安装VMware Workstation
 1. `(vmware-installer.py:10466): Gtk-WARNING **: Unable to locate theme engine in module_path: "murrine"`
