@@ -71,6 +71,10 @@ tcp6       0      0 ::1:25                  :::*                    LISTEN
 ### 3-1. 端口不够
 #### 3-1-1. 思路
 1. 快速回收+重用=>解决TIME_WAIT=>解决端口不够
+```
+echo "0" > /proc/sys/net/ipv4/tcp_tw_recycle # 快速回收不推荐打开,因为可能有安全问题
+echo "1" > /proc/sys/net/ipv4/tcp_tw_reuse 
+```
 2. 主动关闭socket的一端(=TIME_WAIT多的一端)增加IP=>解决端口不够
     1. redis(只是一个例子)
         + 比如说我们在eth0:0上新增10.0.0.10,然后让redis启动在10.0.0.10,那么就会使用这个IP来连接了
