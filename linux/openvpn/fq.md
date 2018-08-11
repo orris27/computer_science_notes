@@ -14,7 +14,7 @@
 Hi,
 
 I have allocated the following IP address to your VPS:
-23.106.131.162
+23.106.xxx.xxx
 
 For security reasons I no longer send root passwords via email.
 Please set your root password in the KiwiVM panel.
@@ -35,7 +35,11 @@ KiwiVM IP Allocation Robot
     
 9. 可以选择界面上的自己安装(可以参考文档),不过我这边还是选择手动安装玩玩
 
-10. 下载一键安装脚本
+10. 安装SS
+    1. 下载一键安装脚本
+    2. 执行一键安装脚本
+    3. 输入密码,端口,加密模式等信息,就会自动安装了
+    4. 安装完后就会弹出信息
 ```
 mkdir ~/tools
 cd ~/tools
@@ -82,11 +86,38 @@ Please select stream cipher for Shadowsocks-Python:
 16) chacha20
 17) salsa20
 18) rc4-md5
-Which cipher you'd select(Default: aes-256-gcm):7
+Which cipher you'd select(Default: aes-256-gcm):7 # 加密方式选择AES-256-CFB
 
 cipher = aes-256-cfb
 
-# 加密方式选择AES-256-CFB
+
+Press any key to start...or Press Ctrl+C to cancel # 回车就可以安装了
+
+#####################################################################################
+# 成功的话输出如下
+#####################################################################################
+
+INFO: loading config from /etc/shadowsocks-python/config.json
+2018-08-10 22:09:32 INFO     loading libcrypto from libcrypto.so.10
+Starting Shadowsocks success
+
+Congratulations, Shadowsocks-Python server install completed!
+Your Server IP        :  23.106.xxx.xxx
+Your Server Port      :  19607 
+Your Password         :  123456 
+Your Encryption Method:  aes-256-cfb 
+
+Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)
+ ss://YWVzLTI1Ni1jZmI6MTIzNDU2QDIzLjEwNi4xMzEuMTYyOjE5NjA3 
+Your QR Code has been saved as a PNG file path:
+ /root/tools/shadowsocks_python_qr.png 
+
+Welcome to visit: https://teddysun.com/486.html
+Enjoy it!
+
+
 #------------------------------------------------------------------------
 
 ```
+11. Ubuntu使用SS
+    1. 下载shadowxxx,
