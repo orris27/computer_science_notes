@@ -48,7 +48,7 @@ cd ..
 vim httpd.conf
 #########################################################################
 #proxy demo
-Include conf/extra/httpd-proxy.conf
+Include conf/extra/httphttps://example.comd-proxy.conf
 #########################################################################
 
 apachectl -t
@@ -66,6 +66,29 @@ curl www.orris.com/demo
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
 
+## 2. 查看Apache状态
+```
+cd /application/apache
+
+cat > conf/extra/httpd-status.conf <<EOF
+<Location /server-status>
+	SetHandler server-status
+</Location>
+ExtendedStatus On
+<Location /server-info>
+	SetHandler server-info
+</Location>
+EOF
+
+echo "Include conf/extra/httpd-status.conf" >> conf/httpd.conf
+
+apachectl -t
+apachectl -k graceful
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 在浏览器上访问10.0.0.7/server-status就能查看了
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
 
 
 
