@@ -162,6 +162,7 @@ kill `cat /var/run/haproxy.pid`
 kill `cat /var/run/haproxy.pid` && haproxy -f /etc/haproxy/haproxy.cfg
 ```
 ### 2-2. 根据URL匹配不同的后台服务器(acll)
+Haproxy工作在7层.只要是HTTP能得到的信息,Haproxy都可以处理
 1. 规则
 ```
 frontend xxxx
