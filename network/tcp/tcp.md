@@ -72,7 +72,12 @@ tcp6       0      0 ::1:25                  :::*                    LISTEN
 #### 3-1-1. 思路
 1. 快速回收+重用=>解决TIME_WAIT=>解决端口不够
 2. 主动关闭socket的一端(=TIME_WAIT多的一端)增加IP=>解决端口不够
-    + 比如说我们在eth0:0上新增10.0.0.10,然后让redis启动在10.0.0.10,那么就会使用这个IP来连接了
+    1. redis(只是一个例子)
+        + 比如说我们在eth0:0上新增10.0.0.10,然后让redis启动在10.0.0.10,那么就会使用这个IP来连接了
+    2. Haproxy:
+        + `serve .. check source <ip2>:....`:使用source关键字就行了
+3. LB如果和后台服务器建立长连接的话,也可以同时减少两边的TIME_WAIT的socket
+    > [Nginx和后台服务器保持长连接的方法](https://github.com/orris27/orris/blob/master/linux/nginx/nginx.md)
 #### 3-1-2. 概念
 1. `tcp_timestamp`
     + 支持TIME_WAIT
