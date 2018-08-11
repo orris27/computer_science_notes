@@ -738,6 +738,7 @@ telnet 127.0.0.1 11211 # 可以直接操作memcache
 抓包工具.指定网卡,和端口就能抓包
 ```
 tcpdump --interface eth0 port 80
+tcpdump port 80 -vvv
 ```
 
 ### 26-7. route
