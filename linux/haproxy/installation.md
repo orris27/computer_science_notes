@@ -17,6 +17,7 @@ sudo /usr/local/haproxy/sbin/haproxy -f /etc/haproxy/haproxy.cfg
 --------------------------------------
 
 ## 2. salt安装
+> [haproxy的prod目录](https://github.com/orris27/orris/tree/master/linux/haproxy/prod-haproxy)
 以下为完整的salt安装过程
 1. 安装SaltStack
     1. 安装epel源
