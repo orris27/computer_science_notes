@@ -120,4 +120,24 @@ Enjoy it!
 
 ```
 11. Ubuntu使用SS
-    1. 下载shadowxxx,
+    1. 下载shadowxxx
+    2. 创建连接
+        1. Server Address填自己VPS的公有IP地址:`23.106.x.xx`
+        2. Server Port填:`19607`
+        3. Password填SS的密码:`123456`
+        4. Local Address默认选择`127.0.0.1`就行,如果要提供给其他人用的话,这里可能要变更下
+        5. Local Port填在自己的电脑上开的端口,如`1080`
+        6. Local Server Type填:`SOCKS5`
+        7. 加密方式选择`AES-256-CFB`
+    3. 点击OK,并Connect,如果Status下面显示Connected就说明成功了.
+        + 如果失败请检查上面是否都填正确,比如加密方式有没有选择错误等
+        
+    4. Chrome浏览器上安装SwitchyOmega插件
+    5. 添加Profile,填写信息
+        1. Protocol选择SOCKS5
+        2. Server选择`127.0.0.1`
+        3. Port选择`1080`
+        4. 添加
+    6. 然后在浏览器右上角点击它,选择对应的Profile就可以连接了
+        
+    
