@@ -5,10 +5,9 @@
         > pcre的编译安装比较麻烦,所以选择yum安装
     2. 安装openssl
 2. 创建Nginx用户
-    
 3. 下载并解压
-
-
+    1. 编译参数
+        1. `--with-stream`:可以支持TCP代理,详见[TCP代理笔记](https://github.com/orris27/orris/blob/master/linux/nginx/nginx.md)
 #### 编译安装
 ```
 #######################################################################################
@@ -34,7 +33,7 @@ cd nginx-1.14.0/
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 sudo  useradd nginx -s /sbin/nologin -M
-sudo ./configure --user=nginx --group=nginx --prefix=/application/nginx-1.14.0 --with-http_stub_status_module --with-http_ssl_module
+sudo ./configure --user=nginx --group=nginx --prefix=/application/nginx-1.14.0 --with-http_stub_status_module --with-http_ssl_module --with-stream
 sudo make && sudo make install
 sudo ln -s /application/nginx-1.14.0/ /application/nginx
 
