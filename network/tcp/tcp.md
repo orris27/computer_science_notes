@@ -24,6 +24,7 @@
 
 
 ## 2. socket
+### 2-2. 状态
 1. 查看当前系统的TCP-Socket情况
 > 可以看到TCP-socket由四个信息组成,源IP,源PORT,目的IP和目的PORT.下图中10.0.0.7服务器(本机)启动了redis服务,因此存在源IP和PORT是10.0.0.7:6379的socket
 ```
@@ -64,5 +65,19 @@ tcp        0      0 10.0.0.7:40892          10.0.0.7:4506           ESTABLISHED
 tcp6       0      0 :::80                   :::*                    LISTEN     
 tcp6       0      0 :::22                   :::*                    LISTEN     
 tcp6       0      0 ::1:25                  :::*                    LISTEN     
-
 ```
+
+## 3. TCP优化
+tcp_timestamp
+支持TIME_WAIT
+快速回收+重用=>解决TIME_WAIT=>解决端口不够
+主动关闭socket的一端(=TIME_WAIT多的一端)增加IP=>解决端口不够
+比如说我们在eth0:0上新增10.0.0.10,然后让redis启动在10.0.0.10,那么就会使用这个IP来连接了
+
+tcp_rw_recycle 快速回收
+如果客户端工作在NAT中的话,可能是会有问题的=>为了安全,服务端不要开快速回收
+我们还是不要开了,因为安全有点问题
+
+tcp_tw_reuse 重用
+默认是关闭的.直接拿TIME_WAIT的数据包来工作,当然可能也会有保留,所以可能比较安全
+我们可以开,是安全的
