@@ -330,3 +330,44 @@ Nginx尽管有健康检查,但默认不能像LVS一样查看后台服务器的�
 
 ## 7. 静态缓存
 proxy_cache
+
+
+## 8. TCP代理
+> [官方TCP代理文档](https://nginx.org/en/docs/stream/ngx_stream_core_module.html),是4层!
+### 8-1. 代理ssh
+> 如果原来已经安装了Nginx,重新configure+make+make install的话,不相干的文件和配置文件都不会发生改变!!!(实测)
+```
+mkdir ~/tools
+cd ~/tools/nginx-1.14.0/
+sudo ./configure --user=nginx --group=nginx --prefix=/application/nginx-1.14.0 --with-http_stub_status_module --with-http_ssl_module --with-stream
+make && make install
+
+
+
+vim /application/nginx/conf/nginx.conf
+######################################################################
+stream {
+    upstream backend_ssh {
+        hash $remote_addr consistent;
+        server 10.0.0.8:22  max_fails=3 fail_timeout=30s;
+    }
+
+    server {
+        listen 12345;
+        proxy_connect_timeout 1s;
+        proxy_timeout 3s;
+        proxy_pass backend_ssh;
+    }
+}
+
+######################################################################
+
+
+netstat -lntup | grep 12345
+#------------------------------------------------------------------------
+# tcp        0      0 0.0.0.0:12345           0.0.0.0:*               LISTEN      84497/nginx: master 
+#------------------------------------------------------------------------
+# 然后我们就可以像对待10.0.0.8:22一样对待我们的10.0.0.7:12345了!!!
+ssh root@10.0.0.7 -p 12345
+
+```
