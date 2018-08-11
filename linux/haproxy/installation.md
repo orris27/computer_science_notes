@@ -138,6 +138,12 @@ haproxy-config-dir:
     - user: root
     - group: root
     - mode: 755
+
+command-link:
+  cmd.run:
+    - name: ln -s /usr/local/haproxy/sbin/haproxy  /usr/local/bin/
+    - require:
+      - file: haproxy-config-dir
 ##############################################################################
 
 
