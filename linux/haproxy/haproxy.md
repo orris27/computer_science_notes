@@ -251,7 +251,6 @@ backend backend_another_example_com
 
 ## 4. 配置
 ```
-
 useradd -M -s /sbin/nologin haproxy
 sudo mkdir /etc/haproxy
 sudo vim /etc/haproxy/haproxy.cfg
@@ -307,3 +306,7 @@ haproxy -f /etc/haproxy/haproxy.cfg # 启动haproxy
 
 curl 10.0.0.7
 ```
+
+
+## 5. 实战
+1. 通过URL匹配不同的后台服务器:[haproxy的配置文件](https://github.com/orris27/orris/blob/master/linux/haproxy/files/haproxy-acl.cfg)
