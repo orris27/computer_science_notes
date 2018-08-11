@@ -2,8 +2,16 @@
 
 ### 安装步骤
 1. 安装准备
+2. 常规步骤
+3. 优化(隐藏版本)
+见 https://github.com/orris27/orris/blob/master/linux/apache/optimization.md 的第3条
+4. 常规步骤(续)
 ```
 sudo yum install libxml2 libxml2-devel -y
+sudo yum install expat-devel -y
+
+mkdir ~/tools
+cd ~/tools
 
 wget http://mirrors.shu.edu.cn/apache//apr/apr-1.6.3.tar.gz
 tar -zxvf apr-1.6.3.tar.gz 
@@ -14,27 +22,36 @@ sudo make install && \
 sudo ln -s /usr/local/apr-1.6.3 /usr/local/apr && \
 
 
+mkdir ~/tools
+cd ~/tools 
+
 wget http://apache.mirrors.tds.net//apr/apr-util-1.6.1.tar.gz
+
+
+
 tar -zxvf apr-util-1.6.1.tar.gz
 cd apr-util-1.6.1
 sudo ./configure --prefix=/usr/local/apr-util-1.6.1 --with-apr=/usr/local/apr
 sudo make
 sudo make install
 sudo ln -s /usr/local/apr-util-1.6.1/ /usr/local/apr-util
-```
 
-2. 常规步骤
-```
-wget http://mirrors.hust.edu.cn/apache//httpd/httpd-2.4.33.tar.gz
-tar -zxvf httpd-2.4.33.tar.gz
-cd httpd-2.4.33
-```
-3. 优化(隐藏版本)
-见 https://github.com/orris27/orris/edit/master/linux/apache/optimization.md 的第3条
 
-4. 常规步骤(续)
-```
-sudo ./configure --prefix=/application/apache-2.4.33 \
+
+
+
+mkdir ~/tools
+cd ~/tools 
+
+wget http://mirrors.hust.edu.cn/apache//httpd/httpd-2.4.34.tar.gz
+tar -zxvf httpd-2.4.34.tar.gz
+cd httpd-2.4.34
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 隐藏版本优化,见 https://github.com/orris27/orris/blob/master/linux/apache/optimization.md 的第3条
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+sudo ./configure --prefix=/application/apache-2.4.34 \
 --enable-deflate \
 --enable-expires \
 --enable-headers \
@@ -45,7 +62,7 @@ sudo ./configure --prefix=/application/apache-2.4.33 \
 --with-apr=/usr/local/apr \
 --with-apr-util=/usr/local/apr-util
 sudo make && sudo make install
-sudo ln -s /application/apache-2.4.33 /application/apache
+sudo ln -s /application/apache-2.4.34 /application/apache
 ```
 ### 使用
 ```
