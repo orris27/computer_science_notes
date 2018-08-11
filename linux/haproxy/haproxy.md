@@ -143,6 +143,7 @@ salt '*' state.sls haproxy.install env=prod
 ```
 
 ## 2. 使用
+### 2-1. 基本使用
 1. 语法检查
 ```
 haproxy -c -f /etc/haproxy/haproxy.cfg
@@ -155,6 +156,12 @@ haproxy -f /etc/haproxy/haproxy.cfg
 3. 停止服务
 ```
 kill `cat /var/run/haproxy.pid`
+```
+### 2-2. 根据URL匹配不同的后台服务器
+```
+frontend xxxx
+    acl is_other_example_com hdr_end(host) other.example.com
+    use_backend backend_another_example_com if is_other_example_com
 ```
 
 ## 3. 配置文件
@@ -171,8 +178,13 @@ kill `cat /var/run/haproxy.pid`
         3. `option dontlognull`:不记录健康检查的日志
     3. `frontend`:
         1. `stats uri /haproxy?stats`:dashboard使用的uri
-    4. backend:
-        1. `option httpchk GET /index.html`:指定健康检查的方式,这里指测试index.html.不写的话是检查端口
+        2. `acl`:指定ACL,可以匹配URL
+        3. `use_backend`:根据ACL匹配来选择后台服务器
+    4. `backend`:
+        1. `option`
+            1. `httpchk GET /index.html`:指定健康检查的方式,这里指测试index.html.不写的话是检查端口
+            2. `forward for header X-REAL-IP`:保持用户的IP
+            
         2. `balance`
             1. `source`:ip哈希
             2. `roundrobin`:轮询
@@ -216,6 +228,8 @@ frontend frontend_www_example_com
     log global
     option httplog
     default_backend backend_www_example_com
+    acl is_other_example_com hdr_end(host) other.example.com
+    use_backend backend_another_example_com if is_other_example_com # 使用这个主机,如果匹配到指定ACL
 
 backend backend_www_example_com
     option forwardfor header X-REAL-IP
@@ -223,6 +237,15 @@ backend backend_www_example_com
     balance source
     server web-node1 172.19.28.82:8080 check inter 2000 rise 30 fall 15
     server web-node2 172.19.28.84:8080 check inter 2000 rise 30 fall 15
+
+backend backend_another_example_com
+    option forwardfor header X-REAL-IP
+    option httpchk HEAD / HTTP/1.0
+    balance source
+    server web-node1 172.19.28.82:8080 check inter 2000 rise 30 fall 15
+    server web-node2 172.19.28.84:8080 check inter 2000 rise 30 fall 15
+
+
 ```
 
 
