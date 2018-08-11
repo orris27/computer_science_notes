@@ -157,12 +157,30 @@ haproxy -f /etc/haproxy/haproxy.cfg
 ```
 kill `cat /var/run/haproxy.pid`
 ```
-### 2-2. 根据URL匹配不同的后台服务器
+4. 重启服务
+```
+kill `cat /var/run/haproxy.pid` && haproxy -f /etc/haproxy/haproxy.cfg
+```
+### 2-2. 根据URL匹配不同的后台服务器(acll)
+1. 规则
 ```
 frontend xxxx
-    acl is_other_example_com hdr_end(host) other.example.com
-    use_backend backend_another_example_com if is_other_example_com
+    acl <acl_name> hdr_end(host)/url_reg/... <params>
+    use_backend <backend_name> if <acl_name>
 ```
+2. 实例
+    1. URL匹配
+    ```
+    frontend xxxx
+        acl is_other_example_com hdr_end(host) other.example.com
+        use_backend backend_another_example_com if is_other_example_com
+    ```
+    2. 后缀名匹配
+    ```
+    frontend xxx
+        acl is_static url_reg /*.(css|jpg|png|js|jpeg|gif)$
+        use_backend backend_static_example_com if is_static
+    ```
 
 ## 3. 配置文件
 1. 外网的haproxy
@@ -174,7 +192,7 @@ frontend xxxx
         2. `daemon`:说明以守护进程的形式启动
     2. `defaults`:默认参数可以被frontend和backend继承.比如如果defaults里面设置了`mode http`,那么frontend里面就不用设置`mode http`
         1. `mode`:可以是tcp也可以是http
-        2. `option httplog`:记录http的日志
+        2. `option httplog`:记录http的日志.
         3. `option dontlognull`:不记录健康检查的日志
     3. `frontend`:
         1. `stats uri /haproxy?stats`:dashboard使用的uri
@@ -189,7 +207,7 @@ frontend xxxx
             1. `source`:ip哈希
             2. `roundrobin`:轮询
         3. `server`:
-            1. `check`:健康检查
+            1. `check`:健康检查.日志记录会在后台服务器里不断显示出来.
             2. `inter`:健康检查间隔
             3. `rise 3`:测试次数.测试成功3次才认为是健康的
             4. `fail 3`:测试失败3次就认为是失败的
@@ -206,6 +224,7 @@ global
     pidfile /var/run/haproxy.pid
     chroot /usr/local/haproxy
 defaults
+    log global
     mode http
     option http-keep-alive
     option httplog
