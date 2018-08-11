@@ -382,7 +382,7 @@ vim /application/nginx/conf/nginx.conf
 location xx {
     proxy_pass xxx;
     proxy_http_version 1.1;
-    proxy_set_header Connection "";
+    proxy_set_header Connection ""; 
 }
 #######################################################################
 nginx -s reload
