@@ -157,6 +157,28 @@ haproxy -f /etc/haproxy/haproxy.cfg
 1. 外网的haproxy
     + 详细介绍看
     > https://blog.csdn.net/u012758088/article/details/78643704
+2. 说明
+    1. `global`
+        1. `log 127.0.0.1 local3 info`:设置日志
+        2. `daemon`:说明以守护进程的形式启动
+    2. `defaults`:默认参数可以被frontend和backend继承.比如如果defaults里面设置了`mode http`,那么frontend里面就不用设置`mode http`
+        1. `mode`:可以是tcp也可以是http
+        2. `option httplog`:记录http的日志
+        3. `option dontlognull`:不记录健康检查的日志
+    3. `frontend`:
+        1. `stats uri /haproxy?stats`:dashboard使用的uri
+    4. backend:
+        1. `option httpchk GET /index.html`:指定健康检查的方式,这里指测试index.html.不写的话是检查端口
+        2. `balance`
+            1. `source`:ip哈希
+            2. `roundrobin`:轮询
+        3. `server`:
+            1. `check`:健康检查
+            2. `inter`:健康检查间隔
+            3. `rise 3`:测试次数.测试成功3次才认为是健康的
+            4. `fail 3`:测试失败3次就认为是失败的
+            5. `weight 1`:权重是1
+        
 ```
 global
     log 127.0.0.1 local3 info
@@ -170,6 +192,8 @@ global
 defaults
     mode http
     option http-keep-alive
+    option httplog
+    option dontlognull
     timeout connect 5000ms
     timeout client 50000ms
     timeout server 50000ms
@@ -231,6 +255,7 @@ frontend http_front
     default_backend http_backend
 
 backend http_backend
+    option httpchk GET /index.html
     balance roundrobin
     server web-node1 172.19.28.82:8080 check inter 2000 rise 30 fall 15
     server web-node2 172.19.28.84:8080 check inter 2000 rise 30 fall 15
@@ -248,4 +273,9 @@ systemctl restart rsyslog
 
 haproxy -c -f /etc/haproxy/haproxy.cfg
 haproxy -f /etc/haproxy/haproxy.cfg # 启动haproxy
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 状态可以通过访问http:10.0.0.7/haproxy?stats
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 ```
