@@ -1,22 +1,9 @@
-## 1. 编译安装
-1. 安装
+## 1. 安装
+### 1-1. 编译安装
 > https://github.com/orris27/orris/blob/master/linux/saltstack/configuration.md
-2. 写配置文件
-```
-sudo mkdir /etc/haproxy
-sudo vim haproxy.cfg
-##############
-# 内容见该文档的下面"配置文件"部分
-##############
-```
-3. 启动服务
-```
-sudo /usr/local/haproxy/sbin/haproxy -f /etc/haproxy/haproxy.cfg
-```
 
---------------------------------------
 
-## 2. salt安装
+### 1-2. salt安装
 > [haproxy的prod目录](https://github.com/orris27/orris/tree/master/linux/haproxy/prod-haproxy)
 以下为完整的salt安装过程
 1. 安装SaltStack
@@ -155,6 +142,16 @@ salt '*' state.sls haproxy.install env=prod
 
 ```
 
+## 2. 使用
+1. 语法检查
+```
+haproxy -c -f /etc/haproxy/haproxy.cfg
+```
+2. 启动服务
+```
+haproxy -f /etc/haproxy/haproxy.cfg
+```
+
 
 ## 3. 配置文件
 1. 外网的haproxy
@@ -198,4 +195,57 @@ backend backend_www_example_com
     balance source
     server web-node1 172.19.28.82:8080 check inter 2000 rise 30 fall 15
     server web-node2 172.19.28.84:8080 check inter 2000 rise 30 fall 15
+```
+
+
+## 4. 配置
+```
+
+useradd -M -s /sbin/nologin haproxy
+sudo mkdir /etc/haproxy
+sudo vim /etc/haproxy/haproxy.cfg
+############################################################################################
+# 可以参考上面的配置文件
+global
+    log 127.0.0.1 local3 info
+    user haproxy
+    group haproxy
+    daemon
+    nbproc 1
+    maxconn 100000
+    pidfile /var/run/haproxy.pid
+    chroot /usr/local/haproxy
+    
+defaults
+    log global
+    mode http
+    option httplog
+    option dontlognull
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
+
+frontend http_front
+    bind *:80
+    stats uri /haproxy?stats
+    default_backend http_backend
+
+backend http_backend
+    balance roundrobin
+    server web-node1 172.19.28.82:8080 check inter 2000 rise 30 fall 15
+    server web-node2 172.19.28.84:8080 check inter 2000 rise 30 fall 15
+############################################################################################
+
+vim /etc/rsyslog.conf
+############################################################################################
+$ModLoad imudp
+$UDPServerRun 514
+
+
+local3.*                                                /var/log/haproxy.log
+############################################################################################
+systemctl restart rsyslog
+
+haproxy -c -f /etc/haproxy/haproxy.cfg
+haproxy -f /etc/haproxy/haproxy.cfg # 启动haproxy
 ```
