@@ -16,10 +16,9 @@ cd ~/tools
 wget http://mirrors.shu.edu.cn/apache//apr/apr-1.6.3.tar.gz
 tar -zxvf apr-1.6.3.tar.gz 
 cd apr-1.6.3
-sudo ./configure --prefix=/usr/local/apr-1.6.3 && \
-sudo make && \
-sudo make install && \
-sudo ln -s /usr/local/apr-1.6.3 /usr/local/apr && \
+sudo ./configure --prefix=/usr/local/apr-1.6.3
+sudo make && sudo make install
+sudo ln -s /usr/local/apr-1.6.3 /usr/local/apr
 
 
 mkdir ~/tools
@@ -32,8 +31,7 @@ wget http://apache.mirrors.tds.net//apr/apr-util-1.6.1.tar.gz
 tar -zxvf apr-util-1.6.1.tar.gz
 cd apr-util-1.6.1
 sudo ./configure --prefix=/usr/local/apr-util-1.6.1 --with-apr=/usr/local/apr
-sudo make
-sudo make install
+sudo make && sudo make install
 sudo ln -s /usr/local/apr-util-1.6.1/ /usr/local/apr-util
 
 
@@ -63,6 +61,8 @@ sudo ./configure --prefix=/application/apache-2.4.34 \
 --with-apr-util=/usr/local/apr-util
 sudo make && sudo make install
 sudo ln -s /application/apache-2.4.34 /application/apache
+
+sudo ln -s /application/apache/bin/* /usr/local/bin/
 ```
 ### 使用
 ```
@@ -94,11 +94,12 @@ make: *** [all-recursive] Error 1
 解决方法:
 ```
 sudo yum install libxml2-devel -y
-rm -rf /usr/local/apr-util
-cd /usr/local/src/apr-util-1.6.1
+rm -rf /usr/local/apr-util*
+cd ~/tools/apr-util-1.6.1
 make clean #清除之前配置的缓存
 # 后面就是重新configure了
 ./configure --prefix=/usr/local/apr-util --with-apr=/usr/local/apr
+make && make install 
 ```
 
 2. 
