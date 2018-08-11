@@ -9,6 +9,8 @@
 ```
 sudo yum install libxml2 libxml2-devel -y
 sudo yum install expat-devel -y
+sudo yum install wget -y
+sudo yum groupinstall "Development Tools" -y
 
 mkdir ~/tools
 cd ~/tools
@@ -91,6 +93,7 @@ make[1]: *** [all-recursive] Error 1
 make[1]: Leaving directory `/home/orris/tools/httpd-2.4.33/support'
 make: *** [all-recursive] Error 1
 ```
+> 原因: 没有安装libxml2.所以要yum安装,删除已经安装的apr-util,并且make clean,然后重新安装apr-util
 解决方法:
 ```
 sudo yum install libxml2-devel -y
