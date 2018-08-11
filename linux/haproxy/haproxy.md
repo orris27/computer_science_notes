@@ -181,6 +181,12 @@ frontend xxxx
         acl is_static url_reg /*.(css|jpg|png|js|jpeg|gif)$
         use_backend backend_static_example_com if is_static
     ```
+    3. 用户代理
+    ```
+    frontend xxx
+        acl is_android hdr_reg(User-Agent) -i android
+        use_backend backend_android_example_com if is_android
+    ```
 
 ## 3. 配置文件
 1. 外网的haproxy
