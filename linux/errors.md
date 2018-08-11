@@ -417,3 +417,16 @@ yum install -y libnfnetlink-devel
 ## 11. bind
 1. `lnh.com.zone:10: ignoring out-of-zone data (NS)`
     > 可能是您设定了一个记录项超出了当前 ORIGIN 的范围﹐例如 localhost. 或 siyongc. (也就是错误使用 FQDN )﹔或是错误的使用了 $ORIGIN 设定﹔或是在 named.conf 中有多个 zone 在分享同一份记录文件﹕ 
+
+
+## 12. Apache
+### 12-1. httpd
+#### 12-1-1. mod_proxy
+1. `No protocol handler was valid for the URL /demo (scheme 'balancer'). If you are using a DSO version of mod_proxy, make sure the proxy submodules are included in the configuration using LoadModule`
+> 没有导入足够的proxy
+
+```
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+```
