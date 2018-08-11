@@ -1,5 +1,6 @@
 ## 1. ab
 ### 1-1. 输出
+
 ```
 This is ApacheBench, Version 2.3 <$Revision: 1826891 $>
 Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
@@ -30,6 +31,7 @@ Concurrency Level:      100   # 当前并发用户数
 Time taken for tests:   0.123 seconds    # 测试的总共时间(所有请求话费的时间)
 Complete requests:      1000
 Failed requests:        0 # 失败的请求数
+Non-2xx response:       xx # 不是200的请求数量.这个肯定要0个才对
 Total transferred:      845000 bytes # 所有请求得到的响应数据总量
 HTML transferred:       612000 bytes # 所有请求得到的响应体数据总量(不包括响应头)=>612000=612*1000
 Requests per second:    8138.75 [#/sec] (mean) # 吞吐率.每秒钟处理的请求数.8138.75=1000/0.123
