@@ -197,6 +197,11 @@ frontend xxxx
     1. `global`
         1. `log 127.0.0.1 local3 info`:设置日志
         2. `daemon`:说明以守护进程的形式启动
+        3. socket:
+        ```
+        stats socket /var/lib/haproxy/haproxy.sock mode 600 level admin
+        stats timeout 2m
+        ```
     2. `defaults`:默认参数可以被frontend和backend继承.比如如果defaults里面设置了`mode http`,那么frontend里面就不用设置`mode http`
         1. `mode`:可以是tcp也可以是http
         2. `option httplog`:记录http的日志.
@@ -230,6 +235,8 @@ global
     maxconn 100000
     pidfile /var/run/haproxy.pid
     chroot /usr/local/haproxy
+    stats socket /var/lib/haproxy/haproxy.sock mode 600 level admin
+    stats timeout 2m
 defaults
     log global
     mode http
@@ -327,7 +334,7 @@ haproxy -c -f /etc/haproxy/haproxy.cfg
 haproxy -f /etc/haproxy/haproxy.cfg # 启动haproxy
 
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 状态可以通过访问http:10.0.0.7/haproxy?stats
+# 状态可以通过访问http:10.0.0.7/haproxy?stats.这是dashboard
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 curl 10.0.0.7
@@ -336,3 +343,37 @@ curl 10.0.0.7
 
 ## 5. 实战
 1. 通过URL匹配不同的后台服务器:[haproxy的配置文件](https://github.com/orris27/orris/blob/master/linux/haproxy/files/haproxy-acl.cfg)
+
+## 6. 监控和动态管理
+socat来监控.会将状态输出到stdout里
++ 不能增减后台服务器
+```
+vim /etc/haproxy/haproxy.cfg
+############################################################################
+stats socket /var/lib/haproxy/haproxy.sock mode 600 level admin
+stats timeout 2m
+############################################################################
+mkdir /var/lib/haproxy
+kill `cat /var/run/haproxy.pid` && haproxy -f /etc/haproxy/haproxy.cfg
+
+
+yum install -y socat
+
+
+
+echo "help" | socat stdio /var/lib/haproxy/haproxy.sock
+echo "show info" | socat stdio /var/lib/haproxy/haproxy.sock # 列出的详情可以监控
+
+
+echo "disable server blog_backend/web-node2" | socat stdio /var/lib/haproxy/haproxy.sock
+echo "enable server blog_backend/web-node2" | socat stdio /var/lib/haproxy/haproxy.sock
+```
+
+## 7. 优化
+1. 不要设进程,默认单进程1就很好了
+2. ip_local_port_range可以变大
+3. tcp_tw_reuse设置为1
+4. tcp_fin_timeout可以设置更小
+5. 端口耗尽:TCP层面很难弄,可以考虑加IP
+    + 我作为代理去请求后台服务器时分配的随机端口可能会很多
+    
