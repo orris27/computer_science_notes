@@ -137,7 +137,14 @@ Enjoy it!
         1. Protocol选择SOCKS5
         2. Server选择`127.0.0.1`
         3. Port选择`1080`
-        4. 添加
+        4. Bypass List
+        ```
+        127.0.0.1
+        [::1]
+        localhost
+        *.bilibili.com # 规则就是这样.很简单
+        ```
+        5. Apply Changes
     6. 然后在浏览器右上角点击它,选择对应的Profile就可以连接了
         
     
