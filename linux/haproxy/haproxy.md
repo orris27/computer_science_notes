@@ -152,6 +152,10 @@ haproxy -c -f /etc/haproxy/haproxy.cfg
 haproxy -f /etc/haproxy/haproxy.cfg
 ```
 
+3. 停止服务
+```
+kill `cat /var/run/haproxy.pid`
+```
 
 ## 3. 配置文件
 1. 外网的haproxy
@@ -257,8 +261,8 @@ frontend http_front
 backend http_backend
     option httpchk GET /index.html
     balance roundrobin
-    server web-node1 172.19.28.82:8080 check inter 2000 rise 30 fall 15
-    server web-node2 172.19.28.84:8080 check inter 2000 rise 30 fall 15
+    server web-node1 10.0.0.8:80 check inter 2000 rise 30 fall 15
+    server web-node2 10.0.0.9:80 check inter 2000 rise 30 fall 15
 ############################################################################################
 
 vim /etc/rsyslog.conf
@@ -278,4 +282,5 @@ haproxy -f /etc/haproxy/haproxy.cfg # 启动haproxy
 # 状态可以通过访问http:10.0.0.7/haproxy?stats
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+curl 10.0.0.7
 ```
