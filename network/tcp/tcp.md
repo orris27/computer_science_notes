@@ -23,3 +23,46 @@
     12. 数据(若有)
 
 
+## 2. socket
+1. 查看当前系统的TCP-Socket情况
+> 可以看到TCP-socket由四个信息组成,源IP,源PORT,目的IP和目的PORT.下图中10.0.0.7服务器(本机)启动了redis服务,因此存在源IP和PORT是10.0.0.7:6379的socket
+```
+[root@lbs07 ~]# netstat -nat
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 10.0.0.7:6379           0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:4505            0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:4506            0.0.0.0:*               LISTEN     
+tcp        0      0 10.0.0.7:4505           10.0.0.7:50208          ESTABLISHED
+tcp        0      0 10.0.0.7:22             10.0.0.1:60114          ESTABLISHED
+tcp        0      0 10.0.0.7:4506           10.0.0.7:40892          ESTABLISHED
+tcp        0      0 10.0.0.7:50208          10.0.0.7:4505           ESTABLISHED
+tcp        0      0 10.0.0.7:40892          10.0.0.7:4506           ESTABLISHED
+tcp6       0      0 :::80                   :::*                    LISTEN     
+tcp6       0      0 :::22                   :::*                    LISTEN     
+tcp6       0      0 ::1:25                  :::*                    LISTEN     
+```
+2. 如果socket建立了连接,那么便会变成ESTABLISHED状态
+> 我在10.0.0.8的电脑上连接了10.0.0.7的redis服务.那么在10.0.0.7上查看socket情况时,就会出现`tcp        0      0 10.0.0.7:6379           10.0.0.8:45944          ESTABLISHED`这样的结果.可以看到10.0.0.8也开了个随机端口45944来保持和redis服务的长连接
+```
+[root@lbs07 ~]# netstat -nat
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 10.0.0.7:6379           0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:4505            0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:4506            0.0.0.0:*               LISTEN     
+tcp        0      0 10.0.0.7:6379           10.0.0.8:45944          ESTABLISHED
+tcp        0      0 10.0.0.7:4505           10.0.0.7:50208          ESTABLISHED
+tcp        0      0 10.0.0.7:22             10.0.0.1:60114          ESTABLISHED
+tcp        0      0 10.0.0.7:4506           10.0.0.7:40892          ESTABLISHED
+tcp        0      0 10.0.0.7:50208          10.0.0.7:4505           ESTABLISHED
+tcp        0      0 10.0.0.7:40892          10.0.0.7:4506           ESTABLISHED
+tcp6       0      0 :::80                   :::*                    LISTEN     
+tcp6       0      0 :::22                   :::*                    LISTEN     
+tcp6       0      0 ::1:25                  :::*                    LISTEN     
+
+```
