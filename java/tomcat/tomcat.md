@@ -211,6 +211,25 @@ vim /usr/local/tomcat/conf/web.xml
 
 ### 3-3. 内部调优
 #### 3-3-1. 禁用DNS查询
+客户端会对用户查询记录,反正关掉就是了
+enableLookups false
+
+
 #### 3-3-2. 调整线程数
+Tomcat的线程池的设置
+maxThreads="600"
+minSpareThreads="100"
+maxSpareThreads="100"
+acceptCount="700" 所有可用线程都被占用时,可以放到处理队列中的请求数,超过这个数的请求将不被处理
+
 #### 3-3-3. 压缩
+server.xml的Connector里面开启压缩.类似于Nginx的压缩
+```
+<Connector port="8080" protocol="HTTP/1.1"
+           URIEncoding="UTF-8" maxSpareThreads="25" maxSpareThreads="75"
+           enableLookups="false" disableUploadTimeout="true" connectionTimeout="20000"
+           
+           redirectPort="8443"  server="JDWS" />
+```
+
 
