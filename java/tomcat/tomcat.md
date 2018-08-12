@@ -154,6 +154,8 @@ SHUTDOWN
 
 
 ## 4. 优化
+
+### 4-1. Tomcat
 1. 修改8005端口为其他
 ```
 vim /usr/local/tomcat/conf/server.xml
@@ -198,5 +200,17 @@ vim /usr/local/tomcat/conf/web.xml
     <param-value>false</param-value>
 </init-param>
 #############################################################################
-
 ```
+
+### 3-2. 外部调优
+#### 3-2-1. 操作系统
+#### 3-2-2. JVM
+>　［JVM笔记(https://coggle.it/diagram/W2-y9wdQOWzqfXnD/t/-)
+#### 3-2-3. 代理-Nginx
+
+
+### 3-3. 内部调优
+#### 3-3-1. 禁用DNS查询
+#### 3-3-2. 调整线程数
+#### 3-3-3. 压缩
+
