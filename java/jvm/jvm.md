@@ -197,7 +197,9 @@ Old:
         2. 常与`UseCMSCompactAtFullCollection`参数一起使用
     10. `-XX:CMSInitiationPermOccupancyFraction`
         1. 设置Perm Gen使用到达多少比率时触发,默认92%
-
+    11. 2个失败
+        1. 空间占用少于阈值,但是新进来的容量大于所剩空间,这样就会导致一个失败
+        2. 空间占用多余阈值,但是...(后面我也不太清楚,反正也是会导致一个失败)
 新生代垃圾回收的算法就是复制算法
 
 
