@@ -69,6 +69,95 @@ lib在用的时候加载.加载到Permanent区.从类库中加新的包后,就�
         3. 类对象的Class对象没有被引用(即没有通过反射引用该类的地方)
 
 
+### 1-2. 内存垃圾回收
+#### 1-2-1. 过程
+1. 收集 => 被垃圾回收器占用空间
+    1. 引用计数算法
+        1. 原理
+            新增一个引用时计数+1,引用释放时计数-1.计数为0时可以回收
+        2. 难题
+            1. 精准计数
+            2. 无法解决对象相互循环引用的问题
+    2. 根搜索算法
+        1. 创建一个对象,就在root等节点下挂1个.如果2个对象产生联系,就在这2个节点中连线.然后我们搜索的时候从root开始往下,如果发现孤立的子树,就认为可以垃圾回收
+        2. GC Roots
+            1. 虚拟机栈中引用的对象
+            2. 方法区中类静态属性实体引用的对象
+            3. 方法区中常量引用的对象
+            4. 本地方法中JNI引用的对象
+
+
+
+        
+        
+2. 回收
+    1. 复制算法(Copying)
+        1. 使用在Eden=>Survivor0/Survivor1
+        2. 原理
+            + 从Eden到S0/S1的时候,就是扫遍Eden,然后如果有用的,就复制放到S0/S1(里面肯定有一个是空的)里,没用的就扔了
+    2. 标记清除算法(Mark-Sweep)
+        1. 会产生碎片
+        2. 原理
+            + 第一次扫描对存活的对象做标记,第二次扫描后将整个空间中未被标记的对象进行标记
+    3. 标记整理压缩算法(Mark-Compac)
+        1. 不产生碎片
+        2. 慢
+        3. 原理
+            + 和标记清除算法类似,但是会做移动=>清除碎片+占用时间
+            
+#### 1-2-2. 概念
+1. 串行回收
+    + gc单线程内存回收,会暂停所有用户线程
+2. 并行回收
+    + 指多个GC线程并行工作,但也会暂停所有用户线程
+    1. Serial:单行
+    2. Paralle收集器:并行
+    3. CMS收集器:并发
+    
+3. 并发回收
+    + GC线程与用户线程同时执行.不需要停顿用户线程(CPU的切换)
+
+#### 1-2-3. JVM常见垃圾回收器
+> [JVM垃圾回收器图](https://upload-images.jianshu.io/upload_images/1951322-bec12cb02de0f88e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/547)
+连线表示组合
+Young:
+    1. Serial
+    2. ParNew
+    3. Parallel Scavenge
+Old:
+    1. CMS
+    2. Serial Old(MSC)
+    3. Parallel Old
+
+##### 1-2-3-1. 介绍
+1. Serial 回收器
+    1. Safepoint:对收集的垃圾进行回收的时间点
+        1. 多个用户线程=>Safepint=>GC线程(Young采取复制算法进行垃圾回收,暂停所有用户线程)=>Safepoint=>GC线程(Old采用标记-整理算法)
+    2. 优势
+        1. 简单
+        2. 没有多线程交互开销=>反而更加搞笑
+        3. Client模式下默认的新生代收集器
+    3. 开启
+        1. Young:`-XX:+UserSerialGC`
+            1. 复制算法
+        2. Old:`-XX:+UserSerialGC`
+            2. 标记-压缩算法
+2. ParNew 回收器
+    1. 和Serial 回收器的区别只是GC线程是多个
+    2. 优势
+        1. 多核CPU下就有优势
+    3. 开启
+        1. Young:`-XX:+UserParNewGC`
+            1. `-XX:ParallelGCThreads`指定线程数,最好与CPU数量相当
+            2. Young使用并行回收收集器,而Old使用串行收集器
+            3. 复制算法
+        2. Young:Parallel Scavenger回收器
+        
+        
+        
+-XX:+UseSerialGC来开启:Serial New+Serial Old的收集器组合进行内存回收
+
+
 -Xmn600M 初始堆内存的大小
 
 -XX:PermSize=500M 持久带的内存大小
