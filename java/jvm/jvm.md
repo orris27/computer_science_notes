@@ -17,11 +17,11 @@ JVM产生垃圾,选用好的垃圾回收器
 会导致程序的暂停
 
 ## 2. 监控
-## 2-1. Windows
-使用JConsole.
-1. Windows上安装JConsole
+## 2-1. JConsole/JVitural
+Windows
+1. Windows上安装JConsole和Jvirtual
 2. JVM服务器上打开对应端口就行了
-
+3. 使用JConsole或者JVitural去连接JMX就好了
 ```
 vim /usr/local/tomcat/bin/cataline.sh
 #############################################################################
@@ -48,3 +48,15 @@ netstat -lnutp | grep 12345
 #-----------------------------------------------------------------------------
 
 ```
+
+### 2-2. Java gateway
+生产环境中使用Java Gateway
++ 修改配置文件
+```
+# Zabbix-server上配置下面的内容
+JavaGateway=192.168.3.14
+JavaGatewayPort=10052
+StartJavaPollers=5 # 启动多少个进程去轮询它
+```
+### 2-3. cmdline-jmxclient
+Java包.
