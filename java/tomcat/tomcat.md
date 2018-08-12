@@ -4,22 +4,26 @@
 ```
 useradd -u 601 tomcat # tomcat需要登录
 id tomcat
+#-------------------------------------------------------------------------------------------------
+# uid=601(tomcat) gid=1002(tomcat) groups=1002(tomcat)
+#-------------------------------------------------------------------------------------------------
 
 mkdir /tools
 cd /tools
 
+# wget拿不到,所以只能去官网下载
 wget http://download.oracle.com/otn-pub/java/jdk/10.0.2+13/19aef61b38124481863b1413dce1855f/jdk-10.0.2_linux-x64_bin.tar.gz
 tar zxf jdk-10.0.2_linux-x64_bin.tar.gz
 
-cd jdk-10.0.2_linux-x64_bin
-mv jdk-xxx/ /usr/local/
-ln -s /usr/local/jdkxx /usr/local/jdk
+mv jdk-10.0.2 /usr/local/
+ln -s /usr/local/jdk-10.0.2/ /usr/local/jdk
 
 cd /tools
-wget 
-tar zxf apache-tomcat-xx
-mv apache-tomcat-xx /usr/local
-ln -s /usr/local/apache-tomca-xx /usr/local/tomcat
+wget http://apache.spinellicreations.com/tomcat/tomcat-9/v9.0.10/bin/apache-tomcat-9.0.10.tar.gz
+tar zxf apache-tomcat-9.0.10.tar.gz 
+mv apache-tomcat-9.0.10 /usr/local/
+ln -s /usr/local/apache-tomcat-9.0.10/ /usr/local/tomcat
+
 
 cd /usr/local 
 ll
@@ -52,7 +56,7 @@ su - tomcat
 
 java -version
 
-tomcat 默认监听8080
+#tomcat 默认监听8080
 /usr/local/tomcat/bin/startup.sh
 
 netstat -lntup | grep 8080
@@ -63,18 +67,11 @@ netstat -lntup | grep 8080
 
 cd /usr/local/tomcat/conf
 vim server.xml
-######################################################################
-<Connector port="8080" protocol=""
-           <!--xxx-->
-######################################################################
 
-
-
-cd ..
-cd webapps/
+cd /usr/local/tomcat/webapps/
 # tomcat默认目录,根在ROOT下.一般不改.如果要访问其他文件夹,要`x:8080/dirname`
 
-vim tomcat-users.xml
+vim /usr/local/tomcat/conf/tomcat-users.xml
 ####################################################################################
 <role rolename="manager-gui" />
 <role rolename="admin-gui" />
@@ -88,9 +85,8 @@ vim tomcat-users.xml
 # 关闭的时候写脚本,先kill,30秒后还在的话就kill -9
 /usr/local/tomcat/bin/shutdown.sh
 
-
-mkdir -p /server/scripts
-cd /server/scripts/
+# 这个时候还是tomcat身份
+cd /usr/local/tomcat/bin/
 vim tomcat.sh
 ################################################
 #! /bin/bash
@@ -122,26 +118,26 @@ status () {
 }
 
 main () {
-    case $1 in:
-        start)
-            start
-            ;;
-        stop)
-            stop
-            ;;
-        status)
-            status
-            ;;
-        *)
-            usage
-            ;;
-    esac
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	status)
+		status
+		;;
+	*)
+		usage
+		;;
+esac
 }
 main $1
 ################################################
 
-
-
+chmod +x tomcat.sh
+./tomcat.sh start     
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 浏览器访问10.0.0.7:8080/host_manager/html
