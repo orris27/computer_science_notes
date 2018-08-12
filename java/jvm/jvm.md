@@ -141,7 +141,7 @@ Old:
         1. Young:`-XX:+UserSerialGC`
             1. 复制算法
         2. Old:`-XX:+UserSerialGC`
-            2. 标记-压缩算法
+            1. 标记-压缩算法
 2. ParNew 回收器
     1. 和Serial 回收器的区别只是GC线程是多个
     2. 优势
@@ -152,8 +152,53 @@ Old:
             2. Young使用并行回收收集器,而Old使用串行收集器
             3. 复制算法
         2. Young:Parallel Scavenger回收器
-        
-        
+            1. 吞吐量:运行用户代码的时间/总时间
+                + 总时间=运行用户代码的时间+垃圾收集
+            2. 开启:`-XX:+UseParallelGC`
+                1. 使用Parallel Scavenge+Serial Old收集器组合回收垃圾
+            3. `-XX:GCTimeRatio`
+                设置用户执行时间占总时间的比例,默认99,即1%的时间用来进行垃圾回收
+                
+            4. `-XX:MaxGCPauseMillis`:设置GC的最大停顿时间
+            5. 使用复制算法
+        3. Old:Parrallel Old回收器
+            1. 开启:`-XX:+UseParallelOldGC`
+            2. 使用标记-整理算法
+            3. 并行的独占式的垃圾回收器
+            
+            
+3. CMS(并发标记清除)回收器
+    1. 原理
+        1. 初始阶段:值标记GC Roots能直接关联到的对象
+        2. 并发标记:进行GC Roots Tracing的过程
+        3. 重新标记:修正并标记期间因用户程序继续运行而导致标记发生改变的那一部分对象的标记
+        4. 并发清除
+    2. 注意:
+        1. 标记和重新标记2个阶段仍然需要Stop-The-World.
+        2. 并发标记和并发清除过程中可以和用户线程一起工作
+        3. 并发标记和并发清除耗时最长
+    3. 目前使用最广泛的
+    
+    4. 算法:标记-清除
+    5. `-XX:ParallelCMSThreads`
+        + 手工设定CMS的线程数量
+        + 默认为(ParallelGCThreads+3)/4
+    6. 开启:`-XX:+UseConcMarkSweepGC`
+        1. 收集器组合:ParNew+CMS+Serial Old
+        2. Serial Old作为CMS出现"Concurrent Mode Failure"失败后的后备收集器使用
+    7. `-XX:CMSInitiatingOccupancyFraction`
+        1. 设置CMS收集器在Old空间被使用多久后触发垃圾收集
+        2. 默认68%,但老师推荐设置为70%
+    8. `-XX:UseCMSCompactAtFullCollection`
+        1. CMS使用标记-清除算法=>碎片
+        2. 这个参数设置:垃圾收集器后是否需要一次内存碎片整理过程,仅在CMS收集器时有效
+    9. `-XX:+CMSFullGCBeforeCompaction`
+        1. 设置CMS收集器在进行若干次垃圾收集后再进行一次内存碎片整理过程
+        2. 常与`UseCMSCompactAtFullCollection`参数一起使用
+    10. `-XX:CMSInitiationPermOccupancyFraction`
+        1. 设置Perm Gen使用到达多少比率时触发,默认92%
+
+新生代垃圾回收的算法就是复制算法
         
 -XX:+UseSerialGC来开启:Serial New+Serial Old的收集器组合进行内存回收
 
