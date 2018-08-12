@@ -79,60 +79,17 @@ su - tomcat
 # 这个时候还是tomcat身份
 cd /usr/local/tomcat/bin/
 vim tomcat.sh
-################################################
-#! /bin/bash
-
-usage () {
-    echo "Usage: $0 [start|stop|status]"
-}
-
-start () {
-    /usr/local/tomcat/bin/startup.sh
-}
-
-
-stop () {
-    TPID=$(ps aux | grep java | grep tomcat | grep -v 'grep' | awk '{print $2}')
-    kill -9 $TPID
-    sleep 5
-    
-    TSTAT=$(ps aux | grep java | grep tomcat | grep -v 'grep' | awk '{print $2}')
-    if [ -z $TSTAT ];then
-        echo "tomcat stop"
-    else
-        kill -9 $TSTAT
-    fi
-}
-
-status () {
-    ps aux | grep java | grep tomcat | grep -v 'grep' 
-}
-
-main () {
-case "$1" in
-	start)
-		start
-		;;
-	stop)
-		stop
-		;;
-	status)
-		status
-		;;
-	*)
-		usage
-		;;
-esac
-}
-main $1
-################################################
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 参考https://github.com/orris27/orris/blob/master/java/tomcat/tomcat.sh
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 chmod +x tomcat.sh
 ./tomcat.sh start     
 ```
 
 
-## 2. 管理Tomcat
+## 3. 管理Tomcat
+### 3-1. manager
 1. 授权用户
 2. 授权其他机器访问
 3. 移除不需要的目录
@@ -184,3 +141,28 @@ mv host-manager/ /tmp/
 mv examples/ /tmp/
 mv docs/ /tmp/
 ```
+
+### 3-2. 8005
+#### 3-2-1. 使用
+```
+telnet 127.0.0.1 8005
+#####################################
+SHUTDOWN
+#####################################
+```
+#### 3-2-2. 优化
+修改端口为其他,如8527
+```
+vim /usr/local/tomcat/conf/server.xml
+####################################################################
+<Server port="8527" shutdown="dangerous">
+####################################################################
+```
+
+
+
+## 4. 优化
+1. 取消8005端口
+
+
+
