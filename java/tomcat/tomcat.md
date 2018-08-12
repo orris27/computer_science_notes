@@ -212,7 +212,7 @@ vim /usr/local/tomcat/conf/web.xml
 ### 3-3. 内部调优
 #### 3-3-1. 禁用DNS查询
 客户端会对用户查询记录,反正关掉就是了
-enableLookups false
+enableLookups="false"
 
 
 #### 3-3-2. 调整线程数
@@ -228,7 +228,13 @@ server.xml的Connector里面开启压缩.类似于Nginx的压缩
 <Connector port="8080" protocol="HTTP/1.1"
            URIEncoding="UTF-8" maxSpareThreads="25" maxSpareThreads="75"
            enableLookups="false" disableUploadTimeout="true" connectionTimeout="20000"
-           
+           acceptCount="300" maxThreads="300" maxProcessors="1000" minProcessors="5"
+           uuseURIValidationHack="false"
+           compression="on" compressionMinSize="2048"
+           compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain"
+           SSLEnabled="true"
+           scheme="https" secure="true"
+           clientAuth="false" sslProtocol="TLS"
            redirectPort="8443"  server="JDWS" />
 ```
 
