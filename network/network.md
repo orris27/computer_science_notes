@@ -183,6 +183,40 @@ no sh
 当vlan1发出广播后,同一个交换机里只有vlan1的主机会发出响应.经过干道链路后,干道链路给这个信号加上标签,表明它是vlan1的信号.这样一来,当到达其他交换机后,这个交换机可以通过这个vlan1的标签来决定主机.
 
 ### 4-3. 利用Packet Tracer配置VLAN
+1. 设备选择
+    1. PC选择Generic,为`192.168.0.2`,`192.168.0.3`,`192.168.1.2`和`192.168.1.3`
+    2. Switch选择2950T-24
+    3. Multilayer Switch选择3560-24PS
+2. 连线
+    1. PC和Switch用Straight-Through
+    2. Switch和Multilayer Switch用Cross-Over
+3. 在Switch上配置路由
+    1. 左击Switch,选中CLI
+    2. 我们让1-12在vlan1,而13-24为vlan2
+    3. 让`192.168.1.2`的PC连接第一个交换机的0/13接口
+    ```
+    Switch>enable
+    Switch#configure terminal
+    Switch(config)#interface range fastEthernet 0/13 - 24
+    Switch(config-if-range)#switchport mode access
+    Switch(config-if-range)#switchport access vlan 2
+    % Access VLAN does not exist. Creating vlan 2 % 也可以先创建vlan 2,只要输入vlan 2 的命令就会创建了
+    Switch(config-if-range)#exit
+    Switch(config)#exit
+    Switch#show vlan
+    ```
+4. 在交换机和三层交换机之间配置干道链路
+    1. 选中普通交换机
+    ```
+    enable
+    interface gigabitEthernet 1/1
+    switchport mode ?
+    switchport mode trunk
+    ```
+    
+    
+    
+
 
 
 
