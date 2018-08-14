@@ -301,7 +301,7 @@ Switch(config)#ip routing # 启动功能
 8. 使用`192.168.0.2`看是否能ping通`192.168.1.3`等进行验证
 
 
-
+9. [最终成品](https://github.com/orris27/orris/blob/master/network/packettracer/pkt-files/vlan.pkt)
 ## 5. ens33 => eth0
 1. 修改`/etc/sysconfig/network-scripts/ifcfg-ens33`中的Name和Device
 ```
