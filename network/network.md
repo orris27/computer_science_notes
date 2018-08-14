@@ -206,17 +206,99 @@ no sh
     Switch#show vlan
     ```
 4. 在交换机和三层交换机之间配置干道链路
-    1. 选中普通交换机
+    1. 选中普通交换机,将gigabitEthernet的接口模式调成trunk模式
+    2. 鼠标移动到交换机上,发现gigabitEthernet已经不属于任何vlan了,显示的是`--`,而
+    3. 将多层交换机连接到交换机的gigabitEthernet 0/1接口上,发现交换机上的这个接口已经是up状态
     ```
     enable
-    interface gigabitEthernet 1/1
+    configure terminal
+    interface gigabitEthernet 0/1 # 具体是什么数字的gigabitEthernet根据自己的交换机决定
     switchport mode ?
     switchport mode trunk
     ```
     
-    
-    
+5. 对另一个交换机也进行3,4的操作
+    1. 对交换机进行vlan分区
+    2. 分配vlan的端口
+    3. 将连接多层交换区的接口调成trunk模式
+    4. 将`192.168.1.3`连接到交换机的0/13接口,而多层交换机连接到交换机的gigabit的0/1接口
+    ```
+    Switch>enable
+    Switch#configure terminal
+    Switch(config)#vlan 2
+    Switch(config-vlan)#exit
+    Switch(config)#interface range fastEthernet 0/13 - 24
+    Switch(config-if-range)#switchport mode access
+    Switch(config-if-range)#switchport access vlan 2
+    % Access VLAN does not exist. Creating vlan 2 % 也可以先创建vlan 2,只要输入vlan 2 的命令就会创建了
+    Switch(config-if-range)#exit
+    Switch(config)#exit
+    Switch#show vlan
+    Switch>enable
+    Switch#configure terminal
+    Switch(config)#interface gigabitEthernet 0/1 # 具体是什么数字的gigabitEthernet根据自己的交换机决定
+    Switch(config-if)#switchport mode ?
+    Switch(config-if)#switchport mode trunk
+    ```
 
+
+6. 配置多层交换机
+    1. 将多层交换机连接其他交换机的接口模式改成trunk模式(需要封装)
+    2. 在多层交换机上对vlan1和vlan2分别配置2个网卡,这样这个多层交换机也可以起到路由器的作用
+    3. 将交换机连接到多层交换的gigabitEthernet上
+```
+Switch>en
+Switch#configure terminal
+Switch(config)#interface gigabitEthernet 0/1
+Switch(config-if)#switchport mode trunk
+Switch(config-if)#switchport trunk encapsulation dot1q 
+Switch(config-if)#switchport mode trunk
+Switch(config-if)#exit
+
+Switch(config)#interface gigabitEthernet 0/2
+Switch(config-if)#switchport trunk encapsulation dot1q 
+Switch(config-if)#switchport mode trunk
+Switch(config-if)#exit
+
+
+configure t
+vlan 2
+exit
+interface vlan 1
+ip address 192.168.0.1 255.255.255.0
+no shutdown
+exit
+interface vlan 2
+ip address 192.168.1.1 255.255.255.0
+# show interfaces vlan 1
+
+Switch#configure terminal
+Switch(config)#vlan 2
+Switch(config-vlan)#exit
+
+Switch(config)#interface vlan 1
+Switch(config-if)#ip address 192.168.0.1 255.255.255.0
+Switch(config-if)#no shutdown
+Switch(config-if)#exit
+
+Switch(config)#interface vlan 2
+Switch(config-if)#ip address 192.168.1.1 255.255.255.0
+Switch(config-if)#no shutdown
+Switch(config-if)#exit
+
+Switch(config)#ip routing # 启动功能
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 将交换机连接到多层交换的gigabitEthernet上
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+```
+7. 将PC的默认网关指向多层交换的ip地址
+    1. `192.168.0.2`和`192.168.0.3`的PC的默认网关设置为`192.168.0.1`
+    2. `192.168.1.2`和`192.168.1.3`的PC的默认网关设置为`192.168.1.1`
+
+
+8. 使用`192.168.0.2`看是否能ping通`192.168.1.3`等进行验证
 
 
 
