@@ -244,8 +244,9 @@ no sh
 
 6. 配置多层交换机
     1. 将多层交换机连接其他交换机的接口模式改成trunk模式(需要封装)
-    2. 在多层交换机上对vlan1和vlan2分别配置2个网卡,这样这个多层交换机也可以起到路由器的作用
-    3. 将交换机连接到多层交换的gigabitEthernet上
+    2. 在多层交换机上创建vlan 2
+    3. 在多层交换机上对vlan1和vlan2分别配置2个网卡,这样这个多层交换机也可以起到路由器的作用
+    4. 将交换机连接到多层交换的gigabitEthernet上
 ```
 Switch>en
 Switch#configure terminal
@@ -259,18 +260,6 @@ Switch(config)#interface gigabitEthernet 0/2
 Switch(config-if)#switchport trunk encapsulation dot1q 
 Switch(config-if)#switchport mode trunk
 Switch(config-if)#exit
-
-
-configure t
-vlan 2
-exit
-interface vlan 1
-ip address 192.168.0.1 255.255.255.0
-no shutdown
-exit
-interface vlan 2
-ip address 192.168.1.1 255.255.255.0
-# show interfaces vlan 1
 
 Switch#configure terminal
 Switch(config)#vlan 2
