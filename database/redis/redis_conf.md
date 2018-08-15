@@ -1,9 +1,15 @@
 ## 1. 配置redis
-1. `pidfile /var/run/redis.pid`
-2. `loglevel warning`
-3. `logfile "/var/log/redis.log"`
-4. `daemonize yes`
-
+1. pid文件:`pidfile /var/run/redis.pid`
+2. 日志
+    1. 日志级别:`loglevel warning`
+    2. 日志文件:`logfile "/var/log/redis.log"`
+3. 允许后台启动:`daemonize yes`
+4. 绑定IP:`bind 10.0.0.7`
+5. 数据文件:`/var/lib/redis_6379`
+    + 默认是`./`,这会导致删除redis后数据也删除
+    + 这里设置也方便多实例
+6. 权限:`requirepass <redis_password>`
+    
 
 ### 1-1. 主从同步
 1. master端要bind自己ip
