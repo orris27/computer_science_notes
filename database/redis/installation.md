@@ -8,13 +8,7 @@ less README.md
 sudo make MALLOC=jemalloc
 sudo make PREFIX=/application/redis-4.0.10 install
 sudo ln -s /application/redis-4.0.10/ /application/redis
-```
-### 2. 添加到环境变量
-```
-sudo vim /etc/profile
-###
-PATH=/application/redis/bin:$PATH
-###
+echo 'PATH=/application/redis/bin:$PATH' >> /etc/profile
 source /etc/profile
 ```
 ### 3. 配置
