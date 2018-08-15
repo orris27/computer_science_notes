@@ -159,7 +159,7 @@ man bash > /mnt/distributed-striped/test3.txt
 
 tree /exp* # 发现2个节点上都各自拥有1份testx.txt文件.这样就能保证1个节点挂了而数据全在
 ```
-### 2-1. 添加brick
+### 2-2. 添加brick
 1. 给分布式卷添加brick
     1. 创建brick(目录)
     2. 将该brick添加到分布式卷里
@@ -178,3 +178,13 @@ gluster volume rebalance test-volume start # 会很费时间
 
 tree /data/* # 会发现/data/addition目录已经有数据了
 ```
+
+### 2-3. 移除brick
+数据可能会丢失.但是挂载的目录里的文件可能会都在,不过在GlusterFS的目录里就已经丢失数据了
+```
+gluster volume remove-brick test-volume 10.0.0.7:/data/addition force
+#gluster volume rebalance test-volume start # 会很费时间
+```
+
+
+
