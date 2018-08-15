@@ -1,11 +1,11 @@
-## 配置redis
+## 1. 配置redis
 1. `pidfile /var/run/redis.pid`
 2. `loglevel warning`
 3. `logfile "/var/log/redis.log"`
 4. `daemonize yes`
 
 
-### 主从同步
+### 1-1. 主从同步
 1. master端要bind自己ip
 1. 在slave端设置好`slaveof`,`masterauth`就可以了!(slave不能写入)
 ```
@@ -13,7 +13,7 @@ slaveof 172.19.28.82 6379
 # masterauth <master-password> # 如果有密码的话
 ```
 
-## `redis.conf`解释
+## 2. `redis.conf`解释
 ```
 # redis像Nginx一样可以包含其他配置文件
 # include /path/to/local.conf
@@ -22,7 +22,7 @@ slaveof 172.19.28.82 6379
 bind 127.0.0.1
 protected-mode yes
 port 6379
-tcp-backlog 511
+tcp-backlog 511 # 系统的/proc/sys/net/core/somaxconn必须大于这里设置的tcp-backlog,比如说512
 timeout 0
 tcp-keepalive 300
 # 如果yes的话,就会自动守护进程的方式开启
