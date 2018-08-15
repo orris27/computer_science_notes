@@ -330,7 +330,70 @@ Nginx尽管有健康检查,但默认不能像LVS一样查看后台服务器的�
 
 ## 7. 静态缓存
 proxy_cache
+### 7-1. 配置
+```
+sudo vim /application/nginx/conf/proxy.conf
+##############################################################################
+proxy_temp_path /data/cdn_cache/proxy_temp_dir;
+proxy_cache_path /data/cdn_cache/proxy_cache_dir levels=1:2 keys_zone=cache_one:50m inactive=1d max_size=1g;
+proxy_connect_timeout 5;
+proxy_read_timeout 60;
+proxy_send_timeout 5;
+proxy_buffer_size 16k;
+proxy_buffers 4 64k;
+proxy_busy_buffers_size 128k;
+proxy_temp_file_write_size 128k;
+proxy_next_upstream error timeout invalid_header http_500 http_503 http_504 http_404;
+##############################################################################
 
+
+sudo vim /application/nginx/conf/nginx.conf
+##############################################################################
+http{
+    include conf/proxy.conf;
+    
+    upstream backend {
+        server 10.0.0.8:80 weight=1;
+    }
+    
+    server {
+        listen 80;
+        server_name www.orris.com;
+        
+        location ~ .*\.(gif|jpg|png|html|htm|css|js|ico|swf|pdf)$ {
+            
+            #Proxy
+            proxy_redirect off;
+            proxy_next_upstream http_502 http_504 http_404 error timeout invalid_header;
+            proxy_set_header                Host $host;
+            proxy_set_header                X-real-ip $remote_addr;
+            proxy_set_header                X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_pass   http://backend;
+            
+            #Use Proxy Cache
+            proxy_cache cache_one;
+            proxy_cache_key "$host$request_uri";
+            add_header Cache "$upstream_cache_status";
+            proxy_cache_valid 200 304 301 302 8h;
+            proxy_cache_valid 404 1m;
+            proxy_cache_valid any 2d;
+            
+        
+        
+        }
+    }
+}
+##############################################################################
+
+nginx -t
+nginx -s reload
+
+ps aux | grep nginx
+#--------------------------------------------------------------
+# 会发现多了cache manager process和cache loader process
+#--------------------------------------------------------------
+tree /data/cdn_cache
+```
 
 ## 8. TCP代理
 > [官方TCP代理文档](https://nginx.org/en/docs/stream/ngx_stream_core_module.html),是4层!
