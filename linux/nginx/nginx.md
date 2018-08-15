@@ -331,6 +331,7 @@ Nginx尽管有健康检查,但默认不能像LVS一样查看后台服务器的�
 ## 7. 静态缓存
 proxy_cache
 ### 7-1. 缓存结构
+比如如果key是`10.0.0.7/`的话,就通过`echo -n "10.0.0.7/" | md5sum`来查看
 1. 缓存文件的文件名:`proxy_cache_key`的md5
 2. 路径是:`<proxy_cache_key的md5的最后1个字符>/<proxy_cache_key的md5的倒数第2-3个字符>/<proxy_cache_key>的md5`
 ### 7-2. 实现并测试
