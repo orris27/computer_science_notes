@@ -332,8 +332,7 @@ Nginx尽管有健康检查,但默认不能像LVS一样查看后台服务器的�
 proxy_cache
 ### 7-1. 配置
 ```
-sudo vim /application/nginx/conf/proxy.conf
-##############################################################################
+cat > /application/nginx/conf/extra/proxy-cache.conf << EOF
 proxy_temp_path /data/cdn_cache/proxy_temp_dir;
 proxy_cache_path /data/cdn_cache/proxy_cache_dir levels=1:2 keys_zone=cache_one:50m inactive=1d max_size=1g;
 proxy_connect_timeout 5;
@@ -344,13 +343,36 @@ proxy_buffers 4 64k;
 proxy_busy_buffers_size 128k;
 proxy_temp_file_write_size 128k;
 proxy_next_upstream error timeout invalid_header http_500 http_503 http_504 http_404;
-##############################################################################
+EOF
 
+
+
+vi /application/nginx/conf/extra/image-cache.conf
+#################################################################################
+location ~ .*\.(gif|jpg|png|html|htm|css|js|ico|swf|pdf)$ {
+            
+    #Proxy
+    proxy_redirect off;
+    proxy_next_upstream http_502 http_504 http_404 error timeout invalid_header;
+    proxy_set_header                Host $host;
+    proxy_set_header                X-real-ip $remote_addr;
+    proxy_set_header                X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_pass   http://backend;
+            
+    #Use Proxy Cache
+    proxy_cache cache_one;
+    proxy_cache_key "$host$request_uri";
+    add_header Cache "$upstream_cache_status";
+    proxy_cache_valid 200 304 301 302 8h;
+    proxy_cache_valid 404 1m;
+    proxy_cache_valid any 2d;
+}
+#################################################################################
 
 sudo vim /application/nginx/conf/nginx.conf
 ##############################################################################
 http{
-    include conf/proxy.conf;
+    include extra/proxy-cache.conf;
     
     upstream backend {
         server 10.0.0.8:80 weight=1;
@@ -360,30 +382,13 @@ http{
         listen 80;
         server_name www.orris.com;
         
-        location ~ .*\.(gif|jpg|png|html|htm|css|js|ico|swf|pdf)$ {
-            
-            #Proxy
-            proxy_redirect off;
-            proxy_next_upstream http_502 http_504 http_404 error timeout invalid_header;
-            proxy_set_header                Host $host;
-            proxy_set_header                X-real-ip $remote_addr;
-            proxy_set_header                X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_pass   http://backend;
-            
-            #Use Proxy Cache
-            proxy_cache cache_one;
-            proxy_cache_key "$host$request_uri";
-            add_header Cache "$upstream_cache_status";
-            proxy_cache_valid 200 304 301 302 8h;
-            proxy_cache_valid 404 1m;
-            proxy_cache_valid any 2d;
-            
         
-        
-        }
+        include extra/image-cache.conf;
     }
 }
 ##############################################################################
+
+mkdir -p /data/cdn_cache
 
 nginx -t
 nginx -s reload
