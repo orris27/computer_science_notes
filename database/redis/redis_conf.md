@@ -1,8 +1,9 @@
 ## 配置redis
-0. `mkdir /application/redis/{run,logs}`
-1. `pidfile /application/redis/run/redis.pid`
+1. `pidfile /var/run/redis.pid`
 2. `loglevel warning`
-3. `logfile "/application/redis/logs/redis.log"`
+3. `logfile "/var/log/redis.log"`
+4. `daemonize yes`
+
 
 ### 主从同步
 1. master端要bind自己ip
@@ -29,11 +30,11 @@ daemonize no
 supervised no
 
 # pid位置,需要创建run目录
-pidfile /application/redis/run/redis.pid
+pidfile /var/run/redis.pid
 
 # 日志的等级一般不要设置成notice,设置成warning
 loglevel warning
-logfile /application/redis/logs/redis.pid
+logfile /var/log/redis.pid
 
 # 默认local0就可以了
 # syslog-facility local0
