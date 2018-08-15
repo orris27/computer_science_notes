@@ -178,6 +178,11 @@ sudo /application/php/sbin/php-fpm
 /application/php/bin/php -v
 ```
 
+
+#### 1-7. 操作码缓存
+
+
+
 #### 常见问题
 ##### 1.没有`./configure`文件
 原因: `./configure`文件只有在`phpize`后才出现
