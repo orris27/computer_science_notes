@@ -921,6 +921,7 @@ chkconfig --list xxx # 如mysqld
 ### 29-2. 获得`a.txt`的指纹
 ```
 md5sum a.txt # 比如说输出"ba1f2511fc30423bdbb183fe33f3dd0f  a.txt"
+echo -n "10.0.0.7/" | md5sum # 获得字符串的md5
 ```
 ### 29-3. 比较指纹
 ```
