@@ -1,6 +1,8 @@
 ## 1. 安装及配置
 ### 1. 编译安装(需要读`README.md`,和普通的有点差异)
 ```
+mkdir ~/tools
+cd ~/tools
 wget http://download.redis.io/releases/redis-4.0.10.tar.gz
 tar -zxf redis-4.0.10.tar.gz 
 cd redis-4.0.10
@@ -11,22 +13,22 @@ sudo ln -s /application/redis-4.0.10/ /application/redis
 echo 'PATH=/application/redis/bin:$PATH' >> /etc/profile
 source /etc/profile
 ```
-### 3. 配置
-#### 3-1. 获取配置文件
+### 2. 配置
+#### 2-1. 获取配置文件
 ```
 sudo mkdir /application/redis/conf
 sudo cp ~/tools/redis-4.0.10/redis.conf /application/redis/conf/
 ```
-#### 3-2. 更改配置文件
+#### 2-2. 更改配置文件
 > https://github.com/orris27/orris/blob/master/database/redis/redis_conf.md
 
 
-### 4. 启动服务
-#### 4-1. 直接启动服务
+### 3. 启动服务
+#### 3-1. 直接启动服务
 ```
 sudo redis-server /application/redis/conf/redis.conf &
 ```
-#### 4-2. 错误解决
+#### 3-2. 错误解决
 1. 提示错误`WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.`,这说明内存不够的时候要执行这些命令
     1. 解释
         1. `0`表示内核检查时如果没有足够内存时就会报错
@@ -58,7 +60,7 @@ sudo redis-server /application/redis/conf/redis.conf &
         echo never > /sys/kernel/mm/transparent_hugepage/enabled
         ##########################################################################
         ```
-#### 4-4. 重启服务
+#### 3-3. 重启服务
 ```
 sudo redis-cli shutdown
 sudo redis-server /application/redis/conf/redis.conf &
