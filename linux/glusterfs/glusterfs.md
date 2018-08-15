@@ -135,3 +135,27 @@ man bash | wc -l # 可以看到对于条带卷,2个节点上的数据合起来�
 #----------------------------------------------------------------------
 
 ```
+
+
+## 2. 创建卷
+### 2-1. 分布式复制卷
+创建分布式复制卷的时候,不同brick的功能和创建命令里的顺序有关
+```
+mkdir -p /exp1
+mkdir -p /exp2
+gluster volume create dr-volume replica 2 transport tcp 10.0.0.7:/exp1 10.0.0.8:/exp1 10.0.0.7:/exp2 10.0.0.8:/exp2 force # 分布式卷
+
+gluster volume info dr-volume # 2 * 2 = 4
+
+gluster volume start dr-volume
+mkdir /mnt/distributed-striped
+mount.glusterfs 10.0.0.7:/dr-volume /mnt/distributed-striped # 任一个节点都可以
+
+df -h
+
+man bash > /mnt/distributed-striped/test1.txt
+man bash > /mnt/distributed-striped/test2.txt
+man bash > /mnt/distributed-striped/test3.txt
+
+tree /exp* # 发现2个节点上都各自拥有1份testx.txt文件.这样就能保证1个节点挂了而数据全在
+```
