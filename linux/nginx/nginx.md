@@ -330,7 +330,15 @@ Nginx尽管有健康检查,但默认不能像LVS一样查看后台服务器的�
 
 ## 7. 静态缓存
 proxy_cache
-### 7-1. 配置
+### 7-1. 实现并测试
+1. 配置负载均衡器使允许缓存,这里为了方便看到结果,我们默认请求的URI也设置缓存
+2. 验证
+    1. 在后台服务器上创建index.html,假设内容为"previous"
+    2. 请求这个index.html,发现内容的确是"previous"
+    3. 查看缓存的存放目录以及缓存文件
+    4. 修改index.html,再请求,发现没有变化(因为命中而且我们设置的过期时间很长)
+    5. 删除缓存文件,再请求index.html,发现发生了变化
+    
 ```
 cat > /application/nginx/conf/extra/proxy-cache.conf << EOF
 proxy_temp_path /data/cdn_cache/proxy_temp_dir;
@@ -347,26 +355,23 @@ EOF
 
 
 
-vi /application/nginx/conf/extra/image-cache.conf
+vi /application/nginx/conf/extra/cache.conf
 #################################################################################
-location ~ .*\.(gif|jpg|png|html|htm|css|js|ico|swf|pdf)$ {
+#Proxy
+proxy_redirect off;
+proxy_next_upstream http_502 http_504 http_404 error timeout invalid_header;
+proxy_set_header                Host $host;
+proxy_set_header                X-real-ip $remote_addr;
+proxy_set_header                X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_pass   http://backend;
             
-    #Proxy
-    proxy_redirect off;
-    proxy_next_upstream http_502 http_504 http_404 error timeout invalid_header;
-    proxy_set_header                Host $host;
-    proxy_set_header                X-real-ip $remote_addr;
-    proxy_set_header                X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_pass   http://backend;
-            
-    #Use Proxy Cache
-    proxy_cache cache_one;
-    proxy_cache_key "$host$request_uri";
-    add_header Cache "$upstream_cache_status";
-    proxy_cache_valid 200 304 301 302 8h;
-    proxy_cache_valid 404 1m;
-    proxy_cache_valid any 2d;
-}
+#Use Proxy Cache
+proxy_cache cache_one;
+proxy_cache_key "$host$request_uri";
+add_header Cache "$upstream_cache_status";
+proxy_cache_valid 200 304 301 302 8h;
+proxy_cache_valid 404 1m;
+proxy_cache_valid any 2d;
 #################################################################################
 
 sudo vim /application/nginx/conf/nginx.conf
@@ -381,9 +386,13 @@ http{
     server {
         listen 80;
         server_name www.orris.com;
+        location ~ .*\.(gif|jpg|png|html|htm|css|js|ico|swf|pdf)$ {
+            include extra/cache.conf;
+        }   
         
-        
-        include extra/image-cache.conf;
+        locaiton \ {
+            include extra/cache.conf;
+        }
     }
 }
 ##############################################################################
@@ -398,6 +407,48 @@ ps aux | grep nginx
 # 会发现多了cache manager process和cache loader process
 #--------------------------------------------------------------
 tree /data/cdn_cache
+
+######################################################################
+# 验证
+######################################################################
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 在后台服务器上添加index.html
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+cat proxy_cache_dir/5/0c/4dfd097129dfcef3ac085881352cb0c5 
+#------------------------------------------------------------------------------------
+# q`t[
+#     jn[��s[mI�F`L
+#                    "5b6e6a0b-c"
+# KEY: 10.0.0.7/    # proxy_cache_key里设置
+# HTTP/1.1 200 OK
+# Server: openresty/1.13.6.2
+# Date: Wed, 15 Aug 2018 09:18:41 GMT
+# Content-Type: text/html
+# Content-Length: 12
+# Last-Modified: Sat, 11 Aug 2018 04:46:03 GMT
+# Connection: close
+# ETag: "5b6e6a0b-c"
+# Accept-Ranges: bytes
+# 
+# 10.0.0.8:80
+#------------------------------------------------------------------------------------
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 在后台服务器上修改index.html
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+curl 10.0.0.7
+curl 10.0.0.8
+# 发现不一致
+
+cd /data/cdn_cache/proxy_cache_dir/
+rm -rf *
+# 删除缓存文件就是清除缓存了
+curl 10.0.0.7
+curl 10.0.0.8
+# 发现一致了
+
 ```
 
 ## 8. TCP代理
