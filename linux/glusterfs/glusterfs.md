@@ -137,8 +137,8 @@ man bash | wc -l # 可以看到对于条带卷,2个节点上的数据合起来�
 ```
 
 
-## 2. 创建卷
-### 2-1. 分布式复制卷
+## 2. 卷
+### 2-1. 创建分布式复制卷
 创建分布式复制卷的时候,不同brick的功能和创建命令里的顺序有关
 ```
 mkdir -p /exp1
@@ -158,4 +158,23 @@ man bash > /mnt/distributed-striped/test2.txt
 man bash > /mnt/distributed-striped/test3.txt
 
 tree /exp* # 发现2个节点上都各自拥有1份testx.txt文件.这样就能保证1个节点挂了而数据全在
+```
+### 2-1. 添加brick
+1. 给分布式卷添加brick
+    1. 创建brick(目录)
+    2. 将该brick添加到分布式卷里
+    3. 重新均衡下分布式卷
+```
+mkdir /data/addition
+gluster volume add-brick test-volume 10.0.0.7:/data/addition force
+
+gluster volume status test-volume # 如果brick的Online那里写着Y说明就正确了
+
+for i in `seq 100`; do echo 1 > /mnt/distributed/$i;done
+
+tree /data/* # 会发现新添加的brick里面没有数据,这是因为添加新的brick一定要重新均衡一下
+
+gluster volume rebalance test-volume start # 会很费时间
+
+tree /data/* # 会发现/data/addition目录已经有数据了
 ```
