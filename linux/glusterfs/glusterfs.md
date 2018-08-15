@@ -33,6 +33,8 @@ gluster peer status # 2台主机上都看到结果
 # 10.0.0.7
 #####################################################################
 mkdir -p /data/exp1
+mkdir -p /data/exp3
+mkdir -p /data/exp5
 
 
 
@@ -41,6 +43,8 @@ mkdir -p /data/exp1
 # 10.0.0.8
 #####################################################################
 mkdir -p /data/exp2
+mkdir -p /data/exp4
+mkdir -p /data/exp6
 
 
 
@@ -51,7 +55,12 @@ mkdir -p /data/exp2
 # 10.0.0.7/8
 #####################################################################
 # 他们的建议是用新的磁盘来做
-gluster volume create test-volume 10.0.0.7:/data/exp1 10.0.0.8:/data/exp2 force
+gluster volume create test-volume 10.0.0.7:/data/exp1 10.0.0.8:/data/exp2 force # 分布式卷
+gluster volume create repl-volume replica 2 transport tcp 10.0.0.7:/data/exp3 10.0.0.8:/data/exp4 force # 复制卷
+gluster volume create raid0-volume stripe 2 transport tcp 10.0.0.7:/data/exp5 10.0.0.8:/data/exp6 force # 条带卷
 
 gluster volume info
+gluster volume info repl-volume
+
+
 ```
