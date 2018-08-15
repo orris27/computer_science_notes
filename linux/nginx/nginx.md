@@ -330,7 +330,10 @@ Nginx尽管有健康检查,但默认不能像LVS一样查看后台服务器的�
 
 ## 7. 静态缓存
 proxy_cache
-### 7-1. 实现并测试
+### 7-1. 缓存结构
+1. 缓存文件的文件名:`proxy_cache_key`的md5
+2. 路径是:`<proxy_cache_key的md5的最后1个字符>/<proxy_cache_key的md5的倒数第2-3个字符>/<proxy_cache_key>的md5`
+### 7-2. 实现并测试
 1. 配置负载均衡器使允许缓存,这里为了方便看到结果,我们默认请求的URI也设置缓存
 2. 验证
     1. 在后台服务器上创建index.html,假设内容为"previous"
