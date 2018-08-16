@@ -18,19 +18,20 @@ yum install -y wget
 mkdir ~/tools
 cd ~/tools
 
-wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.9.5.tar.gz
-tar -zxf git-2.9.5.tar.gz
-cd git-2.9.5
+#wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.9.5.tar.gz
+wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.18.0.tar.gz
+tar -zxf git-2.18.0.tar.gz
+cd git-2.18.0
 
 less INSTALL 
 make configure
 ./configure --help
 mkdir /application
-./configure --prefix=/application/git-2.9.5
+./configure --prefix=/application/git-2.18.0
 make all doc info
 make install install-doc install-html install-info
 
-ln -s /application/git-2.9.5/ /application/git
+ln -s /application/git-2.18.0/ /application/git
 echo 'export PATH=/application/git/bin:$PATH' >> /etc/profile
 source /etc/profile
 
