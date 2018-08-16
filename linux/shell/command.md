@@ -13,10 +13,10 @@ xxx | grep -vE 'crond|sshd|network|rsyslog'
 ```
 time(
 
-	for i in {1..20000}
-	do
-		mkdir dir/$i
-	done
+    for i in {1..20000}
+    do
+        mkdir dir/$i
+    done
 
 )
 ```
@@ -1403,17 +1403,18 @@ vmstat 1
 ```
 
 
-## 43. rpm
+## 43. 软件安装
+### 43-1. rpm
 rpm总共有三种模式.分别以各自的首字母作为第一个参数
 1. Query(q)
 2. Verify(V)
 3. Install(i)/Upgrade(U)/Freshen(F)/Reinstall
 4. Uninstall
-### 43-1. options
+### 43-1-1. options
 1. `-i`:install
 2. `-h, --hash`:显示进度条.Print 50 hash marks as the package archive is unpacked.  Use with -v|--verbose for a nicer display.
 3. `-v`:显示详细的信息
-### 43-2. 基本操作
+### 43-1-2. 基本操作
 1. 安装软件
     1. 通过本地rpm包安装软件
     ```
@@ -1442,6 +1443,75 @@ rpm -U software-new.rpm
     1. `rpm --import RPM-GPG-KEY-CentOS-6`:导入秘钥
     2. `rpm -K software.rpm`:如果提示OK就说明没有被篡改
     3. `rpm -V software`:可以查看被修改了的软件
+### 43-2. yum
+#### 43-2-1. yum仓库
+```
+[base] # 仓库的简写名字,中间可以随便写.用yum install时框里面的repository就是这个名字
+name=CentOS-$releasever - Base # 仓库的描述,随便写
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=os&infra=$infra # mirrorlist可以动态获取yum仓库,从mirrorlist里面动态获取baseurl
+#baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/ # 可以是网络/本地的仓库.(自动使用的时候用baseurl)
+#enabled = 1 # 如果是1表明期货用,否则不启用(如果不写enabled的话,默认就是启用的)
+gpgcheck=1 # 签名操作,防止被篡改
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+```
+#### 43-2-2. 操作
+1. 安装软件
+```
+yum install xxxx
+```
+2. 卸载软件
+```
+yum remove xxx
+```
+3. 升级软件
+```
+yum update xxx
+```
+4. 查询
+    1. 搜索软件(可以不写全名)
+    ```
+    yum search keyword
+    ```
+    2. 列出全部/已安装的/最近安装的/更新的软件
+    ```
+    yum list [all|installed|recent|update] #软件名称 软件版本 软件仓库(@表示已安装)
+    ```
+    3. 显示软件信息
+    ```
+    yum info <software> # 其实等于rpm -ql <software>
+    ```
+    4. 查询哪个rpm软件包含目标文件
+    ```
+    yum whatprovides <filename>
+    ```
+5. 创建yum仓库
+    1. 将所有rpm包拷贝到一个文件夹(CentOS镜像里的packages目录里就有很多rpm包)
+    2. 通过rpm命令手工安装createrepo软件
+    3. 运行命令`createrepo -v <rpm_dir>`(`-v`为显示详细信息)来在指定rpm目录里创建repodata目录,
+    4. 编辑yum仓库的配置文件
+    5. 修改yum仓库的时候需要清除yum的缓存.(yum的缓存挺杂的)
+    6. 如果有分组信息,则在运行命令的时候用-g参数指定分组文件.最终会在repodata目录下生成以`comps.xml`结尾的xml文件
+```
+mkdir /myyum
+cp -rv xx /myyu 
+    
+rpm -ivh createrepoxxx.rpm
+    
+createrepo /myyum
+    
+vim /etc/yum.repos.d/myrepos.repo
+#####################################################
+[Name]
+name = description
+baseurl = file:///myyum
+gpgcheck =0 # 自动创建的仓库基本不用
+#####################################################
+    
+yum clean all
+    
+# createrepo -gf /tmp/*comps.cml /rmp-directory
+    
+```
 
 ## 44. SaltStack
 ### 44-1. salt-key
