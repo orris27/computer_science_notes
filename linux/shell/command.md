@@ -1409,23 +1409,39 @@ rpm总共有三种模式.分别以各自的首字母作为第一个参数
 2. Verify(V)
 3. Install(i)/Upgrade(U)/Freshen(F)/Reinstall
 4. Uninstall
-### 43-1. 查询是否安装了某个包
-使用`-qa`参数.
-+ 不要`grep`.使用`grep`反而降低查询效率
+### 43-1. options
+1. `-i`:install
+2. `-h, --hash`:显示进度条.Print 50 hash marks as the package archive is unpacked.  Use with -v|--verbose for a nicer display.
+3. `-v`:显示详细的信息
+### 43-2. 基本操作
+1. 安装软件
+    1. 通过本地rpm包安装软件
+    ```
+    rpm -i software.rpm
+    ```
+    2. 通过http/ftp协议安装软件
+    ```
+    rpm -ivh https://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm
+    ```
+2. 卸载软件
 ```
-rpm -qa gcc
+rpm -e software
 ```
-### 43-2. 添加某个rpm包到当前yum仓库
-使用`-ivh`参数.
-+ `-i`:install
-+ `-h, --hash`:Print 50 hash marks as the package archive is unpacked.  Use with -v|--verbose for a nicer display.
+3. 升级软件
 ```
-sudo rpm -ivh https://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm
+rpm -U software-new.rpm
 ```
-### 43-3. 查看添加的rpm包
-```
-rpm -ql zabbix-release
-```
+4. 查询(rpm的查询都以`q`开头)
+    1. `rpm -qa [software]`:查询已经安装的软件
+    2. `rpm -ql software`:查询软件的安装目录(`list`)
+    3. `rpm -qi software`:查询软件的信息
+    4. `rpm -qf software`:查询目标文件属于哪个rpm包
+    5. `rpm -qip software.rpm`:查询rpm包的信息
+    6. `rpm -qlp software.rpm`:查询rpm包包含的文件
+5. 验证(网络传输的时候rpm包可能被篡改),一般使用非对称加密算法
+    1. `rpm --import RPM-GPG-KEY-CentOS-6`:导入秘钥
+    2. `rpm -K software.rpm`:如果提示OK就说明没有被篡改
+    3. `rpm -V software`:可以查看被修改了的软件
 
 ## 44. SaltStack
 ### 44-1. salt-key
