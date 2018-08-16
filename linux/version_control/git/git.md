@@ -53,12 +53,14 @@ git --version
 6. `commit`:将跟踪的文件提交到版本库(仓库)里
     1. `-a`:将工作区中的文件放到暂存区中,再放到版本库里(`git add`+`git commit`的组合)
 7. `push`:
-8. `pull`:
+8. `pull`:`git fetch`+`git merge`.抓取远程服务器的他人写的代码到本地并合并进来
 9. `config`:Get and set repository or global options
 10. `log`:Show commit logs
     + git是分布式版本控制库,里面的id是sha-1算法计算得到的
 11. `branch`:List, create, or delete branches
     1. `-d`:删除分支
+    2. `-r`:查看远程服务器的分支
+    3. `-vv`:查看本地分支和远程服务器的分支的对应关系
 12. `checkout`:Switch branches or restore working tree files
 13. `merge`:合并分支
 14. `stash`:本来工作在分支2上,还没处理完后就要移动到急需处理的分支3上,而git会不允许我们直接切换分支.stash就是用来解决这个问题的.
@@ -498,4 +500,22 @@ git merge origin/master # 合并远程服务器上的某个分支.如果有合�
 git commit -m "fixed conflicts and add new function in index.html"
 
 git push -u origin master
+```
+9. 本地仓库的分支和远程服务器的分支测试
+```
+git branch -r
+git branch -vv
+
+
+git branch test1
+git branch --set-upstream test1 origin/master # 本地的test1分支跟踪远程仓库origin的master分支
+git branch --track test2 origin/master # 创建新分支并跟踪远程服务器origin的master分支
+git branch -vv
+```
+10. 查看远程服务器的信息
+```
+git branch -r
+git branch -vv
+git remote show origin
+git remote rename <new-name>
 ```
