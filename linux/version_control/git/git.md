@@ -374,3 +374,32 @@ git stash list
 git stash apply stash@{0} # 回到工作区之前的状态
 cat index.html
 ```
+6. 配置git服务器
+    1. 配置好用户信息
+    2. 生成公钥和私钥
+    3. 在git服务器上放我们的公钥
+    4. 验证
+```
+git config --global user.name "orris27"
+git config --global user.email 
+
+ssh-keygen -t rsa -C "Used for GitHub"
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 在GitHub的账户设置那里添加一个ssh的公钥
+# 比如加上下面的内容就好了
+# ssh-dss  AAAAB3NzaC1kc3MAAACBAIfXS+mauXi8anGX/mcG3vUSyAnQhVAq0StUipkYyl6whyLLvf42qkh06SE5wob2YatZMRdFOBSklxbo70Knxw57fTtbpIjvl+5kUR4HuS4/Sr80gMM/LUHJH2DIcfOX6y5YT6hmN3faQBo/fte/zGnMX/bYOHBfMyKVERflog/tAAAAFQDuo1ROQ0auWzpz+B2GA9h7lPQmDwAAAIAP71NUc4VHCY6Qu42ujpZ8x7RqegsXuI/RXzMliDSNG+FHJrlBBQLIelMjnwEglrnlsc5UXxyd75EJa4lt05n2i9/6E1MpkeKn0lPiZfcCSzFDLpB0AH4E7laTO3sD4S5qQp2x/AwQoqgl2xbQcTyX+DRWs5rS+kX0fXeTPQ4BmgAAAIEAg0zeFvJI/SyzF9lu1m0xHSoGQ9b6R0BII1VHfDkHS9ew95HNwkeNUwAqsB2Yc8d2PFm7dJ5xvnctNBz8YpAZNmZLTpGuUxdvj/FlBPtnRhctDHNR8lB4vH85JAfbuKPsCag22StkeldmJeE1DfdMmdtvAtPBvqTot7YVGVRLrII= root@template
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+ssh git@github.com # 出现下面内容说明成功了了
+#-------------------------------------------------------------------------
+# PTY allocation request failed on channel 0
+# Hi orris27! You've successfully authenticated, but GitHub does not provide shell access.
+# Connection to github.com closed.
+#-------------------------------------------------------------------------
+
+
+
+```
