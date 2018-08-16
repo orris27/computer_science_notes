@@ -1487,30 +1487,81 @@ yum update xxx
 5. 创建yum仓库
     1. 将所有rpm包拷贝到一个文件夹(CentOS镜像里的packages目录里就有很多rpm包)
     2. 通过rpm命令手工安装createrepo软件
-    3. 运行命令`createrepo -v <rpm_dir>`(`-v`为显示详细信息)来在指定rpm目录里创建repodata目录,
+    3. 运行命令`createrepo -v <rpm_dir>`(`-v`为显示详细信息)来在指定rpm目录里创建repodata目录(索引)
     4. 编辑yum仓库的配置文件
     5. 修改yum仓库的时候需要清除yum的缓存.(yum的缓存挺杂的)
     6. 如果有分组信息,则在运行命令的时候用-g参数指定分组文件.最终会在repodata目录下生成以`comps.xml`结尾的xml文件
 ```
-mkdir /myyum
-cp -rv xx /myyu 
-    
-rpm -ivh createrepoxxx.rpm
-    
-createrepo /myyum
-    
-vim /etc/yum.repos.d/myrepos.repo
-#####################################################
-[Name]
+#yum install -y createrepo
+
+mkdir /my-repo
+scp -r orris@192.168.1.123:/home/orris/Downloads/CentOS-7-x86_64-Minimal-1804/Packages/* /my-repo/
+createrepo -v /my-repo/
+
+
+ls /my-repo/repodata/
+#--------------------------------------------------------------------------------------------
+# 1edd315d40391a360af9782770e6c3ff601b6b37dab63f25dfcb5faa9d7389ce-other.sqlite.bz2
+# 26bb0e9506cf16196324dd227bf001a24290a294bf2f746283a3c6bfce51517a-other.xml.gz
+# 76ca2b16269d1b18253181b91e8ba4d0e310dfb0ac7d073342e64db94ae0a47e-primary.xml.gz
+# a17ba828c9cecbff58fdcc5c0ea0be7cb21d4252edd9e51c9a75516ec84fcd96-filelists.xml.gz
+# b6407280e0b225a469e00a4cfc51d156e638816ca725904c2ef0b285e28df815-primary.sqlite.bz2
+# e2c2c6dd0faa23aa8b8ab1365d17ddc1af3f0b50f6ce47b4e65691511593d887-filelists.sqlite.bz2
+# repomd.xml
+#--------------------------------------------------------------------------------------------
+mkdir /tmp/repos
+mv /etc/yum.repos.d/* /tmp/repos/
+vim /etc/yum.repos.d/my-repos.repo
+############################################################################################
+[my-repo]
 name = description
-baseurl = file:///myyum
-gpgcheck =0 # 自动创建的仓库基本不用
-#####################################################
-    
+baseurl = file:///my-repo
+gpgcheck = 0 # 自动创建的仓可以不用
+############################################################################################
 yum clean all
-    
+yum list
+yum install zip
+#------------------------------------------------------------------------------------------
+# Loaded plugins: fastestmirror
+# Loading mirror speeds from cached hostfile
+# Resolving Dependencies
+# --> Running transaction check
+# ---> Package zip.x86_64 0:3.0-11.el7 will be installed
+# --> Finished Dependency Resolution
+# 
+# Dependencies Resolved
+# 
+# ===============================================================================================
+#  Package     Arch             Version          Repository           Size
+# ===============================================================================================
+# Installing:
+#  zip         x86_64           3.0-11.el7       my-repo             260 k
+# 
+# Transaction Summary
+# ===============================================================================================
+# Install  1 Package
+# 
+# Total download size: 260 k
+# Installed size: 796 k
+# Is this ok [y/d/N]: y
+# Downloading packages:
+# Running transaction check
+# Running transaction test
+# Transaction test succeeded
+# Running transaction
+#   Installing : zip-3.0-11.el7.x86_64                                 1/1 
+#   Verifying  : zip-3.0-11.el7.x86_64                                 1/1 
+# 
+# Installed:
+#   zip.x86_64 0:3.0-11.el7                                                                                                 
+# 
+# Complete!
+#------------------------------------------------------------------------------------------
+
 # createrepo -gf /tmp/*comps.cml /rmp-directory
-    
+
+
+
 ```
 
 ## 44. SaltStack
