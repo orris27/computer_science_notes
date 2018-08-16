@@ -402,13 +402,14 @@ ssh git@github.com # 出现下面内容说明成功了了
 #-------------------------------------------------------------------------
 ```
 7. 使用git服务器
+    1. 从git服务器上
 ```
 cd ~
 #git clone <远程仓库的URL>
 git clone git@github.com:orris27/test.git # 自动创建master分支并跟踪远程服务器的master分支.并给远程仓库取名字叫origin
 cd test
 
-[root@glusterfs01 test]# cat .git/config 
+cat .git/config 
 #-----------------------------------------------------------------------
 # [core]
 #     repositoryformatversion = 0
@@ -459,5 +460,42 @@ git status
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 访问GitHub的test仓库,发现有index.html文件了
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
 
+8. 多人协作
+    1. 假设A和B都在test项目上工作
+    2. B修改了test的index.html并提交
+    3. A修改了test的index.html并提交,发现本地仓库和远程仓库不同步
+        1. 将远程仓库中其他人工作的内容收入到本地仓库(此处只修改了本地仓库)
+            1. A去抓取远程服务器上的数据
+            2. 查看本地服务器和远程服务器上数据的区别
+            3. 修改并合并本地服务器的分支和远程服务器的分支
+        2. 推送本地仓库(同步本地仓库和远程仓库)
+ 
+```
+git push -u origin master
+#-----------------------------------------------------------------------
+# To github.com:orris27/test.git
+#  ! [rejected]        master -> master (fetch first)
+# error: failed to push some refs to 'git@github.com:orris27/test.git'
+# hint: Updates were rejected because the remote contains work that you do
+# hint: not have locally. This is usually caused by another repository pushing
+# hint: to the same ref. You may want to first integrate the remote changes
+# hint: (e.g., 'git pull ...') before pushing again.
+# hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+#-----------------------------------------------------------------------
+
+
+
+git fetch origin # 将orgin仓库的内容抓取到仓库里,不过工作区没有变化
+git log --no-merges orgin/master # 查看区别
+ 
+git branch # 确保合并的时候的分支正确
+git merge origin/master # 合并远程服务器上的某个分支.如果有合并冲突的话,解决这个合并冲突
+
+
+# git add index.html # 标记解决了的冲突
+git commit -m "fixed conflicts and add new function in index.html"
+
+git push -u origin master
 ```
