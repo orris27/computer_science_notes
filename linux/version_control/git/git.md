@@ -60,6 +60,7 @@ git --version
     1. `-d`:删除分支
 12. `checkout`:Switch branches or restore working tree files
 13. `merge`:合并分支
+14. `stash`:本来工作在分支2上,还没处理完后就要移动到急需处理的分支3上,而git会不允许我们直接切换分支.stash就是用来解决这个问题的.
 ### 2-2. 使用
 1. 基本操作
     1. 配置用户信息
@@ -318,4 +319,58 @@ git branch -d iss53
 #                              |
 #                            iss53
 #-------------------------------------------------------------
+```
+5. git stash测试
+    1. 先设置环境
+        1. master分支上创建个feature3分支并工作一会儿
+        2. master分支上创建个working的工作分支并工作一会儿
+    2. 听说feature3分支上有急事要处理,所以我就暂时保存working分支上的工作
+    3. 切换到feature3分支处理急事
+    4. 切换回工作分支,然后恢复到原来暂存的状态
+```
+mkdir ~/my-stash
+cd ~/my-stash
+
+git init
+
+echo '<h1>Hello</h1>' > index.html
+
+git add index.html
+git commit -m "add index.html"
+
+git checkout -b feature3
+echo "feature3" >> index.html
+git commit -am "add feature3 in index.html"
+
+git checkout master
+git checkout -b working
+
+echo "working" >> index.html
+
+#########################################################
+# 我们工作一半的时候,有人跟我们说代码有问题
+#########################################################
+git status
+git checkout feature3 # 由于工作区的内容没提交,所以就不允许切换,除非暂时储藏起来
+#-------------------------------------------------------------------
+# error: Your local changes to the following files would be overwritten by checkout:
+# 	index.html
+# Please commit your changes or stash them before you switch branches.
+# Aborting
+#-------------------------------------------------------------------
+
+git stash # 这样就保存了当前工作区的状态
+git stash list # 可以查看状态列表
+
+git checkout feature3
+
+echo "new-feature3" >> index.html
+git commit -am "add new-feature3 in index.html" 
+
+git checkout working #这时候工作区是干净的
+cat index.html
+
+git stash list
+git stash apply stash@{0} # 回到工作区之前的状态
+cat index.html
 ```
