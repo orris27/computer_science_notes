@@ -399,7 +399,64 @@ ssh git@github.com # 出现下面内容说明成功了了
 # Hi orris27! You've successfully authenticated, but GitHub does not provide shell access.
 # Connection to github.com closed.
 #-------------------------------------------------------------------------
+```
+7. 使用git服务器
+```
+cd ~
+#git clone <远程仓库的URL>
+git clone git@github.com:orris27/test.git # 自动创建master分支并跟踪远程服务器的master分支.并给远程仓库取名字叫origin
+cd test
+
+[root@glusterfs01 test]# cat .git/config 
+#-----------------------------------------------------------------------
+# [core]
+#     repositoryformatversion = 0
+#     filemode = true
+#     bare = false
+#     logallrefupdates = true
+# [remote "origin"] # 下面2个标签都是远程git服务器时才会出现,本地的话只有core
+#     url = git@github.com:orris27/test.git
+#     fetch = +refs/heads/*:refs/remotes/origin/*
+# [branch "master"]
+#     remote = origin # git publish的时候会用到这个.而且也是远程服务器的默认名字
+#     merge = refs/heads/master
+#-----------------------------------------------------------------------
 
 
+
+
+echo "<h1>hello</h1>" >> index.html
+
+git add index.html
+
+git commit -m "add index.html" # 现在提交在本地
+
+git status
+#-----------------------------------------------------------------------
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#   (use "git push" to publish your local commits)
+# nothing to commit, working tree clean
+#-----------------------------------------------------------------------
+
+
+
+
+# -u建立跟踪,这样就会显示偏移情况
+# orgin 为远程仓库的名字
+# master为push的分支
+git push -u origin master # 推送本地版本库到git服务器上
+# git publish # 相当于执行remote里面的内容.老手才用这个把,以防万一
+
+git status
+#-----------------------------------------------------------------------
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+# nothing to commit, working tree clean
+#-----------------------------------------------------------------------
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 访问GitHub的test仓库,发现有index.html文件了
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ```
