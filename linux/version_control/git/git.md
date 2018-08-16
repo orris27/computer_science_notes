@@ -62,12 +62,21 @@ git --version
     2. `-r`:查看远程服务器的分支
     3. `-vv`:查看本地分支和远程服务器的分支的对应关系
 12. `checkout`:Switch branches or restore working tree files
+    1. `--  <file-name>`:用暂存区里的数据还原工作区里的数据
 13. `merge`:合并分支
 14. `stash`:本来工作在分支2上,还没处理完后就要移动到急需处理的分支3上,而git会不允许我们直接切换分支.stash就是用来解决这个问题的.
 15. `rm`:没有参数表示从暂存区和工作区中都删除某个文件
     1. `rm --cached`:从暂存区中删除某个文件,并且该文件不再追踪
-16. `reset`:将HEAD指针指回特定的状态,`git reset HEAD a`(a是个温州金)
-17. 
+16. `reset`:将HEAD指针指回特定的状态,`git reset HEAD a`(a是个文件名)
+    1. `<file-name>`:用版本库里指定文件的数据还原暂存区里,工作区不受影响	
+17. `ignore`:忽略某个文件
+18. `diff`:显示工作区和暂存区间的差异
+    1. `--cached`:显示暂存区和最新提交的差异
+19. `clean`:删除工作区里没有被跟踪的文件(受`.gitignore`约束)
+    1. `-n`:不要真地删除,只是告诉我们会删除哪些(一般用在`-f`参数前用来确认,防止误删)
+    2. `-f`:执行删除命令
+    3. `-X`:只删除`.gitignore`里的没有被跟踪的文件.`git clean -X -f`
+    4. `-x`:不受`.gitignore`约束,可以删除工作区里没有被跟踪的文件
 ### 2-2. 使用
 1. 基本操作
     1. 配置用户信息
@@ -524,8 +533,9 @@ git remote show origin
 git remote rename <new-name>
 ```
 11. `.gitignore`测试
-`.gitignore`可以放到任何目录里,作用域在当前目录及其子目录
+`.gitignore`可以放到任何目录里,作用域在当前目录及其子目录.
 > [各种项目的gitignore参考](https://github.com/github/gitignore)
++ `!`:表示这个不能被忽略
 ```
 touch ignore
 touch .gitignore
@@ -534,6 +544,7 @@ git status # 会发现ignore和.gitignore文件都被注明是untracked
 cat > .gitignore <<EOF
 ignore
 .gitignore
+!file
 EOF
 git status # 发现就忽略了他们了
 ```
