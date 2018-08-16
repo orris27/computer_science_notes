@@ -42,7 +42,7 @@ git --version
 ### 2-1. options
 1. `init`:初始化目录,使当前文件夹成为仓库
 2. `add`:添加文件到index(git中其实是暂存区,缓冲区)中,让git去跟踪该文件
-    1. 可以指定文件/通配符/`git add .`
+    1. 可以指定文件/通配符/`git add .`/`git add -A`
     2. 功能
         1. 合并发生冲突的时候把冲突的文件标记为解决状态
         2. 跟踪新文件
@@ -64,6 +64,10 @@ git --version
 12. `checkout`:Switch branches or restore working tree files
 13. `merge`:合并分支
 14. `stash`:本来工作在分支2上,还没处理完后就要移动到急需处理的分支3上,而git会不允许我们直接切换分支.stash就是用来解决这个问题的.
+15. `rm`:没有参数表示从暂存区和工作区中都删除某个文件
+    1. `rm --cached`:从暂存区中删除某个文件,并且该文件不再追踪
+16. `reset`:将HEAD指针指回特定的状态,`git reset HEAD a`(a是个温州金)
+17. 
 ### 2-2. 使用
 1. 基本操作
     1. 配置用户信息
