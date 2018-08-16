@@ -519,3 +519,18 @@ git branch -vv
 git remote show origin
 git remote rename <new-name>
 ```
+11. `.gitignore`测试
+`.gitignore`可以放到任何目录里,作用域在当前目录及其子目录
+> [各种项目的gitignore参考](https://github.com/github/gitignore)
+```
+touch ignore
+touch .gitignore
+git status # 会发现ignore和.gitignore文件都被注明是untracked
+
+cat > .gitignore <<EOF
+ignore
+.gitignore
+EOF
+git status # 发现就忽略了他们了
+```
+
