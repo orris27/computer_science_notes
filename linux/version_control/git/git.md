@@ -57,7 +57,9 @@ git --version
 10. `log`:Show commit logs
     + git是分布式版本控制库,里面的id是sha-1算法计算得到的
 11. `branch`:List, create, or delete branches
+    1. `-d`:删除分支
 12. `checkout`:Switch branches or restore working tree files
+13. `merge`:合并分支
 ### 2-2. 使用
 1. 基本操作
     1. 配置用户信息
@@ -144,4 +146,176 @@ echo "master-add" >> index.html
 
 git commit -am "add master info to the index.html"
 
+```
+4. git分支合并测试
+    1. 已经在master默认分支上写了不少代码了
+    2. 有个瓜皮Alice跟我说我有个代码写错了,好吧我只能创建个分支iss53来处理这个bug
+    3. 另一个瓜皮Bob也跟我说我还有个地方代码写错了,行吧,我就回到还正确的master分支上再创建个新的分支hotfix来处理这个新bug
+    4. 我处理完hotfix分支要解决的bug后,就合并到master上,这样Bob说的bug我就修复完了
+    5. Alice说的bug我可能还没修复完,所以我继续修复Alice说的bug(回到iss53的分支修改).修改完后就合并到正确的master分支上.
+    6. 大功告成!!
+```
+mkdir ~/my-merge
+cd ~/my-merge
+
+git init
+
+echo '<h1>Hello</h1>' > index.html
+
+git add index.html
+git commit -m "add index.html"
+
+echo '<h2>saber</h2>' > index.html
+git commit -am "enable index.html to greet saber"
+
+echo '<h2>mirai</h2>' >> index.html
+git commit -am "enable index.html to greet mirai"
+
+
+#################################################################
+# 发现错误,说不能和saber打招呼5555,所以要创建个分支处理这个问题...
+#################################################################
+git checkout -b iss53 # <=> 先创建iss53的分支并且切换到iss53分支上
+
+echo '<h2>no saber...</h2>' >> index.html
+git commit -am "enable index.html to not greet saber"
+
+
+#################################################################
+# 发现另一个错误,说不能和mirai打招呼5555,所以要创建个分支处理这个问题...
+#################################################################
+git checkout master
+git checkout -b hotfix
+
+echo '<h2>no mirai...</h2>' >> index.html
+git commit -am "enable index.html to not greet mirai"
+
+#分支情况如下所示
+#-------------------------------------------------------------
+#                      hotfix
+#                        |
+#               master  c4
+#                 |    /
+# c0 --- c1 ---  c2
+#                    \
+#                      c3
+#                       |
+#                       iss53
+#-------------------------------------------------------------
+
+#################################################################
+#合并master分支和hotfix分支,然后删除hotfix分支
+#################################################################
+git checkout master
+git merge hotfix # Fast-foward:由于master在hotfix的后面,所以就是前进master分支
+git branch -d hotfix # 删除hotfix分支
+#分支情况如下所示
+#-------------------------------------------------------------
+#                      master
+#                       |
+#                      hotfix(will be deleted)
+#                        |
+#                       c4
+#                      /
+# c0 --- c1 ---  c2
+#                    \
+#                      c3
+#                       |
+#                       iss53
+#-------------------------------------------------------------
+
+#################################################################
+# 继续回到iss53工作(因为iss53的工作不一定在说不能给mirai打招呼时干完),让index.html可以和saber,mirai打招呼
+#################################################################
+git checkout iss53
+echo '<h2>saber & mirai</h2>' >> index.html
+git commit -am "enable index.html to greet saber & mirai"
+
+
+#分支情况如下所示
+#-------------------------------------------------------------
+#                      master
+#                       |
+#                       c4
+#                      /
+# c0 --- c1 ---  c2
+#                    \
+#                      c3 ---  c5
+#                              |
+#                            iss53
+#-------------------------------------------------------------
+
+
+
+#################################################################
+# 合并master和iss53,并处理相关差异
+#################################################################
+git checkout master
+git merge iss53 # 如果直接merge的话会可能会不允许,比如这里我的master有'1\n2\n3'这样的内容,而如果iss53的内容是'1\n5'的话就不能直接合并.git给出的策略是在index.html文件里写入差异,然后我们人工修改index.html这个文件,然后提交到master的版本库里,这样就能merge了
+#-------------------------------------------------------------
+Auto-merging index.html
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
+#-------------------------------------------------------------
+
+git status
+#-------------------------------------------------------------
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+
+	both modified:   index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+#-------------------------------------------------------------
+
+
+cat index.html  # 人工修改这个文件
+#-------------------------------------------------------------
+<h2>saber</h2>
+<h2>mirai</h2>
+<<<<<<< HEAD
+<h2>no mirai...</h2>
+=======
+<h2>no saber...</h2>
+<h2>saber & mirai</h2>
+>>>>>>> iss53
+#-------------------------------------------------------------
+
+vim index.html
+###########################################################################
+<h2>saber</h2>
+<h2>mirai</h2>
+<h2>no mirai...</h2>
+<h2>no saber...</h2>
+<h2>saber & mirai</h2>
+###########################################################################
+
+
+git commit -am "edit and merge master and iss53"
+
+git status
+#-------------------------------------------------------------
+# On branch master
+# nothing to commit, working tree clean
+#-------------------------------------------------------------
+
+git branch -d iss53
+# 由于master和iss53在不同折线上,所以合并的时候,git会根据自己的算法获得比较好的共同祖先(这里是c2),然后三方面进行合并
+#分支情况如下所示
+#-------------------------------------------------------------
+#                      master
+#                       |
+#                       "c4"
+#                      /
+# c0 --- c1 ---  "c2"
+#                    \
+#                      c3 ---  "c5"
+#                              |
+#                            iss53
+#-------------------------------------------------------------
 ```
