@@ -41,7 +41,7 @@ git --version
 ### 2-1. options
 1. `init`:初始化目录,使当前文件夹成为仓库
 2. `add`:添加文件到index(git中其实是暂存区,缓冲区)中,让git去跟踪该文件
-    1. 可以指定文件/通配符
+    1. 可以指定文件/通配符/`git add .`
     2. 功能
         1. 合并的时候把冲突的文件标记为解决状态
         2. 跟踪新文件
@@ -56,6 +56,8 @@ git --version
 9. `config`:Get and set repository or global options
 10. `log`:Show commit logs
     + git是分布式版本控制库,里面的id是sha-1算法计算得到的
+11. `branch`:List, create, or delete branches
+12. `checkout`:Switch branches or restore working tree files
 ### 2-2. 使用
 1. 基本操作
     1. 配置用户信息
@@ -107,3 +109,39 @@ git commit
 git status
 ```
 
+3. git分支测试
+```
+mkdir ~/my-branch
+cd ~/my-branch
+
+git init
+
+echo 'readme' > README
+echo '<h1>Hello</h1>' > index.html
+echo 'MIT' > LICENSE
+
+git add .
+git commit -m "initial files"
+
+git branch testing # 直接创建会在当前commit对象上建立指针
+
+git branch # 列出所有分支 * master
+git status # On branch master(上面2个都表示在master分支上工作)
+
+git checkout testing # 切换到testing分支上
+
+git branch
+git status
+
+echo "testing-add" >> index.html
+git commit -am "add testing info to the index.html"
+
+git checkout master
+
+cat index.html # 会发现没有testing-add,说明回到了之前的状态
+
+echo "master-add" >> index.html
+
+git commit -am "add master info to the index.html"
+
+```
