@@ -659,7 +659,7 @@ verb 3
 ping 192.168.1.100
 ping 172.16.1.28
 ping 172.16.1.17
-openvpn --daemon --cd /etc/openvpn/client --config client.ovpn --log-append /var/log/openvpn.log
+openvpn --daemon --cd /etc/openvpn/client --config client.ovpn --log-append /var/log/openvpn.log --writepid /var/run/openvpn.pid
 ifconfig # 会发现VPN服务器给我们分配了一个IP地址10.8.0.6
 #-----------------------------------------------------------------------------------------------------------
 # tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
