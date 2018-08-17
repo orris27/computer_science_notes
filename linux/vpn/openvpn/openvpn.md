@@ -651,6 +651,9 @@ ping 172.16.1.17 # ping不通,因为有去无回.(可以在内网服务器上用
 ##############################################################################
 #route add default gw 172.16.1.28 # 添加默认路由
 route add -net 10.8.0.0/24 gw 172.16.1.28 # (更推荐)如果要去10.8.0.0/24网段(因为我们的客户端是通过VPN服务器分配的IP地址的名义来访问VPN服务器所在内网的)的话,扔给VPN服务器
+# 也可以放在/etc/sysconfig/network-scripts/route-eth0
+# 10.8.0.0/24 via 172.16.1.28 dev eth0
+# systemctl restart network
 route -n
 
 
