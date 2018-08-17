@@ -1096,7 +1096,7 @@ modprobe ip_nat_ftp
 modprobe ipt_state
 ```
 ### 38-4. 添加/删除规则
-#### 38-4-1. 服务器不允许其他主机访问她的22端口
+1. 服务器不允许其他主机访问她的22端口
 + 给iptables的什么表的什么链添加/删除什么规则
 + 规则:根据什么采取什么处理
 + 处理:drop/return/accept
@@ -1104,93 +1104,93 @@ modprobe ipt_state
 ```
 iptables -t filter -A INPUT -p tcp --dport 22 -j DROP # 如果是删除的话,-A=>-D
 ```
-##### 38-4-1-1. 问题:添加了drop 22 tcp端口也还是能访问?
-##### 38-4-1-1-1. 方法1:清空规则
-因为阿里云默认iptables前面已经有accept的规则了.根据从上到下的原理,在上面的规则就已经accept了,所以还能访问
-##### 38-4-1-1-1. 方法2:将规则添加到第一个位置(推荐)
-```
-iptables -t filter -I INPUT -p tcp --dport 22 -j DROP # 如果是删除的话,-A=>-D
-```
-###### 38-4-1-1-1. 解决
-清理规则`iptables --flush INPUT`再执行就行了
-#### 38-4-2. 删除"服务器不允许其他主机访问她的22端口"的规则
-##### 38-4-2-1. 方法1 (delete)
-```
-iptables -t filter -D INPUT -p tcp --dport 22 -j DROP
-```
-##### 38-4-2-2. 方法2 (flush)
-```
-sudo iptables --flush
-```
-##### 38-4-2-3. 方法3 (line-number)
-```
-sudo iptables -L -n --line-numbers
-sudo iptables -t filter -D INPUT 1 # 如果规则对应的number=1
-```
+2. 问题:添加了drop 22 tcp端口也还是能访问?
+    1. 方法
+        1. 方法1:清空规则(因为阿里云默认iptables前面已经有accept的规则了.根据从上到下的原理,在上面的规则就已经accept了,所以还能访问)
+        2. 方法2:将规则添加到第一个位置(推荐)
+        ```
+        iptables -t filter -I INPUT -p tcp --dport 22 -j DROP # 如果是删除的话,-A=>-D
+        ```
+    2. 解决
+        + 清理规则`iptables --flush INPUT`再执行就行了
+3. 删除"服务器不允许其他主机访问她的22端口"的规则
+    1. 方法1 (delete)
+    ```
+    iptables -t filter -D INPUT -p tcp --dport 22 -j DROP
+    ```
+    2. 方法2 (flush)
+    ```
+    sudo iptables --flush
+    ```
+    3. 方法3 (line-number)
+    ```
+    sudo iptables -L -n --line-numbers
+    sudo iptables -t filter -D INPUT 1 # 如果规则对应的number=1
+    ```
 
-### 38-5. 完全清零iptables
+4. 完全清零iptables
 ```
 sudo iptables -F
 sudo iptables -X
 sudo iptables -Z
 ```
-### 38-6. 生产环境下的iptables
+6. 生产环境下的iptables
 注意要在远程控制卡的情况下配置
 + 配置中途会拒绝ssh连接
-#### 38-6-1. 清空iptables原有设置
-```
-sudo iptables -F
-sudo iptables -X
-sudo iptables -Z
-```
-#### 38-6-2. 允许局域网内的所有IP访问
-```
-sudo iptables -t filter -A INPUT -p tcp -s 172.19.28.0/24 -j ACCEPT
-```
-#### 38-6-3. 允许自己LO访问
-```
-sudo iptables -t filter -A INPUT -i lo -j ACCEPT
-sudo iptables -t filter -A OUTPUT -o lo -j ACCEPT
-```
-#### 38-6-4. 设置默认的防火墙禁止和允许规则(如果不匹配上面的规则,就使用默认的规则)
-+ 允许OUTPUT
-+ 拒绝FORWARD和INPUT
-```
-sudo iptables -t filter -P OUTPUT ACCEPT
-sudo iptables -t filter -P FORWARD DROP
-sudo iptables -t filter -P INPUT DROP
-```
-#### 38-6-5. 允许其他机房(自己人)访问
-+ 可以假定允许所有协议使用
-```
-sudo iptables -t filter -A INPUT -p all -s 124.43.62.96/27 -j ACCEPT # 办公室固定的IP段
-sudo iptables -t filter -A INPUT -p all -s 192.168.1.0/24 -j ACCEPT # IDC机房的内网网段
-sudo iptables -t filter -A INPUT -p all -s 10.0.0.0/24 -j ACCEPT # 其他机房的内网网段
-sudo iptables -t filter -A INPUT -p all -s 203.83.24.0/24 -j ACCEPT # IDC机房的外网网段 
-sudo iptables -t filter -A INPUT -p all -s 201.82.34.0/24 -j ACCEPT # 其他IDC机房的外网网段
-```
-#### 38-6-6. 如果对外提供Web服务:开启80端口
-```
-sudo iptables -t filter -A INPUT -p tcp --dport 80 -j ACCEPT
-```
-#### 38-6-7. 如果对外提供服务,如希望对方ping通:允许对方ping
-```
-sudo iptables -t filter -A INPUT -p icmp --icmp-type 8 -j ACCEPT
-```
-#### 38-6-8. 如果对外提供FTP服务(Web服务不要使用FTP服务)
-```
-sudo iptables -t filter -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-sudo iptables -t filter -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-```
-#### 38-6-9. 其他设备扫描我们的服务器
-```
-nmap 47.100.185.187 -p 1-65535
-```
-#### 38-6-10. 将iptables的配置写入配置文件中
-之前的操作都是临时性的
-```
-sudo iptables-save > /etc/sysconfig/iptables
-```
+    1. 清空iptables原有设置
+    ```
+    sudo iptables -F
+    sudo iptables -X
+    sudo iptables -Z
+    ```
+    2. 允许局域网内的所有IP访问
+    ```
+    sudo iptables -t filter -A INPUT -p tcp -s 172.19.28.0/24 -j ACCEPT
+    ```
+    3. 允许自己LO访问
+    ```
+    sudo iptables -t filter -A INPUT -i lo -j ACCEPT
+    sudo iptables -t filter -A OUTPUT -o lo -j ACCEPT
+    ```
+    4. 设置默认的防火墙禁止和允许规则(如果不匹配上面的规则,就使用默认的规则)
+    + 允许OUTPUT
+    + 拒绝FORWARD和INPUT
+    ```
+    sudo iptables -t filter -P OUTPUT ACCEPT
+    sudo iptables -t filter -P FORWARD DROP
+    sudo iptables -t filter -P INPUT DROP
+    ```
+    5. 允许其他机房(自己人)访问
+    + 可以假定允许所有协议使用
+    ```
+    sudo iptables -t filter -A INPUT -p all -s 124.43.62.96/27 -j ACCEPT # 办公室固定的IP段
+    sudo iptables -t filter -A INPUT -p all -s 192.168.1.0/24 -j ACCEPT # IDC机房的内网网段
+    sudo iptables -t filter -A INPUT -p all -s 10.0.0.0/24 -j ACCEPT # 其他机房的内网网段
+    sudo iptables -t filter -A INPUT -p all -s 203.83.24.0/24 -j ACCEPT # IDC机房的外网网段 
+    sudo iptables -t filter -A INPUT -p all -s 201.82.34.0/24 -j ACCEPT # 其他IDC机房的外网网段
+    ```
+    6. 如果对外提供Web服务:开启80端口
+    ```
+    sudo iptables -t filter -A INPUT -p tcp --dport 80 -j ACCEPT
+    ```
+    7. 如果对外提供服务,如希望对方ping通:允许对方ping
+    ```
+    sudo iptables -t filter -A INPUT -p icmp --icmp-type 8 -j ACCEPT
+    ```
+    8. 如果对外提供FTP服务(Web服务不要使用FTP服务)
+    ```
+    sudo iptables -t filter -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+    sudo iptables -t filter -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+    ```
+    9. 其他设备扫描我们的服务器
+    ```
+    nmap 47.100.185.187 -p 1-65535
+    ```
+    10. 将iptables的配置写入配置文件中
+    + 之前的操作都是临时性的
+    ```
+    sudo iptables-save > /etc/sysconfig/iptables
+    ```
 
 #### 38-6-0. 总结(只对内提供服务的情况)
 如果要对外服务的话,根据上面的另外配置
