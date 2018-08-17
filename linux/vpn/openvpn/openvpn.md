@@ -1,5 +1,5 @@
-    
 ## 1. 安装
+### 1-1. OpenVPN服务端安装与配置
 1. 环境需求(老师的)
     1. 笔记本IP:10.0.0.0/24(办公室DHCP)
     2. OpenVPN server(双网卡)
@@ -539,8 +539,38 @@ ifconfig
 #         TX packets 3  bytes 144 (144.0 B)
 #         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 #-----------------------------------------------------------------------------------
+```
+
+### 1-2. OpenVPN客户端安装与配置
+#### 1-2-1. Windows下的OpenVPN GUI
+```
+cd /etc/openvpn/keys/
+sz -y ca.crt test.crt test.key
+cd /etc/openvpn/
+sz -y client.conf
+放到OpenVPN GUI的config/目录下面,创建1个test目录,放到里面(config/test/)
+新建test.ovpn并配置下面内容.(注意test.crt和test.key要和配置文件在同级目录)
+####################################################################################
+client
+dev tun
+proto tcp
+remote 192.168.1.100 52115
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+ca ca.crt
+cert test.crt
+key test.key
+ns-cert-type server
+comp-lzo
+verb 3
+####################################################################################
+点击下面的Connect,如果绿色的就表示连接陈宫
+而且在服务器的日志里也会看到该客户端连接进来了
 
 ```
+
 
 ## 2. 详解
 ### 2-1. 命令
@@ -573,5 +603,4 @@ log /var/log/openvpn.log # 日志文件
 verb 3 # 指定日志文件的冗余
 cient-to-client # 允许拨号的多个VPN Client互相通信
 duplicat-cn # 允许多个客户端使用同一个账号连接
-
 ```
