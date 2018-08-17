@@ -438,3 +438,9 @@ LoadModule proxy_module modules/mod_proxy.so
 LoadModule proxy_http_module modules/mod_proxy_http.so
 LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
 ```
+## 13. VPN
+### 13-1. OpenVPN
+1. `configure: error: OpenSSL Crypto headers not found.`
+```
+yum install -y openssl-devel
+```
