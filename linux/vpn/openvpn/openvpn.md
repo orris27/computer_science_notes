@@ -573,6 +573,49 @@ ping 172.16.1.17
 2. 在服务器上将ca证书,客户端的配置文件,用户的证书和秘钥发送到远程用户(CentOS7用户)的配置文件下
 3. 启动客户端
 4. 在VPN Server所在内网的主机(`172.16.1.28`)上配置出去的路由
+    1. 配置内网主机的默认路由为VPN服务器
+    ```
+    route add default gw 172.16.1.28 # 添加默认路由
+    ```
+    2. 配置内网主机的去`10.8.0.0`的网段的路由指向VPN服务器
+    ```
+    route add -net 10.8.0.0/24 gw 172.16.1.28 # (更推荐)如果要去10.8.0.0/24网段(因为我们的客户端是通过VPN服务器分配的IP地址的名义来访问VPN服务器所在内网的)的话,扔给VPN服务器
+    
+    vim /etc/sysconfig/network-scripts/route-eth0
+    ##############################################################################
+    10.8.0.0/24 via 172.16.1.28 dev eth0
+    ##############################################################################
+    systemctl restart network
+    ```
+    3. VPN服务器上做NAT
+    ```
+    systemctl stop firewalld
+    setenforce 0
+    systemctl start iptables
+    iptables -F
+    iptables -P FORWARD ACCEPT
+
+    lsmod | egrep ^ip
+    modprobe ip_tables
+    modprobe iptable_filter
+    modprobe iptable_nat
+    modprobe ip_conntrack
+    modprobe ip_conntrack_ftp
+    modprobe ip_nat_ftp
+    modprobe ipt_state
+    lsmod | egrep ^ip
+    #-----------------------------------------------------------------------------------------
+    iptable_filter         12810  0 
+    iptable_nat            12875  0 
+    ip_tables              27126  2 iptable_filter,iptable_nat
+    #-----------------------------------------------------------------------------------------
+    # 如果从eth1出去,并且源ip是在10.8.0.0/24网段,就把源IP改成172.16.1.28
+    iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth1 -j SNAT --to-source 172.16.1.28
+    
+    #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # Ctrl+C重新ping!!!!(我之前因为一直在ping所以发现即使在VPN服务器上添加了NAT结果还是不能通.后来重新ping就通了)
+    #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    ```
 5. ping内网主机,验证
 ```
 ##############################################################################
