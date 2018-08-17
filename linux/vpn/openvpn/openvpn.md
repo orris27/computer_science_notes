@@ -829,6 +829,10 @@ cat /etc/openvpn/openvpn-status.log
 ```
 
 ### 3-3. 撤销证书
+#### 3-3-1. 撤销单用户的证书
+1. 调用revoke_full,撤销test用户的证书
+2. 将生成的crl.pem移动到配置文件目录下,配置VPN服务器
+3. 重启VPN服务器
 ```
 cd ~/tools/openvpn-2.2.2/easy-rsa/2.0/
 ./revoke-full test # 这里撤销test用户的证书
@@ -875,11 +879,16 @@ cat keys/index.txt # 发现有个东西前面有R了,说明撤销了
 cp keys/crl.pem /etc/openvpn/keys/
 cd /etc/openvpn/
 echo "crl-verify /etc/openvpn/keys/crl.pem" >> server.conf
-kill `cat /var/run/openvpn.pid`
-sleep 2
-/usr/local/sbin/openvpn --config /etc/openvpn/server.conf --writepid /var/run/openvpn.pid &
+    kill `cat /var/run/openvpn.pid`
+    sleep 2
+    /usr/local/sbin/openvpn --config /etc/openvpn/server.conf --writepid /var/run/openvpn.pid &
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 然后看还能不能使用test用户登录
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
+#### 3-3-2. 撤销多用户的证书
+直接将生成的用户的`crl.pem`覆盖原来的`crl.pem`,2个用户就都被撤销了
+
+#### 3-3-3. 恢复某个用户的证书
+在VPN服务端的配置文件里注释掉`#crl-verify /etc/openvpn/keys/crl.pem`,重启VPN服务器就好了
