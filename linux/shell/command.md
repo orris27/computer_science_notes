@@ -758,6 +758,10 @@ telnet 127.0.0.1 11211 # 可以直接操作memcache
 tcpdump --interface eth0 port 80
 tcpdump port 80 -vvv
 ```
+#### 26-6-1. 抓取ping
+```
+tcpdump -nnn -s 10000| grep -i icmp
+```
 
 ### 26-7. route
 查看/修改网关
