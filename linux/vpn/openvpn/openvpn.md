@@ -372,10 +372,206 @@ ll keys/
 
 10. 生成一个"HAMC firewall"来防止恶意攻击,如DOS,UDP port flooding
 ```
+########################################################################
+# VPN-Server
+########################################################################
 openvpn --genkey --secret keys/ta.key
 ll keys/ta.key 
 #--------------------------------------------------------------------------------
 # [root@vpn-server 2.0]# ll keys/ta.key 
 # -rw-------. 1 root root 636 Aug 17 22:33 keys/ta.key
 #--------------------------------------------------------------------------------
+```
+
+11. 将OpenVPN的配置文件和证书集中管理
+```
+########################################################################
+# VPN-Server
+########################################################################
+mkdir -p /etc/openvpn # 专门存放openvpn证书以及配置文件的地方
+cd ~/tools/openvpn-2.2.2/easy-rsa/2.0/
+cp -ap keys /etc/openvpn/
+cd ~/tools/openvpn-2.2.2/sample-config-files/
+cp client.conf server.conf /etc/openvpn/
+
+yum install -y tree
+
+tree /etc/openvpn/
+#--------------------------------------------------------------------------------
+# [root@vpn-server sample-config-files]# tree /etc/openvpn/
+# /etc/openvpn/
+# ├── client.conf
+# ├── keys
+# │   ├── 01.pem
+# │   ├── 02.pem
+# │   ├── 03.pem
+# │   ├── ca.crt
+# │   ├── ca.key
+# │   ├── dh1024.pem
+# │   ├── ett.crt
+# │   ├── ett.csr
+# │   ├── ett.key
+# │   ├── index.txt
+# │   ├── index.txt.attr
+# │   ├── index.txt.attr.old
+# │   ├── index.txt.old
+# │   ├── serial
+# │   ├── serial.old
+# │   ├── server.crt
+# │   ├── server.csr
+# │   ├── server.key
+# │   ├── ta.key
+# │   ├── test.crt
+# │   ├── test.csr
+# │   └── test.key
+# └── server.conf
+# 
+# 1 directory, 24 files
+#--------------------------------------------------------------------------------
+
+
+cd /etc/openvpn/
+cp server.conf server.conf.bak
+grep -vE ';|#|^$' server.conf
+#上面2个是没有被grep到的,而我来添加的(为了说明作用)
+#--------------------------------------------------------------------------------
+# port 1194
+# proto udp
+# dev tun
+# ca ca.crt
+# cert server.crt
+# dh dh1024.pem
+# server 10.8.0.0 255.255.255.0
+# ifconfig-pool-persist ipp.txt
+# keepalive 10 120
+# comp-lzo
+# persist-key
+# persist-tun
+# status openvpn-status.log
+# verb 3
+#--------------------------------------------------------------------------------
+
+grep -vE ';|#|^$' server.conf >tmp.log
+cat tmp.log > server.conf
+vi server.conf
+#############################################################################################
+local 192.168.1.100
+port 52115
+proto tcp
+dev tun
+ca /etc/openvpn/keys/ca.crt
+cert /etc/openvpn/keys/server.crt
+key /etc/openvpn/keys/server.key
+dh /etc/openvpn/keys/dh1024.pem
+server 10.8.0.0 255.255.255.0
+push "route 172.16.1.0 255.255.255.0"
+ifconfig-pool-persist ipp.txt
+keepalive 10 120
+comp-lzo
+persist-key
+persist-tun
+status openvpn-status.log
+verb 3
+client-to-client
+duplicate-cn
+log /var/log/openvpn.log
+#############################################################################################
+```
+
+12. 调试服务端VPN服务启动环境
+    1. 关闭防火墙,selinux
+    2. 允许ip转发
+```
+########################################################################
+# VPN-Server
+########################################################################
+vi /etc/sysconfig/iptables
+#############################################################################################
+-A INPUT -i lo -j ACCEPT # 这里是有的,我这里写在这里是为了说明下面一行是加到这个位置的下面的
+-A INPUT -p tcp --dport 52115 -j ACCEPT
+#############################################################################################
+iptables -A INPUT -p tcp --dport 52115 -j ACCEPT
+systemctl stop iptables
+systemctl stop firewalld
+setenforce 0
+vi /etc/sysconfig/selinux 
+#############################################################################################
+SELINUX=disabled
+#############################################################################################
+
+
+
+vi /etc/sysctl.conf 
+#############################################################################################
+net.ipv4.ip_forward = 1
+#############################################################################################
+sysctl  -p
+```
+13. 启动VPN Sever
+```
+#/usr/local/sbin/openvpn --daemon --writepid /var/run/openvpn/server.pid --config server.conf --cd /etc/openvpn # OpenVPN自带的启动方法
+/usr/local/sbin/openvpn --config /etc/openvpn/server.conf &
+#-----------------------------------------------------------------------------------
+# [1] 30071 # 如果只出现这个就说明ok了
+#-----------------------------------------------------------------------------------
+
+netstat -lntup | grep 52115
+
+echo "#startup openvpn service" >>/etc/rc.local 
+echo "/usr/local/sbin/openvpn --config /etc/openvpn/server.conf &" >>/etc/rc.local
+tail -2 /etc/rc.local 
+#-----------------------------------------------------------------------------------
+# #startup openvpn service
+# /usr/local/sbin/openvpn --config /etc/openvpn/server.conf &
+#-----------------------------------------------------------------------------------
+
+tail -100 /var/log/openvpn.log # 如果启动不了就会告诉我们为什么启动不了
+
+ifconfig
+
+#-----------------------------------------------------------------------------------
+# tun0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
+#         inet 10.8.0.1  netmask 255.255.255.255  destination 10.8.0.2
+#         inet6 fe80::196d:c160:23ed:3105  prefixlen 64  scopeid 0x20<link>
+#         unspec 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  txqueuelen 100  (UNSPEC)
+#         RX packets 0  bytes 0 (0.0 B)
+#         RX errors 0  dropped 0  overruns 0  frame 0
+#         TX packets 3  bytes 144 (144.0 B)
+#         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+#-----------------------------------------------------------------------------------
+
+```
+
+## 2. 详解
+### 2-1. 命令
+1. `vars`:用来创建环境变量,设置所需要的变量的脚本
+2. `clean-all`:清除所有生成的ca证书以及秘钥文件的文件及目录
+3. `build-ca`:生成ca证书(交互)
+4. `build-dh`:生成Diffie-Hellman文件(交互)
+5. `build-key-server`:生成服务端秘钥(交互)
+6. `build-key`,`build-key-pass`:生成客户端秘钥(交互)
+7. `pkitool`:直接使用vars的环境变量设置,直接生成证书(非交互)
+### 2-2. 配置文件
+主要是server和push这2个配置非常重要
+```
+local 124.43.12.115 # [修改成外网ip地址].哪一个本地地址要被OpenVPN进行监听.客户端要访问VPN服务器的地址
+push "route 172.16.1.0 255.255.255.0" # [第二个ip地址使用的是我们内网服务器的网段]这是VPN Server所在的内网网段,如果有多个可以写多个push,注意:此命令实际作用是在VPN客户端本地生成VPN Server所在的内网网段的路由,确保能够和VPN Server所在的内网网段通信.路由条目类似:10.0.0.0 255.255.255.0 10.8.0.9 10.8.0.10 1.可以用route print在执行前后监视,然后用比较工具来比较就能知道变化在哪里了.push表示推到客户端
+port 1194 # 监听的端口,默认为1194,为了安全可以修改
+proto udp # 监听的协议,当并发多的时候,推荐tcp
+dev tun # vpn server的模式采用路由的模式,可选tap或tun
+ca ca.crt # ca证书,注意此文件和server.conf在同一个目录下,否则要用绝对路径调用
+cert server.crt
+dh dh1024.pem
+server 10.8.0.0 255.255.255.0 # 这个是VPN server动态分配给VPN Client的地址池,一般不需要修改.不要和其他网段冲突
+ifconfig-pool-persist ipp.txt
+keepalive 10 120 # 每10秒ping一次,若是120秒未收到包,即认定客户端断线
+comp-lzo # 开启压缩功能
+persist-key # 当vpn超时后,当重新启动VPN后,保持上一次使用的私钥,而不重新读取私钥
+persist-tun # 通过keepalived检测VPN超时后,当重新启动VPN后,保持tun或者tap设备自动连接状态
+status openvpn-status.log # OpenVPN日志状态信息
+log /var/log/openvpn.log # 日志文件
+verb 3 # 指定日志文件的冗余
+cient-to-client # 允许拨号的多个VPN Client互相通信
+duplicat-cn # 允许多个客户端使用同一个账号连接
+
 ```
