@@ -738,3 +738,92 @@ verb 3 # 指定日志文件的冗余
 cient-to-client # 允许拨号的多个VPN Client互相通信
 duplicat-cn # 允许多个客户端使用同一个账号连接
 ```
+
+## 3. 操作
+### 3-1. 添加新的证书
+```
+cd ~/tools/openvpn-2.2.2/easy-rsa/2.0/
+source vars
+./build-key-pass orris
+#---------------------------------------------------------------------------------------
+# Generating a 1024 bit RSA private key
+# .......................................................................++++++
+# ...............++++++
+# writing new private key to 'orris.key'
+# Enter PEM pass phrase:
+# Verifying - Enter PEM pass phrase:
+# -----
+# You are about to be asked to enter information that will be incorporated
+# into your certificate request.
+# What you are about to enter is what is called a Distinguished Name or a DN.
+# There are quite a few fields but you can leave some blank
+# For some fields there will be a default value,
+# If you enter '.', the field will be left blank.
+# -----
+# Country Name (2 letter code) [CN]:
+# State or Province Name (full name) [BJ]:
+# Locality Name (eg, city) [Beijing]:
+# Organization Name (eg, company) [oldboy]:
+# Organizational Unit Name (eg, section) [oldboy]:
+# Common Name (eg, your name or your server's hostname) [orris]:
+# Name [oldboy]:
+# Email Address [49000448@qq.com]:
+# 
+# Please enter the following 'extra' attributes
+# to be sent with your certificate request
+# A challenge password []:123456
+# An optional company name []:oldboy
+# Using configuration from /root/tools/openvpn-2.2.2/easy-rsa/2.0/openssl-1.0.0.cnf
+# Check that the request matches the signature
+# Signature ok
+# The Subject's Distinguished Name is as follows
+# countryName           :PRINTABLE:'CN'
+# stateOrProvinceName   :PRINTABLE:'BJ'
+# localityName          :PRINTABLE:'Beijing'
+# organizationName      :PRINTABLE:'oldboy'
+# organizationalUnitName:PRINTABLE:'oldboy'
+# commonName            :PRINTABLE:'orris'
+# name                  :PRINTABLE:'oldboy'
+# emailAddress          :IA5STRING:'49000448@qq.com'
+# Certificate is to be certified until Aug 14 21:33:11 2028 GMT (3650 days)
+# Sign the certificate? [y/n]:y
+# 
+# 
+# 1 out of 1 certificate requests certified, commit? [y/n]y
+# Write out database with 1 new entries
+# Data Base Updated
+#---------------------------------------------------------------------------------------
+
+
+ls keys/ | grep orris
+#---------------------------------------------------------------------------------------
+# orris.crt
+# orris.csr
+# orris.key
+#---------------------------------------------------------------------------------------
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 把orris的crt和key,client配置文件和ca证书发送到客户端上,之后按之前的配置就好了=>但最后我这个身份认证的一直用不了..
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
+
+
+### 3-2. OpenVPN服务器查看登录状态
+```
+cat /etc/openvpn/openvpn-status.log 
+#---------------------------------------------------------------------------------------
+# OpenVPN CLIENT LIST
+# Updated,Sat Aug 18 05:41:25 2018
+# Common Name,Real Address,Bytes Received,Bytes Sent,Connected Since
+# test,192.168.1.200:44812,1924437,1825223,Sat Aug 18 00:33:08 2018
+# test,192.168.1.36:42638,16233,5261,Sat Aug 18 05:37:41 2018
+# ROUTING TABLE
+# Virtual Address,Common Name,Real Address,Last Ref
+# 10.8.0.6,test,192.168.1.200:44812,Sat Aug 18 05:20:18 2018  # 这几行显示当前登录的账户有那些人,如果退出一人的话,这里就会只有一行(动态)
+# 10.8.0.10,test,192.168.1.36:42638,Sat Aug 18 05:39:48 2018
+# GLOBAL STATS
+# Max bcast/mcast queue length,3
+# END
+#---------------------------------------------------------------------------------------
+```
