@@ -621,6 +621,9 @@ ping 172.16.1.17
 ##############################################################################
 # 模拟远程用户的主机,CentOS7系统,192.168.1.200,虚拟机为桥接模式
 ##############################################################################
+#
+# OpenVPN客户端的安装和服务端是完全一样的!!!我这里yum安装是看网上的(因为老师先演示Windows,所以我就自己查了客户端的资料),当然我们可以用编译安装!!!
+#
 yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 yum install -y openvpn
 #sudo apt-get install openvpn # 如果是Ubuntu的话只要安装这个就好了,其他和CentOS7的完全一样
