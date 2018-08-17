@@ -827,3 +827,59 @@ cat /etc/openvpn/openvpn-status.log
 # END
 #---------------------------------------------------------------------------------------
 ```
+
+### 3-3. 撤销证书
+```
+cd ~/tools/openvpn-2.2.2/easy-rsa/2.0/
+./revoke-full test # 这里撤销test用户的证书
+#-------------------------------------------------------------------------------------------------
+# Using configuration from /root/tools/openvpn-2.2.2/easy-rsa/2.0/openssl-1.0.0.cnf
+# Revoking Certificate 02.
+# Data Base Updated
+# Using configuration from /root/tools/openvpn-2.2.2/easy-rsa/2.0/openssl-1.0.0.cnf
+# test.crt: C = CN, ST = BJ, L = Beijing, O = oldboy, OU = oldboy, CN = test, name = oldboy, emailAddress = 49000448@qq.com
+# error 8 at 0 depth lookup:CRL signature failure
+# 139894579443600:error:0D0C50A1:asn1 encoding routines:ASN1_item_verify:unknown message digest algorithm:a_verify.c:206:
+#-------------------------------------------------------------------------------------------------
+echo $? # 这里好像有错误也没关系的样子
+#-------------------------------------------------------------------------------------------------
+# 2
+#-------------------------------------------------------------------------------------------------
+
+cat keys/crl.pem 
+#-------------------------------------------------------------------------------------------------
+# -----BEGIN X509 CRL-----
+# MIIBbDCB1jANBgkqhkiG9w0BAQQFADCBkDELMAkGA1UEBhMCQ04xCzAJBgNVBAgT
+# AkJKMRAwDgYDVQQHEwdCZWlqaW5nMQ8wDQYDVQQKEwZvbGRib3kxDzANBgNVBAsT
+# Bm9sZGJveTEPMA0GA1UEAxMGb2xkYm95MQ8wDQYDVQQpEwZvbGRib3kxHjAcBgkq
+# hkiG9w0BCQEWDzQ5MDAwNDQ4QHFxLmNvbRcNMTgwODE3MjIxNTA0WhcNMTgwOTE2
+# MjIxNTA0WjAUMBICAQIXDTE4MDgxNzIyMTUwNFowDQYJKoZIhvcNAQEEBQADgYEA
+# PMlMTMILeLjcv8WsC0a/pJUXD4g5P7maH3d5nYPLhcvOWICayWRmcY8r3ZXTS5aC
+# lOnfE9Z2sFSYUqfZ8POvKtaXeYFsgkWnMi8hkDztKgKNYRtoBVEqRFZ685cypmKZ
+# qOfVMHVnKoW0E6m2RuNaNiztvUSjVIfakWP+ZUZC4ps=
+# -----END X509 CRL-----
+#-------------------------------------------------------------------------------------------------
+
+
+
+cat keys/index.txt # 发现有个东西前面有R了,说明撤销了
+#-------------------------------------------------------------------------------------------------
+# V	280814141624Z		01	unknown	/C=CN/ST=BJ/L=Beijing/O=oldboy/OU=oldboy/CN=server/name=oldboy/emailAddress=49000448@qq.com
+# R	280814142145Z	180817221504Z	02	unknown	/C=CN/ST=BJ/L=Beijing/O=oldboy/OU=oldboy/CN=test/name=oldboy/emailAddress=49000448@qq.com
+# V	280814142559Z		03	unknown	/C=CN/ST=BJ/L=Beijing/O=oldboy/OU=oldboy/CN=ett/name=oldboy/emailAddress=49000448@qq.com
+# V	280814213311Z		04	unknown	/C=CN/ST=BJ/L=Beijing/O=oldboy/OU=oldboy/CN=orris/name=oldboy/emailAddress=49000448@qq.com
+#-------------------------------------------------------------------------------------------------
+
+
+
+cp keys/crl.pem /etc/openvpn/keys/
+cd /etc/openvpn/
+echo "crl-verify /etc/openvpn/keys/crl.pem" >> server.conf
+kill `cat /var/run/openvpn.pid`
+sleep 2
+/usr/local/sbin/openvpn --config /etc/openvpn/server.conf --writepid /var/run/openvpn.pid &
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 然后看还能不能使用test用户登录
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
