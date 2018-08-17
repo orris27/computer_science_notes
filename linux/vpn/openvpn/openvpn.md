@@ -77,6 +77,9 @@ which openvpn # 如果有就表示安装好了
 
 6. 创建CA证书
 ```
+########################################################################
+# VPN-Server
+########################################################################
 cd ~/tools/openvpn-2.2.2/easy-rsa/2.0/
 cp vars vars.bak.20180817
 ls vars*
@@ -133,4 +136,246 @@ ll keys/
 # -rw-r--r--. 1 root root    3 Aug 17 22:04 serial
 #--------------------------------------------------------------------------
 
+```
+
+7. 生成服务端的秘钥
+```
+########################################################################
+# VPN-Server
+########################################################################
+./build-key-server server # server为名字
+# password和compnay name里写了,其他都默认或者yes.这里的password是在申请CA证书时会用到的
+#--------------------------------------------------------------------------------
+# Generating a 1024 bit RSA private key
+# ...++++++
+# ....++++++
+# writing new private key to 'server.key'
+# -----
+# You are about to be asked to enter information that will be incorporated
+# into your certificate request.
+# What you are about to enter is what is called a Distinguished Name or a DN.
+# There are quite a few fields but you can leave some blank
+# For some fields there will be a default value,
+# If you enter '.', the field will be left blank.
+# -----
+# Country Name (2 letter code) [CN]:
+# State or Province Name (full name) [BJ]:
+# Locality Name (eg, city) [Beijing]:
+# Organization Name (eg, company) [oldboy]:
+# Organizational Unit Name (eg, section) [oldboy]:
+# Common Name (eg, your name or your server's hostname) [server]:
+# Name [oldboy]:
+# Email Address [49000448@qq.com]:
+# 
+# Please enter the following 'extra' attributes
+# to be sent with your certificate request
+# A challenge password []:123456
+# An optional company name []:oldboy
+# Using configuration from /root/tools/openvpn-2.2.2/easy-rsa/2.0/openssl-1.0.0.cnf
+# Check that the request matches the signature
+# Signature ok
+# The Subject's Distinguished Name is as follows
+# countryName           :PRINTABLE:'CN'
+# stateOrProvinceName   :PRINTABLE:'BJ'
+# localityName          :PRINTABLE:'Beijing'
+# organizationName      :PRINTABLE:'oldboy'
+# organizationalUnitName:PRINTABLE:'oldboy'
+# commonName            :PRINTABLE:'server'
+# name                  :PRINTABLE:'oldboy'
+# emailAddress          :IA5STRING:'49000448@qq.com'
+# Certificate is to be certified until Aug 14 14:16:24 2028 GMT (3650 days)
+# Sign the certificate? [y/n]:y
+# 
+# 
+# 1 out of 1 certificate requests certified, commit? [y/n]y
+# Write out database with 1 new entries
+# Data Base Updated # 出现更新了就说明成功
+#--------------------------------------------------------------------------------
+
+
+ll keys/ | grep server # 生成的秘钥
+#--------------------------------------------------------------------------------
+# -rw-r--r--. 1 root root 3995 Aug 17 22:16 server.crt # crt为证书
+# -rw-r--r--. 1 root root  769 Aug 17 22:16 server.csr
+# -rw-------. 1 root root  916 Aug 17 22:16 server.key # key为秘钥文件
+#--------------------------------------------------------------------------------
+
+```
+8. 生成客户端的证书和秘钥
++ 服务端和客户端各有自己的免秘钥,但共用CA证书
++ 使用`build-key`来创建用户的话,在拨号的时候不会要密码,可以使用`build-key-pass`替代
+```
+########################################################################
+# VPN-Server(无密码版本)
+########################################################################
+./build-key test # 在工作中后面的test一般为人的名字
+#--------------------------------------------------------------------------------
+# Generating a 1024 bit RSA private key
+# ....................++++++
+# ......++++++
+# writing new private key to 'test.key'
+# -----
+# You are about to be asked to enter information that will be incorporated
+# into your certificate request.
+# What you are about to enter is what is called a Distinguished Name or a DN.
+# There are quite a few fields but you can leave some blank
+# For some fields there will be a default value,
+# If you enter '.', the field will be left blank.
+# -----
+# Country Name (2 letter code) [CN]:
+# State or Province Name (full name) [BJ]:
+# Locality Name (eg, city) [Beijing]:
+# Organization Name (eg, company) [oldboy]:
+# Organizational Unit Name (eg, section) [oldboy]:
+# Common Name (eg, your name or your server's hostname) [test]:
+# Name [oldboy]:
+# Email Address [49000448@qq.com]:
+# 
+# Please enter the following 'extra' attributes
+# to be sent with your certificate request
+# A challenge password []:123456
+# An optional company name []:oldboy
+# Using configuration from /root/tools/openvpn-2.2.2/easy-rsa/2.0/openssl-1.0.0.cnf
+# Check that the request matches the signature
+# Signature ok
+# The Subject's Distinguished Name is as follows
+# countryName           :PRINTABLE:'CN'
+# stateOrProvinceName   :PRINTABLE:'BJ'
+# localityName          :PRINTABLE:'Beijing'
+# organizationName      :PRINTABLE:'oldboy'
+# organizationalUnitName:PRINTABLE:'oldboy'
+# commonName            :PRINTABLE:'test'
+# name                  :PRINTABLE:'oldboy'
+# emailAddress          :IA5STRING:'49000448@qq.com'
+# Certificate is to be certified until Aug 14 14:21:45 2028 GMT (3650 days)
+# Sign the certificate? [y/n]:y
+# 
+# 
+# 1 out of 1 certificate requests certified, commit? [y/n]y
+# Write out database with 1 new entries
+# Data Base Updated
+#--------------------------------------------------------------------------------
+
+ll keys/ | grep test
+#--------------------------------------------------------------------------------
+# -rw-r--r--. 1 root root 3871 Aug 17 22:21 test.crt
+# -rw-r--r--. 1 root root  765 Aug 17 22:21 test.csr
+# -rw-------. 1 root root  916 Aug 17 22:21 test.key
+#--------------------------------------------------------------------------------
+
+
+
+
+
+########################################################################
+# VPN-Server(有密码版本)
+########################################################################
+./build-key-pass ett 
+
+# 一开始就要求输入密码,这个密码就是拨号时候要输入的密码,我这里写的是123456
+# A challenge password和An optional company name要填写,其他默认或yes
+#--------------------------------------------------------------------------------
+# Generating a 1024 bit RSA private key
+# ..........++++++
+# .........................++++++
+# writing new private key to 'ett.key'
+# Enter PEM pass phrase:
+# Verifying - Enter PEM pass phrase:
+# -----
+# You are about to be asked to enter information that will be incorporated
+# into your certificate request.
+# What you are about to enter is what is called a Distinguished Name or a DN.
+# There are quite a few fields but you can leave some blank
+# For some fields there will be a default value,
+# If you enter '.', the field will be left blank.
+# -----
+# Country Name (2 letter code) [CN]:
+# State or Province Name (full name) [BJ]:
+# Locality Name (eg, city) [Beijing]:
+# Organization Name (eg, company) [oldboy]:
+# Organizational Unit Name (eg, section) [oldboy]:
+# Common Name (eg, your name or your server's hostname) [ett]:
+# Name [oldboy]:
+# Email Address [49000448@qq.com]:
+# 
+# Please enter the following 'extra' attributes
+# to be sent with your certificate request
+# A challenge password []:123456
+# An optional company name []:oldboy
+# Using configuration from /root/tools/openvpn-2.2.2/easy-rsa/2.0/openssl-1.0.0.cnf
+# Check that the request matches the signature
+# Signature ok
+# The Subject's Distinguished Name is as follows
+# countryName           :PRINTABLE:'CN'
+# stateOrProvinceName   :PRINTABLE:'BJ'
+# localityName          :PRINTABLE:'Beijing'
+# organizationName      :PRINTABLE:'oldboy'
+# organizationalUnitName:PRINTABLE:'oldboy'
+# commonName            :PRINTABLE:'ett'
+# name                  :PRINTABLE:'oldboy'
+# emailAddress          :IA5STRING:'49000448@qq.com'
+# Certificate is to be certified until Aug 14 14:25:59 2028 GMT (3650 days)
+# Sign the certificate? [y/n]:y
+# 
+# 
+# 1 out of 1 certificate requests certified, commit? [y/n]y
+# Write out database with 1 new entries
+# Data Base Updated
+#--------------------------------------------------------------------------------
+
+
+ll keys/| grep ett
+#--------------------------------------------------------------------------------
+# -rw-r--r--. 1 root root 3870 Aug 17 22:26 ett.crt
+# -rw-r--r--. 1 root root  765 Aug 17 22:25 ett.csr
+# -rw-------. 1 root root 1041 Aug 17 22:25 ett.key
+#--------------------------------------------------------------------------------
+```
+9. 生成传输进行秘钥交换时用到的交换秘钥协议文件
+```
+########################################################################
+# VPN-Server
+########################################################################
+./build-dh
+
+ll keys/dh1024.pem # 秘钥协议文件
+#--------------------------------------------------------------------------------
+# -rw-r--r--. 1 root root 245 Aug 17 22:29 keys/dh1024.pem
+#--------------------------------------------------------------------------------
+ll keys/
+#--------------------------------------------------------------------------------
+# [root@vpn-server 2.0]# ll keys/
+# total 84
+# -rw-r--r--. 1 root root 3995 Aug 17 22:16 01.pem
+# -rw-r--r--. 1 root root 3871 Aug 17 22:21 02.pem
+# -rw-r--r--. 1 root root 3870 Aug 17 22:26 03.pem
+# -rw-r--r--. 1 root root 1310 Aug 17 22:05 ca.crt # 服务端和所有客户端都需要
+# -rw-------. 1 root root  916 Aug 17 22:05 ca.key # 服务端需要
+# -rw-r--r--. 1 root root  245 Aug 17 22:29 dh1024.pem # 协议文件,只在server里由
+# -rw-r--r--. 1 root root 3870 Aug 17 22:26 ett.crt # 客户端使用
+# -rw-r--r--. 1 root root  765 Aug 17 22:25 ett.csr
+# -rw-------. 1 root root 1041 Aug 17 22:25 ett.key # 客户端使用
+# -rw-r--r--. 1 root root  355 Aug 17 22:26 index.txt
+# -rw-r--r--. 1 root root   21 Aug 17 22:26 index.txt.attr
+# -rw-r--r--. 1 root root   21 Aug 17 22:21 index.txt.attr.old
+# -rw-r--r--. 1 root root  238 Aug 17 22:21 index.txt.old
+# -rw-r--r--. 1 root root    3 Aug 17 22:26 serial
+# -rw-r--r--. 1 root root    3 Aug 17 22:21 serial.old
+# -rw-r--r--. 1 root root 3995 Aug 17 22:16 server.crt # 服务端的证书
+# -rw-r--r--. 1 root root  769 Aug 17 22:16 server.csr # 服务端的key
+# -rw-------. 1 root root  916 Aug 17 22:16 server.key
+# -rw-r--r--. 1 root root 3871 Aug 17 22:21 test.crt # 客户端使用
+# -rw-r--r--. 1 root root  765 Aug 17 22:21 test.csr
+# -rw-------. 1 root root  916 Aug 17 22:21 test.key # 客户端使用
+#--------------------------------------------------------------------------------
+```
+
+10. 生成一个"HAMC firewall"来防止恶意攻击,如DOS,UDP port flooding
+```
+openvpn --genkey --secret keys/ta.key
+ll keys/ta.key 
+#--------------------------------------------------------------------------------
+# [root@vpn-server 2.0]# ll keys/ta.key 
+# -rw-------. 1 root root 636 Aug 17 22:33 keys/ta.key
+#--------------------------------------------------------------------------------
 ```
