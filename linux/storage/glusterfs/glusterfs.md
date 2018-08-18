@@ -183,7 +183,7 @@ fdisk -l
 systemctl stop iptables
 systemctl disable iptables
 systemctl stop firewalld
-systemctl disable iptables
+systemctl disable firewalld
 setenforce 0
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 
