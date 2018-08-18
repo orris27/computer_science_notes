@@ -269,9 +269,42 @@ date
 mkfs.ext4 /dev/sdb 
 mkdir /brick1
 mount /dev/sdb /brick1/
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 加入到开机启动项 /etc/fstab
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+##########################################################################
+# 启动服务
+##########################################################################
+systemctl start glusterd
+systemctl enable glusterd
+
+
+##########################################################################
+# 任意节点                                                                #
+##########################################################################
+gluster peer probe  glusterfs02 # 其实填IP,因为做了hosts,所以直接写域名
+gluster peer probe  glusterfs03
+gluster peer status
+#------------------------------------------------------------------------------------
+# Number of Peers: 2
+# 
+# Hostname: glusterfs02
+# Uuid: 15cec59b-1395-4366-ac52-2fba7bfec615
+# State: Peer in Cluster (Connected)
+# 
+# Hostname: glusterfs03
+# Uuid: 80aedb17-918d-4794-85b0-86fc97e5cd1c
+# State: Peer in Cluster (Connected)
+#------------------------------------------------------------------------------------
 
 
 
+# 可以直接根据名字创建
+gluster volume create testvol glusterfs02:/brick1/b1
+gluster volume start testvol
+gluster volume info 
+mount -t glusterfs glusterfs02:/testvol /mnt
 ```
 
 
@@ -316,7 +349,6 @@ gluster volume rebalance test-volume start # 会很费时间
 
 tree /data/* # 会发现/data/addition目录已经有数据了
 ```
-
 ### 2-3. 移除brick
 数据可能会丢失.但是挂载的目录里的文件可能会都在,不过在GlusterFS的目录里就已经丢失数据了
 ```
@@ -325,3 +357,51 @@ gluster volume remove-brick test-volume 10.0.0.7:/data/addition force
 ```
 
 
+### 2-4. 创建卷
+1. 分布式卷
+```
+gluster volume create test-volume 10.0.0.7:/data/exp1 10.0.0.8:/data/exp2 force # 分布式卷
+```
+2. 复制卷
+```
+gluster volume create repl-volume replica 2 transport tcp 10.0.0.7:/data/exp3 10.0.0.8:/data/exp4 force # 复制卷
+```
+3. 条带卷
+```
+gluster volume create raid0-volume stripe 2 transport tcp 10.0.0.7:/data/exp5 10.0.0.8:/data/exp6 force # 条带卷
+```
+### 2-5. 节点操作
+1. 添加节点
+```
+gluster peer probe <ip>
+```
+2. 删除节点
+```
+gluster peer detach <ip>
+```
+3. 查看状态
+```
+gluster peer status <ip>
+```
+
+
+### 2-6. 启动卷
+```
+gluster volume start test-volume
+```
+### 2-7. 挂载操作
+mount.glusterfs 挂载目标(ip:/卷名) 挂载目录
+```
+mkdir /mnt/distributed /mnt/replicated /mnt/striped
+mount.glusterfs 10.0.0.7:/test-volume /mnt/distributed # 任一个节点都可以
+mount.glusterfs 10.0.0.7:/repl-volume /mnt/replicated # 任一个节点都可以
+mount.glusterfs 10.0.0.7:/raid0-volume /mnt/striped # 任一个节点都可以
+```
+
+### 2-8. 删除卷
+```
+umount /mnt/ -l
+gluster volume stop testvol
+gluster volum delete testvol
+rm -rf <directory-used-for-volumes-create>
+```
