@@ -1992,7 +1992,191 @@ dd if=dd.dat of=/dev/null bs=1M count=1k
 
 ```
 
+## 54. iozone
+文件系统的测试工具
+1. 安装
+```
+wget http://rpmfind.net/linux/dag/redhat/el7/en/x86_64/dag/RPMS/iozone-3.424-2.el7.rf.x86_64.rpm
+rpm -ivh iozone-3.424-2.el7.rf.x86_64.rpm 
+```
+2. 文件系统的性能测试
+```
+每次读写的块的大小是1M,-s为测试文件的大小,-t表示进程数量,产生4个文件,每个进程对应1个文件,-i的0为写入,1为读取
+iozone -r 1m -s 128m -t 4 -i 0 -i 1
+#------------------------------------------------------------------------------------------
+# 	Iozone: Performance Test of File I/O
+# 	        Version $Revision: 3.424 $
+# 		Compiled for 64 bit mode.
+# 		Build: linux-AMD64 
+# 
+# 	Contributors:William Norcott, Don Capps, Isom Crawford, Kirby Collins
+# 	             Al Slater, Scott Rhine, Mike Wisner, Ken Goss
+# 	             Steve Landherr, Brad Smith, Mark Kelly, Dr. Alain CYR,
+# 	             Randy Dunlap, Mark Montague, Dan Million, Gavin Brebner,
+# 	             Jean-Marc Zucconi, Jeff Blomberg, Benny Halevy, Dave Boone,
+# 	             Erik Habbinga, Kris Strecker, Walter Wong, Joshua Root,
+# 	             Fabrice Bacchella, Zhenghua Xue, Qin Li, Darren Sawyer,
+# 	             Vangel Bojaxhi, Ben England, Vikentsi Lapa.
+# 
+# 	Run began: Sun Aug 19 00:44:26 2018
+# 
+# 	Record Size 1024 kB
+# 	File size set to 131072 kB
+# 	Command line used: iozone -r 1m -s 128m -t 4 -i 0 -i 1
+# 	Output is in kBytes/sec
+# 	Time Resolution = 0.000001 seconds.
+# 	Processor cache size set to 1024 kBytes.
+# 	Processor cache line size set to 32 bytes.
+# 	File stride size set to 17 * record size.
+# 	Throughput test with 4 processes
+# 	Each process writes a 131072 kByte file in 1024 kByte records
+# 
+# 	Children see throughput for  4 initial writers 	=  138676.27 kB/sec
+# 	Parent sees throughput for  4 initial writers 	=  132773.25 kB/sec
+# 	Min throughput per process 			=   31613.57 kB/sec 
+# 	Max throughput per process 			=   35972.43 kB/sec
+# 	Avg throughput per process 			=   34669.07 kB/sec
+# 	Min xfer 					=  115712.00 kB
+# 
+# 	Children see throughput for  4 rewriters 	=  142730.68 kB/sec
+# 	Parent sees throughput for  4 rewriters 	=  141265.11 kB/sec
+# 	Min throughput per process 			=   35464.52 kB/sec 
+# 	Max throughput per process 			=   36134.60 kB/sec
+# 	Avg throughput per process 			=   35682.67 kB/sec
+# 	Min xfer 					=  129024.00 kB
+# 
+# 	Children see throughput for  4 readers 		=  157483.26 kB/sec
+# 	Parent sees throughput for  4 readers 		=  156489.71 kB/sec
+# 	Min throughput per process 			=   39118.00 kB/sec 
+# 	Max throughput per process 			=   39933.22 kB/sec
+# 	Avg throughput per process 			=   39370.82 kB/sec
+# 	Min xfer 					=  129024.00 kB
+# 
+# 	Children see throughput for 4 re-readers 	=  138993.81 kB/sec
+# 	Parent sees throughput for 4 re-readers 	=  138467.29 kB/sec
+# 	Min throughput per process 			=   34505.55 kB/sec 
+# 	Max throughput per process 			=   35213.24 kB/sec
+# 	Avg throughput per process 			=   34748.45 kB/sec
+# 	Min xfer 					=  129024.00 kB
+# 
+# 
+# 
+# iozone test complete.
+#------------------------------------------------------------------------------------------
 
+```
+
+
+
+## 55. fio
+1. 安装
+```
+wget http://ftp.tu-chemnitz.de/pub/linux/dag/redhat/el7/en/x86_64/rpmforge/RPMS/fio-2.1.10-1.el7.rf.x86_64.rpm
+rpm -ivh fio-2.1.10-1.el7.rf.x86_64.rpm 
+```
+2. 
+```
+# filename一定写正确
+cat > fio.conf <<EOF
+[global]
+ioengine=libaio
+direct=1
+thread=1
+norandommap=1
+randrepeat=0
+filename=/mnt/fio.dat
+size=100m
+[rr]
+stonewall
+group_reporting
+bs=4k
+rw=randread
+numjobs=8
+iodepth=4
+EOF
+
+fio fio.conf
+```
+
+
+## 56. postmark
+元数据操作的测试,如创建文件,删除文件等
+1. 安装
+```
+wget https://raw.githubusercontent.com/Andiry/postmark/master/postmark-1.53.c
+gcc -o postmark postmark-1.53.c
+cp postmark /usr/local/bin/
+postmark
+pm>help
+set size - Sets low and high bounds of files
+set number - Sets number of simultaneous files
+set seed - Sets seed for random number generator
+set transactions - Sets number of transactions
+set location - Sets location of working files
+set subdirectories - Sets number of subdirectories
+set read - Sets read block size
+set write - Sets write block size
+set buffering - Sets usage of buffered I/O
+set bias read - Sets the chance of choosing read over append
+set bias create - Sets the chance of choosing create over delete
+set report - Choose verbose or terse report format
+run - Runs one iteration of benchmark
+load - Read configuration file
+show - Displays current configuration
+help - Prints out available commands
+quit - Exit program
+
+```
+3. 测试
+```
+cat > postmark.conf <<EOF
+set size 1k
+set number 10000
+set location /mnt/
+set subdirectories 100
+set read 1k
+set write 1k
+run 60
+quit
+EOF
+
+
+postmark postmark.conf
+cat 60 # 生成的内容输出到当前目录下的60这样的文件里
+#-------------------------------------------------------------------------------
+# Time:
+#       74.3768 seconds total
+#       1.8323 seconds of transactions (272.88 per second)
+#
+# Files:
+#       10258 created (137.92 per second)
+#               Creation alone: 10000 files (199.93 per second)
+#               Mixed with transactions: 258 files (140.81 per second)
+#       244 read (133.16 per second)
+#       0 appended (0.00 per second)
+#       10258 deleted (137.92 per second)
+#               Deletion alone: 10016 files (444.62 per second)
+#               Mixed with transactions: 242 files (132.07 per second)
+#
+# Data:
+#       0.24 kilobytes read (0.00 kilobytes per second)
+#       10.02 kilobytes written (0.13 kilobytes per second)
+#-------------------------------------------------------------------------------
+
+```
+
+
+## 57. atop
+1. 安装
+```
+wget https://www.atoptool.nl/download/atop-2.3.0-1.el7.x86_64.rpm
+rpm -ivh atop-2.3.0-1.el7.x86_64.rpm 
+atop
+```
+2. 使用
+```
+atop
+```
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
