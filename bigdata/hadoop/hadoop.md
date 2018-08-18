@@ -88,10 +88,12 @@ hadoop fs -ls / # 会发现就是本机的"/"目录
     2. YARN就是localhost
     3. Hadoop实际上没有区分伪分布式和完全分布式
 ```
+###################################################################################
+# 配置Hadoop的伪分布式的配置文件
+###################################################################################
 cd /usr/local/hadoop/etc/
 cp -R hadoop/ hadoop-pseudo/
 cd hadoop-pseudo/
-
 
 vim core-site.xml 
 ##############################################################################
@@ -140,7 +142,16 @@ vim mapred-site.xml
 </configuration>
 ##############################################################################
 
+vim /usr/local/hadoop/etc/hadoop-pseudo/hadoop-env.sh
+##############################################################################
+export JAVA_HOME=/usr/local/jdk
+##############################################################################
 
+
+
+###################################################################################
+# 允许能ssh到本机
+###################################################################################
 ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
 cd ~/id_dsa
 cat id_dsa >> authorized_keys
@@ -152,8 +163,45 @@ hadoop namenode -format
 
 cd /usr/local/hadoop/etc/
 
+vim /root/.bashrc
+##################################################################################
+export HDFS_NAMENODE_USER="root"
+export HDFS_DATANODE_USER="root"
+export HDFS_SECONDARYNAMENODE_USER="root"
+export YARN_RESOURCEMANAGER_USER="root"
+export YARN_NODEMANAGER_USER="root"
+##################################################################################
+source /root/.bashrc
+
+
+
 # 配置目录可以通过环境变量(HADOOP_CONF_DIR)或者--conf来指定
 start-dfs.sh  --config /usr/local/hadoop/etc/hadoop-pseudo
+#-------------------------------------------------------------------------------------
+# Starting namenodes on [localhost]
+# Last login: Sun Aug 19 06:45:53 CST 2018 from 10.0.0.1 on pts/0
+# Starting datanodes
+# Last login: Sun Aug 19 06:46:02 CST 2018 on pts/0
+# Starting secondary namenodes [hadoop]
+# Last login: Sun Aug 19 06:46:05 CST 2018 on pts/0
+#-------------------------------------------------------------------------------------
+
+
+start-yarn.sh  --config /usr/local/hadoop/etc/hadoop-pseudo
+#-------------------------------------------------------------------------------------
+# Starting resourcemanager
+# Last login: Sun Aug 19 06:46:15 CST 2018 on pts/0
+# Starting nodemanagers
+# Last login: Sun Aug 19 06:47:09 CST 2018 on pts/0
+#-------------------------------------------------------------------------------------
+
+jps # 我这边还缺少ResourceManager和NodeManager??
+#-------------------------------------------------------------------------------------
+# 1507 NameNode
+# 1635 DataNode
+# 1881 SecondaryNameNode
+# 2431 Jps
+#-------------------------------------------------------------------------------------
 
 
 ``` 
