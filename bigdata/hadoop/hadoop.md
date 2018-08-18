@@ -27,11 +27,10 @@ mkdir /tools
 cd /tools
 
 # wget拿不到,所以只能去官网下载
-wget http://download.oracle.com/otn-pub/java/jdk/10.0.2+13/19aef61b38124481863b1413dce1855f/jdk-10.0.2_linux-x64_bin.tar.gz
-tar zxf jdk-10.0.2_linux-x64_bin.tar.gz
-
-mv jdk-10.0.2 /usr/local/
-ln -s /usr/local/jdk-10.0.2/ /usr/local/jdk
+wget http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/jdk-8u181-linux-x64.tar.gz
+tar zxf jdk-8u181-linux-x64.tar.gz
+mv jdk1.8.0_181/ /usr/local/
+ln -s /usr/local/jdk1.8.0_181/ /usr/local/jdk
 
 # 设置环境变量
 # 虚拟机的话可以直接放这里面,一台虚拟机对应一个用途就好了
@@ -44,7 +43,12 @@ export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
 ###################################################
 source /etc/profile
 
-java -version
+java -version # 必须下载1.8.0版本,不能用10.0.0,否则NodeManager等就启动不了!!
+#------------------------------------------------------------------------------------
+# java version "1.8.0_181"
+# Java(TM) SE Runtime Environment (build 1.8.0_181-b13)
+# Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)
+#------------------------------------------------------------------------------------
 
 
 
@@ -185,8 +189,11 @@ export YARN_NODEMANAGER_USER="root"
 source /root/.bashrc
 
 
+# 如果使用start-all脚本的话,就不用再输入dfs和yarn了
+#start-all.sh  --config ${HADOOP_INSTALL}/etc/hadoop-pseudo
 
 # 配置目录可以通过环境变量(HADOOP_CONF_DIR)或者--conf来指定
+#export HADOOP_CONF_DIR=${HADOOP_INSTALL}/etc/hadoop-pseudo
 start-dfs.sh  --config ${HADOOP_INSTALL}/etc/hadoop-pseudo
 #-------------------------------------------------------------------------------------
 # Starting namenodes on [localhost]
@@ -208,14 +215,40 @@ start-yarn.sh  --config ${HADOOP_INSTALL}/etc/hadoop-pseudo
 
 jps # 我这边还缺少ResourceManager和NodeManager??
 #-------------------------------------------------------------------------------------
-# 1507 NameNode
-# 1635 DataNode
-# 1881 SecondaryNameNode
-# 2431 Jps
+# 9616 DataNode
+# 10100 ResourceManager
+# 9479 NameNode
+# 10234 NodeManager
+# 9852 SecondaryNameNode
+# 10636 Jps
 #-------------------------------------------------------------------------------------
 
 # 停止服务
 #stop-yarn.sh  --config ${HADOOP_INSTALL}/etc/hadoop-pseudo
 #stop-dfs.sh  --config ${HADOOP_INSTALL}/etc/hadoop-pseudo
+
+######################################################################
+# 浏览器访问8088,50070
+######################################################################
+
+# 停止服务
+stop-yarn.sh  --config ${HADOOP_INSTALL}/etc/hadoop-pseudo
+stop-dfs.sh  --config ${HADOOP_INSTALL}/etc/hadoop-pseudo
+
+
+jps
+
+start-all.sh  --config ${HADOOP_INSTALL}/etc/hadoop-pseudo
+
+
+hadoop fs -ls / # 发现还是原来我们系统的/目录,因为还是需要指定配置目录
+export HADOOP_CONF_DIR=${HADOOP_INSTALL}/etc/hadoop-pseudo
+hadoop fs -ls / # 发现里面没有任何东西
+hadoop fs -mkdir /usr/
+hadoop fs -ls /
+#------------------------------------------------------------------------
+# Found 1 items
+# drwxr-xr-x   - root supergroup          0 2018-08-19 07:29 /usr
+#------------------------------------------------------------------------
 
 ``` 
