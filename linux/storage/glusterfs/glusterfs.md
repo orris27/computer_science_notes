@@ -405,3 +405,19 @@ gluster volume stop testvol
 gluster volum delete testvol
 rm -rf <directory-used-for-volumes-create>
 ```
+
+### 2-9. 同步卷(我不知道干嘛用的)
+```
+rm -rf /var/lib/glusterd/vols/testvol/
+gluster volume sync <ip> all # 指明在某个节点上恢复卷的配置文件
+```
+
+### 2-9. 设置卷的参数
+gluster volume set <卷> <参数>
+1. 访问黑白名单
+```
+gluster volume set testvol auth.allow 10.0.0.8
+gluster volume set testvol auth.reject 10.0.0.9 # 如果10.0.0.9挂载的话,他可以自由操作,但是对实际gluster的bricks没有影响
+```
+
+
