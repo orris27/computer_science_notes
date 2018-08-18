@@ -712,7 +712,7 @@ sudo nohup netease-cloud-music &
 
 
 
-## 26. 网络
+## 26. 网络Network
 ### 26-1. hostname
 #### 查看主机名
 ```
@@ -889,7 +889,8 @@ ip netns exec qdhcp-8846d656-c107-4216-9fc9-22402f49484b ifconfig
 ip netns exec qdhcp-8846d656-c107-4216-9fc9-22402f49484b netstat -lntup
 ```
 
-
+### 26-15. iperf
+网络测试(安装用yum,可能要).基本思路是在客户端上用`iperf -c`,而服务端用`iperf -s`,过一会儿会显示带宽.
 
 ## 27. chkconfig
 设置开机自启动.
