@@ -444,3 +444,9 @@ LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
 ```
 yum install -y openssl-devel
 ```
+
+
+## 14. GlusterFS
+1. `staging failed on glusterfs 02. Error: /brick1/b1 is already part of a volume`
+    1. 加上force就好了
+
