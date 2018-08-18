@@ -1,5 +1,6 @@
 
 ## 1. 安装
+### 1-1. 安装版本1
 1. 安装软件包
 2. 创建可信池(主机名/IP地址)
     + glusterfs的多个节点没有master,都是对等的
@@ -135,6 +136,77 @@ man bash | wc -l # 可以看到对于条带卷,2个节点上的数据合起来�
 # 4056
 #----------------------------------------------------------------------
 
+```
+
+
+
+
+
+
+
+### 1-2. 安装版本2
+1. 环境说明
+    1. GlusterFS节点1
+        1. eth0:10.0.0.7
+        2. eth1:10.0.1.7
+        3. 挂载1个磁盘/dev/sdb
+    2. GlusterFS节点2
+        1. eth0:10.0.0.8
+        2. eth1:10.0.1.8
+        3. 挂载1个磁盘/dev/sdb
+    3. GlusterFS节点3
+        1. eth0:10.0.0.9
+        2. eth1:10.0.1.9
+        3. 挂载1个磁盘/dev/sdb
+    4. 系统环境
+    ```
+    [root@glusterfs01 ~]# cat /etc/redhat-release 
+    CentOS Linux release 7.5.1804 (Core) 
+    [root@glusterfs01 ~]# uname -r
+    3.10.0-862.el7.x86_64
+    [root@glusterfs01 ~]# uname -m
+    x86_64
+    ```
+2. 下载软件包
+    1. 下载glusterfs,api,cli,fuse,libs,server(客户端只需要glusterfs,libs和fuse)
+```
+ifconfig
+fdisk -l
+
+yum install -y centos-release-gluster
+yum install -y wget rpcbind libaio lvm2-devel psmisc attr userspace-rcu-devel gcc
+
+mkdir ~/tools
+cd ~/tools
+
+wget https://buildlogs.centos.org/centos/7/storage/x86_64/gluster-4.1/glusterfs-4.1.2-1.el7.x86_64.rpm
+wget https://buildlogs.centos.org/centos/7/storage/x86_64/gluster-4.1/glusterfs-api-4.1.2-1.el7.x86_64.rpm
+wget https://buildlogs.centos.org/centos/7/storage/x86_64/gluster-4.1/glusterfs-cli-4.1.2-1.el7.x86_64.rpm
+wget https://buildlogs.centos.org/centos/7/storage/x86_64/gluster-4.1/glusterfs-fuse-4.1.2-1.el7.x86_64.rpm
+wget https://buildlogs.centos.org/centos/7/storage/x86_64/gluster-4.1/glusterfs-libs-4.1.2-1.el7.x86_64.rpm
+wget https://buildlogs.centos.org/centos/7/storage/x86_64/gluster-4.1/glusterfs-server-4.1.2-1.el7.x86_64.rpm
+wget https://buildlogs.centos.org/centos/7/storage/x86_64/gluster-4.1/glusterfs-client-xlators-4.1.2-1.el7.x86_64.rpm
+
+rpm -ivh glusterfs-libs-4.1.2-1.el7.x86_64.rpm 
+rpm -ivh glusterfs-4.1.2-1.el7.x86_64.rpm 
+rpm -ivh glusterfs-cli-4.1.2-1.el7.x86_64.rpm 
+rpm -ivh glusterfs-client-xlators-4.1.2-1.el7.x86_64.rpm
+rpm -ivh glusterfs-api-4.1.2-1.el7.x86_64.rpm 
+rpm -ivh glusterfs-fuse-4.1.2-1.el7.x86_64.rpm 
+rpm -ivh glusterfs-server-4.1.2-1.el7.x86_64.rpm 
+
+
+wget https://www.atoptool.nl/download/atop-2.3.0-1.el7.x86_64.rpm
+wget http://ftp.tu-chemnitz.de/pub/linux/dag/redhat/el7/en/x86_64/rpmforge/RPMS/fio-2.1.10-1.el7.rf.x86_64.rpm
+wget http://rpmfind.net/linux/dag/redhat/el7/en/x86_64/dag/RPMS/iozone-3.424-2.el7.rf.x86_64.rpm
+
+rpm -ivh atop-2.3.0-1.el7.x86_64.rpm 
+rpm -ivh fio-2.1.10-1.el7.rf.x86_64.rpm 
+rpm -ivh iozone-3.424-2.el7.rf.x86_64.rpm 
+
+
+
+gcc -o postmark postmark-1.52.c
 ```
 
 
