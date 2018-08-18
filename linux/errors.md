@@ -455,3 +455,7 @@ yum install -y openssl-devel
     1. 查看日志`hadoop-root-nodemanager-hadoop.log`,发现是没有找到Java类的意思(即问题2)
 2. `java.lang.NoClassDefFoundError: javax/activation/DataSource`
     1. 原因:好像是JRE版本的问题,说使用Java8可以解决
+    2. 解决
+        1. 下载`jdk-8u181-linux-x64.tar.gz`
+        2. 解压后移动到`/usr/local`下
+        3. 将原来的`/usr/local/jdk`的软连接改成新的版本就好了
