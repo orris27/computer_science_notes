@@ -450,3 +450,8 @@ yum install -y openssl-devel
 1. `staging failed on glusterfs 02. Error: /brick1/b1 is already part of a volume`
     1. 加上force就好了
 
+## 15. Hadoop
+1. 缺少ResourceManager和NodeManager
+    1. 查看日志`hadoop-root-nodemanager-hadoop.log`,发现是没有找到Java类的意思(即问题2)
+2. `java.lang.NoClassDefFoundError: javax/activation/DataSource`
+    1. 原因:好像是JRE版本的问题,说使用Java8可以解决
