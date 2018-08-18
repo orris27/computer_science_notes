@@ -64,3 +64,96 @@ hadoop version #出现下面内容就说明Hadoop安装成功了
 #---------------------------------------------------------------------------------------
 
 ```
+
+
+## 2. 配置
+### 2-1. 独立模式
+默认的配置就是独立模式.独立模式没有守护进程
+```
+jps # 查看Java程序的进程
+#---------------------------------------------------------------------------------------
+# 1832 Jps
+#---------------------------------------------------------------------------------------
+
+
+hadoop fs -ls / # 会发现就是本机的"/"目录
+```
+### 2-2. 伪分布模式
+1. 节点
+    1. 名称节点(nameNode):存放整个文件的目录,但不存放实际文件
+    2. 辅助名称节点(secondaryNameNode):对nameNode的备份
+    3. 数据节点(dataNode):存放实际文件
+2. 特点
+    1. 只有1个主机
+    2. YARN就是localhost
+    3. Hadoop实际上没有区分伪分布式和完全分布式
+```
+cd /usr/local/hadoop/etc/
+cp -R hadoop/ hadoop-pseudo/
+cd hadoop-pseudo/
+
+
+vim core-site.xml 
+##############################################################################
+<configuration>
+        <property>
+             <name>fs.defaultFS</name>
+             <value>hdfs://localhost/</value>
+        </property>
+</configuration>
+##############################################################################
+
+
+vim hdfs-site.xml 
+##############################################################################
+<configuration>
+        <property>
+             <name>dfs.replication</name>
+             <value>1</value>
+        </property>
+</configuration>
+##############################################################################
+
+
+vim yarn-site.xml 
+##############################################################################
+<configuration>
+    <property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>localhost</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+</configuration>
+##############################################################################
+
+
+vim mapred-site.xml 
+##############################################################################
+<configuration>
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+</configuration>
+##############################################################################
+
+
+ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
+cd ~/id_dsa
+cat id_dsa >> authorized_keys
+ssh localhost # Hadoop伪分布式必须要求本机能ssh自己本机,而且为了方便,最好不用密码认证
+exit
+
+
+hadoop namenode -format
+
+cd /usr/local/hadoop/etc/
+
+# 配置目录可以通过环境变量(HADOOP_CONF_DIR)或者--conf来指定
+start-dfs.sh  --config /usr/local/hadoop/etc/hadoop-pseudo
+
+
+``` 
