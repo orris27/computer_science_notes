@@ -7,6 +7,17 @@
 yum install -y wget 
 
 
+###################################################################################
+# 关闭防火墙,selinux
+###################################################################################
+systemctl stop iptables
+systemctl disable iptables
+systemctl stop firewalld
+systemctl disable firewalld
+setenforce 0
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+
+
 
 
 ###################################################################################
@@ -176,7 +187,7 @@ source /root/.bashrc
 
 
 # 配置目录可以通过环境变量(HADOOP_CONF_DIR)或者--conf来指定
-start-dfs.sh  --config /usr/local/hadoop/etc/hadoop-pseudo
+start-dfs.sh  --config ${HADOOP_INSTALL}/etc/hadoop-pseudo
 #-------------------------------------------------------------------------------------
 # Starting namenodes on [localhost]
 # Last login: Sun Aug 19 06:45:53 CST 2018 from 10.0.0.1 on pts/0
@@ -187,7 +198,7 @@ start-dfs.sh  --config /usr/local/hadoop/etc/hadoop-pseudo
 #-------------------------------------------------------------------------------------
 
 
-start-yarn.sh  --config /usr/local/hadoop/etc/hadoop-pseudo
+start-yarn.sh  --config ${HADOOP_INSTALL}/etc/hadoop-pseudo
 #-------------------------------------------------------------------------------------
 # Starting resourcemanager
 # Last login: Sun Aug 19 06:46:15 CST 2018 on pts/0
@@ -203,5 +214,8 @@ jps # 我这边还缺少ResourceManager和NodeManager??
 # 2431 Jps
 #-------------------------------------------------------------------------------------
 
+# 停止服务
+#stop-yarn.sh  --config ${HADOOP_INSTALL}/etc/hadoop-pseudo
+#stop-dfs.sh  --config ${HADOOP_INSTALL}/etc/hadoop-pseudo
 
 ``` 
