@@ -742,6 +742,7 @@ javac -classpath $(hadoop classpath) Test.java
 java Test
 ```
 ### 5-2. 温度
+> [数据来源](ftp://ftp.ncdc.noaa.gov/pub/data/noaa/1901/)
 #### 5-2-1. 网上找到的版本(执行成功)
 [使用文档](https://github.com/orris27/orris/blob/master/bigdata/hadoop/codes/MaxTemperature/readme.md)
 
@@ -880,7 +881,7 @@ find . -name 'mapred-default.xml'
 
 find . -name 'yarn-default.xml'
 #-------------------------------------------------------------------------------
-# ./share/doc/hadoop/hadoop-yarn/hadoop-yarn-common/yarn-default.xml
+# ./share/doc/hadoop/hadoop-yarn/hadoop-yarn2018-08-20 06:19:37,988 INFO mapreduce.JobSubmitter: number of splits:967-common/yarn-default.xml
 #-------------------------------------------------------------------------------
 
 ```
@@ -895,7 +896,22 @@ find . -name 'yarn-default.xml'
 ### 6-3. 常用参数
 1. 块大小
     1. 作用:如果文件小的话,设置更小的块大小可以提高效率
-    2. 修改位置:`hdfs-site.xml`的`dfs.blocksize`参数
+    2. 修改
+        1. `hdfs-site.xml`的`dfs.blocksize`参数
+        2. 程序动态修改(如果大于块大小的话,就会选择参数,而不是程序里设置的块大小)
+        ```
+        vim JobMain.java
+        ###################################################################################
+        Configuration configuration = new Configuration();
+        configuration.setLong(FileInputFormat.SPLIT_MAXSIZE,1024*5); # 这里表示5k的大小进行分割
+        Job job = new Job(configuration,"max_temp_job");
+        ###################################################################################
+
+        # 最后结果就是如下所示,切割成967份了
+        #-------------------------------------------------------------------------
+        # 2018-08-20 06:19:37,988 INFO mapreduce.JobSubmitter: number of splits:967
+        #-------------------------------------------------------------------------
+        ```
     3. 其他
         1. HDFS要求一定要大于1M
 2. 存储位置
@@ -912,6 +928,7 @@ find . -name 'yarn-default.xml'
 1. 端口:8088
 2. 作用   
     1. 查看日志
+    2. 访问DataNode的管理器
     
 ### 7-2. node管理器
 1. 端口:8042
