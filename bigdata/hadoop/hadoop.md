@@ -907,3 +907,11 @@ find . -name 'yarn-default.xml'
     2. 修改位置:`hdfs-site.xml`的`dfs.replication`参数
 
     
+## 7 .Web
+### 7-1. 资源管理器
+1. 端口:8088
+2. 作用   
+    1. 查看日志
+    
+### 7-2. node管理器
+1. 端口:8042
