@@ -466,7 +466,42 @@ hadoop fs -ls -R /
 
 ## 4. 启动脚本
 ### 4-1. start-all.sh
-#### 4-1-1. Windows的旧版Hadoop
+#### 4-1-1. 总结
+1. 调用hadoop-config.cmd
+    1. 调用hadoop-env.cmd
+        1. 设置JAVA_HOME,HADOOP_CLASSPATH,和Hadoop各种node的参数
+2. 调用start-dfs.cmd
+    1. 调用hadoop-config.cmd
+    2. `hadoop namenode`
+        1. 调用hadoop-config.cmd
+        2. 调用hdfs.cmd
+            1. 调用mapred-config.cmd
+                1. 调用hadoop-config.cmd
+            2. 调用mapred-env.cmd
+        3. 执行Java程序
+    3. `hadoop datanode`
+3. 调用start-yarn.cmd
+    1. 调用yarn-config.cmd
+        1. 调用hadoop-config.cmd
+    2. `yarn resourcemanager`
+        1. 调用yarn-config.cmd
+        2. 调用yarn-env.cmd
+            1. 设置yarn用户
+            2. 设置yarn的配置目录
+            3. 设置Java的最大堆内存为yarn的堆内存大小
+            4. 设置yarn的日志目录
+            5. 设置yarn的日志文件名称
+            6. 设置yarn的policy文件
+            7. 设置yarn的root loger
+            8. 设置yarn的选项
+            9. 添加Java类库的路径到yarn的选项
+            10. 添加policy文件到yarn的选项
+        3. 执行Java程序
+    3. `yarn nodemanager`
+    4. `yarn proxymanager`
+    
+    
+#### 4-1-2. Windows的旧版Hadoop
 1. 推荐我们不要用这个脚本,而是dfs和yarn
 2. 设置环境变量
     #1. 设置HADDOP_BIN_PATH变量为`${HADOOP_INSTALL}/sbin`
@@ -503,7 +538,6 @@ hadoop fs -ls -R /
     22. 设置CLASSPATH,取出hdfsdir下的所有
     23. 设置yarn的目录变量等
     24. 设置mapreduce的目录变量
-    
     
 4. 调用sbin/start-dfs.sh
     1. 如果没有定义HADOOP_BIN_PATH的话,就设置为${HADOOP_INSTALL}/sbin
@@ -634,7 +668,7 @@ hadoop fs -ls -R /
     6. `start "Apache Hadoop Distribution" yarn proxymanager`
         1. 参考上面的
 
-#### 4-1-2. Linux Hadoop-3.1.1
+#### 4-1-3. Linux Hadoop-3.1.1
 hadoop-config.sh内容如下:
 1. 导入hadoop-function.sh里的函数
 2. 执行hadoop-bootstrap,设置hdfs目录,yarn目录,hdfs的java目录,yarn的java目录等环境变量
