@@ -250,5 +250,101 @@ hadoop fs -ls /
 # Found 1 items
 # drwxr-xr-x   - root supergroup          0 2018-08-19 07:29 /usr
 #------------------------------------------------------------------------
-
 ``` 
+
+### 2-2. 完全分布式
+1. 环境准备
+    1. 节点
+        1. 节点1
+            1. 主机名:hadoop01
+            2. ip:`10.0.0.7`
+        2. 节点2
+            1. 主机名:hadoop02
+            2. ip:`10.0.0.8`
+        3. 节点3
+            1. 主机名:hadoop03
+            2. ip:`10.0.0.9`
+        4. 节点4
+            1. 主机名:hadoop04
+            2. ip:`10.0.0.10`
+    2. 能自己ssh自己
+
+```
+cd /usr/local/hadoop/etc/
+cp -R hadoop hadoop-local
+rm -rf hadoop
+cp -R hadoop-pseudo/ hadoop-fully
+ln -s /usr/local/hadoop/etc/hadoop-fully/ /usr/local/hadoop/etc/hadoop
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 克隆出三台hadoop02,hadoop03,hadoop04
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+##################################################################################
+# 4台Hadoop
+##################################################################################
+ssh localhost
+
+cat >> /etc/hosts <<EOF
+10.0.0.7 hadoop01
+10.0.0.8 hadoop02
+10.0.0.9 hadoop03
+10.0.0.10 hadoop04
+EOF 
+ssh hadoop01
+ssh hadoop02
+ssh hadoop03
+ssh hadoop04
+
+
+###########################################################################################
+# 修改配置文件
+###########################################################################################
+cd /usr/local/hadoop/etc/hadoop-fully/
+vim core-site.xml 
+######################################################################################
+<configuration>
+        <property>
+             <name>fs.defaultFS</name>
+             <value>hdfs://hadoop01/</value>
+        </property>
+</configuration>
+######################################################################################
+vim hdfs-site.xml 
+######################################################################################
+<configuration>
+        <property>
+             <name>dfs.replication</name>
+             <value>2</value>
+        </property>
+</configuration>
+######################################################################################
+vim yarn-site.xml 
+######################################################################################
+<configuration>
+    <property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>hadoop01</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+</configuration>
+######################################################################################
+scp -r hadoop-fully/ root@hadoop02:/usr/local/hadoop/etc/
+scp -r hadoop-fully/ root@hadoop03:/usr/local/hadoop/etc/
+scp -r hadoop-fully/ root@hadoop04:/usr/local/hadoop/etc/
+ssh hadoop02 cat /usr/local/hadoop/etc/hadoop-fully/core-site.xml 
+ssh hadoop03 cat /usr/local/hadoop/etc/hadoop-fully/core-site.xml 
+ssh hadoop04 cat /usr/local/hadoop/etc/hadoop-fully/core-site.xml 
+
+
+
+hadoop namenode -format
+start-all.sh 
+
+
+
+```
