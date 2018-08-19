@@ -479,6 +479,9 @@ hadoop fs -ls -R /
     6. 如果在命令行中自己指定`--config`的话,就将HADOOP_CONF_DIR设置为命令行中指定的目录
     7. 如果在命令行中自己指定`--hosts`的话,就引用里面的数据节点的列表
     8. 如果config目录下有hadoop-env.cmd的话,就调用这个
+        1. 设置`JAVA_HOME`变量
+        2. 设置`HADOOP_CLASSPATH`
+        3. 设置Hadoop名称节点,数据节点,辅助名称节点,客户端的选项
     9. 如果没定义`JAVA_HOME`就抛出错误
     10. 如果`$JAVA_HOME/bin/java.exe`不存在的话,也抛出错误
     11. 设置JAVA的变量为`$JAVA_HOME/bin/java`
@@ -500,4 +503,13 @@ hadoop fs -ls -R /
     24. 设置mapreduce的目录变量
     
     
-4. 如果在sbin目录下有start-dfs的话,执行;如果有start-yarn的话,执行
+4. 如果在sbin目录下有start-dfs的话,执行
+    1. 如果没有定义HADOOP_BIN_PATH的话,就设置为${HADOOP_INSTALL}/bin
+    2. 调用`hadoop-config.cmd`
+    3. 判断有没有在命令行中自定义`--config`
+    4. `start "Apache Hadoop Distribution" hadoop namenode`
+        1. start是windows里启动一个新窗口并启动一个新程序,引号内是这个窗口的标题
+        2. `hadoop namenode`是在命令行中的程序
+    5. `start "Apache Hadoop Distribution" hadoop datanode`
+        1. start是windows里启动一个新窗口并启动一个新程序
+5. 如果有start-yarn的话,执行
