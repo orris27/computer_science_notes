@@ -1,7 +1,7 @@
 #! /bin/sh
 
 NODES="hadoop01 hadoop02 hadoop03"
-HDFS_DIR=/data
+HDFS_DIR=/hdfs
 HADOOP_INSTALL=/usr/local/hadoop
 
 
