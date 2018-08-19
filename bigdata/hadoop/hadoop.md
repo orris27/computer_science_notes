@@ -730,14 +730,128 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 public class Test
 {
-	public static void main(String[] args)
-	{
-		System.out.println("Test");
-		return;
-	}
+    public static void main(String[] args)
+    {
+        System.out.println("Test");
+        return;
+    }
 }
 EOF
 
 javac -classpath $(hadoop classpath) Test.java
 java Test
+```
+### 5-2. 温度
+1. 编写Map类
+2. 编写Reduce类
+3. 编写App类
+4. 打包编译文件.将上述3个java文件生成jar文件
+5. 设置Hadoop的CLASSPATH
+6. 执行Hadoop
+    1. 温度的数据文件为1901.gz和1902.gz
+    2. 输出到不存在的目录里
+```
+vim MaxTemperature.java
+###############################################################################################
+import java.io.IOException;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+public class MaxTemperature {
+    public static void main(String[] args) throws Exception {
+        Job job = new Job();
+        job.setJarByClass(MaxTemperature.class);
+        job.setJobName("Max temperature");
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        job.setMapperClass(MaxTemperatureMapper.class);
+        job.setReducerClass(MaxTemperatureReducer.class);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(IntWritable.class);
+        job.waitForCompletion(true);
+    }
+}
+###############################################################################################
+
+
+
+
+
+
+vim MaxTemperatureMapper.java
+###############################################################################################
+import java.io.IOException;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class MaxTemperatureMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
+    private static final int MISSING = 9999;
+    public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+        String line = value.toString();
+        String year = line.substring(15, 19);
+        int airTemperature;
+        if(line.charAt(87) == '+') {
+            airTemperature = Integer.parseInt(line.substring(88, 92));
+        } else {
+            airTemperature = Integer.parseInt(line.substring(87, 92));
+        }
+        String quality = line.substring(92, 93);
+        if(airTemperature != MISSING && quality.matches("[01459]")) {
+            context.write(new Text(year), new IntWritable(airTemperature));
+        }
+    }
+}
+###############################################################################################
+
+
+
+vim MaxTemperatureReducer.java
+###############################################################################################
+import java.io.IOException;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
+
+public class MaxTemperatureReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+    public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+        int maxValue = Integer.MIN_VALUE;
+        for(IntWritable value : values) {
+            maxValue = Math.max(maxValue, value.get());
+        }
+        context.write(key, new IntWritable(maxValue));
+    }
+}
+###############################################################################################
+
+
+
+javac -classpath $(hadoop classpath) *.java
+
+
+jar cvf ./MaxTemperature.jar ./*.class
+ls
+mv *.jar ..
+rm *.class
+
+
+mkdir /usr/local/hadoop/data
+mkdir /usr/local/hadoop/data/in
+vim /usr/local/hadoop/data/in/sample.txt
+###############################################################################################
+0067011990999991950051507004888888889999999N9+00001+9999999999999999999999
+0067011990999991950051512004888888889999999N9+00221+9999999999999999999999
+0067011990999991950051518004888888889999999N9-00111+9999999999999999999999
+0067011990999991949032412004888888889999999N9+01111+9999999999999999999999
+0067011990999991950032418004888888880500001N9+00001+9999999999999999999999
+0067011990999991950051507004888888880500001N9+00781+9999999999999999999999
+###############################################################################################
+
+cd /usr/local/hadoop-1.1.2
+hadoop jar MaxTemperature.jar MaxTemperature /usr/local/hadoop/data/in/sample.txt  /usr/local/hadoop/data/out
 ```
