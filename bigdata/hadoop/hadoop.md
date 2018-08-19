@@ -720,3 +720,24 @@ hadoop-config.sh内容如下:
 14. 添加到classpath
 15. 调用家目录下的.hadooprc文件
     
+
+## 5. 编程
+### 5-1. 测试是否能导入MapReduce库
+```
+cat > Test.java <<EOF
+import java.io.IOException;
+import org.apache.hadoop.mapreduce.Mapper;
+
+public class Test
+{
+	public static void main(String[] args)
+	{
+		System.out.println("Test");
+		return;
+	}
+}
+EOF
+
+javac -classpath $(hadoop classpath) Test.java
+java Test
+```
