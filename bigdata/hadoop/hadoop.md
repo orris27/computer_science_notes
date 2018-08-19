@@ -466,11 +466,13 @@ hadoop fs -ls -R /
 
 ## 4. 启动脚本
 ### 4-1. start-all.sh
+#### 4-1-1. Windows的旧版Hadoop
 1. 推荐我们不要用这个脚本,而是dfs和yarn
 2. 设置环境变量
-    1. 设置HADDOP_BIN_PATH变量为`${HADOOP_INSTALL}/sbin`
-    2. 设置DEFAULT_LIBEXEC_DIR变量为`${HADOOP_INSTALL}/libexec`
-3. 调用libexec目录下的`hadoop-config.cmd`
+    #1. 设置HADDOP_BIN_PATH变量为`${HADOOP_INSTALL}/sbin`
+    2. 设置DEFAULT_LIBEXEC_DIR变量,为`${HADOOP_HOME}/libexec`
+3. 调用`libexec/hadoop-config.cmd`
+    
     1. 判断有没有定义common_dir,在hadoop的share/hadoop下有common;
     2. 类似地,提取common,common/lib,common/lib/native,hdfs,yarn等目录
     3. 把Hadoop里的所有jar包都提取出来
@@ -503,7 +505,7 @@ hadoop fs -ls -R /
     24. 设置mapreduce的目录变量
     
     
-4. 如果在sbin目录下有start-dfs的话,执行
+4. 调用sbin/start-dfs.sh
     1. 如果没有定义HADOOP_BIN_PATH的话,就设置为${HADOOP_INSTALL}/sbin
     2. 定义执行类库的路径,libexec
     3. 调用`hadoop-config.cmd`,并且把start-dfs的命令行参数作为其命令行参数
@@ -588,13 +590,14 @@ hadoop fs -ls -R /
         1. start是windows里启动一个新窗口并启动一个新程序
         2. `hadoop datanode`是在命令行中的命令.hadoop实际上是`hadoop.cmd`
             1. 参考上面的`hadoop namenode`
-5. 如果sbin目录下有start-yarn的话,执行
+5. 调用sbin/start-yarn.sh
     1. 设置可执行目录
     2. 设置可执行的libexec目录
     3. 调用yarn-config.cmd
         1. 设置Hadoop可执行目录
         2. 设置libexec目录
         3. 调用hadoop-config.cmd
+
         4. 如果有--config参数的话,就设置为YARN_CONF_DIR变量,否则就是"$HADOOP_YARN_HOME"/conf目录
         5. 如果有--hosts参数的话,就设置为YARN_SLAVES.
     4. `start "Apache Hadoop Distribution" yarn resourcemanager`
@@ -630,3 +633,56 @@ hadoop fs -ls -R /
         1. 参考上面的
     6. `start "Apache Hadoop Distribution" yarn proxymanager`
         1. 参考上面的
+
+#### 4-1-2. Linux Hadoop-3.1.1
+hadoop-config.sh内容如下:
+1. 导入hadoop-function.sh里的函数
+2. 执行hadoop-bootstrap,设置hdfs目录,yarn目录,hdfs的java目录,yarn的java目录等环境变量
+    ```
+    HADOOP_DEFAULT_PREFIX=$(cd -P -- "${HADOOP_LIBEXEC_DIR}/.." >/dev/null && pwd -P)
+    HADOOP_HOME=${HADOOP_HOME:-$HADOOP_DEFAULT_PREFIX}
+    export HADOOP_HOME
+    HADOOP_COMMON_DIR=${HADOOP_COMMON_DIR:-"share/hadoop/common"}
+    HADOOP_COMMON_LIB_JARS_DIR=${HADOOP_COMMON_LIB_JARS_DIR:-"share/hadoop/common/lib"}
+    HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_COMMON_LIB_NATIVE_DIR:-"lib/native"}
+    HDFS_DIR=${HDFS_DIR:-"share/hadoop/hdfs"}
+    HDFS_LIB_JARS_DIR=${HDFS_LIB_JARS_DIR:-"share/hadoop/hdfs/lib"}
+    YARN_DIR=${YARN_DIR:-"share/hadoop/yarn"}
+    YARN_LIB_JARS_DIR=${YARN_LIB_JARS_DIR:-"share/hadoop/yarn/lib"}
+    MAPRED_DIR=${MAPRED_DIR:-"share/hadoop/mapreduce"}
+    MAPRED_LIB_JARS_DIR=${MAPRED_LIB_JARS_DIR:-"share/hadoop/mapreduce/lib"}
+    HADOOP_TOOLS_HOME=${HADOOP_TOOLS_HOME:-${HADOOP_HOME}}
+    HADOOP_TOOLS_DIR=${HADOOP_TOOLS_DIR:-"share/hadoop/tools"}
+    HADOOP_TOOLS_LIB_JARS_DIR=${HADOOP_TOOLS_LIB_JARS_DIR:-"${HADOOP_TOOLS_DIR}/lib"}
+    HADOOP_SUBCMD_SUPPORTDAEMONIZATION=false
+    HADOOP_REEXECED_CMD=false
+    HADOOP_SUBCMD_SECURESERVICE=false
+    ```
+3. 设置用户的参数变量,保存用户的命令行参数
+4. 执行hadoop_find_confdir
+    1. 设置hadoop的配置文件所在目录的变量(因为可能是`etc/hadoop/`,也可能是`conf/`)
+5. 执行hadoop_exec_hadoopenv
+    1. 调用hadoop-env.sh
+6. 执行hadoop_import_shellprofiles
+7. 执行hadoop_exec_userfuncs
+    1. 调用hadoop-user-functions.sh
+8. 执行hadoop_exec_user_hadoopenv    
+    1. 调用家目录下的.hadoop-env,即用户设置的hadoop环境变量
+9. 执行hadoop_verify_confdir
+10. 检查被启用的环境变量,如果有的话,就转化成为新的环境变量
+    1. `HADOOP_SLAVES`=>`HADOOP_WORKERS`
+    2. `HADOOP_SLAVE_NAMES`=>`HADOOP_WORKER_NAMES`
+    3. `HADOOP_SLAVE_SLEEP`=>`HADOOP_WORKER_SLEEP`
+11. 单独判断Java环境是否建立好了
+    1. 是否设置了JAVA_HOME环境变量
+    2. JAVA_HOME是否是目录
+    3. `$JAVA_HOME/bin/java`是否可执行
+12. 基础的初始化
+    1. 设置Hadoop的common_home
+    2. 设置policy文件,为`hadoop-policy.xml`
+    3. 设置hdfs,yarn,MapReduce的家目录
+    4. 设置用户,日志,pid,ssh等环境变量指向各自的文件或值
+13. 添加native目录到java的libpath
+14. 添加到classpath
+15. 调用家目录下的.hadooprc文件
+    
