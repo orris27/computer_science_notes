@@ -31,22 +31,21 @@ java HelloWorld
 
 ## 2. Ubuntu安装Eclipse
 ```
-wget 
-tar zxf 
+tar zxf eclipse-jee-photon-R-linux-gtk-x86_64.tar.gz
 mv eclipse /usr/local/
-解压后的目录里有可执行程序ln -s /usr/local
+ln -s /usr/local/eclipse/eclipse /usr/local/bin/eclipse
+sudo eclipse
 
-./eclipse
-
-修改Appearacne为classic
-Open Perspective>Java
+关闭welcome
+可以修改Appearacne为classic等
+Open Perspective(右上角的小按钮)>Java
 大纲方左边,选项卡组方西面
 显示Java的控制台Console
-右键>New>新项目>项目名字写hadoop,JRE会自动检测,默认就好>完成
-右键>New>类>Package:com.orris.hadoop,Name:TestIDE>完成
+右键>New>Java Project>项目名字写hadoop,JRE会自动检测,默认就好>完成
+右键>New>类>Package:com.orris.hadoop+Name:TestIDE+勾选public static void main(String[] args)>完成
 System.out.println("Hello world");
-右键,点击run
-alt+/ 自动补全
+右键,点击run as>Java Application,如果下方Console出现Hello World,就说明安装好了
+alt+/ 自动补全(Ctrl+Space显示候选内容)
     window>keys>contenct Assist>Unbind Commnad>Binding:Alt+/>Ok(有冲突,所以删除冲突的)
 安装插件
     1. 下载hadoop2x-eclipse-plugin.zip
