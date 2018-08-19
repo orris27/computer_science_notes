@@ -517,7 +517,7 @@ hadoop fs -ls -R /
             4. 设置libexec的变量
             5. 调用`hadoop-config.cmd`
                 1. 参考前面的...
-            6. 提取第一个参数
+            6. 提取第一个参数,为hadoop-command,就是namenode或者datanode这个字符串
             7. 处理命令参数,最终设置hadoop-command-arguments
                 1. 如果是--config就移动
                 2. 循环给_arguments赋值
@@ -526,9 +526,26 @@ hadoop fs -ls -R /
                 1.参考下面的
             10. 设置MapReduce的命令组,
             11. 判断mared.cmd是否存在,如果有就调用
-            12. 输出类路径
+            12. 如果hadoop-command等于classpath的话,就输出类路径.(classpath不是hdfs命令,也不是MapReduce命令)
+            13. 设置corecommands这个核心命令组,包括`fs`,`version`,`jar`等
+            14. 在hadoop-commands中找出核心命令组,将他们标记为核心命令组,即`set corecommand=true`
+            15. 如果hadoop-commnad命令组里的命令是核心命令的话,就调用hadoop-command的命令标签,否则设置变量CLASSPATH,CLASS
+                1. fs
+                    1. 定义类的环境变量CLASS为对应Java的类的位置
+                2. version
+                    1. 同上
+                3. checknative
+                4. distcp
+                5. daemonlog
+                6. archive
+                7. 等等
+            16. 设置操作系统的path变量
+            17. 设置Hadoop的选项HADOOP_OPTS
+            18. 把命令名称作为CLASS值
+            19. 调用Java程序执行不是核心命令组的hadoop-commands,使用Hadoop的选项和CLASS变量作为参数
             
-                
+            
+            
         3. hdfs.cmd
             1. 定义Hadoop的可执行路径
             2. 定义执行类库的路径,libexec
