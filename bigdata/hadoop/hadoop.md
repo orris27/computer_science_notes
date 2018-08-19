@@ -522,10 +522,45 @@ hadoop fs -ls -R /
                 1. 如果是--config就移动
                 2. 循环给_arguments赋值
             8. 定义hdfs的命令组
-            9. 判断hdfs.cmd是否存在,如果有就调用
-                1.参考下面的
-            10. 设置MapReduce的命令组,
+            9. 判断bin目录下hdfs.cmd是否存在,如果有就调用
+                1. 定义Hadoop的可执行路径
+                2. 定义执行类库的路径,libexec
+                3. 调用libexec下的mapred-config.cmd
+                    1. 如果没有定义HADOOP_BIN_PATH的话,就设置为${HADOOP_INSTALL}/sbin
+                    2. 设置libexec路径
+                    3. 如果libexec下存在hadoop-config.cmd文件的话,就调用
+                        1. 可以参考前面的分析.定义HADOOP_COMMON_DIR变量,start-all也调用了
+                        2. 主要就是做环境变量的参数
+                4. 如果存在mapred-env.cmd文件的话,就调用          
+                    1. 设置`HADOOP_JOB_HISTORYSERVER_HEAPSIZE=1000`变量
+                    2. 设置`HADOOP_MAPRED_ROOT_LOGER=INFO,RFA`变量
+                5. 将第一个参数取出来作为hdfs-command
+                6. 循环取出参数,放到hdfs-command-arguments
+                7. 如果输入错误就打印Usage
+                8. 调用hdfs-commands里的命令标签,包括namenode,secondarynamenode,datanode
+                9. 每个hdfs-commands里的命令都设置CLASS变量,对应各自的Java类
+                10. 设置JVM参数
+                11. 调用Java程序去执行
+                
+            10. 设置MapReduce的命令组,包括pipes,
             11. 判断mared.cmd是否存在,如果有就调用
+                1. 定义Hadoop的可执行路径
+                2. 定义执行类库的路径,libexec
+                3. 调用libexec下的mapred-config.cmd
+                    1. 如果没有定义HADOOP_BIN_PATH的话,就设置为${HADOOP_INSTALL}/sbin
+                    2. 设置libexec路径
+                    3. 如果libexec下存在hadoop-config.cmd文件的话,就调用
+                        1. 参考上面的
+                4. 如果存在mapred-env.cmd文件的话,就调用          
+                    1. 
+                5. 将第一个参数取出来作为mapred-command
+                6. 循环取出参数,放到mapred-command-arguments
+                7. 如果输入错误就打印Usage
+                8. 调用mapred-commands里的命令标签,包括classpath,job,queue,sampler,pipes等
+                9. 每个mapred-commands里的命令都设置CLASS变量,对应各自的Java类
+                10. 设置JVM参数
+                11. 调用Java程序去执行
+                
             12. 如果hadoop-command等于classpath的话,就输出类路径.(classpath不是hdfs命令,也不是MapReduce命令)
             13. 设置corecommands这个核心命令组,包括`fs`,`version`,`jar`等
             14. 在hadoop-commands中找出核心命令组,将他们标记为核心命令组,即`set corecommand=true`
@@ -547,18 +582,51 @@ hadoop fs -ls -R /
             
             
         3. hdfs.cmd
-            1. 定义Hadoop的可执行路径
-            2. 定义执行类库的路径,libexec
-            3. 调用libexec下的hdfs-config.cmd
-                1. 如果没有定义HADOOP_BIN_PATH的话,就设置为${HADOOP_INSTALL}/sbin
-                2. 设置libexec路径
-                3. 如果libexec下存在hadoop-config.cmd文件的话,就调用
-                    1. 可以参考前面的分析.定义HADOOP_COMMON_DIR变量,start-all也调用了
-                    2. 主要就是做环境变量的参数
-            4. 如果存在hdfs-env.cmd文件的话,就调用
+            1. 参考上面的
         
     6. `start "Apache Hadoop Distribution" hadoop datanode`
         1. start是windows里启动一个新窗口并启动一个新程序
-        2. `hadoop namenode`是在命令行中的命令.hadoop实际上是`hadoop.cmd`
-5. 如果有start-yarn的话,执行
-    1. 启动资源管理器和节点管理器
+        2. `hadoop datanode`是在命令行中的命令.hadoop实际上是`hadoop.cmd`
+            1. 参考上面的`hadoop namenode`
+5. 如果sbin目录下有start-yarn的话,执行
+    1. 设置可执行目录
+    2. 设置可执行的libexec目录
+    3. 调用yarn-config.cmd
+        1. 设置Hadoop可执行目录
+        2. 设置libexec目录
+        3. 调用hadoop-config.cmd
+        4. 如果有--config参数的话,就设置为YARN_CONF_DIR变量,否则就是"$HADOOP_YARN_HOME"/conf目录
+        5. 如果有--hosts参数的话,就设置为YARN_SLAVES.
+    4. `start "Apache Hadoop Distribution" yarn resourcemanager`
+        1. 设置Hadoop可执行目录
+        2. 设置libexec目录
+        3. 调用yarn-config.cmd
+        4. 调用yarn-env.cmd
+            1. 设置yarn用户
+            2. 设置yarn的配置目录
+            3. 设置Java的最大堆内存为yarn的堆内存大小
+            4. 设置yarn的日志目录
+            5. 设置yarn的日志文件名称
+            6. 设置yarn的policy文件
+            7. 设置yarn的root loger
+            8. 设置yarn的选项
+            9. 添加Java类库的路径到yarn的选项
+            10. 添加policy文件到yarn的选项
+        5. 设置yarn的命令为第一个参数
+        6. 设置命令行参数组,附加到yarn的命令行参数组里
+        7. 打印Usage,如果没有给yarn参数
+        8. 设置Java的最大堆内存为yarn的堆内存大小
+        9. assert Hadoop的配置目录必须定义
+        10. 设置CLASSPATH
+        11. 判断一系列HADOOP_YARN_HOME(在hadoop-config文件里,将yarn的家目录设置为Java的家目录)
+        12. 添加yarn的家目录,yarn的dir,yarn的lib_jars_dir(也是在hadoop-config里设置的)到CLASSPATH
+        13. 调用yarn命令的标签(设置CLASS+YARN_OPTS)
+        14. 设置yarn的选项
+        15. 设置JVM参数
+        16. 调用Java
+        
+        
+    5. `start "Apache Hadoop Distribution" yarn nodemanager`
+        1. 参考上面的
+    6. `start "Apache Hadoop Distribution" yarn proxymanager`
+        1. 参考上面的
