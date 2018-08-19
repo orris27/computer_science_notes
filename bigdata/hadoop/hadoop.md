@@ -268,7 +268,7 @@ hadoop fs -ls /
 #------------------------------------------------------------------------
 ``` 
 
-### 2-2. 完全分布式
+### 2-3. 完全分布式
 1. 环境准备
     1. 节点
         1. 节点1
@@ -284,7 +284,9 @@ hadoop fs -ls /
             1. 主机名:hadoop04
             2. ip:`10.0.0.10`
     2. 能自己ssh自己
-
+2. 修改配置文件,将完全分布式的配置文件推送到其他节点上,保证一致
+3. 删除原有的Hadoop文件系统,并重新格式化
+4. 在NameNode上启动Hadoop
 ```
 ###########################################################################################
 # 使用软连接解决配置目录的问题
@@ -455,3 +457,47 @@ ssh hadoop03 /usr/local/jdk/bin/jps
 #---------------------------------------------------------------------------------------
 
 ```
+## 3. 操作
+```
+hadoop fs -mkdir -p /user/it18zhang/
+hadoop fs -ls -R /
+
+```
+
+## 4. 启动脚本
+### 4-1. start-all.sh
+1. 推荐我们不要用这个脚本,而是dfs和yarn
+2. 设置环境变量
+    1. 设置HADDOP_BIN_PATH变量为`${HADOOP_INSTALL}/sbin`
+    2. 设置DEFAULT_LIBEXEC_DIR变量为`${HADOOP_INSTALL}/libexec`
+3. 调用libexec目录下的`hadoop-config.cmd`
+    1. 判断有没有定义common_dir,在hadoop的share/hadoop下有common;
+    2. 类似地,提取common,common/lib,common/lib/native,hdfs,yarn等目录
+    3. 把Hadoop里的所有jar包都提取出来
+    4. 单独判断`hadoop-common-*.jar`文件如果没有的话,就会说JAVA_HOME没有设置或找不到
+    5. 设置HADOOP_CONF_DIR为`${HADOOP_INSTALL/etc/hadoop}`,用在启动脚本里面的`--config`参数
+    6. 如果在命令行中自己指定`--config`的话,就将HADOOP_CONF_DIR设置为命令行中指定的目录
+    7. 如果在命令行中自己指定`--hosts`的话,就引用里面的数据节点的列表
+    8. 如果config目录下有hadoop-env.cmd的话,就调用这个
+    9. 如果没定义`JAVA_HOME`就抛出错误
+    10. 如果`$JAVA_HOME/bin/java.exe`不存在的话,也抛出错误
+    11. 设置JAVA的变量为`$JAVA_HOME/bin/java`
+    12. 设置JVM的参数
+        1. `-Xmx10000m`:最大堆内存为1000m
+    13. 如果定义了Hadoop的堆,HADOOP_HEAPSIZE,那么就会覆盖Java的最大对内存的值
+    14. 大量设置类路径
+        1. 设置CLASS_PATH为Hadoop的配置文件目录
+        2. 如果定义了Hadoop的类路径,就添加进来
+    15. 定义日志
+    16. for循环取出用java来执行类路径变量的所有路径的内容,外加JVM的参数,并设置Java平台
+    17. 设置Java的类库路径
+    18. 在Hadoop下有个tools/lib文件夹,
+    19. 定义Java的类路径
+    20. 使用Ipv4的版本
+    21. 如果没有定义HADOOP_HDFS_HOME,就设置为HADOOP_HOME
+    22. 设置CLASSPATH,取出hdfsdir下的所有
+    23. 设置yarn的目录变量等
+    24. 设置mapreduce的目录变量
+    
+    
+4. 如果在sbin目录下有start-dfs的话,执行;如果有start-yarn的话,执行
