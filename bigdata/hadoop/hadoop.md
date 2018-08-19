@@ -932,3 +932,12 @@ find . -name 'yarn-default.xml'
     
 ### 7-2. node管理器
 1. 端口:8042
+
+
+
+## 8. 对象
+### 8-1. job
+1. set必须在submit之前使用
+2. 推荐使用job.getInstance(),会生成JobConf
+3. 允许user配置,提交,控制执行,查询状态
+### 8-2. ResourceManager
