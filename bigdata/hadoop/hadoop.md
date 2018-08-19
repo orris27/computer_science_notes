@@ -895,12 +895,15 @@ find . -name 'yarn-default.xml'
 ### 6-3. 常用参数
 1. 块大小
     1. 作用:如果文件小的话,设置更小的块大小可以提高效率
-    2. 修改位置:`hdfs-site.xml`
+    2. 修改位置:`hdfs-site.xml`的`dfs.blocksize`参数
     3. 其他
         1. HDFS要求一定要大于1M
 2. 存储位置
     1. 作用:比如从/tmp目录更改到其他存储位置
     2. 修改位置:`core-site.xml`的`hadoop.tmp.dir`参数
 
+3. 副本数量
+    1. 作用:副本数量为多少,存储1个block的节点数量就多少.(我感觉这里其实不止副本数量,严格来说应该是副本数量+1)
+    2. 修改位置:`hdfs-site.xml`的`dfs.replication`参数
 
     
