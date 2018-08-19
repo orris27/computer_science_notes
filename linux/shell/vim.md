@@ -68,6 +68,10 @@ set nobomb
 filetype on
 set number
 
+set softtabstop=4
+set autoindent
+set cindent
+
 "set softtabstop=4
 "set autoindent
 "set cindent
