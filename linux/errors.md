@@ -510,3 +510,18 @@ yum install -y openssl-devel
     #------------------------------------------------------------------------------------------
 
     ```
+6. 使用完全分布式执行JobMain这个jar程序,出现错误`Could not find or load main class org.apache.hadoop.mapreduce.v2.app.MRAppMaster`
+    1. 解决
+    ```
+    vim /usr/local/hadoop/etc/hadoop-fully/mapred-site.xml # 添加下面内容就行了.里面的value是hadoop classpath里面的内容
+    #################################################################################################
+    <property> 
+        <name>mapreduce.application.classpath</name>
+        <value>/usr/local/hadoop-3.1.1/etc/hadoop:/usr/local/hadoop-3.1.1/share/hadoop/common/lib/*:/usr/local/hadoop-3.1.1/share/hadoop/common/*:/usr/local/hadoop-3.1.1/share/hadoop/hdfs:/usr/local/hadoop-3.1.1/share/hadoop/hdfs/lib/*:/usr/local/hadoop-3.1.1/share/hadoop/hdfs/*:/usr/local/hadoop-3.1.1/share/hadoop/mapreduce/lib/*:/usr/local/hadoop-3.1.1/share/hadoop/mapreduce/*:/usr/local/hadoop-3.1.1/share/hadoop/yarn:/usr/local/hadoop-3.1.1/share/hadoop/yarn/lib/*:/usr/local/hadoop-3.1.1/share/hadoop/yarn/*</value>
+    </property>
+    #################################################################################################
+
+    #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # 推送配置文件到其他节点,删除原来的目录,格式化,启动Hadoop,执行
+    #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    ```
