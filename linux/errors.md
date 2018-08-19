@@ -474,3 +474,11 @@ yum install -y openssl-devel
     ssh hadoop04 /usr/local/hadoop/bin/hdfs namenode -format 
     ```
     
+4. `localhost: ERROR: JAVA_HOME is not set and could not be found.`
+    1. 解决
+    ```
+    vim /usr/local/hadoop/etc/hadoop-pseudo/hadoop-env.sh
+    ##############################################################################
+    export JAVA_HOME=/usr/local/jdk
+    ##############################################################################
+    ```
