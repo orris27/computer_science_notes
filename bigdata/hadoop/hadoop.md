@@ -504,12 +504,44 @@ hadoop fs -ls -R /
     
     
 4. 如果在sbin目录下有start-dfs的话,执行
-    1. 如果没有定义HADOOP_BIN_PATH的话,就设置为${HADOOP_INSTALL}/bin
-    2. 调用`hadoop-config.cmd`
-    3. 判断有没有在命令行中自定义`--config`
-    4. `start "Apache Hadoop Distribution" hadoop namenode`
+    1. 如果没有定义HADOOP_BIN_PATH的话,就设置为${HADOOP_INSTALL}/sbin
+    2. 定义执行类库的路径,libexec
+    3. 调用`hadoop-config.cmd`,并且把start-dfs的命令行参数作为其命令行参数
+    4. 判断有没有在命令行中自定义`--config`
+    5. `start "Apache Hadoop Distribution" hadoop namenode`
         1. start是windows里启动一个新窗口并启动一个新程序,引号内是这个窗口的标题
-        2. `hadoop namenode`是在命令行中的程序
-    5. `start "Apache Hadoop Distribution" hadoop datanode`
+        2. `hadoop namenode`是在命令行中的命令.hadoop实际上是`hadoop.cmd`
+            1. 如果没有定义HADOOP_BIN_PATH的话,就设置为${HADOOP_INSTALL}/sbin
+            2. 设置一系列path的变量,并且替换空格等
+            3. for循环添加到现存的路径
+            4. 设置libexec的变量
+            5. 调用`hadoop-config.cmd`
+                1. 参考前面的...
+            6. 提取第一个参数
+            7. 处理命令参数,最终设置hadoop-command-arguments
+                1. 如果是--config就移动
+                2. 循环给_arguments赋值
+            8. 定义hdfs的命令组
+            9. 判断hdfs.cmd是否存在,如果有就调用
+                1.参考下面的
+            10. 设置MapReduce的命令组,
+            11. 判断mared.cmd是否存在,如果有就调用
+            12. 输出类路径
+            
+                
+        3. hdfs.cmd
+            1. 定义Hadoop的可执行路径
+            2. 定义执行类库的路径,libexec
+            3. 调用libexec下的hdfs-config.cmd
+                1. 如果没有定义HADOOP_BIN_PATH的话,就设置为${HADOOP_INSTALL}/sbin
+                2. 设置libexec路径
+                3. 如果libexec下存在hadoop-config.cmd文件的话,就调用
+                    1. 可以参考前面的分析.定义HADOOP_COMMON_DIR变量,start-all也调用了
+                    2. 主要就是做环境变量的参数
+            4. 如果存在hdfs-env.cmd文件的话,就调用
+        
+    6. `start "Apache Hadoop Distribution" hadoop datanode`
         1. start是windows里启动一个新窗口并启动一个新程序
+        2. `hadoop namenode`是在命令行中的命令.hadoop实际上是`hadoop.cmd`
 5. 如果有start-yarn的话,执行
+    1. 启动资源管理器和节点管理器
