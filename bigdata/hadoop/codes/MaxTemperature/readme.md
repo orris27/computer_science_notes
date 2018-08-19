@@ -1,4 +1,5 @@
 ## 1. 使用方法
+> [参考文档](https://www.cnblogs.com/shishanyuan/p/4177908.html)
 ### 1-1. 单机模式
 1. 确认环境
     1. 单机模式,jps里没有任何数据
@@ -59,9 +60,29 @@ hadoop jar JobMain.jar JobMain /usr/local/hadoop/data/in/sample.txt  /usr/local/
 # 验证
 #######################################################################################################
 echo $?
-cat /usr/local/hadoop/data/out/part-r-00000
+cat /usr/local/hadoop/data/out/part-r-00000 # _SUCCESS是标记文件,说明成功执行了
 #--------------------------------------------------------------------------------------------
 # 1949	111
 # 1950	78
 #--------------------------------------------------------------------------------------------
+```
+
+### 1-2. 分布式
+1. 编写好MapReduce的jar程序
+2. 上传数据文件到HDFS里
+3. 执行hadoop
+```
+
+hadoop fs -ls -R /
+hadoop fs -mkdir -p /data
+hadoop fs -put /usr/local/hadoop/data/in/sample.txt /data/ # put上传本地文件到HDFS
+hadoop fs -ls -R /
+
+
+hadoop jar JobMain.jar JobMain /data/sample.txt /data/output
+hadoop fs -cat /data/output/part-r-00000
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+1949	111
+1950	78
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
