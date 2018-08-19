@@ -482,3 +482,31 @@ yum install -y openssl-devel
     export JAVA_HOME=/usr/local/jdk
     ##############################################################################
     ```
+5. 完全分布式里,只有namenode进程没有启动?
+    1. 原因:HDFS默认使用的是/tmp目录下,而/tmp重新开机就会被清空,等等原因所以会出现问题
+    2. 解决:换个存储地方就好了
+    ```
+    vim /usr/local/hadoop/etc/hadoop-fully/core-site.xml # 添加下面的内容就好了,这里的话是创建在/hdfs目录下
+    ##############################################################################
+    <property>
+         <name>hadoop.tmp.dir</name>
+         <value>/hdfs</value>
+         <description>A base for other temporary directories.</description>
+    </property>
+    ##############################################################################
+
+    for i in {hadoop02,hadoop03};do scp /usr/local/hadoop/etc/hadoop-fully/core-site.xml root@"$i":/usr/local/hadoop/etc/hadoop-fully/core-site.xml; done
+    
+    for i in {hadoop01,hadoop02,hadoop03};do ssh "$i" mkdir /hdfs;done
+    for i in {hadoop01,hadoop02,hadoop03};do ssh "$i" /usr/local/hadoop/bin/hdfs namenode -format;done
+    
+    start-all.sh 
+    jps
+    #------------------------------------------------------------------------------------------
+    # 61570 NameNode
+    # 62706 Jps
+    # 62099 ResourceManager
+    # 61847 SecondaryNameNode
+    #------------------------------------------------------------------------------------------
+
+    ```
