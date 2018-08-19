@@ -97,7 +97,7 @@ hadoop version #出现下面内容就说明Hadoop安装成功了
 ```
 
 
-## 2. 配置
+## 2. 模式
 ### 2-1. 独立模式
 默认的配置就是独立模式.独立模式没有守护进程
 ```
@@ -855,3 +855,39 @@ vim /usr/local/hadoop/data/in/sample.txt
 cd /usr/local/hadoop-1.1.2
 hadoop jar MaxTemperature.jar MaxTemperature /usr/local/hadoop/data/in/sample.txt  /usr/local/hadoop/data/out
 ```
+
+
+
+## 6. 参数配置
+### 6-1. 帮助
+```
+cd /usr/local/hadoop/
+find . -name 'core-default.xml'
+#-------------------------------------------------------------------------------
+# ./share/doc/hadoop/hadoop-project-dist/hadoop-common/core-default.xml
+#-------------------------------------------------------------------------------
+
+find . -name 'hdfs-default.xml'
+#-------------------------------------------------------------------------------
+# ./share/doc/hadoop/hadoop-project-dist/hadoop-hdfs/hdfs-default.xml
+#-------------------------------------------------------------------------------
+
+find . -name 'mapred-default.xml'
+#-------------------------------------------------------------------------------
+# ./share/doc/hadoop/hadoop-mapreduce-client/hadoop-mapreduce-client-core/mapred-default.xml
+#-------------------------------------------------------------------------------
+
+
+find . -name 'yarn-default.xml'
+#-------------------------------------------------------------------------------
+# ./share/doc/hadoop/hadoop-yarn/hadoop-yarn-common/yarn-default.xml
+#-------------------------------------------------------------------------------
+
+```
+### 6-2. 修改参数
+1. 修改参数
+2. 关闭Hadoop
+3. 同步配置文件
+4. 删除原来的数据目录
+5. 格式化
+6. 启动Hadoop
