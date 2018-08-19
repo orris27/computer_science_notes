@@ -459,3 +459,18 @@ yum install -y openssl-devel
         1. 下载`jdk-8u181-linux-x64.tar.gz`
         2. 解压后移动到`/usr/local`下
         3. 将原来的`/usr/local/jdk`的软连接改成新的版本就好了
+3. `ERROR org.apache.hadoop.hdfs.server.datanode.DataNode: Initialization failed for Block pool <registering> (Datanode Uuid 493518a8-fcee-4d3f-b5d0-9f66d9e76a3f) service to hadoop01/10.0.0.7:8020. Exiting.`
+    1. 原因:克隆的时候原来的CLUSTER_ID保留了,而且格式化的时候只格式化nameNode,其他节点上没有进行,导致在`cat /tmp/hadoop-root/dfs/data/current/VERSION`(nameNode的话这里就是name而不是data了)里的CLUSTER_ID不一样.
+    2. 解决
+    ```
+    ssh hadoop01 rm -rf /tmp/hadoop-root/*
+    ssh hadoop02 rm -rf /tmp/hadoop-root/*
+    ssh hadoop03 rm -rf /tmp/hadoop-root/*
+    ssh hadoop04 rm -rf /tmp/hadoop-root/*
+
+    ssh hadoop01 /usr/local/hadoop/bin/hdfs namenode -format 
+    ssh hadoop02 /usr/local/hadoop/bin/hdfs namenode -format 
+    ssh hadoop03 /usr/local/hadoop/bin/hdfs namenode -format 
+    ssh hadoop04 /usr/local/hadoop/bin/hdfs namenode -format 
+    ```
+    
