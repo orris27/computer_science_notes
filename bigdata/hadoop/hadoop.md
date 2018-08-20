@@ -951,6 +951,7 @@ find . -name 'yarn-default.xml'
     1. ContainerManagerImpl
     2. ContainersLauncher
     3. ContainerLauncher
+3. 开启
 ### 8-4. MRAppMaster
 1. 状态机的模式:在不同状态里转换<=状态的变化是基于事件的<=核心的分发机制分发时间
 2. 封装了Job接口的实现,所有状态变化在Job接口里发生
@@ -988,3 +989,70 @@ find . -name 'yarn-default.xml'
     2. getService():得到服务
     3. addService(Service):添加服务
     
+
+## 9. ant
+1. eclipse内置好了ant软件
+2. 在lib里新建1个普通的文件,如`build.xml`
+3. 创建1个文件夹,把类
+4. 右击build.xml.选择run as>ant build(有2个,其中1个是对的,选择compile,因为是依赖于其他的任务的)
+5. 运行Java程序
+    1. 右击MaxTemperature.java>Run As>Run Configuration>Arguments:/data/sample.txt /data/out>Run
+```
+<project name="hadoop" basedir=".">
+    <target name="prepare">
+        <delete dir="${basedir}/build/classes"/>
+        <mkdir dir="${basedir}/build/classes"/>
+    </target>   
+    
+    <!-- 增加类路径的引用-->
+    <path id="path1">
+        <fileset dir="${basedir}/lib">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+    
+    <target name="compile" depends="prepare" >
+        <javac srcdir="${basedir}/src" destdir="${basedir}/build/classes" classpathref="path1" includeantruntime="true"/>
+    </target>
+    
+    
+    <target name="package" depends="prepare">
+        <jar destfile="${basedir}/lib/My.jar" basedir="${basedir}/build/classes"/>
+    </target>
+</project>
+```
+
+## 9. 语法
+1. 修改参数
+```
+vim JobMain.java
+###################################################################################
+Configuration configuration = new Configuration();
+configuration.setLong(FileInputFormat.SPLIT_MAXSIZE,1024*5); # 这里表示5k的大小进行分割
+Job job = new Job(configuration,"max_temp_job");
+###################################################################################
+```
+
+2. 删除输出目录
+```
+vim JobMain.java
+###################################################################################
+Configuration configuration = new Configuration();
+Job job = new Job(configuration,"max_temp_job");
+
+//...
+
+FileSystem fs = FileSystem.get(configuration);
+//delete previous output directory
+Path outputDir = new Path(args[1]);
+if(fs.exists(outputDir)) {
+    fs.delete(outputDir,true);
+    System.out.println("the outputDir is exist,but it has been deleteed!");
+}
+//delete tmp directory
+Path tmpDir = new Path("/tmp");
+if(fs.exists(tmpDir)) {
+    fs.delete(tmpDir,true);
+}
+###################################################################################
+```
