@@ -1070,7 +1070,30 @@ if(fs.exists(tmpDir)) {
 1. 问题
     1. 客户端运行的Java程序实际在其他节点上运行
 1. 解决
-    1. 在远程JVM启动时加入参数
+    1. 
+        1. 运行Java程序时直接指定参数
+        ```
+        java xxx -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000
+        ```
+        2. 先设置环境变量,再启动jvm,直接变环境附加子啊JVM启动参数之后
+        ```
+        export yyy="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000"
+        java xxx "$yyy" # $YARN_RESOURCEMANAGER_OPTS就是yarn提供给我们的环境变量
+        ```
+        
+    2.  编写脚本
     ```
-    java xxx -agentlib:xx
+    vim enable-yarn-remotedebug.sh
+    #######################################################################
+    export yyy="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000"
+    #######################################################################
     ```
+    3. 执行脚本
+    ```
+    source enable-yarn-remotedebug.sh
+    ```
+    4. 启动yarn,但是RM暂停在监听8000的过程中
+    ```
+    start-yarn.sh
+    ```
+    5. 在客户端的eclipse中找到RM类,找到main函数,设置断点.在类上右键>debug>debug configuration>Remote Java Application>src>Connection type:socket attach,host:hadoop01,port:8000>Debug
