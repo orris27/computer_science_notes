@@ -4,6 +4,7 @@
 set nocompatible " 设置的话,就是不让vim模仿vi,这会避免很多不兼容问题
 
 set tabstop=4 "tab键=4个空格
+set expandtab
 
 set softtabstop=4
 set shiftwidth=4  "vim中的"v+>"会移动4个空格
@@ -49,6 +50,7 @@ set autoindent " 如果在tab1次的情况下回车或o,那么就会自动锁紧
 ```
 set nocompatible 
 set tabstop=4
+set expandtab
 
 set shiftwidth=4  
 
