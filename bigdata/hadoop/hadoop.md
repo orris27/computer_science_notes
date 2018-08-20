@@ -941,3 +941,50 @@ find . -name 'yarn-default.xml'
 2. 推荐使用job.getInstance(),会生成JobConf
 3. 允许user配置,提交,控制执行,查询状态
 ### 8-2. ResourceManager
+1. 继承自CompsiteService
+2. 存在大量服务,用adminService,masterService
+3. 有addService(adminService)等等,添加ResouceManager里的很多Service
+
+### 8-3. NodeManager
+1. 继承自CompsiteService
+2. 内容
+    1. ContainerManagerImpl
+    2. ContainersLauncher
+    3. ContainerLauncher
+### 8-4. MRAppMaster
+1. 状态机的模式:在不同状态里转换<=状态的变化是基于事件的<=核心的分发机制分发时间
+2. 封装了Job接口的实现,所有状态变化在Job接口里发生
+3. 每个事件会导致最终的状态变换
+4. 松耦合的服务
+
+
+### 8-5. YarnChild
+1. 有main函数,可以单独运行
+2. 启动虚拟机的相关信息
+3. 负责启动Map task和Reduce task
+
+### 8-6. MapTaskImpl
+1. Map任务的封装
+2. 自身是MapTaskImpl类,继承自TaskImpl类.不继承自Service,所以不是服务.
+3. TaskType就是MAP/TASK的枚举类型
+4. TaskImpl是Task的接口
+
+### 8-7. ReduceTaskImpl
+1. Reduce任务的封装
+2. 自身是ReduceTaskImpl类,继承自TaskImpl类
+
+### 8-8. Service
+1. 继承关系:[图形](https://github.com/orris27/orris/blob/master/bigdata/hadoop/images/MapReduce-Service.png)
+2. Service<=AbstractService<=CompositeService<=ResourceManager+NodeManager+MRAppMaster
+    1. MRMaster为守护进程模式,因为其他节点要返回心跳数据
+3. 服务,为守护进程模式
+4. 有枚举值,表示状态:NONINITED,INITED,STARTED,STOPPED
+    1. init()
+    2. start()
+    3. stop()
+5. AbstractService有Listeners监听器集合来监听
+6. CompositeService
+    1. 有服务的集合,每个服务有监听器
+    2. getService():得到服务
+    3. addService(Service):添加服务
+    
