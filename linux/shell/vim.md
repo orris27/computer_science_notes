@@ -1,5 +1,11 @@
-### vim.rc
-#### 1. 注释版
+## vim.rc
+将已经保存的文件的tab转化为4个空格的话:
+```
+:set ts=4
+:set expandtab
+:%retab!
+```
+### 1. 注释版
 ```
 set nocompatible " 设置的话,就是不让vim模仿vi,这会避免很多不兼容问题
 
