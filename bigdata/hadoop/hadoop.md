@@ -461,11 +461,11 @@ ssh hadoop03 /usr/local/jdk/bin/jps
 ```
 hadoop fs -mkdir -p /user/it18zhang/
 hadoop fs -ls -R /
-
 ```
 
 ## 4. 启动脚本
 ### 4-1. start-all.sh
+yarn是在hdfs基础上运行的=>先启动dfs,再启动yarn+先停止yarn,再停止dfs
 #### 4-1-1. 总结
 1. 调用hadoop-config.cmd
     1. 调用hadoop-env.cmd
@@ -480,6 +480,7 @@ hadoop fs -ls -R /
             2. 调用mapred-env.cmd
         3. 执行Java程序
     3. `hadoop datanode`
+    4. `hadoop secondaryNamenode`
 3. 调用start-yarn.cmd
     1. 调用yarn-config.cmd
         1. 调用hadoop-config.cmd
@@ -944,6 +945,8 @@ find . -name 'yarn-default.xml'
 1. 继承自CompsiteService
 2. 存在大量服务,用adminService,masterService
 3. 有addService(adminService)等等,添加ResouceManager里的很多Service
+4. 属于org.apache.hadoop.yarn.server
+5. jps可以查看到=>是个java进程=>有main函数
 
 ### 8-3. NodeManager
 1. 继承自CompsiteService
@@ -952,6 +955,8 @@ find . -name 'yarn-default.xml'
     2. ContainersLauncher
     3. ContainerLauncher
 3. 开启
+4. 属于org.apache.hadoop.yarn.server
+5. jps可以查看到=>是个java进程=>有main函数
 ### 8-4. MRAppMaster
 1. 状态机的模式:在不同状态里转换<=状态的变化是基于事件的<=核心的分发机制分发时间
 2. 封装了Job接口的实现,所有状态变化在Job接口里发生
@@ -961,7 +966,7 @@ find . -name 'yarn-default.xml'
 
 ### 8-5. YarnChild
 1. 有main函数,可以单独运行
-2. 启动虚拟机的相关信息
+2. 设置JVM虚拟机的参数
 3. 负责启动Map task和Reduce task
 
 ### 8-6. MapTaskImpl
@@ -988,7 +993,12 @@ find . -name 'yarn-default.xml'
     1. 有服务的集合,每个服务有监听器
     2. getService():得到服务
     3. addService(Service):添加服务
-    
+### 8-9. NameNode,DataNode,SecondaryNameNode
+1. 都是类
+2. 都是在org.apache.hadoop.hdfs.server,即hdfs内
+3. jps可以查看到=>是个java进程=>有main函数
+
+
 
 ## 9. ant
 1. eclipse内置好了ant软件
@@ -1022,7 +1032,7 @@ find . -name 'yarn-default.xml'
 </project>
 ```
 
-## 9. 语法
+## 9. MapReduce语法
 1. 修改参数
 ```
 vim JobMain.java
@@ -1056,3 +1066,11 @@ if(fs.exists(tmpDir)) {
 }
 ###################################################################################
 ```
+## 10. 调试
+1. 问题
+    1. 客户端运行的Java程序实际在其他节点上运行
+1. 解决
+    1. 在远程JVM启动时加入参数
+    ```
+    java xxx -agentlib:xx
+    ```
