@@ -110,3 +110,5 @@ vi /usr/lib/rabbitmq/lib/rabbitmq_server-3.6.15/ebin/rabbit.app
     > Admin>右侧栏点击Virtual Hosts>Add a new virtual host >/orris
 2. 给虚拟主机添加用户
     > 点击vhost,选择orris用户,并且选中这个orris这个host,然后里面
+### 2-3. Java
+
