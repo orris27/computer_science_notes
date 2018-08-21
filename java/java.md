@@ -28,8 +28,18 @@ java HelloWorld
 
 ### 1-3. 命令行工具
 #### 1-3-1. javac
+将java文件转换成JVM能识别的字节码.注意:gcc是直接将C文件转化成机器能识别的机器码,但javac转换得到的字节码还需要JVM去识别并根据对应的操作系统执行.
+1. 参数
+    1. `-classpaht/-cp`:覆盖CLASSPATH,使用指定引用的外部jar/class文件.Linux下用`:`隔开
+    2. `-d`:指定输出的class文件存放的目录.
 #### 1-3-2. java
 #### 1-3-3. jar
+用法和tar非常类似
+1. 参数
+    1. `cvf`:打包class文件成1个jar文件
+    2. `xvf`:解压jar文件=>class文件+`META-INF/MANIFEST.MF`
+    3. `-C`:更改为指定的目录并包含其中的文件
+    4. `-m`:包含指定清单文件中的清单信息
 #### 1-3-4. javap
 1. 没有参数:输出类里的所有方法和成员
 2. 参数
