@@ -21,11 +21,25 @@ EOF
 javac HelloWorld.java 
 java HelloWorld
 ```
-
 ### 1-2. Hadoop使用
 指定classpath就可以了.
 + classpath要精确到jar文件,而不是简单的目录名
 > 参考[Hadoop文档](https://github.com/orris27/orris/blob/master/bigdata/hadoop/hadoop.md)
+
+### 1-3. 命令行工具
+#### 1-3-1. javac
+#### 1-3-2. java
+#### 1-3-3. jar
+#### 1-3-4. javap
+1. 没有参数:输出类里的所有方法和成员
+2. 参数
+    1. `-c`:输出字节码
+将javac编译的class文件反汇编
+```
+javac Demo.java
+javap Demo
+javap -c Demo # 输出字节码
+```
 
 
 
@@ -84,10 +98,10 @@ New Perspective>MapReduce>New Location>location name:localhost(选择namenode的
     1. 基本数据类型
         1. 数值型
             1. 整数类型
-                1. byte:1个字节
-                2. short:2个字节
+                1. byte:1个字节(后缀b)
+                2. short:2个字节(后缀s)
                 3. int:4个字节(整数默认)
-                4. long:8个字节(整数结尾有L就是long了)
+                4. long:8个字节(后缀L)
             2. 浮点类型
                 1. float:4个字节
                 2. double:8个字节(浮点数默认)
@@ -104,8 +118,11 @@ New Perspective>MapReduce>New Location>location name:localhost(选择namenode的
 2. 转换
     1. 默认转换
         1. 加法
-            1. 变量加法提升类型.如:2个byte变量做加法也是都提升到int类型
-            2. 常量加法先运算再看类型.如:2个整数常量做加法,最终结果根据赋值的对象的类型等而
+            1. 变量
+                1. 字符类型转换成整数类型(注意:最后打印是整数类型,但赋值给char变量的话,最后表现形式还是字符)
+                2. 字符串类型不变,转为拼接
+                3. 变量加法提升类型.如:2个byte变量做加法也是都提升到int类型
+            2. 常量:先运算再看类型.如:2个整数常量做加法,最终结果根据赋值的对象的类型等而
         2. 运算中默认将小的类型提升到大的类型.比如"byte的变量x+int的变量y"会将x转换成int类型.最终为int类型
         3. 损失精度的转换默认不被允许,比如给byte类型变量赋值int值
     2. 强制类型转换
