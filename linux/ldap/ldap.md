@@ -73,5 +73,50 @@ tail -1 slapd.conf
 # 生成ldap的密码并且在配置文件里配置
 cp slapd.conf slapd.conf.bak
 
+vim /etc/openldap/slapd.conf # 如果一行是空格,他会被认为是前一行的注释
+##################################################################################
+#database bdb   # 指定使用的数据库
+#suffix  # 整个的域
+#checkpoint 
+#rootdn   # 管理员用户名为admin,密码为orris.绝对的
+database    bdb  # 使用的数据库
+suffix      "dc=etiantian,dc=org"
+checkpoint  2048 10  # 每达到2048KB/每10分钟,将内存中的数据写入到数据库中
+rootdn      "cn=admin,dc=etiantian,dc=org"
+loglevel    296 # 日志的级别
+checksize   1000 # 可以缓存的记录数
 
+
+access to * 
+        by self write
+        by anonymous auth
+        by * read
+##################################################################################
+
+
+
+cp /etc/rsyslog.conf /etc/rsyslog.conf.bak
+echo "#record ldap log" >> /etc/rsyslog.conf
+echo "local4.*                /var/log/ldap.log">>/etc/rsyslog.conf
+systemctl restart rsyslog
+
+grep directory /etc/openldap/slapd.conf # 存储路径
+
+cp /usr/share/openldap-servers/DB_CONFIG.samplew /var/lib/ldap/DB_CONFIG
+chwon ldap:ldap /var/lib/ldap/DB_CONFIG
+chmod 700 /var/lib/ldap/DB_CONFIG
+
+
+slaptest -u # 如果配置文件成功的话,这里就好了
+
+
+systemctl start slapd # 5.8是ldap
+lsof -i :389
+tail /var/log/ldap.log # 如果rsyslog配置成功,这里就会显示出来
+
+ldapsearch -LLL -W -x -H ldap://etiantian.org -D "cn=admin,dc=etiantian,dc=org" -b "dc=etiantian,dc=org" "(uid=*)"
+#----------------------------------------------------
+# ...
+# No such object # 出现这个就说明密码正确
+#----------------------------------------------------
 ```
