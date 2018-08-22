@@ -250,7 +250,10 @@ ping glusterfs02
 ##########################################################################
 # 时间同步
 ##########################################################################
-yum install -y ntpd
+yum install -y ntp
+echo "# update time" >> /var/spool/cron/root
+echo "*/5 * * * * /usr/sbin/ntpdate time.windows.com >/dev/null 2>&1" >> /var/spool/cron/root
+ntpdate time.windows.com
 vi /etc/ntp.conf
 ##########################################################################
 server 0.centos.pool.ntp.org iburst
