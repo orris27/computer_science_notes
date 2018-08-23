@@ -117,15 +117,14 @@ make
 ## 3. 方法
 ### 3-1. 地址转换函数
 32位整数用来存放ip地址.但我们习惯的ip地址是用`.`隔开的,实际对应的32位整数不得而知.因此提供了转换函数
-1. 
+1. 接口
 ```
-#include <netinet/in.h>
-#include <arpa/inet.h>
-
 int inet_aton(const char *cp, struct in_addr *inp); // 点分ip=>网络字节序的ip输出到inp中
 in_addr_t inet_addr(const char *cp); // 点分ip=>网络字节序的ip(32位整数)输出到返回值
 char *inet_ntoa(struct in_addr in); // 网络字节序的ip(32位整数,struct in_addr数据结构,只有s_addr一个成员)=>点分ip
-
+```
+2. 实例
+```
 vim addr.c
 ##############################################################
 #include <stdio.h>
