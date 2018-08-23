@@ -8,7 +8,7 @@ struct sockaddr_in {
     uint8_t sin_len; # 结构体的大小
     sa_family_t sin_family; # 地址家族.socket能用在很多协议,不仅是TCP/IP协议.设置为AF_INET,说明用在ipv4协议上
     in_port_t sin_port; # 端口.2字节的无符号整数
-    struct in_addr sin_addr; # ipv4地址.该结构体只有1个成员.无符号的32位整数
+    struct in_addr sin_addr; # ipv4地址(是主机字节序还是网络字节序?).该结构体只有1个成员.无符号的32位整数
     char sin_zero[8]; # 保留
 };
 
