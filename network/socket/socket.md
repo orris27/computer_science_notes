@@ -282,3 +282,13 @@ read(sockfd,recv_buf,sizeof(recv_buf)); //直接网套接字里写数据就行�
 ```
 printf("peer=%s:%d\n",inet_ntoa(peer_addr.sin_addr),ntohs(peer_addr.sin_port));
 ```
+6. 检测TCP客户端套接字是否关闭(read返回值表示套接字传送过来的数据大小,如果为0说明就关闭了)
+```
+int ret = read(conn_sockfd,&recv_buf,sizeof(recv_buf)); 
+if (ret == 0)
+{
+    printf("client close\n");
+    break;
+}
+```
+7. [点对点聊天程序](https://github.com/orris27/orris/tree/master/network/socket/codes/chat)
