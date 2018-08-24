@@ -162,9 +162,8 @@ int bind(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
 //返回值:成功0,失败-1
 ```
 
-
-
 ### 3-2. socket
+#### 3-2-1. 创建套接字
 1. 函数
 ```
 int socket(int domain, int type, int protocol); // 创建1个套接字用于通信 
@@ -173,11 +172,28 @@ int socket(int domain, int type, int protocol); // 创建1个套接字用于通�
 // protocol:协议类型=>0/IPPROTO_TCP(0表示让内核自己选择协议,而实际上如果使用AF_INET+SOCK_STREAM的话,已经就是TCP协议了)
 // 返回值为套接字描述符=> <0表示创建失败
 ```
-2. 实例
+2. 创建套接字
 ```
 int sockfd;
 if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
   ERR_EXIT("socket");
+```
+
+#### 3-2-2. 设置套接字参数
+1. 函数:`man setsockopt`
+```
+int setsockopt(int sockfd, int level, int optname,
+               const void *optval, socklen_t optlen);
+// level: 写SOL_SOCKET就行了
+// optname: 设置什么参数,包括SO_REUSEADDR
+// optval: 参数的值(参数值可以是整数,也可以是结构体,所以这里要参数值的指针与参数结构体的大小)
+// optlen: 参数值的大小
+```
+2. 允许服务器套接字重用TIME_WAIT套接字(实验中使用在bind函数之前,具体怎样不太清楚)
+```
+int reuse_on=1;
+if(setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&reuse_on,sizeof(reuse_on))<0)
+  ERR_EXIT("setsockopt");
 ```
 
 ### 3-3. listen
@@ -260,4 +276,9 @@ write(sockfd,send_buf,sizeof(send_buf)); //直接网套接字里写数据就行�
 ```
 char recv_buf[1024];
 read(sockfd,recv_buf,sizeof(recv_buf)); //直接网套接字里写数据就行了
+```
+5. 打印ip和port
+    + 套接字里的sin_port和sin_addr都是网络字节序.
+```
+printf("peer=%s:%d\n",inet_ntoa(peer_addr.sin_addr),ntohs(peer_addr.sin_port));
 ```
