@@ -63,9 +63,9 @@ struct socket 中的flags字段取值：
   #define SOCK_PASSSEC        4
 ```
 
-
 ## 2. 字节序
 ### 2-1. 类型
+
 1. Big Endian:最高有效位存储在最低内存地址
 2. Little Endian:最高有效位存储在最高内存地址
 ### 2-2. 网络字节序 vs 主机字节序
@@ -165,6 +165,7 @@ int bind(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
 
 
 ### 3-2. socket
+1. 函数
 ```
 int socket(int domain, int type, int protocol); // 创建1个套接字用于通信 
 // domain:用哪个协议族=>PF_INET(老师推荐的..)/AF_INET
@@ -172,18 +173,31 @@ int socket(int domain, int type, int protocol); // 创建1个套接字用于通�
 // protocol:协议类型=>0/IPPROTO_TCP(0表示让内核自己选择协议,而实际上如果使用AF_INET+SOCK_STREAM的话,已经就是TCP协议了)
 // 返回值为套接字描述符=> <0表示创建失败
 ```
+2. 实例
+```
+int sockfd;
+if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
+  ERR_EXIT("socket");
+```
 
 ### 3-3. listen
 `man listen`查看帮助
+1. 函数
 ```
 int listen(int sockfd, int backlog);
 // sockfd:socket函数返回的套接字
 // backlog: 规定内核为此套接字排队的最大连接个数
 // 返回值:成功0,失败-1
 ```
+2. 实例
+```
+if(listen(sockfd,SOMAXCONN)<0) // SOMAXCONN是服务器套接字允许建立的最大队列,包括未连接+已连接的队列
+  ERR_EXIT("listen");
+```
 
 ### 3-4. accept
 `man 2 accept`查看帮助
+1. 函数
 ```
 int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 // sockfd: socket函数返回的套接字
@@ -191,14 +205,28 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 // addrlen: 对方的套接字地址长度.=>一定要有初始值!!!可以为sizeof(peeraddr)
 // 返回值: 连接的套接字,为主动套接字.(套接字描述符)
 ```
+2. 实例
+```
+struct sockaddr peer_addr;
+socklen_t peer_len = sizeof(peer_addr); // 使用accept获得对方的套接字等信息时,对方套接字的长度一定要初始化
+int conn_sockfd;
+if ((conn_sockfd = accept(sockfd,(struct sockaddr*)&peer_addr,&peer_len))<0)
+  ERR_EXIT("accept");
+```
 
 ### 3-5. connect
+1. 函数
 ```
 int connect(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
 
 // 返回值:成功0,失败-1
 ```
 
+2. 实例
+```
+if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
+  ERR_EXIT("connect");
+```
 
 ## 4. 套接字类型
 1. SOCK_STREAM流式套接字(TCP)
@@ -210,3 +238,26 @@ int connect(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
 
 ## 5. 实例
 1. [回射C/S-TCP模型](https://github.com/orris27/orris/tree/master/network/socket/codes/simple-tcp)
+2. ipv4地址
+```
+struct sockaddr_in addr;
+memset(&addr,0,sizeof(addr));
+addr.sin_family = AF_INET;
+addr.sin_port = htons(5188); 
+addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+// (struct sockaddr*)&addr // 转换成通用地址结构体的指针,供connect等函数使用
+```
+3. 发送数据
+```
+// connnect(sockfd,....);
+char send_buf[1024];
+// fgets(send_buf,sizeof(send_buf),stdin);
+write(sockfd,send_buf,sizeof(send_buf)); //直接网套接字里写数据就行了
+```
+
+4. 接收数据
+```
+char recv_buf[1024];
+read(sockfd,recv_buf,sizeof(recv_buf)); //直接网套接字里写数据就行了
+```
