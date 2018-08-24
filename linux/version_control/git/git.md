@@ -1,3 +1,4 @@
+    
 ## 1. 安装
 通过yum安装的git版本太低,所以只能选择源码安装
 1. 安装依赖包
@@ -23,7 +24,7 @@ wget https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.18.0.tar.gz
 tar -zxf git-2.18.0.tar.gz
 cd git-2.18.0
 
-less INSTALL 
+#less INSTALL 
 make configure
 ./configure --help
 mkdir /application
