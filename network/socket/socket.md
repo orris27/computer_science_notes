@@ -80,7 +80,7 @@ struct socket 中的flags字段取值：
     4. `l`:long
 ```
 uint32_t htonl(uint32_t hostlong);
-uint16_t htons(uint16_t hostshort);
+uint16_t htons(uint16_t hostshort); //可以用来转换端口号.如server_addr.sin_port = htons(5188);
 uint32_t ntohl(uint32_t hostlong);
 uint16_t ntohs(uint16_t hostshort);
 
@@ -114,8 +114,9 @@ make
 #------------------------------------------------------
 ```
 
-## 3. 方法
-### 3-1. 地址转换函数
+## 3. 函数
+### 3-1. 地址
+#### 3-1-1. 地址转换函数
 32位整数用来存放ip地址.但我们习惯的ip地址是用`.`隔开的,实际对应的32位整数不得而知.因此提供了转换函数
 1. 接口
 ```
@@ -152,11 +153,60 @@ make && .addr
 # 192.168.0.100
 #----------------------------------------------------------------
 ```
+#### 3-1-2. 地址绑定函数
+```
+int bind(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
+// sockfd: socket函数返回的套接字
+// addr: 要绑定额的地址.(通用地址结构)
+// addrlen: 地址长度
+//返回值:成功0,失败-1
+```
+
+
+
+### 3-2. socket
+```
+int socket(int domain, int type, int protocol); // 创建1个套接字用于通信 
+// domain:用哪个协议族=>PF_INET(老师推荐的..)/AF_INET
+// type:套接字类型
+// protocol:协议类型=>0/IPPROTO_TCP(0表示让内核自己选择协议,而实际上如果使用AF_INET+SOCK_STREAM的话,已经就是TCP协议了)
+// 返回值为套接字描述符=> <0表示创建失败
+```
+
+### 3-3. listen
+`man listen`查看帮助
+```
+int listen(int sockfd, int backlog);
+// sockfd:socket函数返回的套接字
+// backlog: 规定内核为此套接字排队的最大连接个数
+// 返回值:成功0,失败-1
+```
+
+### 3-4. accept
+`man 2 accept`查看帮助
+```
+int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+// sockfd: socket函数返回的套接字
+// addr: 对方的套接字地址
+// addrlen: 对方的套接字地址长度.=>一定要有初始值!!!可以为sizeof(peeraddr)
+// 返回值: 连接的套接字,为主动套接字.(套接字描述符)
+```
+
+### 3-5. connect
+```
+int connect(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
+
+// 返回值:成功0,失败-1
+```
+
 
 ## 4. 套接字类型
-1. SOCK_STREAM流式套接字
+1. SOCK_STREAM流式套接字(TCP)
     1. 提供面向连接的,可靠的数据传输服务等
 2. SOCK_DGRAM数据报式套接字
     1. 提供无连接的,不可靠的数据传输服务等
 3. SOCK_RAW原始套接字
     1. 将应用层的数据直接封装成ip层能理解的协议格式
+
+## 5. 实例
+1. [回射C/S-TCP模型](https://github.com/orris27/orris/tree/master/network/socket/codes/simple-tcp)
