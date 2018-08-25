@@ -39,4 +39,25 @@ ssize_t  writen(int  fd,  const  void  *buf,  size_t count);
 
 
 
+struct packet {
+    数据包的字节长度;
+    真实数据;
+}
+
+recvbuf=>packet类型
+sendbuf=>packet类型
+清空结构体的内容
+n=strlen(sendbuf.buf);网络上发送的只要是整数就有字节序的问题
+n=htonl(n)
+writen(sockfd,&recvbuf,4+n);
+发送
+    字节序处理包头里的长度
+    获取字符串的字节长度
+    直接发送4+n字节长度的数据过去
+
+接收
+    获取真实数据的字节数量
+    错误处理
+    处理接收到的len长度的字节序
+    接收字节流
 ```
