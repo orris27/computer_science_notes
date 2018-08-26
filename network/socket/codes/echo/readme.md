@@ -127,7 +127,7 @@ netstat -nat | grep 5188
 
 ```
 
-### 5. shutdown
+### 5. 回射服务器中使用shutdown解决关闭后不能读取的问题
 > [问题引入](https://coggle.it/diagram/W33p6eGhIvMJaYJJ/t/socket)
 
 ```
