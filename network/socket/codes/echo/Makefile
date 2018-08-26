@@ -1,7 +1,7 @@
 .PHONY:clean all
 CC=gcc
 CFLAGS=-Wall -g
-BIN=server client multiclient
+BIN=server client multiclient fin_wait_client
 all:$(BIN)
 $.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@
