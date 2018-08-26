@@ -162,3 +162,16 @@ void FD_ZERO(fd_set *set); // 清空集合
     3. 套接口上发生一个错误待处理,错误可以通过getsockopt指定SO_ERROR选项来获取
 3. 异常
     1. 套接口存在带外数据
+#### 3-8-2. poll
+```
+struct pollfd {
+    int   fd;         /* file descriptor */
+    short events;     /* requested events */
+    short revents;    /* returned events,返回的事件输出到这里 */ 
+};
+
+int poll(struct pollfd *fds, nfds_t nfds, int timeout);
+// fds:关心的IO以及事件
+// nfds:IO的个数
+// timeout:超时时间.-1表示一直等待下去
+```
