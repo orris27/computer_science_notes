@@ -19,14 +19,27 @@ ps -ef | grep server
 
 ```
 ### 1-2. 解决
-1. (方法1)在main函数里添加`signal(SIGCHLD,SIG_IGN);`就好了
+1. (方法1)在服务器端的main函数里添加`signal(SIGCHLD,SIG_IGN);`就好了
 2. (方法2)捕捉SIGCHLD信号,调用wait函数=>问题:只能等待一个子进程退出
-```
-void handle_sigchld(int sig)
-{   
-    //调用wait函数子进程的状态
-    wait(NULL);
-    //wait进程仅仅等待第一个子进程的退出
-}
-signal(SIGCHLD,handle_sigchld);
-```
+    1. 实现
+    ```
+    void handle_sigchld(int sig)
+    {   
+        //调用wait函数子进程的状态
+        wait(NULL);
+        //wait进程仅仅等待第一个子进程的退出
+    }
+    signal(SIGCHLD,handle_sigchld);
+    ```
+    2. 问题:不能关闭所有子进程的问题重现
+    ```
+    ./server
+    ./multiclient # 如果没有观察到的话,可以考虑把同时连接的套接字的个数再增加.
+    #------------------------------------------------------------------
+    # orris    16530  5904  0 21:32 pts/1    00:00:00 ./server
+    # orris    16550 16530  0 21:32 pts/1    00:00:00 [server] <defunct>
+    # orris    16551 16530  0 21:32 pts/1    00:00:00 [server] <defunct>
+    #------------------------------------------------------------------
+
+    ```
+
