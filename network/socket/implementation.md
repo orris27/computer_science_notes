@@ -45,13 +45,21 @@ int sockfd;
 if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
   ERR_EXIT("socket");
 ```
-11. 获取自身的套接字地址
-```
-struct sockaddr_in localaddr;
-socklen_t addrlen = sizeof(localaddr);
-if (getsockname(sockfd,(struct sockaddr*)&localaddr,&addrlen) < 0)
-    ERR_EXIT("getsockname");
-```
+11. 获取套接字地址
+    1. 获取自身套接字地址
+    ```
+    struct sockaddr_in localaddr;
+    socklen_t addrlen = sizeof(localaddr);
+    if (getsockname(sockfd,(struct sockaddr*)&localaddr,&addrlen) < 0)
+        ERR_EXIT("getsockname");
+    ```
+    2. 获取对方套接字地址(该套接字必须处于连接状态)
+    ```
+    struct sockaddr_in localaddr;
+    socklen_t addrlen = sizeof(localaddr);
+    if (getpeername(sockfd,(struct sockaddr*)&localaddr,&addrlen) < 0)
+        ERR_EXIT("getpeername");
+    ```
 
 12. 使套接字处于监听状态
 ```
