@@ -115,7 +115,7 @@ printf("%s\n",inet_ntoa(ipaddr)); // 网络字节序ip=>点分ip
 
 16. 接收对方连接,并获取对方地址信息
 ```
-struct sockaddr peer_addr;
+struct sockaddr_in peer_addr;
 socklen_t peer_len = sizeof(peer_addr); // 使用accept获得对方的套接字等信息时,对方套接字的长度一定要初始化
 int conn_sockfd;
 if ((conn_sockfd = accept(sockfd,(struct sockaddr*)&peer_addr,&peer_len))<0)
