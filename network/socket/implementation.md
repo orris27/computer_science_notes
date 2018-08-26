@@ -20,7 +20,16 @@ write(sockfd,send_buf,sizeof(send_buf)); //直接网套接字里写数据就行�
 4. 接收数据
 ```
 char recv_buf[1024];
-read(sockfd,recv_buf,sizeof(recv_buf)); //直接网套接字里写数据就行了
+int ret = read(conn_sockfd,&recv_buf,sizeof(recv_buf)); // 接收到的数据是通过connection套接字来的.直接将这个套接字当成文件(因为是文件描述符)来处理,所以read/write就行了
+if (ret == 0) // 对方套接字如果关闭的话,就会返回0(表示发送过来的数据大小为0字节). 如果对方套接字关闭了,我们也结束死循环
+{
+    printf("client close\n");
+    break;
+}
+else if (ret == -1)// 如果read出现错误,就直接退出子进程
+{
+    ERR_EXIT("read");
+}
 ```
 5. 打印ip和port
     + 套接字里的sin_port和sin_addr都是网络字节序.
