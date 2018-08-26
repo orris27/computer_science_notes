@@ -55,17 +55,6 @@ int main()
     for (int i=0;i<number;++i)
         close(sockfd[i]);
 
-     
-   
     return 0;
-
-
-
-    
-
-
-    
-    
-
 
 }

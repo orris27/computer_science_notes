@@ -44,8 +44,13 @@ void handle_client(int conn_sockfd)
 void handle_sigchld(int sig)
 {
     //调用wait函数子进程的状态
-    wait(NULL);
+    //wait(NULL);
     //wait进程仅仅等待第一个子进程的退出
+    //调用waitpid函数来处理子进程的状态
+    //wait(NULL);
+    //waitpid(-1,NULL,WNOHANG);
+    //循环调用waitpid去轮询子进程,如果检测到他们是退出状态,我们就释放该僵尸进程
+    while(waitpid(-1,NULL,WNOHANG)>0);
 }
 
 int main()
