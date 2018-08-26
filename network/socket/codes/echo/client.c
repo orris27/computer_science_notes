@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <signal.h>
 
 
 #define ERR_EXIT(m) \
@@ -17,6 +18,10 @@
 
 int main()
 {
+
+    signal(SIGPIPE,SIG_IGN);
+
+
     // create a clinet socket
     int sockfd;
     if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
@@ -40,7 +45,15 @@ int main()
         // 发送数据只要往套接字里写入数据就好了
         write(sockfd,send_buf,sizeof(send_buf));
         // 接收数据只要从套接字里读取数据就好了
-        read(sockfd,recv_buf,sizeof(recv_buf));
+        int ret = read(sockfd,recv_buf,sizeof(recv_buf));
+        if(ret == 0)                 
+        {                            
+            printf("server close\n");
+            break;                   
+        }                            
+        else if(ret < 0)             
+              ERR_EXIT("read");        
+
         fputs(recv_buf,stdout);
         memset(send_buf,0,sizeof(send_buf));
         memset(recv_buf,0,sizeof(recv_buf));
@@ -48,17 +61,5 @@ int main()
 
     // close all the sockets
     close(sockfd);
-
-
     return 0;
-
-
-
-    
-
-
-    
-    
-
-
 }
