@@ -174,3 +174,45 @@ if (getlocalip(localip) == -1)
 printf("%s\n",localip);
 
 ```
+
+
+
+20. 解决僵尸进程
+    1. (方法1)在服务器端的main函数里添加`signal(SIGCHLD,SIG_IGN);`就好了
+    2. (方法2)捕捉SIGCHLD信号,调用wait函数=>问题:只能等待一个子进程退出
+        1. 实现
+        ```
+        void handle_sigchld(int sig)
+        {   
+            //调用wait函数子进程的状态
+            wait(NULL);
+            //wait进程仅仅等待第一个子进程的退出
+        }
+        signal(SIGCHLD,handle_sigchld);
+        ```
+        2. 问题:不能关闭所有子进程的问题重现<=多个信号SIGCHLD同时发送给服务端的时候,由于这些信号是不可靠信号,并且只能排队一个,所以就会丢失信号(当然信号的到来不一定是同时的,那么就会看到用wait可以消除多个僵尸进程的情况)
+        ```
+        ./server
+        ./multiclient # 如果没有观察到的话,可以考虑把同时连接的套接字的个数再增加.
+        #------------------------------------------------------------------
+        # orris    16530  5904  0 21:32 pts/1    00:00:00 ./server
+        # orris    16550 16530  0 21:32 pts/1    00:00:00 [server] <defunct>
+        # orris    16551 16530  0 21:32 pts/1    00:00:00 [server] <defunct>
+        #------------------------------------------------------------------
+
+        ```
+    3. (方法3,推荐)捕捉到SIGCHLD信号后,轮询所有子进程,如果发现是退出状态,就调用waitpid执行,从而即使只收到1个SIGCHLD,也会遍历到要退出的子进程
+    ```
+    void handle_sigchld(int sig)
+    {
+        //循环调用waitpid去轮询子进程,如果检测到他们是退出状态,我们就释放该僵尸进程
+        while(waitpid(-1,NULL,WNOHANG)>0);
+    }
+
+    int main()
+    {
+        signal(SIGCHLD,handle_sigchld);
+        //....
+    }
+    ```
+
