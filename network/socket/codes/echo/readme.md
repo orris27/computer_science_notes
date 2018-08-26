@@ -31,7 +31,7 @@ ps -ef | grep server
     }
     signal(SIGCHLD,handle_sigchld);
     ```
-    2. 问题:不能关闭所有子进程的问题重现
+    2. 问题:不能关闭所有子进程的问题重现<=多个信号SIGCHLD同时发送给服务端的时候,由于这些信号是不可靠信号,并且只能排队一个,所以就会丢失信号(当然信号的到来不一定是同时的,那么就会看到用wait可以消除多个僵尸进程的情况)
     ```
     ./server
     ./multiclient # 如果没有观察到的话,可以考虑把同时连接的套接字的个数再增加.
@@ -42,4 +42,17 @@ ps -ef | grep server
     #------------------------------------------------------------------
 
     ```
+3. (方法3,推荐)捕捉到SIGCHLD信号后,轮询所有子进程,如果发现是退出状态,就调用waitpid执行,从而即使只收到1个SIGCHLD,也会遍历到要退出的子进程
+```
+void handle_sigchld(int sig)
+{
+    //循环调用waitpid去轮询子进程,如果检测到他们是退出状态,我们就释放该僵尸进程
+    while(waitpid(-1,NULL,WNOHANG)>0);
+}
 
+int main()
+{
+    signal(SIGCHLD,handle_sigchld);
+    //....
+}
+```
