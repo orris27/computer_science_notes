@@ -115,3 +115,9 @@ int connect(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
 // 返回值:成功0,失败-1
 ```
 
+### 3-6 host
+```
+int gethostname(char *name, size_t len); 
+struct hostent *gethostbyname(const char *name);
+struct hostent *gethostbyname(const char *name);
+```
