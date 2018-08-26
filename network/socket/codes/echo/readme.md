@@ -19,4 +19,14 @@ ps -ef | grep server
 
 ```
 ### 1-2. 解决
-1. 在main函数里添加`signal(SIGCHLD,SIG_IGN);`就好了
+1. (方法1)在main函数里添加`signal(SIGCHLD,SIG_IGN);`就好了
+2. (方法2)捕捉SIGCHLD信号,调用wait函数=>问题:只能等待一个子进程退出
+```
+void handle_sigchld(int sig)
+{   
+    //调用wait函数子进程的状态
+    wait(NULL);
+    //wait进程仅仅等待第一个子进程的退出
+}
+signal(SIGCHLD,handle_sigchld);
+```
