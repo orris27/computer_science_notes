@@ -112,3 +112,65 @@ int conn_sockfd;
 if ((conn_sockfd = accept(sockfd,(struct sockaddr*)&peer_addr,&peer_len))<0)
   ERR_EXIT("accept");
 ```
+17. 获取主机名
+```
+char hostname[100]={0};
+if (gethostname(hostname,sizeof(host) <0)
+    ERR_EXIT("gethostname");
+```
+
+18. 获取本机的所有ip列表(通过主机名获取)(虚拟机能获取`10.0.0.7`,但是获取不了`127.0.0.1`,我自己的电脑只能获取到`127.0.1.1`)
+```
+// 获取主机名
+char hostname[100]={0};
+if(gethostname(hostname,sizeof(hostname)) < 0)
+    ERR_EXIT("gethostname");
+
+
+// 获取保存ip列表的结构体,通过主机名
+struct hostent *hp;
+if ((hp = gethostbyname(hostname)) == NULL)
+    ERR_EXIT("gethostbyname");
+
+
+// 遍历该主机下的ip列表,每个ip元素存储的都是ip的结构体,可以强制类型转换成struct in_addr*类型
+int i = 0;
+while (hp->h_addr_list[i] != NULL)
+{
+
+    // 打印出ip地址信息,通过ip地址的结构体
+    printf("%s\n",inet_ntoa(*(struct in_addr*)hp->h_addr_list[i]));
+    // i++
+    i++;
+}
+```
+
+
+
+19. 获取本机IP地址(我的虚拟机里获取出来正确,但是我的电脑本身却只能获得`127.0.1.1`)
+```
+int getlocalip(char *ip)
+{
+    char hostname[100]={0};
+    if(gethostname(hostname,sizeof(hostname)) < 0)
+        return -1;
+
+
+    // 获取保存ip列表的结构体,通过主机名
+    struct hostent *hp;
+    if ((hp = gethostbyname(hostname)) == NULL)
+        return -1;
+
+    // 打印出ip地址信息,通过ip地址的结构体
+    strcpy(ip,inet_ntoa(*(struct in_addr*)hp->h_addr)); // man gethostbyname中有定义#define h_addr h_addr_list[0]
+    return 0;
+}
+
+
+// ....
+char localip[16] = {0};
+if (getlocalip(localip) == -1)
+    ERR_EXIT("getlocalip");
+printf("%s\n",localip);
+
+```
