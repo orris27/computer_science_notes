@@ -63,3 +63,26 @@ make
 
 ## 4. 实例
 > [UNIX网络编程功能实现](https://github.com/orris27/orris/blob/master/network/socket/implementation.md)
+
+
+## 5. 超时设置
+> [超时解决](https://coggle.it/diagram/W4LEu4dcxhLSLIc6/t/io)
+### 5-1. alarm
+```
+void handle_sigalrm(int sig)
+{
+    //SIGALRM信号,不用做处理,也会关闭read
+    return 0;
+}
+signal(SIGALRM,handle_sigalrm);
+//给定时间是5秒,超过时间就会发出SIGALRM信号,默认取消read
+alarm(5);
+int ret = read(fd,buf,sizeof(buf));
+if (ret == -1 && errno == EINTR)
+    errno = ETIMEDOUT;
+else if (ret >= 0)
+{
+    //如果read出现结果,就取消掉之前设置的闹钟
+    alarm(0);
+}
+```
