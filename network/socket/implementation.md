@@ -228,3 +228,5 @@ printf("%s\n",localip);
 21. [重现FIN_WAIT2和CLOSE_WAIT](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
 22. [解决SIGPIPE信号](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
 23. [使用select解决CLOSE_WATI和FIN_WAIT2状态](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
+24. [单进程select服务器](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
+25. [回射服务器中使用shutdown解决关闭后不能读取的问题](https://github.com/orris27/orris/blob/master/network/socket/codes/echo/readme.md)
