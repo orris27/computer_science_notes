@@ -164,46 +164,32 @@ int bind(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
 
 ### 3-2. socket
 #### 3-2-1. 创建套接字
-1. 函数
-    1. 创建套接字
-    ```
-    int socket(int domain, int type, int protocol); // 创建1个套接字用于通信 
-    // domain:用哪个协议族=>PF_INET(老师推荐的..)/AF_INET
-    // type:套接字类型
-    // protocol:协议类型=>0/IPPROTO_TCP(0表示让内核自己选择协议,而实际上如果使用AF_INET+SOCK_STREAM的话,已经就是TCP协议了)
-    // 返回值为套接字描述符=> <0表示创建失败
-    ```
-    2. 读取套接口缓冲区
-    ```
-    ssize_t recv(int sockfd, void *buf, size_t len, int flags);
-    // recv只能用于套接字的IO,而read可以获取其他IO
-    // flags可以处理MSG_OOB
-    // MSG_PEEK:读取套接口缓冲区的数据,但不清除缓冲区
-    // 错误处理:返回值<0=>异常
-    ```
-    3. 写入套接口缓冲区
-    ```
-    ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-    ```
-    4. 获取套接字的名字(可以获取自身的地址)
-    ```
-    int getsockname(int sockfd, struct sockaddr *addr, socklen_t *addrlen);//获取自身的ip地址
-    int getpeername(int sockfd, struct sockaddr *addr, socklen_t *addrlen);//获取对方的ip地址(套接字必须连接成功)
-    ```
-2. 实战
-    1. 创建套接字
-    ```
-    int sockfd;
-    if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
-      ERR_EXIT("socket");
-    ```
-    2. 获取自身的套接字地址
-    ```
-    struct sockaddr_in localaddr;
-    socklen_t addrlen = sizeof(localaddr);
-    if (getsockname(sockfd,(struct sockaddr*)&localaddr,&addrlen) < 0)
-        ERR_EXIT("getsockname");
-    ```
+1. 创建套接字
+```
+int socket(int domain, int type, int protocol); // 创建1个套接字用于通信 
+// domain:用哪个协议族=>PF_INET(老师推荐的..)/AF_INET
+// type:套接字类型
+// protocol:协议类型=>0/IPPROTO_TCP(0表示让内核自己选择协议,而实际上如果使用AF_INET+SOCK_STREAM的话,已经就是TCP协议了)
+// 返回值为套接字描述符=> <0表示创建失败
+```
+2. 读取套接口缓冲区
+```
+ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+// recv只能用于套接字的IO,而read可以获取其他IO
+// flags可以处理MSG_OOB
+// MSG_PEEK:读取套接口缓冲区的数据,但不清除缓冲区
+// 错误处理:返回值<0=>异常
+```
+3. 写入套接口缓冲区
+```
+ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+```
+4. 获取套接字的名字(可以获取自身的地址)
+```
+int getsockname(int sockfd, struct sockaddr *addr, socklen_t *addrlen);//获取自身的ip地址
+int getpeername(int sockfd, struct sockaddr *addr, socklen_t *addrlen);//获取对方的ip地址(套接字必须连接成功)
+```
+
 #### 3-2-2. 设置套接字参数
 1. 函数:`man setsockopt`
 ```
@@ -214,12 +200,7 @@ int setsockopt(int sockfd, int level, int optname,
 // optval: 参数的值(参数值可以是整数,也可以是结构体,所以这里要参数值的指针与参数结构体的大小)
 // optlen: 参数值的大小
 ```
-2. 允许服务器套接字重用TIME_WAIT套接字(实验中使用在bind函数之前,具体怎样不太清楚)
-```
-int reuse_on=1;
-if(setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&reuse_on,sizeof(reuse_on))<0)
-  ERR_EXIT("setsockopt");
-```
+
 
 ### 3-3. listen
 `man listen`查看帮助
@@ -230,11 +211,7 @@ int listen(int sockfd, int backlog);
 // backlog: 规定内核为此套接字排队的最大连接个数
 // 返回值:成功0,失败-1
 ```
-2. 实例
-```
-if(listen(sockfd,SOMAXCONN)<0) // SOMAXCONN是服务器套接字允许建立的最大队列,包括未连接+已连接的队列
-  ERR_EXIT("listen");
-```
+
 
 ### 3-4. accept
 `man 2 accept`查看帮助
@@ -263,11 +240,6 @@ int connect(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
 // 返回值:成功0,失败-1
 ```
 
-2. 实例
-```
-if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
-  ERR_EXIT("connect");
-```
 
 ## 4. 套接字类型
 1. SOCK_STREAM流式套接字(TCP)
@@ -319,3 +291,46 @@ if (ret == 0)
 7. [点对点聊天程序](https://github.com/orris27/orris/tree/master/network/socket/codes/chat)
 8. [解决TCP粘包问题-自定义包头](https://github.com/orris27/orris/tree/master/network/socket/codes/fixed-length)
 9. [解决TCP粘包问题-\n结尾](https://github.com/orris27/orris/tree/master/network/socket/codes/readline)
+10. 创建套接字
+```
+int sockfd;
+if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
+  ERR_EXIT("socket");
+```
+11. 获取自身的套接字地址
+```
+struct sockaddr_in localaddr;
+socklen_t addrlen = sizeof(localaddr);
+if (getsockname(sockfd,(struct sockaddr*)&localaddr,&addrlen) < 0)
+    ERR_EXIT("getsockname");
+```
+
+12. 使套接字处于监听状态
+```
+if(listen(sockfd,SOMAXCONN)<0) // SOMAXCONN是服务器套接字允许建立的最大队列,包括未连接+已连接的队列
+  ERR_EXIT("listen");
+```
+
+13. 允许服务器套接字重用TIME_WAIT套接字(实验中使用在bind函数之前,具体怎样不太清楚)
+```
+int reuse_on=1;
+if(setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&reuse_on,sizeof(reuse_on))<0)
+  ERR_EXIT("setsockopt");
+```
+
+
+14. 创建套接字并根据ip地址连接
+```
+int sockfd;
+if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
+  ERR_EXIT("socket");
+
+struct sockaddr_in addr;
+memset(&addr,0,sizeof(addr));
+addr.sin_family = AF_INET;
+addr.sin_port = htons(5188);
+addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
+  ERR_EXIT("connect");
+```
