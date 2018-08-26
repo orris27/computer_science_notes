@@ -16,26 +16,10 @@
         exit(EXIT_FAILURE); \
     } while(0)
 
-int main()
+
+
+void handle_client(int sockfd)
 {
-
-    signal(SIGPIPE,SIG_IGN);
-
-
-    // create a clinet socket
-    int sockfd;
-    if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
-      ERR_EXIT("socket");
-    
-    //create an ip addr & connect the socket to it
-    struct sockaddr_in addr;
-    memset(&addr,0,sizeof(addr));
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(5188); 
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-    if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
-      ERR_EXIT("connect");
 
     char send_buf[1024];
     char recv_buf[1024];
@@ -61,5 +45,29 @@ int main()
 
     // close all the sockets
     close(sockfd);
+}
+int main()
+{
+
+    signal(SIGPIPE,SIG_IGN);
+
+
+    // create a clinet socket
+    int sockfd;
+    if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
+      ERR_EXIT("socket");
+    
+    //create an ip addr & connect the socket to it
+    struct sockaddr_in addr;
+    memset(&addr,0,sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(5188); 
+    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
+      ERR_EXIT("connect");
+
+    handle_client(sockfd);
+
     return 0;
 }
