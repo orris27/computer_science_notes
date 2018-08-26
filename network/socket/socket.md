@@ -165,37 +165,45 @@ int bind(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
 ### 3-2. socket
 #### 3-2-1. 创建套接字
 1. 函数
-```
-int socket(int domain, int type, int protocol); // 创建1个套接字用于通信 
-// domain:用哪个协议族=>PF_INET(老师推荐的..)/AF_INET
-// type:套接字类型
-// protocol:协议类型=>0/IPPROTO_TCP(0表示让内核自己选择协议,而实际上如果使用AF_INET+SOCK_STREAM的话,已经就是TCP协议了)
-// 返回值为套接字描述符=> <0表示创建失败
-
-ssize_t recv(int sockfd, void *buf, size_t len, int flags);
-// recv只能用于套接字的IO,而read可以获取其他IO
-// flags可以处理MSG_OOB
-// MSG_PEEK:读取套接口缓冲区的数据,但不清除缓冲区
-// 错误处理:返回值<0=>异常
-ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
-                 struct sockaddr *src_addr, socklen_t *addrlen);
-
-ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
-ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-
-ssize_t sendto(int sockfd, const void *buf, size_t len, int flags,
-               const struct sockaddr *dest_addr, socklen_t addrlen);
-
-ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
-
-```
-2. 创建套接字
-```
-int sockfd;
-if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
-  ERR_EXIT("socket");
-```
-
+    1. 创建套接字
+    ```
+    int socket(int domain, int type, int protocol); // 创建1个套接字用于通信 
+    // domain:用哪个协议族=>PF_INET(老师推荐的..)/AF_INET
+    // type:套接字类型
+    // protocol:协议类型=>0/IPPROTO_TCP(0表示让内核自己选择协议,而实际上如果使用AF_INET+SOCK_STREAM的话,已经就是TCP协议了)
+    // 返回值为套接字描述符=> <0表示创建失败
+    ```
+    2. 读取套接口缓冲区
+    ```
+    ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+    // recv只能用于套接字的IO,而read可以获取其他IO
+    // flags可以处理MSG_OOB
+    // MSG_PEEK:读取套接口缓冲区的数据,但不清除缓冲区
+    // 错误处理:返回值<0=>异常
+    ```
+    3. 写入套接口缓冲区
+    ```
+    ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+    ```
+    4. 获取套接字的名字(可以获取自身的地址)
+    ```
+    int getsockname(int sockfd, struct sockaddr *addr, socklen_t *addrlen);//获取自身的ip地址
+    int getpeername(int sockfd, struct sockaddr *addr, socklen_t *addrlen);//获取对方的ip地址(套接字必须连接成功)
+    ```
+2. 实战
+    1. 创建套接字
+    ```
+    int sockfd;
+    if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
+      ERR_EXIT("socket");
+    ```
+    2. 获取自身的套接字地址
+    ```
+    struct sockaddr_in localaddr;
+    socklen_t addrlen = sizeof(localaddr);
+    if (getsockname(sockfd,(struct sockaddr*)&localaddr,&addrlen) < 0)
+        ERR_EXIT("getsockname");
+    ```
 #### 3-2-2. 设置套接字参数
 1. 函数:`man setsockopt`
 ```
