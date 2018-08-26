@@ -238,7 +238,7 @@ if (getrlimit(RLIMIT_NOFILE,&rl) <0)
 printf("%d\n",(int)rl.rlim_cur); 
 printf("%d\n",(int)rl.rlim_max);
 ```
-27. 修改文件描述符(调成2048后,实际打开的文件在1151就停止住了..<=我使用的select服务器,所以也可能是select受到FD_SETSIZE限制)
+27. 修改文件描述符(调成2048后,实际打开的文件在1151就停止住了..<=我使用的select服务器,是select受到FD_SETSIZE限制.使用poll服务器后,客户端和服务器都修改后就正确了=>该代码可行的)
 ```
 //修改当前进程的文件描述符
 struct rlimit rl;
@@ -252,5 +252,5 @@ if (getrlimit(RLIMIT_NOFILE,&rl) <0)
       ERR_EXIT("getrlimit");
 printf("%d\n",(int)rl.rlim_cur);
 printf("%d\n",(int)rl.rlim_max);
-
 ```
+28. [使用poll函数实现并发服务器](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
