@@ -27,43 +27,14 @@ struct sockaddr {
 
 
 ## 2. 接口
-### 3-1. 地址
-#### 3-1-1. 地址转换函数
+### 2-1. 地址
+#### 2-1-1. 地址转换函数
 32位整数用来存放ip地址.但我们习惯的ip地址是用`.`隔开的,实际对应的32位整数不得而知.因此提供了转换函数
-1. 接口
+1. 字节序转换
 ```
 int inet_aton(const char *cp, struct in_addr *inp); // 点分ip=>网络字节序的ip输出到inp中
 in_addr_t inet_addr(const char *cp); // 点分ip=>网络字节序的ip(32位整数)输出到返回值
 char *inet_ntoa(struct in_addr in); // 网络字节序的ip(32位整数,struct in_addr数据结构,只有s_addr一个成员)=>点分ip
-```
-2. 实例
-```
-vim addr.c
-##############################################################
-#include <stdio.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-
-
-int main()
-{
-    unsigned int inip;
-    inip = inet_addr("192.168.0.100"); //转换成了网络字节序的ip
-    printf("addr=%u\n",ntohl(inip));  // 转换成了主机字节序的ip
-
-    struct in_addr ipaddr;
-    ipaddr.s_addr = inip;
-    printf("%s\n",inet_ntoa(ipaddr)); // 网络字节序ip=>点分ip
-    return 0;
-}
-##############################################################
-
-make && .addr
-#----------------------------------------------------------------
-# addr=3232235620
-# 192.168.0.100
-#----------------------------------------------------------------
 ```
 #### 3-1-2. 地址绑定函数
 ```
@@ -103,7 +74,7 @@ int getpeername(int sockfd, struct sockaddr *addr, socklen_t *addrlen);//获取�
 ```
 
 #### 3-2-2. 设置套接字参数
-1. 函数:`man setsockopt`
+1. 设置套接字参数:`man setsockopt`
 ```
 int setsockopt(int sockfd, int level, int optname,
                const void *optval, socklen_t optlen);
@@ -116,7 +87,7 @@ int setsockopt(int sockfd, int level, int optname,
 
 ### 3-3. listen
 `man listen`查看帮助
-1. 函数
+1. 使套接字处于listen状态
 ```
 int listen(int sockfd, int backlog);
 // sockfd:socket函数返回的套接字
@@ -127,7 +98,7 @@ int listen(int sockfd, int backlog);
 
 ### 3-4. accept
 `man 2 accept`查看帮助
-1. 函数
+1. 接受对方套接字的连接
 ```
 int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 // sockfd: socket函数返回的套接字
@@ -135,17 +106,9 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
 // addrlen: 对方的套接字地址长度.=>一定要有初始值!!!可以为sizeof(peeraddr)
 // 返回值: 连接的套接字,为主动套接字.(套接字描述符)
 ```
-2. 实例
-```
-struct sockaddr peer_addr;
-socklen_t peer_len = sizeof(peer_addr); // 使用accept获得对方的套接字等信息时,对方套接字的长度一定要初始化
-int conn_sockfd;
-if ((conn_sockfd = accept(sockfd,(struct sockaddr*)&peer_addr,&peer_len))<0)
-  ERR_EXIT("accept");
-```
 
 ### 3-5. connect
-1. 函数
+1. 连接指定ip和port
 ```
 int connect(int sockfd, const struct sockaddr *addr,socklen_t addrlen);
 
