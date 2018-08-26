@@ -121,3 +121,16 @@ int gethostname(char *name, size_t len);
 struct hostent *gethostbyname(const char *name);
 struct hostent *gethostbyname(const char *name);
 ```
+
+### 3-7. 进程
+1. wait
+```
+pid_t wait(int *wstatus);
+```
+2. waitpid:暂时停止当前进程,直到有信号过来或子进程结束 > [第三方介绍](https://www.cnblogs.com/baoguo/archive/2009/12/09/1619956.html)
+```
+pid_t waitpid(pid_t pid, int *wstatus, int options);
+// pid : -1=>等待任何一个子进程退出,和wait一样
+// options:0=>不用任何参数;WNOHANG=>即使没有子进程退出,我也不继续等
+// 返回值: >0=>正常退出; 0=>没有已退出的子进程可以采集
+```
