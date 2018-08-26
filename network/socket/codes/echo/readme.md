@@ -1,4 +1,4 @@
-    说明:这个回射服务器没有实现readline和writen&readn功能,因为我当初把他们实现在了聊天程序里了.
+说明:这个回射服务器没有实现readline和writen&readn功能,因为我当初把他们实现在了聊天程序里了.
 ## 1. 僵尸进程
 已经死亡的进程但在进程表中占有一个位置(slot).产生原因是子进程已经死亡,但父进程却没有等待(调用wait/waitpid)它
 ### 1-1. 检查是否存在僵尸进程
@@ -19,6 +19,4 @@ ps -ef | grep server
 
 ```
 ### 1-2. 解决
-```
-在main函数里添加`signal(SIGCHLD,SIG_IGN);`就好了
-```
+1. 在main函数里添加`signal(SIGCHLD,SIG_IGN);`就好了
