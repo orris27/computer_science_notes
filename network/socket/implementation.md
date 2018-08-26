@@ -1,5 +1,5 @@
 1. [回射C/S-TCP模型](https://github.com/orris27/orris/tree/master/network/socket/codes/simple-tcp)
-2. ipv4地址
+2. 创建ipv4地址
 ```
 struct sockaddr_in addr;
 memset(&addr,0,sizeof(addr));
@@ -81,4 +81,26 @@ addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
 if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
   ERR_EXIT("connect");
+```
+
+
+15. 字节序和点分ip转换
+```
+unsigned int inip;
+inip = inet_addr("192.168.0.100"); //点分ip=>网络字节序的ip
+printf("addr=%u\n",ntohl(inip));  // 网络字节序的ip=>主机字节序的ip
+
+struct in_addr ipaddr;
+ipaddr.s_addr = inip;
+printf("%s\n",inet_ntoa(ipaddr)); // 网络字节序ip=>点分ip
+```
+
+
+16. 接收对方连接,并获取对方地址信息
+```
+struct sockaddr peer_addr;
+socklen_t peer_len = sizeof(peer_addr); // 使用accept获得对方的套接字等信息时,对方套接字的长度一定要初始化
+int conn_sockfd;
+if ((conn_sockfd = accept(sockfd,(struct sockaddr*)&peer_addr,&peer_len))<0)
+  ERR_EXIT("accept");
 ```
