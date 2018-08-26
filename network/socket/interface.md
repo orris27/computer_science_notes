@@ -134,3 +134,6 @@ pid_t waitpid(pid_t pid, int *wstatus, int options);
 // options:0=>不用任何参数;WNOHANG=>即使没有子进程退出,我也不继续等
 // 返回值: >0=>正常退出; 0=>没有已退出的子进程可以采集
 ```
+
+### 3-8. I/O
+#### 3-8-1. select
