@@ -73,11 +73,13 @@ netstat -nat | grep 5188
 #--------------------------------------------------------------------------------------
 ```
 
-## 3. SIGPIPE测试
-1. SIGPIPE信号会关闭进程
+## 3. SIGPIPE
+1. SIGPIPE信号默认会关闭进程
 ```
 ./server
 ./sigpipe_client
 Ctrl+C退出server端
 在客户端输入123,发现没有输出"server close"就退出了=>2次调用write的时候,第一个write导致我们收到对方的RST的包,第二次调用write的话,就会产生SIGPIPE信号,该信号默认结束进程
+但这里客户端中我们重新定义了处理函数,之所以程序还是会退出是因为read函数接收0而退出了
+sigpipe信号忽略即可.(在client.c中我们忽略了sigpipe信号)
 ```
