@@ -137,3 +137,16 @@ pid_t waitpid(pid_t pid, int *wstatus, int options);
 
 ### 3-8. I/O
 #### 3-8-1. select
+```
+int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);
+// nfds: 所有文件描述符的最大值+1.(比如read:{3,5,8},write:{4,9},except:{}=>9+1=10)
+// readfds:读的集合,要检测有数据可读的文件描述符
+// writefds:
+// exceptfds:
+// timeout:如果超过超时时间但没有检测到IO,就返回0
+// 输出:readfds,writefds,exeptfds和timeout都是输入也是输出,调用select函数后再从他们这获取结果
+void FD_CLR(int fd, fd_set *set); // 将文件描述符从集合中清除
+int  FD_ISSET(int fd, fd_set *set); // 判断文件描述符是否在集合中
+void FD_SET(int fd, fd_set *set); // 添加文件描述符到集合中
+void FD_ZERO(fd_set *set); // 清空集合
+```
