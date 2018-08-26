@@ -230,3 +230,27 @@ printf("%s\n",localip);
 23. [使用select解决CLOSE_WATI和FIN_WAIT2状态](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
 24. [单进程select服务器](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
 25. [回射服务器中使用shutdown解决关闭后不能读取的问题](https://github.com/orris27/orris/blob/master/network/socket/codes/echo/readme.md)
+26. 获取文件描述符大小(我这边cur=1024,而`ulimit -n`的值=1024,而rlim_max为4096.使用程序测试后发现1024是极限)
+```
+struct rlimit rl;
+if (getrlimit(RLIMIT_NOFILE,&rl) <0)
+      ERR_EXIT("getrlimit");
+printf("%d\n",(int)rl.rlim_cur); 
+printf("%d\n",(int)rl.rlim_max);
+```
+27. 修改文件描述符(调成2048后,实际打开的文件在1151就停止住了..<=我使用的select服务器,所以也可能是select受到FD_SETSIZE限制)
+```
+//修改当前进程的文件描述符
+struct rlimit rl;
+rl.rlim_cur = 2048;
+rl.rlim_max = 2048;
+if (setrlimit(RLIMIT_NOFILE,&rl) <0)
+      ERR_EXIT("getrlimit");
+
+//查看当前进程的文件描述符
+if (getrlimit(RLIMIT_NOFILE,&rl) <0)
+      ERR_EXIT("getrlimit");
+printf("%d\n",(int)rl.rlim_cur);
+printf("%d\n",(int)rl.rlim_max);
+
+```
