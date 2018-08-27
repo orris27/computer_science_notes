@@ -101,7 +101,13 @@ if (ret == 0)
     if ((sockfd = socket(AF_INET,SOCK_DGRAM,0))<0)
       ERR_EXIT("socket");
     ```
-    3. 创建套接字并绑定ip地址
+    3. UNIX套接字
+    ```
+    int sockfd;
+    if ((sockfd = socket(AF_UNIX,SOCK_DGRAM,0))<0)
+        ERR_EXIT("socket");
+    ```
+    4. 创建套接字并绑定ip地址
     ```
     int sockfd;
     struct sockaddr_in addr;
@@ -117,7 +123,7 @@ if (ret == 0)
         ERR_EXIT("bind");
     ```
     
-    4. 创建套接字并根据ip地址连接
+    5. 创建套接字并根据ip地址连接
     ```
     int sockfd;
     if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
@@ -131,6 +137,18 @@ if (ret == 0)
 
     if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
       ERR_EXIT("connect");
+    ```
+    6. 创建UNIX套接字并绑定UNIX地址
+    ```
+    int sockfd;
+    if ((sockfd = socket(AF_UNIX,SOCK_DGRAM,0))<0)
+        ERR_EXIT("socket");
+    struct sockaddr_un addr;
+    addr.sun_family = AF_UNIX;
+    strcpy(addr.sun_path,"test-sockets"); // 会统计目录下创建s类型的文件,文件名是"test-sockets"
+
+    if(bind(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
+        ERR_EXIT("bind");
     ```
 
 11. 获取套接字地址
