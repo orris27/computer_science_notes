@@ -86,3 +86,20 @@ else if (ret >= 0)
     alarm(0);
 }
 ```
+
+
+## 6. UNIX域
+查看帮助:`man unix`.注意不要包含<netinet.h>,而是<sys/un.h>
+### 6-1. 地址结构
+```
+#define UNIX_PATH_MAX 108
+
+struct sockaddr_un {
+    sa_family_t sun_family;     /*AF_UNIX*/
+    char        sun_path[UNIX_PATH_MAX]; /*pathname*/
+}
+
+// sun_family.一般使用AF_UNIX=AF_LOCAL任意一个就行了
+// sun_path.地址的路径.UNIX协议通过路径来描述地址的.使用strcpy来赋值,值随便取
+//      会在指定的字符串下面创建同名文件=>ll一下发现是s文件,即套接字文件
+````
