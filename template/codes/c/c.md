@@ -49,7 +49,7 @@ addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     if (ret == -1)// 如果read出现错误,就直接退出子进程
     {
         if (errno == EINTR)
-            continue;
+            continue;   
         else //如果返回值<0,并且不是中断的信号=>退出进程,返回-1
             ERR_EXIT("read");
     }
