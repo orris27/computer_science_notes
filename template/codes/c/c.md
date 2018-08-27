@@ -1,3 +1,4 @@
+## 1. 网络编程
 1. [回射C/S-TCP模型](https://github.com/orris27/orris/tree/master/network/socket/codes/simple-tcp).[图解](https://ask.qcloudimg.com/http-save/yehe-1147827/sams3iwj3k.png?imageView2/2/w/1620)
 2. 创建ipv4地址
 ```
@@ -49,11 +50,50 @@ if (ret == 0)
 8. [解决TCP粘包问题-自定义包头](https://github.com/orris27/orris/tree/master/network/socket/codes/fixed-length)
 9. [解决TCP粘包问题-\n结尾](https://github.com/orris27/orris/tree/master/network/socket/codes/readline)
 10. 创建套接字
-```
-int sockfd;
-if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
-  ERR_EXIT("socket");
-```
+    1. TCP套接字
+    ```
+    int sockfd;
+    if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
+      ERR_EXIT("socket");
+    ```
+    2. UDP套接字
+    ```
+    int sockfd;
+    if ((sockfd = socket(AF_INET,SOCK_DGRAM,0))<0)
+      ERR_EXIT("socket");
+    ```
+    3. 创建套接字并绑定ip地址
+    ```
+    int sockfd;
+    if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
+      ERR_EXIT("socket");
+
+    struct sockaddr_in addr;
+    memset(&addr,0,sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(5188);
+    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    
+    if(bind(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0) // "专门协议地址=>通用协议地址"使用小括号类型转换就好了
+        ERR_EXIT("bind");
+    ```
+    
+    4. 创建套接字并根据ip地址连接
+    ```
+    int sockfd;
+    if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
+      ERR_EXIT("socket");
+
+    struct sockaddr_in addr;
+    memset(&addr,0,sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(5188);
+    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
+      ERR_EXIT("connect");
+    ```
+
 11. 获取套接字地址
     1. 获取自身套接字地址
     ```
@@ -83,23 +123,7 @@ if(setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&reuse_on,sizeof(reuse_on))<0)
   ERR_EXIT("setsockopt");
 ```
 
-
-14. 创建套接字并根据ip地址连接
-```
-int sockfd;
-if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
-  ERR_EXIT("socket");
-
-struct sockaddr_in addr;
-memset(&addr,0,sizeof(addr));
-addr.sin_family = AF_INET;
-addr.sin_port = htons(5188);
-addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
-  ERR_EXIT("connect");
-```
-
+14. [使用poll函数实现并发服务器](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
 
 15. 字节序和点分ip转换
 ```
@@ -253,4 +277,3 @@ if (getrlimit(RLIMIT_NOFILE,&rl) <0)
 printf("%d\n",(int)rl.rlim_cur);
 printf("%d\n",(int)rl.rlim_max);
 ```
-28. [使用poll函数实现并发服务器](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
