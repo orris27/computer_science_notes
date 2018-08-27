@@ -64,7 +64,7 @@ ssize_t recv(int sockfd, void *buf, size_t len, int flags); //tcp
 // 错误处理:返回值<0=>异常
 ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, //udp
                  struct sockaddr *src_addr, socklen_t *addrlen);
-
+//返回值:0=>不表示对方关闭连接;<0=>错误
 ```
 3. 写入套接口缓冲区
 ```
