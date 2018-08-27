@@ -11,12 +11,19 @@ addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 // (struct sockaddr*)&addr // 转换成通用地址结构体的指针,供connect等函数使用
 ```
 3. 发送数据
-```
-// connnect(sockfd,....);
-char send_buf[1024];
-// fgets(send_buf,sizeof(send_buf),stdin);
-write(sockfd,send_buf,sizeof(send_buf)); //直接网套接字里写数据就行了
-```
+    1. write
+    ```
+    char send_buf[1024];
+    // fgets(send_buf,sizeof(send_buf),stdin);
+    write(sockfd,send_buf,sizeof(send_buf)); //直接网套接字里写数据就行了
+    ```
+    2. UDP的sendto函数
+        + sockfd
+        + send_buf
+        + addr(struct sockaddr_in,对方的ip地址)
+    ```
+    sendto(sockfd,send_buf,strlen(send_buf),0,(struct sockaddr*)&addr,sizeof(addr));
+    ```
 
 4. 接收数据
     1. TCP接收数据
@@ -47,8 +54,8 @@ write(sockfd,send_buf,sizeof(send_buf)); //直接网套接字里写数据就行�
             ERR_EXIT("read");
     }
     else if(ret > 0)
-    {
-        // ...
+    { // 如果返回正确=>我们怎么处理
+        
     }
 
     ```
@@ -86,16 +93,16 @@ if (ret == 0)
     3. 创建套接字并绑定ip地址
     ```
     int sockfd;
-    if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
-      ERR_EXIT("socket");
-
     struct sockaddr_in addr;
+    
+    if ((sockfd = socket(AF_INET,SOCK_DGRAM,0))<0)
+        ERR_EXIT("socket");
     memset(&addr,0,sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(5188);
     addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-    
-    if(bind(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0) // "专门协议地址=>通用协议地址"使用小括号类型转换就好了
+
+    if(bind(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0) 
         ERR_EXIT("bind");
     ```
     
@@ -317,3 +324,5 @@ printf("%d\n",(int)rl.rlim_max);
 #include <stdio.h>
 #include <stdlib.h>
 ```
+
+30. 
