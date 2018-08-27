@@ -19,19 +19,40 @@ write(sockfd,send_buf,sizeof(send_buf)); //直接网套接字里写数据就行�
 ```
 
 4. 接收数据
-```
-char recv_buf[1024];
-int ret = read(conn_sockfd,&recv_buf,sizeof(recv_buf)); // 接收到的数据是通过connection套接字来的.直接将这个套接字当成文件(因为是文件描述符)来处理,所以read/write就行了
-if (ret == 0) // 对方套接字如果关闭的话,就会返回0(表示发送过来的数据大小为0字节). 如果对方套接字关闭了,我们也结束死循环
-{
-    printf("client close\n");
-    break;
-}
-else if (ret == -1)// 如果read出现错误,就直接退出子进程
-{
-    ERR_EXIT("read");
-}
-```
+    1. TCP接收数据
+    ```
+    char recv_buf[1024];
+    int ret = read(conn_sockfd,&recv_buf,sizeof(recv_buf)); // 接收到的数据是通过connection套接字来的.直接将这个套接字当成文件(因为是文件描述符)来处理,所以read/write就行了
+    if (ret == 0) // 对方套接字如果关闭的话,就会返回0(表示发送过来的数据大小为0字节). 如果对方套接字关闭了,我们也结束死循环
+    {
+        printf("client close\n");
+        break;
+    }
+    else if (ret == -1)// 如果read出现错误,就直接退出子进程
+    {
+        if (errno == EINTR)
+            continue;
+        else //如果返回值<0,并且不是中断的信号=>退出进程,返回-1
+            ERR_EXIT("read");
+    }
+    ```
+    2. UDP接收数据
+    ```
+    int ret = recvfrom(sockfd,recv_buf,sizeof(recv_buf),0,(struct sockaddr*)&peer_addr,&peer_len);
+    if (ret == -1)// 如果read出现错误,就直接退出子进程
+    {
+        if (errno == EINTR)
+            continue;
+        else //如果返回值<0,并且不是中断的信号=>退出进程,返回-1
+            ERR_EXIT("read");
+    }
+    else if(ret > 0)
+    {
+        // ...
+    }
+
+    ```
+    
 5. 打印ip和port
     + 套接字里的sin_port和sin_addr都是网络字节序.
 ```
@@ -276,4 +297,23 @@ if (getrlimit(RLIMIT_NOFILE,&rl) <0)
       ERR_EXIT("getrlimit");
 printf("%d\n",(int)rl.rlim_cur);
 printf("%d\n",(int)rl.rlim_max);
+```
+
+
+28. err_exit
+```
+#define ERR_EXIT(m) do { perror(m); exit(EXIT_FAILURE); } while(0)
+```
+
+29. 网络编程包含的头文件
+```
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 ```
