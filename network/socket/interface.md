@@ -57,15 +57,21 @@ int socket(int domain, int type, int protocol); // 创建1个套接字用于通�
 ```
 2. 读取套接口缓冲区
 ```
-ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+ssize_t recv(int sockfd, void *buf, size_t len, int flags); //tcp
 // recv只能用于套接字的IO,而read可以获取其他IO
 // flags可以处理MSG_OOB
 // MSG_PEEK:读取套接口缓冲区的数据,但不清除缓冲区
 // 错误处理:返回值<0=>异常
+ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, //udp
+                 struct sockaddr *src_addr, socklen_t *addrlen);
+
 ```
 3. 写入套接口缓冲区
 ```
 ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+ssize_t sendto(int sockfd, const void *buf, size_t len, int flags, //udp
+               const struct sockaddr *dest_addr, socklen_t addrlen);
+
 ```
 4. 获取套接字的名字(可以获取自身的地址)
 ```
