@@ -17,12 +17,23 @@ addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     // fgets(send_buf,sizeof(send_buf),stdin);
     write(sockfd,send_buf,sizeof(send_buf)); //直接网套接字里写数据就行了
     ```
-    2. UDP的sendto函数
+    2. UDP的sendto函数(无连接)
         + sockfd
         + send_buf
         + addr(struct sockaddr_in,对方的ip地址)
     ```
     sendto(sockfd,send_buf,strlen(send_buf),0,(struct sockaddr*)&addr,sizeof(addr));
+    
+    ```
+    3. UDP的sendto函数(有连接)
+        + sockfd
+        + send_buf
+        + addr(struct sockaddr_in,对方的ip地址)
+    ```
+    if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
+        ERR_EXIT("connect");
+        
+    sendto(sockfd,send_buf,strlen(send_buf),0,NULL,0);
     ```
 
 4. 接收数据
