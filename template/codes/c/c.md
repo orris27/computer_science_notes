@@ -310,7 +310,10 @@ printf("%s\n",localip);
 22. [解决SIGPIPE信号](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
 23. [使用select解决CLOSE_WATI和FIN_WAIT2状态](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
 24. [单进程select服务器](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
-25. [回射服务器中使用shutdown解决关闭后不能读取的问题](https://github.com/orris27/orris/blob/master/network/socket/codes/echo/readme.md)
+25. [回射服务器中使用shutdown解决关闭后不能读取的问题](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
+```
+shutdown(sockfd,SHUT_WR);
+```
 26. 获取文件描述符大小(我这边cur=1024,而`ulimit -n`的值=1024,而rlim_max为4096.使用程序测试后发现1024是极限)
 ```
 struct rlimit rl;
@@ -354,4 +357,18 @@ printf("%d\n",(int)rl.rlim_max);
 #include <stdlib.h>
 ```
 
-30. 
+30. Makefile
+    1. 使用
+        1. 在BIN中写入要编译的c文件的文件名(不包括`.c`,比如说`client.c`就写成`BIN=client`)
+        2. `make`
+```
+.PHONY:clean all
+CC=gcc
+CFLAGS=-Wall -g
+BIN=
+all:$(BIN)
+$.o:%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+clean:
+	rm -f *.o $(BIN)
+```
