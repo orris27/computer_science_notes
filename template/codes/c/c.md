@@ -11,7 +11,7 @@ addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 // (struct sockaddr*)&addr // 转换成通用地址结构体的指针,供connect等函数使用
 ```
 3. 发送数据
-    1. write(UNIX的流协议/TCP)
+    1. write(UNIX的流协议/TCP/socketpair下的UNIX流协议)
     ```
     char send_buf[1024];
     // fgets(send_buf,sizeof(send_buf),stdin);
@@ -37,7 +37,7 @@ addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     ```
 
 4. 接收数据
-    1. UNIX流协议/TCP接收数据
+    1. UNIX流协议/TCP接收数据/socketpair下的UNIX流协议
     ```
     char recv_buf[1024];
     int ret = read(conn_sockfd,&recv_buf,sizeof(recv_buf)); // 接收到的数据是通过connection套接字来的.直接将这个套接字当成文件(因为是文件描述符)来处理,所以read/write就行了
@@ -166,6 +166,13 @@ if (ret == 0)
     memset(&addr,0,sizeof(addr));
     addr.sun_family = AF_UNIX;
     strcpy(addr.sun_path,"test-socket");
+    ```
+    8. 创建套接字对(socketpair)
+    ```
+    int sockets[2];
+    if(socketpair(AF_UNIX,SOCK_STREAM,0,sockets) == -1)
+        ERR_EXIT("socketpair");
+
     ```
 
 11. 获取套接字地址
@@ -397,3 +404,16 @@ while(fgets(send_buf,sizeof(send_buf),stdin) != NULL)
 
 }
 ```
+32. 创建1个进程
+```
+pid_t pid;
+if ((pid = fork()) == -1)
+    ERR_EXIT("fork");
+if (pid == 0) // 子进程
+{
+}
+else // 父进程
+{
+}
+```
+33. [socketpair实现发送数据给父/子进程让对方来自增变量](https://github.com/orris27/orris/tree/master/network/socket/codes/socketpair)
