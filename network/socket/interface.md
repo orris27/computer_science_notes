@@ -218,7 +218,52 @@ int poll(struct pollfd *fds, nfds_t nfds, int timeout);
 3. connect
 4. read&write
 5. unlink:"删除"套接字文件
+### 4-1. 传递文件描述符
+1. sendmsg和recvmsg只能是套接字.
+2. 传递
+3. 查看帮助:`man CMSG`
+```
+ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
+ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
 
+struct msghdr {
+    void         *msg_name;       //地址,一般放0
+    socklen_t     msg_namelen;    //地址长度.如果地址是0的话,这里也填0
+    struct iovec *msg_iov;        //发送的数据.可以是数组
+    size_t        msg_iovlen;     //指向的数组的个数
+    void         *msg_control;    //传递文件描述符所需要的辅助数据的指针.如果传递的是文件描述符,则需要提供控制信息(普通的数据不需要)
+    size_t        msg_controllen; //传递文件描述符的辅助数据的指针长度
+    int           msg_flags;      //辅助数据接收的选项
+};
+
+struct iovec {
+    void  *iov_base;              //缓冲区*
+    size_t iov_len;               //缓冲区的大小
+};
+
+//解决填充字节:CMSG_FIRSTHD(),CMSG_NXTHDR(获取下一个辅助数据的指针)
+//CMSG_LEN不包含结构体间的填充字节,但包含结构体内的填充字节.CMSG_LEN就是cmsg_len的值
+//辅助数据的结构体(1个结构体内会有填充字节,2个结构体之间也有填充字节)
+struct cmsghdr {
+    size_t cmsg_len;    //包括cmsg_len在内整个结构体的长度.如果只是1个文件描述符的话,cmsg_len=16
+    int    cmsg_level;  //(SOL_SOCKET)
+    int    cmsg_type;   //cmsg_level+cmsg_type表示要传递的类型.(SCM_RIGHTS,上面2个组合表示要传递文件描述符)
+/* followed by
+    unsigned char cmsg_data[];*/ //4个字节的文件描述符写在这里.如果要传递多个文件描述符,直接填充到后面就可以了
+};
+
+
+
+struct cmsghdr *CMSG_FIRSTHDR(struct msghdr *msgh);//获取辅助数据的第一个指针
+struct cmsghdr *CMSG_NXTHDR(struct msghdr *msgh, struct cmsghdr *cmsg);//获取辅助数据的下一个指针
+size_t CMSG_ALIGN(size_t length);
+size_t CMSG_SPACE(size_t length);//得到整个辅助数据占用的长度
+size_t CMSG_LEN(size_t length);
+unsigned char *CMSG_DATA(struct cmsghdr *cmsg);
+
+
+
+```
 ## 5. socketpair
 1. pipe是半双工的,只能父子进程/兄弟进程使用共享描述符来通信
 2. socketpair也只能父子进程/兄弟进程使用共享描述符来通信,是比pipe多了全双工的功能
@@ -232,3 +277,4 @@ int socketpair(int domain, int type, int protocol, int sv[2]);
 // sv:返回套接字对
 // 返回值:-1失败,0成功
 ```
+
