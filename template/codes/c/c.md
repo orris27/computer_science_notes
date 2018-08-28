@@ -149,7 +149,7 @@ if (ret == 0)
     addr.sun_family = AF_UNIX;
     strcpy(addr.sun_path,"/tmp/test-socket");
 
-    unlink("/tmp/test-socket");
+    unlink(addr.sun_path);
     if(bind(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
         ERR_EXIT("bind");
     
