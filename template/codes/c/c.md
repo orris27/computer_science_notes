@@ -174,6 +174,25 @@ if (ret == 0)
         ERR_EXIT("socketpair");
 
     ```
+    9. 创建UNIX流协议的套接字对,并创建1个进程,父子进程各使用其中1个套接字
+    ```
+    int sockets[2];
+    if(socketpair(AF_UNIX,SOCK_STREAM,0,sockets) == -1)
+        ERR_EXIT("socketpair");
+        
+    pid_t pid;
+    if ((pid = fork()) == -1)
+        ERR_EXIT("fork");
+    
+    if (pid == 0) // (假定子进程使用第1个套接字,而父进程使用第2个套接字)
+    {
+        close(sockets[1]);
+    }
+    else
+    {
+        close(sockets[0]);
+    }
+    ```
 
 11. 获取套接字地址
     1. 获取自身套接字地址
@@ -417,3 +436,4 @@ else // 父进程
 }
 ```
 33. [socketpair实现发送数据给父/子进程让对方来自增变量](https://github.com/orris27/orris/tree/master/network/socket/codes/socketpair)
+
