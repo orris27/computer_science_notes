@@ -138,7 +138,7 @@ if (ret == 0)
     if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
       ERR_EXIT("connect");
     ```
-    6. 创建UNIX套接字,并绑定UNIX地址,并处于监听状态
+    6. 创建UNIX套接字,并删除原来的套接字文件,并绑定UNIX地址,并处于监听状态
     ```
     int sockfd;
     if ((sockfd = socket(AF_UNIX,SOCK_STREAM,0))<0)
@@ -147,8 +147,9 @@ if (ret == 0)
     struct sockaddr_un addr;
     memset(&addr,0,sizeof(addr));
     addr.sun_family = AF_UNIX;
-    strcpy(addr.sun_path,"test-socket");
+    strcpy(addr.sun_path,"/tmp/test-socket");
 
+    unlink("/tmp/test-socket");
     if(bind(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
         ERR_EXIT("bind");
     
