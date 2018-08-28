@@ -437,3 +437,72 @@ else // 父进程
 ```
 33. [socketpair实现发送数据给父/子进程让对方来自增变量](https://github.com/orris27/orris/tree/master/network/socket/codes/socketpair)
 
+34. 传递文件描述符.(传递文件描述符程序实现)[https://github.com/orris27/orris/tree/master/network/socket/codes/send-fd]
+    1. 传递文件描述符
+    ```
+    void send_fd(int sockfd,int sendfd) // 参数:传递给谁=>sockfd;传递哪个套接字=>sendfd
+    {
+        struct msghdr msg;
+        msg.msg_name = NULL;
+        msg.msg_namelen = 0;
+        char sendchar = 0;
+        struct iovec vec;
+        vec.iov_base = &sendchar;
+        vec.iov_len = sizeof(sendchar);
+        msg.msg_iov = &vec;
+        msg.msg_iovlen = 1;
+        char cmsgbuf[CMSG_SPACE(sizeof(sendfd))];
+        msg.msg_control = cmsgbuf;
+        msg.msg_controllen = sizeof(cmsgbuf);
+        struct cmsghdr *p_cmsg = CMSG_FIRSTHDR(&msg);
+        p_cmsg->cmsg_len = CMSG_LEN(sendfd);
+        p_cmsg->cmsg_level = SOL_SOCKET;
+        p_cmsg->cmsg_type = SCM_RIGHTS;
+        int *p_fd = (int*)CMSG_DATA(p_cmsg);
+        *p_fd = sendfd;
+        msg.msg_flags = 0;
+        int ret = sendmsg(sockfd,&msg,0);
+        if(ret != 1)
+            ERR_EXIT("sendmsg");
+
+    }
+
+    ```
+    2. 接收文件描述符
+    ```
+    int recv_fd(const int sockfd)//参数:从哪里接收套接字=>sockfd.返回值:接收过来的套接字
+    {
+        int recvfd;
+        struct msghdr msg;
+        msg.msg_name = NULL;
+        msg.msg_namelen = 0;
+        int recvchar;
+        struct iovec vec;
+        vec.iov_base = &recvchar;
+        vec.iov_len = sizeof(recvchar);
+        msg.msg_iov = &vec;
+        msg.msg_iovlen = 1;
+        char cmsgbuf[CMSG_SPACE(sizeof(recvfd))];
+        msg.msg_control = cmsgbuf;
+        msg.msg_controllen = sizeof(cmsgbuf);
+        struct cmsghdr *p_cmsg = CMSG_FIRSTHDR(&msg);
+        int *p_fd = (int*)CMSG_DATA(p_cmsg);
+        *p_fd = -1;
+        msg.msg_flags = 0;
+        int ret = recvmsg(sockfd,&msg,0);
+        if(ret != 1)
+            ERR_EXIT("sendmsg");
+
+        p_cmsg = CMSG_FIRSTHDR(&msg);
+        if (p_cmsg == NULL)
+            ERR_EXIT("no passed fd");
+
+
+        p_fd = (int*)CMSG_DATA(p_cmsg);
+        recvfd = *p_fd;
+        if(recvfd == -1)
+            ERR_EXIT("no passed fd");
+
+        return recvfd;
+    }
+    ```
