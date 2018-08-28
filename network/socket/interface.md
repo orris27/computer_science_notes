@@ -227,17 +227,17 @@ ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
 ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
 
 struct msghdr {
-    void         *msg_name;       //地址,一般放0
-    socklen_t     msg_namelen;    //地址长度.如果地址是0的话,这里也填0
-    struct iovec *msg_iov;        //发送的数据.可以是数组
-    size_t        msg_iovlen;     //指向的数组的个数
-    void         *msg_control;    //传递文件描述符所需要的辅助数据的指针.如果传递的是文件描述符,则需要提供控制信息(普通的数据不需要)
-    size_t        msg_controllen; //传递文件描述符的辅助数据的指针长度
-    int           msg_flags;      //辅助数据接收的选项
+    void         *msg_name;       //发送/接收的套接口地址,一般放NULL.(只有在数据报套接口时才需要填写)
+    socklen_t     msg_namelen;    //发送/接收的套接口地址长度.如果发送/接收套接口的地址是NULL的话,这里也填0
+    struct iovec *msg_iov;        //I/O向量数组.指向"struct iovec"类型数据.
+    size_t        msg_iovlen;     //I/O向量数组中有多少个元素.
+    void         *msg_control;    //传递文件描述符所需要的辅助数据缓冲区数组.如果传递的是文件描述符,则需要提供控制信息(普通的数据不需要)
+    size_t        msg_controllen; //传递文件描述符的辅助数据缓冲区的元素大小.sizeof(xxx.msg_control).因为msg_controllen是辅助缓冲区本身的大小,而不是辅助缓冲区的个数
+    int           msg_flags;      //辅助数据接收的选项,默认填0就好了
 };
 
 struct iovec {
-    void  *iov_base;              //缓冲区*
+    void  *iov_base;              //缓冲区
     size_t iov_len;               //缓冲区的大小
 };
 
@@ -257,12 +257,11 @@ struct cmsghdr {
 struct cmsghdr *CMSG_FIRSTHDR(struct msghdr *msgh);//获取辅助数据的第一个指针
 struct cmsghdr *CMSG_NXTHDR(struct msghdr *msgh, struct cmsghdr *cmsg);//获取辅助数据的下一个指针
 size_t CMSG_ALIGN(size_t length);
-size_t CMSG_SPACE(size_t length);//得到整个辅助数据占用的长度
-size_t CMSG_LEN(size_t length);
+size_t CMSG_SPACE(size_t length);//参数为文件描述符,输出是整个辅助数据占用的长度
+size_t CMSG_LEN(size_t length);//提供数据的长度,就能提供辅助数据的长度.如p_cmsg->cmsg_len = CMSG_LEN(sizeof(send_fd))
 unsigned char *CMSG_DATA(struct cmsghdr *cmsg);
-
-
-
+// p_fds = (int*)CMSG_DATA(p_cmsg); // 这里的p_cmsg是指向辅助数据数组的第一个元素的指针,通过CMSG_FIRSTHDR获得
+// *p_fds = send_fd;
 ```
 ## 5. socketpair
 1. pipe是半双工的,只能父子进程/兄弟进程使用共享描述符来通信
