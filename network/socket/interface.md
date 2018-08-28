@@ -212,3 +212,9 @@ int poll(struct pollfd *fds, nfds_t nfds, int timeout);
     ```
     int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);
     ```
+## 4. UNIX
+1. bind
+2. accept
+3. connect
+4. read&write
+5. unlink:"删除"套接字文件
