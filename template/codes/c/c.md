@@ -11,7 +11,7 @@ addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 // (struct sockaddr*)&addr // 转换成通用地址结构体的指针,供connect等函数使用
 ```
 3. 发送数据
-    1. write
+    1. write(UNIX的流协议/TCP)
     ```
     char send_buf[1024];
     // fgets(send_buf,sizeof(send_buf),stdin);
@@ -37,7 +37,7 @@ addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     ```
 
 4. 接收数据
-    1. TCP接收数据
+    1. UNIX流协议/TCP接收数据
     ```
     char recv_buf[1024];
     int ret = read(conn_sockfd,&recv_buf,sizeof(recv_buf)); // 接收到的数据是通过connection套接字来的.直接将这个套接字当成文件(因为是文件描述符)来处理,所以read/write就行了
@@ -104,15 +104,15 @@ if (ret == 0)
     3. UNIX套接字
     ```
     int sockfd;
-    if ((sockfd = socket(AF_UNIX,SOCK_DGRAM,0))<0)
+    if ((sockfd = socket(AF_UNIX,SOCK_STREAM,0))<0)
         ERR_EXIT("socket");
     ```
-    4. 创建套接字并绑定ip地址
+    4. 创建UDP套接字并绑定ip地址
     ```
     int sockfd;
     struct sockaddr_in addr;
     
-    if ((sockfd = socket(AF_INET,SOCK_DGRAM,0))<0)
+    if ((sockfd = socket(AF_INET,SOCK_STREAM,0))<0)
         ERR_EXIT("socket");
     memset(&addr,0,sizeof(addr));
     addr.sin_family = AF_INET;
@@ -123,7 +123,7 @@ if (ret == 0)
         ERR_EXIT("bind");
     ```
     
-    5. 创建套接字并根据ip地址连接
+    5. 创建TCP套接字并根据ip地址连接
     ```
     int sockfd;
     if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
@@ -138,17 +138,33 @@ if (ret == 0)
     if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
       ERR_EXIT("connect");
     ```
-    6. 创建UNIX套接字并绑定UNIX地址
+    6. 创建UNIX套接字,并绑定UNIX地址,并处于监听状态
     ```
     int sockfd;
-    if ((sockfd = socket(AF_UNIX,SOCK_DGRAM,0))<0)
+    if ((sockfd = socket(AF_UNIX,SOCK_STREAM,0))<0)
         ERR_EXIT("socket");
+
     struct sockaddr_un addr;
+    memset(&addr,0,sizeof(addr));
     addr.sun_family = AF_UNIX;
-    strcpy(addr.sun_path,"test-sockets"); // 会统计目录下创建s类型的文件,文件名是"test-sockets"
+    strcpy(addr.sun_path,"test-socket");
 
     if(bind(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
         ERR_EXIT("bind");
+    
+    if(listen(sockfd,SOMAXCONN)<0)
+        ERR_EXIT("listen");
+    ```
+    7. 创建UNIX套接字,并连接UNIX地址
+    ```
+    int sockfd;
+    if ((sockfd = socket(AF_UNIX,SOCK_STREAM,0))<0)
+          ERR_EXIT("socket");
+
+    struct sockaddr_un addr;
+    memset(&addr,0,sizeof(addr));
+    addr.sun_family = AF_UNIX;
+    strcpy(addr.sun_path,"test-socket");
     ```
 
 11. 获取套接字地址
@@ -167,7 +183,7 @@ if (ret == 0)
         ERR_EXIT("getpeername");
     ```
 
-12. 使套接字处于监听状态
+12. 使UNIX流协议/TCP套接字处于监听状态
 ```
 if(listen(sockfd,SOMAXCONN)<0) // SOMAXCONN是服务器套接字允许建立的最大队列,包括未连接+已连接的队列
   ERR_EXIT("listen");
@@ -358,7 +374,7 @@ printf("%d\n",(int)rl.rlim_max);
 ```
 
 30. Makefile
-    1. 使用
+    1. 使用(下面的4个空格可能要换成tab键)
         1. 在BIN中写入要编译的c文件的文件名(不包括`.c`,比如说`client.c`就写成`BIN=client`)
         2. `make`
 ```
@@ -368,7 +384,15 @@ CFLAGS=-Wall -g
 BIN=
 all:$(BIN)
 $.o:%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+    $(CC) $(CFLAGS) -c $< -o $@
 clean:
-	rm -f *.o $(BIN)
+    rm -f *.o $(BIN)
+```
+
+31. 循环读取键盘输入
+```
+while(fgets(send_buf,sizeof(send_buf),stdin) != NULL)
+{
+
+}
 ```
