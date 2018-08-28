@@ -218,3 +218,17 @@ int poll(struct pollfd *fds, nfds_t nfds, int timeout);
 3. connect
 4. read&write
 5. unlink:"删除"套接字文件
+
+## 5. socketpair
+pipe是半双工的,只能父子进程/兄弟进程使用共享描述符来通信
+socketpair也只能父子进程/兄弟进程使用共享描述符来通信,是比pipe多了全双工的功能
+创建1个全双工的流管道.一个套接字对,返回2个文件描述符.`sv[0]`和`sv[1]`都是既可以读都可以写
+```
+int socketpair(int domain, int type, int protocol, int sv[2]);
+// 创建1个
+// domain:协议家族(UNIX域的协议)
+// type:套接字类型,比如说SOCK_STREAM这样的流协议
+// protocol:协议类型.填0,让系统自己根据协议家族和套接字类型来判断
+// sv:返回套接字对
+// 返回值:-1失败,0成功
+```
