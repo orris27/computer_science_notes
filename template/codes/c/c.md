@@ -506,3 +506,59 @@ else // 父进程
         return recvfd;
     }
     ```
+
+
+
+35. 创建消息队列
+```
+int msgid = msgget(1234,0666|IPC_CREAT);
+if(msgid == -1)
+    ERR_EXIT("msgget");
+```
+36. 打开消息队列
+```
+int msgid = msgget(1234,0);
+if(msgid == -1)
+    ERR_EXIT("msgget");
+```
+37. 删除消息队列
+```
+int msgid = msgget(1234,0);
+if(msgid == -1)
+    ERR_EXIT("msgget");
+    
+if((msgctl(msgid,IPC_RMID,NULL)) == -1)
+    ERR_EXIT("msgctl");
+```
+38. 获得消息队列的状态,并输出它的信息
+```
+int msgid = msgget(1234,0);
+if(msgid == -1)
+      ERR_EXIT("msgget");
+
+struct msqid_ds msg_stat;
+if((msgctl(msgid,IPC_STAT,&msg_stat) == -1))
+    ERR_EXIT("msgctl");
+
+printf("mode=%o\n",msg_stat.msg_perm.mode);//输出消息队列的权限
+
+printf("number=%d\n",(int)msg_stat.msg_qnum);//输出消息队列中消息的个数
+
+printf("bytes=%ld\n",msg_stat.__msg_cbytes);//输出消息队列当前的字节数
+
+printf("msgmnb=%d\n",(int)msg_stat.msg_qbytes);//输出消息队列能容纳的最大字节数
+```
+39. 设置消息队列的状态,比如说修改消息队列的权限
+```
+int msgid = msgget(1234,0);
+if(msgid == -1)
+      ERR_EXIT("msgget");
+
+struct msqid_ds msg_stat;
+if((msgctl(msgid,IPC_STAT,&msg_stat) == -1))
+    ERR_EXIT("msgctl");
+
+sscanf("600","%o",(unsigned int*)&msg_stat.msg_perm.mode);
+if((msgctl(msgid,IPC_SET,&msg_stat) == -1))
+    ERR_EXIT("msgctl");
+```
