@@ -104,3 +104,53 @@ struct msgbuf {
 ```
 ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp, int msgflg);
 ```
+
+
+
+## 3. 共享内存
+### 3-1. 接口
+1. 映射文件/设备空间到共享内存区
+    1. 参数
+        1. addr:映射到哪个地址.通常为NULL(让系统自己选择地址)
+        2. 映射的内容
+            1. fd:文件描述符
+            2. offset:偏移量
+            3. len:长度
+        3. prot:保护方式
+            1. PROT_READ:页面(内存中的页单位,常为4k)可读
+            2. PROT_WRITE:页面可写
+            3. PROT_EXEC:页面可执行
+            4. PROT_NONE:页面不可访问
+        4. flags:映射的标志
+            1. MAP_SHARED:变动是共享的.对映射的内存进行变动会被其他进程看到,并写回到文件
+            2. MAP_PRIVATE:变动是私有的.其他进程看不到,而且也不会写入到文件中
+            3. MAP_FIXED:如果我们指定addr,就自动对齐到给定内存中页的整数倍(内存分配是按照页为单位分配)
+            4. MAP_ANONYMOUS:建立匿名映射区,不涉及文件.只能亲缘关系的进程使用
+    2. 返回值:映射后在内存中的地址
+    3. 注意
+        1. mmap不能超过文件大小
+        2. mmap实际可用的空间是页单位的,即4k.但最后写入到文件的却受文件大小限制(参考注意点1)
+            1. 例子:假如我们写入10个学生的信息给原来只能放5个学生的文件,这时候让该程序睡5秒;此时另一个程序读,发现能读10个;但前面的程序执行完后就又只能读5个了
+```
+void *mmap(void *addr, size_t length, int prot, int flags,int fd, off_t offset);
+```
+2. 取消mmap函数建立的映射
+    1. 参数
+        1. addr:地址.必须是起始地址=mmap的返回值
+        2. length:长度
+```
+int munmap(void *addr, size_t length);
+```
+
+3. 同步共享内存区的数据到实体文件中
+    1. 内核
+    2. 参数
+        1. addr & length:同munmap
+        2. flags:
+            1. MS_ASYNC:执行异步写
+            2. MS_SYNC:执行同步写.程序必须等到同步写完后才能向下执行
+            3. MS_INVALIDATE:使高速缓冲区的数据失效
+```
+int msync(void *addr, size_t length, int flags);
+```
+ 
