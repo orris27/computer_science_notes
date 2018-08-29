@@ -728,4 +728,4 @@ for(int i=0;i<5;++i)
 if((munmap(p,sizeof(struct Student)*5)) == -1)
     ERR_EXIT("munmap");
 ```
-7. [基于共享内存区读写学生结构体](https://github.com/orris27/orris/tree/master/process/ipc/codes/shared-rwvv)
+7. [基于共享内存区读写学生结构体](https://github.com/orris27/orris/tree/master/process/ipc/codes/shared-rw)
