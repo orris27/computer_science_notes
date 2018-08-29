@@ -219,7 +219,7 @@ int poll(struct pollfd *fds, nfds_t nfds, int timeout);
 4. read&write
 5. unlink:"删除"套接字文件
 ### 4-1. 传递文件描述符
-[msghdr图解](https://github.com/orris27/orris/blob/master/network/socket/codes/send-fd/msghdr.jpg)
+[msghdr图解](https://github.com/orris27/orris/blob/master/network/socket/codes/send-fd/msghdr.png)
 1. sendmsg和recvmsg只能是套接字.
 2. 传递
 3. 查看帮助:`man CMSG`
