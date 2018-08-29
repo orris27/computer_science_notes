@@ -509,19 +509,23 @@ else // 父进程
 
 
 
-35. 创建key为1234消息队列
+
+## 2. IPC
+### 2-1. System V消息队列
+
+1. 创建key为1234消息队列
 ```
 int msgid = msgget(1234,0666|IPC_CREAT);
 if(msgid == -1)
     ERR_EXIT("msgget");
 ```
-36. 打开key为1234的消息队列
+2. 打开key为1234的消息队列
 ```
 int msgid = msgget(1234,0);
 if(msgid == -1)
     ERR_EXIT("msgget");
 ```
-37. 删除消息队列
+3. 删除消息队列
 ```
 int msgid = msgget(1234,0);
 if(msgid == -1)
@@ -530,7 +534,7 @@ if(msgid == -1)
 if((msgctl(msgid,IPC_RMID,NULL)) == -1)
     ERR_EXIT("msgctl");
 ```
-38. 获得消息队列的状态,并输出它的信息
+4. 获得消息队列的状态,并输出它的信息
 ```
 int msgid = msgget(1234,0);
 if(msgid == -1)
@@ -548,7 +552,7 @@ printf("bytes=%ld\n",msg_stat.__msg_cbytes);//输出消息队列中所有消息�
 
 printf("msgmnb=%d\n",(int)msg_stat.msg_qbytes);//输出消息队列中所有消息的实际数据的字节数和的最大值
 ```
-39. 设置消息队列的状态,比如说修改消息队列的权限
+5. 设置消息队列的状态,比如说修改消息队列的权限
 ```
 int msgid = msgget(1234,0);
 if(msgid == -1)
@@ -563,7 +567,7 @@ if((msgctl(msgid,IPC_SET,&msg_stat) == -1))
     ERR_EXIT("msgctl");
 ```
 
-40. 发送消息
+6. 发送消息
     1. 介绍
         1. 定义消息结构体
         2. bytes:发送的实际数据的字节数.可以用MSGMAX
@@ -602,7 +606,7 @@ if((msgctl(msgid,IPC_SET,&msg_stat) == -1))
         ERR_EXIT("msgsnd");
 
     ```
-41. 接收key为1234的消息队列的消息
+7. 接收key为1234的消息队列的消息
     1. 参数
         1. mtype:接收哪个消息类型
         2. msgflg:接收消息的函数的使用选项
@@ -630,7 +634,7 @@ if((msgctl(msgid,IPC_SET,&msg_stat) == -1))
 
     ```
 
-42. 构造System V中消息队列中的1个消息
+8. 构造System V中消息队列中的1个消息
     1. 参数
         + bytes(MSGMAX):字节数
         + type:消息类型
@@ -645,7 +649,7 @@ p_buf->mtype = mtype;
 
 ```
 
-43. 设置命令行参数(getopt),比如说使用`msg-recv -n -t xx`中`-n`表示NOWAIT,而`-t`执行消息类型
+9. 设置命令行参数(getopt),比如说使用`msg-recv -n -t xx`中`-n`表示NOWAIT,而`-t`执行消息类型
     + 返回值是整型.如果是'?'表示新的参数,返回值是-1表示没有参数
 ```
 int opt;
@@ -672,9 +676,56 @@ while(1)
     }
 }
 ```
-44. 在缓冲区中的前4个字节里保存pid
+10. 在缓冲区中的前4个字节里保存pid
 ```
 char buf[1024];
 int pid = getpid();
 *(int*)buf = pid;
 ```
+
+### 2-1. System V共享内存
+1. Linux下以读写方式打开/创建文件,并清空文件,设置权限为0666
+    + open得到文件描述符,而fopen得到FILE指针
+```
+int fd = open(argv[1],O_CREAT|O_RDWR|O_TRUNC,0666)
+if(fd == -1)
+    ERR_EXIT("open");
+```
+2. 移动文件描述符
+```
+lseek(fd,sizeof(struct Student)*5-1,SEEK_SET); // 移动到Student结构体大小的5倍-1的位置
+```
+3. 填充5个Student结构体大小的空间,并设置为0
+```
+lseek(fd,sizeof(struct Student)*5-1,SEEK_SET);
+write(fd,"",1);
+```
+4. 映射文件到共享内存区
+```
+struct Student *p;
+p = (struct Student*)mmap(NULL,sizeof(struct Student)*5,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);
+```
+5. 解除共享内存区的映射
+```
+if((munmap(p,sizeof(struct Student)*5)) == -1)
+    ERR_EXIT("munmap");
+```
+6. 操作共享内存区(模仿对文件的操作就可以了)
+```
+struct Student *p;
+p = (struct Student*)mmap(NULL,sizeof(struct Student)*5,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);
+if(p == NULL)
+    ERR_EXIT("mmap");
+
+char ch = 'A';
+for(int i=0;i<5;++i)
+{
+    memcpy((p+i)->name,&ch,1);
+    (p+i)->age = 20+i;
+    ch++;
+}
+
+if((munmap(p,sizeof(struct Student)*5)) == -1)
+    ERR_EXIT("munmap");
+```
+7. [基于共享内存区读写学生结构体](https://github.com/orris27/orris/tree/master/process/ipc/codes/shared-rwvv)
