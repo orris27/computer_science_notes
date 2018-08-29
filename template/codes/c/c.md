@@ -798,7 +798,7 @@ union semun {
     struct seminfo  *__buf; 
 };
 
-void setval(int semid,int val)
+void sem_setval(int semid,int val)
 {
     
     union semun su; // 定义第4个参数
@@ -814,7 +814,7 @@ setval(semid,5);
 
 4, 获取信号量集中信号量的值
 ```
-int getval(int semid)
+int sem_getval(int semid)
 {
     // 获取信号量集中信号量的值:semid,0,GETVAL,0
     int ret = semctl(semid,0,GETVAL,0);
@@ -831,7 +831,7 @@ printf("val=%d\n",getval(semid));
 
 5. 删除信号量集
 ```
-void rm_sem(int semid)
+void sem_delete(int semid)
 {
     
     if((semctl(semid,0,IPC_RMID,0)) == -1) // 删除信号量集:semid,0,IPC_RID
@@ -840,3 +840,41 @@ void rm_sem(int semid)
 }
 rm_sem(semid);
 ```
+
+
+6. 创建IPC对象的key值
+```
+key_t key = ftok(".",'s');//第一个参数必须是真实存在的路径,而第二个参数这里填's',其他的也可以
+//semget(key,xxxx);
+```
+
+
+7. 执行P操作
+```
+void sem_p(int semid)
+{
+    // 定义P操作
+    struct sembuf sops = {0,-1,0};
+    // 执行P操作+错误处理
+    if ((semop(semid,&sops,1)) == -1)
+        ERR_EXIT("semop");
+}
+//...
+sem_p(semid);
+```
+
+8. 执行V操作
+```
+void sem_v(int semid)
+{
+    // 定义V操作
+    struct sembuf sops = {0,+1,0};
+    // 执行V操作+错误处理
+    if ((semop(semid,&sops,1)) == -1)
+        ERR_EXIT("semop");
+}
+//....
+sem_v(semid);
+```
+
+9. [信号量集的基本使用](https://github.com/orris27/orris/tree/master/process/ipc/codes/semtool)
