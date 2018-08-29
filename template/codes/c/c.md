@@ -509,13 +509,13 @@ else // 父进程
 
 
 
-35. 创建消息队列
+35. 创建key为1234消息队列
 ```
 int msgid = msgget(1234,0666|IPC_CREAT);
 if(msgid == -1)
     ERR_EXIT("msgget");
 ```
-36. 打开消息队列
+36. 打开key为1234的消息队列
 ```
 int msgid = msgget(1234,0);
 if(msgid == -1)
@@ -564,71 +564,83 @@ if((msgctl(msgid,IPC_SET,&msg_stat) == -1))
 ```
 
 40. 发送消息
-    1. 定义消息结构体
-    2. bytes:发送的实际数据的字节数
-    3. type:发送的消息类型
-    4. 消息队列的key
-```
-struct msgbuf {
-    long mtype;    
-    char mtext[1]; 
-};
+    1. 介绍
+        1. 定义消息结构体
+        2. bytes:发送的实际数据的字节数.可以用MSGMAX
+        3. type:发送的消息类型
+        4. 消息队列的key
+    2. 简洁用法
+    ```
+    struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + bytes);
+    p_buf->mtype = type;
+    if((msgsnd(msgid,p_buf,MSGMAX,0)) == -1)
+      ERR_EXIT("msgsnd");
+    ```
+    3. 完整用法
+    ```
+    struct msgbuf {
+        long mtype;    
+        char mtext[MSGMAX];  //man中提供的是1
+    };
 
-// ...
-if(argc != 3)
-{
-    fprintf(stderr,"Usage: %s <bytes> <type>\n",argv[0]);
-    exit(EXIT_FAILURE);
-}
+    // ...
+    if(argc != 3)
+    {
+        fprintf(stderr,"Usage: %s <bytes> <type>\n",argv[0]);
+        exit(EXIT_FAILURE);
+    }
 
-int msgid = msgget(1234,0);
-if(msgid == -1)
-      ERR_EXIT("msgget");
-int bytes = atoi(argv[1]); // 发送的实际数据的字节数
-int type  = atoi(argv[2]); // 发送的消息类型
-struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + bytes);
-p_buf->mtype = type;
+    int msgid = msgget(1234,0);
+    if(msgid == -1)
+          ERR_EXIT("msgget");
+    int bytes = atoi(argv[1]); // 发送的实际数据的字节数
+    int type  = atoi(argv[2]); // 发送的消息类型
+    
+    struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + bytes);
+    p_buf->mtype = type;
+    if((msgsnd(msgid,p_buf,bytes,0)) == -1) //if((msgsnd(msgid,p_buf,bytes,IPC_NOWAIT)) == -1)
+        ERR_EXIT("msgsnd");
 
-
-if((msgsnd(msgid,p_buf,bytes,0)) == -1) //if((msgsnd(msgid,p_buf,bytes,IPC_NOWAIT)) == -1)
-    ERR_EXIT("msgsnd");
-
-```
+    ```
 41. 接收key为1234的消息队列的消息
     1. 参数
         1. mtype:接收哪个消息类型
         2. msgflg:接收消息的函数的使用选项
-```
-#define MSGMAX  8192
-struct msgbuf {
-    long mtype;
-    char mtext[1];
-};
+    2. 简洁用法
+    ```
+    if ((msgrcv(msgid,p_buf,MSGMAX,mtype,0)) == -1)
+      ERR_EXIT("msgrcv");
+    ```
+    3. 完整用法
+    ```
+    #define MSGMAX  8192
+    struct msgbuf {
+        long mtype;
+        char mtext[MSGMAX]; //man中提供的是1
+    };
 
 
-int msgid = msgget(1234,0);
-if(msgid == -1)
-      ERR_EXIT("msgget");
-struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + MSGMAX);
+    int msgid = msgget(1234,0);
+    if(msgid == -1)
+          ERR_EXIT("msgget");
+    struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + MSGMAX);
 
-int ret;
-ret = msgrcv(msgid,p_buf,MSGMAX,mtype,msgflg);
-if(ret == -1)
-    ERR_EXIT("msgrcv");
+    if ((msgrcv(msgid,p_buf,MSGMAX,mtype,msgflg)) == -1)
+        ERR_EXIT("msgrcv");
 
-```
+    ```
 
 42. 构造System V中消息队列中的1个消息
     1. 参数
-        + bytes:字节数
+        + bytes(MSGMAX):字节数
         + type:消息类型
 ```
 struct msgbuf {
     long mtype;    
-    char mtext[1]; 
+    char mtext[MSGMAX]; //man中提供的是1
 };
 
-struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + bytes);
+struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + MSGMAX);
 p_buf->mtype = mtype;
 
 ```
@@ -659,5 +671,10 @@ while(1)
 
     }
 }
-
+```
+44. 在缓冲区中的前4个字节里保存pid
+```
+char buf[1024];
+int pid = getpid();
+*(int*)buf = pid;
 ```
