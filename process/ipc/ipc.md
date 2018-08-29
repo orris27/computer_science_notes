@@ -108,7 +108,23 @@ ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp, int msgflg);
 
 
 ## 3. 共享内存
-### 3-1. 接口
+### 3-1. 结构体
+查看帮助:`man shmctl`
+```
+struct shmid_ds {
+    struct ipc_perm shm_perm;   //
+    size_t          shm_segsz;  //共享内存段的大小
+    time_t          shm_atime;  //最后一次映射的时间
+    time_t          shm_dtime;  //最后一次解除连接的时间
+    time_t          shm_ctime;  //最后一次改变的时间
+    pid_t           shm_cpid;   //创建者的pid
+    pid_t           shm_lpid;   //脱离共享内存的pid
+    shmatt_t        shm_nattch; //当前共享内存被连接的
+    ...
+};
+
+```
+### 3-2. 接口
 1. 映射文件/设备空间到共享内存区
     1. 参数
         1. addr:映射到哪个地址.通常为NULL(让系统自己选择地址)
@@ -153,4 +169,38 @@ int munmap(void *addr, size_t length);
 ```
 int msync(void *addr, size_t length, int flags);
 ```
+
+4. 创建/访问共享内存端
+    1. 使用:和msgctl一样
+    2. 参数
+        1. size:共享内存的大小
+```
+int shmget(key_t key, size_t size, int shmflg);
+```
+5. 连接共享内存段到进程的地址空间
+    1. 参数
+        1. shid:共享内存标志
+        2. shmaddr:连接的地址.通常为NULL,内核自动选择
+        3. shmflg:
+            1. SHM_RND
+                1. 如果shmaddr不为NULL且设置了SHM_RND,则连接的地址自动向下调整为shmaddr-(shmaddr%SHMLBA)
+                2. 如果shmaddr不为NULL且没有设置SHM_RND,则连接的地址=shmaddr
+            2. SHM_RDONLY:只读共享内存.通常为0,表示可读写
+```
+void *shmat(int shmid, const void *shmaddr, int shmflg);
+```
+6. 脱离共享内存段,从进程中脱离
+    1. 参数
+        1. shmaddr=shmat的返回值
+```
+int shmdt(const void *shmaddr);
+```
+7. 控制共享内存段
+    1. 使用:和msgctl一样
+
+```
+int shmctl(int shmid, int cmd, struct shmid_ds *buf);
+```
+
+
  
