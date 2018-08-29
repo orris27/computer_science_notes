@@ -2178,6 +2178,10 @@ atop
 atop
 ```
 
+## 58. ipcs
+show information on IPC facilities
+
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
