@@ -544,9 +544,9 @@ printf("mode=%o\n",msg_stat.msg_perm.mode);//输出消息队列的权限
 
 printf("number=%d\n",(int)msg_stat.msg_qnum);//输出消息队列中消息的个数
 
-printf("bytes=%ld\n",msg_stat.__msg_cbytes);//输出消息队列当前的字节数
+printf("bytes=%ld\n",msg_stat.__msg_cbytes);//输出消息队列中所有消息的实际数据的字节数和
 
-printf("msgmnb=%d\n",(int)msg_stat.msg_qbytes);//输出消息队列能容纳的最大字节数
+printf("msgmnb=%d\n",(int)msg_stat.msg_qbytes);//输出消息队列中所有消息的实际数据的字节数和的最大值
 ```
 39. 设置消息队列的状态,比如说修改消息队列的权限
 ```
@@ -561,4 +561,103 @@ if((msgctl(msgid,IPC_STAT,&msg_stat) == -1))
 sscanf("600","%o",(unsigned int*)&msg_stat.msg_perm.mode);
 if((msgctl(msgid,IPC_SET,&msg_stat) == -1))
     ERR_EXIT("msgctl");
+```
+
+40. 发送消息
+    1. 定义消息结构体
+    2. bytes:发送的实际数据的字节数
+    3. type:发送的消息类型
+    4. 消息队列的key
+```
+struct msgbuf {
+    long mtype;    
+    char mtext[1]; 
+};
+
+// ...
+if(argc != 3)
+{
+    fprintf(stderr,"Usage: %s <bytes> <type>\n",argv[0]);
+    exit(EXIT_FAILURE);
+}
+
+int msgid = msgget(1234,0);
+if(msgid == -1)
+      ERR_EXIT("msgget");
+int bytes = atoi(argv[1]); // 发送的实际数据的字节数
+int type  = atoi(argv[2]); // 发送的消息类型
+struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + bytes);
+p_buf->mtype = type;
+
+
+if((msgsnd(msgid,p_buf,bytes,0)) == -1) //if((msgsnd(msgid,p_buf,bytes,IPC_NOWAIT)) == -1)
+    ERR_EXIT("msgsnd");
+
+```
+41. 接收key为1234的消息队列的消息
+    1. 参数
+        1. mtype:接收哪个消息类型
+        2. msgflg:接收消息的函数的使用选项
+```
+#define MSGMAX  8192
+struct msgbuf {
+    long mtype;
+    char mtext[1];
+};
+
+
+int msgid = msgget(1234,0);
+if(msgid == -1)
+      ERR_EXIT("msgget");
+struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + MSGMAX);
+
+int ret;
+ret = msgrcv(msgid,p_buf,MSGMAX,mtype,msgflg);
+if(ret == -1)
+    ERR_EXIT("msgrcv");
+
+```
+
+42. 构造System V中消息队列中的1个消息
+    1. 参数
+        + bytes:字节数
+        + type:消息类型
+```
+struct msgbuf {
+    long mtype;    
+    char mtext[1]; 
+};
+
+struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + bytes);
+p_buf->mtype = mtype;
+
+```
+
+43. 设置命令行参数(getopt),比如说使用`msg-recv -n -t xx`中`-n`表示NOWAIT,而`-t`执行消息类型
+    + 返回值是整型.如果是'?'表示新的参数,返回值是-1表示没有参数
+```
+int opt;
+while(1)
+{
+    opt = getopt(argc,argv,"nt:"); //"n"表示-n且没有值,"t:"表示-t且有值
+    if (opt == '?') // 出现新的参数.这里不使用ERR_EXIT是因为出现了新的参数也表示成功
+        exit(EXIT_SUCCESS);
+    if (opt == -1) // 如果没有命令行参数
+        break;
+    switch(opt)
+    {
+        
+        case 'n': // 如果是'n'
+            printf("nnnnn\n");
+            break;
+        case 't':
+            
+            printf("ttttt\n"); // 输出"ttttt"
+            int val = atoi(optarg);
+            printf("val=%d\n",val);
+            break;
+
+    }
+}
+
 ```
