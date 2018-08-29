@@ -2179,8 +2179,11 @@ atop
 ```
 
 ## 58. ipcs
-show information on IPC facilities
-
+显示IPC中消息队列,共享内存和信号量的信息
+### 59-1. options
+1. `ipcs -h`里都显示了
+### 59-2. 追加解释
+`ipcs -p`中消息队列的lspid表示最后一个发送消息给消息队列的进程的进程号.lrpid则是接收
 
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
