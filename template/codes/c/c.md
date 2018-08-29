@@ -693,27 +693,32 @@ if(fd == -1)
 ```
 2. 移动文件描述符
 ```
-lseek(fd,sizeof(struct Student)*5-1,SEEK_SET); // 移动到Student结构体大小的5倍-1的位置
+lseek(fd,sizeof(Student)*5-1,SEEK_SET); // 移动到Student结构体大小的5倍-1的位置
 ```
 3. 填充5个Student结构体大小的空间,并设置为0
 ```
-lseek(fd,sizeof(struct Student)*5-1,SEEK_SET);
+lseek(fd,sizeof(Student)*5-1,SEEK_SET);
 write(fd,"",1);
 ```
 4. 映射文件到共享内存区
 ```
-struct Student *p;
-p = (struct Student*)mmap(NULL,sizeof(struct Student)*5,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);
+typedef struct{
+    char name[4];
+    int age;
+} Student;
+
+Student *p;
+p = (Student*)mmap(NULL,sizeof(Student)*5,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);
 ```
 5. 解除共享内存区的映射
 ```
-if((munmap(p,sizeof(struct Student)*5)) == -1)
+if((munmap(p,sizeof(Student)*5)) == -1)
     ERR_EXIT("munmap");
 ```
 6. 操作共享内存区(模仿对文件的操作就可以了)
 ```
-struct Student *p;
-p = (struct Student*)mmap(NULL,sizeof(struct Student)*5,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);
+Student *p;
+p = (Student*)mmap(NULL,sizeof(Student)*5,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);
 if(p == NULL)
     ERR_EXIT("mmap");
 
@@ -725,7 +730,43 @@ for(int i=0;i<5;++i)
     ch++;
 }
 
-if((munmap(p,sizeof(struct Student)*5)) == -1)
+if((munmap(p,sizeof(Student)*5)) == -1)
     ERR_EXIT("munmap");
 ```
 7. [基于共享内存区读写学生结构体](https://github.com/orris27/orris/tree/master/process/ipc/codes/shared-rw)
+
+
+8. 创建1个key=1234,大小为学生结构体的共享内存
+```
+int shmid = shmget(1234,sizeof(Student),0666|IPC_CREAT);
+if(shmid == -1)
+      ERR_EXIT("shmget");
+```
+9. 打开key=1234的共享内存
+```
+int shmid = shmget(1234,0,0);
+if(shmid == -1)
+    ERR_EXIT("shmget");
+```
+10. 连接共享内存
+```
+Student *p = (Student*)shmat(shmid,NULL,0);
+if(p == (void*)-1)
+    ERR_EXIT("shmat");
+```
+
+11. 脱离共享内存
+```
+if((shmdt(p)) == -1)
+    ERR_EXIT("shmdt");
+```
+12. 删除key为1234的共享内存
+```
+int shmid = shmget(1234,0,0);
+if(shmid == -1)
+      ERR_EXIT("shmget");
+      
+if((shmctl(shmid,IPC_RMID,NULL)) == -1)
+      ERR_EXIT("msgctl");
+
+```
