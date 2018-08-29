@@ -784,3 +784,59 @@ if(semid == -1)
     ERR_EXIT("semget");
 
 ```
+
+
+
+
+
+3. 设置信号量集中信号量的值
+```
+union semun {
+    int              val;    /* Value for SETVAL */
+    struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
+    unsigned short  *array;  /* Array for GETALL, SETALL */
+    struct seminfo  *__buf; 
+};
+
+void setval(int semid,int val)
+{
+    
+    union semun su; // 定义第4个参数
+    su.val = val; // 赋值
+    if((semctl(semid,0,SETVAL,su)) == -1) // 设置信号量集中第一个信号量的计数值+错误处理
+        ERR_EXIT("semctl");
+}
+
+// ...
+
+setval(semid,5);
+```
+
+4, 获取信号量集中信号量的值
+```
+int getval(int semid)
+{
+    // 获取信号量集中信号量的值:semid,0,GETVAL,0
+    int ret = semctl(semid,0,GETVAL,0);
+    if (ret == -1)
+        ERR_EXIT("semctl");
+    return ret;
+}
+
+// ....
+
+printf("val=%d\n",getval(semid));
+
+```
+
+5. 删除信号量集
+```
+void rm_sem(int semid)
+{
+    
+    if((semctl(semid,0,IPC_RMID,0)) == -1) // 删除信号量集:semid,0,IPC_RID
+        ERR_EXIT("semctl");
+    
+}
+rm_sem(semid);
+```
