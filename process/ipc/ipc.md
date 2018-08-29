@@ -202,5 +202,33 @@ int shmdt(const void *shmaddr);
 int shmctl(int shmid, int cmd, struct shmid_ds *buf);
 ```
 
+## 3. 信号量
+### 3-1. 结构体
+1. 信号量集的数据结构
+```
+struct semid_ds {
+    struct ipc_perm sem_perm;  
+    time_t          sem_otime; //最后一次执行P,V操作的时间
+    time_t          sem_ctime; //信号量集最后一次改变的时间
+    unsigned long   sem_nsems; //信号量集中的信号量个数
+};
 
+```
+### 3-2. 接口
+1. 创建/打开信号量集
+    1. 使用:与msgget一样
+    2. 参数
+        1. nsems:信号量集中信号量的个数 
+```
+int semget(key_t key, int nsems, int semflg);
+```
+2. 控制信号量集
+    1. 参数
+        1. 
+```
+int semctl(int semid, int semnum, int cmd, ...);
+```
  
+```
+int semop(int semid, struct sembuf *sops, size_t nsops);
+```
