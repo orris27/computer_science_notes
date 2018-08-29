@@ -683,7 +683,7 @@ int pid = getpid();
 *(int*)buf = pid;
 ```
 
-### 2-1. System V共享内存
+### 2-2. System V共享内存
 1. Linux下以读写方式打开/创建文件,并清空文件,设置权限为0666
     + open得到文件描述符,而fopen得到FILE指针
 ```
@@ -768,5 +768,19 @@ if(shmid == -1)
       
 if((shmctl(shmid,IPC_RMID,NULL)) == -1)
       ERR_EXIT("msgctl");
+```
+13. [共享内存的读写](https://github.com/orris27/orris/tree/master/process/ipc/codes/shm-rw)
+### 2-3. System V信号量
+1. 创建1个信号量集:key=1234,信号量集个数=1,选项=创建|不允许创建2次|权限
+```
+int semid = semget(1234,1,IPC_CREAT|IPC_EXCL|0666);
+if(semid == -1)
+    ERR_EXIT("semget");
+```
+2. 打开key为1234的信号量集
+```
+int semid = semget(1234,0,0);
+if(semid == -1)
+    ERR_EXIT("semget");
 
 ```
