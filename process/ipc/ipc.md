@@ -1,5 +1,6 @@
 查看帮助:`man ipc`
-## 1. IPC对象数据结构
+## 1. IPC
+### 1-1. 对象数据结构
 查看帮助:`man semctl`.System V随内核持续
 ```
 struct ipc_perm {
@@ -12,7 +13,11 @@ struct ipc_perm {
     unsigned short __seq; //序号
 };
 ```
-
+### 1-2. 接口
+1. convert a pathname and a project identifier to a System V IPC key.可以用填在创建IPC对象的key参数中
+```
+key_t ftok(const char *pathname, int proj_id);
+```
 
 ## 2. 消息队列
 ### 2-1. 结构
@@ -224,11 +229,42 @@ int semget(key_t key, int nsems, int semflg);
 ```
 2. 控制信号量集
     1. 参数
-        1. 
+        1. semnum:信号量集中信号量的序号
+        2. cmd:采取的动作.
+            1. SETVAL:设置信号量中的计数值
+            2. GETVAL:信号量中的计数值.关心semnun中的val值
+            3. IPC_RMID:删除信号量集
+            4. IPC_STAT:与消息队列中的IPC_STAT一样的用法
 ```
+//下面的结构体要我们自己定义
+union semun {
+    int              val;    /* Value for SETVAL */
+    struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
+    unsigned short  *array;  /* Array for GETALL, SETALL */
+    struct seminfo  *__buf;  /* Buffer for IPC_INFO
+                                (Linux-specific) */
+};
+
+
 int semctl(int semid, int semnum, int cmd, ...);
 ```
- 
+
+
+3. PV操作
+    1. 参数
+        1. sops:信号量集中的哪些信号量进行操作,并存放操作内容
+            1. sem_num:信号量的编号.对哪个信号量操作
+            2. sem_op:+1(P操作),-1(V操作).当然也可以是-2,+2等
+            3. sem_flg:操作选项.填0即可
+                1. IPC_NOWAIT:没有可用资源就直接报错
+                2. SEM_UNDO:当1个进程终止后就会撤销这个进程的所有PV操作.相当于这个进程对信号量的计数值毫无影响
+        2. nsops:对多少个信号量操作
 ```
+struct sembuf{
+    short sem_num;
+    short sem_op;
+    short sem_flg;
+};
+
 int semop(int semid, struct sembuf *sops, size_t nsops);
 ```
