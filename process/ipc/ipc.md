@@ -19,8 +19,9 @@ struct ipc_perm {
 key_t ftok(const char *pathname, int proj_id);
 ```
 
-## 2. 消息队列
-### 2-1. 结构
+## 2. System V
+### 2-1. 消息队列
+#### 2-1-1. 结构
 查看帮助:`man msgctl`.[消息队列结构示意图](https://img-blog.csdn.net/20140311105536625?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYXNwbmV0X2x5Yw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 ```
 struct msqid_ds {
@@ -37,7 +38,7 @@ struct msqid_ds {
 
 ```
 
-### 2-2. 接口
+#### 2-1-2. 接口
 1. 创建/打开消息队列
     1. 参数
         1. key:关键字.可以理解为消息的名字,是整型
@@ -112,8 +113,8 @@ ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp, int msgflg);
 
 
 
-## 3. 共享内存
-### 3-1. 结构体
+### 2-2. 共享内存
+#### 2-2-1. 结构体
 查看帮助:`man shmctl`
 ```
 struct shmid_ds {
@@ -129,7 +130,7 @@ struct shmid_ds {
 };
 
 ```
-### 3-2. 接口
+#### 2-2-2. 接口
 1. 映射文件/设备空间到共享内存区
     1. 参数
         1. addr:映射到哪个地址.通常为NULL(让系统自己选择地址)
@@ -207,8 +208,8 @@ int shmdt(const void *shmaddr);
 int shmctl(int shmid, int cmd, struct shmid_ds *buf);
 ```
 
-## 3. 信号量
-### 3-1. 结构体
+### 2-3. 信号量
+#### 2-3-1. 结构体
 1. 信号量集的数据结构
 ```
 struct semid_ds {
@@ -219,7 +220,7 @@ struct semid_ds {
 };
 
 ```
-### 3-2. 接口
+#### 2-3-2. 接口
 1. 创建/打开信号量集
     1. 使用:与msgget一样
     2. 参数
