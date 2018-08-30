@@ -1231,3 +1231,4 @@ printf("mode=%o\n",statbuf.st_mode & 07777); // 打印共享内存的权限
 
     memcpy(p,&orris,sizeof(Student)); // 写入变量到p地址
     ```
+6. [基于POSIX的共享内存实现的简单学生结构体的读写](https://github.com/orris27/orris/tree/master/process/ipc/codes/posix-shm)
