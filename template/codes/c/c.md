@@ -423,18 +423,35 @@ while(fgets(send_buf,sizeof(send_buf),stdin) != NULL)
 
 }
 ```
-32. 创建1个进程
-```
-pid_t pid;
-if ((pid = fork()) == -1)
-    ERR_EXIT("fork");
-if (pid == 0) // 子进程
-{
-}
-else // 父进程
-{
-}
-```
+32. 创建进程
+    1. 创建1个子进程
+    ```
+    pid_t pid;
+    if ((pid = fork()) == -1)
+        ERR_EXIT("fork");
+    if (pid == 0) // 子进程
+    {
+    }
+    else // 父进程
+    {
+    }
+    ```
+    2. 创建4个子进程,并用no变量做编号,其中父进程为0,后续的子进程从1开始编号
+    ```
+    int no = 0;
+    for(int i=0;i<4;++i)
+    {
+        pid_t pid;
+        if ((pid = fork()) == -1)
+              ERR_EXIT("fork");
+        if (pid == 0) // 子进程
+        {
+            no = i+1; // 设置no=i
+            break;
+        }
+    }
+
+    ```
 33. [socketpair实现发送数据给父/子进程让对方来自增变量](https://github.com/orris27/orris/tree/master/network/socket/codes/socketpair)
 
 34. 传递文件描述符.(传递文件描述符程序实现)[https://github.com/orris27/orris/tree/master/network/socket/codes/send-fd]
@@ -800,7 +817,8 @@ if(semid == -1)
 ```
 
 
-3. 设置信号量集中信号量的值
+3. 设置信号量集中第1个信号量的值
+    + 如果要多个信号量同时设置初始值的话,注意添加循环
 ```
 union semun {
     int              val;    /* Value for SETVAL */
@@ -860,28 +878,57 @@ key_t key = ftok(".",'s');//第一个参数必须是真实存在的路径,而第
 
 
 7. 执行P操作
-```
-void sem_p(int semid)
-{
-    struct sembuf sops = {0,-1,0};
-    if ((semop(semid,&sops,1)) == -1)
+    1. 对信号量集的第1个信号量进行P操作
+    ```
+    void sem_p(int semid)
+    {
+        struct sembuf sops[1] = {
+            {0,-1,0}
+        };
+        if ((semop(semid,sops,1)) == -1)
+            ERR_EXIT("semop");
+    }
+    //...
+    sem_p(semid);
+    ```
+    2. 对信号量集的连续2个信号量进行P操作
+        + 同时对2个信号量进行P操作的话,这2个信号量集是原子的
+        + sem1和sem2是第sem1个和sem2个信号量,编号从0开始
+    ```
+    struct sembuf sops[2] = {
+        {sem1,-1,0},
+        {sem2,-1,0}
+    };
+    if ((semop(semid,sops,2)) == -1)
         ERR_EXIT("semop");
-}
-//...
-sem_p(semid);
-```
+    ```
 
 8. 执行V操作
-```
-void sem_v(int semid)
-{
-    struct sembuf sops = {0,+1,0};
-    if ((semop(semid,&sops,1)) == -1)
+    1. 对信号量集的第1个信号量进行V操作
+    ```
+    void sem_v(int semid)
+    {
+        struct sembuf sops[1] = {
+            {0,+1,0}
+        };
+        if ((semop(semid,sops,1)) == -1)
+            ERR_EXIT("semop");
+    }
+    //....
+    sem_v(semid);
+    ```
+    2. 对信号量集的连续2个信号量进行V操作
+        + 同时对2个信号量进行V操作的话,这2个信号量集是原子的
+        + sem1和sem2是第sem1个和sem2个信号量,编号从0开始    
+    ```
+    struct sembuf sops[2] = {
+        {sem1,+1,0},
+        {sem2,+1,0}
+    };
+    
+    if ((semop(semid,sops,2)) == -1)
         ERR_EXIT("semop");
-}
-//....
-sem_v(semid);
-```
+    ```
 
 9. [信号量集的基本使用](https://github.com/orris27/orris/tree/master/process/ipc/codes/semtool)
 
