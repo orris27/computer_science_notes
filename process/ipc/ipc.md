@@ -376,7 +376,7 @@ int mq_notify(mqd_t mqdes, const struct sigevent *sevp);
 ```
 QSIZE:0          NOTIFY:0     SIGNO:0     NOTIFY_PID:0 
 ```
-### 3-1. 共享内存
+### 3-2. 共享内存
 1. 创建/打开1个共享内存对象
     1. 返回值:文件描述符
 ```
@@ -407,4 +407,46 @@ int shm_unlink(const char *name);
 6. 映射共享内存对象(参考上面的mmap内容)
 ```
 void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
+```
+### 3-3. POSIX线程库
+1. 创建1个新的线程
+    1. 参数
+        1. thread:返回线程ID
+        2. attr:设置线程的属.一般为NULL,表示使用默认属性
+        3. start_routine:线程的入口地址.线程是单独的控制序列,入口地址就是这个
+        4. arg:传递给线程的参数.不传的话写NULL
+    2. 返回值
+        1. 成功:0
+        2. 失败:返回错误码(不是全局变量errno).用strerror(ret)来处理并错误退出.(而之前的handle_error中的perror检查的是全局变量的errno)
+            1. 原因:线程共享全局变量,所以如果使用errno的话,所有线程会共享errno
+    3. 注意
+        1. 主线程结束,创建出来的线程就不能执行了=>主线程要等待新线程结束(sleep/)
+        2. 主线程和新线程是交替运行的,我们可以用`usleep(20);`(微妙级别的sleep)来观察到结果
+        3. 连接时要添加`-pthread`参数
+```
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr,
+                   void *(*start_routine) (void *), void *arg);
+```
+2. 等待新线程执行完毕(类似于进程的waitpid)
+    1. 参数
+        1. thread:线程id
+        2. retavl:可以直接填NULL.值是线程退出时的返回值,即pthread_exit的参数或者线程处理函数的return
+    2. 返回值:通pthread_create
+```
+int pthread_join(pthread_t thread, void **retval);
+```
+3. 退出线程(类似于进程的exit)<=>线程入口函数的return(类似于进程的main函数的return)
+    1. 参数
+        1. retval:退出时返回得到结果,比如"ABC",NULL
+```
+void pthread_exit(void *retval);
+```
+
+4. 返回线程id
+```
+pthread_t pthread_self(void);
+```
+5. 取消一个执行中的线程(类似于进程的kill)
+```
+int pthread_cancel(pthread_t thread);
 ```
