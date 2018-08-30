@@ -1373,7 +1373,7 @@ if((ret = pthread_detach(pthread_self())) != 0 )
 }
 ```
 
-7. 创建1个key
+7. 创建1个TSD的<key,value>
 ```
 
 
@@ -1418,13 +1418,13 @@ pthread_setspecific(key,orris);
 memcpy(orris,pthread_getspecific(key),sizeof(Student));
 ```
 
-10. 删除TSD的key
+10. 删除TSD的<key,value>
 ```
 /* 删除key */
 pthread_key_delete(key);
 ```
 
-11. 线程内创建TSD的key(线程内创建key的话,必须保证只有1个线程去创建,其他的不能去创建)
+11. 线程内创建TSD的<key,value>(线程内创建key的话,必须保证只有1个线程去创建,其他的不能去创建)
 ```
 pthread_once_t once_control = PTHREAD_ONCE_INIT;
 void handle_once()
