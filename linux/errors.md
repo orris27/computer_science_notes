@@ -525,3 +525,15 @@ yum install -y openssl-devel
     # 推送配置文件到其他节点,删除原来的目录,格式化,启动Hadoop,执行
     #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     ```
+## 16. UNIX网络编程
+### 16-1. POSIX
+1. `mq_send: Bad file descriptor`
+    1. 解决:要以能写入的方式打开POSIX消息队列
+2. `mq_send: Message too long`
+    1. 解决:接收消息时的消息长度必须是单个消息的最大字节长度
+    ```
+    struct mq_attr attr;
+    if((mq_getattr(mqid,&attr)) == -1)
+        ERR_EXIT("mq_getattr");
+    //attr.mq_msgsize就是单个消息的最大字节长度
+    ```
