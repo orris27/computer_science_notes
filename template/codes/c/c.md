@@ -343,10 +343,10 @@ printf("%s\n",localip);
     }
 
     int main()
-    {
-        signal(SIGCHLD,handle_sigchld);
-        //....
-    }
+    // ...
+    
+    signal(SIGCHLD,handle_sigchld);
+    
     ```
 
 21. [重现FIN_WAIT2和CLOSE_WAIT](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
@@ -1234,30 +1234,50 @@ printf("mode=%o\n",statbuf.st_mode & 07777); // 打印共享内存的权限
 6. [基于POSIX的共享内存实现的简单学生结构体的读写](https://github.com/orris27/orris/tree/master/process/ipc/codes/posix-shm)
 #### 2-2-3. 线程
 1. 创建1个新线程
-```
-void* handle_thread(void *arg)
-{   
-    
-}
+    1. 不传递参数
+    ```
+    void* handle_thread(void *arg)
+    {   
+
+    }
 
 
-int main()
-{
+    int main()
     // ...
-    
+
     pthread_t tid; // 定义保存线程id的变量
-    
+
     int ret;
     if((ret = pthread_create(&tid,NULL,handle_thread,NULL)) != 0 ) // 创建1个线程:变量,默认的属性,入口地址,参数+错误处理(从返回值获取错误代码,错误退出)
     {
         fprintf(stderr,"pthread_create:%s\n",strerror(ret));
         exit(EXIT_FAILURE);
     }
-    
-    
     //....
-}
-```
+    ```
+    2. 传递1个int参数(conn_sockfd是int类型)
+    ```
+    
+    pthread_t tid;
+    int ret;
+    int *p = (int*)malloc(sizeof(int)); // 构造传递的参数
+    *p = conn_sockfd;
+
+    if((ret = pthread_create(&tid,NULL,handle_thread,p)) != 0 )
+    {
+        fprintf(stderr,"pthread_create:%s\n",strerror(ret));
+        exit(EXIT_FAILURE);
+    }
+    
+    // ...
+    
+    void* handle_thread(void *arg)
+
+    //...
+    int conn_sockfd = *(int*)arg;
+    free(arg); // 释放参数
+
+    ```
 2. 等待新线程执行完毕,并回收尸体
     1. 参数
         + ret:int类型
@@ -1305,6 +1325,19 @@ usleep(20);
 if((ret = pthread_cancel(tid)) != 0 )
 {
     fprintf(stderr,"pthread_cancel:%s\n",strerror(ret));
+    exit(EXIT_FAILURE);
+}
+
+```
+6. 脱离线程=>线程结束后即使主线程不调用join也能回收尸体而不变成僵尸线程
+```
+void* handle_thread(void *arg)
+// ...在线程入口函数的第一个地方就使用
+
+int ret;
+if((ret = pthread_detach(pthread_self())) != 0 )
+{
+    fprintf(stderr,"pthread_detach:%s\n",strerror(ret));
     exit(EXIT_FAILURE);
 }
 
