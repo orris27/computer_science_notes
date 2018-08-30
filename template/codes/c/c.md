@@ -1447,3 +1447,4 @@ pthread_once(&once_control,handle_once);
 
 }
 ```
+12. [POSIX线程的相关函数wait,attr,exit,key的使用](https://github.com/orris27/orris/tree/master/process/ipc/codes/thread)
