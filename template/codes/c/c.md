@@ -781,6 +781,8 @@ lseek(fd,sizeof(Student)*5-1,SEEK_SET);
 write(fd,"",1);
 ```
 4. 映射文件到共享内存区
+    + 注意:打开文件和映射文件的权限要对应.如果映射的参数是PROT_WRITE和MAP_SHARED的话,映射的实体文件需要O_RDWR的方式打开.参考`man mmap`的`EACCES`错误\
+    
 ```
 typedef struct{
     char name[4];
@@ -789,6 +791,8 @@ typedef struct{
 
 Student *p;
 p = (Student*)mmap(NULL,sizeof(Student)*5,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);
+if(p == MAP_FAILED)
+    handle_error("mmap");
 ```
 5. 解除共享内存区的映射
 ```
@@ -799,7 +803,7 @@ if((munmap(p,sizeof(Student)*5)) == -1)
 ```
 Student *p;
 p = (Student*)mmap(NULL,sizeof(Student)*5,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);
-if(p == NULL)
+if(p == MAP_FAILED)
     handle_error("mmap");
 
 char ch = 'A';
@@ -1147,3 +1151,83 @@ while(1)
 ```
 11. [POSIX的消息队列实现](https://github.com/orris27/orris/tree/master/process/ipc/codes/posix-mq)
 
+#### 2-2-2. 共享内存
+1. 查看创建的POSIX共享内存才能状态
+```
+cd /dev/shm/
+cat abc # 这里abc是创建的时候的第一个参数"/abc"对应的消息队列
+```
+1. 创建1个POSIX共享内存
+    1. 简洁版本
+    ```
+    int shmfd = shm_open("/abc",O_RDWR|O_CREAT,0666);
+    if(shmfd == -1)
+        handle_error("shm_open"); 
+    
+    close(shmfd);
+    ```
+    2. 完整版本:添加修改大小
+    ```
+    int shmfd = shm_open("/abc",O_RDWR|O_CREAT,0666);
+    if(shmfd == -1)
+        handle_error("shm_open"); 
+    if((ftruncate(shmfd,sizeof(Student))) == -1)
+        handle_error("ftruncate");
+
+    close(shmfd);
+    ```
+2. 打开1个POSIX共享内存
+```
+int shmfd = shm_open("/abc",O_RDWR,0);
+if(shmfd == -1)
+    handle_error("shm_open"); 
+    
+close(shmfd);
+```
+3. 删除POSIX共享内存
+```
+int shmfd = shm_open("/abc",O_RDWR,0);
+if(shmfd == -1)
+    handle_error("shm_open"); 
+
+if((shm_unlink("/abc")) == -1)
+    handle_error("shm_unlink");
+```
+4. 获取POSIX共享属性,并打印
+```
+struct stat statbuf;
+if((fstat(shmfd,&statbuf)) == -1)
+    handle_error("fstat");
+
+printf("size=%ld\n",statbuf.st_size); // 打印共享内存的大小
+
+printf("mode=%o\n",statbuf.st_mode & 07777); // 打印共享内存的权限
+```
+
+5. 映射POSIX共享内存,并写入数据
+    1. 简洁版
+    ```
+    Student *p;
+    p = (Student*)mmap(NULL,sizeof(Student),PROT_READ|PROT_WRITE,MAP_SHARED,shmfd,0);
+    if(p == NULL)
+          handle_error("mmap");
+    ```
+    2. 完整版
+    ```
+    typedef struct {
+        char name[32];
+        int age;
+    } Student;
+
+
+    Student *p;
+    p = (Student*)mmap(NULL,sizeof(Student),PROT_READ|PROT_WRITE,MAP_SHARED,shmfd,0);
+    if(p == NULL)
+          handle_error("mmap");
+
+    Student orris; // 构造存储的变量
+    strcpy(orris.name,"orris");
+    orris.age = 15;
+
+    memcpy(p,&orris,sizeof(Student)); // 写入变量到p地址
+    ```
