@@ -49,7 +49,7 @@ Shmfifo* fifo_init(key_t key,unsigned int block_size,unsigned int block_total)
         // 7-4. 填充第几块可以写
         p_fifo->p_head->wr_index = 0;
     }
-    // 如果打开共享内存成功
+    // 如果打开共享内存成功(不能重新赋值/填充结构体)
     else
     {
         // 连接共享内存
