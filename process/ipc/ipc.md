@@ -46,7 +46,7 @@ struct msqid_ds {
                 1. 其他进程不能共享,除非保留msqid
                 2. 后面的msgflg可以只跟权限
         2. msgflg:创建的选项.9个权限标志.
-            1. 0666:权限
+            1. 0666:权限(这里填0666,实际权限要和umask进行处理,所以0022的umask会得到0644的权限)
                 1. 如果填0表示按照原来的权限打开消息队列
             2. IPC_CREAT:创建/打开消息队列
             3. IPC_EXCL:创建消息队列,但如果已经存在就创建失败
@@ -375,4 +375,36 @@ int mq_notify(mqd_t mqdes, const struct sigevent *sevp);
     4. NOTFIY_POD:通知发送给哪个进程
 ```
 QSIZE:0          NOTIFY:0     SIGNO:0     NOTIFY_PID:0 
+```
+### 3-1. 共享内存
+1. 创建/打开1个共享内存对象
+    1. 返回值:文件描述符
+```
+int shm_open(const char *name, int oflag, mode_t mode);
+```
+2. 关闭共享内存:使用close就好了,没有`shm_close`这个函数
+```
+close
+```
+3. 修改共享内存的大小
+    1. 参数
+        1. fd:文件描述符
+        2. length:修改后的长度
+```
+int ftruncate(int fd, off_t length);
+```
+4. 获取共享内存对象信息(fstat还可以获取普通文件的状态信息)
+    1. 信息
+        1. 权限
+        2. 大小
+```
+int fstat(int fd, struct stat *statbuf);
+```
+5. 删除1个共享内存的连接数,如果连接数变为0,就删除共享内存的实体文件
+```
+int shm_unlink(const char *name);
+```
+6. 映射共享内存对象(参考上面的mmap内容)
+```
+void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
 ```
