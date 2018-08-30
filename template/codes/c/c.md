@@ -31,7 +31,7 @@ addr.sin_addr.s_addr = inet_addr("127.0.0.1");
         + addr(struct sockaddr_in,对方的ip地址)
     ```
     if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
-        ERR_EXIT("connect");
+        handle_error("connect");
         
     sendto(sockfd,send_buf,strlen(send_buf),0,NULL,0);
     ```
@@ -51,7 +51,7 @@ addr.sin_addr.s_addr = inet_addr("127.0.0.1");
         if (errno == EINTR)
             continue;
         else //如果返回值<0,并且不是中断的信号=>退出进程,返回-1
-            ERR_EXIT("read");
+            handle_error("read");
     }
     ```
     2. UDP接收数据
@@ -62,7 +62,7 @@ addr.sin_addr.s_addr = inet_addr("127.0.0.1");
         if (errno == EINTR)
             continue;   
         else //如果返回值<0,并且不是中断的信号=>退出进程,返回-1
-            ERR_EXIT("read");
+            handle_error("read");
     }
     else if(ret > 0)
     { // 如果返回正确=>我们怎么处理
@@ -93,19 +93,19 @@ if (ret == 0)
     ```
     int sockfd;
     if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
-      ERR_EXIT("socket");
+      handle_error("socket");
     ```
     2. UDP套接字
     ```
     int sockfd;
     if ((sockfd = socket(AF_INET,SOCK_DGRAM,0))<0)
-      ERR_EXIT("socket");
+      handle_error("socket");
     ```
     3. UNIX套接字
     ```
     int sockfd;
     if ((sockfd = socket(AF_UNIX,SOCK_STREAM,0))<0)
-        ERR_EXIT("socket");
+        handle_error("socket");
     ```
     4. 创建UDP套接字并绑定ip地址
     ```
@@ -113,21 +113,21 @@ if (ret == 0)
     struct sockaddr_in addr;
     
     if ((sockfd = socket(AF_INET,SOCK_STREAM,0))<0)
-        ERR_EXIT("socket");
+        handle_error("socket");
     memset(&addr,0,sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(5188);
     addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     if(bind(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0) 
-        ERR_EXIT("bind");
+        handle_error("bind");
     ```
     
     5. 创建TCP套接字并根据ip地址连接
     ```
     int sockfd;
     if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
-      ERR_EXIT("socket");
+      handle_error("socket");
 
     struct sockaddr_in addr;
     memset(&addr,0,sizeof(addr));
@@ -136,13 +136,13 @@ if (ret == 0)
     addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
-      ERR_EXIT("connect");
+      handle_error("connect");
     ```
     6. 创建UNIX套接字,并删除原来的套接字文件,并绑定UNIX地址,并处于监听状态
     ```
     int sockfd;
     if ((sockfd = socket(AF_UNIX,SOCK_STREAM,0))<0)
-        ERR_EXIT("socket");
+        handle_error("socket");
 
     struct sockaddr_un addr;
     memset(&addr,0,sizeof(addr));
@@ -151,16 +151,16 @@ if (ret == 0)
 
     unlink(addr.sun_path);
     if(bind(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
-        ERR_EXIT("bind");
+        handle_error("bind");
     
     if(listen(sockfd,SOMAXCONN)<0)
-        ERR_EXIT("listen");
+        handle_error("listen");
     ```
     7. 创建UNIX套接字,并连接UNIX地址
     ```
     int sockfd;
     if ((sockfd = socket(AF_UNIX,SOCK_STREAM,0))<0)
-          ERR_EXIT("socket");
+          handle_error("socket");
 
     struct sockaddr_un addr;
     memset(&addr,0,sizeof(addr));
@@ -171,18 +171,18 @@ if (ret == 0)
     ```
     int sockets[2];
     if(socketpair(AF_UNIX,SOCK_STREAM,0,sockets) == -1)
-        ERR_EXIT("socketpair");
+        handle_error("socketpair");
 
     ```
     9. 创建UNIX流协议的套接字对,并创建1个进程,父子进程各使用其中1个套接字
     ```
     int sockets[2];
     if(socketpair(AF_UNIX,SOCK_STREAM,0,sockets) == -1)
-        ERR_EXIT("socketpair");
+        handle_error("socketpair");
         
     pid_t pid;
     if ((pid = fork()) == -1)
-        ERR_EXIT("fork");
+        handle_error("fork");
     
     if (pid == 0) // (假定子进程使用第1个套接字,而父进程使用第2个套接字)
     {
@@ -200,27 +200,27 @@ if (ret == 0)
     struct sockaddr_in localaddr;
     socklen_t addrlen = sizeof(localaddr);
     if (getsockname(sockfd,(struct sockaddr*)&localaddr,&addrlen) < 0)
-        ERR_EXIT("getsockname");
+        handle_error("getsockname");
     ```
     2. 获取对方套接字地址(该套接字必须处于连接状态)
     ```
     struct sockaddr_in localaddr;
     socklen_t addrlen = sizeof(localaddr);
     if (getpeername(sockfd,(struct sockaddr*)&localaddr,&addrlen) < 0)
-        ERR_EXIT("getpeername");
+        handle_error("getpeername");
     ```
 
 12. 使UNIX流协议/TCP套接字处于监听状态
 ```
 if(listen(sockfd,SOMAXCONN)<0) // SOMAXCONN是服务器套接字允许建立的最大队列,包括未连接+已连接的队列
-  ERR_EXIT("listen");
+  handle_error("listen");
 ```
 
 13. 允许服务器套接字重用TIME_WAIT套接字(实验中使用在bind函数之前,具体怎样不太清楚)
 ```
 int reuse_on=1;
 if(setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&reuse_on,sizeof(reuse_on))<0)
-  ERR_EXIT("setsockopt");
+  handle_error("setsockopt");
 ```
 
 14. [使用poll函数实现并发服务器](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
@@ -243,13 +243,13 @@ struct sockaddr_in peer_addr;
 socklen_t peer_len = sizeof(peer_addr); // 使用accept获得对方的套接字等信息时,对方套接字的长度一定要初始化
 int conn_sockfd;
 if ((conn_sockfd = accept(sockfd,(struct sockaddr*)&peer_addr,&peer_len))<0)
-  ERR_EXIT("accept");
+  handle_error("accept");
 ```
 17. 获取主机名
 ```
 char hostname[100]={0};
 if (gethostname(hostname,sizeof(host) <0)
-    ERR_EXIT("gethostname");
+    handle_error("gethostname");
 ```
 
 18. 获取本机的所有ip列表(通过主机名获取)(虚拟机能获取`10.0.0.7`,但是获取不了`127.0.0.1`,我自己的电脑只能获取到`127.0.1.1`)
@@ -257,13 +257,13 @@ if (gethostname(hostname,sizeof(host) <0)
 // 获取主机名
 char hostname[100]={0};
 if(gethostname(hostname,sizeof(hostname)) < 0)
-    ERR_EXIT("gethostname");
+    handle_error("gethostname");
 
 
 // 获取保存ip列表的结构体,通过主机名
 struct hostent *hp;
 if ((hp = gethostbyname(hostname)) == NULL)
-    ERR_EXIT("gethostbyname");
+    handle_error("gethostbyname");
 
 
 // 遍历该主机下的ip列表,每个ip元素存储的都是ip的结构体,可以强制类型转换成struct in_addr*类型
@@ -303,7 +303,7 @@ int getlocalip(char *ip)
 // ....
 char localip[16] = {0};
 if (getlocalip(localip) == -1)
-    ERR_EXIT("getlocalip");
+    handle_error("getlocalip");
 printf("%s\n",localip);
 
 ```
@@ -361,7 +361,7 @@ shutdown(sockfd,SHUT_WR);
 ```
 struct rlimit rl;
 if (getrlimit(RLIMIT_NOFILE,&rl) <0)
-      ERR_EXIT("getrlimit");
+      handle_error("getrlimit");
 printf("%d\n",(int)rl.rlim_cur); 
 printf("%d\n",(int)rl.rlim_max);
 ```
@@ -372,11 +372,11 @@ struct rlimit rl;
 rl.rlim_cur = 2048;
 rl.rlim_max = 2048;
 if (setrlimit(RLIMIT_NOFILE,&rl) <0)
-      ERR_EXIT("getrlimit");
+      handle_error("getrlimit");
 
 //查看当前进程的文件描述符
 if (getrlimit(RLIMIT_NOFILE,&rl) <0)
-      ERR_EXIT("getrlimit");
+      handle_error("getrlimit");
 printf("%d\n",(int)rl.rlim_cur);
 printf("%d\n",(int)rl.rlim_max);
 ```
@@ -384,7 +384,7 @@ printf("%d\n",(int)rl.rlim_max);
 
 28. err_exit
 ```
-#define ERR_EXIT(m) do { perror(m); exit(EXIT_FAILURE); } while(0)
+#define handle_error(m) do { perror(m); exit(EXIT_FAILURE); } while(0)
 ```
 
 29. 网络编程包含的头文件
@@ -491,7 +491,7 @@ while(fgets(send_buf,sizeof(send_buf),stdin) != NULL)
     ```
     pid_t pid;
     if ((pid = fork()) == -1)
-        ERR_EXIT("fork");
+        handle_error("fork");
     if (pid == 0) // 子进程
     {
     }
@@ -506,7 +506,7 @@ while(fgets(send_buf,sizeof(send_buf),stdin) != NULL)
     {
         pid_t pid;
         if ((pid = fork()) == -1)
-              ERR_EXIT("fork");
+              handle_error("fork");
         if (pid == 0) // 子进程
         {
             no = i+1; // 设置no=i
@@ -543,7 +543,7 @@ while(fgets(send_buf,sizeof(send_buf),stdin) != NULL)
         msg.msg_flags = 0;
         int ret = sendmsg(sockfd,&msg,0);
         if(ret != 1)
-            ERR_EXIT("sendmsg");
+            handle_error("sendmsg");
 
     }
 
@@ -571,17 +571,17 @@ while(fgets(send_buf,sizeof(send_buf),stdin) != NULL)
         msg.msg_flags = 0;
         int ret = recvmsg(sockfd,&msg,0);
         if(ret != 1)
-            ERR_EXIT("sendmsg");
+            handle_error("sendmsg");
 
         p_cmsg = CMSG_FIRSTHDR(&msg);
         if (p_cmsg == NULL)
-            ERR_EXIT("no passed fd");
+            handle_error("no passed fd");
 
 
         p_fd = (int*)CMSG_DATA(p_cmsg);
         recvfd = *p_fd;
         if(recvfd == -1)
-            ERR_EXIT("no passed fd");
+            handle_error("no passed fd");
 
         return recvfd;
     }
@@ -598,32 +598,32 @@ while(fgets(send_buf,sizeof(send_buf),stdin) != NULL)
 ```
 int msgid = msgget(1234,0666|IPC_CREAT);
 if(msgid == -1)
-    ERR_EXIT("msgget");
+    handle_error("msgget");
 ```
 2. 打开key为1234的消息队列
 ```
 int msgid = msgget(1234,0);
 if(msgid == -1)
-    ERR_EXIT("msgget");
+    handle_error("msgget");
 ```
 3. 删除消息队列
 ```
 int msgid = msgget(1234,0);
 if(msgid == -1)
-    ERR_EXIT("msgget");
+    handle_error("msgget");
     
 if((msgctl(msgid,IPC_RMID,NULL)) == -1)
-    ERR_EXIT("msgctl");
+    handle_error("msgctl");
 ```
 4. 获得消息队列的状态,并输出它的信息
 ```
 int msgid = msgget(1234,0);
 if(msgid == -1)
-      ERR_EXIT("msgget");
+      handle_error("msgget");
 
 struct msqid_ds msg_stat;
 if((msgctl(msgid,IPC_STAT,&msg_stat) == -1))
-    ERR_EXIT("msgctl");
+    handle_error("msgctl");
 
 printf("mode=%o\n",msg_stat.msg_perm.mode);//输出消息队列的权限
 
@@ -637,15 +637,15 @@ printf("msgmnb=%d\n",(int)msg_stat.msg_qbytes);//输出消息队列中所有消�
 ```
 int msgid = msgget(1234,0);
 if(msgid == -1)
-      ERR_EXIT("msgget");
+      handle_error("msgget");
 
 struct msqid_ds msg_stat;
 if((msgctl(msgid,IPC_STAT,&msg_stat) == -1))
-    ERR_EXIT("msgctl");
+    handle_error("msgctl");
 
 sscanf("600","%o",(unsigned int*)&msg_stat.msg_perm.mode);
 if((msgctl(msgid,IPC_SET,&msg_stat) == -1))
-    ERR_EXIT("msgctl");
+    handle_error("msgctl");
 ```
 
 6. 发送消息
@@ -659,7 +659,7 @@ if((msgctl(msgid,IPC_SET,&msg_stat) == -1))
     struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + bytes);
     p_buf->mtype = type;
     if((msgsnd(msgid,p_buf,MSGMAX,0)) == -1)
-      ERR_EXIT("msgsnd");
+      handle_error("msgsnd");
     ```
     3. 完整用法
     ```
@@ -677,14 +677,14 @@ if((msgctl(msgid,IPC_SET,&msg_stat) == -1))
 
     int msgid = msgget(1234,0);
     if(msgid == -1)
-          ERR_EXIT("msgget");
+          handle_error("msgget");
     int bytes = atoi(argv[1]); // 发送的实际数据的字节数
     int type  = atoi(argv[2]); // 发送的消息类型
     
     struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + bytes);
     p_buf->mtype = type;
     if((msgsnd(msgid,p_buf,bytes,0)) == -1) //if((msgsnd(msgid,p_buf,bytes,IPC_NOWAIT)) == -1)
-        ERR_EXIT("msgsnd");
+        handle_error("msgsnd");
 
     ```
 7. 接收key为1234的消息队列的消息
@@ -694,7 +694,7 @@ if((msgctl(msgid,IPC_SET,&msg_stat) == -1))
     2. 简洁用法
     ```
     if ((msgrcv(msgid,p_buf,MSGMAX,mtype,0)) == -1)
-      ERR_EXIT("msgrcv");
+      handle_error("msgrcv");
     ```
     3. 完整用法
     ```
@@ -707,11 +707,11 @@ if((msgctl(msgid,IPC_SET,&msg_stat) == -1))
 
     int msgid = msgget(1234,0);
     if(msgid == -1)
-          ERR_EXIT("msgget");
+          handle_error("msgget");
     struct msgbuf *p_buf = (struct msgbuf *)malloc(sizeof(long) + MSGMAX);
 
     if ((msgrcv(msgid,p_buf,MSGMAX,mtype,msgflg)) == -1)
-        ERR_EXIT("msgrcv");
+        handle_error("msgrcv");
 
     ```
 
@@ -737,7 +737,7 @@ int opt;
 while(1)
 {
     opt = getopt(argc,argv,"nt:"); //"n"表示-n且没有值,"t:"表示-t且有值
-    if (opt == '?') // 出现新的参数.这里不使用ERR_EXIT是因为出现了新的参数也表示成功
+    if (opt == '?') // 出现新的参数.这里不使用handle_error是因为出现了新的参数也表示成功
         exit(EXIT_SUCCESS);
     if (opt == -1) // 如果没有命令行参数
         break;
@@ -769,7 +769,7 @@ int pid = getpid();
 ```
 int fd = open(argv[1],O_CREAT|O_RDWR|O_TRUNC,0666)
 if(fd == -1)
-    ERR_EXIT("open");
+    handle_error("open");
 ```
 2. 移动文件描述符
 ```
@@ -793,14 +793,14 @@ p = (Student*)mmap(NULL,sizeof(Student)*5,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);
 5. 解除共享内存区的映射
 ```
 if((munmap(p,sizeof(Student)*5)) == -1)
-    ERR_EXIT("munmap");
+    handle_error("munmap");
 ```
 6. 操作共享内存区(模仿对文件的操作就可以了)
 ```
 Student *p;
 p = (Student*)mmap(NULL,sizeof(Student)*5,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);
 if(p == NULL)
-    ERR_EXIT("mmap");
+    handle_error("mmap");
 
 char ch = 'A';
 for(int i=0;i<5;++i)
@@ -811,7 +811,7 @@ for(int i=0;i<5;++i)
 }
 
 if((munmap(p,sizeof(Student)*5)) == -1)
-    ERR_EXIT("munmap");
+    handle_error("munmap");
 ```
 7. [基于共享内存区读写学生结构体](https://github.com/orris27/orris/tree/master/process/ipc/codes/shared-rw)
 
@@ -820,13 +820,13 @@ if((munmap(p,sizeof(Student)*5)) == -1)
 ```
 int shmid = shmget(1234,sizeof(Student),0666|IPC_CREAT);
 if(shmid == -1)
-    ERR_EXIT("shmget");
+    handle_error("shmget");
 ```
 9. 打开key=1234的共享内存
 ```
 int shmid = shmget(1234,0,0);
 if(shmid == -1)
-    ERR_EXIT("shmget");
+    handle_error("shmget");
 ```
 10. 连接共享内存
     + 默认使用`char*`就好
@@ -835,22 +835,22 @@ if(shmid == -1)
 
 char *p = (char*)shmat(shmid,NULL,0);
 if(p == (void*)-1)
-    ERR_EXIT("shmat");
+    handle_error("shmat");
 ```
 
 11. 脱离共享内存
 ```
 if((shmdt(p)) == -1)
-    ERR_EXIT("shmdt");
+    handle_error("shmdt");
 ```
 12. 删除key为1234的共享内存
 ```
 int shmid = shmget(1234,0,0);
 if(shmid == -1)
-      ERR_EXIT("shmget");
+      handle_error("shmget");
       
 if((shmctl(shmid,IPC_RMID,NULL)) == -1)
-      ERR_EXIT("msgctl");
+      handle_error("msgctl");
 ```
 13. [共享内存的读写](https://github.com/orris27/orris/tree/master/process/ipc/codes/shm-rw)
 #### 2-1-3. 信号量 
@@ -859,26 +859,26 @@ if((shmctl(shmid,IPC_RMID,NULL)) == -1)
     ```
     int semid = semget(1234,1,IPC_CREAT|IPC_EXCL|0666);
     if(semid == -1)
-        ERR_EXIT("semget");
+        handle_error("semget");
     ```
     2. key随机
     ```
     key_t key = ftok(".",'s');//第一个参数必须是真实存在的路径,而第二个参数这里填's',其他的也可以
     int semid = semget(key,1,IPC_CREAT|IPC_EXCL|0666);
     if(semid == -1)
-        ERR_EXIT("semget");
+        handle_error("semget");
     ```
     3. 只由父子进程共享
     ```
     int semid = semget(IPC_PRIVATE,1,IPC_CREAT|IPC_EXCL|0666);
     if(semid == -1)
-          ERR_EXIT("semget");
+          handle_error("semget");
     ```
 2. 打开key为1234的信号量集
 ```
 int semid = semget(1234,0,0);
 if(semid == -1)
-    ERR_EXIT("semget");
+    handle_error("semget");
 
 ```
 
@@ -899,7 +899,7 @@ void sem_setval(int semid,int val)
     union semun su; // 定义第4个参数
     su.val = val; // 赋值
     if((semctl(semid,0,SETVAL,su)) == -1) // 设置信号量集中第一个信号量的计数值+错误处理
-        ERR_EXIT("semctl");
+        handle_error("semctl");
 }
 
 // ...
@@ -913,7 +913,7 @@ int sem_getval(int semid)
 {
     int ret = semctl(semid,0,GETVAL,0);
     if (ret == -1)
-        ERR_EXIT("semctl");
+        handle_error("semctl");
     return ret;
 }
 
@@ -929,7 +929,7 @@ void sem_delete(int semid)
 {
     
     if((semctl(semid,0,IPC_RMID,0)) == -1) // 删除信号量集:semid,0,IPC_RID
-        ERR_EXIT("semctl");
+        handle_error("semctl");
     
 }
 rm_sem(semid);
@@ -952,7 +952,7 @@ key_t key = ftok(".",'s');//第一个参数必须是真实存在的路径,而第
             {0,-1,0}
         };
         if ((semop(semid,sops,1)) == -1)
-            ERR_EXIT("semop");
+            handle_error("semop");
     }
     //...
     sem_p(semid);
@@ -966,7 +966,7 @@ key_t key = ftok(".",'s');//第一个参数必须是真实存在的路径,而第
         {sem2,-1,0}
     };
     if ((semop(semid,sops,2)) == -1)
-        ERR_EXIT("semop");
+        handle_error("semop");
     ```
 
 8. 执行V操作
@@ -978,7 +978,7 @@ key_t key = ftok(".",'s');//第一个参数必须是真实存在的路径,而第
             {0,+1,0}
         };
         if ((semop(semid,sops,1)) == -1)
-            ERR_EXIT("semop");
+            handle_error("semop");
     }
     //....
     sem_v(semid);
@@ -993,7 +993,7 @@ key_t key = ftok(".",'s');//第一个参数必须是真实存在的路径,而第
     };
     
     if ((semop(semid,sops,2)) == -1)
-        ERR_EXIT("semop");
+        handle_error("semop");
     ```
 
 9. [信号量集的基本使用](https://github.com/orris27/orris/tree/master/process/ipc/codes/semtool)
@@ -1032,50 +1032,50 @@ cat abc # 这里abc是创建的时候的第一个参数"/abc"对应的消息队�
 ```
 mqd_t mqid = mq_open("/abc",O_RDWR|O_CREAT,0666,NULL);
 if(mqid == (mqd_t) -1)
-    ERR_EXIT("mq_open");
+    handle_error("mq_open");
 
 if((mq_close(mqid)) == -1)
-    ERR_EXIT("mq_close");
+    handle_error("mq_close");
 ```
 3. 打开名字为"/abc"的POSIX消息队列
 ```
 mqd_t mqid = mq_open("/abc",O_RDONLY);
 if(mqid == (mqd_t) -1)
-    ERR_EXIT("mq_open");
+    handle_error("mq_open");
 
 if((mq_close(mqid)) == -1)
-    ERR_EXIT("mq_close");
+    handle_error("mq_close");
 ```
 4. 关闭POSIX消息队列(一般打开/创建后都需要关闭消息队列)
 ```
 if((mq_close(mqid)) == -1)
-    ERR_EXIT("mq_close");
+    handle_error("mq_close");
 ``` 
 5. 删除名字为"/abc"的POSIX消息队列
 ```
 mqd_t mqid = mq_open("/abc",O_RDONLY);
 if(mqid == (mqd_t) -1)
-      ERR_EXIT("mq_ope");
+      handle_error("mq_ope");
 
 if((mq_unlink("/abc")) == -1)
-    ERR_EXIT("mq_unlink");
+    handle_error("mq_unlink");
 ```
 6. 获取POSIX消息队列的状态
 ```
 mqd_t mqid = mq_open("/abc",O_RDONLY);
 if(mqid == (mqd_t) -1)
-      ERR_EXIT("mq_ope");
+      handle_error("mq_ope");
 
 struct mq_attr attr;
 if((mq_getattr(mqid,&attr)) == -1)
-    ERR_EXIT("mq_getattr");
+    handle_error("mq_getattr");
 
 printf("maxmsg=%ld\n",attr.mq_maxmsg);
 printf("msgsize=%ld\n",attr.mq_msgsize);
 printf("curmsgs=%ld\n",attr.mq_curmsgs);
 
 if((mq_close(mqid)) == -1)
-      ERR_EXIT("mq_close");
+      handle_error("mq_close");
 ```
 7. 发送消息给POSIX消息队列
     1. 参数
@@ -1084,18 +1084,18 @@ if((mq_close(mqid)) == -1)
     2. 注意:需要O_RDWR方式打开
 ```
 if((mq_send(mqid,(char*)&orris,sizeof(orris),atoi(argv[1]))) == -1)
-    ERR_EXIT("mq_send");
+    handle_error("mq_send");
 ```
 8. 接收POSIX消息
 ```
 struct mq_attr attr;
 if((mq_getattr(mqid,&attr)) == -1)
-      ERR_EXIT("mq_getattr");
+      handle_error("mq_getattr");
 
 Student stu;
 unsigned int prio;
 if((mq_receive(mqid,(char*)&stu,attr.mq_msgsize,&prio)) == -1)
-    ERR_EXIT("mq_send");
+    handle_error("mq_send");
 
 printf("prio=%u name=%s age=%d\n",prio,stu.name,stu.age);
 
