@@ -1371,5 +1371,79 @@ if((ret = pthread_detach(pthread_self())) != 0 )
     fprintf(stderr,"pthread_detach:%s\n",strerror(ret));
     exit(EXIT_FAILURE);
 }
+```
 
+7. 创建1个key
+```
+
+
+void destructor(void *value)
+{
+    /* 释放掉value值(如果value值是malloc出来的话) */
+    free(value);
+}
+
+
+pthread_key_t key; 
+
+/*
+ * 下面的代码在main函数内
+ */
+ 
+/* 定义key的变量 */
+pthread_key_create(&key,destructor);
+
+```
+8. 设置学生结构体作为TSD的value值
+```
+typedef struct {
+    char name[32];
+    int age;
+}Student;
+
+
+
+/* 构造value值 */
+Student *orris = (Student*)malloc(sizeof(Student));
+strcpy(orris->name,"orris");
+orris->age = pthread_self()%11;
+/* 设置TSD的key的值 */
+pthread_setspecific(key,orris);
+```
+
+
+9. 获取TSD的value值
+```
+/* orris是Student*变量 */
+memcpy(orris,pthread_getspecific(key),sizeof(Student));
+```
+
+10. 删除TSD的key
+```
+/* 删除key */
+pthread_key_delete(key);
+```
+
+11. 线程内创建TSD的key(线程内创建key的话,必须保证只有1个线程去创建,其他的不能去创建)
+```
+pthread_once_t once_control = PTHREAD_ONCE_INIT;
+void handle_once()
+{
+    /* 创建1个key */
+    pthread_key_create(&key,destructor);
+    /* 打印说正在创建key */
+    printf("Creating key....\n");
+}
+
+/*
+ * 线程的入口地址void* handle_thread(void *arg)
+ */
+void* handle_thread(void *arg)
+{
+
+/* 创建key.(线程内创建key的话,必须保证只有1个线程去创建,其他的不能去创建) */
+pthread_once(&once_control,handle_once);
+
+
+}
 ```
