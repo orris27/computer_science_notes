@@ -518,7 +518,7 @@ int pthread_setconcurrency(int new_level);
 int pthread_getconcurrency(void);
 ```
 
-9. 创建TSD的key
+9. 创建TSD的<key,value>
     1. 参数
         1. key
         2. destructor:提供销毁实际数据的函数
@@ -528,12 +528,12 @@ int pthread_getconcurrency(void);
 // 找到1个空位置的key来创建
 int pthread_key_create(pthread_key_t *key, void (*destructor)(void*));
 ```
-10. 获取/设置TSD的key
+10. 获取/设置TSD的<key,value>的value值
 ```
 void *pthread_getspecific(pthread_key_t key);
 int pthread_setspecific(pthread_key_t key, const void *value);
 ```
-11. 删除TSD的key
+11. 删除TSD的<key,value>
 ```
 int pthread_key_delete(pthread_key_t key);
 ```
