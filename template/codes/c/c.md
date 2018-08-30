@@ -771,12 +771,26 @@ if((shmctl(shmid,IPC_RMID,NULL)) == -1)
 ```
 13. [共享内存的读写](https://github.com/orris27/orris/tree/master/process/ipc/codes/shm-rw)
 ### 2-3. System V信号量
-1. 创建1个信号量集:key=1234,信号量集个数=1,选项=创建|不允许创建2次|权限
-```
-int semid = semget(1234,1,IPC_CREAT|IPC_EXCL|0666);
-if(semid == -1)
-    ERR_EXIT("semget");
-```
+1. 创建1个信号量集:
+    1. key=1234,信号量集个数=1,选项=创建|不允许创建2次|权限
+    ```
+    int semid = semget(1234,1,IPC_CREAT|IPC_EXCL|0666);
+    if(semid == -1)
+        ERR_EXIT("semget");
+    ```
+    2. key随机
+    ```
+    key_t key = ftok(".",'s');//第一个参数必须是真实存在的路径,而第二个参数这里填's',其他的也可以
+    int semid = semget(key,1,IPC_CREAT|IPC_EXCL|0666);
+    if(semid == -1)
+        ERR_EXIT("semget");
+    ```
+    3. 只由父子进程共享
+    ```
+    int semid = semget(IPC_PRIVATE,1,IPC_CREAT|IPC_EXCL|0666);
+    if(semid == -1)
+          ERR_EXIT("semget");
+    ```
 2. 打开key为1234的信号量集
 ```
 int semid = semget(1234,0,0);
@@ -784,9 +798,6 @@ if(semid == -1)
     ERR_EXIT("semget");
 
 ```
-
-
-
 
 
 3. 设置信号量集中信号量的值
@@ -816,7 +827,6 @@ setval(semid,5);
 ```
 int sem_getval(int semid)
 {
-    // 获取信号量集中信号量的值:semid,0,GETVAL,0
     int ret = semctl(semid,0,GETVAL,0);
     if (ret == -1)
         ERR_EXIT("semctl");
@@ -853,9 +863,7 @@ key_t key = ftok(".",'s');//第一个参数必须是真实存在的路径,而第
 ```
 void sem_p(int semid)
 {
-    // 定义P操作
     struct sembuf sops = {0,-1,0};
-    // 执行P操作+错误处理
     if ((semop(semid,&sops,1)) == -1)
         ERR_EXIT("semop");
 }
@@ -867,9 +875,7 @@ sem_p(semid);
 ```
 void sem_v(int semid)
 {
-    // 定义V操作
     struct sembuf sops = {0,+1,0};
-    // 执行V操作+错误处理
     if ((semop(semid,&sops,1)) == -1)
         ERR_EXIT("semop");
 }
@@ -878,3 +884,20 @@ sem_v(semid);
 ```
 
 9. [信号量集的基本使用](https://github.com/orris27/orris/tree/master/process/ipc/codes/semtool)
+
+
+10. 打印1个字符并且不回车
+    + 如果printf没有回车,而且没有刷新缓冲区的话,就不会立刻输出出去.所以一定要fflush
+```
+printf("%c",'a');
+fflush(stdout); 
+sleep(5);
+```
+
+11. 生成随机数
+```
+srand(getpid());
+int a = rand() % 3;
+```
+
+12. [基于信号量集实现偶数次字符打印](https://github.com/orris27/orris/tree/master/process/ipc/codes/print)
