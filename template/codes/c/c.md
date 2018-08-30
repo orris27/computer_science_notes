@@ -1090,7 +1090,7 @@ if((mq_send(mqid,(char*)&orris,sizeof(orris),atoi(argv[1]))) == -1)
 ```
 struct mq_attr attr;
 if((mq_getattr(mqid,&attr)) == -1)
-      handle_error("mq_getattr");
+    handle_error("mq_getattr");
 
 Student stu;
 unsigned int prio;
@@ -1100,3 +1100,50 @@ if((mq_receive(mqid,(char*)&stu,attr.mq_msgsize,&prio)) == -1)
 printf("prio=%u name=%s age=%d\n",prio,stu.name,stu.age);
 
 ```
+9. 注册信号处理函数的POSIX通知事件
+```
+mqd_t mqid;
+struct sigevent sigev;
+
+void handle_sigusr1(int sig)
+{
+    if((mq_notify(mqid,&sigev)) == -1) // 再次注册通知事件
+        handle_error("mq_notify");
+
+    struct mq_attr attr; // 接收消息
+    if((mq_getattr(mqid,&attr)) == -1)
+        handle_error("mq_getattr");
+
+    Student stu;
+    unsigned int prio;
+    if((mq_receive(mqid,(char*)&stu,attr.mq_msgsize,&prio)) == -1)
+        handle_error("mq_send");
+
+    printf("prio=%u name=%s age=%d\n",prio,stu.name,stu.age); // 打印接收到的消息
+}
+
+
+int main()
+{
+
+
+    //...
+
+    signal(SIGUSR1,handle_sigusr1);// 下面5行是为了注册通知事件并通过SIGUSR1信号处理
+    sigev.sigev_notify = SIGEV_SIGNAL;
+    sigev.sigev_signo = SIGUSR1;
+    if((mq_notify(mqid,&sigev)) == -1)
+        handle_error("mq_notify");
+    //...
+
+}
+
+```
+
+10. 等待信号,使进程处于等待信号的状态
+```
+while(1)
+    pause();
+```
+11. [POSIX的消息队列实现](https://github.com/orris27/orris/tree/master/process/ipc/codes/posix-mq)
+
