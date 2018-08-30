@@ -69,8 +69,7 @@ void print(int semid, char ch)
 int main()
 {
     // 创建1个信号量集
-    key_t key = ftok(".",'s');
-    int semid = semget(key,1,IPC_CREAT|IPC_EXCL|0666);
+    int semid = semget(IPC_PRIVATE,1,IPC_CREAT|IPC_EXCL|0666);
     if(semid == -1)
           ERR_EXIT("semget");
     // 初始化信号量集,值为1
