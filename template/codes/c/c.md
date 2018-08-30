@@ -1278,6 +1278,37 @@ printf("mode=%o\n",statbuf.st_mode & 07777); // 打印共享内存的权限
     free(arg); // 释放参数
 
     ```
+    
+    3. 属性是分离属性的新线程
+    ```
+    
+    int ret; // 定义保存pthread的返回值的变量
+    
+    pthread_t tid; // 定义保存线程id的变量
+    
+    pthread_attr_t attr; // 定义线程属性的变量
+    
+    if((ret = pthread_attr_init(&attr)) != 0 ) // 初始化线程属性的变量
+    {
+        fprintf(stderr,"pthread_attr_init:%s\n",strerror(ret));
+        exit(EXIT_FAILURE);
+    }
+    
+    int detachstate = PTHREAD_CREATE_DETACHED; // 定义保存线程的分离属性的变量
+    
+    if((ret = pthread_attr_setdetachstate(&attr,detachstate)) != 0 ) // 设置线程的分离属性
+    {
+        fprintf(stderr,"pthread_attr_setdetachstate:%s\n",strerror(ret));
+        exit(EXIT_FAILURE);
+    }
+    
+    if((ret = pthread_create(&tid,&attr,handle_thread,NULL)) != 0 ) // 创建1个线程:变量,使用新的分离属性,入口地址,参数+错误处理(从返回值获取错误代码,错误退出)
+    {
+        fprintf(stderr,"pthread_create:%s\n",strerror(ret));
+        exit(EXIT_FAILURE);
+    }
+
+    ```
 2. 等待新线程执行完毕,并回收尸体
     1. 参数
         + ret:int类型
