@@ -2222,6 +2222,15 @@ ipcrm -Q 0x4d2 #删除key是0x4D2的消息队列
 #### 59-2-1. options
 和pdb一样
 
+## 60. pstree
+查看线程情况
+```
+pstree
+pstree -a
+pstree -a | grep httpd | wc -l
+```
+
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
