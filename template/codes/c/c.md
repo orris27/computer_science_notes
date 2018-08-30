@@ -462,6 +462,22 @@ printf("%d\n",(int)rl.rlim_max);
     # gcc -Wall -g consume.o fifo.o sem.o -o consume
     #------------------------------------------------------------------------
     ```
+    4. 连接时添加`-lrt`参数(POSIX需要在连接时添加额外参数)
+        1. 显示写出连接过程,直接写在后面就行了
+        2. `$^`:可能是后者,`$@`:可能是前者
+    ```
+    .PHONY:clean all
+    CC=gcc
+    CFLAGS=-Wall -g
+    BIN=mq
+    all:$(BIN)
+    $.o:%.c
+        $(CC) $(CFLAGS) -c $< -o $@
+    mq:mq.o
+        $(CC) $(CFLAGS) $^ -o $@ -lrt
+    clean:
+        rm -f *.o $(BIN)
+    ```
 
 31. 循环读取键盘输入
 ```
@@ -575,7 +591,8 @@ while(fgets(send_buf,sizeof(send_buf),stdin) != NULL)
 
 
 ## 2. IPC
-### 2-1. System V消息队列
+### 2-1. System V
+#### 2-1-1. 消息队列
 
 1. 创建key为1234消息队列
 ```
@@ -746,8 +763,7 @@ char buf[1024];
 int pid = getpid();
 *(int*)buf = pid;
 ```
-
-### 2-2. System V共享内存
+#### 2-1-2. 共享内存
 1. Linux下以读写方式打开/创建文件,并清空文件,设置权限为0666
     + open得到文件描述符,而fopen得到FILE指针
 ```
@@ -837,7 +853,7 @@ if((shmctl(shmid,IPC_RMID,NULL)) == -1)
       ERR_EXIT("msgctl");
 ```
 13. [共享内存的读写](https://github.com/orris27/orris/tree/master/process/ipc/codes/shm-rw)
-### 2-3. System V信号量
+#### 2-1-3. 信号量 
 1. 创建1个信号量集:
     1. key=1234,信号量集个数=1,选项=创建|不允许创建2次|权限
     ```
@@ -1001,3 +1017,86 @@ int a = rand() % 3;
 13. [哲学家就餐问题](https://github.com/orris27/orris/tree/master/process/ipc/codes/dinner)
 14. [生产者和消费者的shmfifo解决](https://github.com/orris27/orris/tree/master/process/ipc/codes/produce-consume)
 15. [单个信号量的信号量集的头文件和函数](https://github.com/orris27/orris/tree/master/process/ipc/codes/produce-consume),使用里面的`sem.c`和`sem.h`就行了
+
+
+### 2-2. POSIX
+#### 2-2-1. 消息队列
+1. 查看创建的POSIX消息队列状态
+```
+mkdir /dev/mqueue
+mount -t mqueue none /dev/mqueue
+cd /dev/mqueue/
+cat abc # 这里abc是创建的时候的第一个参数"/abc"对应的消息队列
+```
+2. 创建名字为"/abc"的POSIX消息队列(连接时需要加入`-lrt`参数,使用POSIX都需要,以下不赘述这个细节)
+```
+mqd_t mqid = mq_open("/abc",O_RDWR|O_CREAT,0666,NULL);
+if(mqid == (mqd_t) -1)
+    ERR_EXIT("mq_open");
+
+if((mq_close(mqid)) == -1)
+    ERR_EXIT("mq_close");
+```
+3. 打开名字为"/abc"的POSIX消息队列
+```
+mqd_t mqid = mq_open("/abc",O_RDONLY);
+if(mqid == (mqd_t) -1)
+    ERR_EXIT("mq_open");
+
+if((mq_close(mqid)) == -1)
+    ERR_EXIT("mq_close");
+```
+4. 关闭POSIX消息队列(一般打开/创建后都需要关闭消息队列)
+```
+if((mq_close(mqid)) == -1)
+    ERR_EXIT("mq_close");
+``` 
+5. 删除名字为"/abc"的POSIX消息队列
+```
+mqd_t mqid = mq_open("/abc",O_RDONLY);
+if(mqid == (mqd_t) -1)
+      ERR_EXIT("mq_ope");
+
+if((mq_unlink("/abc")) == -1)
+    ERR_EXIT("mq_unlink");
+```
+6. 获取POSIX消息队列的状态
+```
+mqd_t mqid = mq_open("/abc",O_RDONLY);
+if(mqid == (mqd_t) -1)
+      ERR_EXIT("mq_ope");
+
+struct mq_attr attr;
+if((mq_getattr(mqid,&attr)) == -1)
+    ERR_EXIT("mq_getattr");
+
+printf("maxmsg=%ld\n",attr.mq_maxmsg);
+printf("msgsize=%ld\n",attr.mq_msgsize);
+printf("curmsgs=%ld\n",attr.mq_curmsgs);
+
+if((mq_close(mqid)) == -1)
+      ERR_EXIT("mq_close");
+```
+7. 发送消息给POSIX消息队列
+    1. 参数
+        + orris:Student结构体的一个普通变量
+        + atoi(argv[1]):命令行参数,比如说0,1,2都可以
+    2. 注意:需要O_RDWR方式打开
+```
+if((mq_send(mqid,(char*)&orris,sizeof(orris),atoi(argv[1]))) == -1)
+    ERR_EXIT("mq_send");
+```
+8. 接收POSIX消息
+```
+struct mq_attr attr;
+if((mq_getattr(mqid,&attr)) == -1)
+      ERR_EXIT("mq_getattr");
+
+Student stu;
+unsigned int prio;
+if((mq_receive(mqid,(char*)&stu,attr.mq_msgsize,&prio)) == -1)
+    ERR_EXIT("mq_send");
+
+printf("prio=%u name=%s age=%d\n",prio,stu.name,stu.age);
+
+```
