@@ -401,20 +401,67 @@ printf("%d\n",(int)rl.rlim_max);
 ```
 
 30. Makefile
-    1. 使用(下面的4个空格可能要换成tab键)
-        1. 在BIN中写入要编译的c文件的文件名(不包括`.c`,比如说`client.c`就写成`BIN=client`)
+    1. 原始形态(produce有main函数,produce依赖fifo,而fifo依赖sem,其中fifo和sem都有头文件)
+        + `gcc -c xx.c -o xx.o`:编译
+        + `gcc xx.o yy.o -o zz`:连接
+    ```
+    produce:produce.o fifo.o sem.o
+        gcc produce.o fifo.o sem.o -o produce
+    sem.o:sem.c
+        gcc -c sem.c -o sem.o
+    fifo.o:fifo.c
+        gcc -c fifo.c -o fifo.o
+    produce.o:produce.c
+        gcc -c produce.c -o produce.o
+    clean:
+        rm -f *.o produce fifo sem consume
+    ```
+    2. 使用(下面的4个空格可能要换成tab键)
+        1. 在BIN中写入要编译并且含有main函数的c文件的文件名(不包括`.c`,比如说`client.c`就写成`BIN=client`)
         2. `make`
-```
-.PHONY:clean all
-CC=gcc
-CFLAGS=-Wall -g
-BIN=
-all:$(BIN)
-$.o:%.c
-    $(CC) $(CFLAGS) -c $< -o $@
-clean:
-    rm -f *.o $(BIN)
-```
+    ```
+    .PHONY:clean all
+    CC=gcc
+    CFLAGS=-Wall -g
+    BIN=
+    all:$(BIN)
+    $.o:%.c
+        $(CC) $(CFLAGS) -c $< -o $@
+    clean:
+        rm -f *.o $(BIN)
+    ```
+    3. 多个文件的Makefile
+        1. 说明
+            + produce(main)=>fifo=>sem
+            + consume(main)=>fifo=>sem
+        2. 注意
+            1. BIN:只存放含有main函数的c文件.(没有main函数的只需要在OBJS中指明就会被自动编译)
+            2. 每个OBJS对应1个需要连接的BIN文件,并在下面输出
+    ```
+    .PHONY:clean all
+    CC=gcc
+    CFLAGS=-Wall -g
+    BIN=produce consume
+    OBJS1=produce.o fifo.o sem.o
+    OBJS2=consume.o fifo.o sem.o
+    all:$(BIN)
+    $.o:%.c
+        $(CC) $(CFLAGS) -c $< -o $@
+    produce:$(OBJS1)
+        $(CC) $(CFLAGS) $^ -o $@
+    consume:$(OBJS2)
+        $(CC) $(CFLAGS) $^ -o $@
+    clean:
+        rm -f *.o $(BIN)
+    #------------------------------------------------------------------------
+    # gcc -Wall -g   -c -o produce.o produce.c
+    # gcc -Wall -g   -c -o fifo.o fifo.c
+    # gcc -Wall -g   -c -o sem.o sem.c
+    # gcc -Wall -g produce.o fifo.o sem.o -o produce
+    # gcc -Wall -g   -c -o consume.o consume.c
+    # gcc -Wall -g consume.o fifo.o sem.o -o consume
+    #------------------------------------------------------------------------
+    ```
 
 31. 循环读取键盘输入
 ```
@@ -757,7 +804,7 @@ if((munmap(p,sizeof(Student)*5)) == -1)
 ```
 int shmid = shmget(1234,sizeof(Student),0666|IPC_CREAT);
 if(shmid == -1)
-      ERR_EXIT("shmget");
+    ERR_EXIT("shmget");
 ```
 9. 打开key=1234的共享内存
 ```
@@ -766,8 +813,11 @@ if(shmid == -1)
     ERR_EXIT("shmget");
 ```
 10. 连接共享内存
+    + 默认使用`char*`就好
 ```
-Student *p = (Student*)shmat(shmid,NULL,0);
+//Student *p = (Student*)shmat(shmid,NULL,0);
+
+char *p = (char*)shmat(shmid,NULL,0);
 if(p == (void*)-1)
     ERR_EXIT("shmat");
 ```
