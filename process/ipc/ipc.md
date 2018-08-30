@@ -269,3 +269,110 @@ struct sembuf{
 
 int semop(int semid, struct sembuf *sops, size_t nsops);
 ```
+
+
+
+## 3. POSIX
+需要在连接的时候指定`-lrt`参数.查看帮助:`man 7 mq_overview`
+### 3-1. 消息队列
+#### 3-1-1. 接口
+1. 创建/打开1个消息队列
+    1. 参数
+        1. name:消息队列的名字
+            1. 必须以`/`开头,后面不能有其他`/`
+            2. 长度不能超过NAME_MAX
+        2. oflag:类似open函数,可以是O_RDONLY,O_WRONLY,O_RDWR等
+        3. mode: 如果oflag指定O_CREAT,需要设置mode
+```
+mqd_t mq_open(const char *name, int oflag);
+mqd_t mq_open(const char *name, int oflag, mode_t mode, struct mq_attr *attr);
+```
+2. 关闭1个消息队列
+    + 不删除文件(文件是指挂载到`/dev/mqueue`后,该目录下面对应消息队列的文件)
+    + 程序结束后也会自动关闭消息队列
+```
+int mq_close(mqd_t mqdes);
+```
+3. 删除1个消息队列的连接数,如果连接数变为0,就删除消息队列的实体文件
+```
+int mq_unlink(const char *name);
+```
+4. 获取消息队列属性到attr
+```
+
+struct mq_attr {
+    long mq_flags;      // 是否阻塞
+    long mq_maxmsg;     // 消息队列的消息个数的最大值
+    long mq_msgsize;    // 消息队列中单个消息字节数的最大值
+    long mq_curmsgs;    // 消息队列中当前消息个数
+};
+
+
+int mq_getattr(mqd_t mqdes, struct mq_attr *attr);
+```
+5. 设置消息队列属性,返回原来的属性
+```
+int mq_setattr(mqd_t mqdes, const struct mq_attr *newattr,struct mq_attr *oldattr);
+```
+6. 发送POSIX消息
+    1. 参数
+        1. msg_ptr:消息内容.虽然是`char*`,但和缓冲区一样,我们可以传递甚至结构体过去
+        2. msg_len:消息的字节长度
+        3. msg_prio:优先级(>=0的数).优先级最高(且最早进入队列)的会先被接收
+```
+int mq_send(mqd_t mqdes, const char *msg_ptr, size_t msg_len, unsigned int msg_prio);
+```
+7. 接收POSIX消息
+    1. 参数:指定的单个消息字节长度必须等于消息的最大字节长度,其他同发送POSIX消息的函数
+    2. 获取单个消息的最大字节数
+        1. 获取POSIX消息队列的属性
+        2. 提取消息的最大字节数
+        3. 使用该单个消息队列的最大字数
+```
+ssize_t mq_receive(mqd_t mqdes, char *msg_ptr, size_t msg_len, unsigned int *msg_prio);
+```
+
+8. 注册消息发送/接收的通知事件
+    1. 消息队列中获得/删除消息时进程是不知道的
+    2. 参数
+        1. sevp:通知事件的结构
+            1. NULL:撤销已注册的实际那
+            2. 
+    3. 通知方式(下面2个选1个)
+        1. 产生1个信号
+        2. 创建1个线程执行1个指定的函数
+    4. 发生通知的条件
+        1. 消息队列从无到有(消息队列中已经有消息的话就没有通知了)
+        2. 消息队列从有到无
+    5. 规则
+        1. 任何时刻只能有1个进程可以被注册
+        2. 一直通知的话:需要在信号处理函数中再次注册,并且一定要在读取数据之前(因为如果在读取之后的话,就)
+```
+union sigval {          /* Data passed with notification */
+    int     sival_int;         /* Integer value */
+    void   *sival_ptr;         /* Pointer value */
+};
+
+// man sigevent
+struct sigevent {
+    int          sigev_notify; //通知的方式,信号or线程
+    int          sigev_signo;  //(信号)哪个信号,比如SIGUSR1
+    union sigval sigev_value;  //(信号)附加参数
+    void       (*sigev_notify_function) (union sigval);
+    void        *sigev_notify_attributes;
+                     /* Attributes for notification thread
+                        (SIGEV_THREAD) */
+    pid_t        sigev_notify_thread_id;
+                     /* ID of thread to signal (SIGEV_THREAD_ID) */
+};
+
+int mq_notify(mqd_t mqdes, const struct sigevent *sevp);
+```
+9. 状态=>任何时刻只能有1个进程可以被注册
+    1. QSIZE:当前所有消息的字节数和
+    2. NOTIFY:通知方式
+    3. SIGNO:以哪个信号通知
+    4. NOTFIY_POD:通知发送给哪个进程
+```
+QSIZE:0          NOTIFY:0     SIGNO:0     NOTIFY_PID:0 
+```
