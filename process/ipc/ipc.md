@@ -450,3 +450,98 @@ pthread_t pthread_self(void);
 ```
 int pthread_cancel(pthread_t thread);
 ```
+6. 脱离线程=>线程结束后即使主线程不调用join也能回收尸体而不变成僵尸线程
+```
+int pthread_detach(pthread_t thread);
+```
+7. 线程属性
+    1. 初始化
+    ```
+    int pthread_attr_init(pthread_attr_t *attr);
+    ```
+    2. 销毁
+    ```
+    int pthread_attr_destroy(pthread_attr_t *attr);
+    ```
+    3. 获取/设置
+        1. 获取/设置分离属性
+            1. attr:调用初始化函数后的线程属性
+            2. detachstate
+                1. PTHREAD_CREATE_DETACHED:线程是分离的
+                2. PTHREAD_CREATE_JOINABLE:线程不是分离的(默认)
+        ```
+        int pthread_attr_setdetachstate(pthread_attr_t *attr, int detachstate);
+        int pthread_attr_getdetachstate(const pthread_attr_t *attr, int *detachstate);
+        ```
+        2. 获取/设置栈大小(通常不会自己设置,使用系统默认的就好,因为自己设置的可能会有问题)
+        ```
+        int pthread_attr_setstacksize(pthread_attr_t *attr, size_t stacksize);
+        int pthread_attr_getstacksize(const pthread_attr_t *attr, size_t *stacksize);
+        ```
+        3. 获取/设置栈溢出保护区大小
+        ```
+        int pthread_attr_setguardsize(pthread_attr_t *attr, size_t guardsize);
+        int pthread_attr_getguardsize(const pthread_attr_t *attr, size_t *guardsize);
+        ```
+        4. 获取/设置线程竞争范围
+        ```
+        int pthread_attr_setscope(pthread_attr_t *attr, int scope);
+        int pthread_attr_getscope(const pthread_attr_t *attr, int *scope);
+        ```
+        5. 获取/设置调度策略
+        ```
+        int pthread_attr_setschedpolicy(pthread_attr_t *attr, int policy);
+        int pthread_attr_getschedpolicy(const pthread_attr_t *attr, int *policy);
+        ```
+        6. 获取/设置继承的调度策略
+        ``` 
+        int pthread_attr_setinheritsched(pthread_attr_t *attr,
+                                         int inheritsched);
+        int pthread_attr_getinheritsched(const pthread_attr_t *attr,
+                                         int *inheritsched);
+
+        ```
+        7. 获取/设置调度参数
+        ```
+        int pthread_attr_setschedparam(pthread_attr_t *attr,
+                                       const struct sched_param *param);
+        int pthread_attr_getschedparam(const pthread_attr_t *attr,
+                                       struct sched_param *param);
+
+        ```
+
+8. 获取/设置并发级别(仅适用于混合线程模型)
+    + 并发级别就是给内核的建议,多少个用户线程对应多少个LWP等.但内核到底采用不采用就是另一回事了
+    + 默认值是0表示内核按照自己认为合适的级别进行映射
+```
+int pthread_setconcurrency(int new_level);
+int pthread_getconcurrency(void);
+```
+
+9. 创建TSD的key
+    1. 参数
+        1. key
+        2. destructor:提供销毁实际数据的函数
+            + 注意:如果只是创建key而没有设置value值的话,是不会调用destructor的
+```
+#include <pthread.h>
+// 找到1个空位置的key来创建
+int pthread_key_create(pthread_key_t *key, void (*destructor)(void*));
+```
+10. 获取/设置TSD的key
+```
+void *pthread_getspecific(pthread_key_t key);
+int pthread_setspecific(pthread_key_t key, const void *value);
+```
+11. 删除TSD的key
+```
+int pthread_key_delete(pthread_key_t key);
+```
+12. 只有第一个线程进来的时候才会执行handle_once方法,而第二个线程不会调用
+    + 作用:放在线程的入口函数里,可以让只有1个线程去执行.比如在线程里创建TSD的key方法(之前都是在创建线程前创建key的,所以没有多个线程都执行的这个问题)
+```
+int pthread_once(pthread_once_t *once_control,
+    void (*init_routine)(void));
+pthread_once_t once_control = PTHREAD_ONCE_INIT;
+
+```
