@@ -1000,4 +1000,4 @@ int a = rand() % 3;
 12. [基于信号量集实现偶数次字符打印](https://github.com/orris27/orris/tree/master/process/ipc/codes/print)
 13. [哲学家就餐问题](https://github.com/orris27/orris/tree/master/process/ipc/codes/dinner)
 14. [生产者和消费者的shmfifo解决](https://github.com/orris27/orris/tree/master/process/ipc/codes/produce-consume)
-15. [单个信号量的信号量集的头文件和函数](https://github.com/orris27/orris/tree/master/process/ipc/codes/produce-consume)
+15. [单个信号量的信号量集的头文件和函数](https://github.com/orris27/orris/tree/master/process/ipc/codes/produce-consume),使用里面的`sem.c`和`sem.h`就行了
