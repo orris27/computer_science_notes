@@ -1232,3 +1232,80 @@ printf("mode=%o\n",statbuf.st_mode & 07777); // 打印共享内存的权限
     memcpy(p,&orris,sizeof(Student)); // 写入变量到p地址
     ```
 6. [基于POSIX的共享内存实现的简单学生结构体的读写](https://github.com/orris27/orris/tree/master/process/ipc/codes/posix-shm)
+#### 2-2-3. 线程
+1. 创建1个新线程
+```
+void* handle_thread(void *arg)
+{   
+    
+}
+
+
+int main()
+{
+    // ...
+    
+    pthread_t tid; // 定义保存线程id的变量
+    
+    int ret;
+    if((ret = pthread_create(&tid,NULL,handle_thread,NULL)) != 0 ) // 创建1个线程:变量,默认的属性,入口地址,参数+错误处理(从返回值获取错误代码,错误退出)
+    {
+        fprintf(stderr,"pthread_create:%s\n",strerror(ret));
+        exit(EXIT_FAILURE);
+    }
+    
+    
+    //....
+}
+```
+2. 等待新线程执行完毕,并回收尸体
+    1. 参数
+        + ret:int类型
+        + tid:等待的线程id
+    2. 等待新线程执行完毕,并回收尸体,不使用其返回值
+    ```
+    if((ret = pthread_join(tid,NULL)) != 0 )
+    {
+        fprintf(stderr,"pthread_join:%s\n",strerror(ret));
+        exit(EXIT_FAILURE);
+    }
+    ```
+    3. 等待新线程执行完毕,并回收尸体,使用其返回值(比如说线程退出时输出"abc")
+    ```
+    void *retval;
+    
+    if((ret = pthread_join(tid,&retval)) != 0 ) // 等待新线程
+    {
+        fprintf(stderr,"pthread_join:%s\n",strerror(ret));
+        exit(EXIT_FAILURE);
+    }
+    printf("\nretval=%s\n",(char*)retval); 
+
+    ```
+3. 睡20微秒(可以用在线程的for循环中,从而可以观察线程的切换)
+```
+usleep(20);
+```
+4. 退出线程
+    1. 退出线程,返回值为NULL
+    ```
+    pthread_exit(NULL);
+    
+    //return NULL;
+    ```
+    2. 退出线程,并带有返回值信息
+    ```
+    pthread_exit("pthread_exit");
+    
+    //return "ok";
+    ```
+5. 取消一个执行中的线程(类似于进程的kill)
+    1. 注意:如果主线程中接收了线程的退出值,那么有可能会出问题,因为杀死线程后被杀死的线程不会有退出值
+```
+if((ret = pthread_cancel(tid)) != 0 )
+{
+    fprintf(stderr,"pthread_cancel:%s\n",strerror(ret));
+    exit(EXIT_FAILURE);
+}
+
+```
