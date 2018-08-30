@@ -539,3 +539,5 @@ yum install -y openssl-devel
     ```
 3. `Segmentation fault (core dumped)`
     1. 解决:打开文件和映射文件的权限要对应.比如只读打开文件(O_RDONLY)就不能在映射的时候用write(mmap中不能用PROT_WRITE)
+4. `undefined reference to 'pthread_create'`
+    1. 解决:`man pthread_create`,知道要在连接的时候添加`-pthread`参数
