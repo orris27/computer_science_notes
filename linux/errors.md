@@ -537,3 +537,5 @@ yum install -y openssl-devel
         ERR_EXIT("mq_getattr");
     //attr.mq_msgsize就是单个消息的最大字节长度
     ```
+3. `Segmentation fault (core dumped)`
+    1. 解决:打开文件和映射文件的权限要对应.比如只读打开文件(O_RDONLY)就不能在映射的时候用write(mmap中不能用PROT_WRITE)
