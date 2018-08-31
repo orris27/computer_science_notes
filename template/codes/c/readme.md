@@ -1578,5 +1578,133 @@ pthread_mutex_destroy(&mutex);
     1. 条件变量和互斥锁共同配合的头文件接口实现
     2. 线程池等待所有(忙碌+等待)线程都结束后执行销毁
 
-## 2. 其他
+## 2. UNIX编程
 1. [制作静态库和制作动态库](https://github.com/orris27/orris/blob/master/cpp/cpp.md)
+
+2. 创建文件
+```
+/* 创建文件 */
+int fd;
+if((fd = open("tmpfile",O_RDWR|O_CREAT,0666)) == -1)
+    handle_error("open");
+
+/* 关闭文件 */
+close(fd);
+```
+3. 删除当前目录下的test文件
+```
+if((unlink("test")) == -1)
+    handle_error("unlink");
+```
+
+4. 创建临时文件:创建文件后立刻减少硬链接数
+```
+/* 创建文件 */
+int fd;
+if((fd = open("tmpfile",O_RDWR|O_CREAT,0666)) == -1)
+    handle_error("open");
+/* 减少文件的硬链接数 */
+if((unlink("tmpfile")) == -1)
+    handle_error("unlink");
+
+
+/* 处理文件 (这里写对临时文件的处理内容~~)
+write(fd,"hello\n",6);
+
+lseek(fd,0,SEEK_SET);
+char buf[1024];
+memset(buf,0,sizeof(buf));
+read(fd,buf,sizeof(buf));
+fputs(buf,stdout);
+sleep(10);
+*/
+
+
+/* 关闭文件 */
+close(fd);
+```
+5. 修改进程所在目录
+```
+/* 修改进程所在的目录在上一级别 */
+if((chdir("../")) == -1)
+    handle_error("chdir");
+
+```
+6. 打开目录
+```
+/* 构造目录的结构变量 */
+DIR *p_dir;
+/* 打开目录+错误处理 */
+p_dir = opendir(dirname);
+if(p_dir == NULL)
+    handle_error("opendir");
+/* 构造目录内容的结构变量 */
+struct dirent *p_dirent;
+/* 遍历当前的目录 */
+/* while(读取目录,并且是有内容可以读的:返回值不为NULL) */
+while((p_dirent = readdir(p_dir)) != NULL)
+{
+
+
+    /* 对目录下面包括.和..在内的文件进行处理 */
+
+    /* 文件名:(字符串)p_dirent->d_name */
+    /* 查看文件类型:p_dirent->d_type == DT_DIR或者DT_REG等*/
+
+
+
+
+}
+/* 关闭目录 */
+closedir(p_dir);
+```
+7. 打开目录并遍历里面的内容,最终获得普通文件总数
+```
+int count_regs(char *dirname)
+{
+    /* 定义普通文件总数 */
+    int count = 0;
+    /* 构造目录的结构变量 */
+    DIR *p_dir;
+    /* 打开目录+错误处理 */
+    p_dir = opendir(dirname);
+    if(p_dir == NULL)
+        handle_error("opendir");
+    // 构造目录内容的结构变量
+    struct dirent *p_dirent;
+    // 遍历当前的目录
+    // while(读取目录,并且是有内容可以读的:返回值不为NULL)
+    while((p_dirent = readdir(p_dir)) != NULL)
+    {
+        // 如果是.和..
+        if(strcmp(p_dirent->d_name,".") == 0||strcmp(p_dirent->d_name,"..") == 0)
+            // 跳过
+            continue;
+        // 如果是目录
+        else if(p_dirent->d_type == DT_DIR)
+        {
+            // 构造新目录的绝对目录
+            char new_dirname[1024];
+            memset(new_dirname,0,sizeof(new_dirname));
+            sprintf(new_dirname,"%s/%s",dirname,p_dirent->d_name);
+
+            // 读取新目录+更新普通文件总数
+            count += count_regs(new_dirname);
+        }
+        // 如果是普通文件
+        else if(p_dirent->d_type == DT_REG)
+            // 增加文件总数
+            count++;
+    }
+    // 关闭目录
+    closedir(p_dir);
+    // 返回普通文件总数
+    return count;
+    
+}
+
+```
+8. 拼接2个字符串到一个新的字符串
+```
+sprintf(new_dirname,"%s/%s",dirname,p_dirent->d_name);
+```
