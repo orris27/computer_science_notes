@@ -2402,6 +2402,13 @@ ldd main
 
 ```
 
+## 65. man
+```
+man open
+man 2 open # 查看open的第2个章节.这里就是UNIX系统API应用层的open函数文档
+# vim下shift+k也可以跳转到man文档
+```
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
