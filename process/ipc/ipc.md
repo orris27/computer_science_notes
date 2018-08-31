@@ -548,7 +548,7 @@ pthread_once_t once_control = PTHREAD_ONCE_INIT;
 
 
 
-#### 3-3-1. POSIX线程池
+#### 3-3-1. POSIX线程池(自定义)
 1. 结构体
 ```
 struct task 
@@ -571,7 +571,7 @@ typedef struct threadpool //线程池结构体
 }threadpool_t;
 
 void threadpool_init(threadpool_t *pool,int threads);
-void threadpool_add_task(threadpool_t *pool, void *(*run)(void *arg),void *arg(;
+void threadpool_add_task(threadpool_t *pool, void *(*run)(void *arg),void *arg);
 void threadpool_destroy(threadpool_t *pool);
 
 
