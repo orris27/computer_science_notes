@@ -545,3 +545,41 @@ int pthread_once(pthread_once_t *once_control,
 pthread_once_t once_control = PTHREAD_ONCE_INIT;
 
 ```
+
+
+### 3-4. POSIX信号量
+1. 创建1个信号量
+```
+// 初始化并打开1个有名的信号量
+sem_t *sem_open(const char *name, int oflag);
+sem_t *sem_open(const char *name, int oflag,
+                mode_t mode, unsigned int value);
+                
+//初始化1个无名的信号量(也可以用与不同进程间通信,只要sem在共享内存区且pshared不等于0 )
+int sem_init(sem_t *sem, int pshared, unsigned int value);
+```
+2. 执行POSIX信号量的PV操作
+```
+int sem_wait(sem_t *sem);
+int sem_post(sem_t *sem);
+```
+
+3. 互斥锁(无名的,也可以用于多个进程)
+    1. 初始化
+        1. 参数
+            1. mutex:互斥锁
+            2. attr:填NULL就行
+```
+int pthread_mutex_init(pthread_mutex_t *restrict mutex,
+    const pthread_mutexattr_t *restrict attr);
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+
+int pthread_mutex_lock(pthread_mutex_t *mutex);
+
+int pthread_mutex_unlock(pthread_mutex_t *mutex);
+
+
+int pthread_mutex_destroy(pthread_mutex_t *mutex);
+
+```
