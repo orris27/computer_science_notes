@@ -543,3 +543,6 @@ yum install -y openssl-devel
     1. 解决:`man pthread_create`,知道要在连接的时候添加`-pthread`参数
 5. man里面没有`pthread_key_create`
     1. 解决:`sudo apt-get install manpages-posix-dev`
+## 17. C语言
+1. gdb中出现`No symbol table is loaded.  Use the "file" command.`
+    1. 解决:编译时加`-g`参数
