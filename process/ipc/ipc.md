@@ -604,3 +604,42 @@ int pthread_rwlock_rdlock(pthread_rwlock_t *rwlock);
 int pthread_rwlock_wrlock(pthread_rwlock_t *rwlock);
 int pthread_rwlock_unlock(pthread_rwlock_t *rwlock);
 ```
+
+
+### 3-8. 条件变量
+1. 接口
+```
+int pthread_cond_destroy(pthread_cond_t *cond);
+int pthread_cond_init(pthread_cond_t *restrict cond,
+    const pthread_condattr_t *restrict attr);
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+
+int pthread_cond_wait(pthread_cond_t *restrict cond,
+    pthread_mutex_t *restrict mutex); // 等待1个条件
+int pthread_cond_signal(pthread_cond_t *cond); // 向等待的线程发起通知
+int pthread_cond_broadcast(pthread_cond_t *cond); // 向等待的所有线程发起通知
+```
+
+2. 代码规范
+    1. 等待条件代码
+        1. while(条件为假):防止被虚假唤醒(收到信号但条件还是假)
+        2. pthread_cond_wait
+            1. 解锁mutex(必须在等待前锁定mutex):其他线程可以访问互斥资源(1.其他线程可以进来等待条件 2.其他进程可以进来改变条件)
+            2. 等待条件,直到其他线程发起通知
+            3. 重新锁定mutex
+    ```
+    pthread_mutex_lock(&mutex);
+    while(条件为假)
+        pthread_cond_wait(cond,mutex);
+    修改条件
+    pthread_mutex_unlock(&mutex);
+    ```
+    2. 发送信号的代码
+        1. pthread_cond_signal
+            1. 通知第一个等待的线程,如果没有线程处于等待,就忽略该通知(phread_cond_broadcast则是所有)
+    ```
+    pthread_mutex_lock(&mutex);
+    设置条件为真
+    pthread_cond_signal(cond); //更谨慎点可以:if(条件为真) pthread_cond_signal(cond);
+    pthread_mutex_unlock(&mutex);
+    ```
