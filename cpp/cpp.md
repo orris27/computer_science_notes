@@ -189,6 +189,13 @@ sudo ldconfig -v # 使配置文件生效
 ## 4. UNIX编程
 vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退出
 ### 4-1. 接口
+1. 文件的属性
+    1. stat,fstat,lstat:获取属性信息.基本等同于命令行中`stat`命令
+        1. stat:不用打开文件也能读文件属性
+        2. fstat:需要打开文件才能读文件属性
+        3. lstat:不追踪软连接文件.读软连接文件时会只读出软连接文件本身的属性,比如lstat读软连接文件后大小是29字节.其他函数都是读取软连接出去的文件的大小
+    2. access:查看文件是否可读,可写,可执行等
+    3. chmod,fchmod:修改文件权限
 #### 4-1-1. 文件
 1. 特点
     1. `mode_t mode`:文件的权限.是个八进制的数,实际文件的权限是mode和umask共同处理的结果.详见[Linux权限文档](https://coggle.it/diagram/WzNw5TCAbhFNoY8H/t/linux%E8%A7%92%E8%89%B2)
@@ -196,6 +203,9 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
         1. `O_CREAT|O_EXEL`:查看文件是否存在
         2. `O_TRUNC`:清空文件
     3. `ssize_t`:有符号的`size_t`
+    4. `f`开头的函数:一般都是要用文件描述符作为参数,如`fstat`比较于`stat`
+2. 属性
+    1. `struct stat`中的`st_mode`:保存文件类型(普通文件,目录,块设备,符号连接等)和权限
 ### 4-2. 错误
 1. 我们写的`#include <errno.h>`的文件在`/usr/include/errno.h`里面
     1. `/usr/include/errno.h`里面申明了`extern int errno`,说明errno是个全局变量
