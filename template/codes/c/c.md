@@ -1448,3 +1448,57 @@ pthread_once(&once_control,handle_once);
 }
 ```
 12. [POSIX线程的相关函数wait,attr,exit,key的使用](https://github.com/orris27/orris/tree/master/process/ipc/codes/thread)
+
+
+
+#### 2-2-4. 信号量
+1. 创建POSIX信号量,并初始化POSIX信号量为无名信号量:初始值=10
+```
+sem_t sem_produce;
+if((sem_init(&sem_produce,0,10)) == -1)
+    handle_error("sem_init");
+
+
+
+if((sem_destroy(&sem_produce)) == -1)
+    handle_error("sem_destroy");
+
+```
+2. 执行POSIX信号量的P操作
+```
+if((sem_wait(&sem_produce)) == -1)
+    handle_error("sem_wait");
+```
+3. 执行POSIX信号量的V操作
+```
+if((sem_post(&sem_produce)) == -1)
+    handle_error("sem_post");
+```
+4. 销毁POSIX信号量
+```
+if((sem_destroy(&sem_produce)) == -1)
+    handle_error("sem_destroy");
+```
+#### 2-2-5. 互斥锁
+1. 创建POSIX互斥锁,为无名互斥锁:属性=NULL
+```
+pthread_mutex_t mutex;
+pthread_mutex_init(&mutex,NULL);
+
+
+
+pthread_mutex_destroy(&mutex);
+```
+2. 锁定
+```
+/* 锁定 */
+pthread_mutex_lock(&mutex);
+```
+3. 解锁POSIX互斥锁
+```
+pthread_mutex_unlock(&mutex);
+```
+4. 销毁POSIX互斥锁
+```
+pthread_mutex_destroy(&mutex);
+```
