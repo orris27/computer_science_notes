@@ -187,6 +187,14 @@ sudo ldconfig -v # 使配置文件生效
 ```
 
 ## 4. UNIX编程
+vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退出
 ### 4-1. 接口
-1. 文件
-
+#### 4-1-1. 文件
+1. 特点
+    1. `mode_t mode`:文件的权限.是个八进制的数,实际文件的权限是mode和umask共同处理的结果
+    2. `int flags`:打开/创建文件的选项.就是O_RDWR,O_CREATE这些.
+### 4-2. 错误
+1. 我们写的`#include <errno.h>`的文件在`/usr/include/errno.h`里面
+    1. `/usr/include/errno.h`里面申明了`extern int errno`,说明errno是个全局变量
+2. errno的定义及描述:`/usr/include/asm-generic/errno.h` `/usr/include/asm-generic/errno-base.h`
+3. `perror(m)`中的m是用户自定义描述,然后再返回具体的描述
