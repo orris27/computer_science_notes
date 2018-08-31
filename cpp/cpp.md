@@ -196,6 +196,24 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
         3. lstat:不追踪软连接文件.读软连接文件时会只读出软连接文件本身的属性,比如lstat读软连接文件后大小是29字节.其他函数都是读取软连接出去的文件的大小
     2. access:查看文件是否可读,可写,可执行等
     3. chmod,fchmod:修改文件权限
+2. truncate:截取文件长度
+    1. 第二个参数表示从该参数位置开始后面的内容都被删除掉
+    2. 清空的话,第二个值写0就行了
+3. 链接相关
+    1. link:创建硬链接
+    2. symlink:创建软连接
+    3. readlink:读取软连接文件本身的内容(实际上就是链接的内容)
+    4. unlink:减少硬链接数,如果减少到0就会删除文件
+        1. 实现临时文件的原理:打开1个文件后直接unlink,这样等关闭文件后就会自动删除该文件
+4. rename(C库函数)
+5. 目录
+    1. chdir:修改进程所在的目录.进程默认都是在当前目录下的.
+    2. getcwd:获取进程所在的目录
+    3. mkdir
+    4. rmdir:删除1个空目录
+    5. opendir:打开1个目录,必须之后关闭1个目录.返回的是`DIR*`指针,其实类似fopen返回`FILE*`
+    6. readdir:读目录.返回`struct dirent*`.指定while循环会自动遍历
+    7. closedir:关闭1个目录
 #### 4-1-1. 文件
 1. 特点
     1. `mode_t mode`:文件的权限.是个八进制的数,实际文件的权限是mode和umask共同处理的结果.详见[Linux权限文档](https://coggle.it/diagram/WzNw5TCAbhFNoY8H/t/linux%E8%A7%92%E8%89%B2)
@@ -206,7 +224,21 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
     4. `f`开头的函数:一般都是要用文件描述符作为参数,如`fstat`比较于`stat`
 2. 属性
     1. `struct stat`中的`st_mode`:保存文件类型(普通文件,目录,块设备,符号连接等)和权限
-### 4-2. 错误
+
+
+### 4-2. 结构体
+1. 读目录
+```
+struct dirent {
+    ino_t          d_ino;       // 此目录进入点的inode
+    off_t          d_off;       // 目录文件开头至此目录进入点的位移
+    unsigned short d_reclen;    // d_name的长度,不包含NULL字符
+    unsigned char  d_type;      // d_name所指的文件类型(块设备,字符设备,目录DT_DIR,普通文件DT_REG)
+    char           d_name[256]; // 文件名
+};
+
+```
+### 4-3. 错误
 1. 我们写的`#include <errno.h>`的文件在`/usr/include/errno.h`里面
     1. `/usr/include/errno.h`里面申明了`extern int errno`,说明errno是个全局变量
 2. errno的定义及描述:`/usr/include/asm-generic/errno.h` `/usr/include/asm-generic/errno-base.h`
