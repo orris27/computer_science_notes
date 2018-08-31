@@ -43,7 +43,7 @@
         1. makefile维护的变量
             1. `CC`:默认是`cc`(其实就是gcc)
             2. `CPPFLAGS`:预处理(宏替换,展开,删除注释)的时候需要的参数.可以放头文件的位置.`-I x`
-            3. `CFLAGS`:编译的时候需要的参数.如`-Wall -g -c`
+            3. `CFLAGS`:编译的时候需要的参数.如`-Wall -g -c`.必须写在规则的命令里才能生效!!
             4. `LDFLAGS`:链接库的时候需要的参数.如`-L -l`
         2. 用户自定义变量
 
@@ -211,14 +211,15 @@ clean:
 
 ### 1-3. 使用(建议)
 1. 使用CFLAGS,并且makefile同级目录下的每个c文件当做单个文件处理
+    1. 修改了第9个makefile,主要是将objs转变成没有.o后缀的内容,这样下面的命令就变成了一直到连接的过程,而不是输出.o文件
 ```
 .PHONY:clean all
 src=$(wildcard ./*.c)
-objs=$(patsubst %.c,%.o,$(src))
+objs=$(patsubst %.c,%,$(src))
 target=main
 CC=gcc
 CFLAGS=-Wall -g
-CPPFLAGS=-I
+#CPPFLAGS=-I
 all:$(objs)
 %.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@
