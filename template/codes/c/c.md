@@ -1511,30 +1511,69 @@ pthread_mutex_destroy(&mutex);
 
 #### 2-2-6. 条件变量
 1. 消费者等待条件变量
-```
-pthread_mutex_lock(&mutex);
-/* while(仓库里没有产品) */
-while(total == 0)
-{
-    /* 等待仓库里有产品的条件 */
-    pthread_cond_wait(&cond,&mutex);
-}
-/* 消费产品:直接自减仓库产品数量 */
-total--;
-/* 解锁"占用位置"的资源 */
-pthread_mutex_unlock(&mutex);
-```
+    1. 没有超时时间
+    ```
+    pthread_mutex_lock(&mutex);
+    /* while(仓库里没有产品) */
+    while(total == 0)
+    {
+        /* 等待仓库里有产品的条件 */
+        pthread_cond_wait(&cond,&mutex);
+    }
+    /* 消费产品:直接自减仓库产品数量 */
+    total--;
+    /* 解锁"占用位置"的资源 */
+    pthread_mutex_unlock(&mutex);
+    ```
+    2. 有超时时间
+    ```
+    struct timespec abstime;
+    /* 获取当前时间到abstime */
+    clock_gettime(CLOCK_REALTIME,&abstime);
+    /* 设置超时时间为2s */
+    abstime.tv_sec = 2;
 
-2. 生产者发送信号通知
-```
-/* 锁定"占用位置"的资源 */
-pthread_mutex_lock(&mutex);
-/* 生产产品:仓库内的产品数量+1 */
-total++;
-/* 通知条件变量 */
-pthread_cond_signal(&cond);
-/* 解锁"占用位置"的资源 */
-pthread_mutex_unlock(&mutex);
-```
+    pthread_mutex_lock(&mutex);
+    while(total == 0)
+    {
+        int ret = pthread_cond_timedwait(&cond,&mutex,abstime);
+        /* 如果是超时了 */
+        if(ret == ETIMEDOUT)
+        {
+            /* 超时处理*/
+        }
+    }
+    total--;
+    pthread_mutex_unlock(&mutex);
+    
+    ```
+
+2. 生产者发送信号通知(忙碌状态的线程不会接收到通知)
+    1. 发起一个通知给第一个等待该条件变量的线程
+    ```
+    /* 锁定"占用位置"的资源 */
+    pthread_mutex_lock(&mutex);
+    /* 生产产品:仓库内的产品数量+1 */
+    total++;
+    /* 通知条件变量 */
+    pthread_cond_signal(&cond);
+    /* 解锁"占用位置"的资源 */
+    pthread_mutex_unlock(&mutex);
+    ```
+    2. 发起广播给所有等待条件变量的线程
+    ```
+    pthread_mutex_lock(&mutex);
+    
+    total++;
+    //condition_broadcast(&pool->ready);
+    pthread_cond_broadcast(&cond);
+    
+    pthread_mutex_unlock(&mutex);
+    ```
 
 3. [生产者和消费者模型,基于POSIX条件变量和互斥锁实现](https://github.com/orris27/orris/tree/master/process/ipc/codes/produce-consume)
+
+
+4. [基于POSIX的条件变量和线程实现线程池](https://github.com/orris27/orris/tree/master/process/ipc/codes/threadpool)
+    1. 条件变量和互斥锁共同配合的头文件接口实现
+    2. 线程池等待所有(忙碌+等待)线程都结束后执行销毁
