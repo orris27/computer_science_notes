@@ -158,7 +158,22 @@ $(target):$(objs)
 clean:
 	rm -f $(objs) $(target)
 ```
-### 1-2. 使用
+9. 使用CFLAGS,并且makefile同级目录下的每个c文件当做单个文件处理
+```
+.PHONY:clean all
+src=$(wildcard ./*.c)
+objs=$(patsubst %.c,%.o,$(src))
+target=main
+CC=gcc
+CFLAGS=-Wall -g
+CPPFLAGS=-I
+all:$(objs)
+%.o:%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+clean:
+	rm -f $(objs) $(target)
+```
+### 1-2. 使用(第三方,我自己建议的在1-3位置)
 #### 1-2-1. 单个程序
 1. 使用模板的Makefile
 2. 对于要编译的`xx.c`文件,在BIN处写上`BIN=xx`,并保存Makefile文件
@@ -192,4 +207,21 @@ main:$(OBJS1)
 	$(CC) $(CFLAGS) $^ -o $@
 clean:
 	rm -f *.o $(BIN)
+```
+
+### 1-3. 使用(建议)
+1. 使用CFLAGS,并且makefile同级目录下的每个c文件当做单个文件处理
+```
+.PHONY:clean all
+src=$(wildcard ./*.c)
+objs=$(patsubst %.c,%.o,$(src))
+target=main
+CC=gcc
+CFLAGS=-Wall -g
+CPPFLAGS=-I
+all:$(objs)
+%.o:%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+clean:
+	rm -f $(objs) $(target)
 ```
