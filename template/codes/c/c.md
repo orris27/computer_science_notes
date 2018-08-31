@@ -1503,3 +1503,34 @@ pthread_mutex_unlock(&mutex);
 pthread_mutex_destroy(&mutex);
 ```
 5. [生产者和消费者模型,基于POSIX信号量和互斥锁实现](https://github.com/orris27/orris/tree/master/process/ipc/codes/produce-consume)
+
+
+#### 2-2-6. 条件变量
+1. 消费者等待条件变量
+```
+pthread_mutex_lock(&mutex);
+/* while(仓库里没有产品) */
+while(total == 0)
+{
+    /* 等待仓库里有产品的条件 */
+    pthread_cond_wait(&cond,&mutex);
+}
+/* 消费产品:直接自减仓库产品数量 */
+total--;
+/* 解锁"占用位置"的资源 */
+pthread_mutex_unlock(&mutex);
+```
+
+2. 生产者发送信号通知
+```
+/* 锁定"占用位置"的资源 */
+pthread_mutex_lock(&mutex);
+/* 生产产品:仓库内的产品数量+1 */
+total++;
+/* 通知条件变量 */
+pthread_cond_signal(&cond);
+/* 解锁"占用位置"的资源 */
+pthread_mutex_unlock(&mutex);
+```
+
+3. [生产者和消费者模型,基于POSIX条件变量和互斥锁实现](https://github.com/orris27/orris/tree/master/process/ipc/codes/produce-consume)
