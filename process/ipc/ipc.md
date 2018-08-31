@@ -564,11 +564,11 @@ int sem_wait(sem_t *sem);
 int sem_post(sem_t *sem);
 ```
 
-3. 互斥锁(无名的,也可以用于多个进程)
-    1. 初始化
-        1. 参数
-            1. mutex:互斥锁
-            2. attr:填NULL就行
+### 3-5. 互斥锁
+1. 初始化
+    1. 参数
+        1. mutex:互斥锁
+        2. attr:填NULL就行
 ```
 int pthread_mutex_init(pthread_mutex_t *restrict mutex,
     const pthread_mutexattr_t *restrict attr);
@@ -582,4 +582,25 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 int pthread_mutex_destroy(pthread_mutex_t *mutex);
 
+```
+
+
+### 3-6. 自旋锁
+```
+int pthread_spin_init(pthread_spinlock_t *lock, int pshared);
+int pthread_spin_lock(pthread_spinlock_t *lock);
+int pthread_spin_unlock(pthread_spinlock_t *lock);
+int pthread_spin_destroy(pthread_spinlock_t *lock);
+```
+
+### 3-7. 读写锁
+```
+int pthread_rwlock_destroy(pthread_rwlock_t *rwlock);
+int pthread_rwlock_init(pthread_rwlock_t *restrict rwlock,
+    const pthread_rwlockattr_t *restrict attr);
+pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
+
+int pthread_rwlock_rdlock(pthread_rwlock_t *rwlock);
+int pthread_rwlock_wrlock(pthread_rwlock_t *rwlock);
+int pthread_rwlock_unlock(pthread_rwlock_t *rwlock);
 ```
