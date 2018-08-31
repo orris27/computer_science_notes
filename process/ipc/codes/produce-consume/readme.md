@@ -43,5 +43,5 @@
 
 ## 2. 生产者和消费者模型,基于POSIX信号量和互斥锁实现
 ```
-./produce-consume
+./posix-produce-consume
 ```
