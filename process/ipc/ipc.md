@@ -547,6 +547,52 @@ pthread_once_t once_control = PTHREAD_ONCE_INIT;
 ```
 
 
+
+#### 3-3-1. POSIX线程池
+1. 结构体
+```
+struct task 
+{
+    void *(*run)(void *arg);   //指针函数（即这个任务要去做什么事情）
+    void *arg;                 // 参数
+    struct task *next;         // 指向下一个任务的指针
+} task_t;
+
+typedef struct threadpool //线程池结构体
+{
+    condition_t ready; // 任务准备就绪或者线程池销毁通知
+    task_t *first;     // 任务队列头指针
+    task_t *last;      // 任务队列尾指针
+    int counter;       // 线程池中当前线程数
+    int idle;          // 线程池中当前正在等待任务的线程数
+    int max_threads;   // 线程池中最大允许的线程数
+    int quit;          // 销毁线程池的时候置1
+    
+}threadpool_t;
+
+void threadpool_init(threadpool_t *pool,int threads);
+void threadpool_add_task(threadpool_t *pool, void *(*run)(void *arg),void *arg(;
+void threadpool_destroy(threadpool_t *pool);
+
+
+typedef struct condition{
+    pthread_mutex_t pmutex;
+    pthread_cond_t pcond;
+}condition_t;
+
+int condition_init(condition_t *cond);
+int condition_lock(condition_t *cond);
+int condition_unlock(condition_t *cond);
+int condition_wait(condition_t *cond);
+int condition_timedwait(condition_t *cond,const struct timespec *abstime);
+int condition_signal(condition_t *cond);
+int condition_broadcast(condition_t *cond);
+int condition_destroy(condition_t *cond);
+
+```
+
+
+
 ### 3-4. POSIX信号量
 1. 创建1个信号量
 ```
@@ -616,6 +662,10 @@ pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
 int pthread_cond_wait(pthread_cond_t *restrict cond,
     pthread_mutex_t *restrict mutex); // 等待1个条件
+int pthread_cond_timedwait(pthread_cond_t *restrict cond,
+    pthread_mutex_t *restrict mutex,
+    const struct timespec *restrict abstime); // 等待1个条件,有超时
+
 int pthread_cond_signal(pthread_cond_t *cond); // 向等待的线程发起通知
 int pthread_cond_broadcast(pthread_cond_t *cond); // 向等待的所有线程发起通知
 ```
