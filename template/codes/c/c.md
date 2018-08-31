@@ -1577,3 +1577,6 @@ pthread_mutex_destroy(&mutex);
 4. [基于POSIX的条件变量和线程实现线程池](https://github.com/orris27/orris/tree/master/process/ipc/codes/threadpool)
     1. 条件变量和互斥锁共同配合的头文件接口实现
     2. 线程池等待所有(忙碌+等待)线程都结束后执行销毁
+
+## 2. 其他
+1. [制作静态库和制作动态库](https://github.com/orris27/orris/blob/master/cpp/cpp.md)
