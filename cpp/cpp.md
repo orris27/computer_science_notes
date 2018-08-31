@@ -191,10 +191,18 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
 ### 4-1. 接口
 #### 4-1-1. 文件
 1. 特点
-    1. `mode_t mode`:文件的权限.是个八进制的数,实际文件的权限是mode和umask共同处理的结果
+    1. `mode_t mode`:文件的权限.是个八进制的数,实际文件的权限是mode和umask共同处理的结果.详见[Linux权限文档](https://coggle.it/diagram/WzNw5TCAbhFNoY8H/t/linux%E8%A7%92%E8%89%B2)
     2. `int flags`:打开/创建文件的选项.就是O_RDWR,O_CREATE这些.
+        1. `O_CREAT|O_EXEL`:查看文件是否存在
+        2. `O_TRUNC`:清空文件
+    3. `ssize_t`:有符号的`size_t`
 ### 4-2. 错误
 1. 我们写的`#include <errno.h>`的文件在`/usr/include/errno.h`里面
     1. `/usr/include/errno.h`里面申明了`extern int errno`,说明errno是个全局变量
 2. errno的定义及描述:`/usr/include/asm-generic/errno.h` `/usr/include/asm-generic/errno-base.h`
 3. `perror(m)`中的m是用户自定义描述,然后再返回具体的描述
+
+## 5. UNIX网络编程
+1. [coggle笔记](https://coggle.it/diagram/W33p6eGhIvMJaYJJ/t/socket)
+2. [socket笔记](https://github.com/orris27/orris/blob/master/network/socket/socket.md)
+3. [socket接口笔记](https://github.com/orris27/orris/blob/master/network/socket/interface.md)
