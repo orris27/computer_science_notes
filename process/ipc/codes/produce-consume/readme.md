@@ -45,3 +45,8 @@
 ```
 ./posix-produce-consume
 ```
+
+## 3. 生产者和消费者模型,基于POSIX条件变量和互斥锁实现
+```
+./cond-produce-consume
+```
