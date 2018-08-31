@@ -2,7 +2,7 @@
 1. [回射C/S-TCP模型](https://github.com/orris27/orris/tree/master/network/socket/codes/simple-tcp).[图解](https://ask.qcloudimg.com/http-save/yehe-1147827/sams3iwj3k.png?imageView2/2/w/1620)
 2. 创建ipv4地址
 ```
-struct sockaddr_in addr;
+struct sockaddr_in addr;-
 memset(&addr,0,sizeof(addr));
 addr.sin_family = AF_INET;
 addr.sin_port = htons(5188); 
@@ -1502,3 +1502,4 @@ pthread_mutex_unlock(&mutex);
 ```
 pthread_mutex_destroy(&mutex);
 ```
+5. [生产者和消费者模型,基于POSIX信号量和互斥锁实现](https://github.com/orris27/orris/tree/master/process/ipc/codes/produce-consume)
