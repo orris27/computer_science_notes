@@ -224,9 +224,12 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
     7. closedir:关闭1个目录
 6. 文件描述符
     1. dup:复制文件描述符为最小的文件描述符
-    2. dup2:复制文件描述符为指定的文件描述符
+    2. dup2:(dup to)复制文件描述符为指定的文件描述符
         1. 如果指定的文件描述符已经被打开了,就先关闭再重定向到要复制的文件描述符
         2. 如果指定的文件描述符=要复制的文件描述符,就什么也不做
+        3. 可以重定向stdout
+        4. dup2(2,3)表示把2拷贝到3,从而3也指向了stderr
+            + 重定向stdout:`dup2(3,1或者STDOUT_FILENO)`
     3. 注意:复制文件描述符后,他们都会共同偏移!即先write给fd,再write给fd_copy,后者会在前者后面
 7. 环境变量
     1. `extern char** environ;`environ以NULL作为哨兵结尾
@@ -239,6 +242,21 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
     2. geteuid:获得有效用户.比如orris用sudo命令后,`getuid`返回orris,而`geteuid`返回root
     3. getgid
     4. geteuid
+
+9. exec函数族
+    1. `man exec<按tab>`
+        1. execl:list.
+        2. execlp:list path.要用PATH的变量
+            1. 参数:文件名,`argv[0]`,`argv[1]`,`argv[2]`,...,NULL
+            2. `argv[0]`最好和文件名相同
+            3. 老师在execlp中使用`ls`,在execl中使用`/bin/ls`是因为`ls`本身就是可执行程序.所以文件名中写命令也是正确的,毕竟命令名就是文件名.
+        3. execle:list environ.要借助环境变量表
+        4. execv:list argv[].需要自己构件命令行参数数组
+        5. execvp
+        6. execve
+    2. exec不会创建新的进程,所以前后pid相同.
+    3. exec会改变进程的.text段,进程从新程序的启动例程(比如说main函数)开始执行
+    4. 进程执行exec内的程序后就不会再执行exec下面的内容了
 #### 4-1-1. 文件
 1. 特点
     1. `mode_t mode`:文件的权限.是个八进制的数,实际文件的权限是mode和umask共同处理的结果.详见[Linux权限文档](https://coggle.it/diagram/WzNw5TCAbhFNoY8H/t/linux%E8%A7%92%E8%89%B2)
