@@ -323,7 +323,8 @@ printf("%s\n",localip);
             wait(NULL);
             //wait进程仅仅等待第一个子进程的退出
         }
-        signal(SIGCHLD,handle_sigchld);
+        if((signal(SIGCHLD,handle_sigchld)) == SIG_ERR)
+            handle_error("signal");
         ```
         2. 问题:不能关闭所有子进程的问题重现<=多个信号SIGCHLD同时发送给服务端的时候,由于这些信号是不可靠信号,并且只能排队一个,所以就会丢失信号(当然信号的到来不一定是同时的,那么就会看到用wait可以消除多个僵尸进程的情况)
         ```
@@ -347,7 +348,8 @@ printf("%s\n",localip);
     int main()
     // ...
     
-    signal(SIGCHLD,handle_sigchld);
+    if((signal(SIGCHLD,handle_sigchld)) == SIG_ERR)
+        handle_error("signal");
     
     ```
     4. 获取子进程退出信息
