@@ -883,6 +883,10 @@ if((shmctl(shmid,IPC_RMID,NULL)) == -1)
       handle_error("msgctl");
 ```
 13. [共享内存的读写](https://github.com/orris27/orris/tree/master/process/ipc/codes/shm-rw)
+
+
+14. [父子进程间通信](https://github.com/orris27/orris/tree/master/process/ipc/codes/mmap-ipc)
+
 #### 2-1-3. 信号量 
 1. 创建1个信号量集:
     1. key=1234,信号量集个数=1,选项=创建|不允许创建2次|权限
