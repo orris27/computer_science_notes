@@ -792,6 +792,12 @@ int pid = getpid();
 int fd = open(argv[1],O_CREAT|O_RDWR|O_TRUNC,0666);
 if(fd == -1)
     handle_error("open");
+/* (!!!非常重要)修改目标文件大小:大小=size */
+if((ftruncate(fd,size)) == -1)
+      handle_error("ftruncate");
+   
+if((close(fd)) == -1)
+    handle_error("close");
 ```
 2. 移动文件描述符
 ```
@@ -817,6 +823,9 @@ p = (Student*)mmap(NULL,sizeof(Student)*5,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);
 if(p == MAP_FAILED)
     handle_error("mmap");
     
+/* 移动p指针回到起始位置(否则munmap报错"munmap: Invalid argument") */
+/* p -= (N-1)*copy_block; */
+/* 解除映射 */
 if((munmap(p,sizeof(Student)*5)) == -1)
     handle_error("munmap");
 ```
@@ -1658,16 +1667,13 @@ else // 父进程
 ## 3. UNIX编程
 1. [制作静态库和制作动态库](https://github.com/orris27/orris/blob/master/cpp/cpp.md)
 
-2. 创建文件
+2. 重定向stdout到指定的文件描述符
 ```
-/* 创建文件 */
-int fd;
-if((fd = open("tmpfile",O_RDWR|O_CREAT,0666)) == -1)
-    handle_error("open");
+if((dup2(fd,STDOUT_FILENO)) == -1)
+    handle_error("dup2");
+```
 
-/* 关闭文件 */
-close(fd);
-```
+
 3. 删除当前目录下的test文件
 ```
 if((unlink("test")) == -1)
@@ -1833,8 +1839,24 @@ else // 父进程
 
 
 ```
-12. 重定向stdout到指定的文件描述符
+12. 命令行错误提示
 ```
-if((dup2(fd,STDOUT_FILENO)) == -1)
-    handle_error("dup2");
+if(argc != 3)
+{
+    fprintf(stderr,"Usage:%s <src> <dest>\n",argv[0]);
+    exit(EXIT_FAILURE);
+}
+
 ```
+
+13. 获取文件大小
+```
+/* 获取源文件的大小size */
+struct stat statbuf;
+if((fstat(fd,&statbuf)) == -1)
+      handle_error("fstat");
+int size = (int)statbuf.st_size;
+
+```
+
+14. [多进程拷贝实现](https://github.com/orris27/orris/tree/master/process/ipc/codes/multicopy)
