@@ -1737,3 +1737,25 @@ buf = getenv("PATH");
 
 printf("PATH=%s\n",buf);
 ```
+11. 在C语言中的子进程内执行命令行中的ls命令
+```
+// 创建1个进程
+pid_t pid;
+if ((pid = fork()) == -1)
+    handle_error("fork");
+if (pid == 0) // 子进程
+{
+    /* 执行ls命令(使用execlp函数):文件名,argv[0],argv[1],NULL */
+    /* 使用execlp引入PATH变量
+    if((execlp("ls","ls","-l","-a",NULL)) == -1)
+        handle_error("execl");
+    */ 
+    if((execl("/bin/ls","/bin/ls","-l","-a",NULL)) == -1)
+        handle_error("execl");
+}
+else // 父进程
+{
+}
+
+
+```
