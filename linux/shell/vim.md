@@ -9,7 +9,11 @@
 ### 2. 帮助
 vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退出
 
-
+### 3. 解决粘贴混乱的问题
+```
+set pastetoggle=<F9>
+```
+进入insert模式后,按F9进入粘贴模式,然后粘贴,之后再按F9回到普通的insert模式
 ## vim.rc
 将已经保存的文件的tab转化为4个空格的话:
 ```
@@ -91,6 +95,7 @@ set number
 set softtabstop=4
 set autoindent
 set cindent
+set pastetoggle=<F9>
 
 "set softtabstop=4
 "set autoindent
