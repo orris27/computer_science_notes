@@ -366,6 +366,16 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
         2. SIGTSTP停止终端交互进程的执行,和SIGSTOP则是暂停进程
     7. 注意:
         1. 如果我们在sleep期间收到信号,那么处理信号结束后,就继续执行后面的内容了,而不再睡了
+
+12. 时序竞态
+    1. sigsuspend:在函数调用期间,阻塞信号集由参数决定,而不是由PCB的阻塞信号集决定.
+        1. 作用:时序竞态中sigsuspend捆绑了解除SIGALRM屏蔽和挂起等待信号2个动作.它是系统调用,所以一定是原子操作.
+        2. 原理:
+            1. 屏蔽SIGALRM信号
+            2. 开始计时
+            3. 如果此时没有获取到CPU时间片,那么SIGALRM信号已经到达,并且放在未决信号集里面
+            4. 解除SIGALRM信号并挂起.此时发现SIGALRM信号在未决信号里,就会处理SIGALRM信号了
+
 #### 4-1-1. 文件
 1. 特点
     1. `mode_t mode`:文件的权限.是个八进制的数,实际文件的权限是mode和umask共同处理的结果.详见[Linux权限文档](https://coggle.it/diagram/WzNw5TCAbhFNoY8H/t/linux%E8%A7%92%E8%89%B2)
