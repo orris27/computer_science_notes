@@ -1174,7 +1174,8 @@ int main()
 
     //...
 
-    signal(SIGUSR1,handle_sigusr1);// 下面5行是为了注册通知事件并通过SIGUSR1信号处理
+    if((signal(SIGUSR1,handle_sigusr1)) == SIG_ERR)// 下面5行是为了注册通知事件并通过SIGUSR1信号处理
+        handle_error("signal");
     sigev.sigev_notify = SIGEV_SIGNAL;
     sigev.sigev_signo = SIGUSR1;
     if((mq_notify(mqid,&sigev)) == -1)
