@@ -1601,7 +1601,54 @@ pthread_mutex_destroy(&mutex);
     1. 条件变量和互斥锁共同配合的头文件接口实现
     2. 线程池等待所有(忙碌+等待)线程都结束后执行销毁
 
-## 2. UNIX编程
+### 2-3. 管道
+1. 创建1个管道
+```
+int fds[2]; // 定义保存读端/写端的2个套接字的数组
+if((pipe(fds)) == -1) // 创建1个管道
+    handle_error("pipe");
+```
+
+2. 创建1个管道,父进程写,子进程读
+```
+/* 定义保存读端/写端的2个套接字的数组 */
+int fds[2];
+/* 创建1个管道 */
+if((pipe(fds)) == -1)
+    handle_error("pipe");
+/* 创建1个子进程 */
+pid_t pid;
+if ((pid = fork()) == -1)
+      handle_error("fork");
+if (pid == 0) // 子进程
+{
+    /* 关闭写端套接字(第2个套接字) */
+    close(fds[1]);
+
+
+
+    /* read(fds[0],xx);*/
+
+
+}
+else // 父进程
+{
+    /* 关闭读端套接字(第1个套接字) */
+    close(fds[0]);
+    
+    
+    
+    /* write(fds[1],xxx) */
+
+
+
+}
+
+```
+
+
+
+## 3. UNIX编程
 1. [制作静态库和制作动态库](https://github.com/orris27/orris/blob/master/cpp/cpp.md)
 
 2. 创建文件
