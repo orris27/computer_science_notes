@@ -1903,3 +1903,22 @@ printf("\n");
 /* 刷新缓冲区 */
 fflush(stdout);
 ```
+17. 使用sigaction注册信号捕捉函数,并且在处理期间屏蔽SIGQUIT,并且使用默认设置(捕捉函数处理期间屏蔽本信号)
+```
+/* 构造sigaction的结构体变量 */
+struct sigaction act;
+/* 设置捕捉函数 */
+act.sa_handler = handle_sigint;
+/* 清洗信号集变量 */
+if((sigemptyset(&act.sa_mask)) == -1)
+      handle_error("sigemptyset");
+/* 添加SIGQUIT信号到我们的信号集 */
+if((sigaddset(&act.sa_mask,SIGQUIT)) == -1)
+      handle_error("sigaddset");
+/* 设置捕捉函数处理期间是否屏蔽本信号 */
+act.sa_flags = 0;
+/* 注册SIGINT的的捕捉函数+错误处理 */
+if((sigaction(SIGINT,&act,NULL)) == -1)
+    handle_error("sigaction");
+
+```
