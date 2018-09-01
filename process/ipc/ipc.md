@@ -174,6 +174,8 @@ struct shmid_ds {
                 2. 映射该临时文件到进程的地址空间(必须是`MAP_SHARED`,因为父子其实是靠临时文件来通信的)
                 3. 创建1个子进程
                 4. 父子进程只要使用对应的进程地址空间就能通信了
+        2. 无血缘关系的进程间通信
+            1. 临时文件
 ```
 void *mmap(void *addr, size_t length, int prot, int flags,int fd, off_t offset);
 ```
