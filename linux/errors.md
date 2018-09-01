@@ -543,6 +543,8 @@ yum install -y openssl-devel
     1. 解决:`man pthread_create`,知道要在连接的时候添加`-pthread`参数
 5. man里面没有`pthread_key_create`
     1. 解决:`sudo apt-get install manpages-posix-dev`
-## 17. C语言
+## 17. UNIX编程
 1. gdb中出现`No symbol table is loaded.  Use the "file" command.`
     1. 解决:编译时加`-g`参数
+2. mmap出现`Bus error (core dumped)`
+    1. 解决:将实体文件的大小改到能够容纳所有数据.比如临时文件的话,必须ftruncate其大小才行
