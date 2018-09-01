@@ -15,7 +15,9 @@ addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     ```
     char send_buf[1024];
     // fgets(send_buf,sizeof(send_buf),stdin);
-    write(sockfd,send_buf,sizeof(send_buf)); //直接网套接字里写数据就行了
+    if((write(sockfd,send_buf,sizeof(send_buf))) == -1) //直接网套接字里写数据就行了
+        handle_error("write");
+    
     ```
     2. UDP的sendto函数(无连接)
         + sockfd
@@ -767,7 +769,7 @@ int pid = getpid();
 1. Linux下以读写方式打开/创建文件,并清空文件,设置权限为0666
     + open得到文件描述符,而fopen得到FILE指针
 ```
-int fd = open(argv[1],O_CREAT|O_RDWR|O_TRUNC,0666)
+int fd = open(argv[1],O_CREAT|O_RDWR|O_TRUNC,0666);
 if(fd == -1)
     handle_error("open");
 ```
@@ -778,7 +780,8 @@ lseek(fd,sizeof(Student)*5-1,SEEK_SET); // 移动到Student结构体大小的5�
 3. 填充5个Student结构体大小的空间,并设置为0
 ```
 lseek(fd,sizeof(Student)*5-1,SEEK_SET);
-write(fd,"",1);
+if((write(fd,"",1)) == -1)
+    handle_error("write");
 ```
 4. 映射文件到共享内存区
     + 注意:打开文件和映射文件的权限要对应.如果映射的参数是PROT_WRITE和MAP_SHARED的话,映射的实体文件需要O_RDWR的方式打开.参考`man mmap`的`EACCES`错误\
@@ -1609,7 +1612,8 @@ if((unlink("tmpfile")) == -1)
 
 
 /* 处理文件 (这里写对临时文件的处理内容~~)
-write(fd,"hello\n",6);
+if((write(fd,"hello\n",6)) == -1)
+    handle_error("write");
 
 lseek(fd,0,SEEK_SET);
 char buf[1024];
