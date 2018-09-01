@@ -548,3 +548,5 @@ yum install -y openssl-devel
     1. 解决:编译时加`-g`参数
 2. mmap出现`Bus error (core dumped)`
     1. 解决:将实体文件的大小改到能够容纳所有数据.比如临时文件的话,必须ftruncate其大小才行
+3. munmap出现`munmap: Invalid argument`
+    1. 解决:移动mmap返回的p指针回到起始位置
