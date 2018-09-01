@@ -350,7 +350,27 @@ printf("%s\n",localip);
     signal(SIGCHLD,handle_sigchld);
     
     ```
+    4. 获取子进程退出信息
+    ```
+    // 定义接收子进程退出值的变量
+    int status;
+    // 回收子进程
+    if((wait(&status)) == -1)
+        handle_error("wait");
+    // 如果子进程是正常退出
+    if(WIFEXITED(status))
+    {
+        // 打印子进程的退出状态
+        printf("child exits with %d\n",WEXITSTATUS(status));
+    }
+    // 如果子进程是异常退出
+    else if(WIFSIGNALED(status))
+    {
+        // 打印导致子进程异常退出的信号
+        printf("child killed by %d\n",WTERMSIG(status));
+    }
 
+    ```
 21. [重现FIN_WAIT2和CLOSE_WAIT](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
 22. [解决SIGPIPE信号](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
 23. [使用select解决CLOSE_WATI和FIN_WAIT2状态](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
