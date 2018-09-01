@@ -1712,3 +1712,22 @@ int count_regs(char *dirname)
 ```
 sprintf(new_dirname,"%s/%s",dirname,p_dirent->d_name);
 ```
+9. 打印出所有的环境变量
+```
+/* 获取环境变量的数组 */
+extern char **environ;
+int main()
+{
+//...
+    
+/* 循环遍历environ数组,一直到数组元素的值为NULL的时候停止 */
+for(int i=0;environ[i];++i)
+{
+    /* 打印输出环境变量  */
+    printf("%s\n",environ[i]);
+}
+
+//...
+}
+
+```
