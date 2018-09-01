@@ -2444,6 +2444,13 @@ stat main.c
 1. `-a`: 显示进程能使用的资源上限.详细见[PCB笔记](https://github.com/orris27/orris/blob/master/computer_system/memory/mmu.md)
 
 
+## 68. ps
+### 68-1. 介绍
+1. STAT
+    1. `S`开头:表示后台运行
+    2. `Z`开头:表示僵尸进程
+    3. `R`开头:表示正在运行
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
