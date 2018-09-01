@@ -951,9 +951,15 @@ chkconfig --list xxx # 如mysqld
 ```
 
 ## 28. kill
-#### Terminated
+### 28-1. Terminated
 如果进程A被杀死了,就会显示Terminated.见下面
 > https://github.com/orris27/orris/blob/master/linux/shell/marvelous.md
+### 28-2. 给进程组发送信号
+`ps ajx`中的PGID就是进程组.`cat | cat | cat`可以产生进程组
+```
+kill -9 -4517 # 杀死进程组为4517的进程组
+```
+
 
 ## 29. md5sum
 ### 29-1. option
