@@ -2,7 +2,7 @@
 1. [回射C/S-TCP模型](https://github.com/orris27/orris/tree/master/network/socket/codes/simple-tcp).[图解](https://ask.qcloudimg.com/http-save/yehe-1147827/sams3iwj3k.png?imageView2/2/w/1620)
 2. 创建ipv4地址
 ```
-struct sockaddr_in addr;-
+struct sockaddr_in addr;
 memset(&addr,0,sizeof(addr));
 addr.sin_family = AF_INET;
 addr.sin_port = htons(5188); 
@@ -1860,3 +1860,43 @@ int size = (int)statbuf.st_size;
 ```
 
 14. [多进程拷贝实现](https://github.com/orris27/orris/tree/master/process/ipc/codes/multicopy)
+15. 屏蔽SIGQUIT信号.添加SIGQUIT信号到阻塞信号集(信号屏蔽字)
+```
+/* 定义我们的信号集变量 */
+sigset_t my_set;
+/* 清洗信号集变量 */
+if((sigemptyset(&my_set)) == -1)
+    handle_error("sigemptyset");
+/* 添加SIGQUIT信号到我们的信号集 */
+if((sigaddset(&my_set,SIGQUIT)) == -1)
+    handle_error("sigaddset");
+/* 修改屏蔽信号集 */
+if((sigprocmask(SIG_BLOCK,&my_set,NULL)) == -1)
+    handle_error("sigprocmask");
+
+```
+
+
+
+16. 打印未决信号集
+```
+/* 获取未决信号集 */
+if((sigpending(&pending_set)) == -1)
+    handle_error("sigpending");
+for(int i=1;i<32;++i)
+{
+    /* 如果当前信号在未决信号集里 */
+    if(sigismember(&pending_set,i))
+    {
+        printf("1");
+    }
+    /* 如果当前信号不在未决信号集里 */
+    else
+    {
+        printf("0");
+    }
+}
+printf("\n");
+/* 刷新缓冲区 */
+fflush(stdout);
+```
