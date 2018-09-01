@@ -1720,14 +1720,20 @@ int main()
 {
 //...
     
-/* 循环遍历environ数组,一直到数组元素的值为NULL的时候停止 */
-for(int i=0;environ[i];++i)
-{
-    /* 打印输出环境变量  */
-    printf("%s\n",environ[i]);
-}
+    /* 循环遍历environ数组,一直到数组元素的值为NULL的时候停止 */
+    for(int i=0;environ[i];++i)
+    {
+        /* 打印输出环境变量  */
+        printf("%s\n",environ[i]);
+    }
 
 //...
 }
+```
+10. 获得PATH的环境变量
+```
+char* buf;
+buf = getenv("PATH");
 
+printf("PATH=%s\n",buf);
 ```
