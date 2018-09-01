@@ -816,6 +816,9 @@ Student *p;
 p = (Student*)mmap(NULL,sizeof(Student)*5,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);
 if(p == MAP_FAILED)
     handle_error("mmap");
+    
+if((munmap(p,sizeof(Student)*5)) == -1)
+    handle_error("munmap");
 ```
 5. 解除共享内存区的映射
 ```
