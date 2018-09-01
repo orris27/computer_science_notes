@@ -291,7 +291,41 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
             2. Ctrl+Z:20号(SIGTSTP)=>Stop暂停进程
             3. Ctrl+\:3号(SIGQUIT)
         2. 系统调用
+            1. kill
+                1. pid:=0:发送信号给当前进程相同进程组的所有进程.-1:发送信号给有权限发送的所有进程.<0:发送给进程组(kill命令也一样PGID)
+                2. `cat | cat | cat | cat`:如果kill掉第一个cat,那么实际上所有cat都会死掉.这是因为管道的特性,后面的cat由于写端的管道不存在了,所以也就会被杀死.
+            2. raise:给自己发送信号
+            3. abort:给自己发送终止信号(SIGABRT)
         3. 软件条件
+            1. 定时器
+                1. alarm
+                    1. 用途:指定多少秒后给自己发送SIGALRM信号,默认动作是退出(alarm(0)例外)
+                    2. 注意:每个进程都有且只有一个定时器=>创建出子进程后定时器不共享
+                    3. 返回值:上次调用定时器的剩余时间.第二次调用定时器会重新计时
+                        1. 第一次调用5s,2s过后调用定时器5s.返回值是3s(剩余5-2=3s),再过5s发信号
+                    4. alarm(0):停止计时
+                    5. 自然计时,不管进程处于什么状态
+                2. setitimer
+                    1. 精度高于alarm的定时器
+                    2. 参数
+                        1. which:计时从什么阶段开始.
+                            1. ITIMER_REAL:自然计时
+                            2. ITIMER_VIRTUAL:用户空间才计时
+                            3. ITIMER_PROF:用户空间+内核空间才计时(进程执行时间=系统时间+用户时间+等待时间)
+                        2. new_value
+                            1. struct itimerval结构
+                                1. it_interval:下一次定时的值(周期定时)
+                                    1. 先经过it_value秒发送信号,之后每经过it_interval时间发送信号
+                                2. it_value:当前的值
+                                3. struct timeval结构
+                                    1. tv_sec:
+                                    2. tv_usec:微秒定时
+                            2. 构造setitimer的参数
+                                1. `it.it_value.tv_sec` = ;
+                                2. `it.it_value.tv_usec` = ;
+                                3. `it.it_interval.tv_sec` = ;
+                                4. `it.it_interval.tv_usec` = ;
+                        3. old_value:(传出参数):上次定时剩余的.
         4. 硬件异常产生:如段错误
         5. 命令产生
     
@@ -304,7 +338,8 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
             4. Stop:暂停进程
             5. Cont:继续运行暂停的进程
         2. 丢弃信号:未决信号集会从1置0,只是处理动作是丢弃而已
-        3. 调用用户处理函数
+        3. 调用用户处理函数(内核捕捉信号,内核会帮我们调用这个用户处理函数)
+            1. signal
     4. 信号表:查看后面内容
     5. 特殊:
         1. 9号(SIGKILL)信号和19号(SIGSTOP)信号不允许忽略和捕捉=>只能且必须执行默认动作
