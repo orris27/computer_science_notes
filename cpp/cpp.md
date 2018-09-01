@@ -265,8 +265,10 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
             3. 获取子进程的退出码
         2. status(传出参数)
             1. WIFEXITED(status):判断是否是正常退出(status>=0).如果为真就调用WEXITSTATUS(status),返回子进程退出的值
-            2. WIFSIGNALED(status):判断是否是正常退出(status<0).如果为真就滴啊用ETERMSIG(status),返回子进程异常退出的信号值
+            2. WIFSIGNALED(status):判断是否是正常退出(status<0).如果为真就调用WTERMSIG(status),返回子进程异常退出的信号值
             3. 前者是进程的退出值,后者是收到的信号对应的信号编号(kill -l)
+    2. waitpid
+        1. 非阻塞式回收.父进程收到SIGCHLD信号后,循环调用非阻塞式的waitpid,这样waitpid就会一直回收完所有子进程.而回收完毕后就会NULL哨兵返回
 #### 4-1-1. 文件
 1. 特点
     1. `mode_t mode`:文件的权限.是个八进制的数,实际文件的权限是mode和umask共同处理的结果.详见[Linux权限文档](https://coggle.it/diagram/WzNw5TCAbhFNoY8H/t/linux%E8%A7%92%E8%89%B2)
