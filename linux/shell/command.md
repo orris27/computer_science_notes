@@ -2254,7 +2254,9 @@ ipcrm -Q 0x4d2 #删除key是0x4D2的消息队列
     4. `display <变量名>`:追踪变量.之后执行时都会打印出这些变量的值
     5. `undisplay <变量对应的编号>`:取消追踪变量
     6. `info display`:获取追踪的变量的编号
-    
+
+6. 跟踪子进程
+    1. `set follow-fork-mode child或者parent`
     
 ## 60. pstree
 查看线程情况
