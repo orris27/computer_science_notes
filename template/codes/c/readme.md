@@ -1759,3 +1759,8 @@ else // 父进程
 
 
 ```
+12. 重定向stdout到指定的文件描述符
+```
+if((dup2(fd,STDOUT_FILENO)) == -1)
+    handle_error("dup2");
+```
