@@ -257,6 +257,16 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
     2. exec不会创建新的进程,所以前后pid相同.
     3. exec会改变进程的.text段,进程从新程序的启动例程(比如说main函数)开始执行
     4. 进程执行exec内的程序后就不会再执行exec下面的内容了
+10. 回收子进程
+    1. wait
+        1. 原理
+            1. 阻塞等待子进程退出
+            2. 回收子进程的PCB
+            3. 获取子进程的退出码
+        2. status(传出参数)
+            1. WIFEXITED(status):判断是否是正常退出(status>=0).如果为真就调用WEXITSTATUS(status),返回子进程退出的值
+            2. WIFSIGNALED(status):判断是否是正常退出(status<0).如果为真就滴啊用ETERMSIG(status),返回子进程异常退出的信号值
+            3. 前者是进程的退出值,后者是收到的信号对应的信号编号(kill -l)
 #### 4-1-1. 文件
 1. 特点
     1. `mode_t mode`:文件的权限.是个八进制的数,实际文件的权限是mode和umask共同处理的结果.详见[Linux权限文档](https://coggle.it/diagram/WzNw5TCAbhFNoY8H/t/linux%E8%A7%92%E8%89%B2)
@@ -290,6 +300,8 @@ struct dirent {
 
 ### 4-4. 进程共享
 [Process笔记](https://github.com/orris27/orris/blob/master/process/process.md)
+
+
 
 ## 5. UNIX网络编程
 1. [coggle笔记](https://coggle.it/diagram/W33p6eGhIvMJaYJJ/t/socket)
