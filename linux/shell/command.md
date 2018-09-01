@@ -1,8 +1,19 @@
 ## 1. grep
-### 1-1. 过滤掉多个字符串
-过滤掉crond, sshd, network, rsyslog
+### 1-1. options
+1. `-r`:递归地查询某个目录下所有文件(包括子目录)
+### 1-2. 实例
+1. 过滤掉多个字符串
+	+ 过滤掉crond, sshd, network, rsyslog
 ```
 xxx | grep -vE 'crond|sshd|network|rsyslog'
+```
+2. 查询`struct task_struct`定义的位置
+```
+grep -r "task_struct" /usr/include/
+grep -r "task_struct {" /usr/src/ 
+#----------------------------------------------------------------
+# /usr/src/linux-headers-4.13.0-45/include/linux/sched.h:struct task_struct {
+#----------------------------------------------------------------
 ```
 
 ## 2. time
@@ -2425,6 +2436,10 @@ stat main.c
 #---------------------------------------------------------------------
 
 ```
+
+## 67. ulimit
+### 67-1. options
+1. `-a`: 显示进程能使用的资源上限.详细见[PCB笔记](https://github.com/orris27/orris/blob/master/computer_system/memory/mmu.md)
 
 
 ## 0. 实战
