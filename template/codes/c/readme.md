@@ -1997,3 +1997,18 @@ unsigned int my_sleep(unsigned int seconds)
 
 ```
 19. [父子进程交替数数导致的全局变量异步I/O问题](https://github.com/orris27/orris/tree/master/cpp/codes/async-count)
+20. 打印stdin,stdout和stderr的终端名字
+```
+
+/* 打印stdin,stdout和stderr的设备名称 */
+for(int i=0;i<3;++i)
+    printf("fd %d:%s\n",i,ttyname(i));
+
+#----------------------------------------
+# fd 0:/dev/pts/0
+# fd 1:/dev/pts/0
+# fd 2:/dev/pts/0
+#----------------------------------------
+
+
+```
