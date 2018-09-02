@@ -2053,7 +2053,7 @@ if (pid > 0)
 
 /* 如果是子进程 */
 /* 睡一会儿,等待父进程退出 */
-//sleep(1);
+/*sleep(1); */
 /* 创建新的会话 */
 if((setsid()) == (pid_t) -1)
     handle_error("setsid");
