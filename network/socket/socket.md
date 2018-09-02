@@ -103,3 +103,28 @@ struct sockaddr_un {
 // sun_path.地址的路径.UNIX协议通过路径来描述地址的.使用strcpy来赋值,值随便取
 //      会在指定的字符串下面创建同名文件=>ll一下发现是s文件,即套接字文件
 ````
+
+
+## 7. 组播
+组播组可以是永久的也可以是临时的。组播组地址中，有一部分由官方分配的，称为永久组播组。永久组播组保持不变的是它的ip地址，组中的成员构成可以发生变化。永久组播组中成员的数量都可以是任意的，甚至可以为零。那些没有保留下来供永久组播组使用的ip组播地址，可以被临时组播组利用。
+1. 224.0.0.0～224.0.0.255        为预留的组播地址（永久组地址），地址224.0.0.0保留不做分配，其它地址供路由协议使用；
+2. 224.0.1.0～224.0.1.255        是公用组播地址，可以用于Internet；欲使用需申请。
+3. 224.0.2.0～238.255.255.255    为用户可用的组播地址（临时组地址），全网范围内有效；
+4. 239.0.0.0～239.255.255.255    为本地管理组播地址，仅在特定的本地范围内有效。(实验中我们使用了`239.0.0.2`)
+### 7-1. 
+可使用ip ad命令查看网卡编号，如：
+```
+ip ad
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc pfifo_fast state DOWN group default qlen 1000
+    link/ether 00:0c:29:0a:c4:f4 brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::20c:29ff:fe0a:c4f4/64 scope link 
+       valid_lft forever preferred_lft forever
+if_nametoindex 命令可以根据网卡名，获取网卡序号。
+if_nametoindex():获取网卡编号
+```
