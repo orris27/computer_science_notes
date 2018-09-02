@@ -1,15 +1,23 @@
 ## 1. 网络编程
 1. [回射C/S-TCP模型](https://github.com/orris27/orris/tree/master/network/socket/codes/simple-tcp).[图解](https://ask.qcloudimg.com/http-save/yehe-1147827/sams3iwj3k.png?imageView2/2/w/1620)
 2. 创建ipv4地址
-```
-struct sockaddr_in addr;
-memset(&addr,0,sizeof(addr));
-addr.sin_family = AF_INET;
-addr.sin_port = htons(5188); 
-addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    1. 方法1:(不能用在局域网)
+    ```
+    struct sockaddr_in addr;
+    memset(&addr,0,sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(5188); 
+    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-// (struct sockaddr*)&addr // 转换成通用地址结构体的指针,供connect等函数使用
-```
+    // (struct sockaddr*)&addr // 转换成通用地址结构体的指针,供connect等函数使用
+    ```
+    2. 方法2:(能用在局域网)
+    ```
+    bzero(&localaddr, sizeof(localaddr));
+    localaddr.sin_family = AF_INET;
+    inet_pton(AF_INET, "0.0.0.0" , &localaddr.sin_addr.s_addr);
+    localaddr.sin_port = htons(5188);
+    ```
 3. 发送数据
     1. write(UNIX的流协议/TCP/socketpair下的UNIX流协议)
     ```
@@ -119,8 +127,8 @@ if (ret == 0)
     memset(&addr,0,sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(5188);
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-
+    //addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    inet_pton(AF_INET, "0.0.0.0" , &addr.sin_addr.s_addr);
     if(bind(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0) 
         handle_error("bind");
     ```
@@ -135,7 +143,8 @@ if (ret == 0)
     memset(&addr,0,sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(5188);
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    //addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    inet_pton(AF_INET, "0.0.0.0" , &addr.sin_addr.s_addr);
 
     if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
       handle_error("connect");
