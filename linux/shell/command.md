@@ -2422,11 +2422,18 @@ ldd main
 ```
 
 ## 65. man
+### 65-1. 常用的2中方法
 ```
 man open
 man 2 open # 查看open的第2个章节.这里就是UNIX系统API应用层的open函数文档
 # vim下shift+k也可以跳转到man文档
 ```
+### 65-2. options
+1. `-k <关键字>`:搜索关键字相关的man页面
+```
+man -k pthread
+```
+
 
 ## 66. stat
 查看文件属性:大小,占用多少块,IO块大小,inode编号,权限,修改时间
@@ -2451,11 +2458,17 @@ stat main.c
 
 
 ## 68. ps
+`ps aux`和`ps ajx`常用
 ### 68-1. 介绍
 1. STAT
     1. `S`开头:表示后台运行
     2. `Z`开头:表示僵尸进程
     3. `R`开头:表示正在运行
+2. SID:会话id
+3. PGID:进程组id(process group id)
+4. TTY:控制终端
+    1. `?`:表示没有控制终端,比如守护进程
+
 
 ## 69. tty
 打印stdin的终端设备名称.类似于C语言用`ttyname(0);`操作
