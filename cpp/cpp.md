@@ -390,6 +390,27 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
             3. 如果此时没有获取到CPU时间片,那么SIGALRM信号已经到达,并且放在未决信号集里面
             4. 解除SIGALRM信号并挂起.此时发现SIGALRM信号在未决信号里,就会处理SIGALRM信号了
 13. 打印文件描述符对应的终端名字:ttyname
+
+
+14. 进程组
+    1. 获取进程组id(注意不是getgid!!!)
+        1. 当前进程:getpgrp
+        2. 指定进程:getpgid
+    2. 设置进程组id
+        1. 加入进程到指定进程组/创建新的进程组:setpgid
+            + 只要有权限就都可以设置
+    3. 注意   
+        1. 权限
+
+
+15. 会话
+    1. 创建会话
+        1. 不能是进程组组长
+        2. 创建的人是会长且是组长
+        3. 需要root权限(Ubuntu不需要)
+        4. 丢弃当前的控制终端,在后台执行
+        5. 建立新会话时,先调用fork,父进程终止,子进程调用setsid
+    2. setsid
 #### 4-1-1. 文件
 1. 特点
     1. `mode_t mode`:文件的权限.是个八进制的数,实际文件的权限是mode和umask共同处理的结果.详见[Linux权限文档](https://coggle.it/diagram/WzNw5TCAbhFNoY8H/t/linux%E8%A7%92%E8%89%B2)
