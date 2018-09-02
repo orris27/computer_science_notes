@@ -819,7 +819,7 @@ ssize_t readline(int sockfd, void *buf, size_t maxlen)
         handle_error("epoll_ctl");
     ```
     5. [epoll的水平触发和边沿触发基于管道的比较实现](https://github.com/orris27/orris/tree/master/network/socket/codes/epoll-el)
-
+    6. [epoll反应堆实现](https://github.com/orris27/orris/tree/master/network/socket/codes/epoll-reactor)
 ## 2. IPC
 ### 2-1. System V
 #### 2-1-1. 消息队列
