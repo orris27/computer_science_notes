@@ -1362,7 +1362,12 @@ printf("mode=%o\n",statbuf.st_mode & 07777); // 打印共享内存的权限
         fprintf(stderr,"pthread_create:%s\n",strerror(ret));
         exit(EXIT_FAILURE);
     }
-
+    
+    if((ret = pthread_attr_destroy(&attr)) != 0 ) // 销毁线程属性的变量
+    {
+        fprintf(stderr,"pthread_attr_destroy:%s\n",strerror(ret));
+        exit(EXIT_FAILURE);
+    }
     ```
 2. 等待新线程执行完毕,并回收尸体
     1. 参数
