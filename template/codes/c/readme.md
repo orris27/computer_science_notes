@@ -611,7 +611,74 @@ while(fgets(send_buf,sizeof(send_buf),stdin) != NULL)
     }
     ```
 
+35. 定长read和write操作,可以解决TCP粘包问题.[具体实现](https://github.com/orris27/orris/tree/master/network/socket/codes/fixed-length)
+```
+/* 写入到文件描述符里的字节长度必须是count大小,返回值是已经读取的字节长度 */
+ssize_t readn(int fd, void *buf, size_t count)
+{
+    //假定count值就是定长包的字节长度
+    //定义剩余的字节数为变量,size_t nleft = count;
+    size_t nleft = count;
+    //定义指针bufp,指向buf,因为我们要移动接收
+    char * bufp = (char*)buf;
 
+    //开始循环接收,只要剩余的字节数>0就接收
+    while(nleft > 0)
+    {
+        //读取文件描述符,写入到bufp指向的剩余字节长度的数据,使用read函数
+        int ret = read(fd,bufp,nleft);
+        //如果返回值<0,并且为中断=>继续读取
+        if (ret < 0 && errno == EINTR)
+            continue;
+        //如果返回值<0,并且不是中断的信号=>退出进程,返回-1
+        else if (ret < 0)
+            return -1;
+        //如果返回值为0,说明对方关闭套接字了(返回值是count,因为这是正常关闭)=>返回已经读取了的字节数
+        else if ( ret == 0)
+            return count - nleft;
+        //移动指针
+        bufp += ret;
+        //更新剩余的字节数
+        nleft -= ret;
+        //结束循环
+    }
+    //返回定长的数值,count
+    return count;
+}
+
+/* 写入到文件描述符里的字节长度必须是count大小,返回值是已经读取的字节长度 */
+ssize_t writen(int fd, const void *buf, size_t count)
+{
+    //假定count值就是定长包的字节长度
+    //定义剩余的字节数为变量,size_t nleft = count;
+    size_t nleft = count;
+    //定义指针bufp,指向buf,因为我们要移动发送
+    char * bufp = (char*)buf;
+
+    //开始循环发送,只要剩余的字节数>0就发送
+    while(nleft > 0)
+    {
+        //写入到文件描述符中,内容是bufp指向的剩余字节长度的数据,使用write函数
+        int ret = write(fd,bufp,nleft);
+        //继续读取,如果返回值<0,并且为中断
+        if (ret < 0 && errno == EINTR)
+            continue;
+        //退出进程,返回已经读取的字节长度,如果返回值<0,并且不是中断的信号
+        else if (ret < 0)
+            return count - nleft;
+        //继续循环,如果返回值为0,说明什么都没有发送
+        else if ( ret == 0)
+            continue;
+        //移动指针
+        bufp += ret;
+        //更新剩余的字节数
+        nleft -= ret;
+        //结束循环
+    }
+    //返回定长的数值,count
+    return count;
+}
+```
 
 
 ## 2. IPC
