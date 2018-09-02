@@ -3,7 +3,7 @@
 1. `-r`:递归地查询某个目录下所有文件(包括子目录)
 ### 1-2. 实例
 1. 过滤掉多个字符串
-	+ 过滤掉crond, sshd, network, rsyslog
+    + 过滤掉crond, sshd, network, rsyslog
 ```
 xxx | grep -vE 'crond|sshd|network|rsyslog'
 ```
