@@ -2486,6 +2486,20 @@ tty
 ```
 getconf GNU_LIBPTHREAD_VERSION
 ```
+
+
+## 70. ip
+1. `ip ad`是`ip address`的缩写
+### 70-1. 常用命令
+1. `ip ad`
+    1. `1:lo 2:eth0`的1和2是网卡编号
+        + `if_nametoindex()`函数:获取网卡编号
+    2. `mtu 1500`:说明mtu为1500
+    3. `MULTICAST`:说明支持组播
+
+## 71. vim
+1. `+158`:启动时就跳转到158行
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
