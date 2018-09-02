@@ -2064,3 +2064,64 @@ if((setsid()) == (pid_t) -1)
 
 
 ```
+23. 创建1个守护进程,在`/home/orris/tmp/daemon`下创建20个文件
+```
+/* 创建1个子进程 */
+pid_t pid; 
+if ((pid = fork()) == -1)
+        handle_error("fork");
+      
+/* 如果是父进程 */
+if (pid > 0)
+{
+    /* 直接退出 */
+    return 0;
+}
+
+/* 创建新的会话 */
+if((setsid()) == (pid_t) -1)
+      handle_error("setsid");
+
+/* 设置工作目录为根目录或者其他目录 */
+if((chdir("/home/orris/tmp/daemon")) == -1)
+      handle_error("chdir");
+/* 设置自己的umask */
+umask(0022); // 0666创建出来的文件就是0644的权限
+/* 重定向0,1,2文件描述符到黑洞或关闭文件描述符 */
+/* 关闭stdin文件描述符 */
+close(STDIN_FILENO);
+
+/* 打开黑洞 */
+int fd = open("/dev/null",O_RDWR,0);
+if(fd == -1)
+      handle_error("open");
+/* 重定向stdout到0 */
+if((dup2(0,STDOUT_FILENO)) == -1)
+      handle_error("dup2");
+/* 重定向stderr到0 */
+if((dup2(0,STDERR_FILENO)) == -1)
+      handle_error("dup2");
+/* 守护进程主逻辑 */
+handle_daemon();
+/* 退出:0 */
+return 0;
+
+```
+
+24. 循环创建不同的文件名(思路:字符变量的+1)
+```
+/* 创建文件名的缓冲区 */
+char buf[32];
+strcpy(buf,"apple");
+for(int i=0;i<20;++i)
+{
+    /* 修改文件名 */
+    buf[0] += 1;
+    
+    /*
+     *  ~~~
+     */ 
+}
+
+
+```
