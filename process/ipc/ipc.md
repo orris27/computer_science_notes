@@ -642,7 +642,7 @@ int sem_post(sem_t *sem);
 ```
 int pthread_mutex_init(pthread_mutex_t *restrict mutex,
     const pthread_mutexattr_t *restrict attr);
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER; # 静态的互斥锁的初始化方法
 
 
 int pthread_mutex_lock(pthread_mutex_t *mutex);
@@ -718,13 +718,13 @@ int pthread_cond_broadcast(pthread_cond_t *cond); // 向等待的所有线程发
     pthread_mutex_unlock(&mutex);
     ```
 
-### 3-9. 文件锁
+### 3-9. 文件锁(线程间不能使用,进程间能使用)
 
 + 借助 fcntl函数来实现锁机制.
 + 操作文件的进程没有获得锁时,可以打开,但无法执行read、write操作
 2. 接口
     1. `int fcntl(int fd, int cmd, ... /* arg */ );`
-	    1. 参数
+        1. 参数
             1. 参数2
                 1. `F_SETLK (struct flock *)`:设置文件锁（trylock）
                 2. `F_SETLKW (struct flock *)`:设置文件锁（lock）W --> wait
@@ -734,11 +734,11 @@ int pthread_cond_broadcast(pthread_cond_t *cond); // 向等待的所有线程发
             ```
             struct flock {
                   ...
-                  short l_type;    锁的类型：F_RDLCK 、F_WRLCK 、F_UNLCK
-                  short l_whence;  偏移位置：SEEK_SET、SEEK_CUR、SEEK_END 
-                  off_t l_start;   起始偏移：1000
-                  off_t l_len;     长度：0表示整个文件加锁
-                  pid_t l_pid;     持有该锁的进程ID：(F_GETLK only)
+                  short l_type;    锁的类型:F_RDLCK 、F_WRLCK 、F_UNLCK
+                  short l_whence;  偏移位置:SEEK_SET、SEEK_CUR、SEEK_END 
+                  off_t l_start;   起始偏移:1000
+                  off_t l_len;     长度:0表示整个文件加锁.最终加锁=[偏移位置+起始偏移,偏移位置+起始偏移+长度]
+                  pid_t l_pid;     持有该锁的进程ID:(F_GETLK only)
                   ...
              };
             ```
