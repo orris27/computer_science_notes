@@ -22,7 +22,7 @@
     1. write(UNIX的流协议/TCP/socketpair下的UNIX流协议)
     ```
     char send_buf[1024];
-    // fgets(send_buf,sizeof(send_buf),stdin);
+    /* fgets(send_buf,sizeof(send_buf),stdin); */
     if((write(sockfd,send_buf,sizeof(send_buf))) == -1) //直接网套接字里写数据就行了
         handle_error("write");
     
@@ -127,7 +127,7 @@ if (ret == 0)
     memset(&addr,0,sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(5188);
-    //addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    /*addr.sin_addr.s_addr = inet_addr("127.0.0.1"); */
     inet_pton(AF_INET, "0.0.0.0" , &addr.sin_addr.s_addr);
     if(bind(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0) 
         handle_error("bind");
@@ -143,7 +143,7 @@ if (ret == 0)
     memset(&addr,0,sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(5188);
-    //addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    /*addr.sin_addr.s_addr = inet_addr("127.0.0.1"); */
     inet_pton(AF_INET, "0.0.0.0" , &addr.sin_addr.s_addr);
 
     if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
