@@ -741,6 +741,66 @@ ssize_t readline(int sockfd, void *buf, size_t maxlen)
 
 ```
 
+37. epoll
+    1. 定义epoll红黑树
+    ```
+    /* 定义epoll红黑树(连接的套接字)的最大节点 */
+    const int size = 10;
+    /* 定义epoll的红黑树 */
+    int epfd = epoll_create(size);
+    if(epfd == -1)
+        handle_error("epoll_create");
+    ```
+    2. 添加监听套接字到epoll红黑树中
+    ```
+    /* 构造epoll红黑树节点struct epoll_event类型 */
+    struct epoll_event event;
+    event.events = EPOLLIN;
+    event.data.fd = sockfd;
+    /* 添加监听套接字到红黑树 */
+    if((epoll_ctl(epfd,EPOLL_CTL_ADD,sockfd,&event)) == -1)
+        handle_error("epoll_ctl");
+
+    ```
+    3. 等待epoll的事件
+    ```
+    /* 定义保存可读集合的数组 */
+    struct epoll_event events[size];
+    /* 等待epoll内的文件描述符的可读操作,并获得可操作的集合的个数nready+错误处理 */
+    int nready = epoll_wait(epfd,events,size,-1);
+    if (nready == -1)
+    {
+        if (errno == EINTR)
+            continue;
+        else
+            handle_error("epoll_wait");
+    }
+
+    /* 遍历集合.for(i:0=>nready) */
+    for(int i=0;i<nready;++i)
+    {
+        /*
+         * ~~~~
+         * // 过滤掉不是可读的事件
+         * if(!(events[i].events & EPOLLIN))
+         *     continue;
+         * // 如果是监听套接字
+         * if(events[i].data.fd == sockfd)
+         * {
+         * }
+         * 
+         * 
+         */
+
+    }
+    ```
+    4. 删除epoll红黑树中的节点
+    ```
+    /* 删除epoll红黑树里的连接套接字 */
+    if((epoll_ctl(epfd,EPOLL_CTL_DEL,conn_sockfd,NULL)) == -1)
+        handle_error("epoll_ctl");
+    ```
+
 ## 2. IPC
 ### 2-1. System V
 #### 2-1-1. 消息队列
