@@ -646,7 +646,7 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 
 int pthread_mutex_lock(pthread_mutex_t *mutex);
-
+int pthread_mutex_trylock(pthread_mutex_t *mutex); # 尝试加锁,如果加锁失败,就不阻塞,直接返回错误
 int pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 
@@ -717,6 +717,31 @@ int pthread_cond_broadcast(pthread_cond_t *cond); // 向等待的所有线程发
     pthread_cond_signal(cond); //更谨慎点可以:if(条件为真) pthread_cond_signal(cond);
     pthread_mutex_unlock(&mutex);
     ```
+
+### 3-9. 文件锁
+
++ 借助 fcntl函数来实现锁机制.
++ 操作文件的进程没有获得锁时,可以打开,但无法执行read、write操作
+2. 接口
+    1. `int fcntl(int fd, int cmd, ... /* arg */ );`
+	    1. 参数
+            1. 参数2
+                1. `F_SETLK (struct flock *)`:设置文件锁（trylock）
+                2. `F_SETLKW (struct flock *)`:设置文件锁（lock）W --> wait
+                3. `F_GETLK (struct flock *)`:获取文件锁
+                4. `struct flock`
+            2. 参数3
+            ```
+            struct flock {
+                  ...
+                  short l_type;    锁的类型：F_RDLCK 、F_WRLCK 、F_UNLCK
+                  short l_whence;  偏移位置：SEEK_SET、SEEK_CUR、SEEK_END 
+                  off_t l_start;   起始偏移：1000
+                  off_t l_len;     长度：0表示整个文件加锁
+                  pid_t l_pid;     持有该锁的进程ID：(F_GETLK only)
+                  ...
+             };
+            ```
 
 ## 4. 管道
 1. 函数
