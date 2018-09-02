@@ -109,18 +109,30 @@ if (ret == 0)
     int sockfd;
     if ((sockfd = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP))<0)
       handle_error("socket");
+    
+    if((close(sockfd)) == -1)
+        handle_error("close");
+
     ```
     2. UDP套接字
     ```
     int sockfd;
     if ((sockfd = socket(AF_INET,SOCK_DGRAM,0))<0)
       handle_error("socket");
+      
+    if((close(sockfd)) == -1)
+        handle_error("close");
+
     ```
     3. UNIX套接字
     ```
     int sockfd;
     if ((sockfd = socket(AF_UNIX,SOCK_STREAM,0))<0)
         handle_error("socket");
+        
+    if((close(sockfd)) == -1)
+        handle_error("close");
+
     ```
     4. 创建UDP套接字并绑定ip地址
     ```
@@ -136,6 +148,10 @@ if (ret == 0)
     inet_pton(AF_INET, "0.0.0.0" , &addr.sin_addr.s_addr);
     if(bind(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0) 
         handle_error("bind");
+        
+    if((close(sockfd)) == -1)
+        handle_error("close");
+
     ```
     
     5. 创建TCP套接字并根据ip地址连接
@@ -153,6 +169,11 @@ if (ret == 0)
 
     if(connect(sockfd,(struct sockaddr*)&addr,sizeof(addr))<0)
       handle_error("connect");
+      
+      
+    if((close(sockfd)) == -1)
+        handle_error("close");
+
     ```
     6. 创建UNIX套接字,并删除原来的套接字文件,并绑定UNIX地址,并处于监听状态
     ```
@@ -171,6 +192,11 @@ if (ret == 0)
     
     if(listen(sockfd,SOMAXCONN)<0)
         handle_error("listen");
+        
+        
+    if((close(sockfd)) == -1)
+        handle_error("close");
+
     ```
     7. 创建UNIX套接字,并连接UNIX地址
     ```
@@ -182,12 +208,23 @@ if (ret == 0)
     memset(&addr,0,sizeof(addr));
     addr.sun_family = AF_UNIX;
     strcpy(addr.sun_path,"test-socket");
+    
+    
+    if((close(sockfd)) == -1)
+        handle_error("close");
+
     ```
     8. 创建套接字对(socketpair)
     ```
     int sockets[2];
     if(socketpair(AF_UNIX,SOCK_STREAM,0,sockets) == -1)
         handle_error("socketpair");
+        
+    
+    if((close(sockets[0])) == -1)
+        handle_error("close");
+    if((close(sockets[1])) == -1)
+        handle_error("close");
 
     ```
     9. 创建UNIX流协议的套接字对,并创建1个进程,父子进程各使用其中1个套接字
