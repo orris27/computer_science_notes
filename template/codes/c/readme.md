@@ -1996,3 +1996,4 @@ unsigned int my_sleep(unsigned int seconds)
 
 
 ```
+19. [父子进程交替数数导致的全局变量异步I/O问题](https://github.com/orris27/orris/tree/master/cpp/codes/async-count)
