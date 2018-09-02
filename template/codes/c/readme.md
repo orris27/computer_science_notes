@@ -788,19 +788,32 @@ int pid = getpid();
 *(int*)buf = pid;
 ```
 #### 2-1-2. 共享内存
-1. Linux下以读写方式打开/创建文件,并清空文件,设置权限为0666
-    + open得到文件描述符,而fopen得到FILE指针
-```
-int fd = open(argv[1],O_CREAT|O_RDWR|O_TRUNC,0666);
-if(fd == -1)
-    handle_error("open");
-/* (!!!非常重要)修改目标文件大小:大小=size */
-if((ftruncate(fd,size)) == -1)
-      handle_error("ftruncate");
-   
-if((close(fd)) == -1)
-    handle_error("close");
-```
+1. Linux下打开/创建文件
+    1. 以读写方式打开/创建文件,并清空文件,设置权限为0666
+        + open得到文件描述符,而fopen得到FILE指针
+    ```
+    int fd = open(argv[1],O_CREAT|O_RDWR|O_TRUNC,0666);
+    if(fd == -1)
+        handle_error("open");
+    /* (!!!非常重要)修改目标文件大小:大小=size */
+    if((ftruncate(fd,size)) == -1)
+          handle_error("ftruncate");
+
+    if((close(fd)) == -1)
+        handle_error("close");
+    ```
+    2. 打开文件
+    ```
+    int fd = open("filename",O_RDWR,0);
+    if(fd == -1)
+        handle_error("open");
+    /* (!!!非常重要)修改目标文件大小:大小=size */
+    if((ftruncate(fd,size)) == -1)
+          handle_error("ftruncate");
+
+    if((close(fd)) == -1)
+        handle_error("close");
+    ```
 2. 移动文件描述符
 ```
 lseek(fd,sizeof(Student)*5-1,SEEK_SET); // 移动到Student结构体大小的5倍-1的位置
