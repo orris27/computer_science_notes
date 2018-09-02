@@ -432,6 +432,7 @@ int shm_unlink(const char *name);
 void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
 ```
 ### 3-3. POSIX线程库
+查看线程库版本`getconf GNU_LIBPTHREAD_VERSION`
 1. 创建1个新的线程
     1. 参数
         1. thread:返回线程ID
