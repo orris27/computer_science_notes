@@ -13,10 +13,12 @@
     ```
     2. 方法2:(能用在局域网)
     ```
-    bzero(&localaddr, sizeof(localaddr));
-    localaddr.sin_family = AF_INET;
-    inet_pton(AF_INET, "0.0.0.0" , &localaddr.sin_addr.s_addr);
-    localaddr.sin_port = htons(5188);
+    struct sockaddr_in addr;
+    
+    bzero(&addr, sizeof(addr));
+    addr.sin_family = AF_INET;
+    inet_pton(AF_INET, "0.0.0.0" , &addr.sin_addr.s_addr);
+    addr.sin_port = htons(5188);
     ```
 3. 发送数据
     1. write(UNIX的流协议/TCP/socketpair下的UNIX流协议)
@@ -66,6 +68,8 @@
     ```
     2. UDP接收数据
     ```
+    struct sockaddr_in peer_addr;
+    socklen_t peer_len = sizeof(peer_addr);
     int ret = recvfrom(sockfd,recv_buf,sizeof(recv_buf),0,(struct sockaddr*)&peer_addr,&peer_len);
     if (ret == -1)// 如果read出现错误,就直接退出子进程
     {
