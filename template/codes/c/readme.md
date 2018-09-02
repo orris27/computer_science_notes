@@ -205,9 +205,11 @@ if (ret == 0)
     struct sockaddr_un addr;
     memset(&addr,0,sizeof(addr));
     addr.sun_family = AF_UNIX;
-    strcpy(addr.sun_path,"test-socket");
+    strcpy(addr.sun_path,"/tmp/test-socket");
     
-    
+    /* 连接套接字到服务器+错误处理 */
+    connect(sockfd,(struct sockaddr*)&addr,sizeof(addr));
+
     if((close(sockfd)) == -1)
         handle_error("close");
 
@@ -924,6 +926,12 @@ ssize_t readline(int sockfd, void *buf, size_t maxlen)
     inet_pton(AF_INET, "239.0.0.2" , &peer_addr.sin_addr.s_addr);
     ```
     1. [UDP组播实现](https://github.com/orris27/orris/tree/master/network/socket/codes/multicast)
+
+40. 计算UNIX的struct sockaddr_un的实际大小
+```
+int len = offsetof(struct sockaddr_un,sun_path) + strlen(addr.sun_path)
+```
+
 ## 2. IPC
 ### 2-1. System V
 #### 2-1-1. 消息队列
