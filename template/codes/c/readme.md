@@ -18,6 +18,7 @@
     bzero(&addr, sizeof(addr));
     addr.sin_family = AF_INET;
     inet_pton(AF_INET, "0.0.0.0" , &addr.sin_addr.s_addr);
+    /*addr.sin_addr.s_addr = htonl(INADDR_ANY);*/
     addr.sin_port = htons(5188);
     ```
 3. 发送数据
