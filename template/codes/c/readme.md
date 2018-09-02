@@ -218,13 +218,19 @@ if(listen(sockfd,SOMAXCONN)<0) // SOMAXCONN是服务器套接字允许建立的�
   handle_error("listen");
 ```
 
-13. 允许服务器套接字重用TIME_WAIT套接字(实验中使用在bind函数之前,具体怎样不太清楚)
-```
-int reuse_on=1;
-if(setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&reuse_on,sizeof(reuse_on))<0)
-  handle_error("setsockopt");
-```
-
+13. 设置套接字属性
+    1. 允许服务器套接字重用TIME_WAIT套接字(实验中使用在bind函数之前,具体怎样不太清楚)
+    ```
+    int reuse_on = 1;
+    if(setsockopt(sockfd,SOL_SOCKET,SO_REUSEADDR,&reuse_on,sizeof(reuse_on))<0)
+      handle_error("setsockopt");
+    ```
+    2. 允许套接字发送广播
+    ```
+    int broadcast_on = 1;
+    if(setsockopt(sockfd,SOL_SOCKET,SO_BROADCAST,&broadcast_on,sizeof(broadcast_on))<0)
+      handle_error("setsockopt");
+    ```
 14. [使用poll函数实现并发服务器](https://github.com/orris27/orris/tree/master/network/socket/codes/echo)
 
 15. 字节序和点分ip转换
