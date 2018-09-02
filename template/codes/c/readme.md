@@ -751,11 +751,12 @@ ssize_t readline(int sockfd, void *buf, size_t maxlen)
     if(epfd == -1)
         handle_error("epoll_create");
     ```
-    2. 添加监听套接字到epoll红黑树中
+    2. 添加监听套接字到epoll红黑树中:水平触发/边沿触发
     ```
     /* 构造epoll红黑树节点struct epoll_event类型 */
     struct epoll_event event;
-    event.events = EPOLLIN;
+    event.events = EPOLLIN;// 水平触发
+    /*event.events = EPOLLIN|EPOLLET;// 边沿触发*/
     event.data.fd = sockfd;
     /* 添加监听套接字到红黑树 */
     if((epoll_ctl(epfd,EPOLL_CTL_ADD,sockfd,&event)) == -1)
@@ -800,6 +801,7 @@ ssize_t readline(int sockfd, void *buf, size_t maxlen)
     if((epoll_ctl(epfd,EPOLL_CTL_DEL,conn_sockfd,NULL)) == -1)
         handle_error("epoll_ctl");
     ```
+    5. [epoll的水平触发和边沿触发基于管道的比较实现](https://github.com/orris27/orris/tree/master/network/socket/codes/epoll-el)
 
 ## 2. IPC
 ### 2-1. System V
