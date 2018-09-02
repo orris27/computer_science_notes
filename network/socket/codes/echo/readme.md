@@ -151,7 +151,7 @@ netstat -nat | grep 5188
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
 
-### 5. 回射服务器中使用shutdown解决关闭后不能读取的问题
+## 5. 回射服务器中使用shutdown解决关闭后不能读取的问题
 > [问题引入](https://coggle.it/diagram/W33p6eGhIvMJaYJJ/t/socket)
 
 ```
@@ -174,4 +174,11 @@ aaaaaaaaaa # 下面都是输出=>说明shutdown的确没有关闭读取操作
 bbbbbbbbb
 server close # 最后服务端会关闭套接字,从而结束连接
 ############################################################################
+```
+
+## 6. epoll
+```
+./epoll_server
+
+./epoll_server_nonblock # 使用ET模式+非阻塞IO实现~~
 ```
