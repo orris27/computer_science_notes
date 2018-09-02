@@ -2458,7 +2458,7 @@ stat main.c
 
 
 ## 68. ps
-`ps aux`和`ps ajx`常用
+`ps aux`和`ps ajx`和`ps -Lf <pid>`常用
 ### 68-1. 介绍
 1. STAT
     1. `S`开头:表示后台运行
@@ -2468,7 +2468,9 @@ stat main.c
 3. PGID:进程组id(process group id)
 4. TTY:控制终端
     1. `?`:表示没有控制终端,比如守护进程
-
+5. LWP:线程号,进程内部用来区分为线程的.不等于线程id
+    + 可以启动firefox,然后使用`ps -Lf <firefox的pid>`查看到
+6. NLWP:当前进程内的线程数量
 
 ## 69. tty
 打印stdin的终端设备名称.类似于C语言用`ttyname(0);`操作
