@@ -892,7 +892,38 @@ ssize_t readline(int sockfd, void *buf, size_t maxlen)
 
 
 38. [UDP广播实现](https://github.com/orris27/orris/tree/master/network/socket/codes/broadcast)
-39. [UDP组播实现](https://github.com/orris27/orris/tree/master/network/socket/codes/multicast)
+39. 组播
+    1. 允许套接字能发送组播信息
+    ```
+    /* 构造组信息 */
+    struct ip_mreqn group;
+    group.imr_multiaddr.s_addr = inet_addr("239.0.0.2");
+    group.imr_address.s_addr = inet_addr("0.0.0.0");
+    group.imr_ifindex = if_nametoindex("eth0");
+
+    /* 允许套接字能发送组播消息:参数=组信息 */
+    if(setsockopt(sockfd,IPPROTO_IP,IP_MULTICAST_IF,&group,sizeof(group))<0)
+        handle_error("setsockopt");
+
+    ```
+    2. 加入套接字得到组播地址
+    ```
+    /* 构造组信息 */
+    struct ip_mreqn group;
+    group.imr_multiaddr.s_addr = inet_addr("239.0.0.2");
+    group.imr_address.s_addr = inet_addr("0.0.0.0");
+    group.imr_ifindex = if_nametoindex("eth0");
+
+    /* 允许套接字能发送组播消息:参数=组信息 */
+    if(setsockopt(sockfd,IPPROTO_IP,IP_ADD_MEMBERSHIP,&group,sizeof(group))<0)
+        handle_error("setsockopt");
+    ```
+    3. 给组播地址发送信息
+    ```
+    // 给"239.0.0.2"发送信息就行了
+    inet_pton(AF_INET, "239.0.0.2" , &peer_addr.sin_addr.s_addr);
+    ```
+    1. [UDP组播实现](https://github.com/orris27/orris/tree/master/network/socket/codes/multicast)
 ## 2. IPC
 ### 2-1. System V
 #### 2-1-1. 消息队列
