@@ -240,10 +240,24 @@ if (ret == 0)
     if (pid == 0) // (假定子进程使用第1个套接字,而父进程使用第2个套接字)
     {
         close(sockets[1]);
+        if((close(sockets[1])) == -1)
+            handle_error("close");
+        
+
+
+
+        if((close(sockets[0])) == -1)
+            handle_error("close");
     }
     else
     {
         close(sockets[0]);
+        
+        
+        
+        
+        if((close(sockets[1])) == -1)
+            handle_error("close");
     }
     ```
 
