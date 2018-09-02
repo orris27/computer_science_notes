@@ -2483,7 +2483,11 @@ tty
 ```
 
 
-
+## 69. getconf
+获取POSIX线程库的版本
+```
+getconf GNU_LIBPTHREAD_VERSION
+```
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
