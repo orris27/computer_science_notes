@@ -2030,24 +2030,24 @@ if((printf("sid:%d\n",getsid(0))) == (pid_t) -1)
 pid_t pid; 
 if ((pid = fork()) == -1)
       handle_error("fork");
+      
+/* 如果是父进程 */
+if (pid > 0)
+{
+    /* 直接退出 */
+    return 0;
+}
 
 /* 如果是子进程 */
-if (pid == 0)
-{
-    /* 睡一会儿,等待父进程退出 */
-    sleep(1);
-    /* 创建新的会话 */
-    if((setsid()) == (pid_t) -1)
-        handle_error("setsid");
+/* 睡一会儿,等待父进程退出 */
+//sleep(1);
+/* 创建新的会话 */
+if((setsid()) == (pid_t) -1)
+    handle_error("setsid");
 
-    /*
-     * 自由发挥~~~
-     */
+/*
+ * 自由发挥~~~
+ */
 
-}
-/* 如果是父进程 */
-else
-{
-    /* 什么都不做 */
-}
+
 ```
