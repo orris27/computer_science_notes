@@ -348,7 +348,10 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
             2. sigaction:注册信号的处理函数,并输出旧的处理函数
                 1. struct sigaction
                     1. sa_mask:设置信号捕捉函数处理过程时屏蔽的信号
-                    2. sa_flags:使用0表示默认属性:信号捕捉函数处理期间自动屏蔽本信号
+                    2. sa_flags
+                        1. 使用0表示默认属性:信号捕捉函数处理期间自动屏蔽本信号
+                        2. SA_INTERRUPT:不重启慢速系统调用
+                        3. SA_RESTART:重启慢速系统调用
     4. 处理信号集
         1. 集合:`sigset_t set`:本质是unsigned long.实际作用类似于数组,第n位表示第n个信号
         2. `int sigemptyset(sigset_t *set);`清空.将某个信号集清0
@@ -386,7 +389,7 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
             2. 开始计时
             3. 如果此时没有获取到CPU时间片,那么SIGALRM信号已经到达,并且放在未决信号集里面
             4. 解除SIGALRM信号并挂起.此时发现SIGALRM信号在未决信号里,就会处理SIGALRM信号了
-
+13. 打印文件描述符对应的终端名字:ttyname
 #### 4-1-1. 文件
 1. 特点
     1. `mode_t mode`:文件的权限.是个八进制的数,实际文件的权限是mode和umask共同处理的结果.详见[Linux权限文档](https://coggle.it/diagram/WzNw5TCAbhFNoY8H/t/linux%E8%A7%92%E8%89%B2)
