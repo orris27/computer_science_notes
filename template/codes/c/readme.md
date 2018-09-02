@@ -751,18 +751,35 @@ ssize_t readline(int sockfd, void *buf, size_t maxlen)
     if(epfd == -1)
         handle_error("epoll_create");
     ```
-    2. 添加监听套接字到epoll红黑树中:水平触发/边沿触发
-    ```
-    /* 构造epoll红黑树节点struct epoll_event类型 */
-    struct epoll_event event;
-    event.events = EPOLLIN;// 水平触发
-    /*event.events = EPOLLIN|EPOLLET;// 边沿触发*/
-    event.data.fd = sockfd;
-    /* 添加监听套接字到红黑树 */
-    if((epoll_ctl(epfd,EPOLL_CTL_ADD,sockfd,&event)) == -1)
-        handle_error("epoll_ctl");
+    2. 添加监听套接字到epoll红黑树中
+        1. 水平触发
+        ```
+        /* 构造epoll红黑树节点struct epoll_event类型 */
+        struct epoll_event event;
+        event.events = EPOLLIN;// 水平触发
+        /*event.events = EPOLLIN|EPOLLET;// 边沿触发*/
+        event.data.fd = sockfd;
+        /* 添加监听套接字到红黑树 */
+        if((epoll_ctl(epfd,EPOLL_CTL_ADD,sockfd,&event)) == -1)
+            handle_error("epoll_ctl");
+        ```
+        2. 边沿触发+非阻塞IO
+        ```
+        /* 构造epoll红黑树节点struct epoll_event类型 */
+        struct epoll_event event;
+        event.events = EPOLLIN|EPOLLET;
+        event.data.fd = sockfd;
+        /* 修改套接字的属性:非阻塞IO */
+        int flag = fcntl(sockfd,F_GETFL);
+        if(flag == -1)
+            handle_error("fcntl");
+        flag |= O_NONBLOCK;
+        fcntl(sockfd,F_SETFL,flag);
+        /* 添加监听套接字到红黑树 */
+        if((epoll_ctl(epfd,EPOLL_CTL_ADD,sockfd,&event)) == -1)
+            handle_error("epoll_ctl");
 
-    ```
+        ```
     3. 等待epoll的事件
     ```
     /* 定义保存可读集合的数组 */
@@ -2347,3 +2364,17 @@ for(int i=0;i<20;++i)
 
 
 ```
+25. IO
+    1. 设置文件描述符的IO为非阻塞
+    ```
+    int flag = fcntl(sockfd,F_GETFL);
+    if(flag == -1)
+        handle_error("fcntl");
+    flag |= O_NONBLOCK;
+    fcntl(sockfd,F_SETFL,flag);
+    ```
+    2. 非阻塞读
+    ```
+    while ((len = read(connfd, buf, MAXLINE/2)) >0 ) 
+        write(STDOUT_FILENO, buf, len);
+    ```
