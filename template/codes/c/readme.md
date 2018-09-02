@@ -679,7 +679,67 @@ ssize_t writen(int fd, const void *buf, size_t count)
     return count;
 }
 ```
+36. 读取一行
+```
+ssize_t readline(int sockfd, void *buf, size_t maxlen)
+{
+    //定义剩余字节长度
+    int nleft = maxlen;
+    //定义数据缓冲区的指针
+    char *bufp = buf;
+    //开始循环:peek获取套接口缓冲区里的数据缓冲区中
+    while(1)
+    {
+        int ret = recv_peek(sockfd,bufp,nleft);
+        //错误处理:
+        //如果返回<0的话,说明异常=>退出进程
+        if (ret < 0)
+            exit(EXIT_FAILURE);
+        //如果返回=0的话,说明对方关闭套接字=>退出函数,也返回0
+        else if (ret == 0)
+        {
+            printf("client close\n");
+            return 0;
+        }
+        //判断接收到的缓冲区里是否有\n
+        //遍历缓冲区的每个字节,长度为读取到的字节长度
+        int i;
+        for (i=0;i<ret;i++)
+        {
+            //如果有\n的话
+            if(bufp[i] == '\n')
+            {
+                //用readn函数读走套接口缓冲区(长度一直到\n为止,包括\n,因为下标有值所以知道长度)
+                int ret = readn(sockfd,bufp,i+1);            
+                //错误处理
+                //如果read函数的返回值没有达到指定长度的话,说明有问题=>退出进程
+                if (ret < i+1)
+                    exit(EXIT_FAILURE);
+                //退出函数
+                return maxlen - nleft + ret;
+            }
+        }
+    
+        //如果没有\n的话
+        if (i == ret)
+        {
+            //更新剩余字节长度
+            nleft -= ret;
+            //错误处理
+            //如果剩余字节长度<0,说明超出最大字节范围=>异常退出进程
+            if (nleft < 0)
+                exit(EXIT_FAILURE);
+            //就先读出目前字节长度到数据缓冲区的指针里
+            readn(sockfd,bufp,ret);
+            //移动数据缓冲区的指针
+            bufp += ret;
+        }
+    }
+    //返回读取的字节长度(最大字节长度-剩余字节长度)
+    return maxlen - nleft;
+}
 
+```
 
 ## 2. IPC
 ### 2-1. System V
