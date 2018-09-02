@@ -2378,3 +2378,7 @@ for(int i=0;i<20;++i)
     while ((len = read(connfd, buf, MAXLINE/2)) >0 ) 
         write(STDOUT_FILENO, buf, len);
     ```
+26. 清零结构体
+```
+bzero(&serv_addr,sizeof(serv_addr));
+```
