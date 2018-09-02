@@ -313,10 +313,10 @@ evaluate expression.和`$(())`类似,但是整数运算符左右必须有空格.
 `ssh-copy-id`里用来判断扩展名
 ```
 if expr "$L_ID_FILE" : ".*\.pub$" >/dev/null 
-	then
-  		PUB_ID_FILE="$L_ID_FILE"
-	else
-  		PUB_ID_FILE="$L_ID_FILE.pub"
+    then
+        PUB_ID_FILE="$L_ID_FILE"
+    else
+        PUB_ID_FILE="$L_ID_FILE.pub"
 fi
 ```
 #### 11-4-2. 判断整数
@@ -349,14 +349,14 @@ read -t 60 -p 'input a&b:' a b
 ```
 cat a.log | while read line
 do
-	echo ==="$line"===
+    echo ==="$line"===
 done
 ```
 2. 重定向
 ```
 while read line
 do
-	echo ==="$line"===
+    echo ==="$line"===
 done < a.log
 ```
 3. `exec`
@@ -364,7 +364,7 @@ done < a.log
 exec < a.log
 while read line
 do
-	echo ==="$line"===
+    echo ==="$line"===
 done
 ```
 
@@ -471,12 +471,12 @@ cat 利用EOF可以更好地格式化输出,里面的tab也会得到保留
 #! /bin/sh
 menu () {
 cat <<EOF
-	===========================
-	1. [install lamp]
-	2. [install lnmp]
-	3. [exit]
-	please input the number
-	===========================
+    ===========================
+    1. [install lamp]
+    2. [install lnmp]
+    3. [exit]
+    please input the number
+    ===========================
 EOF
 }
 menu 
@@ -1012,15 +1012,15 @@ tmp="$path"/"tmp"
 
 while true
 do
-	
-	# check md5sum
-	md5sum -c "$md5sum_db" 2>"$error_log" | grep -v 'OK' >"$error_log" 2>&1
+    
+    # check md5sum
+    md5sum -c "$md5sum_db" 2>"$error_log" | grep -v 'OK' >"$error_log" 2>&1
 
-	# check files
-	find "$site" -type f > "$curr_files"
-	diff "$files" "$curr_files" >> "$error_log"
+    # check files
+    find "$site" -type f > "$curr_files"
+    diff "$files" "$curr_files" >> "$error_log"
 
-	sleep 300
+    sleep 300
 done
 ```
 ## 30. dos2unix
@@ -1372,7 +1372,7 @@ sysctl -p
 iptables -P INPUT ACCEPT
 iptables -F
 iptables -P FORWARD ACCEPT
-		
+
 lsmod | egrep ^ip
 modprobe ip_tables
 modprobe iptable_filter
@@ -1398,8 +1398,6 @@ iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j SNAT --to-source 192.16
 ###########################################################################################
 ping baidu.com # 成功!
 ```
-	
-		
 
 ## 39. uptime
 可以看到服务器的1min,5min,15min内的负载情况,临界值是处理器的核数
@@ -2021,60 +2019,60 @@ rpm -ivh iozone-3.424-2.el7.rf.x86_64.rpm
 每次读写的块的大小是1M,-s为测试文件的大小,-t表示进程数量,产生4个文件,每个进程对应1个文件,-i的0为写入,1为读取
 iozone -r 1m -s 128m -t 4 -i 0 -i 1
 #------------------------------------------------------------------------------------------
-# 	Iozone: Performance Test of File I/O
-# 	        Version $Revision: 3.424 $
-# 		Compiled for 64 bit mode.
-# 		Build: linux-AMD64 
+#   Iozone: Performance Test of File I/O
+#           Version $Revision: 3.424 $
+#     Compiled for 64 bit mode.
+#     Build: linux-AMD64 
 # 
-# 	Contributors:William Norcott, Don Capps, Isom Crawford, Kirby Collins
-# 	             Al Slater, Scott Rhine, Mike Wisner, Ken Goss
-# 	             Steve Landherr, Brad Smith, Mark Kelly, Dr. Alain CYR,
-# 	             Randy Dunlap, Mark Montague, Dan Million, Gavin Brebner,
-# 	             Jean-Marc Zucconi, Jeff Blomberg, Benny Halevy, Dave Boone,
-# 	             Erik Habbinga, Kris Strecker, Walter Wong, Joshua Root,
-# 	             Fabrice Bacchella, Zhenghua Xue, Qin Li, Darren Sawyer,
-# 	             Vangel Bojaxhi, Ben England, Vikentsi Lapa.
+#   Contributors:William Norcott, Don Capps, Isom Crawford, Kirby Collins
+#                Al Slater, Scott Rhine, Mike Wisner, Ken Goss
+#                Steve Landherr, Brad Smith, Mark Kelly, Dr. Alain CYR,
+#                Randy Dunlap, Mark Montague, Dan Million, Gavin Brebner,
+#                Jean-Marc Zucconi, Jeff Blomberg, Benny Halevy, Dave Boone,
+#                Erik Habbinga, Kris Strecker, Walter Wong, Joshua Root,
+#                Fabrice Bacchella, Zhenghua Xue, Qin Li, Darren Sawyer,
+#                Vangel Bojaxhi, Ben England, Vikentsi Lapa.
 # 
-# 	Run began: Sun Aug 19 00:44:26 2018
+#   Run began: Sun Aug 19 00:44:26 2018
 # 
-# 	Record Size 1024 kB
-# 	File size set to 131072 kB
-# 	Command line used: iozone -r 1m -s 128m -t 4 -i 0 -i 1
-# 	Output is in kBytes/sec
-# 	Time Resolution = 0.000001 seconds.
-# 	Processor cache size set to 1024 kBytes.
-# 	Processor cache line size set to 32 bytes.
-# 	File stride size set to 17 * record size.
-# 	Throughput test with 4 processes
-# 	Each process writes a 131072 kByte file in 1024 kByte records
+#   Record Size 1024 kB
+#   File size set to 131072 kB
+#   Command line used: iozone -r 1m -s 128m -t 4 -i 0 -i 1
+#   Output is in kBytes/sec
+#   Time Resolution = 0.000001 seconds.
+#   Processor cache size set to 1024 kBytes.
+#   Processor cache line size set to 32 bytes.
+#   File stride size set to 17 * record size.
+#   Throughput test with 4 processes
+#   Each process writes a 131072 kByte file in 1024 kByte records
 # 
-# 	Children see throughput for  4 initial writers 	=  138676.27 kB/sec
-# 	Parent sees throughput for  4 initial writers 	=  132773.25 kB/sec
-# 	Min throughput per process 			=   31613.57 kB/sec 
-# 	Max throughput per process 			=   35972.43 kB/sec
-# 	Avg throughput per process 			=   34669.07 kB/sec
-# 	Min xfer 					=  115712.00 kB
+#   Children see throughput for  4 initial writers   =  138676.27 kB/sec
+#   Parent sees throughput for  4 initial writers   =  132773.25 kB/sec
+#   Min throughput per process       =   31613.57 kB/sec 
+#   Max throughput per process       =   35972.43 kB/sec
+#   Avg throughput per process       =   34669.07 kB/sec
+#   Min xfer           =  115712.00 kB
 # 
-# 	Children see throughput for  4 rewriters 	=  142730.68 kB/sec
-# 	Parent sees throughput for  4 rewriters 	=  141265.11 kB/sec
-# 	Min throughput per process 			=   35464.52 kB/sec 
-# 	Max throughput per process 			=   36134.60 kB/sec
-# 	Avg throughput per process 			=   35682.67 kB/sec
-# 	Min xfer 					=  129024.00 kB
+#   Children see throughput for  4 rewriters   =  142730.68 kB/sec
+#   Parent sees throughput for  4 rewriters   =  141265.11 kB/sec
+#   Min throughput per process       =   35464.52 kB/sec 
+#   Max throughput per process       =   36134.60 kB/sec
+#   Avg throughput per process       =   35682.67 kB/sec
+#   Min xfer           =  129024.00 kB
 # 
-# 	Children see throughput for  4 readers 		=  157483.26 kB/sec
-# 	Parent sees throughput for  4 readers 		=  156489.71 kB/sec
-# 	Min throughput per process 			=   39118.00 kB/sec 
-# 	Max throughput per process 			=   39933.22 kB/sec
-# 	Avg throughput per process 			=   39370.82 kB/sec
-# 	Min xfer 					=  129024.00 kB
+#   Children see throughput for  4 readers     =  157483.26 kB/sec
+#   Parent sees throughput for  4 readers     =  156489.71 kB/sec
+#   Min throughput per process       =   39118.00 kB/sec 
+#   Max throughput per process       =   39933.22 kB/sec
+#   Avg throughput per process       =   39370.82 kB/sec
+#   Min xfer           =  129024.00 kB
 # 
-# 	Children see throughput for 4 re-readers 	=  138993.81 kB/sec
-# 	Parent sees throughput for 4 re-readers 	=  138467.29 kB/sec
-# 	Min throughput per process 			=   34505.55 kB/sec 
-# 	Max throughput per process 			=   35213.24 kB/sec
-# 	Avg throughput per process 			=   34748.45 kB/sec
-# 	Min xfer 					=  129024.00 kB
+#   Children see throughput for 4 re-readers   =  138993.81 kB/sec
+#   Parent sees throughput for 4 re-readers   =  138467.29 kB/sec
+#   Min throughput per process       =   34505.55 kB/sec 
+#   Max throughput per process       =   35213.24 kB/sec
+#   Avg throughput per process       =   34748.45 kB/sec
+#   Min xfer           =  129024.00 kB
 # 
 # 
 # 
@@ -2355,7 +2353,7 @@ nm lib/libcalc.a
 
 ```
 2. 查看gcc编译后的可执行文件(可以看到.o文件被打包到程序里了)
-```	
+```
 nm main
 
 #---------------------------------------------------------------------
@@ -2413,10 +2411,10 @@ ldconfig -v # 更新动态链接库的配置文件,使配置文件生效
 ```
 ldd main
 #---------------------------------------------------------------------
-# 	linux-vdso.so.1 =>  (0x00007ffff1161000)
-# 	libmycalc.so => not found # 自己的库没有找到
-# 	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fdca53b7000) # 标准c库
-# 	/lib64/ld-linux-x86-64.so.2 (0x00007fdca5999000) # 动态链接器
+#   linux-vdso.so.1 =>  (0x00007ffff1161000)
+#   libmycalc.so => not found # 自己的库没有找到
+#   libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fdca53b7000) # 标准c库
+#   /lib64/ld-linux-x86-64.so.2 (0x00007fdca5999000) # 动态链接器
 #---------------------------------------------------------------------
 
 ```
@@ -2441,8 +2439,8 @@ man -k pthread
 stat main.c
 #---------------------------------------------------------------------
 #   File: main.c
-#   Size: 141       	Blocks: 8          IO Block: 4096   regular file
-# Device: 813h/2067d	Inode: 805139      Links: 1
+#   Size: 141           Blocks: 8          IO Block: 4096   regular file
+# Device: 813h/2067d    Inode: 805139      Links: 1
 # Access: (0644/-rw-r--r--)  Uid: ( 1000/   orris)   Gid: ( 1000/   orris)
 # Access: 2018-09-01 03:03:44.838073830 +0800
 # Modify: 2018-09-01 03:03:34.561979047 +0800 # ll中就是用最近modify时间
