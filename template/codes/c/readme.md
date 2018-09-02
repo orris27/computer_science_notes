@@ -69,9 +69,7 @@
     ```
     2. UDP接收数据
     ```
-    struct sockaddr_in peer_addr;
-    socklen_t peer_len = sizeof(peer_addr);
-    int ret = recvfrom(sockfd,recv_buf,sizeof(recv_buf),0,(struct sockaddr*)&peer_addr,&peer_len);
+    int ret = recvfrom(sockfd,recv_buf,sizeof(recv_buf),0,NULL,0);
     if (ret == -1)// 如果read出现错误,就直接退出子进程
     {
         if (errno == EINTR)
