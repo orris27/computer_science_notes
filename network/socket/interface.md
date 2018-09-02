@@ -197,21 +197,7 @@ int poll(struct pollfd *fds, nfds_t nfds, int timeout);
 // timeout:超时时间.-1表示一直等待下去
 ```
 #### 3-8-3. epoll
-1. 查看帮助:`man epoll`,`man epoll_create`,`man epoll_ctl`,`man epoll_wait`,...
-2. 接口
-    1. 创建epoll实例
-    ```
-    int epoll_create(int size);//旧版本
-    int epoll_create1(int flags);//新的epoll创建方式,使用红黑树实现旧版本的哈希实现的内容
-    ```
-    2. 添加/移除文件描述符到epoll中进行管理
-    ```
-    int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
-    ```
-    3. 检测事件发生(阻塞)
-    ```
-    int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);
-    ```
+[epoll github的笔记](https://github.com/orris27/orris/edit/master/network/socket/epoll.md)
 ## 4. UNIX
 1. bind
 2. accept
