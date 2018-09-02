@@ -2012,3 +2012,42 @@ for(int i=0;i<3;++i)
 
 
 ```
+21. 打印进程id,打印进程组id,打印会话id`
+```
+/* 打印pid */
+printf("pid:%d\n",getpid());
+/* 打印gid */
+printf("gid:%d\n",getpgid(0));
+/* 打印sid */
+if((printf("sid:%d\n",getsid(0))) == (pid_t) -1)
+    handle_error("getsid");
+```
+
+
+22. 创建1个新会话
+```
+/* 创建1个子进程 */
+pid_t pid; 
+if ((pid = fork()) == -1)
+      handle_error("fork");
+
+/* 如果是子进程 */
+if (pid == 0)
+{
+    /* 睡一会儿,等待父进程退出 */
+    sleep(1);
+    /* 创建新的会话 */
+    if((setsid()) == (pid_t) -1)
+        handle_error("setsid");
+
+    /*
+     * 自由发挥~~~
+     */
+
+}
+/* 如果是父进程 */
+else
+{
+    /* 什么都不做 */
+}
+```
