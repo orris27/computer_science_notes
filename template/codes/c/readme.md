@@ -122,7 +122,7 @@ if (ret == 0)
     int sockfd;
     struct sockaddr_in addr;
     
-    if ((sockfd = socket(AF_INET,SOCK_STREAM,0))<0)
+    if ((sockfd = socket(AF_INET,SOCK_DGRAM,0))<0)
         handle_error("socket");
     memset(&addr,0,sizeof(addr));
     addr.sin_family = AF_INET;
