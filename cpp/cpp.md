@@ -411,6 +411,8 @@ vim下光标放在函数上,用`shift + k`可以跳到对应man文档.按`q`退�
         4. 丢弃当前的控制终端,在后台执行
         5. 建立新会话时,先调用fork,父进程终止,子进程调用setsid
     2. setsid
+16. umask
+    1. 设置进程的掩码,一般设置为`0022`
 #### 4-1-1. 文件
 1. 特点
     1. `mode_t mode`:文件的权限.是个八进制的数,实际文件的权限是mode和umask共同处理的结果.详见[Linux权限文档](https://coggle.it/diagram/WzNw5TCAbhFNoY8H/t/linux%E8%A7%92%E8%89%B2)
