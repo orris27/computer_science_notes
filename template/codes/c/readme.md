@@ -1638,6 +1638,34 @@ pthread_mutex_destroy(&mutex);
     1. 条件变量和互斥锁共同配合的头文件接口实现
     2. 线程池等待所有(忙碌+等待)线程都结束后执行销毁
 
+
+
+#### 2-2-7. 文件锁(进程间可以使用,线程间不可以使用)
+1. 锁定整个文件
+```
+/* 构造文件锁的结构变量 */
+struct flock f_lock;
+//f_lock.l_type = F_RDLCK; //读锁
+f_lock.l_type = F_WRLCK; // 写锁
+f_lock.l_whence = SEEK_SET;
+f_lock.l_start = 0;
+f_lock.l_len = 0;
+/* 锁定该文件:写 */
+fcntl(fd,F_SETLKW,&f_lock);
+```
+2. 解锁整个文件
+```
+/* 构造文件锁的结构变量 */
+struct flock f_lock;
+f_lock.l_type = F_UNLCK;
+f_lock.l_whence = SEEK_SET;
+f_lock.l_start = 0;
+f_lock.l_len = 0;
+/* 锁定该文件:写 */
+fcntl(fd,F_SETLKW,&f_lock);
+```
+
+
 ### 2-3. 管道
 1. 创建1个管道
 ```
