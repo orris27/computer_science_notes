@@ -145,3 +145,30 @@ a0 = tf.reshape(features,[-1,28,28,1])
 ```
 
 
+8. get_variable
+    1. 初始化器
+        1. 常数
+        ```
+        const = tf.constant_initializer(0.0)
+        ```
+        2. 正态分布产生的随机值
+        ```
+        norm = tf.random_normal_initializer(stddev=stddev)
+        ```
+    2. 重用变量,get_variable创建1个`foo/v`的变量
+    ```
+    with tf.variable_scope("foo", reuse=tf.AUTO_REUSE):
+        norm = tf.random_normal_initializer(stddev=1.0)
+        v = tf.get_variable("v", [1] ,initializer=norm)
+    ```
+    3. scope的with语句内部重用变量
+    ```
+    with tf.variable_scope("foo"):
+        norm = tf.random_normal_initializer(stddev=1.0)
+        v1 = tf.get_variable("v", [1] ,initializer=norm)
+
+    with tf.variable_scope("foo") as scope:
+        scope.reuse_variables()
+        norm = tf.random_normal_initializer(stddev=1.0)
+        v2 = tf.get_variable("v", [1] ,initializer=norm)
+    ```
