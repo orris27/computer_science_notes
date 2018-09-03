@@ -15,4 +15,25 @@ pip -V
 
 
 pip install -U tensorflow
+pip install tensorflow==1.8.0
+```
+
+
+## 2. 神经网络
+```
+# tf.placeholder
+# Layer1 (conv+pooling)
+	# W
+    # b
+    # activate
+    # pool
+# ...
+# Layer2 (fully_connected)
+	# W
+    # b
+    # activate
+    # (dropout)
+# rivals
+# fight
+	# check
 ```
