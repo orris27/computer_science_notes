@@ -22,8 +22,8 @@ uname -m
 yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make -y
 yum -y install epel-release
 yum install python-pip -y
-mkdir tools
-cd tools/
+mkdir ~/tools
+cd ~/tools/
 wget https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tar.xz
 
 xz -d Python-3.6.4.tar.xz
@@ -41,16 +41,23 @@ ln -s /usr/local/python/bin/pip3 /usr/bin/pip
 pip -V
 
 
-vim /usr/bin/yum 
+# vim /usr/bin/yum 
 #########################################################################
-#! /usr/bin/python2
+# #! /usr/bin/python2
 #########################################################################
+sed -i "s#/usr/bin/python#/usr/bin/python2#g" /usr/bin/yum
 
+# vim /usr/libexec/urlgrabber-ext-down 
+#########################################################################
+# #! /usr/bin/python2
+#########################################################################
+sed -i "s#/usr/bin/python#/usr/bin/python2#g" /usr/libexec/urlgrabber-ext-down 
 
-vim /usr/libexec/urlgrabber-ext-down 
-#########################################################################
-#! /usr/bin/python2
-#########################################################################
+pip install  tensorflow==1.8.0
+pip install ipython
+echo 'PATH=/usr/local/python/bin/:$PATH'>>/etc/profile
+source /etc/profile
+
 ```
 
 2. 安装tensorflow,ipython
