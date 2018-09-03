@@ -48,7 +48,7 @@ learning_rate = tf.Variable(1e-3)
     # dropout
     a3_dropout = tf.nn.dropout(a3,keep_prob)
     ```
-    
+    4. [神经网络和卷积神经网络的实现](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
 3. 定义代价函数,并定义训练tensor
     + labels:正确的y
     + logits:预测的y
@@ -143,3 +143,5 @@ with tf.Session() as sess:
 #features = tf.placeholder(tf.float32,[None,784])
 a0 = tf.reshape(features,[-1,28,28,1])
 ```
+
+
