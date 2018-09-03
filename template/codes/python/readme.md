@@ -2,13 +2,13 @@
 ## 1. TensorFlow
 1. 定义features和labels
 ```
-# [[特征值0,特征值1,特征值2,...,特征值783],
-   [第二个实例],
-   [第三个实例],]
+#  [[特征值0,特征值1,特征值2,...,特征值783],
+#   [第二个实例],
+#   [第三个实例],]
 features = tf.placeholder(tf.float32,[None,784]) 
-# [[是分类0的可能性,是分类1的可能性,是分类2的可能性,...,是分类9的可能性],
-   [第二个实例],
-   [第三个实例]]
+#  [[是分类0的可能性,是分类1的可能性,是分类2的可能性,...,是分类9的可能性],
+#   [第二个实例],
+#   [第三个实例]]
 labels = tf.placeholder(tf.float32,[None,10])
 keep_prob = tf.placeholder(tf.float32)
 learning_rate = tf.Variable(1e-3)
@@ -27,7 +27,7 @@ learning_rate = tf.Variable(1e-3)
     # pooling:池化操作.就这样子就OK了 = >表示长宽缩小一半而厚度不变.
     a1_pool = tf.nn.max_pool(a1,ksize = [1,2,2,1],strides = [1,2,2,1],padding = 'VALID')
 
-    # 输入是[-1,28,28,32] = >[-1,14,14,32]
+    # 输入=>输出: [-1,28,28,32]=>[-1,14,14,32]
     # a1_pool is [-1,14,14,32]
     ```
     2. 过渡卷积神经网路到全连接神经网络,改变特征值的形状
@@ -84,7 +84,7 @@ with tf.Session() as sess:
         sess.run(train,feed_dict = {features:X_train,labels:y_train,keep_prob:0.5})
 
         # check accuracy
-        if epoch % 50  =  =  0:
+        if epoch % 50  ==  0:
             y_pre = sess.run(y_predicted,feed_dict = {features:X_test,labels:y_test,keep_prob:1})
             total = tf.reduce_sum(tf.cast(tf.equal(tf.argmax(y_pre,axis = 1),tf.argmax(y_test,axis = 1)),tf.int16))
             predict_total = sess.run(total,feed_dict = {features:X_test,labels:y_test,keep_prob:1})
@@ -138,3 +138,8 @@ with tf.Session() as sess:
         mnist = input_data.read_data_sets('MNIST_data/',one_hot = True)    
         X_train,y_train = mnist.train.next_batch(100)
         ```
+6. 改变形状
+```
+#features = tf.placeholder(tf.float32,[None,784])
+a0 = tf.reshape(features,[-1,28,28,1])
+```
