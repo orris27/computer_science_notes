@@ -1,5 +1,6 @@
     
 ## 1. 安装Python3
+1. 安装python3
 ```
 ##########################################################################################
 # 确认环境
@@ -34,6 +35,12 @@ mv /usr/bin/python /usr/bin/python.bak
 ln -s /usr/local/python3/ /usr/local/python
 ln -s /usr/local/python/bin/python3.6 /usr/bin/python
 python -V
+
+mv /usr/bin/pip /usr/bin/pip.bak
+ln -s /usr/local/python/bin/pip3 /usr/bin/pip
+pip -V
+
+
 vim /usr/bin/yum 
 #########################################################################
 #! /usr/bin/python2
@@ -44,4 +51,13 @@ vim /usr/libexec/urlgrabber-ext-down
 #########################################################################
 #! /usr/bin/python2
 #########################################################################
+```
+
+2. 安装tensorflow,ipython
+```
+pip install -U tensorflow
+pip install ipython
+echo 'PATH=/usr/local/python/bin/:$PATH'>>/etc/profile
+source /etc/profile
+
 ```
