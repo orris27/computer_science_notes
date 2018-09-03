@@ -37,9 +37,9 @@ learning_rate = tf.Variable(1e-3)
     ```
     3. 定义全连接神经网络的一层,并使用dropout
         + 中间层节点个数:1024
-        + 输入:[-1,7*7*64]
+        + 输入:`[-1,7*7*64]`
     ```
-    # W3 = tf.Variable(tf.random_normal([7*7*64,1024],stddev = 0.1))
+    # W3 = tf.Variable(tf.random_normal([输入值中每行有多少个,节点个数/输出值中每行有多少个],stddev = 0.1))
     W3 = tf.Variable(tf.random_normal([7*7*64,1024],stddev = 1/tf.sqrt(1024.)))
     # b
     b3 = tf.Variable(tf.zeros([1024])+0.1)
