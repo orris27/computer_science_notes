@@ -550,3 +550,19 @@ yum install -y openssl-devel
     1. 解决:将实体文件的大小改到能够容纳所有数据.比如临时文件的话,必须ftruncate其大小才行
 3. munmap出现`munmap: Invalid argument`
     1. 解决:移动mmap返回的p指针回到起始位置
+## 18. yum
+1. glibc的问题
+```
+Error: Package: glibc-common-2.17-196.el7_4.2.x86_64 (@updates)
+           Requires: glibc = 2.17-196.el7_4.2
+           Removing: glibc-2.17-196.el7_4.2.x86_64 (@updates)
+               glibc = 2.17-196.el7_4.2
+           Updated By: glibc-2.17-222.el7.x86_64 (base)
+               glibc = 2.17-222.el7
+ You could try using --skip-broken to work around the problem
+** Found 3 pre-existing rpmdb problem(s), 'yum check' output follows:
+glibc-common-2.17-222.el7.x86_64 is a duplicate with glibc-common-2.17-196.el7_4.2.x86_64
+glibc-common-2.17-222.el7.x86_64 has missing requires of glibc = ('0', '2.17', '222.el7')
+libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_64
+```
+解决: `rpm -evh glibc-common-2.17-222.el7.x86_64`
