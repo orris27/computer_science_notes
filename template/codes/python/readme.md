@@ -285,6 +285,45 @@ scope_assign('s1','s2',sess)
 
 
 11. [自己模仿写的正态分布的GAN](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/gan)
+
+12. 随机数
+    1. 均匀分布下的随机生成
+    ```
+    # 生成X_train:获取区间为[-5,5)的平均分布下随机产生的形状为[batch_size]的值
+    X_train = (np.random.random(batch_size) - 0.5) * 10.0
+
+    ```
+    2. 间隔地随机生成
+    ```
+    data_range = 8
+    a = np.linspace(-data_range, data_range, batch_size) + np.random.random(batch_size) * 0.01
+    ```
+    3. 正态分布下的随机生成
+    ```
+    # 定义正态分布的均值
+    mu = 4
+    # 定义正态分布的方差
+    sigma = 0.5
+    
+    # 获得正态分布下随机生成的形状为[batch_size,1]的数据
+    samples = np.random.normal(self.mu, self.sigma, batch_size)
+    ```
+13. 数学函数
+    1. 正态分布的概率密度函数
+        1. self.mu:均值
+        2. self.sigma:方差
+    ```
+    from scipy.stats import norm
+    # 定义正态分布的均值
+    mu = 4
+    # 定义正态分布的方差
+    sigma = 0.5
+
+    # 生成y_train:正态分布的概率密度函数(X_train)
+    y_train = norm.pdf(X_train, loc=self.mu, scale=self.sigma)
+    ```
+
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
