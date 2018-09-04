@@ -173,6 +173,30 @@ a0 = tf.reshape(features,[-1,28,28,1])
         v2 = tf.get_variable("v", [1] ,initializer=norm)
     ```
 
+
+9. 复制s1变量域内的所有可训练的变量到s1变量域内
+```
+def scope_assign(src,dest,sess):
+    '''
+        赋值sess/src变量域内的值到sess/dest变量域内的值
+    '''
+    # 获得src内的所有可训练的变量
+    src_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope=src)
+    # 获得dest内的所有变量
+    dest_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope=dest)
+    
+    # 获得现阶段src内张量的值
+    src_params_run  = sess.run(src_params)
+    # 复制src内的变量到dest的变量
+    for i, v in enumerate(dest_params):
+        sess.run(v.assign(src_params_run[i]))
+
+
+#...
+scope_assign('s1','s2',sess)
+```
+10. [get_collection和assing的复制变量域的实现](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/collection)
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
