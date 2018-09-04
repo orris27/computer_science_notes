@@ -197,6 +197,10 @@ scope_assign('s1','s2',sess)
 ```
 10. [get_collection和assing的复制变量域的实现](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/collection)
 
+
+11. 我自己的命名规范
+    1. batch_size:第一个维度,表示一个特征值/标签的实例个数=单次训练的实例个数
+    2. 维度:1开始的下标
 ## 2. Python
 1. 如果是`__main__`的话
 ```
