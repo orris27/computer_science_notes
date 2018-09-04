@@ -34,6 +34,7 @@ learning_rate = tf.Variable(1e-3)
     ```
     # 改变适应卷积神经网络的形状到适应全连接神经网络的形状.[-1,7,7,64]  = > [-1.7*7*64]
     a2_pool_tran = tf.reshape(a2_pool,[-1,7*7*64])
+    a2_pool_tran = np.reshape(a2_pool,[-1,7*7*64])
     ```
     3. 定义全连接神经网络的一层,并使用dropout
         + 中间层节点个数:1024
