@@ -190,8 +190,6 @@ def scope_assign(src,dest,sess):
     # 复制src内的变量到dest的变量
     for i, v in enumerate(dest_params):
         sess.run(v.assign(src_params_run[i]))
-
-
 #...
 scope_assign('s1','s2',sess)
 ```
@@ -201,6 +199,9 @@ scope_assign('s1','s2',sess)
 11. 我自己的命名规范
     1. batch_size:第一个维度,表示一个特征值/标签的实例个数=单次训练的实例个数
     2. 维度:1开始的下标
+    3. 训练次数
+        1. `num_pretrain_steps`
+        2. `num_steps`
 ## 2. Python
 1. 如果是`__main__`的话
 ```
