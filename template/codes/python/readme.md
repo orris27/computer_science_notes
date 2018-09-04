@@ -31,33 +31,112 @@ learning_rate = tf.Variable(1e-3)
     # a1_pool is [-1,14,14,32]
     ```
     2. 过渡卷积神经网路到全连接神经网络,改变特征值的形状
-    ```
-    # 改变适应卷积神经网络的形状到适应全连接神经网络的形状.[-1,7,7,64]  = > [-1.7*7*64]
-    a2_pool_tran = tf.reshape(a2_pool,[-1,7*7*64])
-    a2_pool_tran = np.reshape(a2_pool,[-1,7*7*64])
-    ```
+        1. TensorFlow的reshape:不能使用在普通变量
+        ```
+        # 改变适应卷积神经网络的形状到适应全连接神经网络的形状.[-1,7,7,64]  = > [-1.7*7*64]
+        a2_pool_tran = tf.reshape(a2_pool,[-1,7*7*64])
+
+        ```
+        2. numpy的reshape:如果是和张量无关的话,就使用np.reshape
+        ```
+        a2_pool_tran = np.reshape(a2_pool,(batch_size,1))
+        ```
     3. 定义全连接神经网络的一层,并使用dropout
-        + 中间层节点个数:1024
-        + 输入:`[-1,7*7*64]`
-    ```
-    # W3 = tf.Variable(tf.random_normal([输入值中每行有多少个,节点个数/输出值中每行有多少个],stddev = 0.1))
-    W3 = tf.Variable(tf.random_normal([7*7*64,1024],stddev = 1/tf.sqrt(1024.)))
-    # b
-    b3 = tf.Variable(tf.zeros([1024])+0.1)
-    # activate
-    a3 = tf.nn.sigmoid(tf.matmul(a2_pool_tran,W3)+b3)
-    # dropout
-    a3_dropout = tf.nn.dropout(a3,keep_prob)
-    ```
+        1. 方法1
+            + 中间层节点个数:1024
+            + 输入:`[-1,7*7*64]`
+        ```
+        # W3 = tf.Variable(tf.random_normal([输入值中每行有多少个,节点个数/输出值中每行有多少个],stddev = 0.1))
+        W3 = tf.Variable(tf.random_normal([7*7*64,1024],stddev = 1/tf.sqrt(1024.)))
+        # b
+        b3 = tf.Variable(tf.zeros([1024])+0.1)
+        # activate
+        a3 = tf.nn.sigmoid(tf.matmul(a2_pool_tran,W3)+b3)
+        # dropout
+        a3_dropout = tf.nn.dropout(a3,keep_prob)
+        ```
+        2. 方法2
+        ```
+        def nn(self, inputs, output_dim, activator=None, scope=None):
+        '''
+            定义神经网络的一层
+        '''
+        # 定义权重的初始化器
+        norm = tf.random_normal_initializer(stddev=1.0)
+        # 定义偏差的初始化
+        const = tf.constant_initializer(0.0)
+
+        # 打开变量域,或者使用None
+        with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
+            # 定义权重
+            W = tf.get_variable("W",[inputs.get_shape()[1],output_dim],initializer=norm)
+            # 定义偏差
+            b = tf.get_variable("b",[output_dim],initializer=const)
+            # 激活
+            if activator is None:
+                return tf.matmul(inputs,W)+b
+            a = activator(tf.matmul(inputs,W)+b)
+            # dropout
+            # 返回输出值
+            return a
+            
+        # 使用方法如下所示
+        def discriminator(self,inputs,dim):
+            '''
+                定义判别器的模型
+            '''
+            # 第0层全连接神经网络:节点数=dim,激活函数=tf.tanh,scope=d0
+            a0 = self.nn(inputs,dim*2,tf.tanh,'d0')
+            # 第1层全连接神经网络:节点数=dim,激活函数=tf.tanh,scope=d1
+            a1 = self.nn(a0,dim*2,tf.tanh,'d1')
+            # 第2层全连接神经网络:节点数=dim,激活函数=tf.tanh,scope=d2
+            a2 = self.nn(a1,dim*2,tf.tanh,'d2')
+            # 第3层全连接神经网络:节点数=dim,激活函数=tf.tanh,scope=d3
+            #a3 = self.nn(a2,dim*2,tf.tanh,'d3') 
+            # 返回判别器的预测给分:节点数=1,激活函数=tf.sigmoid,形状=[batch_size,1]
+            y_predicted = self.nn(a2,1,tf.nn.sigmoid,'d3')
+            return y_predicted
+        ```
+        
     4. [神经网络和卷积神经网络的实现](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
 3. 定义代价函数,并定义训练tensor
-    + labels:正确的y
-    + logits:预测的y
-    + 优化器:AdamOptimizer
-```
-cross_entropy = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels = labels,logits = y_predicted))
-train = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
-```
+    1. 方法1
+        + labels:正确的y
+        + logits:预测的y
+        + 优化器:AdamOptimizer
+    ```
+    cross_entropy = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels = labels,logits = y_predicted))
+    train = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
+    ```
+    2. 方法2:自带学习率衰减
+        + var_list:类似于`self.d_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope='disc')`
+        + self.d_loss:代价函数
+        + self.learning_rate:0.03等
+    ```
+    def optimizer(self, loss, var_list, initial_learning_rate):
+        '''
+            var_list:要训练的张量集合.
+        '''
+        decay = 0.95
+        num_decay_steps = 150
+        batch = tf.Variable(0)
+        learning_rate = tf.train.exponential_decay(
+            initial_learning_rate,
+            batch,
+            num_decay_steps,
+            decay,
+            staircase=True
+        )
+        optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(
+            loss,
+            global_step=batch,
+            var_list=var_list
+        )
+        return optimizer
+    
+    self.d_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope='disc')
+    self.d_train  = self.optimizer(self.d_loss, self.d_params, self.learning_rate)
+    ```
 
 4. 训练
     + 整个训练集训练多少次:1000
@@ -146,7 +225,7 @@ a0 = tf.reshape(features,[-1,28,28,1])
 ```
 
 
-8. get_variable
+7. get_variable
     1. 初始化器
         1. 常数
         ```
@@ -175,7 +254,7 @@ a0 = tf.reshape(features,[-1,28,28,1])
     ```
 
 
-9. 复制s1变量域内的所有可训练的变量到s1变量域内
+8. 复制s1变量域内的所有可训练的变量到s1变量域内
 ```
 def scope_assign(src,dest,sess):
     '''
@@ -194,15 +273,18 @@ def scope_assign(src,dest,sess):
 #...
 scope_assign('s1','s2',sess)
 ```
-10. [get_collection和assing的复制变量域的实现](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/collection)
+9. [get_collection和assing的复制变量域的实现](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/collection)
 
 
-11. 我自己的命名规范
+10. 我自己的命名规范
     1. batch_size:第一个维度,表示一个特征值/标签的实例个数=单次训练的实例个数
     2. 维度:1开始的下标
     3. 训练次数
         1. `num_pretrain_steps`
         2. `num_steps`
+
+
+11. [自己模仿写的正态分布的GAN](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/gan)
 ## 2. Python
 1. 如果是`__main__`的话
 ```
