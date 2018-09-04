@@ -172,3 +172,9 @@ a0 = tf.reshape(features,[-1,28,28,1])
         norm = tf.random_normal_initializer(stddev=1.0)
         v2 = tf.get_variable("v", [1] ,initializer=norm)
     ```
+
+## 2. Python
+1. 如果是`__main__`的话
+```
+if __name__ == '__main__': 
+```
