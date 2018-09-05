@@ -409,6 +409,8 @@ scope_assign('s1','s2',sess)
     inputs=tf.reshape(features,[-1,train_times,embedding_size])
     # defines the lstm_cell
     lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size)
+    # dropout
+    lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=0.5)
     # map
     ouputs,final_state=tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32)
 
