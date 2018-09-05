@@ -459,6 +459,28 @@ a = tf.zeros([3,2])
 with tf.Session() as sess:
     print(sess.run(tf.shape(a)[0]))
 ```
+19. 返回一个一模一样的op,并且自己是个运算op.[参考文档](https://blog.csdn.net/hu_guan_jie/article/details/78495297)
+```
+y = tf.identity(x)
+```
+20. 执行某个op前先执行特定的op:`tf.control_dependencies`
+```
+# 每次输入y的值的时候,都会向上搜索.发现y是tf.identity(x)运算出来的,所以就计算tf.identity(x).但是这个op在tf.control_dependencies下面,所以要先执行它的内容,即x_plus_1的op.所以就会输出2.0,3.0,4.0,5.0,6.0
+
+x = tf.Variable(1.0)
+y = tf.Variable(0.0)
+x_plus_1 = tf.assign_add(x, 1)
+
+with tf.control_dependencies([x_plus_1]):
+    y = tf.identity(x)
+init = tf.initialize_all_variables()
+
+with tf.Session() as session:
+    init.run()
+    for i in range(5):
+        print(y.eval())
+```
+
 
 ## 2. Python
 1. 如果是`__main__`的话
