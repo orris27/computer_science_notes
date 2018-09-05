@@ -424,21 +424,32 @@ scope_assign('s1','s2',sess)
     #图三向上指的ht称为output
     #此函数返回一个lstm_cell，即图一中的一个A
     ```
-    3. 运行RNN:tf.nn.dynamic_rnn
-        + 通过inputs中的max_time将网络按时间展开
-        1. 参数
-            1. cell:上面的返回值
-            2. inputs:`[batch_size,max_time,size]`
-            3. sequence_length:是一个list，如果你要输入三句话，且三句话的长度分别是5,10,25,那么sequence_length=[5,10,25]
-        2. 返回:（outputs, states）.一般我们选择states[1]就行了
-            1. output:输出的是最上面一层的输出
-                1. time_major=False:`[batch_size, max_time, num_units]`
-                2. time_major=True:`[max_time,batch_size,num_units]`
-            2. states:保存的是最后一个时间输出的states
-                1. `[batch_size, 2*len(cells)]或[batch_size,s]`
-    ```
-    tf.nn.dynamic_rnn(cell, inputs, sequence_length=None, initial_state=None,dtype=None,time_major=False)
-    ```
+    3. 运行RNN:
+        1. tf.nn.dynamic_rnn
+            + 通过inputs中的max_time将网络按时间展开
+            1. 参数
+                1. cell:上面的返回值
+                2. inputs:`[batch_size,max_time,size]`
+                3. sequence_length:是一个list，如果你要输入三句话，且三句话的长度分别是5,10,25,那么sequence_length=[5,10,25]
+            2. 返回:（outputs, states）.一般我们选择states[1]就行了
+                1. output:输出的是最上面一层的输出
+                    1. time_major=False:`[batch_size, max_time, num_units]`
+                    2. time_major=True:`[max_time,batch_size,num_units]`
+                2. states:保存的是最后一个时间输出的states
+                    1. `[batch_size, 2*len(cells)]或[batch_size,s]`
+        ```
+        tf.nn.dynamic_rnn(cell, inputs, sequence_length=None, initial_state=None,dtype=None,time_major=False)
+        ```
+        2. 自己循环train_times次
+        ```
+        outputs = []
+        states = initial_states
+        with tf.variable_scope("RNN"):
+            for time_step in range(max_time):
+                if time_step>0:tf.get_variable_scope().reuse_variables()#LSTM同一曾参数共享，
+                (cell_out, state) = lstm_cell(inputs[:,time_step,:], state)
+                outputs.append(cell_out)
+        ```
 ## 2. Python
 1. 如果是`__main__`的话
 ```
