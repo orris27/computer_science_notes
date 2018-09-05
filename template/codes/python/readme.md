@@ -322,8 +322,40 @@ scope_assign('s1','s2',sess)
     # 生成y_train:正态分布的概率密度函数(X_train)
     y_train = norm.pdf(X_train, loc=self.mu, scale=self.sigma)
     ```
+14. 保存和还原会话(目前没有成功)
+    1. 保存会话
+    ```
+    W=tf.Variable(tf.zeros(3),name='weights',dtype=tf.float32)
+    b=tf.Variable(tf.zeros([32]),name='biases',dtype=tf.float32)
 
+    saver=tf.train.Saver()
+    with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())
+        print(sess.run(W))
+        print(sess.run(b))
+        saver.restore(sess,'./saved/1.ckpt')
+        print(sess.run(W))
+        print(sess.run(b))
+    ```
+    3. 保存结果
+    ```
+    save/
+    ├── 1.ckpt.data-00000-of-00001
+    ├── 1.ckpt.index
+    ├── 1.ckpt.meta
+    └── checkpoint
 
+    ```
+15. 生成全是0的变量
+    1. 定义变量
+    ```
+    W=tf.Variable(tf.zeros(3),name='weights',dtype=tf.float32)
+    ```
+    2. 定义张量
+    ```
+    tf.zeros([3, 4], tf.int32) # 默认类型是tf.float32
+    tf.zeros(3) #< =>tf.zeros([3])
+    ```
 ## 2. Python
 1. 如果是`__main__`的话
 ```
