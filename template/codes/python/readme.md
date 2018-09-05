@@ -356,6 +356,40 @@ scope_assign('s1','s2',sess)
     tf.zeros([3, 4], tf.int32) # 默认类型是tf.float32
     tf.zeros(3) #< =>tf.zeros([3])
     ```
+    
+    
+    
+16. GPU
+    1. tf.ConfigProto的参数
+        1. log_device_placement=True : 是否打印设备分配日志
+        2. allow_soft_placement=True ： 如果你指定的设备不存在，允许TF自动分配设备
+        ```
+        tf.ConfigProto(log_device_placement=True,allow_soft_placement=True)
+        ```
+    2. 控制GPU资源使用率
+        1. 刚一开始分配少量的GPU容量，然后按需慢慢的增加
+            + 不会释放内存，所以会导致碎片
+        ```
+        config = tf.ConfigProto()
+        config.gpu_options.allow_growth = True
+        session = tf.Session(config=config, ...)
+        ```
+        2. 设置每个GPU应该拿出多少容量给进程使用，0.4代表40%
+        ```
+        gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.7)
+        config=tf.ConfigProto(gpu_options=gpu_options)
+        session = tf.Session(config=config, ...)
+        ```
+    3. 控制使用哪块GPU
+    ```
+    ~/ CUDA_VISIBLE_DEVICES=0  python your.py#使用GPU0
+    ~/ CUDA_VISIBLE_DEVICES=0,1 python your.py#使用GPU0,1
+    #注意单词不要打错
+
+    #或者在 程序开头
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0' #使用 GPU 0
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0,1' # 使用 GPU 0，1
+    ```
 ## 2. Python
 1. 如果是`__main__`的话
 ```
