@@ -497,7 +497,17 @@ with tf.Session() as sess:
 
     print(sess.run(b))  #由于feed只在调用他的方法范围内有效，所以这个打印的结果是 1
 ```
+22. Normalization
+    + 直接使用在conv2d或者pooling层后面
+    + 参数:公式参考:[tensorflow学习笔记(十二):Normalization](https://blog.csdn.net/u012436149/article/details/52985303)
+        1. depth_radius: 就是公式里的n/2
+        2. bias : 公式里的k
+        3. input: 将conv2d或pooling 的输出输入就行了[batch_size, height, width, channels]
+        4. return :前后形状不变
 
+```
+a1_pool = tf.nn.local_response_normalization(a1_pool, depth_radius=None, bias=None, alpha=None, beta=None, name=None)
+```
 ## 2. Python
 1. 如果是`__main__`的话
 ```
