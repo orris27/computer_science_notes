@@ -452,6 +452,14 @@ scope_assign('s1','s2',sess)
                 (cell_out, state) = lstm_cell(inputs[:,time_step,:], state)
                 outputs.append(cell_out)
         ```
+18. 获得形状
+```
+a = tf.zeros([3,2])
+
+with tf.Session() as sess:
+    print(sess.run(tf.shape(a)[0]))
+```
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
