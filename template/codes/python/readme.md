@@ -322,20 +322,26 @@ scope_assign('s1','s2',sess)
     # 生成y_train:正态分布的概率密度函数(X_train)
     y_train = norm.pdf(X_train, loc=self.mu, scale=self.sigma)
     ```
-14. 保存和还原会话(目前没有成功)
-    1. 保存会话
+14. 保存和还原会话
+    1. 保存会话里的所有变量
+        + `+=`赋值的变量不会被保存
     ```
-    W=tf.Variable(tf.zeros(3),name='weights',dtype=tf.float32)
-    b=tf.Variable(tf.zeros([32]),name='biases',dtype=tf.float32)
+    W1 = tf.Variable(tf.truncated_normal([1],stddev = 0.1))
+    
+    saver=tf.train.Saver()
+    with tf.Session(config=config) as sess:
+        sess.run(tf.global_variables_initializer())
+        print(sess.run(W1))
+        saver.save(sess,"save/1.ckpt")
+    ```
+    2. 还原整个会话里的变量
+    ```
+    W1 = tf.Variable(tf.truncated_normal([1],stddev = 0.1))
 
     saver=tf.train.Saver()
-    with tf.Session() as sess:
-        sess.run(tf.global_variables_initializer())
-        print(sess.run(W))
-        print(sess.run(b))
-        saver.restore(sess,'./saved/1.ckpt')
-        print(sess.run(W))
-        print(sess.run(b))
+    with tf.Session(config=config) as sess:
+        saver.restore(sess,"save/1.ckpt")
+        print(sess.run(W1))
     ```
     3. 保存结果
     ```
