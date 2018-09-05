@@ -460,10 +460,12 @@ with tf.Session() as sess:
     print(sess.run(tf.shape(a)[0]))
 ```
 19. 返回一个一模一样的op,并且自己是个运算op.[参考文档](https://blog.csdn.net/hu_guan_jie/article/details/78495297)
+    + y本身可以是创建好的变量或者是完全新的变量
 ```
 y = tf.identity(x)
 ```
 20. 执行某个op前先执行特定的op:`tf.control_dependencies`
+    + `y = tf.identity(x)`不能改成`y = x`,因为后者不会创建op,所以就不会走control的线路
 ```
 # 每次输入y的值的时候,都会向上搜索.发现y是tf.identity(x)运算出来的,所以就计算tf.identity(x).但是这个op在tf.control_dependencies下面,所以要先执行它的内容,即x_plus_1的op.所以就会输出2.0,3.0,4.0,5.0,6.0
 
@@ -480,7 +482,21 @@ with tf.Session() as session:
     for i in range(5):
         print(y.eval())
 ```
+21. feed_dict
+    1. 只在自己的sess.run内起作用,其他地方不起作用
+    2. 可以临时修改变量的值,不仅仅是placeholder
+```
+import tensorflow as tf
+y = tf.Variable(1)
+b = tf.identity(y)
+with tf.Session() as sess:
+    tf.global_variables_initializer().run()
+    print(sess.run(b,feed_dict={y:3})) #使用3 替换掉
+    #tf.Variable(1)的输出结果，所以打印出来3 
+    #feed_dict{y.name:3} 和上面写法等价
 
+    print(sess.run(b))  #由于feed只在调用他的方法范围内有效，所以这个打印的结果是 1
+```
 
 ## 2. Python
 1. 如果是`__main__`的话
