@@ -2500,6 +2500,33 @@ getconf GNU_LIBPTHREAD_VERSION
 ## 71. vim
 1. `+158`:启动时就跳转到158行
 
+## 72. nvidia-smi
+```
+orris@orris-Laptop:~/fun/tensorflow$ nvidia-smi
+Thu Sep  6 00:50:49 2018       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 396.26                 Driver Version: 396.26                    |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 965M    Off  | 00000000:01:00.0 Off |                  N/A |
+| N/A   55C    P0    N/A /  N/A |    517MiB /  4043MiB |     13%      Default |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0      1072      G   /usr/lib/xorg/Xorg                            24MiB |
+|    0      2160      G   /usr/bin/gnome-shell                          47MiB |
+|    0      2406      G   /usr/lib/xorg/Xorg                           199MiB |
+|    0      2609      G   /usr/bin/gnome-shell                          98MiB |
+|    0      3374      G   ...-token=EC527CE28F5DB42C5F6D07F0C96D2F02   143MiB |
++-----------------------------------------------------------------------------+
+
+```
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
