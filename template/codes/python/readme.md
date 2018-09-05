@@ -402,9 +402,11 @@ scope_assign('s1','s2',sess)
     1. 使用rnn:`[-1,784]`=>`[-1,28,28]`=>rnn=>`[-1,lstm_size]`
         + 后续可以考虑全连接层.比如W为`[lstm_size,10]`,b为`[10]`,然后用矩阵乘法来解决.`y_predicted=tf.nn.softmax(tf.matmul(final_state[1],weights)+bias)`
     ```
+    train_times = 28
+    embedding_size = 28
     lstm_size = 100
     # reshape
-    inputs=tf.reshape(features,[-1,28,28])
+    inputs=tf.reshape(features,[-1,train_times,embedding_size])
     # defines the lstm_cell
     lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size)
     # map
