@@ -396,6 +396,33 @@ scope_assign('s1','s2',sess)
     os.environ['CUDA_VISIBLE_DEVICES'] = '0' #使用 GPU 0
     os.environ['CUDA_VISIBLE_DEVICES'] = '0,1' # 使用 GPU 0，1
     ```
+    
+    
+17. rnn
+    1. 使用rnn:`[-1,784]`=>`[-1,28,28]`=>rnn=>`[-1,lstm_size]`
+        + 后续可以考虑全连接层.比如W为`[lstm_size,10]`,b为`[10]`,然后用矩阵乘法来解决.`y_predicted=tf.nn.softmax(tf.matmul(final_state[1],weights)+bias)`
+    ```
+    lstm_size = 100
+    # reshape
+    inputs=tf.reshape(features,[-1,28,28])
+    # defines the lstm_cell
+    lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size)
+    # map
+    ouputs,final_state=tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32)
+
+    ```
+    2. BasicLSTMCell
+    ```
+    #tf.nn.rnn_cell.BasicLSTMCell(num_units, forget_bias, input_size, state_is_tupe=Flase, activation=tanh)
+    cell = tf.nn.rnn_cell.BasicLSTMCell(num_units, forget_bias=1.0, input_size=None, state_is_tupe=Flase, activation=tanh)
+    #num_units:图一中ht的维数，如果num_units=10,那么ht就是10维行向量
+    #forget_bias：遗忘门的初始化偏置
+    #input_size:[batch_size, max_time, size]。假设要输入一句话，这句话的长度是不固定的，max_time就代表最长的那句话是多长，size表示你打算用多长的向量代表一个word，即embedding_size（embedding_size和size的值不一定要一样）
+    #state_is_tuple:true的话，返回的状态是一个tuple:(c=array([[]]), h=array([[]]):其中c代表Ct的最后时间的输出，h代表Ht最后时间的输出，h是等于最后一个时间的output的
+    #图三向上指的ht称为output
+    #此函数返回一个lstm_cell，即图一中的一个A
+    ```
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
