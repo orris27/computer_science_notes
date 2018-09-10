@@ -272,9 +272,10 @@ a0 = tf.reshape(features,[-1,28,28,1])
                 tf.get_variable("w", shape=[1])#这个变量的name也是 scope/w
         # 两个变量的名字一样，会报错
         ```
-    5. 获得变量域的名字
+    5. 获得变量域的名字(`original_name_scope`会返回字符串)
     ```
-    scope = tf.get_variable_scope() # 返回的变量是scope类型的变量.用在variable_scope的第一个参数是string or VariableScope
+    print(scope = tf.get_variable_scope()) # 返回的变量是scope类型的变量.用在variable_scope的第一个参数是string or VariableScope
+    print("scope_name:%s " % tf.get_variable_scope().original_name_scope)
     ```
 
 8. 复制s1变量域内的所有可训练的变量到s1变量域内
