@@ -712,6 +712,57 @@ with sv.managed_session(config=config) as sess:
             saver.save(sess,logdir,global_step=i)
 ```
 
+29. 常见值
+    1. 随机tensor,用于赋值给Variable的第一个参数
+    ```
+    tf.random_normal(shape, mean=0.0, stddev=1.0, dtype=tf.float32, seed=None, name=None)
+
+    tf.truncated_normal(shape, mean=0.0, stddev=1.0, dtype=tf.float32, seed=None, name=None)
+
+    tf.random_uniform(shape, minval=0, maxval=None, dtype=tf.float32, seed=None, name=None)
+
+    tf.random_shuffle(value, seed=None, name=None)
+
+    tf.random_crop(value, size, seed=None, name=None)
+
+    tf.multinomial(logits, num_samples, seed=None, name=None)
+
+    tf.random_gamma(shape, alpha, beta=None, dtype=tf.float32, seed=None, name=None)
+
+    tf.set_random_seed(seed)
+    ```
+    2. 常量tensor
+    ```
+    tf.zeros(shape, dtype=tf.float32, name=None)
+
+    tf.zeros_like(tensor, dtype=None, name=None)
+
+    tf.ones(shape, dtype=tf.float32, name=None)
+
+    tf.ones_like(tensor, dtype=None, name=None)
+
+    tf.fill(dims, value, name=None)
+
+    tf.constant(value, dtype=None, shape=None, name='Const')
+    ```
+    3. initializer
+    ```
+    tf.constant_initializer(value=0, dtype=tf.float32)
+    
+    tf.random_normal_initializer(mean=0.0, stddev=1.0, seed=None, dtype=tf.float32)
+    
+    tf.truncated_normal_initializer(mean=0.0, stddev=1.0, seed=None, dtype=tf.float32)
+    
+    tf.random_uniform_initializer(minval=0, maxval=None, seed=None, dtype=tf.float32)
+    
+    tf.uniform_unit_scaling_initializer(factor=1.0, seed=None, dtype=tf.float32)
+    
+    tf.zeros_initializer(shape, dtype=tf.float32, partition_info=None)
+    
+    tf.ones_initializer(dtype=tf.float32, partition_info=None)
+    
+    tf.orthogonal_initializer(gain=1.0, dtype=tf.float32, seed=None)
+    ```
 
 ## 2. Python
 1. 如果是`__main__`的话
