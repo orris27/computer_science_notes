@@ -422,7 +422,7 @@ scope_assign('s1','s2',sess)
         ```
         2. 设置每个GPU应该拿出多少容量给进程使用，0.4代表40%
         ```
-        gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.7)
+        gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
         config=tf.ConfigProto(gpu_options=gpu_options)
         session = tf.Session(config=config, ...)
         ```
@@ -763,6 +763,17 @@ with sv.managed_session(config=config) as sess:
     
     tf.orthogonal_initializer(gain=1.0, dtype=tf.float32, seed=None)
     ```
+30. [构建TF代码](https://blog.csdn.net/u012436149/article/details/53843158)
+
+31. 计算梯度
+```
+a = tf.constant(2.)
+b = 2 * (a**3) + 3 * a + 3
+grad = tf.gradients(b, [a, b])
+#------------------------------------------------
+# [27.0, 1.0]
+#------------------------------------------------
+```
 
 ## 2. Python
 1. 如果是`__main__`的话
