@@ -921,6 +921,20 @@ tuple = tf.tuple([mul, add])
         print(res)
     ```
 
+
+37. 计算梯度
+    + `intial_learning_rate×(decay_rate)^(global_step÷decay_steps)`:`0.1×(0.9)^(6÷10)`
+    + global_step设置为learning_rate的初始值,一般情况下都是从0开始,后续每次用train来运行learning_rate都会增加step,为1,2,3
+```
+global_step = tf.Variable(0, trainable=False)
+
+initial_learning_rate = 0.1 #初始学习率
+
+learning_rate = tf.train.exponential_decay(initial_learning_rate,
+                                           global_step=global_step,
+                                           decay_steps=10,decay_rate=0.9)
+```
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
