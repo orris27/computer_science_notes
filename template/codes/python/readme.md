@@ -273,9 +273,25 @@ a0 = tf.reshape(features,[-1,28,28,1])
         # 两个变量的名字一样，会报错
         ```
     5. 获得变量域的名字(`original_name_scope`会返回字符串)
+        + 用在variable_scope的第一个参数是string or VariableScope
     ```
-    print(scope = tf.get_variable_scope()) # 返回的变量是scope类型的变量.用在variable_scope的第一个参数是string or VariableScope
-    print("scope_name:%s " % tf.get_variable_scope().original_name_scope)
+    with tf.variable_scope("foo", reuse=tf.AUTO_REUSE):
+        print(tf.get_variable_scope())
+        print(tf.get_variable_scope().original_name_scope)
+        print(tf.get_variable_scope().name)
+        with tf.variable_scope("foo1", reuse=tf.AUTO_REUSE):
+            print(tf.get_variable_scope())
+            print(tf.get_variable_scope().original_name_scope)
+            print(tf.get_variable_scope().name)
+    #-------------------------------------------------------------------------------------
+    # <tensorflow.python.ops.variable_scope.VariableScope object at 0x7efec9986390>
+    # foo/
+    # foo
+    # <tensorflow.python.ops.variable_scope.VariableScope object at 0x7fe9bb2875c0>
+    # foo/foo1/
+    # foo/foo1
+    #-------------------------------------------------------------------------------------
+
     ```
 
 8. 复制s1变量域内的所有可训练的变量到s1变量域内
@@ -586,25 +602,55 @@ train = opt.apply_gradients(zip(clipped_gradients, params))
     train = opt.apply_gradients(zip(clipped_gradients, params))
 
     ```
-26. 打印变量名字
-```
-with tf.variable_scope('foo', reuse=tf.AUTO_REUSE):
-    print('---------------------------------------------------------------------')
-    W = tf.Variable([3,4],dtype=tf.float32)
-    b = tf.Variable([3,4],dtype=tf.float32,name='b')
-    print(W.name)
-    print(b.name)
-    b = tf.Variable([3,4],dtype=tf.float32,name='b')
-    print(b.name)
-    print('---------------------------------------------------------------------')
-    
-#---------------------------------------------------------------------
-# foo/Variable:0
-# foo/b:0
-# foo/b_1:0
-#---------------------------------------------------------------------
+26. 变量名字
+    1. 打印变量名字
+    ```
+    with tf.variable_scope('foo', reuse=tf.AUTO_REUSE):
+        print('---------------------------------------------------------------------')
+        W = tf.Variable([3,4],dtype=tf.float32)
+        b = tf.Variable([3,4],dtype=tf.float32,name='b')
+        print(W.name)
+        print(b.name)
+        b = tf.Variable([3,4],dtype=tf.float32,name='b')
+        print(b.name)
+        print('---------------------------------------------------------------------')
 
-```
+    #---------------------------------------------------------------------
+    # foo/Variable:0
+    # foo/b:0
+    # foo/b_1:0
+    #---------------------------------------------------------------------
+
+    ```
+    2. name_scope:只不影响get_vafiable
+    ```
+    with tf.name_scope("foo1"):
+        var = tf.Variable(1.32,dtype=tf.float32)
+        var_get = tf.get_variable('var_get',[1])
+        add = tf.add(var,3)
+        print('Variable:',var.name)
+        print('get_variable:',var_get.name)
+        print(add.name)
+    #---------------------------------------------------------------------------------
+    # Variable: foo1/Variable:0
+    # get_variable: var_get:0
+    # foo1/Add:0
+    #---------------------------------------------------------------------------------
+    ```
+    3. 清除name_scope
+        + 不能清除`variable_scope`
+    ```
+    with tf.name_scope("foo1"):
+        var = tf.Variable(1.32,dtype=tf.float32)
+        print(var.name)
+        with tf.name_scope(None):
+            var1 = tf.Variable(1.32,dtype=tf.float32)
+            print(var1.name)
+    #---------------------------------------------------------------------------------
+    # foo1/Variable:0
+    # Variable:0
+    #---------------------------------------------------------------------------------
+    ```
 
 ## 2. Python
 1. 如果是`__main__`的话
