@@ -58,27 +58,27 @@ learning_rate = tf.Variable(1e-3)
         2. 方法2
         ```
         def nn(self, inputs, output_dim, activator=None, scope=None):
-        '''
-            定义神经网络的一层
-        '''
-        # 定义权重的初始化器
-        norm = tf.random_normal_initializer(stddev=1.0)
-        # 定义偏差的初始化
-        const = tf.constant_initializer(0.0)
+            '''
+                定义神经网络的一层
+            '''
+            # 定义权重的初始化器
+            norm = tf.random_normal_initializer(stddev=1.0)
+            # 定义偏差的初始化
+            const = tf.constant_initializer(0.0)
 
-        # 打开变量域,或者使用None
-        with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
-            # 定义权重
-            W = tf.get_variable("W",[inputs.get_shape()[1],output_dim],initializer=norm)
-            # 定义偏差
-            b = tf.get_variable("b",[output_dim],initializer=const)
-            # 激活
-            if activator is None:
-                return tf.matmul(inputs,W)+b
-            a = activator(tf.matmul(inputs,W)+b)
-            # dropout
-            # 返回输出值
-            return a
+            # 打开变量域,或者使用None
+            with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
+                # 定义权重
+                W = tf.get_variable("W",[inputs.get_shape()[1],output_dim],initializer=norm)
+                # 定义偏差
+                b = tf.get_variable("b",[output_dim],initializer=const)
+                # 激活
+                if activator is None:
+                    return tf.matmul(inputs,W)+b
+                a = activator(tf.matmul(inputs,W)+b)
+                # dropout
+                # 返回输出值
+                return a
             
         # 使用方法如下所示
         def discriminator(self,inputs,dim):
@@ -562,7 +562,25 @@ train = opt.apply_gradients(zip(clipped_gradients, params))
     train = opt.apply_gradients(zip(clipped_gradients, params))
 
     ```
+26. 打印变量名字
+```
+with tf.variable_scope('foo', reuse=tf.AUTO_REUSE):
+    print('---------------------------------------------------------------------')
+    W = tf.Variable([3,4],dtype=tf.float32)
+    b = tf.Variable([3,4],dtype=tf.float32,name='b')
+    print(W.name)
+    print(b.name)
+    b = tf.Variable([3,4],dtype=tf.float32,name='b')
+    print(b.name)
+    print('---------------------------------------------------------------------')
+    
+#---------------------------------------------------------------------
+# foo/Variable:0
+# foo/b:0
+# foo/b_1:0
+#---------------------------------------------------------------------
 
+```
 
 ## 2. Python
 1. 如果是`__main__`的话
