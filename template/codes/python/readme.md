@@ -519,7 +519,18 @@ writer.close()
 ####################################################################################
 tensorboard --logdir=.
 ```
+
+
 24. 训练,自己处理梯度:[第三方文档](https://blog.csdn.net/u012436149/article/details/53006953)
+
+25. clip
+    1. clip_by_value
+    ```
+    W = tf.Variable(tf.truncated_normal([20,2],stddev = 0.1))
+    W1 = tf.clip_by_value(W,0,1)
+    ```
+
+
 
 ## 2. Python
 1. 如果是`__main__`的话
