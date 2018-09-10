@@ -674,6 +674,43 @@ with tf.Session() as sess:
     saver.save
 ```
 
+28. supervisor
+```
+# 定义op
+a = tf.Variable(1)
+b = tf.Variable(1)
+c = tf.add(a,b)
+update = tf.assign(a,c)
+
+# 添加summary的内容
+tf.summary.scalar("a",a)
+# 合并summary
+merged_summary_op = tf.summary.merge_all()
+# 定义初始化变量op
+init_op = tf.initialize_all_variables()
+# 定义存放summary和checkpoint的目录
+logdir = 'test/'
+# 构造supervisor
+sv = tf.train.Supervisor(logdir=logdir,init_op=init_op)
+# 获取supervisor的saver
+saver = sv.saver
+
+gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+config=tf.ConfigProto(gpu_options=gpu_options)
+
+# 开启视图,并自动恢复summary和 checkpoint
+with sv.managed_session(config=config) as sess:
+    # 循环训练
+    for i in range(10):
+        print(sess.run(update))
+        # 保存
+        if i + 1 == 10:
+            # 保存summary
+            merged_summary = sess.run(merged_summary_op)
+            sv.summary_computed(sess, merged_summary,global_step=i)
+            # 保存checkpoint
+            saver.save(sess,logdir,global_step=i)
+```
 
 
 ## 2. Python
