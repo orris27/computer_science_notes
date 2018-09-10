@@ -522,6 +522,20 @@ tensorboard --logdir=.
 
 
 24. 训练,自己处理梯度:[第三方文档](https://blog.csdn.net/u012436149/article/details/53006953)
+    1. 计算梯度
+    2. 处理梯度
+    3. 应用梯度
+```
+params = tf.trainable_variables()
+opt = tf.train.AdamOptimizer(learning_rate)
+gradients = tf.gradients(loss, params)
+
+max_gradient_norm = 5 # 这里的5是我随便填的
+clipped_gradients, norm = tf.clip_by_global_norm(gradients,max_gradient_norm)
+
+train = opt.apply_gradients(zip(clipped_gradients, params))
+```
+
 
 25. clip
     1. clip_by_value
@@ -529,7 +543,25 @@ tensorboard --logdir=.
     W = tf.Variable(tf.truncated_normal([20,2],stddev = 0.1))
     W1 = tf.clip_by_value(W,0,1)
     ```
+    2. clip_by_norm
+    ```
+    W = tf.Variable([3,4],dtype=tf.float32)
+    W1 = tf.clip_by_norm(W,5.1)
+    W2 = tf.clip_by_norm(W,5)
+    W3 = tf.clip_by_norm(W,4.9)
+    ```
+    3. clip_by_global_norm
+    ```
+    params = tf.trainable_variables()
+    opt = tf.train.AdamOptimizer(learning_rate)
+    gradients = tf.gradients(loss, params)
 
+    max_gradient_norm = 5
+    clipped_gradients, norm = tf.clip_by_global_norm(gradients,max_gradient_norm)
+
+    train = opt.apply_gradients(zip(clipped_gradients, params))
+
+    ```
 
 
 ## 2. Python
