@@ -689,7 +689,7 @@ merged_summary_op = tf.summary.merge_all()
 # 定义初始化变量op
 init_op = tf.initialize_all_variables()
 # 定义存放summary和checkpoint的目录
-logdir = 'test/'
+logdir = os.path.splitext(__file__)[0]+'/'
 # 构造supervisor
 sv = tf.train.Supervisor(logdir=logdir,init_op=init_op)
 # 获取supervisor的saver
@@ -718,3 +718,13 @@ with sv.managed_session(config=config) as sess:
 ```
 if __name__ == '__main__': 
 ```
+2. 文件名
+    1. 获取当前文件名
+    ```
+    print(__file__)
+    ```
+    2. 截取文件名的前缀和后缀
+    ```
+    os.path.splitext(file)[0] # 文件名
+    os.path.splitext(file)[-1] # 文件的扩展名
+    ```
