@@ -845,9 +845,38 @@ tuple = tf.tuple([mul, add])
 #而 sess.run(group)不会
 ```
 35. 条件计算
-```
+    1. tf.cond
+        + tf.cond:如果第一个参数为真,就调用第二个参数;否则调用第三个参数
+        + 第一个参数不能是简单的True和Flase,必须是`tensorflow.python.framework.ops.Tensor`.这里的x和y由于都是tensor,所以返回tensor的bool
+    ```
+    z = tf.multiply(x, y)
+    #result = tf.cond(x < y, lambda: tf.add(x, z), lambda: tf.square(y))
+    result = tf.cond(tf.less(x, y), lambda: tf.add(x, z), lambda: tf.square(y))
+    ```
+    2. tf.case:根据字典选择函数,否则使用default里的函数
+        + exclusive=True:字典里至多1个为True,否则就报错
+    ```
+    import tensorflow as tf
 
-```
+    x = tf.constant(0)
+    y = tf.constant(1)
+    z = tf.constant(2)
+
+    def f1(): return tf.constant(1)
+    def f2(): return tf.constant(2)
+    def f3(): return tf.constant(3)
+
+    result = tf.case({tf.less(x, y): f1, tf.less(x, z): f2},
+             default=f3, exclusive=False)
+
+    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+    config=tf.ConfigProto(gpu_options=gpu_options)
+
+    with tf.Session(config=config) as sess:
+        tf.global_variables_initializer().run()
+        print(sess.run(result))
+
+    ```
 
 ## 2. Python
 1. 如果是`__main__`的话
