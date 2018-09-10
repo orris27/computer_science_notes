@@ -81,3 +81,9 @@ totalMemory: 3.95GiB freeMemory: 3.40GiB
 
 2018-09-06 00:55:11.122146: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1053] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 1213 MB memory) -> physical GPU (device: 0, name: GeForce GTX 965M, pci bus id: 0000:01:00.0, compute capability: 5.2)
 ```
+## 4. 训练
+1. 计算所有梯度
+    1. 哪些变量
+    2. 那种计算方法
+2. 处理梯度
+3. 应用梯度到变量中
