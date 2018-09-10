@@ -252,7 +252,30 @@ a0 = tf.reshape(features,[-1,28,28,1])
         norm = tf.random_normal_initializer(stddev=1.0)
         v2 = tf.get_variable("v", [1] ,initializer=norm)
     ```
-
+    4. get_variable的第一个参数使用变量的scope和使用字符串
+        1. 使用字符串
+        ```
+        import tensorflow as tf
+        with tf.variable_scope("scope"):
+            tf.get_variable("w",shape=[1])#这个变量的name是 scope/w
+            with tf.variable_scope("scope"):
+                tf.get_variable("w", shape=[1]) #这个变量的name是 scope/scope/w
+        # 这两个变量的名字是不一样的，所以不会产生冲突
+        ```
+        2. 使用变量
+        ```
+        import tensorflow as tf
+        with tf.variable_scope("yin"):
+            tf.get_variable("w",shape=[1])
+            scope = tf.get_variable_scope()#这个变量的name是 scope/w
+            with tf.variable_scope(scope):#这种方式设置的scope，是用的外部的scope
+                tf.get_variable("w", shape=[1])#这个变量的name也是 scope/w
+        # 两个变量的名字一样，会报错
+        ```
+    5. 获得变量域的名字
+    ```
+    scope = tf.get_variable_scope() # 返回的变量是scope类型的变量.用在variable_scope的第一个参数是string or VariableScope
+    ```
 
 8. 复制s1变量域内的所有可训练的变量到s1变量域内
 ```
