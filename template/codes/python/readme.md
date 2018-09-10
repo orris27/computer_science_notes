@@ -651,6 +651,30 @@ train = opt.apply_gradients(zip(clipped_gradients, params))
     # Variable:0
     #---------------------------------------------------------------------------------
     ```
+27. 框架
+```
+variables
+...
+ops
+...
+summary_op
+...
+merge_all_summarie
+saver
+init_op
+
+with tf.Session() as sess:
+    writer = tf.tf.train.SummaryWriter()
+    sess.run(init)
+    saver.restore()
+    for ...:
+        train
+        merged_summary = sess.run(merge_all_summarie)
+        writer.add_summary(merged_summary,i)
+    saver.save
+```
+
+
 
 ## 2. Python
 1. 如果是`__main__`的话
