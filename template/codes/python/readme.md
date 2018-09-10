@@ -798,6 +798,12 @@ with sv.managed_session(config=config) as sess:
 
     ```
 
+32. 设置随机数的种子
+```
+tf.set_random_seed(1)
+#x = tf.random_normal(shape=[1,3,3,1])
+```
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
