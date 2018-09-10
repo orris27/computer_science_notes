@@ -429,9 +429,9 @@ scope_assign('s1','s2',sess)
     embedding_size = 28
     lstm_size = 100
     # reshape
-    inputs=tf.reshape(features,[-1,train_times,embedding_size])
+    inputs = tf.reshape(features,[-1,train_times,embedding_size])
     # defines the lstm_cell
-    lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size)
+    lstm_cell = tf.contrib.rnn.BasicLSTMCell(lstm_size)
     # dropout
     lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=0.5)
     # map
