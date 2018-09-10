@@ -110,6 +110,17 @@ learning_rate = tf.Variable(1e-3)
     ```
     2. 方法2:自带学习率衰减
         + var_list:类似于`self.d_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope='disc')`
+            + tf.GraphKeys.TRAINABLE_VARIABLES是字符串类型,为`trainable_variables`
+            + tf.get_collection返回的是变量的列表
+            + GraphKeys
+                + GLOBAL_VARIABLES: the default collection of Variable objects, shared across distributed environment (model variables are subset of these). See tf.global_variables for more details. Commonly, all TRAINABLE_VARIABLES variables will be in MODEL_VARIABLES, and all MODEL_VARIABLES variables will be in GLOBAL_VARIABLES.
+                + LOCAL_VARIABLES: the subset of Variable objects that are local to each machine. Usually used for temporarily variables, like counters. Note: use tf.contrib.framework.local_variable to add to this collection.
+                + MODEL_VARIABLES: the subset of Variable objects that are used in the model for inference (feed forward). Note: use tf.contrib.framework.model_variable to add to this collection.
+                + TRAINABLE_VARIABLES: the subset of Variable objects that will be trained by an optimizer. See tf.trainable_variables for more details.
+                + SUMMARIES: the summary Tensor objects that have been created in the graph. See tf.summary.merge_all for more details.
+                + QUEUE_RUNNERS: the QueueRunner objects that are used to produce input for a computation. See tf.train.start_queue_runners for more details.
+                + MOVING_AVERAGE_VARIABLES: the subset of Variable objects that will also keep moving averages. See tf.moving_average_variables for more details.
+                + REGULARIZATION_LOSSES: regularization losses collected during graph construction.
         + self.d_loss:代价函数
         + self.learning_rate:0.03等
     ```
