@@ -508,6 +508,19 @@ with tf.Session() as sess:
 ```
 a1_pool = tf.nn.local_response_normalization(a1_pool, depth_radius=None, bias=None, alpha=None, beta=None, name=None)
 ```
+
+23. tensorboard
+```
+writer=tf.summary.FileWriter(log_dir,sess.graph)
+writer.close()
+
+####################################################################################
+# 命令行
+####################################################################################
+tensorboard --logdir=.
+```
+24. 训练,自己处理梯度:[第三方文档](https://blog.csdn.net/u012436149/article/details/53006953)
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
