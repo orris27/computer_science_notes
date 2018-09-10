@@ -804,6 +804,51 @@ tf.set_random_seed(1)
 #x = tf.random_normal(shape=[1,3,3,1])
 ```
 
+33. checkpoint
+    1. 存储:<key,value>
+        + key默认是value的名字(即带有scope的名字)
+        + value就是变量的值
+        + restore的时候根据<key,value>来恢复内容
+    ```
+    v1 = tf.Variable(..., name='v1')
+    v2 = tf.Variable(..., name='v2')
+
+    # 方法1
+    saver = tf.train.Saver({'v1': v1, 'v2': v2})
+
+    # 方法2
+    saver = tf.train.Saver([v1, v2]) # 如果使用列表的话,效果同字典的上面用法
+
+    # 方法3
+    saver = tf.train.Saver({v.op.name: v for v in [v1, v2]})
+    ```
+    2. 检查
+    ```
+    from tensorflow.python.tools.inspect_checkpoint import print_tensors_in_checkpoint_file
+    #print_tensors_in_checkpoint_file("test-ckpt/model-2", None, True) # model-2是上次使用save时的参数"test-ckpt/model-2.ckpt"
+    print_tensors_in_checkpoint_file("test-ckpt/", None, True) # 这样就是恢复test-ckpt里默认的checkpoint
+    ```
+    
+34. 同时计算多个tensor
+    + tf.group返回op
+    + tf.tuple返回tensor的列表
+```
+w = tf.Variable(1)
+mul = tf.multiply(w, 2)
+add = tf.add(w, 2)
+group = tf.group(mul, add)
+tuple = tf.tuple([mul, add])
+# sess.run(group)和sess.run(tuple)都会求Tensor(add)
+#Tensor(mul)的值。区别是，tf.group()返回的是`op`
+#tf.tuple()返回的是list of tensor。
+#这样就会导致，sess.run(tuple)的时候，会返回 Tensor(mul),Tensor(add)的值.
+#而 sess.run(group)不会
+```
+35. 条件计算
+```
+
+```
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
