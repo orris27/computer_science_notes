@@ -447,7 +447,13 @@ scope_assign('s1','s2',sess)
     os.environ['CUDA_VISIBLE_DEVICES'] = '0' #使用 GPU 0
     os.environ['CUDA_VISIBLE_DEVICES'] = '0,1' # 使用 GPU 0，1
     ```
-    
+    4. 指定设备
+        + 设备在TensorFlow中的命名是`/gpu:n`或者`/cpu:n`
+        + "/cpu:0"一般会认为是所有CPU;但"/gpu:0"会认为就是第一个GPU,而第二个GPU就是"/gpu:1"
+    ```
+    with tf.device("/gpu:0"):
+        # ...
+    ```
     
 17. rnn
     1. 使用rnn:`[-1,784]`=>`[-1,28,28]`=>rnn=>`[-1,lstm_size]`
@@ -876,6 +882,43 @@ tuple = tf.tuple([mul, add])
         tf.global_variables_initializer().run()
         print(sess.run(result))
 
+    ```
+
+36. 循环计算
+    1. while_loop函数原型
+    ```
+    #tf.while_loop(cond, body, loop_vars, shape_invariants=None, parallel_iterations=10, back_prop=True, swap_memory=False, name=None)
+    ```
+    2. 理解:只要`cond(*loop_vars)`是正确的,就一直执行`body(*loop_vars)`
+    ```
+    loop_vars = [...]
+    while cond(*loop_vars):
+        loop_vars = body(*loop_vars)    
+    ```
+    3. 使用
+    ```
+    import tensorflow as tf
+
+    a = tf.get_variable("a", dtype=tf.int32, shape=[], initializer=tf.ones_initializer())
+    b = tf.constant(2)
+    f = tf.constant(6)
+
+    # Definition of condition and body
+    def cond(a, b, f):
+        return a < 4
+
+    def body(a, b, f):
+        # do some stuff with a, b
+        a = a + 1
+        return a, b, f
+
+    # Loop, 返回的tensor while 循环后的 a，b，f
+    a, b, f = tf.while_loop(cond, body, [a, b, f])
+
+    with tf.Session() as sess:
+        tf.global_variables_initializer().run()
+        res = sess.run([a, b, f])
+        print(res)
     ```
 
 ## 2. Python
