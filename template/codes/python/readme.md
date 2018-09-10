@@ -766,6 +766,7 @@ with sv.managed_session(config=config) as sess:
 30. [构建TF代码](https://blog.csdn.net/u012436149/article/details/53843158)
 
 31. 计算梯度
+    + 如果函数是`y = tf.clip_by_value(x, 0, 5)`,那么`[0,5]`内返回1,而其他范围内返回0
 ```
 a = tf.constant(2.)
 b = 2 * (a**3) + 3 * a + 3
