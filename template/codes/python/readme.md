@@ -473,13 +473,15 @@ scope_assign('s1','s2',sess)
 
     ```
     2. BasicLSTMCell.[原理图](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/BasicLSTMCell.png)
+        1. state_is_tuple
+            + 如果为True,返回的state是一个tuple:(c=array([[]]), h=array([[]]):其中c代表Ct的最后时间的输出，h代表Ht最后时间的输出，h是等于最后一个时间的output的.即state=(c, h)
+            + 如果是False，那么state是一个由c和h拼接起来的张量，state=tf.concat(1,[c,h])。在运行时，则返回2值，一个是h，还有一个state。
     ```
     #tf.nn.rnn_cell.BasicLSTMCell(num_units, forget_bias, input_size, state_is_tupe=Flase, activation=tanh)
     cell = tf.nn.rnn_cell.BasicLSTMCell(num_units, forget_bias=1.0, input_size=None, state_is_tupe=Flase, activation=tanh)
     #num_units:图一中ht的维数，如果num_units=10,那么ht就是10维行向量
     #forget_bias：遗忘门的初始化偏置
     #input_size:[batch_size, max_time, size]。假设要输入一句话，这句话的长度是不固定的，max_time就代表最长的那句话是多长，size表示你打算用多长的向量代表一个word，即embedding_size（embedding_size和size的值不一定要一样）
-    #state_is_tuple:true的话，返回的状态是一个tuple:(c=array([[]]), h=array([[]]):其中c代表Ct的最后时间的输出，h代表Ht最后时间的输出，h是等于最后一个时间的output的
     #图三向上指的ht称为output
     #此函数返回一个lstm_cell，即图一中的一个A
     ```
