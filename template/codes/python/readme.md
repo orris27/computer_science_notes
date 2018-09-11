@@ -960,7 +960,38 @@ python -m test
 # python test.py # 2个都可以
 
 ```
-
+39. FIFOQueue
+    1. 创建1个队列
+        1. capacity:容量
+        2. dtypes:如果是`[tf.string,tf.int64]`的话,表示每个元素都是`(tf.string,tf.int64)`类型
+    ```
+    queue = tf.FIFOQueue(capacity=100, dtypes=[tf.string, tf.int64])
+    ```
+    2. 添加元素到队列
+        1. `[b'hello', 1]`
+        2. `[b'world', 2]`
+        3. `[b'orris', 3]`
+        4. `[b'hello', 1]`
+    ```
+    # enqueue_many 的写法，两个元素放在两个列表里。
+    en_m = queue.enqueue_many([['hello', 'world', 'orris'], [1, 2, 3]])
+    # enqueue 的写法
+    en = queue.enqueue(['hello', 1])
+    ```
+    3. 出队列
+    ```
+    deq = queue.dequeue()
+    ```
+    4. 查看队列大小
+    ```
+    print(sess.run(queue.size()))
+    ```
+    5. 获得队列
+    ```
+    with tf.Session() as sess:
+        sess.run(en_m)
+        print(sess.run(deq))
+    ```
 
 ## 2. Python
 1. 如果是`__main__`的话
