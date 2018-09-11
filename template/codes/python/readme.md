@@ -1001,6 +1001,49 @@ print(sess.run(tf.global_variables()))
 #print(sess.run(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)))
 ```
 
+41. 将词典id表示的单词组成的文本转换成文本对应的词向量:tf.nn.embedding_lookup
+```
+# 示例代码
+import tensorflow as tf
+import numpy as np
+ 
+sess = tf.InteractiveSession()
+ 
+embedding = tf.Variable(np.identity(5,dtype=np.int32))
+input_ids = tf.placeholder(dtype=tf.int32,shape=[None])
+input_embedding = tf.nn.embedding_lookup(embedding,input_ids)
+ 
+sess.run(tf.initialize_all_variables())
+print(sess.run(embedding))
+#[[1 0 0 0 0]
+# [0 1 0 0 0]
+# [0 0 1 0 0]
+# [0 0 0 1 0]
+# [0 0 0 0 1]]
+print(sess.run(input_embedding,feed_dict={input_ids:[1,2,3,0,3,2,1]}))
+#[[0 1 0 0 0]
+# [0 0 1 0 0]
+# [0 0 0 1 0]
+# [1 0 0 0 0]
+# [0 0 0 1 0]
+# [0 0 1 0 0]
+# [0 1 0 0 0]]
+```
+42. 拼接tensor
+```
+t1 = [[1, 2, 3],
+      [4, 5, 6]]
+t2 = [[7, 8, 9], 
+      [10, 11, 12]]
+tf.concat([t1, t2], 0)  # 如果axis=0,直接在最外层上下拼接
+# [[1, 2, 3],
+   [4, 5, 6],
+   [7, 8, 9],
+   [10, 11, 12]]
+tf.concat([t1, t2], 1)  # 如果axis=1,在最内层左右拼接
+# [[1, 2, 3, 7, 8, 9],
+   [4, 5, 6, 10, 11, 12]]
+```
 ## 2. Python
 1. 如果是`__main__`的话
 ```
