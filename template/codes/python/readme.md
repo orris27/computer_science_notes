@@ -993,6 +993,12 @@ python -m test
         print(sess.run(deq))
     ```
 
+40. 获得全局变量
+```
+print(sess.run(tf.global_variables()))
+#print(sess.run(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)))
+```
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
