@@ -1044,6 +1044,22 @@ tf.concat([t1, t2], 1)  # 如果axis=1,在最内层左右拼接
 # [[1, 2, 3, 7, 8, 9],
    [4, 5, 6, 10, 11, 12]]
 ```
+
+
+43. 交换矩阵的2个维度
+```
+A = np.array([[1,2,3],[4,5,6]])
+x = tf.transpose(A, [1,0])
+ 
+B = np.array([[[1,2,3],[4,5,6]]])
+y = tf.transpose(B, [2,1,0]) # 交换1st维度和3rd维度
+with tf.Session() as sess:
+    print(A)
+    print(sess.run(x))
+    print(B)
+    print(sess.run(y))
+
+```
 ## 2. Python
 1. 如果是`__main__`的话
 ```
