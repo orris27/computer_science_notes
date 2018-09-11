@@ -1060,6 +1060,20 @@ with tf.Session() as sess:
     print(sess.run(y))
 
 ```
+44. split
+```
+import tensorflow as tf;
+import numpy as np;
+ 
+A = [[1,2,3],[4,5,6]]
+x = tf.split(1, 3, A)
+ 
+with tf.Session() as sess:
+    c = sess.run(x)
+    for ele in c:
+        print ele
+
+```
 ## 2. Python
 1. 如果是`__main__`的话
 ```
