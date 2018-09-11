@@ -1059,3 +1059,7 @@ if __name__ == '__main__':
     os.path.splitext(file)[0] # 文件名
     os.path.splitext(file)[-1] # 文件的扩展名
     ```
+3. 随机生成0,1的大小为5的numpy矩阵
+```
+np.array(np.random.choice(2, size=(5,)))
+```
