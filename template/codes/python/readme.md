@@ -935,6 +935,33 @@ learning_rate = tf.train.exponential_decay(initial_learning_rate,
                                            decay_steps=10,decay_rate=0.9)
 ```
 
+38. TensorFlow的Debug
+```
+# 第一行： 引包
+import tensorflow as tf
+from tensorflow.python import debug as tf_debug
+
+a = tf.Variable(1)
+b = tf.Variable(2)
+update = tf.add(a,b)
+
+sess = tf.Session()
+# 初始化的 sess 没必要加上 debug wrapper
+sess.run(tf.global_variables_initializer())
+
+# 第二行，给 session 加个 wrapper
+debug_sess = tf_debug.LocalCLIDebugWrapperSession(sess=sess)
+debug_sess.run(update) # 用 加了 wrapper 的 session，来代替之前的 session 做训练操作
+
+################################################################################################
+# 命令行
+################################################################################################
+python -m test
+# python test.py # 2个都可以
+
+```
+
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
