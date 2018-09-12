@@ -1154,10 +1154,10 @@ print("Train/Dev split: {:d}/{:d}".format(len(y_train), len(y_dev)))
 
 48. 转换`[[单词1的id,单词2的id,...],[单词1的id,单词2的id,...], ...]`为embedding的矩阵(转换每个单词本身为一个一维的矩阵)
     + W:`[不同单词个数, embedding_size]`
-    + input_x:`[batch_size, 单句话的最大单词个数/time_step]`
+    + input_x:`[batch_size, 单句话的最大单词个数/time_step]`:必须是tf.int32类型!!!
     + 输出:`[batch_size, 单句话的最大单词个数/time_step, embedding_size]`:(一个单词`shape=[]`=>一个embedding矩阵`shape=[embedding_size]`)
 ```
-print(x)
+print(x) # 必须是tf.int32类型
 # [[1 2 3 4]
 #  [5 6 4 0]]
 print(len(vocab_processor.vocabulary_))
@@ -1215,6 +1215,10 @@ global_step = tf.Variable(0, name="global_step", trainable=False)
 optimizer = tf.train.AdamOptimizer(1e-3)
 grads_and_vars = optimizer.compute_gradients(cnn.loss) # 这里就是loss的op
 train_op = optimizer.apply_gradients(grads_and_vars, global_step=global_step)
+
+#....
+
+current_step = tf.train.global_step(sess, global_step)
 ```
 
 51. 创建graph,并设置为默认的graph
@@ -1223,6 +1227,7 @@ train_op = optimizer.apply_gradients(grads_and_vars, global_step=global_step)
 
 with tf.Graph().as_default():
     # 定义各种tensor(比如说定义CNN的模型)
+    sess = tf.Session(config=session_conf)
     with sess.as_default():
         # 执行session的内容
 ```
@@ -1313,12 +1318,12 @@ def load_data_and_labels(positive_data_file,negative_data_file):
     
 
 
-def next_batch(data, batch_size, num_epochs,shuffle=True):
+def next_batch(data, batch_size, num_steps,shuffle=True):
     '''
         获得数据,一批一批的
         1. data: 列表
         2. batch_size: 一批数据的大小
-        3. num_epochs: 总共迭代整个数据的次数
+        3. num_steps: 总共迭代整个数据的次数
         4. shuffle:是否洗牌
     '''
     
@@ -1327,7 +1332,7 @@ def next_batch(data, batch_size, num_epochs,shuffle=True):
     # 获得1个epoch有多少个batch_size
     num_batches = int((len(data) - 1)/batch_size) + 1
     # for(i:0=>epoch的次数)
-    for i in range(num_epochs):
+    for i in range(num_steps):
         # 如果洗牌的话
         if shuffle:
             # 洗牌
@@ -1347,7 +1352,7 @@ X_text, y = load_data_and_labels('./data/rt-polaritydata/rt-polarity.pos','./dat
 # [一句话,] => [词典id,]
 # [词典id,] => [词向量,] (X_text => X)
 # 可以在这里将X和y分割成训练集和测试集
-batches = next_batch(list(zip(X_train, y_train)), FLAGS.batch_size, FLAGS.num_epochs)
+batches = next_batch(list(zip(X_train, y_train)), FLAGS.batch_size, FLAGS.num_steps)
 for batch in batches:
     X, y = zip(*batch) # 这里的X和y已经是训练集中的[batch_size,xxx]的二维矩阵了
     X = np.array(X)
