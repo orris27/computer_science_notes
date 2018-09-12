@@ -475,7 +475,7 @@ scope_assign('s1','s2',sess)
     2. BasicLSTMCell.[原理图](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/BasicLSTMCell.png)
         1. state_is_tuple
             + 如果为True,返回的state是一个tuple:(c=array([[]]), h=array([[]]):其中c代表Ct的最后时间的输出，h代表Ht最后时间的输出，h是等于最后一个时间的output的.即state=(c, h)
-            + 如果是False，那么state是一个由c和h拼接起来的张量，state=tf.concat(1,[c,h])。在运行时，则返回2值，一个是h，还有一个state
+            + 如果是False，那么state是一个由c和h拼接起来的张量，`state=tf.concat(1,[c,h])`。在运行时，则返回2值，一个是h，还有一个state
         2. forget_bias:forget门的bias,如果为1的话,就表示刚开始我们不能忘记上一次输入.推荐填1.0(其实就是默认)
     ```
     #tf.nn.rnn_cell.BasicLSTMCell(num_units, forget_bias, input_size, state_is_tupe=Flase, activation=tanh)
@@ -1031,17 +1031,21 @@ print(sess.run(input_embedding,feed_dict={input_ids:[1,2,3,0,3,2,1]}))
 # [0 1 0 0 0]]
 ```
 42. 拼接tensor
+    + 使用`+`也可以拼接普通的列表.如`[1, 2]+[3]=>[1, 2, 3]`
+    + np.concatenate和tf.concat完全相同
 ```
 t1 = [[1, 2, 3],
       [4, 5, 6]]
 t2 = [[7, 8, 9], 
       [10, 11, 12]]
 tf.concat([t1, t2], 0)  # 如果axis=0,直接在最外层上下拼接
+#np.concatenate([t1,t2],0)
 # [[1, 2, 3],
    [4, 5, 6],
    [7, 8, 9],
    [10, 11, 12]]
 tf.concat([t1, t2], 1)  # 如果axis=1,在最内层左右拼接
+#np.concatenate([t1,t2],1)
 # [[1, 2, 3, 7, 8, 9],
    [4, 5, 6, 10, 11, 12]]
 ```
@@ -1075,6 +1079,31 @@ with tf.Session() as sess:
         print ele
 
 ```
+
+
+45. flags
+    1. 定义flags并使用
+    ```
+    import sys
+
+    tf.flags.DEFINE_float("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
+    tf.flags.DEFINE_integer("embedding_dim", 128, "Dimensionality of character embedding (default: 128)")
+    tf.flags.DEFINE_string("filter_sizes", "3,4,5", "Comma-separated filter sizes (default: '3,4,5')")
+    tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on devices")
+
+    FLAGS = tf.flags.FLAGS
+    FLAGS(sys.argv) # 启用flags
+    print(FLAGS.dev_sample_percentage)
+    print(FLAGS.filter_sizes)
+    print(list(map(int, FLAGS.filter_sizes.split(','))))
+    ```
+    2. 打印flags的内容
+    ```
+    for attr, value in sorted(FLAGS.__flags.items()):
+        print("{}={}".format(attr.upper(), value))
+    ```
+
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
@@ -1093,4 +1122,108 @@ if __name__ == '__main__':
 3. 随机生成0,1的大小为5的numpy矩阵
 ```
 np.array(np.random.choice(2, size=(5,)))
+```
+
+4. 组装字符串的列表.将字符串的内容分隔后,转换成整数,然后组成列表
+```
+list(map(int, '1,2,3'.split(',')))
+```
+5. 处理txt文件,获得字符串列表与标签,并且批量输出
+```
+import re
+import numpy as np
+
+
+def clean_str(string):
+    """
+    Tokenization/string cleaning for all datasets except for SST.
+    """
+    string = string.strip()
+    string = re.sub(r"[^A-Za-z0-9(),!?\'\`]", " ", string)
+    string = re.sub(r"\'s", " \'s", string)
+    string = re.sub(r"\'ve", " \'ve", string)
+    string = re.sub(r"n\'t", " n\'t", string)
+    string = re.sub(r"\'re", " \'re", string)
+    string = re.sub(r"\'d", " \'d", string)
+    string = re.sub(r"\'ll", " \'ll", string)
+    string = re.sub(r",", " , ", string)
+    string = re.sub(r"!", " ! ", string)
+    string = re.sub(r"\(", " \( ", string)
+    string = re.sub(r"\)", " \) ", string)
+    string = re.sub(r"\?", " \? ", string)
+    string = re.sub(r"\s{2,}", " ", string)
+    return string.strip().lower()
+
+
+def load_data_and_labels(positive_data_file,negative_data_file):
+    # 打开文件字符串
+    positive_data = open(positive_data_file,"rb").read().decode('utf-8')
+    negative_data = open(negative_data_file,"rb").read().decode('utf-8')
+
+    # 分隔成列表
+    positive_data = positive_data.split('\n')[:-1]
+    negative_data = negative_data.split('\n')[:-1]
+    
+    # 清洗列表中的每个字符串
+    positive_data = [clean_str(row) for row in positive_data]
+    negative_data = [clean_str(row) for row in negative_data]
+
+    # 构造特征值
+    features = positive_data + negative_data
+    
+    # 构造标签
+    positive_labels = [[0,1] for _ in positive_data]
+    negative_labels = [[1,0] for _ in negative_data]
+
+    labels = np.concatenate([positive_labels, negative_labels], 0)
+
+    return [features,labels]
+    
+X, y = load_data_and_labels('./data/rt-polaritydata/rt-polarity.pos','./data/rt-polaritydata/rt-polarity.neg')
+
+
+def next_batch(data, batch_size, num_epochs,shuffle=True):
+    '''
+        获得数据,一批一批的
+        1. data: 列表
+        2. batch_size: 一批数据的大小
+        3. num_epochs: 总共迭代整个数据的次数
+        4. shuffle:是否洗牌
+    '''
+    
+    # 转换data为numpy array
+    data = np.array(data)
+    # 获得1个epoch有多少个batch_size
+    num_batches = int((len(data) - 1)/batch_size) + 1
+    # for(i:0=>epoch的次数)
+    for i in range(num_epochs):
+        # 如果洗牌的话
+        if shuffle:
+            # 洗牌
+            shuffle_indices = np.random.permutation(np.arange(len(data))) # 会将[0, len(data))的整数洗牌
+            data = data[shuffle_indices]
+        # for(i:0=>1个epoch中batch的个数)
+        for i in range(num_batches):
+            # 计算起始index
+            start_index = i * batch_size
+            # 计算结束index
+            end_index = min((i+1)*batch_size, len(data))
+            # yield出列表
+            yield data[start_index:end_index]
+
+``` 
+
+6. 洗牌
+    + data:列表
+    + `l[[3,5]]`会取出第3个和第5个元素(0为下标)并组成列表.
+        + 下面的内容会返回`[4, 5]`
+        ```
+        data = np.array([1,2,3,4,5,6,7,8])
+        print(data[[3,4]]) #[4, 5]
+        ```
+```
+import numpy as np
+
+shuffle_indices = np.random.permutation(np.arange(len(data))) # 会将[0, len(data))的整数洗牌.比如说shuffle_indices会变成[2 4 6 7 1 0 3 5]
+shuffled_data = data[shuffle_indices]
 ```
