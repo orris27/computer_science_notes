@@ -1231,6 +1231,11 @@ with tf.Graph().as_default():
     with sess.as_default():
         # 执行session的内容
 ```
+
+52. [CNN解决文本分类问题](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/cnn%E8%A7%A3%E5%86%B3%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB.png)
+    1. [别人的代码](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn-solve-classification/others-codes)
+    2. [我的代码](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn-solve-classification/my-codes)
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
