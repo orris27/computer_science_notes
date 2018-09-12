@@ -1102,8 +1102,25 @@ with tf.Session() as sess:
     for attr, value in sorted(FLAGS.__flags.items()):
         print("{}={}".format(attr.upper(), value))
     ```
+46. 转换一句话的列表为数字的特征值,并且自动填充
+```
+import numpy as np
+from tensorflow.contrib import learn
 
 
+x_text = ['I have a ball', 'He loves animals']
+
+max_document_length = max([len(x.split(" ")) for x in x_text])
+vocab_processor = learn.preprocessing.VocabularyProcessor(max_document_length)
+x = np.array(list(vocab_processor.fit_transform(x_text)))
+
+print(x)
+
+#---------------------------------------------------------------------------------
+# [[1 2 3 4]
+#  [5 6 7 0]]
+#---------------------------------------------------------------------------------
+```
 ## 2. Python
 1. 如果是`__main__`的话
 ```
@@ -1129,6 +1146,16 @@ np.array(np.random.choice(2, size=(5,)))
 list(map(int, '1,2,3'.split(',')))
 ```
 5. 处理txt文件,获得字符串列表与标签,并且批量输出
+    + 输入:txt文件(一行算作一句话,作为一个元素)
+    ```
+    it's nice to see piscopo again after all these years , and chaykin and headly are priceless . 
+    provides a porthole into that noble , trembling incoherence that defines us all . 
+    ```
+    + 输出的X:一句话的列表
+    ```
+    ['which combined scenes of a japanese monster flick with canned shots of raymond burr commenting on the monster 's path of destruction", 'the thing looks like a made for home video quickie', "enigma is well made , but it 's just too dry and too placid"]
+
+    ```
 ```
 import re
 import numpy as np
