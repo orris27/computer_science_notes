@@ -1255,7 +1255,7 @@ np.array(np.random.choice(2, size=(5,)))
 ```
 list(map(int, '1,2,3'.split(',')))
 ```
-5. 处理txt文件,获得字符串列表与标签,并且批量输出
+5. 处理txt文件,获得字符串列表与标签,并且批量输出:[embedding从普通文本转化到词向量矩阵的转换流程图](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/embedding.png)
     + 输入:txt文件(一行算作一句话,作为一个元素)
     ```
     it's nice to see piscopo again after all these years , and chaykin and headly are priceless . 
