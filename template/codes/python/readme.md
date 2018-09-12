@@ -1123,17 +1123,19 @@ import numpy as np
 from tensorflow.contrib import learn
 
 
-x_text = ['I have cute balls', 'He loves balls']
+X_text = ['I have cute balls', 'He loves balls']
 
-max_document_length = max([len(x.split(" ")) for x in x_text])
+max_document_length = max([len(x.split(" ")) for x in X_text])
 vocab_processor = learn.preprocessing.VocabularyProcessor(max_document_length)
-x = np.array(list(vocab_processor.fit_transform(x_text)))
+X = np.array(list(vocab_processor.fit_transform(X_text)))
 
-print(x)
-print(len(vocab_processor.vocabulary_)) # 所有不同单词的个数+1,包括一个0用来填充,不表示任何单词
+print(X)
 #---------------------------------------------------------------------------------
 # [[1 2 3 4]
 #  [5 6 4 0]]
+#---------------------------------------------------------------------------------
+print(len(vocab_processor.vocabulary_)) # 所有不同单词的个数+1,包括一个0用来填充,不表示任何单词
+#---------------------------------------------------------------------------------
 # 7
 #---------------------------------------------------------------------------------
 ```
@@ -1143,17 +1145,17 @@ print(len(vocab_processor.vocabulary_)) # 所有不同单词的个数+1,包括�
 # FLAGS.dev_sample_percentage = 0.1
 # 比如len(y)为10662,那么dev_sample_index就是-1066
 dev_sample_index = -1 * int(FLAGS.dev_sample_percentage * float(len(y)))
-x_train, x_dev = x[:dev_sample_index], x[dev_sample_index:]
+X_train, X_dev = X[:dev_sample_index], X[dev_sample_index:]
 y_train, y_dev = y[:dev_sample_index], y[dev_sample_index:]
 print("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_)))
 print("Train/Dev split: {:d}/{:d}".format(len(y_train), len(y_dev)))
 ```
 
 
-48. 转换`[[单词1的id,单词2的id,...],[单词1的id,单词2的id,...], ...]`为embedding的矩阵
+48. 转换`[[单词1的id,单词2的id,...],[单词1的id,单词2的id,...], ...]`为embedding的矩阵(转换每个单词本身为一个一维的矩阵)
     + W:`[不同单词个数, embedding_size]`
-    + input_x:`[batch_size, time_step]`
-    + 输出:`[batch_size, time_step, embedding_size]`
+    + input_x:`[batch_size, 单句话的最大单词个数/time_step]`
+    + 输出:`[batch_size, 单句话的最大单词个数/time_step, embedding_size]`:(一个单词`shape=[]`=>一个embedding矩阵`shape=[embedding_size]`)
 ```
 print(x)
 # [[1 2 3 4]
@@ -1332,7 +1334,9 @@ def next_batch(data, batch_size, num_epochs,shuffle=True):
             yield data[start_index:end_index]
 
 
-X, y = load_data_and_labels('./data/rt-polaritydata/rt-polarity.pos','./data/rt-polaritydata/rt-polarity.neg')
+X_text, y = load_data_and_labels('./data/rt-polaritydata/rt-polarity.pos','./data/rt-polaritydata/rt-polarity.neg')
+# [一句话,] => [词典id,]
+# [词典id,] => [词向量,] (X_text => X)
 # 可以在这里将X和y分割成训练集和测试集
 batches = next_batch(list(zip(X_train, y_train)), FLAGS.batch_size, FLAGS.num_epochs)
 for batch in batches:
