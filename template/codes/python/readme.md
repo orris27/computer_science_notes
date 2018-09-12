@@ -1108,19 +1108,32 @@ import numpy as np
 from tensorflow.contrib import learn
 
 
-x_text = ['I have a ball', 'He loves animals']
+x_text = ['I have cute balls', 'He loves balls']
 
 max_document_length = max([len(x.split(" ")) for x in x_text])
 vocab_processor = learn.preprocessing.VocabularyProcessor(max_document_length)
 x = np.array(list(vocab_processor.fit_transform(x_text)))
 
 print(x)
-
+print(len(vocab_processor.vocabulary_)) # 所有不同单词的个数,也是
 #---------------------------------------------------------------------------------
 # [[1 2 3 4]
-#  [5 6 7 0]]
+#  [5 6 4 0]]
+# 7
 #---------------------------------------------------------------------------------
 ```
+
+47. 切割训练集和测试集
+```
+# FLAGS.dev_sample_percentage = 0.1
+# 比如len(y)为10662,那么dev_sample_index就是-1066
+dev_sample_index = -1 * int(FLAGS.dev_sample_percentage * float(len(y)))
+x_train, x_dev = x[:dev_sample_index], x[dev_sample_index:]
+y_train, y_dev = y[:dev_sample_index], y[dev_sample_index:]
+print("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_)))
+print("Train/Dev split: {:d}/{:d}".format(len(y_train), len(y_dev)))
+```
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
