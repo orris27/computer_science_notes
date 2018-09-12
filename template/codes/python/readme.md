@@ -1102,7 +1102,7 @@ with tf.Session() as sess:
     for attr, value in sorted(FLAGS.__flags.items()):
         print("{}={}".format(attr.upper(), value))
     ```
-46. 转换一句话的列表为数字的特征值,并且自动填充
+46. 转换`[一句话,一句话,..]`为`[[单词1的id,单词2的id,...],[单词1的id,单词2的id,...], ...]`字典id的列表,并且自动填充
 ```
 import numpy as np
 from tensorflow.contrib import learn
@@ -1115,7 +1115,7 @@ vocab_processor = learn.preprocessing.VocabularyProcessor(max_document_length)
 x = np.array(list(vocab_processor.fit_transform(x_text)))
 
 print(x)
-print(len(vocab_processor.vocabulary_)) # 所有不同单词的个数,也是
+print(len(vocab_processor.vocabulary_)) # 所有不同单词的个数+1,包括一个0用来填充,不表示任何单词
 #---------------------------------------------------------------------------------
 # [[1 2 3 4]
 #  [5 6 4 0]]
@@ -1132,6 +1132,64 @@ x_train, x_dev = x[:dev_sample_index], x[dev_sample_index:]
 y_train, y_dev = y[:dev_sample_index], y[dev_sample_index:]
 print("Vocabulary Size: {:d}".format(len(vocab_processor.vocabulary_)))
 print("Train/Dev split: {:d}/{:d}".format(len(y_train), len(y_dev)))
+```
+
+
+48. 转换`[[单词1的id,单词2的id,...],[单词1的id,单词2的id,...], ...]`为embedding的矩阵
+    + W:`[不同单词个数, embedding_size]`
+    + input_x:`[batch_size, time_step]`
+    + 输出:`[batch_size, time_step, embedding_size]`
+```
+print(x)
+# [[1 2 3 4]
+#  [5 6 4 0]]
+print(len(vocab_processor.vocabulary_))
+# 7
+
+vocab_size = len(vocab_processor.vocabulary_)
+embedding_size = 128
+input_x = x
+
+W = tf.Variable(
+    tf.random_uniform([vocab_size, embedding_size], -1.0, 1.0),
+    name="W")
+embedded_chars = tf.nn.embedding_lookup(W, input_x) # [7, 128], [2, 4]
+
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    print(sess.run(embedded_chars)) # shape为[2, 4, 128]
+
+
+#---------------------------------------------------------------------------
+# [[[-0.98232985 -0.52155375  0.5751116  ... -0.6340177  -0.84810543
+#    0.17815971]
+#  [-0.7253678  -0.8297632  -0.20531392 ...  0.25289154  0.36266613
+#    0.75570035]
+#  [ 0.91721225 -0.9421947  -0.9394753  ...  0.76013064 -0.8321254
+#    0.3380263 ]
+#  [-0.9852202  -0.60237265 -0.7277608  ...  0.28419566  0.1563003
+#   -0.8882804 ]]
+
+# [[-0.9926841  -0.14970827  0.01962733 ...  0.87411165 -0.87654376
+#   -0.2559495 ]
+#  [ 0.66079235 -0.46869588  0.4234197  ...  0.38469195 -0.7251394
+#    0.04596043]
+#  [-0.9852202  -0.60237265 -0.7277608  ...  0.28419566  0.1563003
+#   -0.8882804 ]
+#  [ 0.6936033   0.97441864  0.5263803  ...  0.3178606   0.4688716
+#    0.2274158 ]]]
+#---------------------------------------------------------------------------
+```
+
+49. 增加维度
++ `np.expand_dims`也是同理
++ `tf.expand_dims(a, axis)`:指添加的1在什么位置
+    + 比如(2,3)
+        + axis=0 => (1,2,3)
+        + axis=1 => (2,1,3)
+        + axis=-1或2 => (2,3,1)
+```
+embedded_chars_expanded = tf.expand_dims(embedded_chars, -1)
 ```
 
 ## 2. Python
