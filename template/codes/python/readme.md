@@ -15,15 +15,30 @@ learning_rate = tf.Variable(1e-3)
 ```
 2. NN/CNN
     1. 定义卷积神经网络的一层
+        + conv2d
+            1. a0:输入的4维矩阵
+            2. W1:`[5,5]`是窗口的大小;`[1]`是输入的厚度;`[32]`是输出的厚度
+            3. strides
+            4. padding
+                1. 'VALID':最后结果的shape=`[batch_size,a0的2nd维度 - 窗口大小的1st维度 + 1, a0的3rd维度 - 窗口大小的2nd维度 + 1, 输出的厚度]`
+                2. 'SAME':最后结果的shape=a0.shape
+        + max_pool
+            1. a1
+            2. ksize:将中间2个维度大小的矩阵变成`1*1`的矩阵
+        
     ```
     # Layer1 (conv+pooling)
     
     # W:[5,5]是窗口的大小;[1]是输入的厚度;[32]是输出的厚度
     W1 = tf.Variable(tf.truncated_normal([5,5,1,32],stddev = 0.1))
+    
     # b:[32]是输出的厚度
     b1 = tf.Variable(tf.zeros([32])+0.1)
+    
     # activate:a0是输入的图像们;strides = [1,1,1,1]是步长,一般取这个值就OK了
     a1 = tf.nn.relu(tf.nn.conv2d(a0,W1,strides = [1,1,1,1],padding = 'SAME')+b1)
+    #a1 = tf.nn.relu(tf.nn.bias_add(tf.nn.conv2d(a0,W1,strides = [1,1,1,1],padding = 'SAME'), b1))
+    
     # pooling:池化操作.就这样子就OK了 = >表示长宽缩小一半而厚度不变.
     a1_pool = tf.nn.max_pool(a1,ksize = [1,2,2,1],strides = [1,2,2,1],padding = 'VALID')
 
@@ -1192,6 +1207,14 @@ with tf.Session() as sess:
 embedded_chars_expanded = tf.expand_dims(embedded_chars, -1)
 ```
 
+50. 使用global_step:
+```
+global_step = tf.Variable(0, name="global_step", trainable=False)
+optimizer = tf.train.AdamOptimizer(1e-3)
+grads_and_vars = optimizer.compute_gradients(cnn.loss) # 这里就是loss的op
+train_op = optimizer.apply_gradients(grads_and_vars, global_step=global_step)
+```
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
@@ -1277,7 +1300,6 @@ def load_data_and_labels(positive_data_file,negative_data_file):
 
     return [features,labels]
     
-X, y = load_data_and_labels('./data/rt-polaritydata/rt-polarity.pos','./data/rt-polaritydata/rt-polarity.neg')
 
 
 def next_batch(data, batch_size, num_epochs,shuffle=True):
@@ -1309,6 +1331,15 @@ def next_batch(data, batch_size, num_epochs,shuffle=True):
             # yield出列表
             yield data[start_index:end_index]
 
+
+X, y = load_data_and_labels('./data/rt-polaritydata/rt-polarity.pos','./data/rt-polaritydata/rt-polarity.neg')
+# 可以在这里将X和y分割成训练集和测试集
+batches = next_batch(list(zip(X_train, y_train)), FLAGS.batch_size, FLAGS.num_epochs)
+for batch in batches:
+    X, y = zip(*batch) # 这里的X和y已经是训练集中的[batch_size,xxx]的二维矩阵了
+    X = np.array(X)
+    y = np.array(y)
+    # ... # 自由训练把~~
 ``` 
 
 6. 洗牌
@@ -1324,4 +1355,21 @@ import numpy as np
 
 shuffle_indices = np.random.permutation(np.arange(len(data))) # 会将[0, len(data))的整数洗牌.比如说shuffle_indices会变成[2 4 6 7 1 0 3 5]
 shuffled_data = data[shuffle_indices]
+```
+
+9. 计算当前时间戳
+```
+import time
+
+time.time()
+#1536759799.8907976
+
+int(time.time())
+#1536759813
+
+```
+10. 计算绝对路径
+```
+os.path.abspath('.')
+# '/home/orris/fun/tensorflow'
 ```
