@@ -61,14 +61,14 @@ learning_rate = tf.Variable(1e-3)
             + 中间层节点个数:1024
             + 输入:`[-1,7*7*64]`
         ```
-        # W3 = tf.Variable(tf.random_normal([输入值中每行有多少个,节点个数/输出值中每行有多少个],stddev = 0.1))
-        W3 = tf.Variable(tf.random_normal([7*7*64,1024],stddev = 1/tf.sqrt(1024.)))
+        # W = tf.Variable(tf.random_normal([输入值中每行有多少个,节点个数/输出值中每行有多少个],stddev = 0.1))
+        W = tf.Variable(tf.random_normal([7*7*64,1024],stddev = 1/tf.sqrt(1024.)))
         # b
-        b3 = tf.Variable(tf.zeros([1024])+0.1)
+        b = tf.Variable(tf.zeros([1024])+0.1)
         # activate
-        a3 = tf.nn.sigmoid(tf.matmul(a2_pool_tran,W3)+b3)
+        a1 = tf.nn.sigmoid(tf.matmul(a0_pool_tran,W)+b)
         # dropout
-        a3_dropout = tf.nn.dropout(a3,keep_prob)
+        a1_dropout = tf.nn.dropout(a1,keep_prob)
         ```
         2. 方法2
         ```
@@ -120,8 +120,8 @@ learning_rate = tf.Variable(1e-3)
         + logits:预测的y
         + 优化器:AdamOptimizer
     ```
-    cross_entropy = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels = labels,logits = y_predicted))
-    train = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
+    loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels = labels,logits = y_predicted))
+    train = tf.train.AdamOptimizer(learning_rate).minimize(loss)
     ```
     2. 方法2:自带学习率衰减
         + var_list:类似于`self.d_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope='disc')`
@@ -1217,6 +1217,15 @@ grads_and_vars = optimizer.compute_gradients(cnn.loss) # 这里就是loss的op
 train_op = optimizer.apply_gradients(grads_and_vars, global_step=global_step)
 ```
 
+51. 创建graph,并设置为默认的graph
+```
+# 执行和tensor无关的操作,比如加载数据集
+
+with tf.Graph().as_default():
+    # 定义各种tensor(比如说定义CNN的模型)
+    with sess.as_default():
+        # 执行session的内容
+```
 ## 2. Python
 1. 如果是`__main__`的话
 ```
