@@ -114,6 +114,39 @@ learning_rate = tf.Variable(1e-3)
         ```
         
     4. [神经网络和卷积神经网络的实现](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
+    5. 多种不同类型的窗口大小下CNN
+    ```
+    # 定义保存pooling结果的列表
+    outputs = []
+    # filter_sizes:[2,3,4]这样的
+    for filter_size in filter_sizes:
+        # 执行卷积操作
+        with tf.name_scope('conv-{0}'.format(filter_size)):
+            # W:窗口大小(filter_size,embedding_size),当前filter层个数,输出filter层个数
+            W = tf.Variable(tf.truncated_normal([filter_size,embedding_size,1,num_filters],stddev = 0.1), name='W')
+            # b:输出的filter层的个数
+            b = tf.Variable(tf.zeros([num_filters])+0.1, name='b')
+            # conv2d + relu:[batch_size,time_step,embedding_size,1] => [batch_size,time_step - filter_size + 1,1,num_filters]
+            a = tf.nn.relu(tf.nn.conv2d(a0,W,strides = [1,1,1,1],padding = 'VALID')+b, name='conv2d-relu')
+            # pooling:[batch_size,time_step - filter_size + 1,1,num_filters] => [batch_size,1,1,num_filters]
+            a_pool = tf.nn.max_pool(a,ksize = [1,sequence_length - filter_size + 1,1,1],strides = [1,1,1,1],padding = 'VALID', name='pooling')
+            # 添加pooling结果到列表中
+            outputs.append(a_pool)
+
+    # 拼接pooling结果的列表为一个结果: 多个[batch_size,1,1,num_filters] => [batch_size,1,1,num_filters*n]
+    a1 = tf.concat(outputs,-1)
+    # reshape成1个2维矩阵: [batch_size,1,1,num_filters*n] => [batch_size,1*1*num_filters*n]
+    a1 = tf.reshape(a1, [batch_size, 1*1*num_filters*len(filter_sizes)])
+
+    # 全连接层进行分类: [batch_size,1*1*num_filters*n] => [batch_size, num_classes]
+    y_predicted = self.nn(a1,num_classes,tf.nn.softmax,'fully-connected')
+
+    # 定义损失函数
+    with tf.name_scope('loss'):
+        self.loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels = self.labels,logits = y_predicted))
+    ```
+
+
 3. 定义代价函数,并定义训练tensor
     1. 方法1
         + labels:正确的y
@@ -348,6 +381,10 @@ scope_assign('s1','s2',sess)
     3. 训练次数
         1. `num_pretrain_steps`
         2. `num_steps`
+    4. CNN
+        1. `filter_size`:窗口的宽
+        2. `filter_sizes`:窗口的宽的列表
+        3. `num_filters`:输出的filter层的个数
 
 
 11. [自己模仿写的正态分布的GAN](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/gan)
@@ -1210,15 +1247,17 @@ embedded_chars_expanded = tf.expand_dims(embedded_chars, -1)
 ```
 
 50. 使用global_step:
+    + `global_step`会在指定该global_step的op执行时会自动+1
 ```
-global_step = tf.Variable(0, name="global_step", trainable=False)
-optimizer = tf.train.AdamOptimizer(1e-3)
-grads_and_vars = optimizer.compute_gradients(cnn.loss) # 这里就是loss的op
-train_op = optimizer.apply_gradients(grads_and_vars, global_step=global_step)
+with tf.Session() as sess:
+    global_step = tf.Variable(0, name="global_step", trainable=False)
+    optimizer = tf.train.AdamOptimizer(1e-3)
+    grads_and_vars = optimizer.compute_gradients(cnn.loss) # 这里就是loss的op
+    train_op = optimizer.apply_gradients(grads_and_vars, global_step=global_step)
 
-#....
+    #....
 
-current_step = tf.train.global_step(sess, global_step)
+    current_step = tf.train.global_step(sess, global_step) # 如果直接用sess.run(global_step)的话,和这个current_step是相等的值
 ```
 
 51. 创建graph,并设置为默认的graph
