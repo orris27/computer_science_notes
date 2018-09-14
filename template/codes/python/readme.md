@@ -1278,20 +1278,42 @@ with tf.Graph().as_default():
     2. [我的代码](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn-solve-classification/my-codes)
 
 
-53. tf.stack
-    + 0维感觉就是直接第一个参数
-    + 1维的话,就是纵向拼接
-```
-x = tf.constant([1, 4])
-y = tf.constant([2, 5])
-z = tf.constant([3, 6])
-tf.stack([x, y, z])  
-# [[1, 4], [2, 5], [3, 6]] (Pack along first dim.)
-tf.stack([x, y, z], axis=1)  
-# [[1, 2, 3], 
-#  [4, 5, 6]]
-```
+53. tf.stack 和 tf.unstack
+    1. tf.stack:拼接一组矩阵
+        + 0维感觉就是直接第一个参数
+        + 1维的话,就是纵向拼接
+    ```
+    x = tf.constant([1, 4])
+    y = tf.constant([2, 5])
+    z = tf.constant([3, 6])
+    tf.stack([x, y, z])  
+    # [[1, 4], [2, 5], [3, 6]] (Pack along first dim.)
+    tf.stack([x, y, z], axis=1)  
+    # [[1, 2, 3], 
+    #  [4, 5, 6]]
+    ```
+    2. tf.unstack:拆分一组矩阵.和tf.stack是逆过程
+    ```
+    sess.run(a)
+    #---------------------------------------------------------------------------
+    # array([[1, 2, 3],
+    #   [4, 5, 6]], dtype=int32)
+    #---------------------------------------------------------------------------
 
+    sess.run(tf.unstack(a,axis=0))
+    #---------------------------------------------------------------------------
+    # [array([1, 2, 3], dtype=int32), array([4, 5, 6], dtype=int32)]
+    #---------------------------------------------------------------------------
+    
+    
+    sess.run(tf.unstack(a,axis=1))
+    #---------------------------------------------------------------------------
+    # [array([1, 4], dtype=int32),
+    #  array([2, 5], dtype=int32),
+    #  array([3, 6], dtype=int32)]
+    #---------------------------------------------------------------------------
+
+    ```
 ## 2. Python
 1. 如果是`__main__`的话
 ```
