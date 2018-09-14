@@ -1422,6 +1422,49 @@ with tf.Graph().as_default():
 tf.squeeze(tf.zeros([1,2,3,4,1,5]))
 #<tf.Tensor 'Squeeze:0' shape=(2, 3, 4, 5) dtype=float32>
 ```
+
+
+
+55. tf.nn.l2_normalize(x, dim, epsilon=1e-12, name=None):计算矩阵的l2范化结果
+    + 计算行/列的作为一维向量的模,然后矩阵里的每个元素除以这个模就可以了.最后输出的形状与原来的形状是相同的
+    + 具体的计算过程参考[这个博客](https://blog.csdn.net/abiggg/article/details/79368982)
+    1. 按列计算
+    ```
+    import tensorflow as tf
+    input_data = tf.constant([[1.0,2,3],[4.0,5,6],[7.0,8,9]])
+
+    output = tf.nn.l2_normalize(input_data, dim = 0)
+    with tf.Session() as sess:
+    print sess.run(input_data)
+    print sess.run(output)
+    #----------------------------------------------------------
+    # [[1. 2. 3.]
+    # [4. 5. 6.]
+    # [7. 8. 9.]]
+    # [[0.12309149 0.20739034 0.26726127]
+    # [0.49236596 0.51847583 0.53452253]
+    # [0.86164045 0.82956135 0.80178374]]
+    #----------------------------------------------------------
+    ```
+    2. 按行计算
+    ```
+    import tensorflow as tf
+    input_data = tf.constant([[1.0,2,3],[4.0,5,6],[7.0,8,9]])
+
+    output = tf.nn.l2_normalize(input_data, dim = 1)
+    with tf.Session() as sess:
+    print sess.run(input_data)
+    print sess.run(output)
+    #----------------------------------------------------------
+    # [[1. 2. 3.]
+    # [4. 5. 6.]
+    # [7. 8. 9.]]
+    # [[0.26726124 0.5345225 0.8017837 ]
+    # [0.45584232 0.5698029 0.6837635 ]
+    # [0.5025707 0.5743665 0.64616233]]
+    #----------------------------------------------------------
+    ```
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
