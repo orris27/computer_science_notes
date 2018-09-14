@@ -428,6 +428,24 @@ scope_assign('s1','s2',sess)
 14. 保存和还原会话
     1. 保存会话里的所有变量
         + `+=`赋值的变量不会被保存
+        + `saver=tf.train.Saver()`的max_to_keep=5:如果调用save的话,只有最近的max_to_keep次的结果会被保存
+            + 如果用i循环`[0,10)`并且每个循环都调用save,默认使用5的话,就只有5,6,7,8,9会被保存,前面的都被删除
+            + 如果想要保存所有save调用的结果的话,那么设置为0或者None
+            ```
+            saver=tf.train.Saver(max_to_keep=0)
+            ```
+        + `saver.save`的global_step可以更改存储模型的文件名
+        ```
+        saver.save(sess, 'my-model', global_step=0) ==>      filename: 'my-model-0'
+        ...
+        saver.save(sess, 'my-model', global_step=1000) ==> filename: 'my-model-1000'
+        #-------------------------------------------------------------------------------------
+        # -1000.data-00000-of-00001
+        # -1000.index
+        # -1000.meta
+        # checkpoint
+        #-------------------------------------------------------------------------------------
+        ```
     ```
     W1 = tf.Variable(tf.truncated_normal([1],stddev = 0.1))
     
@@ -435,7 +453,8 @@ scope_assign('s1','s2',sess)
     with tf.Session(config=config) as sess:
         sess.run(tf.global_variables_initializer())
         print(sess.run(W1))
-        saver.save(sess,"save/1.ckpt")
+        saver.save(sess,"ckpt/1.ckpt") 
+        #saver.save(sess,"ckpt/")  # 如果使用目录来存储,最后一定要加入/
     ```
     2. 还原整个会话里的变量
     ```
@@ -443,18 +462,79 @@ scope_assign('s1','s2',sess)
 
     saver=tf.train.Saver()
     with tf.Session(config=config) as sess:
-        saver.restore(sess,"save/1.ckpt")
+        saver.restore(sess,"ckpt/1.ckpt")
         print(sess.run(W1))
     ```
     3. 保存结果
     ```
-    save/
+    ckpt/
     ├── 1.ckpt.data-00000-of-00001
     ├── 1.ckpt.index
     ├── 1.ckpt.meta
     └── checkpoint
-
     ```
+    4. 保存十次save的所有结果
+    ```
+    import tensorflow as tf
+
+    W1 = tf.Variable(tf.truncated_normal([1],stddev = 0.1))
+    update = tf.assign_add(W1,[1])
+
+
+    saver=tf.train.Saver(max_to_keep=0) # 保存所有save结果
+
+    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+    config=tf.ConfigProto(gpu_options=gpu_options)
+
+    with tf.Session(config=config) as sess:
+        sess.run(tf.global_variables_initializer())
+
+        for i in range(10):
+            sess.run(update)
+            print(sess.run(W1))
+            saver.save(sess,"ckpt/",global_step=i)
+    #------------------------------------------------------------------------------------------------
+    # ckpt/
+    # ├── -0.data-00000-of-00001
+    # ├── -0.index
+    # ├── -0.meta
+    # ├── -1.data-00000-of-00001
+    # ├── -1.index
+    # ├── -1.meta
+    # ├── -2.data-00000-of-00001
+    # ├── -2.index
+    # ├── -2.meta
+    # ├── -3.data-00000-of-00001
+    # ├── -3.index
+    # ├── -3.meta
+    # ├── -4.data-00000-of-00001
+    # ├── -4.index
+    # ├── -4.meta
+    # ├── -5.data-00000-of-00001
+    # ├── -5.index
+    # ├── -5.meta
+    # ├── -6.data-00000-of-00001
+    # ├── -6.index
+    # ├── -6.meta
+    # ├── -7.data-00000-of-00001
+    # ├── -7.index
+    # ├── -7.meta
+    # ├── -8.data-00000-of-00001
+    # ├── -8.index
+    # ├── -8.meta
+    # ├── -9.data-00000-of-00001
+    # ├── -9.index
+    # ├── -9.meta
+    # └── checkpoint
+    #------------------------------------------------------------------------------------------------
+    ```
+    5. 恢复最后一次save的模型
+    ```
+    model = tf.train.latest_checkpoint('ckpt/')
+    saver.restore(sess,model)
+    print(sess.run(W1))
+    ```
+
 15. 生成全是0的变量
     1. 定义变量
     ```
