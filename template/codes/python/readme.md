@@ -14,10 +14,10 @@ keep_prob = tf.placeholder(tf.float32)
 learning_rate = tf.Variable(1e-3)
 ```
 2. NN/CNN
-    1. 定义卷积神经网络的一层
+    1. 定义卷积神经网络的一层:四维矩阵=>二维矩阵
         + conv2d
             1. a0:输入的4维矩阵
-            2. W1:`[5,5]`是窗口的大小;`[1]`是输入的厚度;`[32]`是输出的厚度
+            2. W1:`[5,5]`/`[filter_size,5]`是窗口的大小;`[1]`是输入的厚度;`[32]`/`[num_filters]`是输出的厚度
             3. strides
             4. padding
                 1. 'VALID':最后结果的shape=`[batch_size,a0的2nd维度 - 窗口大小的1st维度 + 1, a0的3rd维度 - 窗口大小的2nd维度 + 1, 输出的厚度]`
@@ -1276,6 +1276,21 @@ with tf.Graph().as_default():
 52. [CNN解决文本分类问题](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/cnn%E8%A7%A3%E5%86%B3%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB.png)
     1. [别人的代码](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn-solve-classification/others-codes)
     2. [我的代码](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn-solve-classification/my-codes)
+
+
+53. tf.stack
+    + 0维感觉就是直接第一个参数
+    + 1维的话,就是纵向拼接
+```
+x = tf.constant([1, 4])
+y = tf.constant([2, 5])
+z = tf.constant([3, 6])
+tf.stack([x, y, z])  
+# [[1, 4], [2, 5], [3, 6]] (Pack along first dim.)
+tf.stack([x, y, z], axis=1)  
+# [[1, 2, 3], 
+#  [4, 5, 6]]
+```
 
 ## 2. Python
 1. 如果是`__main__`的话
