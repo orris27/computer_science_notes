@@ -1395,6 +1395,33 @@ with tf.Graph().as_default():
     #---------------------------------------------------------------------------
 
     ```
+    3. ta.stack(TensorArray的stack):将TensorArray的元素叠起来当做1个Tensor输出
+        + 0维感觉就是直接第一个参数
+        + 1维的话,就是纵向拼接
+    ```
+    x = tf.constant([1, 4])
+    y = tf.constant([2, 5])
+    z = tf.constant([3, 6])
+    tf.stack([x, y, z])  
+    # [[1, 4], [2, 5], [3, 6]] (Pack along first dim.)
+    tf.stack([x, y, z], axis=1)  
+    # [[1, 2, 3], 
+    #  [4, 5, 6]]
+    ```
+    4. ta.unstack(Tensor的unstack):输入Tensor,输出一个新的TensorArray对象.和tf.stack是逆过程
+    5. ta.write(index, value, name=None) 指定index位置写入Tensor
+    6. ta.read(index, name=None) 读取指定index位置的Tensor
+    7. 定义TensorArray:主要是用来做while_loop等操作
+    ```
+    from tensorflow.python.ops import tensor_array_ops, control_flow_ops
+    sub_feature = tensor_array_ops.TensorArray(dtype=tf.float32, size=self.sequence_length/self.step_size,
+                                               dynamic_size=False, infer_shape=True, clear_after_read=False)
+    ```
+54. tf.squeeze:删除维度为1的维度
+```
+tf.squeeze(tf.zeros([1,2,3,4,1,5]))
+#<tf.Tensor 'Squeeze:0' shape=(2, 3, 4, 5) dtype=float32>
+```
 ## 2. Python
 1. 如果是`__main__`的话
 ```
