@@ -530,9 +530,10 @@ scope_assign('s1','s2',sess)
     ```
     5. 恢复最后一次save的模型
     ```
-    model = tf.train.latest_checkpoint('ckpt/')
-    saver.restore(sess,model)
-    print(sess.run(W1))
+    model = tf.train.latest_checkpoint('ckpt/') # model比如说是'ckpt/-9'(表示第global_step=9时save到'ckpt/').如果没有的话,model=None.常用这个来判断是否能恢复模型
+    if model:
+        saver.restore(sess,model)
+        print(sess.run(W1))
     ```
 
 15. 生成全是0的变量
