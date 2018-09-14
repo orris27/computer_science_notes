@@ -1191,7 +1191,7 @@ print("Train/Dev split: {:d}/{:d}".format(len(y_train), len(y_dev)))
 ```
 
 
-48. 转换`[[单词1的id,单词2的id,...],[单词1的id,单词2的id,...], ...]`为embedding的矩阵(转换每个单词本身为一个一维的矩阵)
+48. 转换词典id的二维矩阵(`[[单词1的id,单词2的id,...],[单词1的id,单词2的id,...], ...]`)为embedding的三维矩阵(转换每个单词本身为一个一维的矩阵)
     + W:`[不同单词个数, embedding_size]`
     + input_x:`[batch_size, 单句话的最大单词个数或time_step]`:必须是tf.int32类型!!!
     + 输出:`[batch_size, 单句话的最大单词个数或time_step, embedding_size]`:(一个单词`shape=[]`=>一个embedding矩阵`shape=[embedding_size]`)
