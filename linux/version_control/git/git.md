@@ -53,6 +53,8 @@ git --version
 5. `remote`:
 6. `commit`:将跟踪的文件提交到版本库(仓库)里
     1. `-a`:将工作区中的文件放到暂存区中,再放到版本库里(`git add`+`git commit`的组合)
+    2. 参数
+        1. `<file>...`:直接在后面写文件名的话,就是只commit这个文件.如`git commit my-cnn.py -m "init my-cnn"`
 7. `push`:
 8. `pull`:`git fetch`+`git merge`.抓取远程服务器的他人写的代码到本地并合并进来
 9. `config`:Get and set repository or global options
@@ -69,7 +71,7 @@ git --version
 15. `rm`:没有参数表示从暂存区和工作区中都删除某个文件
     1. `rm --cached`:从暂存区中删除某个文件,并且该文件不再追踪
 16. `reset`:将HEAD指针指回特定的状态,`git reset HEAD a`(a是个文件名)
-    1. `<file-name>`:用版本库里指定文件的数据还原暂存区里,工作区不受影响	
+    1. `<file-name>`:用版本库里指定文件的数据还原暂存区里,工作区不受影响
 17. `ignore`:忽略某个文件
 18. `diff`:显示工作区和暂存区间的差异
     1. `--cached`:显示暂存区和最新提交的差异
@@ -286,7 +288,7 @@ You have unmerged paths.
 Unmerged paths:
   (use "git add <file>..." to mark resolution)
 
-	both modified:   index.html
+    both modified:   index.html
 
 no changes added to commit (use "git add" and/or "git commit -a")
 #-------------------------------------------------------------
@@ -371,7 +373,7 @@ git status
 git checkout feature3 # 由于工作区的内容没提交,所以就不允许切换,除非暂时储藏起来
 #-------------------------------------------------------------------
 # error: Your local changes to the following files would be overwritten by checkout:
-# 	index.html
+#   index.html
 # Please commit your changes or stash them before you switch branches.
 # Aborting
 #-------------------------------------------------------------------
