@@ -1466,14 +1466,23 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     ```
 
 
-56. 训练学习一元线性函数:[代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/linear/linear.py)
-    + `step 99:loss=nan	k=[nan]	b=[nan]`
+56. [训练学习一元线性函数的代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/linear/linear.py)
+    1. `step 99:loss=nan	k=[nan]	b=[nan]`
         1. 不能使用tf自带的`tf.nn.sigmoid_cross_entropy_with_logits`
         2. 使用`tf.square`.因为直接对`y_predicted-labels`求平均值的话,得到的结果可能是负数
         3. k和b接近真实的k和b.因为如果远离太多的话,得到的loss就会很大,有可能就溢出
         4. X_train的batch_size小点.理由同上
         4. 学习率设置小一点.理由同上.如果学习率太大,一下子k和b就会偏离真实的k和b很多
-
+    2. 初始化`[64,1]`的numpy矩阵
+        1. <方法1> 构造[64,]的矩阵,然后扩展这个矩阵
+        ```
+        X_train = np.linspace(-10, 10, 64) + np.random.random(64) * 0.01
+        X_train = np.expand_dims(X_train, 1)
+        ```
+        2. <方法2> 使用numpy的newaxis直接构造`[64,1]`矩阵
+        ```
+        X_train = np.linspace(-10, 10, 64)[:,np.newaxis] + np.random.random([64,1]) * 0.01
+        ```
 
 ## 2. Python
 1. 如果是`__main__`的话
