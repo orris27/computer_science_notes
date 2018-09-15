@@ -433,11 +433,11 @@ scope_assign('s1','s2',sess)
     1. 保存
         1. 保存会话里的所有变量
             + `+=`赋值的变量不会被保存
-            + `saver=tf.train.Saver()`的max_to_keep=5:如果调用save的话,只有最近的max_to_keep次的结果会被保存
+            + `saver = tf.train.Saver()`的max_to_keep=5:如果调用save的话,只有最近的max_to_keep次的结果会被保存
                 + 如果用i循环`[0,10)`并且每个循环都调用save,默认使用5的话,就只有5,6,7,8,9会被保存,前面的都被删除
                 + 如果想要保存所有save调用的结果的话,那么设置为0或者None
                 ```
-                saver=tf.train.Saver(max_to_keep=0)
+                saver = tf.train.Saver(max_to_keep=0)
                 ```
             + `saver.save`的global_step可以更改存储模型的文件名
             ```
@@ -454,7 +454,7 @@ scope_assign('s1','s2',sess)
         ```
         W1 = tf.Variable(tf.truncated_normal([1],stddev = 0.1))
 
-        saver=tf.train.Saver()
+        saver = tf.train.Saver()
         with tf.Session(config=config) as sess:
             sess.run(tf.global_variables_initializer())
             print(sess.run(W1))
@@ -490,7 +490,7 @@ scope_assign('s1','s2',sess)
     ```
     W1 = tf.Variable(tf.truncated_normal([1],stddev = 0.1))
 
-    saver=tf.train.Saver()
+    saver = tf.train.Saver()
     with tf.Session(config=config) as sess:
         saver.restore(sess,"ckpt/1.ckpt")
         print(sess.run(W1))
@@ -511,10 +511,10 @@ scope_assign('s1','s2',sess)
     update = tf.assign_add(W1,[1])
 
 
-    saver=tf.train.Saver(max_to_keep=0) # 保存所有save结果
+    saver = tf.train.Saver(max_to_keep=0) # 保存所有save结果
 
-    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
-    config=tf.ConfigProto(gpu_options=gpu_options)
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+    config = tf.ConfigProto(gpu_options=gpu_options)
 
     with tf.Session(config=config) as sess:
         sess.run(tf.global_variables_initializer())
@@ -569,7 +569,7 @@ scope_assign('s1','s2',sess)
 15. 生成全是0的变量
     1. 定义变量
     ```
-    W=tf.Variable(tf.zeros(3),name='weights',dtype=tf.float32)
+    W = tf.Variable(tf.zeros(3),name='weights',dtype=tf.float32)
     ```
     2. 定义张量
     ```
@@ -596,8 +596,8 @@ scope_assign('s1','s2',sess)
         ```
         2. 设置每个GPU应该拿出多少容量给进程使用，0.4代表40%
         ```
-        gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
-        config=tf.ConfigProto(gpu_options=gpu_options)
+        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+        config = tf.ConfigProto(gpu_options=gpu_options)
         session = tf.Session(config=config, ...)
         ```
     3. 控制使用哪块GPU
@@ -634,7 +634,7 @@ scope_assign('s1','s2',sess)
     # dropout
     lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=0.5)
     # map
-    ouputs,final_state=tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32)
+    ouputs,final_state = tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32)
 
     ```
     2. BasicLSTMCell.[原理图](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/BasicLSTMCell.png)
@@ -735,16 +735,41 @@ a1_pool = tf.nn.local_response_normalization(a1_pool, depth_radius=None, bias=No
 ```
 
 23. tensorboard
-    1. `tf.summary.FileWrite`:写入graph到指定目录下
-```
-writer=tf.summary.FileWriter(log_dir,sess.graph)
-writer.close()
+    + 步骤
+        1. 流程图
+            1. 定义记录graph的writer:`tf.summary.FileWrite`
+            2. 命名变量:`tf.name_scope`等
+        2. 画图
+            1. 定义记录graph的writer:`tf.summary.FileWrite`
+            2. 添加需要记录的变量:`tf.summary.scalar`
+            3. 合并第2步骤添加的变量:`tf.summary.merge_all()`
+            4. 在循环的时候,计算这些变量(或者合并后的变量)的值,并且给这些变量打点:`sess.run`+`writer.add_summary`
+    1. 简单的画流程图
+    ```
+    log_dir = 'logs/'
+    with tf.Session(config=config) as sess, tf.summary.FileWriter(log_dir,sess.graph) as writer:
+        pass
+    ####################################################################################
+    # 命令行
+    ####################################################################################
+    tensorboard --logdir=.
+    ```
+    2. 使用tensorboard中的统计图
+    ```
+    cross_entropy = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels = labels,logits = y_predicted))
+    tf.summary.scalar('loss',cross_entropy)
+    
+    # 合并所有要记录的点
+    merged = tf.summary.merge_all()
+    log_dir = 'logs/'
+    with tf.Session(config=config) as sess, tf.summary.FileWriter(log_dir,sess.graph) as writer:
+        #...
+        for global_step in range(xxx):
+            _,summary = sess.run([train, merged],feed_dict = {features:X_train,labels:y_train,keep_prob:0.5})
+            # 记录loss的结果
+            writer.add_summary(summary,global_step)
 
-####################################################################################
-# 命令行
-####################################################################################
-tensorboard --logdir=.
-```
+    ```
 
 
 24. 训练,自己处理梯度:[第三方文档](https://blog.csdn.net/u012436149/article/details/53006953)
