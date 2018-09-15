@@ -430,36 +430,62 @@ scope_assign('s1','s2',sess)
     y_train = norm.pdf(X_train, loc=self.mu, scale=self.sigma)
     ```
 14. 保存和还原会话
-    1. 保存会话里的所有变量
-        + `+=`赋值的变量不会被保存
-        + `saver=tf.train.Saver()`的max_to_keep=5:如果调用save的话,只有最近的max_to_keep次的结果会被保存
-            + 如果用i循环`[0,10)`并且每个循环都调用save,默认使用5的话,就只有5,6,7,8,9会被保存,前面的都被删除
-            + 如果想要保存所有save调用的结果的话,那么设置为0或者None
+    1. 保存
+        1. 保存会话里的所有变量
+            + `+=`赋值的变量不会被保存
+            + `saver=tf.train.Saver()`的max_to_keep=5:如果调用save的话,只有最近的max_to_keep次的结果会被保存
+                + 如果用i循环`[0,10)`并且每个循环都调用save,默认使用5的话,就只有5,6,7,8,9会被保存,前面的都被删除
+                + 如果想要保存所有save调用的结果的话,那么设置为0或者None
+                ```
+                saver=tf.train.Saver(max_to_keep=0)
+                ```
+            + `saver.save`的global_step可以更改存储模型的文件名
             ```
-            saver=tf.train.Saver(max_to_keep=0)
+            saver.save(sess, 'my-model', global_step=0) ==>      filename: 'my-model-0'
+            ...
+            saver.save(sess, 'my-model', global_step=1000) ==> filename: 'my-model-1000'
+            #-------------------------------------------------------------------------------------
+            # -1000.data-00000-of-00001
+            # -1000.index
+            # -1000.meta
+            # checkpoint
+            #-------------------------------------------------------------------------------------
             ```
-        + `saver.save`的global_step可以更改存储模型的文件名
         ```
-        saver.save(sess, 'my-model', global_step=0) ==>      filename: 'my-model-0'
-        ...
-        saver.save(sess, 'my-model', global_step=1000) ==> filename: 'my-model-1000'
-        #-------------------------------------------------------------------------------------
-        # -1000.data-00000-of-00001
-        # -1000.index
-        # -1000.meta
-        # checkpoint
-        #-------------------------------------------------------------------------------------
+        W1 = tf.Variable(tf.truncated_normal([1],stddev = 0.1))
+
+        saver=tf.train.Saver()
+        with tf.Session(config=config) as sess:
+            sess.run(tf.global_variables_initializer())
+            print(sess.run(W1))
+            saver.save(sess,"ckpt/1.ckpt") 
+            #saver.save(sess,"ckpt/")  # 如果使用目录来存储,最后一定要加入/
         ```
-    ```
-    W1 = tf.Variable(tf.truncated_normal([1],stddev = 0.1))
-    
-    saver=tf.train.Saver()
-    with tf.Session(config=config) as sess:
-        sess.run(tf.global_variables_initializer())
-        print(sess.run(W1))
-        saver.save(sess,"ckpt/1.ckpt") 
-        #saver.save(sess,"ckpt/")  # 如果使用目录来存储,最后一定要加入/
-    ```
+        2. 保存会话里的部分变量
+            1. 存储:<key,value>
+                + key默认是value的名字(即带有scope的名字)
+                + value就是变量的值
+                + restore的时候根据<key,value>来恢复内容
+            ```
+            v1 = tf.Variable(..., name='v1')
+            v2 = tf.Variable(..., name='v2')
+
+            # 方法1
+            saver = tf.train.Saver({'v1': v1, 'v2': v2})
+
+            # 方法2
+            saver = tf.train.Saver([v1, v2]) # 如果使用列表的话,效果同字典的上面用法
+
+            # 方法3
+            saver = tf.train.Saver({v.op.name: v for v in [v1, v2]})
+            ```
+            2. 检查:`print_tensors_in_checkpoint_file`仅仅打印指定位置下存储的变量对应的`<key,value>`,并不恢复这些变量的值
+            ```
+            from tensorflow.python.tools.inspect_checkpoint import print_tensors_in_checkpoint_file
+            print_tensors_in_checkpoint_file("ckpt/", None, True) # 这样就是恢复test-ckpt里默认的checkpoint
+            #print_tensors_in_checkpoint_file("ckpt/model-2", None, True) # model-2是上次使用save时的参数"test-ckpt/model-2.ckpt"
+            ```
+
     2. 还原整个会话里的变量
     ```
     W1 = tf.Variable(tf.truncated_normal([1],stddev = 0.1))
@@ -709,6 +735,7 @@ a1_pool = tf.nn.local_response_normalization(a1_pool, depth_radius=None, bias=No
 ```
 
 23. tensorboard
+    1. `tf.summary.FileWrite`:写入graph到指定目录下
 ```
 writer=tf.summary.FileWriter(log_dir,sess.graph)
 writer.close()
@@ -953,30 +980,7 @@ tf.set_random_seed(1)
 ```
 
 33. checkpoint
-    1. 存储:<key,value>
-        + key默认是value的名字(即带有scope的名字)
-        + value就是变量的值
-        + restore的时候根据<key,value>来恢复内容
-    ```
-    v1 = tf.Variable(..., name='v1')
-    v2 = tf.Variable(..., name='v2')
-
-    # 方法1
-    saver = tf.train.Saver({'v1': v1, 'v2': v2})
-
-    # 方法2
-    saver = tf.train.Saver([v1, v2]) # 如果使用列表的话,效果同字典的上面用法
-
-    # 方法3
-    saver = tf.train.Saver({v.op.name: v for v in [v1, v2]})
-    ```
-    2. 检查
-    ```
-    from tensorflow.python.tools.inspect_checkpoint import print_tensors_in_checkpoint_file
-    #print_tensors_in_checkpoint_file("test-ckpt/model-2", None, True) # model-2是上次使用save时的参数"test-ckpt/model-2.ckpt"
-    print_tensors_in_checkpoint_file("test-ckpt/", None, True) # 这样就是恢复test-ckpt里默认的checkpoint
-    ```
-    
+空
 34. 同时计算多个tensor
     + tf.group返回op
     + tf.tuple返回tensor的列表
