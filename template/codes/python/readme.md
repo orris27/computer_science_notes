@@ -627,9 +627,27 @@ scope_assign('s1','s2',sess)
                 1. `final_state[0]`为cell_state的结果
                 2. `final_state[1]`为hidden_state的结果
             2. outputs:
-                1. time_major=False(Default):`[batch_size, max_time, cell.output_size]`
+                1. time_major=False(Default):inputs和outputs都遵循`[batch_size, max_time, cell.output_size]`
                     1. 1个结论:如果time_major=False,那么`output = tf.squeeze(outputs[:,-1,:])`<=>`final_state[1]`
-                2. time_major=True:`[max_time, batch_size, cell.output_size]`
+                2. time_major=True:inputs和outputs都遵循`[max_time, batch_size, cell.output_size]`
+                    1. 1个结论:如果time_major=True,那么
+                    ```
+                    # reshape
+                    inputs=tf.reshape(features,[-1,train_times,n_inputs])
+                    ##############################################################################
+                    # inputs需要改变
+                    ##############################################################################
+                    inputs = tf.transpose(inputs,[1,0,2])  ##
+                    
+                    lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size,state_is_tuple=True)
+                    lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=0.5)
+                    outputs,final_state=tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32,time_major=True)
+
+                    ##############################################################################
+                    # outputs需要改变,后面使用final_state[1]的地方,用output就可以了
+                    ##############################################################################
+                    output = tf.squeeze(outputs[-1,:,:])
+                    ```
     ```
     train_times = 28
     embedding_size = 28
