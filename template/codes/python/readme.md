@@ -622,7 +622,14 @@ scope_assign('s1','s2',sess)
     1. 使用rnn:`[-1,784]`=>`[-1,28,28]`=>rnn=>`[-1,lstm_size]`
         + 后续可以考虑全连接层.比如W为`[lstm_size,10]`,b为`[10]`,然后用矩阵乘法来解决.`y_predicted=tf.nn.softmax(tf.matmul(final_state[1],weights)+bias)`
         + 使用前:使用dynamic_rnn前要先将输入转换为`[batch_size,time_step,embedding_size]`.所以要先进行embedding的转换后才进行rnn,而不是在rnn内执行embedding
-        + 使用后:获得的final_state[1]为`[-1,lstm_size]`
+        + 使用后:获得的final_state[1]为`[-1,lstm_size]`.
+            1. final_state
+                1. `final_state[0]`为cell_state的结果
+                2. `final_state[1]`为hidden_state的结果
+            2. outputs:
+                1. time_major=False(Default):`[batch_size, max_time, cell.output_size]`
+                    1. 1个结论:如果time_major=False,那么`output = tf.squeeze(outputs[:,-1,:])`<=>`final_state[1]`
+                2. time_major=True:`[max_time, batch_size, cell.output_size]`
     ```
     train_times = 28
     embedding_size = 28
