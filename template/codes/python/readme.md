@@ -620,34 +620,37 @@ scope_assign('s1','s2',sess)
     
 17. rnn
     1. 使用rnn:`[-1,784]`=>`[-1,28,28]`=>rnn=>`[-1,lstm_size]`
-        + 后续可以考虑全连接层.比如W为`[lstm_size,10]`,b为`[10]`,然后用矩阵乘法来解决.`y_predicted=tf.nn.softmax(tf.matmul(final_state[1],weights)+bias)`
-        + 使用前:使用dynamic_rnn前要先将输入转换为`[batch_size,time_step,embedding_size]`.所以要先进行embedding的转换后才进行rnn,而不是在rnn内执行embedding
-        + 使用后:获得的final_state[1]为`[-1,lstm_size]`.
-            1. final_state
-                1. `final_state[0]`为cell_state的结果
-                2. `final_state[1]`为hidden_state的结果
-            2. outputs:
-                1. time_major=False(Default):inputs和outputs都遵循`[batch_size, max_time, cell.output_size]`
-                    1. 1个结论:如果time_major=False,那么`output = tf.squeeze(outputs[:,-1,:])`<=>`final_state[1]`
-                2. time_major=True:inputs和outputs都遵循`[max_time, batch_size, cell.output_size]`
-                    1. 1个结论:如果time_major=True,那么
-                    ```
-                    # reshape
-                    inputs=tf.reshape(features,[-1,train_times,n_inputs])
-                    ##############################################################################
-                    # inputs需要改变
-                    ##############################################################################
-                    inputs = tf.transpose(inputs,[1,0,2])  ##
-                    
-                    lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size,state_is_tuple=True)
-                    lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=0.5)
-                    outputs,final_state=tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32,time_major=True)
+        + 使用
+            1. 使用前:使用dynamic_rnn前要先将输入转换为`[batch_size,time_step,embedding_size]`.所以要先进行embedding的转换后才进行rnn,而不是在rnn内执行embedding
+            2. 使用后:获得的final_state[1]为`[-1,lstm_size]`.
+                1. final_state
+                    1. `final_state[0]`为cell_state的结果
+                    2. `final_state[1]`为hidden_state的结果
+                2. outputs:
+                    1. time_major=False(Default):inputs和outputs都遵循`[batch_size, max_time, cell.output_size]`
+                        1. 1个结论:如果time_major=False,那么`output = tf.squeeze(outputs[:,-1,:])`<=>`final_state[1]`
+                    2. time_major=True:inputs和outputs都遵循`[max_time, batch_size, cell.output_size]`
+                        1. 1个结论:如果time_major=True,那么
+                        ```
+                        # reshape
+                        inputs=tf.reshape(features,[-1,train_times,n_inputs])
+                        ##############################################################################
+                        # inputs需要改变
+                        ##############################################################################
+                        inputs = tf.transpose(inputs,[1,0,2])  ##
 
-                    ##############################################################################
-                    # outputs需要改变,后面使用final_state[1]的地方,用output就可以了
-                    ##############################################################################
-                    output = tf.squeeze(outputs[-1,:,:])
-                    ```
+                        lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size,state_is_tuple=True)
+                        lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=0.5)
+                        outputs,final_state=tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32,time_major=True)
+
+                        ##############################################################################
+                        # outputs需要改变,后面使用final_state[1]的地方,用output就可以了
+                        ##############################################################################
+                        output = tf.squeeze(outputs[-1,:,:])
+                        ```
+                3. 后续可以考虑全连接层.比如W为`[lstm_size,10]`,b为`[10]`,然后用矩阵乘法来解决.`y_predicted=tf.nn.softmax(tf.matmul(final_state[1],weights)+bias)`
+        + dynamic_rnn
+            1. initial_state:如果为None,默认会初始化为0.源代码中是`state = cell.zero_state(batch_size, dtype)`
     ```
     train_times = 28
     embedding_size = 28
@@ -658,7 +661,7 @@ scope_assign('s1','s2',sess)
     lstm_cell = tf.contrib.rnn.BasicLSTMCell(lstm_size)
     # dropout
     lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=0.5)
-    # map
+    # map.  
     ouputs,final_state = tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32)
 
     ```
@@ -1756,4 +1759,16 @@ np.split(x, [3, 5, 6, 10], axis=0) # axis表示从0开始切割
 
 '1 2 3 4'.split(' ')
 #['1', '2', '3', '4']
+```
+15. map:对第二个参数里的每个元素执行第一个函数,返回迭代器(可以用list转换成列表)
+    + 这里的`int`充当函数
+```
+l
+# ['1', '2', '3', '4']
+
+map(int,l)
+# <map at 0x7f111e328b00>
+
+list(map(int,l))
+# [1, 2, 3, 4]
 ```
