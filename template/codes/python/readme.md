@@ -1517,6 +1517,27 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
         X_train = np.linspace(-10, 10, 64)[:,np.newaxis] + np.random.random([64,1]) * 0.01
         ```
 
+57. 文件操作
+    + 接口:不需要sess.run
+        1. `tf.gfile.FastGFile`
+        2. 打开后的文件:`<class 'tensorflow.python.platform.gfile.FastGFile'>`
+            1. `f.read()`
+            2. `f.readlines()`
+    1. 打开文件,并打印每一行
+        1. 方法1
+        ```
+        with tf.gfile.FastGFile('test.py') as f:
+            print(f.read())
+        ```
+        2. 方法2
+        ```
+        with tf.gfile.FastGFile('test.py') as f:
+        for line in f.readlines():
+            sys.stdout.write(line)
+            sys.stdout.flush()
+        ```
+
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
