@@ -23,9 +23,13 @@ learning_rate = tf.Variable(1e-3)
                 1. 'VALID':最后结果的shape=`[batch_size,a0的2nd维度 - 窗口大小的1st维度 + 1, a0的3rd维度 - 窗口大小的2nd维度 + 1, 输出的厚度]`
                 2. 'SAME':最后结果的shape=a0.shape
         + max_pool
-            1. a1
-            2. ksize:将中间2个维度大小的矩阵变成`1*1`的矩阵
-        
+            1. 参数
+                1. a1
+                2. ksize:将中间2个维度大小的矩阵变成`1*1`的矩阵
+                3. strides:pooling会重新作用于使用过的点,除非我们步长设置的和ksize一样.
+                4. padding
+                    1. VALID:如果不够pooling的话,就不管了.比如对于`[1,2,3,1]`使用`{ksize=[1,2,2,1],strides=[1,2,2,1]}`时结果为`[1,1,1,1]`(第3列被抛弃了)
+                    2. SAME:只有需要补全的时候才补全.比如对于`[1,2,3,1]`使用`{ksize=[1,2,2,1],strides=[1,2,2,1]}`时结果为`[1,1,2,1]`(补全成`[1,2,4,1]`)
     ```
     # Layer1 (conv+pooling)
     
