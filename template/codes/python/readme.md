@@ -1772,3 +1772,14 @@ map(int,l)
 list(map(int,l))
 # [1, 2, 3, 4]
 ```
+16. lambda:定义一个简单的函数,返回函数对象本身
+```
+f = lambda x:x+1
+f(2)
+# 3
+
+f = lambda x,y:x+y
+f(1,2)
+#3
+
+```
