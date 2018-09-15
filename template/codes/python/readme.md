@@ -1703,13 +1703,17 @@ for batch in batches:
         data = np.array([1,2,3,4,5,6,7,8])
         print(data[[3,4]]) #[4, 5]
         ```
-```
-import numpy as np
+    1. 方法1
+    ```
+    import numpy as np
 
-shuffle_indices = np.random.permutation(np.arange(len(data))) # 会将[0, len(data))的整数洗牌.比如说shuffle_indices会变成[2 4 6 7 1 0 3 5]
-shuffled_data = data[shuffle_indices]
-```
-
+    shuffle_indices = np.random.permutation(np.arange(len(data))) # 会将[0, len(data))的整数洗牌.比如说shuffle_indices会变成[2 4 6 7 1 0 3 5]
+    shuffled_data = data[shuffle_indices]
+    ```
+    2. 方法2
+    ```
+    np.random.shuffle(data)
+    ```
 9. 计算当前时间戳
 ```
 import time
