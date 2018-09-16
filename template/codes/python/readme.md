@@ -495,15 +495,28 @@ scope_assign('s1','s2',sess)
             #print_tensors_in_checkpoint_file("ckpt/model-2", None, True) # model-2是上次使用save时的参数"test-ckpt/model-2.ckpt"
             ```
 
-    2. 还原整个会话里的变量
-    ```
-    W1 = tf.Variable(tf.truncated_normal([1],stddev = 0.1))
+    2. 还原
+        1. 还原整个会话里的变量
+        ```
+        W1 = tf.Variable(tf.truncated_normal([1],stddev = 0.1))
 
-    saver = tf.train.Saver()
-    with tf.Session(config=config) as sess:
-        saver.restore(sess,"ckpt/1.ckpt")
-        print(sess.run(W1))
-    ```
+        saver = tf.train.Saver()
+        with tf.Session(config=config) as sess:
+            saver.restore(sess,"ckpt/1.ckpt")
+            print(sess.run(W1))
+        ```
+        2. 还原整个graph,而不需要自己重新定义tensor变量
+            + 如果保存是"ckpt/model.ckpt"的话,那么就可以用其meta来还原整个graph
+        ```
+        saver = tf.train.import_meta_graph("ckpt/model.ckpt.meta")
+
+        gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+        config=tf.ConfigProto(gpu_options=gpu_options)
+        with tf.Session(config=config) as sess:
+            saver.restore(sess,"ckpt/model.ckpt")
+            print(sess.run(tf.get_default_graph().get_tensor_by_name("v1:0")))
+
+        ```
     3. 保存结果
     ```
     ckpt/
