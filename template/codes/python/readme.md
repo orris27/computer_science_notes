@@ -450,7 +450,7 @@ scope_assign('s1','s2',sess)
                 ```
             + `saver.save`的global_step可以更改存储模型的文件名
             ```
-            saver.save(sess, 'my-model', global_step=0) ==>      filename: 'my-model-0'
+            saver.save(sess, 'my-model', global_step=0)    ==> filename: 'my-model-0'
             ...
             saver.save(sess, 'my-model', global_step=1000) ==> filename: 'my-model-1000'
             #-------------------------------------------------------------------------------------
@@ -507,15 +507,25 @@ scope_assign('s1','s2',sess)
         ```
         2. 还原整个graph,而不需要自己重新定义tensor变量
             + 如果保存是"ckpt/model.ckpt"的话,那么就可以用其meta来还原整个graph
+            + 如果前面定义了重复名字的tensor,就会使用该tensor
         ```
         saver = tf.train.import_meta_graph("ckpt/model.ckpt.meta")
+        v2 = tf.Variable(3.14,name='v2')
 
         gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
         config=tf.ConfigProto(gpu_options=gpu_options)
         with tf.Session(config=config) as sess:
             saver.restore(sess,"ckpt/model.ckpt")
             print(sess.run(tf.get_default_graph().get_tensor_by_name("v1:0")))
+            print(sess.run(tf.get_default_graph().get_tensor_by_name("v2:0"))) # 返回的是3.14
 
+        ```
+        3. 恢复最后一次save的模型
+        ```
+        model = tf.train.latest_checkpoint('ckpt/') # model比如说是'ckpt/-9'(表示第global_step=9时save到'ckpt/').如果没有的话,model=None.常用这个来判断是否能恢复模型
+        if model:
+            saver.restore(sess,model)
+            print(sess.run(W1))
         ```
     3. 保存结果
     ```
@@ -580,13 +590,7 @@ scope_assign('s1','s2',sess)
     # └── checkpoint
     #------------------------------------------------------------------------------------------------
     ```
-    5. 恢复最后一次save的模型
-    ```
-    model = tf.train.latest_checkpoint('ckpt/') # model比如说是'ckpt/-9'(表示第global_step=9时save到'ckpt/').如果没有的话,model=None.常用这个来判断是否能恢复模型
-    if model:
-        saver.restore(sess,model)
-        print(sess.run(W1))
-    ```
+
 
 15. 生成全是0的变量
     1. 定义变量
