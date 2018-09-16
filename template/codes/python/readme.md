@@ -1679,6 +1679,7 @@ with tf.Session(config=config) as sess:
     ```
     2. 实战使用tf.nn.in_top_k判断准确率
         + 注意:如果是在feed训练集的情况下的话,算出来的是batch_size里的结果
+        + 其他用途:可以用来预测image的标签.将image作为batch_size为1喂食进模型中,然后这个sess.run返回的accuracy得到的就是预测的准确值
     ```
     with tf.name_scope('accuracy') as scope:
         correct = tf.nn.in_top_k(y_predicted,labels,1)
