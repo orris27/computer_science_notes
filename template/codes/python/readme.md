@@ -1544,6 +1544,10 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
         ```
         X_train = np.linspace(-10, 10, 64)[:,np.newaxis] + np.random.random([64,1]) * 0.01
         ```
+    3. 损失函数
+    ```
+    loss = tf.reduce_mean(tf.square(y_predicted - labels))
+    ```
 
 57. 文件操作
     + 接口:不需要sess.run
