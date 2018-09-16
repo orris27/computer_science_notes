@@ -607,8 +607,12 @@ scope_assign('s1','s2',sess)
     
 16. GPU
     1. tf.ConfigProto的参数
-        1. log_device_placement=True : 是否打印设备分配日志
-        2. allow_soft_placement=True ： 如果你指定的设备不存在，允许TF自动分配设备
+        1. log_device_placement=True : 日志中记录每个节点会被安排在哪个设备上.如果False可以减少日志量(生产环境使用)
+        2. allow_soft_placement=True ： 允许TF将GPU上的运算放到CPU上;如果False一般就报错(设置True的话移植性强)
+            1. 放到CPU上运算的条件
+                1. 运算无法在GPU上进行
+                2. 没有GPU资源.(比如指定第二个GPU,却没有)
+                3. 运算输入包含对CPU计算结果的引用
         ```
         tf.ConfigProto(log_device_placement=True,allow_soft_placement=True)
         ```
