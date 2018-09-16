@@ -1565,6 +1565,58 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
             sys.stdout.flush()
         ```
 
+58. 创建batch,将一个列表按batch_size不断输出
+```
+import tensorflow as tf
+
+def next_batch(sess, l, elm_type, batch_size, num_threads,capacity):
+    # 转换普通的list为tf能识别的类型
+    l = tf.cast(l,elm_type)
+    
+    # 创建队列
+    input_queue = tf.train.slice_input_producer([l]) # if there are 2 elms in the 1st param,the next sentence uses '[1]' to get that param
+    # 获取队列的第一个元素
+    l = input_queue[0]
+    # 获取batch对象
+    l_batch = tf.train.batch([l],batch_size=batch_size,num_threads=num_threads,capacity=capacity)
+
+    # 启动线程
+    coord = tf.train.Coordinator()
+    threads = tf.train.start_queue_runners(coord=coord)
+    try:
+        while not coord.should_stop():
+            # get & process the batch
+            yield sess.run([l_batch])
+
+    except tf.errors.OutOfRangeError:
+        print("done!")
+    finally:
+        coord.request_stop()
+
+    coord.join(threads)
+
+# input
+l = []
+for i in range(64):
+    l.append(i)
+# [0,
+#  1,
+#  2,
+#  .,
+# 63,]
+
+# cast list to tf type
+
+gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+config = tf.ConfigProto(gpu_options=gpu_options)
+
+with tf.Session(config=config) as sess:
+    for l_batch in next_batch(sess, l, elm_type=tf.int32, batch_size=16, num_threads=64, capacity=256):
+        print(l_batch)
+        # [array([23, 42, 16, 63,  3, 27, 39, 55, 20, 50,  9, 29, 38, 44, 26, 52],
+        #       dtype=int32)]
+        # type是'list'
+```
 
 ## 2. Python
 1. 如果是`__main__`的话
@@ -1703,12 +1755,13 @@ for batch in batches:
         data = np.array([1,2,3,4,5,6,7,8])
         print(data[[3,4]]) #[4, 5]
         ```
-    1. 方法1
+    1. 方法1:只适用于numpy array
     ```
     import numpy as np
 
     shuffle_indices = np.random.permutation(np.arange(len(data))) # 会将[0, len(data))的整数洗牌.比如说shuffle_indices会变成[2 4 6 7 1 0 3 5]
-    shuffled_data = data[shuffle_indices]
+    shuffled_data1 = data1[shuffle_indices]
+    shuffled_data2 = data2[shuffle_indices] # data{1,2}会保持相同行
     ```
     2. 方法2
     ```
@@ -1725,11 +1778,23 @@ int(time.time())
 #1536759813
 
 ```
-10. 计算绝对路径
-```
-os.path.abspath('.')
-# '/home/orris/fun/tensorflow'
-```
+10. 文件OS
+    1. 计算绝对路径
+    ```
+    os.path.abspath('.')
+    # '/home/orris/fun/tensorflow'
+    ```
+    2. 遍历某个目录下的所有文件,并打印文件名
+    ```
+    for filename in os.listdir(file_dir):
+        print(filename)
+    ```
+    3. 拼接目录和文件名
+    ```
+    for filename in os.listdir(file_dir):
+        print(filename)
+        print(os.path.join(file_dir,filename))
+    ```
 11. 生成`[0,10)`的整数的列表
 ```
 x = np.arange(9.0)
