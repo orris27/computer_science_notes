@@ -31,23 +31,25 @@ learning_rate = tf.Variable(1e-3)
                     1. VALID:如果不够pooling的话,就不管了.比如对于`[1,2,3,1]`使用`{ksize=[1,2,2,1],strides=[1,2,2,1]}`时结果为`[1,1,1,1]`(第3列被抛弃了)
                     2. SAME:只有需要补全的时候才补全.比如对于`[1,2,3,1]`使用`{ksize=[1,2,2,1],strides=[1,2,2,1]}`时结果为`[1,1,2,1]`(补全成`[1,2,4,1]`)
     ```
-    # Layer1 (conv+pooling)
-    
-    # W:[5,5]是窗口的大小;[1]是输入的厚度;[32]是输出的厚度
-    W1 = tf.Variable(tf.truncated_normal([5,5,1,32],stddev = 0.1))
-    
-    # b:[32]是输出的厚度
-    b1 = tf.Variable(tf.zeros([32])+0.1)
-    
-    # activate:a0是输入的图像们;strides = [1,1,1,1]是步长,一般取这个值就OK了
-    a1 = tf.nn.relu(tf.nn.conv2d(a0,W1,strides = [1,1,1,1],padding = 'SAME')+b1)
-    #a1 = tf.nn.relu(tf.nn.bias_add(tf.nn.conv2d(a0,W1,strides = [1,1,1,1],padding = 'SAME'), b1))
-    
-    # pooling:池化操作.就这样子就OK了 = >表示长宽缩小一半而厚度不变.
-    a1_pool = tf.nn.max_pool(a1,ksize = [1,2,2,1],strides = [1,2,2,1],padding = 'VALID')
+    # Layer1 (conv+pooling+lrn)
+    with tf.name_scope('conv1') as scope:
+        # W:[5,5]是窗口的大小;[1]是输入的厚度;[32]是输出的厚度
+        W = tf.Variable(tf.truncated_normal([3,3,3,16],stddev = 0.1), name='W')
 
-    # 输入=>输出: [-1,28,28,32]=>[-1,14,14,32]
-    # a1_pool is [-1,14,14,32]
+        # b:[32]是输出的厚度
+        b = tf.Variable(tf.zeros([16])+0.1, name='b')
+
+        # activate:a0是输入的图像们;strides = [1,1,1,1]是步长,一般取这个值就OK了
+        a = tf.nn.relu(tf.nn.conv2d(features,W,strides = [1,1,1,1],padding = 'SAME')+b, name='conv2d-relu')
+        #a = tf.nn.relu(tf.nn.bias_add(tf.nn.conv2d(a0,W1,strides = [1,1,1,1],padding = 'SAME'), b1))
+
+        # pooling:池化操作.就这样子就OK了 = >表示长宽缩小一半而厚度不变.
+        a_pool = tf.nn.max_pool(a,ksize = [1,2,2,1],strides = [1,2,2,1],padding = 'SAME', name='pooling')
+
+        # lrn层
+        a_norm = tf.nn.lrn(a_pool,depth_radius=4,bias=1.0,alpha=0.001/9.0,beta=0.75,name='lrn')
+
+        # 最后输出的shape可以通过print(a_norm.get_shape())查看
     ```
     2. 过渡卷积神经网路到全连接神经网络,改变特征值的形状
         1. TensorFlow的reshape:不能使用在普通变量
@@ -160,7 +162,14 @@ learning_rate = tf.Variable(1e-3)
     loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels = labels,logits = y_predicted))
     train = tf.train.AdamOptimizer(learning_rate).minimize(loss)
     ```
-    2. 方法2:自带学习率衰减
+    2. sparse_softmax_cross_entropy_with_logits
+        + 注意
+            1. logits.shape是[batch_size, num_classes] (dtype=tf.float)，labels.shape必须是[batch_size] (dtype=tf.int)
+            2. 使用前不能经过softmax.即y_predicted没有经过softmax处理
+    ```
+    loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels,logits = y_predicted))
+    ```
+    3. 方法2:自带学习率衰减
         + var_list:类似于`self.d_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope='disc')`
             + tf.GraphKeys.TRAINABLE_VARIABLES是字符串类型,为`trainable_variables`
             + tf.get_collection返回的是变量的列表
@@ -458,8 +467,8 @@ scope_assign('s1','s2',sess)
         with tf.Session(config=config) as sess:
             sess.run(tf.global_variables_initializer())
             print(sess.run(W1))
-            saver.save(sess,"ckpt/1.ckpt") 
-            #saver.save(sess,"ckpt/")  # 如果使用目录来存储,最后一定要加入/
+            saver.save(sess,"ckpt/")  # 如果使用目录来存储,最后一定要加入/
+            #saver.save(sess,"ckpt/1.ckpt") 
         ```
         2. 保存会话里的部分变量
             1. 存储:<key,value>
@@ -1650,6 +1659,31 @@ with tf.Session(config=config) as sess:
         # [array([23, 42, 16, 63,  3, 27, 39, 55, 20, 50,  9, 29, 38, 44, 26, 52],
         #       dtype=int32)]
 ```
+
+59. 验证
+    1. 使用tf.nn.in_top_k
+        1. 参数
+            1. predictions:`[batch_size,num_classes]`
+            2. targets:`[batch_size]`.dtype=int.表示正确的分类是第几类.
+            3. k: Number of top elements to look at for computing precision.
+    ```
+    import tensorflow as tf;
+ 
+    A = [[0.8,0.6,0.3], [0.1,0.6,0.4]] # A的结果分类应该是0,1.
+    B = [1, 1]
+    out = tf.nn.in_top_k(A, B, 1)
+    with tf.Session() as sess:
+        sess.run(tf.initialize_all_variables())
+        print sess.run(out)
+    # 输出[False,True]
+    ```
+    2. 实战使用tf.nn.in_top_k判断准确率
+        + 注意:如果是在feed训练集的情况下的话,算出来的是batch_size里的结果
+    ```
+    with tf.name_scope('accuracy') as scope:
+        correct = tf.nn.in_top_k(y_predicted,labels,1)
+        accuracy = tf.reduce_mean(tf.cast(correct,tf.float32))
+    ```
 
 ## 2. Python
 1. 如果是`__main__`的话
