@@ -566,3 +566,9 @@ glibc-common-2.17-222.el7.x86_64 has missing requires of glibc = ('0', '2.17', '
 libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_64
 ```
 解决: `rpm -evh glibc-common-2.17-222.el7.x86_64`
+## 19. TensorFlow
+1. `unhashable type: 'numpy.ndarray'`
+    + 注意:
+        1. numpy array是可以传入到tf.float32这些中去的
+        2. numpy array中如果是int类型,也可以传入到tf.float32中
+    + 问题所在:placeholder的名字和传入的变量的名字重复了.比如我`feed_dict = {labels:labels}`就是错误的
