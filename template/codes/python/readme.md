@@ -174,14 +174,14 @@ learning_rate = tf.Variable(1e-3)
             + tf.GraphKeys.TRAINABLE_VARIABLES是字符串类型,为`trainable_variables`
             + tf.get_collection返回的是变量的列表
             + GraphKeys
-                + `GLOBAL_VARIABLES`: the default collection of Variable objects, shared across distributed environment (model variables are subset of these). See tf.global_variables for more details. Commonly, all TRAINABLE_VARIABLES variables will be in MODEL_VARIABLES, and all MODEL_VARIABLES variables will be in GLOBAL_VARIABLES.
-                + `LOCAL_VARIABLES`: the subset of Variable objects that are local to each machine. Usually used for temporarily variables, like counters. Note: use tf.contrib.framework.local_variable to add to this collection.
-                + `MODEL_VARIABLES`: the subset of Variable objects that are used in the model for inference (feed forward). Note: use tf.contrib.framework.model_variable to add to this collection.
-                + `TRAINABLE_VARIABLES`: the subset of Variable objects that will be trained by an optimizer. See tf.trainable_variables for more details.
-                + `SUMMARIES`: the summary Tensor objects that have been created in the graph. See tf.summary.merge_all for more details.
-                + `QUEUE_RUNNERS`: the QueueRunner objects that are used to produce input for a computation. See tf.train.start_queue_runners for more details.
-                + `MOVING_AVERAGE_VARIABLES`: the subset of Variable objects that will also keep moving averages. See tf.moving_average_variables for more details.
-                + `REGULARIZATION_LOSSES`: regularization losses collected during graph construction.
+                1. `GLOBAL_VARIABLES`
+                2. `LOCAL_VARIABLES`
+                3. `MODEL_VARIABLES`
+                4. `TRAINABLE_VARIABLES`
+                5. `SUMMARIES`
+                6. `QUEUE_RUNNERS`
+                7. `MOVING_AVERAGE_VARIABLES`
+                8. `REGULARIZATION_LOSSES`
         + self.d_loss:代价函数
         + self.learning_rate:0.03等
     ```
@@ -1219,10 +1219,16 @@ python -m test
     ```
 
 40. 获得全局变量
-```
-print(sess.run(tf.global_variables()))
-#print(sess.run(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)))
-```
+    1. 打印全局变量的每个变量
+    ```
+    for var in tf.global_variables():
+        print(var)
+    ```
+    2. 打印全局变量
+    ```
+    print(sess.run(tf.global_variables()))
+    #print(sess.run(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)))
+    ```
 
 41. 将词典id表示的单词组成的文本转换成文本对应的词向量:tf.nn.embedding_lookup
 ```
