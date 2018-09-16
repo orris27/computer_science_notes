@@ -1778,13 +1778,22 @@ with tf.Session(config=config) as sess:
 import tensorflow as tf
 
 a = tf.Variable(3.14)
-b = tf.Variable(a.initialized_value())
+b = tf.Variable(a.initialized_value() * 2)
+
+    sess.run(tf.global_variables_initializer())
+    print(sess.run(b)) # 6.28
+```
+63. `var.initializer`:可以单独初始化var
+```
+import tensorflow as tf
+
+a = tf.Variable(3.14)
+b = tf.Variable(a.initialized_value() * 2)
 
 with tf.Session() as sess:
-    sess.run(tf.global_variables_initializer())
+    sess.run(b.initializer)
     print(sess.run(b))
 ```
-
 ## 2. Python
 1. 如果是`__main__`的话
 ```
