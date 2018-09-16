@@ -1571,6 +1571,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
             1. tensor_list
             2. num_epochs: 决定遍历多少轮整个数据.遍历结束后就会返回`tf.errors.OutOfRangeError`
                 + 注意:需要在创建`slice_input_producer`后初始化local变量!!
+                + None:表示一直循环
             3. shuffle
                 1. True: 每个batch都会是洗牌后的结果,所以可能会重复.但是如果规定了num_epochs后,每个元素必然会出现num_epochs
                 2. False: 完全按照顺序输出.比如`[0,1,2,3,4]`两个两个输出就是`[0,1]`,`[2,3]`,`[4,0]`,...
