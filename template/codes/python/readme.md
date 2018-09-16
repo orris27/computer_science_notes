@@ -2038,3 +2038,61 @@ list(map(int,l))
     f()
     7
     ```
+## 3. Bazel
+```
+cat BUILD 
+#-----------------------------------------------------------------------
+py_library(
+    name = "hello_lib",
+    srcs = [
+        "hello_lib.py",
+    ]
+)
+
+py_binary(
+    name = "hello_main",
+    srcs = [
+        "hello_main.py",
+    ],
+    deps = [
+        ":hello_lib",
+    ],
+)
+#-----------------------------------------------------------------------
+
+cat hello_lib.py 
+#-----------------------------------------------------------------------
+def print_hello_world():
+    print("Hello World")
+#-----------------------------------------------------------------------
+
+
+cat hello_main.py 
+#-----------------------------------------------------------------------
+import hello_lib
+hello_lib.print_hello_world()
+#-----------------------------------------------------------------------
+
+
+
+cat WORKSPACE  # 空文件
+#-----------------------------------------------------------------------
+#-----------------------------------------------------------------------
+
+bazel build :hello_main
+#-----------------------------------------------------------------------
+total 40
+drwxr-xr-x  2 orris orris 4096 Sep 16 23:29 ./
+drwxrwxr-x 31 orris orris 4096 Sep 16 21:58 ../
+lrwxrwxrwx  1 orris orris   88 Sep 16 23:29 bazel-bazel -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/
+lrwxrwxrwx  1 orris orris  115 Sep 16 23:29 bazel-bin -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/bin/
+lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-genfiles -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/genfiles/
+lrwxrwxrwx  1 orris orris   98 Sep 16 23:29 bazel-out -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/
+lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-testlogs -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/testlogs/
+-rw-r--r--  1 orris orris  207 Sep 16 23:29 BUILD
+-rw-r--r--  1 orris orris   50 Sep 16 21:59 hello_lib.py
+-rw-r--r--  1 orris orris   47 Sep 16 21:58 hello_main.py
+-rw-r--r--  1 orris orris    0 Sep 16 21:59 WORKSPACE
+#-----------------------------------------------------------------------
+
+```
