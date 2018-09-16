@@ -1742,6 +1742,28 @@ with tf.Session(config=config) as sess:
             print(sess.run(tf.get_variable("v")))
     ```
 
+61. eval:如果当前有默认的session的话,就会启用该session;或者使用参数里的session;否则报错
+    1. 创建默认的session
+        1. 方法1
+        ```
+        with tf.Session() as sess:
+            print(var.eval())
+        ```
+        2. 方法2
+        ```
+        with tf.Session().as_default() as sess:
+            print(var.eval())
+        ```
+        3. 方法3
+        ```
+        sess.as_default()
+        print(var.eval())
+        ```        
+        4. 方法4
+        ```
+        print(var.eval(session=sess))
+        ```
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
