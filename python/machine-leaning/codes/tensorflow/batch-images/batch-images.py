@@ -1,3 +1,8 @@
+'''
+    介绍:存放在"dataset/train/"下的猫狗大战数据集
+    使用:python batch-images.py
+    结果:显示出若干图片
+'''
 import os
 import numpy as np
 import matplotlib.pyplot as plt
