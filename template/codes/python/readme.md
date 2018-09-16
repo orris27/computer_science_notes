@@ -76,7 +76,7 @@ learning_rate = tf.Variable(1e-3)
         ```
         2. 方法2
         ```
-        def nn(self, inputs, output_dim, activator=None, scope=None):
+        def nn(self, inputs, output_dim, activator=None, scope_name=None):
             '''
                 定义神经网络的一层
             '''
@@ -86,7 +86,7 @@ learning_rate = tf.Variable(1e-3)
             const = tf.constant_initializer(0.0)
 
             # 打开变量域,或者使用None
-            with tf.variable_scope(scope, reuse=tf.AUTO_REUSE):
+            with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE):
                 # 定义权重
                 W = tf.get_variable("W",[inputs.get_shape()[1],output_dim],initializer=norm)
                 # 定义偏差
