@@ -1577,6 +1577,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
                 2. False: 完全按照顺序输出.比如`[0,1,2,3,4]`两个两个输出就是`[0,1]`,`[2,3]`,`[4,0]`,...
         2. 返回值:input_queue可以理解为和参数的第一个元素相同,表面上操作的是一个元素,实际上会对整个列表产生影响
     2. [使用tf.train.batch实现按批输出图片的程序](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/batch-images/batch-images.py)
+    3. [使用tf.train.batch实现按批输出图片的程序2,解决yield下threads无法join的](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/batch-images/batch-images2.py)
 ```
 import tensorflow as tf
 
