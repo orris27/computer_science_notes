@@ -984,10 +984,13 @@ with sv.managed_session(config=config) as sess:
 29. 常见值
     1. 随机tensor,用于赋值给Variable的第一个参数
     ```
+    # 正态分布
     tf.random_normal(shape, mean=0.0, stddev=1.0, dtype=tf.float32, seed=None, name=None)
 
+    # 正态分布,但如果摇出来的值离平均值超过2个标准差,句重新摇
     tf.truncated_normal(shape, mean=0.0, stddev=1.0, dtype=tf.float32, seed=None, name=None)
 
+    # 均匀分布
     tf.random_uniform(shape, minval=0, maxval=None, dtype=tf.float32, seed=None, name=None)
 
     tf.random_shuffle(value, seed=None, name=None)
@@ -996,6 +999,7 @@ with sv.managed_session(config=config) as sess:
 
     tf.multinomial(logits, num_samples, seed=None, name=None)
 
+    # Gamma分布
     tf.random_gamma(shape, alpha, beta=None, dtype=tf.float32, seed=None, name=None)
 
     tf.set_random_seed(seed)
@@ -1010,6 +1014,7 @@ with sv.managed_session(config=config) as sess:
 
     tf.ones_like(tensor, dtype=None, name=None)
 
+    # 产生一个全部为value的数组
     tf.fill(dims, value, name=None)
 
     tf.constant(value, dtype=None, shape=None, name='Const')
@@ -1767,6 +1772,18 @@ with tf.Session(config=config) as sess:
         ```
         print(var.eval(session=sess))
         ```
+
+62. `initialized_value()`:获得初始值,可以用来将自己的初始值设置成和其他变量一样
+```
+import tensorflow as tf
+
+a = tf.Variable(3.14)
+b = tf.Variable(a.initialized_value())
+
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    print(sess.run(b))
+```
 
 ## 2. Python
 1. 如果是`__main__`的话
