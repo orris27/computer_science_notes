@@ -1709,6 +1709,39 @@ with tf.Session(config=config) as sess:
         accuracy = tf.reduce_mean(tf.cast(correct,tf.float32))
     ```
 
+60. Graph
+    1. 获得某个变量所在的Graph,并且判断是不是当前默认的Graph
+    ```
+    print(v1.graph is tf.get_default_graph())
+    ```
+    2. 创建新的视图,并在该视图下计算.(不同Graph的张量和运算都不共享)
+        + 在指定的graph对象的as_default下做的定义,都写在这个graph对象里面.
+        + tf.Session可以指定使用的计算图
+        + `with tf.variable_scope('',reuse=True):`可以在默认的variable_scope里启动reuse
+    ```
+    import tensorflow as tf
+
+    g1 = tf.Graph()
+    with g1.as_default():
+        v = tf.get_variable("v",shape=[1],initializer=tf.zeros_initializer)
+
+    g2 = tf.Graph()
+    with g2.as_default():
+        v = tf.get_variable("v",shape=[1],initializer=tf.ones_initializer)
+
+    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+    config=tf.ConfigProto(gpu_options=gpu_options)
+    with tf.Session(config=config,graph=g1) as sess:
+        sess.run(tf.global_variables_initializer())
+        with tf.variable_scope('',reuse=True):
+            print(sess.run(tf.get_variable("v")))
+
+    with tf.Session(config=config,graph=g2) as sess:
+        sess.run(tf.global_variables_initializer())
+        with tf.variable_scope('',reuse=True):
+            print(sess.run(tf.get_variable("v")))
+    ```
+
 ## 2. Python
 1. 如果是`__main__`的话
 ```
