@@ -1263,6 +1263,15 @@ python -m test
     ```
     tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(scale)(W))
     ```
+    4. 对整个集合进行操作
+    ```
+    a = tf.Variable(4)
+    tf.add_to_collection('my-collection', a)
+    b = tf.Variable(6)
+    tf.add_to_collection('my-collection', b)
+
+    print(sess.run(tf.add_n(tf.get_collection('my-collection')))) # 10.比如添加4和6进去,结果就是返回10
+    ```
 
 
 41. 将词典id表示的单词组成的文本转换成文本对应的词向量:tf.nn.embedding_lookup
@@ -1850,21 +1859,31 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
 66. 正则化
     + 使用:`优化对象loss=损失函数+正则化系数*正则化函数(W)`.正则化主要用来降低模型复杂度从而防止过拟合.而模型复杂度一般只由权重(W)决定
         1. 'losses'变量集合:添加所有W和实际损失函数到该集合中,对整个集合的变量进行加法操作得到优化对象
+        ```
+        #################################################################################################
+        # 将权重和损失函数加入到集合"losses"中,然后将集合相加得到最后要优化的对象
+        #################################################################################################
+        W = tf.get_variable("W",[inputs.get_shape()[1],output_dim],initializer=norm)
+        tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(.5)(W))
+        mse_loss = tf.reduce_mean(tf.where(tf.greater(y_predicted,labels),1*(y_predicted-labels),10*(labels-y_predicted)))
+        tf.add_to_collection('losses',mse_loss)
+        loss = tf.add_n(tf.get_collection('losses'))
+        ```
     1. l1正则化:`scale*(|w0,0|+|w0,1|+|w1,0|+|w1,1|)`(`||`为绝对值函数).`tf.contrib.layers.l1_regularizer`
         1. 计算公式不可导
         2. 计算结果比较稀疏(元素为0的多)=>用来特征值筛选
-    2. l2正则化:`scale*(|w0,0|^2+|w0,1|^2+|w1,0|^2+|w1,1|^2)`.`tf.contrib.layers.l2_regularizer`
+    ```
+    W = tf.constant([[1.,-2.],[-3.,4.]])
+    sess.run(tf.contrib.layers.l1_regularizer(.5)(W)) # 7.5 = 0.5 * (1 + |-2| + |-3| + |4|) / 2
+    ```
+    2. l2正则化:`scale*(|w0,0|^2+|w0,1|^2+|w1,0|^2+|w1,1|^2)/2`.`tf.contrib.layers.l2_regularizer`
         1. 计算公式可导
         2. 计算结果比较不稀疏(元素为0的少).(因为l2正则化不会将0.001这样很小的数字继续调整为0)
     ```
-    #################################################################################################
-    # 将权重和损失函数加入到集合"losses"中,然后将集合相加得到最后要优化的对象
-    #################################################################################################
-    W = tf.get_variable("W",[inputs.get_shape()[1],output_dim],initializer=norm)
-    tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(.5)(W))
-    mse_loss = tf.reduce_mean(tf.where(tf.greater(y_predicted,labels),1*(y_predicted-labels),10*(labels-y_predicted)))
-    tf.add_to_collection('losses',mse_loss)
-    loss = tf.add_n(tf.get_collection('losses'))
+    W = tf.constant([[1.,-2.],[-3.,4.]])
+    sess.run(tf.contrib.layers.l2_regularizer(.5)(W)) # 7.5 = 0.5 * (1^2 + |-2|^2 + |-3|^2 + |4|^2) / 2
+
+    #loss = tf.reduce_mean(tf.where(tf.greater(y_predicted,labels),1*(y_predicted-labels),10*(labels-y_predicted))) + tf.contrib.layers.l2_regularizer(.5)(W)
     ```
 ## 2. Bazel
 ```
