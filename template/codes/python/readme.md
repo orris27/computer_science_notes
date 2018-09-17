@@ -6,12 +6,12 @@ with tf.name_scope('placeholder'):
     #  [[特征值0,特征值1,特征值2,...,特征值783],
     #   [第二个实例],
     #   [第三个实例],]
-    features = tf.placeholder(tf.float32,[None,784]) 
+    features = tf.placeholder(tf.float32,[None,784], name='features') 
     #  [[是分类0的可能性,是分类1的可能性,是分类2的可能性,...,是分类9的可能性],
     #   [第二个实例],
     #   [第三个实例]]
-    labels = tf.placeholder(tf.float32,[None,10])
-    keep_prob = tf.placeholder(tf.float32)
+    labels = tf.placeholder(tf.float32,[None,10], name='labels')
+    keep_prob = tf.placeholder(tf.float32, name='keep_prob')
 learning_rate = tf.Variable(1e-3)
 ```
 2. NN/CNN
