@@ -1885,6 +1885,47 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
 
     #loss = tf.reduce_mean(tf.where(tf.greater(y_predicted,labels),1*(y_predicted-labels),10*(labels-y_predicted))) + tf.contrib.layers.l2_regularizer(.5)(W)
     ```
+67. 滑动平均值:
+    1. tf.train.ExponentialMovingAverage
+        1. `shadow_variable = decay * shadow_variable + (1 - decay) * variable`
+            1. shadow_variable:值=`sess.run(ema.average([v1]))`
+            2. variable:值=`sess.run([v1])`
+            3. decay:值=`min{decay, (1 + num_updates) / (10 + num_updates)}`
+        2. `__init__`
+            1. 参数
+                1. decay
+                2. num_updates
+```
+import tensorflow as tf
+import numpy as np
+
+v = tf.Variable(0.0)
+step = tf.Variable(0)
+
+ema = tf.train.ExponentialMovingAverage(decay=0.99,num_updates=step)
+update = ema.apply([v]) # 执行apply会将variable通过上述公式更新到shadow_variable
+
+gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.4)
+config=tf.ConfigProto(gpu_options=gpu_options)
+with tf.Session(config=config) as sess:
+    sess.run(tf.global_variables_initializer())
+    print('variable={0}\tshadow_variable={1}'.format(sess.run(v),sess.run(ema.average(v))))
+    # 0,0 初始情况shadow_variable == variable
+
+    sess.run(tf.assign(v,5))
+    sess.run(update)
+    print('variable={0}\tshadow_variable={1}'.format(sess.run(v),sess.run(ema.average(v))))
+    # 5.0, 4.5 
+    # shadow_variable = 0.1 * 0 + (1 - 0.1) * 5  (因为decay = min(0.99,(1+0)/(10+0)))
+
+    
+    sess.run(tf.assign(v,10))
+    sess.run(tf.assign(step,1000))
+    sess.run(update)
+    print('variable={0}\tshadow_variable={1}'.format(sess.run(v),sess.run(ema.average(v))))
+    # 10.0,	4.555 
+    # shadow_variable = 0.99 * 4.5 + (1 - 0.99) * 10 (因为decay = min(0.99, (1 + 10000) / (10 + 10000)))
+```
 ## 2. Bazel
 ```
 cat BUILD 
