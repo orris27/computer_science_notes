@@ -511,7 +511,8 @@ scope_assign('s1','s2',sess)
             print(sess.run(W1))
         ```
         2. 还原整个graph,而不需要自己重新定义tensor变量
-            + 如果保存是"ckpt/model.ckpt"的话,那么就可以用其meta来还原整个graph
+            + 可以用其meta来还原整个graph
+            + 如果保存是"ckpt/"的话,".meta"是隐藏文件
             + 如果前面定义了重复名字的tensor,就会使用该tensor
         ```
         saver = tf.train.import_meta_graph("ckpt/model.ckpt.meta")
@@ -1887,7 +1888,7 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
     #loss = tf.reduce_mean(tf.where(tf.greater(y_predicted,labels),1*(y_predicted-labels),10*(labels-y_predicted))) + tf.contrib.layers.l2_regularizer(.5)(W)
     ```
 67. 滑动平均值:
-    1. tf.train.ExponentialMovingAverage
+    + tf.train.ExponentialMovingAverage
         1. `shadow_variable = decay * shadow_variable + (1 - decay) * variable`
             1. shadow_variable:值=`sess.run(ema.average([v1]))`
                 + shadow_variable会作为1个global_variable存在.命名格式为"v/ExponentialMovingAverage:0",是不可训练的
@@ -1897,37 +1898,89 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
             1. 参数
                 1. decay:一般取接近1的数字,比如0.99
                 2. num_updates
-```
-import tensorflow as tf
-import numpy as np
+    1. 定义1个变量,查看不同step下这个变量的滑动平均值
+    ```
+    import tensorflow as tf
+    import numpy as np
 
-v = tf.Variable(0.0)
-step = tf.Variable(0)
+    v = tf.Variable(0.0)
+    step = tf.Variable(0)
 
-ema = tf.train.ExponentialMovingAverage(decay=0.99,num_updates=step)
-maintain_averages = ema.apply([v]) # 执行apply会将variable通过上述公式更新到shadow_variable
+    ema = tf.train.ExponentialMovingAverage(decay=0.99,num_updates=step)
+    maintain_averages = ema.apply([v]) # 执行apply会将variable通过上述公式更新到shadow_variable
 
-gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.4)
-config=tf.ConfigProto(gpu_options=gpu_options)
-with tf.Session(config=config) as sess:
-    sess.run(tf.global_variables_initializer())
-    print('variable={0}\tshadow_variable={1}'.format(sess.run(v),sess.run(ema.average(v))))
-    # 0,0 初始情况shadow_variable == variable
+    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.4)
+    config=tf.ConfigProto(gpu_options=gpu_options)
+    with tf.Session(config=config) as sess:
+        sess.run(tf.global_variables_initializer())
+        print('variable={0}\tshadow_variable={1}'.format(sess.run(v),sess.run(ema.average(v))))
+        # 0,0 初始情况shadow_variable == variable
 
-    sess.run(tf.assign(v,5))
-    sess.run(maintain_averages)
-    print('variable={0}\tshadow_variable={1}'.format(sess.run(v),sess.run(ema.average(v))))
-    # 5.0, 4.5 
-    # shadow_variable = 0.1 * 0 + (1 - 0.1) * 5  (因为decay = min(0.99,(1+0)/(10+0)))
+        sess.run(tf.assign(v,5))
+        sess.run(maintain_averages)
+        print('variable={0}\tshadow_variable={1}'.format(sess.run(v),sess.run(ema.average(v))))
+        # 5.0, 4.5 
+        # shadow_variable = 0.1 * 0 + (1 - 0.1) * 5  (因为decay = min(0.99,(1+0)/(10+0)))
 
-    
-    sess.run(tf.assign(v,10))
-    sess.run(tf.assign(step,1000))
-    sess.run(maintain_averages)
-    print('variable={0}\tshadow_variable={1}'.format(sess.run(v),sess.run(ema.average(v))))
-    # 10.0, 4.555 
-    # shadow_variable = 0.99 * 4.5 + (1 - 0.99) * 10 (因为decay = min(0.99, (1 + 10000) / (10 + 10000)))
-```
+
+        sess.run(tf.assign(v,10))
+        sess.run(tf.assign(step,1000))
+        sess.run(maintain_averages)
+        print('variable={0}\tshadow_variable={1}'.format(sess.run(v),sess.run(ema.average(v))))
+        # 10.0, 4.555 
+        # shadow_variable = 0.99 * 4.5 + (1 - 0.99) * 10 (因为decay = min(0.99, (1 + 10000) / (10 + 10000)))
+    ```
+    2. 保存变量值和其滑动平均值,但恢复视图时只恢复该变量对应的滑动平均值
+        + 技巧
+            1. Saver的词典重命名
+            2. 影子变量的命名格式或者`tf.train.ExponentialMovingAverage`提供的`variables_to_restore`方法:返回`{"影子变量名":实际变量,}`的词典
+    ```
+    #####################################################################################################
+    # Save
+    #####################################################################################################
+
+    import tensorflow as tf
+    import numpy as np
+
+    v = tf.Variable(0.0,name='v')
+
+    ema = tf.train.ExponentialMovingAverage(decay=0.99)
+    maintain_averages = ema.apply([v]) # 执行apply会将variable通过上述公式更新到shadow_variable
+
+    saver = tf.train.Saver()
+
+    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.4)
+    config=tf.ConfigProto(gpu_options=gpu_options)
+    with tf.Session(config=config) as sess:
+        sess.run(tf.global_variables_initializer())
+
+        sess.run(tf.assign(v,10))
+        sess.run(maintain_averages)
+        print('variable={0}\tshadow_variable={1}'.format(sess.run(v),sess.run(ema.average(v))))
+        # variable=10.0 shadow_variable=0.09999990463256836
+        saver.save(sess,'ckpt/')
+
+
+    #####################################################################################################
+    # Restore
+    #####################################################################################################
+    import tensorflow as tf
+    import sys
+    import os
+
+    v = tf.Variable(3.14,name='v')
+
+    saver = tf.train.Saver({'v/ExponentialMovingAverage':v})
+    #ema = tf.train.ExponentialMovingAverage(decay=0.99)
+    #saver = tf.train.Saver(ema.variables_to_restore())
+
+    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+    config=tf.ConfigProto(gpu_options=gpu_options)
+    with tf.Session(config=config) as sess:
+        sess.run(tf.global_variables_initializer())
+        saver.restore(sess,"ckpt/")
+        print(sess.run(v)) # 0.099999905
+    ```
 ## 2. Bazel
 ```
 cat BUILD 
