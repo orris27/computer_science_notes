@@ -168,7 +168,11 @@ learning_rate = tf.Variable(1e-3)
             1. logits.shape是[batch_size, num_classes] (dtype=tf.float)，labels.shape必须是[batch_size] (dtype=tf.int)
             2. 使用前不能经过softmax.即y_predicted没有经过softmax处理
     ```
-    loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels,logits = y_predicted))
+    cross_entropy = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels,logits = y_predicted))
+    tf.add_to_collection('losses',cross_entropy)
+    
+    # 如果使用的labels为[batch_size, num_classes]格式的话,用tf.argmax缩减第二个维度
+    #cross_entropy = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = tf.argmax(labels,1),logits = y_predicted)) 
     ```
     3. 方法2:自带学习率衰减
         + var_list:类似于`self.d_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope='disc')`
@@ -526,7 +530,7 @@ scope_assign('s1','s2',sess)
             print(sess.run(tf.get_default_graph().get_tensor_by_name("v2:0"))) # 返回的是3.14
 
         ```
-        3. 恢复最后一次save的模型
+        3. 恢复最后一次save的模型:`tf.train.latest_checkpoint('ckpt/')`<=>`ckpt = tf.train.get_checkpoint_state('ckpt/')`下的`ckpt.model_checkpoint_path`(ckpt是checkpoint里面所有信息的字典)
         ```
         model = tf.train.latest_checkpoint('ckpt/') # model比如说是'ckpt/-9'(表示第global_step=9时save到'ckpt/').如果没有的话,model=None.常用这个来判断是否能恢复模型
         if model:
@@ -1881,8 +1885,8 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
         #################################################################################################
         W = tf.get_variable("W",[inputs.get_shape()[1],output_dim],initializer=norm)
         tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(.5)(W))
-        mse_loss = tf.reduce_mean(tf.where(tf.greater(y_predicted,labels),1*(y_predicted-labels),10*(labels-y_predicted)))
-        tf.add_to_collection('losses',mse_loss)
+        cross_entropy = tf.reduce_mean(tf.where(tf.greater(y_predicted,labels),1*(y_predicted-labels),10*(labels-y_predicted)))
+        tf.add_to_collection('losses',cross_entropy)
         loss = tf.add_n(tf.get_collection('losses'))
         ```
     1. l1正则化:`scale*(|w0,0|+|w0,1|+|w1,0|+|w1,1|)`(`||`为绝对值函数).`tf.contrib.layers.l1_regularizer`
@@ -1912,6 +1916,7 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
             1. 参数
                 1. decay:一般取接近1的数字,比如0.99
                 2. num_updates
+    + 用途:训练时使用原来的变量,但验证或者测试的时候,使用滑动平均值
     1. 定义1个变量,查看不同step下这个变量的滑动平均值
     ```
     import tensorflow as tf
@@ -2046,7 +2051,17 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
         print(sess.run(result))
 
     ```
-        
+
+69. 查看`data-*****-of-*****`保存的所有变量和对应的维度
+```
+reader = tf.train.NewCheckpointReader('ckpt/')
+
+variables_dict = reader.get_variable_to_shape_map() # "{变量名:变量的维度,}" 的词典
+
+for variable_name in variables_dict:
+    print(variable_name,variables_dict[variable_name])
+
+```
 ## 2. Bazel
 ```
 cat BUILD 
