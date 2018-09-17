@@ -1042,8 +1042,9 @@ with sv.managed_session(config=config) as sess:
     
     tf.orthogonal_initializer(gain=1.0, dtype=tf.float32, seed=None)
     ```
-30. [构建TF代码](https://blog.csdn.net/u012436149/article/details/53843158)
-
+30. 代码实战
+    1. [构建TF代码](https://blog.csdn.net/u012436149/article/details/53843158)
+    2. [自定义loss函数.表示商品生产数量的预测值和实际值导致的利润](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/my-loss/my-loss.py)
 31. 计算梯度
     + 如果函数是`y = tf.clip_by_value(x, 0, 5)`,那么`[0,5]`内返回1,而其他范围内返回0
     1. 如果xs是列表:计算ys对每个xs里的x的偏导并返回.结果的shape=b的shape
@@ -1855,7 +1856,16 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
     2. l2正则化:`scale*(|w0,0|^2+|w0,1|^2+|w1,0|^2+|w1,1|^2)`.`tf.contrib.layers.l2_regularizer`
         1. 计算公式可导
         2. 计算结果比较不稀疏(元素为0的少).(因为l2正则化不会将0.001这样很小的数字继续调整为0)
-    
+    ```
+    #################################################################################################
+    # 将权重和损失函数加入到集合"losses"中,然后将集合相加得到最后要优化的对象
+    #################################################################################################
+    W = tf.get_variable("W",[inputs.get_shape()[1],output_dim],initializer=norm)
+    tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(.5)(W))
+    mse_loss = tf.reduce_mean(tf.where(tf.greater(y_predicted,labels),1*(y_predicted-labels),10*(labels-y_predicted)))
+    tf.add_to_collection('losses',mse_loss)
+    loss = tf.add_n(tf.get_collection('losses'))
+    ```
 ## 2. Bazel
 ```
 cat BUILD 
