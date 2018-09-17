@@ -1893,7 +1893,7 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
             3. decay:值=`min{decay, (1 + num_updates) / (10 + num_updates)}`
         2. `__init__`
             1. 参数
-                1. decay
+                1. decay:一般取接近1的数字,比如0.99
                 2. num_updates
 ```
 import tensorflow as tf
