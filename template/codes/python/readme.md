@@ -1791,6 +1791,20 @@ with tf.Session(config=config) as sess:
         with tf.variable_scope('',reuse=True):
             print(sess.run(tf.get_variable("v")))
     ```
+    3. 导出元图为json格式
+    ```
+    import tensorflow as tf
+    import numpy as np
+
+    a = tf.Variable(1.0,name='a')
+    b = tf.Variable(2.0,name='b')
+
+    add = tf.add(a,b,name='add')
+
+    saver = tf.train.Saver()
+
+    saver.export_meta_graph("ckpt/.meta.json",as_text=True)
+    ```
 
 61. eval:如果当前有默认的session的话,就会启用该session;或者使用参数里的session;否则报错
     1. 创建默认的session
