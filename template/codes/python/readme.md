@@ -1161,6 +1161,9 @@ tuple = tf.tuple([mul, add])
 37. 计算梯度
     + `intial_learning_rate×(decay_rate)^(global_step÷decay_steps)`:`0.1×(0.9)^(6÷10)`
     + global_step设置为learning_rate的初始值,一般情况下都是从0开始,后续每次用train来运行learning_rate都会增加step,为1,2,3
+    + `staircase`: [原理图](https://pic2.zhimg.com/80/v2-8c944c984b11a929d703d60ce36e29fc_hd.jpg)
+        1. True:`(global_step÷decay_steps)`转换为整数.(图中的阶梯)
+        2. False(默认):`(global_step÷decay_steps)`为浮点数.(图中的光滑曲线)
 ```
 global_step = tf.Variable(0, trainable=False)
 
