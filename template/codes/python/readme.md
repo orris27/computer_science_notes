@@ -389,7 +389,7 @@ scope_assign('s1','s2',sess)
 
 
 10. 我自己的命名规范
-    1. batch_size:第一个维度,表示一个特征值/标签的实例个数=单次训练的实例个数
+    1. `batch_size`:第一个维度,表示一个特征值/标签的实例个数=单次训练的实例个数
     2. 维度:1开始的下标
     3. 训练次数
         1. `num_pretrain_steps`
@@ -400,6 +400,8 @@ scope_assign('s1','s2',sess)
         3. `num_filters`:输出的filter层的个数
     5. 间隔
         1. `evalute_every`
+    6. 分类问题
+        1. `num_classes`:分多少类
         
 
 11. [自己模仿写的正态分布的GAN](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/gan)
@@ -1593,6 +1595,9 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
         ```
     3. 损失函数
         1. 均方误差
+            + 条件
+                1. y_predicted.shape == labels.shape
+                2. shape=`[batch_size,num_classes]`或者`[batch_size]`等都可以
         ```
         loss = tf.reduce_mean(tf.square(y_predicted - labels)) # 适用于回归等
         ```
@@ -1807,14 +1812,15 @@ with tf.Session() as sess:
     1. `tf.greater`:基于元素来返回`v1>v2`
     2. `tf.where`:根据第一个参数的真值来返回第二个参数或者第三个参数(基于元素级别)
 66. 正则化
-    + 使用:`损失函数=交叉熵等损失函数+正则化系数*正则化函数(W)`.正则化主要用来降低模型复杂度从而防止过拟合.而模型复杂度一般只由权重(W)决定
+    + 使用:`优化对象loss=损失函数+正则化系数*正则化函数(W)`.正则化主要用来降低模型复杂度从而防止过拟合.而模型复杂度一般只由权重(W)决定
+        1. 'losses'变量集合:添加所有W和实际损失函数到该集合中,对整个集合的变量进行加法操作得到优化对象
     1. l1正则化:`scale*(|w0,0|+|w0,1|+|w1,0|+|w1,1|)`(`||`为绝对值函数).`tf.contrib.layers.l1_regularizer`
         1. 计算公式不可导
         2. 计算结果比较稀疏(元素为0的多)=>用来特征值筛选
     2. l2正则化:`scale*(|w0,0|^2+|w0,1|^2+|w1,0|^2+|w1,1|^2)`.`tf.contrib.layers.l2_regularizer`
         1. 计算公式可导
         2. 计算结果比较不稀疏(元素为0的少).(因为l2正则化不会将0.001这样很小的数字继续调整为0)
-        
+    
 ## 2. Bazel
 ```
 cat BUILD 
