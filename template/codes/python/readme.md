@@ -1981,6 +1981,58 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
         saver.restore(sess,"ckpt/")
         print(sess.run(v)) # 0.099999905
     ```
+
+
+68. 保存必要的计算节点,而将其他变量转换成常数
+    1. 保存
+        1. 获取当前的计算图
+        2. 转换当前计算图内的某个计算节点
+        3. 写入转换结果到保存的文件里
+    ```
+    import tensorflow as tf
+    from tensorflow.python.framework import graph_util
+
+    a = tf.Variable(1.0,name='a')
+    b = tf.Variable(2.0,name='b')
+
+    result = tf.add(a,b, name='add')
+
+    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.4)
+    config=tf.ConfigProto(gpu_options=gpu_options)
+    with tf.Session(config=config) as sess:
+        sess.run(tf.global_variables_initializer())
+
+        print(result.name)
+
+        graph_def = tf.get_default_graph().as_graph_def()
+
+        output_graph_def = graph_util.convert_variables_to_constants(sess,graph_def,['add'])
+
+        with tf.gfile.GFile("ckpt/model.pb","wb") as f:
+            f.write(output_graph_def.SerializeToString())
+    ```
+    2. 恢复
+        1. 构造GraphDef对象
+        2. 解析文件内容到GraphDef对象中
+        3. 导入GraphDef对象内的某个计算节点到当前的计算图中,并设置对应的张量
+    ```
+    import tensorflow as tf
+
+    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+    config=tf.ConfigProto(gpu_options=gpu_options)
+    with tf.Session(config=config) as sess:
+        sess.run(tf.global_variables_initializer())
+
+        with tf.gfile.FastGFile('ckpt/model.pb','rb') as f:
+            graph_def = tf.GraphDef()
+            graph_def.ParseFromString(f.read())
+
+        result = tf.import_graph_def(graph_def,return_elements=["add:0"])
+
+        print(sess.run(result))
+
+    ```
+        
 ## 2. Bazel
 ```
 cat BUILD 
