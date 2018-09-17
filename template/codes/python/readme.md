@@ -1247,6 +1247,7 @@ python -m test
         2. <方法2> GraphKeys
         ```
         params = tf.global_variables()
+        params = tf.trainable_variables() # 必须可训练的变量在这条语句前定义,否则获取不到
         ```
     2. 打印变量集合
         1. 打印全局变量的每个变量
@@ -1889,6 +1890,7 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
     1. tf.train.ExponentialMovingAverage
         1. `shadow_variable = decay * shadow_variable + (1 - decay) * variable`
             1. shadow_variable:值=`sess.run(ema.average([v1]))`
+                + shadow_variable会作为1个global_variable存在.命名格式为"v/ExponentialMovingAverage:0",是不可训练的
             2. variable:值=`sess.run([v1])`
             3. decay:值=`min{decay, (1 + num_updates) / (10 + num_updates)}`
         2. `__init__`
@@ -1903,7 +1905,7 @@ v = tf.Variable(0.0)
 step = tf.Variable(0)
 
 ema = tf.train.ExponentialMovingAverage(decay=0.99,num_updates=step)
-update = ema.apply([v]) # 执行apply会将variable通过上述公式更新到shadow_variable
+maintain_averages = ema.apply([v]) # 执行apply会将variable通过上述公式更新到shadow_variable
 
 gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.4)
 config=tf.ConfigProto(gpu_options=gpu_options)
@@ -1913,7 +1915,7 @@ with tf.Session(config=config) as sess:
     # 0,0 初始情况shadow_variable == variable
 
     sess.run(tf.assign(v,5))
-    sess.run(update)
+    sess.run(maintain_averages)
     print('variable={0}\tshadow_variable={1}'.format(sess.run(v),sess.run(ema.average(v))))
     # 5.0, 4.5 
     # shadow_variable = 0.1 * 0 + (1 - 0.1) * 5  (因为decay = min(0.99,(1+0)/(10+0)))
@@ -1921,9 +1923,9 @@ with tf.Session(config=config) as sess:
     
     sess.run(tf.assign(v,10))
     sess.run(tf.assign(step,1000))
-    sess.run(update)
+    sess.run(maintain_averages)
     print('variable={0}\tshadow_variable={1}'.format(sess.run(v),sess.run(ema.average(v))))
-    # 10.0,	4.555 
+    # 10.0, 4.555 
     # shadow_variable = 0.99 * 4.5 + (1 - 0.99) * 10 (因为decay = min(0.99, (1 + 10000) / (10 + 10000)))
 ```
 ## 2. Bazel
