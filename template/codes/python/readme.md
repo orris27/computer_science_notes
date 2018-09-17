@@ -1936,7 +1936,7 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
             1. 参数
                 1. decay:一般取接近1的数字,比如0.99
                 2. num_updates
-    + 用途:训练时使用原来的变量,但验证或者测试的时候,使用滑动平均值
+    + 用途:训练时使用原来的变量(W和b),但验证或者测试的时候,使用滑动平均值
     1. 定义1个变量,查看不同step下这个变量的滑动平均值
     ```
     import tensorflow as tf
