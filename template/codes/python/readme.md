@@ -1365,10 +1365,20 @@ with tf.Session() as sess:
     ```
     import sys
 
-    tf.flags.DEFINE_float("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
-    tf.flags.DEFINE_integer("embedding_dim", 128, "Dimensionality of character embedding (default: 128)")
+    tf.flags.DEFINE_float("learning_rate", 0.01, "learning rate")
+    
+    tf.flags.DEFINE_integer("num_filters", 128, "num of filters")
+    tf.flags.DEFINE_integer("num_classes", 2, "num of classes")
+    tf.flags.DEFINE_integer("num_steps", 200, "num of steps")
+    tf.flags.DEFINE_integer("embedding_size", 128, "embedding size")
+    tf.flags.DEFINE_integer("batch_size", 64, "batch size")
+    tf.flags.DEFINE_integer("log_every", 100, "batch size")
+
     tf.flags.DEFINE_string("filter_sizes", "3,4,5", "Comma-separated filter sizes (default: '3,4,5')")
+    
     tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on devices")
+    tf.flags.DEFINE_boolean("allow_soft_placement", True, "Allow device soft device placement")
+    tf.flags.DEFINE_boolean("shuffle", False, "The batch data should shuffled or not")
 
     FLAGS = tf.flags.FLAGS
     FLAGS(sys.argv) # 启用flags
