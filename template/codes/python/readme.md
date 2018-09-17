@@ -33,24 +33,26 @@ learning_rate = tf.Variable(1e-3)
                     2. SAME:只有需要补全的时候才补全.比如对于`[1,2,3,1]`使用`{ksize=[1,2,2,1],strides=[1,2,2,1]}`时结果为`[1,1,2,1]`(补全成`[1,2,4,1]`)
     ```
     # Layer1 (conv+pooling+lrn)
-    with tf.name_scope('conv1') as scope:
+    with tf.variable_scope('conv1',reuse=tf.AUTO_REUSE) as scope:
         # W:[5,5]是窗口的大小;[1]是输入的厚度;[32]是输出的厚度
-        W = tf.Variable(tf.truncated_normal([3,3,3,16],stddev = 0.1), name='W')
+        W = tf.get_variable("W", [5,5,1,32], initializer=tf.truncated_normal_initializer(stddev = 0.1))
+        if self.regularizer:
+            tf.add_to_collection('losses',self.regularizer(W))
 
         # b:[32]是输出的厚度
-        b = tf.Variable(tf.zeros([16])+0.1, name='b')
+        b = tf.get_variable("b", [32], initializer=tf.constant_initializer(0.1))
 
         # activate:a0是输入的图像们;strides = [1,1,1,1]是步长,一般取这个值就OK了
-        a = tf.nn.relu(tf.nn.conv2d(features,W,strides = [1,1,1,1],padding = 'SAME')+b, name='conv2d-relu')
+        a = tf.nn.relu(tf.nn.conv2d(a0,W,strides = [1,1,1,1],padding = 'SAME')+b, name='conv2d-relu')
         #a = tf.nn.relu(tf.nn.bias_add(tf.nn.conv2d(a0,W1,strides = [1,1,1,1],padding = 'SAME'), b1))
 
         # pooling:池化操作.就这样子就OK了 = >表示长宽缩小一半而厚度不变.
-        a_pool = tf.nn.max_pool(a,ksize = [1,2,2,1],strides = [1,2,2,1],padding = 'SAME', name='pooling')
+        a_pool = tf.nn.max_pool(a,ksize = [1,2,2,1],strides = [1,2,2,1],padding = 'VALID', name='pooling')
 
         # lrn层
-        a_norm = tf.nn.lrn(a_pool,depth_radius=4,bias=1.0,alpha=0.001/9.0,beta=0.75,name='lrn')
+        a1 = tf.nn.lrn(a_pool,depth_radius=4,bias=1.0,alpha=0.001/9.0,beta=0.75,name='lrn')
 
-        # 最后输出的shape可以通过print(a_norm.get_shape())查看
+        # 最后输出的shape可以通过print(a1.get_shape())查看
     ```
     2. 过渡卷积神经网路到全连接神经网络,改变特征值的形状
         1. TensorFlow的reshape:不能使用在普通变量
@@ -79,19 +81,21 @@ learning_rate = tf.Variable(1e-3)
         ```
         2. 方法2
         ```
-        def nn(self, inputs, output_dim, activator=None, scope_name=None):
+        def nn(self, inputs, output_dim, activator=None, scope_name=None, regularizer=None):
             '''
                 定义神经网络的一层
             '''
             # 定义权重的初始化器
             norm = tf.random_normal_initializer(stddev=1.0)
             # 定义偏差的初始化
-            const = tf.constant_initializer(0.0)
+            const = tf.constant_initializer(0.1)
 
             # 打开变量域,或者使用None
             with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE):
                 # 定义权重
                 W = tf.get_variable("W",[inputs.get_shape()[1],output_dim],initializer=norm)
+                if regularizer:
+                    tf.add_to_collection('losses',regularizer(W))
                 # 定义偏差
                 b = tf.get_variable("b",[output_dim],initializer=const)
                 # 激活
@@ -101,6 +105,7 @@ learning_rate = tf.Variable(1e-3)
                 # dropout
                 # 返回输出值
                 return a
+
             
         # 使用方法如下所示
         def discriminator(self,inputs,dim):
@@ -194,22 +199,23 @@ learning_rate = tf.Variable(1e-3)
         '''
             var_list:要训练的张量集合.
         '''
-        decay = 0.95
+        decay = 0.99
         num_decay_steps = 150
-        batch = tf.Variable(0)
+        global_step = tf.Variable(0)
         learning_rate = tf.train.exponential_decay(
             initial_learning_rate,
-            batch,
+            global_step,
             num_decay_steps,
             decay,
             staircase=True
         )
-        optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(
+        optimizer = tf.train.AdamOptimizer(learning_rate).minimize(
             loss,
-            global_step=batch,
+            global_step=global_step,
             var_list=var_list
         )
         return optimizer
+
     
     self.d_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope='disc')
     self.d_train  = self.optimizer(self.d_loss, self.d_params, self.learning_rate)
@@ -1366,13 +1372,16 @@ with tf.Session() as sess:
     import sys
 
     tf.flags.DEFINE_float("learning_rate", 0.01, "learning rate")
+    tf.flags.DEFINE_float("regularization_scale", 0.0001, "scale of regularization")
     
     tf.flags.DEFINE_integer("num_filters", 128, "num of filters")
     tf.flags.DEFINE_integer("num_classes", 2, "num of classes")
-    tf.flags.DEFINE_integer("num_steps", 200, "num of steps")
+    tf.flags.DEFINE_integer("num_epochs", 200, "num of ")
     tf.flags.DEFINE_integer("embedding_size", 128, "embedding size")
     tf.flags.DEFINE_integer("batch_size", 64, "batch size")
-    tf.flags.DEFINE_integer("log_every", 100, "batch size")
+    tf.flags.DEFINE_integer("save_every", 100, "save_every")
+    tf.flags.DEFINE_integer("log_every", 100, "log_every")
+
 
     tf.flags.DEFINE_string("filter_sizes", "3,4,5", "Comma-separated filter sizes (default: '3,4,5')")
     
@@ -1895,7 +1904,7 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
         # 将权重和损失函数加入到集合"losses"中,然后将集合相加得到最后要优化的对象
         #################################################################################################
         W = tf.get_variable("W",[inputs.get_shape()[1],output_dim],initializer=norm)
-        tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(.5)(W))
+        tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(.5)(W)) # 一般scale取0.0001
         cross_entropy = tf.reduce_mean(tf.where(tf.greater(y_predicted,labels),1*(y_predicted-labels),10*(labels-y_predicted)))
         tf.add_to_collection('losses',cross_entropy)
         loss = tf.add_n(tf.get_collection('losses'))
