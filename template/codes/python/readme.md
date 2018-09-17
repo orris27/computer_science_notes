@@ -1919,6 +1919,7 @@ lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-testlogs -> /home/orris/.cache
     1. 均匀分布
         1. `np.random.RandomState.rand`=`np.random.rand`:返回给定形状的`[0,1)`下均匀分布的随机数的数组
         ```
+        #np.random.RandomState(1).rand(3,2)
         np.random.rand(3,2)
         array([[ 0.14022471,  0.96360618],  #random
                [ 0.37601032,  0.25528411],  #random
@@ -2045,11 +2046,11 @@ X_text, y = load_data_and_labels('./data/rt-polaritydata/rt-polarity.pos','./dat
 # [一句话,] => [词典id,]
 # [词典id,] => [词向量,] (X_text => X)
 # 可以在这里将X和y分割成训练集和测试集
-batches = next_batch(list(zip(X_train, y_train)), FLAGS.batch_size, FLAGS.num_steps)
+batches = next_batch(list(zip(X_trainset, y_trainset)), FLAGS.batch_size, FLAGS.num_steps)
 for batch in batches:
-    X, y = zip(*batch) # 这里的X和y已经是训练集中的[batch_size,xxx]的二维矩阵了
-    X = np.array(X)
-    y = np.array(y)
+    X_train, y_train = zip(*batch) # 这里的X和y已经是训练集中的[batch_size,xxx]的二维矩阵了
+    X_train = np.array(X_train)
+    y_train = np.array(y_train)
     # ... # 自由训练把~~
 ``` 
 
