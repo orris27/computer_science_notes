@@ -1824,9 +1824,27 @@ with tf.Session() as sess:
 ```
 63. `tf.matmul`和`*`:前者矩阵乘法,后者点积
 64. 更改tensor的形状
+```
+a = tf.Variable(tf.random_normal([2,3]))
+b = tf.Variable(tf.random_normal([2,2]))
+
+update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出就是[2,2]形状,但又不能和[2,2]进行相加等
+```
 65. 条件判断
     1. `tf.greater`:基于元素来返回`v1>v2`
+    ```
+    a = tf.constant([1.,2.,3.,4.])
+    b = tf.constant([4.,3.,2.,1.])
+
+    result = tf.greater(a,b) # [False False  True  True]
+    ```
     2. `tf.where`:根据第一个参数的真值来返回第二个参数或者第三个参数(基于元素级别)
+    ```
+    a = tf.constant([1.,2.,3.,4.])
+    b = tf.constant([4.,3.,2.,1.])
+
+    result = tf.where(tf.greater(a,b),a, b) # [4. 3. 3. 4.]
+    ```
 66. 正则化
     + 使用:`优化对象loss=损失函数+正则化系数*正则化函数(W)`.正则化主要用来降低模型复杂度从而防止过拟合.而模型复杂度一般只由权重(W)决定
         1. 'losses'变量集合:添加所有W和实际损失函数到该集合中,对整个集合的变量进行加法操作得到优化对象
