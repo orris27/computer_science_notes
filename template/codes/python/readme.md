@@ -1235,17 +1235,33 @@ python -m test
         print(sess.run(deq))
     ```
 
-40. 获得全局变量
-    1. 打印全局变量的每个变量
+40. 变量集合.GraphKeys, collection
+    1. 获得变量集合
+        1. <方法1> get_collection
+        ```
+        self.d_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope='disc')
+        tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)
+        ```
+        2. <方法2> GraphKeys
+        ```
+        params = tf.global_variables()
+        ```
+    2. 打印变量集合
+        1. 打印全局变量的每个变量
+        ```
+        for var in tf.global_variables():
+            print(var)
+        ```
+        2. 打印全局变量
+        ```
+        print(sess.run(tf.global_variables()))
+        #print(sess.run(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)))
+        ```
+    3. 添加变量到指定变量集合中
     ```
-    for var in tf.global_variables():
-        print(var)
+    tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(scale)(W))
     ```
-    2. 打印全局变量
-    ```
-    print(sess.run(tf.global_variables()))
-    #print(sess.run(tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)))
-    ```
+
 
 41. 将词典id表示的单词组成的文本转换成文本对应的词向量:tf.nn.embedding_lookup
 ```
