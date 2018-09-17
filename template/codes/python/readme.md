@@ -393,12 +393,14 @@ scope_assign('s1','s2',sess)
     2. 维度:1开始的下标
     3. 训练次数
         1. `num_pretrain_steps`
-        2. `num_steps`
+        2. `num_steps`或`num_epochs`
     4. CNN
         1. `filter_size`:窗口的宽
         2. `filter_sizes`:窗口的宽的列表
         3. `num_filters`:输出的filter层的个数
-
+    5. 间隔
+        1. `evalute_every`
+        
 
 11. [自己模仿写的正态分布的GAN](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/gan)
 
@@ -1586,9 +1588,10 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
         X_train = np.linspace(-10, 10, 64)[:,np.newaxis] + np.random.random([64,1]) * 0.01
         ```
     3. 损失函数
-    ```
-    loss = tf.reduce_mean(tf.square(y_predicted - labels))
-    ```
+        1. 均方误差
+        ```
+        loss = tf.reduce_mean(tf.square(y_predicted - labels)) # 适用于回归等
+        ```
 
 57. 文件操作
     + 接口:不需要sess.run
@@ -1794,7 +1797,81 @@ with tf.Session() as sess:
     sess.run(b.initializer)
     print(sess.run(b))
 ```
-## 2. Python
+63. `tf.matmul`和`*`:前者矩阵乘法,后者点积
+64. 更改tensor的形状
+65. 条件判断
+    1. `tf.greater`:基于元素来返回`v1>v2`
+    2. `tf.where`:根据第一个参数的真值来返回第二个参数或者第三个参数(基于元素级别)
+
+## 2. Bazel
+```
+cat BUILD 
+#-----------------------------------------------------------------------
+py_library(
+    name = "hello_lib",
+    srcs = [
+        "hello_lib.py",
+    ]
+)
+
+py_binary(
+    name = "hello_main",
+    srcs = [
+        "hello_main.py",
+    ],
+    deps = [
+        ":hello_lib",
+    ],
+)
+#-----------------------------------------------------------------------
+
+cat hello_lib.py 
+#-----------------------------------------------------------------------
+def print_hello_world():
+    print("Hello World")
+#-----------------------------------------------------------------------
+
+
+cat hello_main.py 
+#-----------------------------------------------------------------------
+import hello_lib
+hello_lib.print_hello_world()
+#-----------------------------------------------------------------------
+
+
+
+cat WORKSPACE  # 空文件
+#-----------------------------------------------------------------------
+#-----------------------------------------------------------------------
+
+bazel build :hello_main
+#-----------------------------------------------------------------------
+total 40
+drwxr-xr-x  2 orris orris 4096 Sep 16 23:29 ./
+drwxrwxr-x 31 orris orris 4096 Sep 16 21:58 ../
+lrwxrwxrwx  1 orris orris   88 Sep 16 23:29 bazel-bazel -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/
+lrwxrwxrwx  1 orris orris  115 Sep 16 23:29 bazel-bin -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/bin/
+lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-genfiles -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/genfiles/
+lrwxrwxrwx  1 orris orris   98 Sep 16 23:29 bazel-out -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/
+lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-testlogs -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/testlogs/
+-rw-r--r--  1 orris orris  207 Sep 16 23:29 BUILD
+-rw-r--r--  1 orris orris   50 Sep 16 21:59 hello_lib.py
+-rw-r--r--  1 orris orris   47 Sep 16 21:58 hello_main.py
+-rw-r--r--  1 orris orris    0 Sep 16 21:59 WORKSPACE
+#-----------------------------------------------------------------------
+
+```
+## 3. Numpy
+1. 随机数
+    1. 均匀分布
+        1. `np.random.RandomState.rand`=`np.random.rand`:返回给定形状的`[0,1)`下均匀分布的随机数的数组
+        ```
+        np.random.rand(3,2)
+        array([[ 0.14022471,  0.96360618],  #random
+               [ 0.37601032,  0.25528411],  #random
+               [ 0.49313049,  0.94909878]]) #random
+        ```
+## 4. Python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
@@ -2038,61 +2115,3 @@ list(map(int,l))
     f()
     7
     ```
-## 3. Bazel
-```
-cat BUILD 
-#-----------------------------------------------------------------------
-py_library(
-    name = "hello_lib",
-    srcs = [
-        "hello_lib.py",
-    ]
-)
-
-py_binary(
-    name = "hello_main",
-    srcs = [
-        "hello_main.py",
-    ],
-    deps = [
-        ":hello_lib",
-    ],
-)
-#-----------------------------------------------------------------------
-
-cat hello_lib.py 
-#-----------------------------------------------------------------------
-def print_hello_world():
-    print("Hello World")
-#-----------------------------------------------------------------------
-
-
-cat hello_main.py 
-#-----------------------------------------------------------------------
-import hello_lib
-hello_lib.print_hello_world()
-#-----------------------------------------------------------------------
-
-
-
-cat WORKSPACE  # 空文件
-#-----------------------------------------------------------------------
-#-----------------------------------------------------------------------
-
-bazel build :hello_main
-#-----------------------------------------------------------------------
-total 40
-drwxr-xr-x  2 orris orris 4096 Sep 16 23:29 ./
-drwxrwxr-x 31 orris orris 4096 Sep 16 21:58 ../
-lrwxrwxrwx  1 orris orris   88 Sep 16 23:29 bazel-bazel -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/
-lrwxrwxrwx  1 orris orris  115 Sep 16 23:29 bazel-bin -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/bin/
-lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-genfiles -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/genfiles/
-lrwxrwxrwx  1 orris orris   98 Sep 16 23:29 bazel-out -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/
-lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-testlogs -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/testlogs/
--rw-r--r--  1 orris orris  207 Sep 16 23:29 BUILD
--rw-r--r--  1 orris orris   50 Sep 16 21:59 hello_lib.py
--rw-r--r--  1 orris orris   47 Sep 16 21:58 hello_main.py
--rw-r--r--  1 orris orris    0 Sep 16 21:59 WORKSPACE
-#-----------------------------------------------------------------------
-
-```
