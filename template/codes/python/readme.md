@@ -1104,6 +1104,7 @@ with sv.managed_session(config=config) as sess:
 30. 代码实战
     1. [构建TF代码](https://blog.csdn.net/u012436149/article/details/53843158)
     2. [自定义loss函数.表示商品生产数量的预测值和实际值导致的利润](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/my-loss/my-loss.py)
+    3. [利用RNN实现基于前n个sinx的值判断下一个sinx的值](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/sin/sin.py)
 31. 计算梯度
     + 如果函数是`y = tf.clip_by_value(x, 0, 5)`,那么`[0,5]`内返回1,而其他范围内返回0
     1. 如果xs是列表:计算ys对每个xs里的x的偏导并返回.结果的shape=b的shape
