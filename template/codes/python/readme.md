@@ -1739,7 +1739,31 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
             sys.stdout.write(line)
             sys.stdout.flush()
         ```
+    2. 图像
+        1. 读取图片 和 写入图片. [代码和图形类型转化的示意图](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/tf-image-type.png)
+        ```
+        import tensorflow as tf
+        import matplotlib.pyplot as plt
 
+        image_raw_data = tf.gfile.FastGFile('/home/orris/Pictures/1.jpeg','rb').read()
+
+        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+        config = tf.ConfigProto(gpu_options=gpu_options)
+
+        with tf.Session(config=config) as sess:
+            image = tf.image.decode_jpeg(image_raw_data)
+            print(image.eval())
+
+            plt.figure()
+            plt.imshow(image.eval())
+            plt.show()
+
+
+            encoded_image = tf.image.encode_jpeg(image)
+
+            with tf.gfile.FastGFile('output.jpeg', 'wb') as f:
+                f.write(encoded_image.eval())
+        ```
 58. 数据预处理
     1. 创建batch,将一个列表按batch_size不断输出
         1. <方法1> tf.train.batch
@@ -2216,6 +2240,8 @@ for variable_name in variables_dict:
     writer.close()
     ```
     2. 读取图像
+        1. reader.read && reader.read_up_to(一次性读取多个样例)
+        2. tf.parse_single_example && tf.parse_example(解析多个样例)
     ```
     import tensorflow as tf
     import matplotlib.pyplot as plt
