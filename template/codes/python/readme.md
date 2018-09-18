@@ -676,6 +676,7 @@ scope_assign('s1','s2',sess)
                 2. outputs:
                     1. time_major=False(Default):inputs和outputs都遵循`[batch_size, max_time, cell.output_size]`
                         1. 1个结论:如果time_major=False,那么`output = tf.squeeze(outputs[:,-1,:])`<=>`final_state[1]`
+                        2. 注意:使用tf.squeeze后,output的shape就<unknown>了,所以如果后续需要output的shape的话,可以考虑去掉tf.squeeze,直接用这个`outputs[:,-1,:]`
                     2. time_major=True:inputs和outputs都遵循`[max_time, batch_size, cell.output_size]`
                         1. 1个结论:如果time_major=True,那么
                         ```
