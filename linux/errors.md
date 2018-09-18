@@ -572,3 +572,14 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
         1. numpy array是可以传入到tf.float32这些中去的
         2. numpy array中如果是int类型,也可以传入到tf.float32中
     + 问题所在:placeholder的名字和传入的变量的名字重复了.比如我`feed_dict = {labels:labels}`就是错误的
+2. `ValueError: Dimensions must be equal, but are 60 and 40 for 'rnn/while/rnn/multi_rnn_cell/cell_0/basic_lstm_cell/MatMul_1' (op: 'MatMul') with input shapes: [?,60], [40,120].`
+    + 原因:使用MultiRNNCell的时候,重复利用了一层循环体.
+    + 解决
+    ```
+    def create_lstm_cell(lstm_size, output_keep_prob):
+        lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size,state_is_tuple=True)
+        lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=output_keep_prob)
+        return lstm_cell
+
+    stacked_lstm = tf.nn.rnn_cell.MultiRNNCell([create_lstm_cell(FLAGS.lstm_size, FLAGS.keep_prob) for _ in range(num_layers)])
+    ```
