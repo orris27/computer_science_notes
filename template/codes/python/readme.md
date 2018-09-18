@@ -2380,7 +2380,7 @@ for variable_name in variables_dict:
         image = tf.image.convert_image_dtype(image,dtype=tf.float32)
         image = tf.slice(image,begin,size)
         ```
-        
+    6. [图像预处理代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/preprocess/preprocess.py)
 ## 2. Bazel
 ```
 cat BUILD 
