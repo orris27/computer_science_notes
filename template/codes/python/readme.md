@@ -1824,13 +1824,16 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
                 #       dtype=int32)]
         ```
         2. <方法2> Dataset的API
-            1. 循环输出
+            1. 循环输出.
             ```
             ds = tf.data.Dataset.from_tensor_slices((X_train,y_train))
             ds = ds.repeat().shuffle(1000).batch(FLAGS.batch_size)
             X, y = ds.make_one_shot_iterator().get_next()
+            ######################################################################
+            # X,y 为tensor,不能作为feed_dict的值使用.但可以直接作为features和labels使用
+            ######################################################################
             ```
-            2. 全部作为1个batch输出
+            2. 全部输出,不循环.batch_size=1.(全都循环完了如果还`X.eval()`就报错)
             ```
             ds = tf.data.Dataset.from_tensor_slices((X_test,y_test))
             ds = ds.batch(1)
