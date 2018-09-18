@@ -709,7 +709,7 @@ scope_assign('s1','s2',sess)
     # dropout
     lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=0.5)
     # map.  
-    ouputs,final_state = tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32)
+    outputs,final_state = tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32)
 
     ```
     2. BasicLSTMCell.[原理图](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/BasicLSTMCell.png)
