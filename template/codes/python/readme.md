@@ -752,6 +752,26 @@ scope_assign('s1','s2',sess)
                 (cell_out, state) = lstm_cell(inputs[:,time_step,:], state)
                 outputs.append(cell_out)
         ```
+    4. 基本结构
+    ```
+    import tensorflow as tf
+
+    lstm_cell = tf.nn.rnn_cell.BasicLSTMCell(lstm_hidden_size)
+
+    state = lstm_cell.zero_state(batch_size,tf.float32)
+
+    loss = 0.0
+
+    for i in time_steps:
+        if i > 0: tf.get_variable_scope().reuse_variables()
+
+        lstm_output, state = lstm_cell(curr_input, state)
+
+        final_output = nn(lstm_output)
+
+        loss += calc_loss(final_output, expected_output)
+
+    ```
 18. 获得形状
 ```
 a = tf.zeros([3,2])
