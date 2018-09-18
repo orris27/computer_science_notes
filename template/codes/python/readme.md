@@ -2291,6 +2291,66 @@ for variable_name in variables_dict:
 
         coord.join(threads)
     ```
+    
+71. 图像预处理
+    1. 大小
+        1. 伸缩: 4种图像大小调整算法,不会相差太远,所以随机选择
+        ```
+        # convert image dtype to tf.float
+        image = tf.image.convert_image_dtype(image,dtype=tf.float32)
+        # resize (requires float type)
+        resized_image = tf.image.resize_images(image,[300,300],method=np.random.randint(4))
+        ```
+        2. 裁剪 或 填充
+        ```
+        image = tf.image.resize_image_with_crop_or_pad(image,100,100) # 截取中间部分
+        image = tf.image.resize_image_with_crop_or_pad(image,300,300) # 填充黑色
+        image = tf.image.central_crop(image,0.5) # 裁剪0.5比例的中间内容
+        ```
+    2. 翻转
+    ```
+    image = tf.image.flip_up_down(image) # 上下翻转
+    image = tf.image.flip_left_right(image) # 左右翻转
+    image = tf.image.transpose_image(image) # 沿对角线翻转
+    image = tf.image.random_flip_up_down(image) # 50%概率上下翻转
+    image = tf.image.random_flip_left_right(image) # 50%概率左右翻转
+    ```
+    3. 色相,亮度和对比度: 色相,亮度和对比度的调整可能会使元素超出`[0.0,1.0)`范围,所以需要在最后一个操作后截断
+    ```
+    #####################################################################################
+    # 色相
+    #####################################################################################
+    image = tf.image.convert_image_dtype(image,dtype=tf.float32)
+    image = tf.image.adjust_hue(image,0.5)
+    # image = tf.image.random_hue(image,0.5) # 随机调整亮度,范围是[0,0.5)
+    image = tf.clip_by_value(image,0.0,1.0)    
+    
+    
+    #####################################################################################
+    # 亮度
+    #####################################################################################
+    image = tf.image.convert_image_dtype(image,dtype=tf.float32)
+    image = tf.image.adjust_brightness(image,-0.5)
+    # image = tf.image.random_brightness(image,0.5) # 随机调整亮度,范围是[-0.5,0.5)
+    image = tf.clip_by_value(image,0.0,1.0)
+    
+    
+    #####################################################################################
+    # 对比度
+    #####################################################################################
+    image = tf.image.convert_image_dtype(image,dtype=tf.float32)
+    image = tf.image.adjust_contrast(image,-0.5)
+    # image = tf.image.random_contrast(image,0.5, 5) # 随机调整对比度,范围是原来的对比度*[0.5,5)
+    image = tf.clip_by_value(image,0.0,1.0)    
+    ```
+    4. 标准化
+        1. 亮度均值<=0
+        2. 方差<=1
+    ```
+    image = tf.image.convert_image_dtype(image,dtype=tf.float32)
+    image = tf.image.per_image_standardization(image)
+    image = tf.clip_by_value(image,0.0,1.0)
+    ```
 ## 2. Bazel
 ```
 cat BUILD 
