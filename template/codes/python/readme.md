@@ -528,8 +528,8 @@ scope_assign('s1','s2',sess)
         saver = tf.train.import_meta_graph("ckpt/model.ckpt.meta")
         v2 = tf.Variable(3.14,name='v2')
 
-        gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
-        config=tf.ConfigProto(gpu_options=gpu_options)
+        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+        config = tf.ConfigProto(gpu_options=gpu_options)
         with tf.Session(config=config) as sess:
             saver.restore(sess,"ckpt/model.ckpt")
             print(sess.run(tf.get_default_graph().get_tensor_by_name("v1:0")))
@@ -687,7 +687,7 @@ scope_assign('s1','s2',sess)
                         ##############################################################################
                         inputs = tf.transpose(inputs,[1,0,2])  ##
 
-                        lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size,state_is_tuple=True)
+                        lstm_cell = tf.contrib.rnn.BasicLSTMCell(lstm_size,state_is_tuple=True)
                         lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=0.5)
                         outputs,final_state=tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32,time_major=True)
 
