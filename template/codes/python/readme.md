@@ -267,7 +267,7 @@ with tf.Session() as sess:
     1. MNIST_DATA
         1. 使用方式:直接把MNIST_DATA目录放到和程序同级目录的地方就OK了
         2. 数据格式
-            1. 特征值
+            1. 特征值:images (numpy array)
             ```
             [[特征值0,特征值1,...,特征值783],
              [第二个实例],
@@ -2166,6 +2166,105 @@ for variable_name in variables_dict:
     print(variable_name,variables_dict[variable_name])
 
 ```
+
+70. tfrecord
+    1. 保存MNIST图像
+    ```
+    import tensorflow as tf
+    from tensorflow.examples.tutorials.mnist import input_data
+    import numpy as np
+
+    mnist_path = '../MNIST_data'
+
+    def _int64_feature(value):
+        return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
+
+    def _bytes_feature(value):
+        return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
+
+
+    mnist = input_data.read_data_sets(mnist_path,dtype=tf.uint8,one_hot=True)
+
+    images = mnist.train.images
+
+    labels = mnist.train.labels
+
+    # get image' pixels
+    pixels = images.shape[1]
+    num_examples = mnist.train.num_examples
+
+    filename = './mnist.tfrecords'
+
+    # create a writer to record this big event!
+    writer = tf.python_io.TFRecordWriter(filename)
+
+    # write one image at one time~
+    for index in range(num_examples):
+        # get image's raw data
+        image_raw = images[index].tostring()
+
+        # construct an example (a bit like a dictionary) that can be serialized to string
+        example = tf.train.Example(features=tf.train.Features(feature={
+            'pixels':_int64_feature(pixels),
+            'label':_int64_feature(np.argmax(labels[index])),
+            'image_raw':_bytes_feature(image_raw)}))
+
+        # serialize the example and write it to the file
+        writer.write(example.SerializeToString())
+
+    # close the writer and have fun!
+    writer.close()
+    ```
+    2. 读取图像
+    ```
+    import tensorflow as tf
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    # create a reader 
+    reader = tf.TFRecordReader()
+
+    # open the file
+    filename_queue = tf.train.string_input_producer(
+            ["./mnist.tfrecords"])
+    # read one example at one time
+    _, serialized_example = reader.read(filename_queue)
+    # get the dictionary object
+    features = tf.parse_single_example(
+            serialized_example,
+            features = {
+                'image_raw': tf.FixedLenFeature([],tf.string),
+                'pixels': tf.FixedLenFeature([],tf.int64),
+                'label': tf.FixedLenFeature([],tf.int64),
+                })
+
+    # extract the image
+    image = tf.decode_raw(features['image_raw'],tf.uint8)
+    # extract the label
+    label = tf.cast(features['label'],tf.int32)
+    # extract the pixel
+    pixels = tf.cast(features['pixels'],tf.int32)
+
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.5)
+    config = tf.ConfigProto(gpu_options=gpu_options)
+    with tf.Session(config=config) as sess:
+        coord = tf.train.Coordinator()
+        threads = tf.train.start_queue_runners(sess=sess,coord=coord)
+
+        try:
+            i = 0
+            while not coord.should_stop() and i < 5:
+                # iterator
+                print(sess.run([image,label,pixels]))
+                i += 1
+
+        except tf.errors.OutOfRangeError:
+            print("done!")
+        finally:
+            coord.request_stop()
+
+        coord.join(threads)
+    ```
 ## 2. Bazel
 ```
 cat BUILD 
@@ -2246,6 +2345,13 @@ a[0:3,np.newaxis]
 #-------------------------------
 
 ```
+3. 转化numpy array为字节流
+    + 存储图像,如MNIST
+```
+l = np.array([1,2,3])
+l.tostring()
+#b'\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00'
+```
 ## 4. plt
 `import matplotlib.pyplot as plt`
 1. 画画
@@ -2267,6 +2373,7 @@ a[0:3,np.newaxis]
     plt.figure()
     plt.imshow(image) # [height,width] || [height,width,channels] || etc
     plt.show()
+    
     ```
 ## 5. Python
 1. 如果是`__main__`的话
