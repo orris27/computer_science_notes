@@ -720,8 +720,8 @@ scope_assign('s1','s2',sess)
     ```
     2. BasicLSTMCell.[原理图](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/BasicLSTMCell.png)
         1. state_is_tuple
-            + 如果为True,返回的state是一个tuple:(c=array([[]]), h=array([[]]):其中c代表Ct的最后时间的输出，h代表Ht最后时间的输出，h是等于最后一个时间的output的.即state=(c, h)
-            + 如果是False，那么state是一个由c和h拼接起来的张量，`state=tf.concat(1,[c,h])`。在运行时，则返回2值，一个是h，还有一个state
+            + True: state是一个tuple:(c=array([[]]), h=array([[]]):其中c代表Ct的最后时间的输出，h代表Ht最后时间的输出，h是等于最后一个时间的output的.即state=(c, h)
+            + False: state是一个由c和h拼接起来的张量，`state=tf.concat(1,[c,h])`。在运行时，则返回2值，一个是h，还有一个state
         2. forget_bias:forget门的bias,如果为1的话,就表示刚开始我们不能忘记上一次输入.推荐填1.0(其实就是默认)
     ```
     #tf.nn.rnn_cell.BasicLSTMCell(num_units, forget_bias, input_size, state_is_tupe=Flase, activation=tanh)
@@ -758,7 +758,20 @@ scope_assign('s1','s2',sess)
                 (cell_out, state) = lstm_cell(inputs[:,time_step,:], state)
                 outputs.append(cell_out)
         ```
-    4. 基本结构
+    4. Deep RNN: 不能用同一层循环体
+    ```
+    def create_lstm_cell(lstm_size, output_keep_prob):
+        lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size,state_is_tuple=True)
+        lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=output_keep_prob)
+        return lstm_cell
+
+    stacked_lstm = tf.nn.rnn_cell.MultiRNNCell([create_lstm_cell(FLAGS.lstm_size, FLAGS.keep_prob) for _ in range(num_layers)])
+    
+    # 下面都是错误的
+    #stacked_lstm = tf.nn.rnn_cell.MultiRNNCell([lstm_cell] * 2)
+    #stacked_lstm = tf.nn.rnn_cell.MultiRNNCell([lstm_cell for _ in range(num_layers)])
+    ```
+    5. 基本结构
     ```
     import tensorflow as tf
 
