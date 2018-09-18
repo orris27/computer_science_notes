@@ -124,7 +124,10 @@ learning_rate = tf.Variable(1e-3)
             y_predicted = self.nn(a2,1,tf.nn.sigmoid,'d3')
             return y_predicted
         ```
-        
+        3. 方法3:[fully_connected官方文档](https://www.tensorflow.org/api_docs/python/tf/contrib/layers/fully_connected)
+        ```
+        y_predicted = tf.contrib.layers.fully_connected(output,1,activation_fn=None)
+        ```
     4. [神经网络和卷积神经网络的实现](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
     5. 多种不同类型的窗口大小下CNN
     ```
@@ -159,14 +162,13 @@ learning_rate = tf.Variable(1e-3)
     ```
 
 
-3. 定义代价函数,并定义训练tensor
-    1. 方法1
+3. 代价函数(损失函数)
+    1. sigmoid_cross_entropy_with_logits
         + labels:正确的y
         + logits:预测的y
         + 优化器:AdamOptimizer
     ```
     loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels = labels,logits = y_predicted))
-    train = tf.train.AdamOptimizer(learning_rate).minimize(loss)
     ```
     2. sparse_softmax_cross_entropy_with_logits
         + 注意
@@ -179,7 +181,13 @@ learning_rate = tf.Variable(1e-3)
     # 如果使用的labels为[batch_size, num_classes]格式的话,用tf.argmax缩减第二个维度
     #cross_entropy = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = tf.argmax(labels,1),logits = y_predicted)) 
     ```
-    3. 方法2:自带学习率衰减
+    3. mean_squared_error
+        + 差的平方和的平均值
+    ```
+    # labels 和 predictions 都是一维数组
+    loss = tf.losses.mean_squared_error(labels=self.labels,predictions=self.y_predicted)
+    ```
+    4. 自带学习率衰减
         + var_list:类似于`self.d_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope='disc')`
             + tf.GraphKeys.TRAINABLE_VARIABLES是字符串类型,为`trainable_variables`
             + tf.get_collection返回的是变量的列表
@@ -1124,8 +1132,16 @@ tf.set_random_seed(1)
 #x = tf.random_normal(shape=[1,3,3,1])
 ```
 
-33. checkpoint
-空
+33. train_op
+    1. 方法1
+    ```
+    self.train = tf.contrib.layers.optimize_loss(self.loss,tf.train.get_global_step(),optimizer="Adagrad",learning    _rate=self.learning_rate)
+    ```
+    2. 方法2
+    ```
+    train = tf.train.AdamOptimizer(learning_rate).minimize(loss, global_step=global_step)
+    ```
+
 34. 同时计算多个tensor
     + tf.group返回op
     + tf.tuple返回tensor的列表
@@ -1221,7 +1237,7 @@ tuple = tf.tuple([mul, add])
             + 用途:如果decay_steps周期刚好为1个完整的训练集,那么相同的训练集就会有相同的学习率.
         2. False(默认):`(global_step÷decay_steps)`为浮点数.(图中的光滑曲线)
 ```
-global_step = tf.Variable(0, trainable=False)
+global_step = tf.Variable(0, trainable=False, name='global_step')
 
 initial_learning_rate = 0.1 #初始学习率
 
@@ -1532,19 +1548,28 @@ embedded_chars_expanded = tf.expand_dims(embedded_chars, -1)
 ```
 
 50. 使用global_step:
-    + `global_step`会在指定该global_step的op执行时会自动+1
-```
-with tf.Session() as sess:
-    global_step = tf.Variable(0, name="global_step", trainable=False)
-    optimizer = tf.train.AdamOptimizer(1e-3)
-    grads_and_vars = optimizer.compute_gradients(cnn.loss) # 这里就是loss的op
-    train_op = optimizer.apply_gradients(grads_and_vars, global_step=global_step)
+    1. 使用global_step
+        + `global_step`会在指定该global_step的op执行时会自动+1
+    ```
+    with tf.Session() as sess:
+        global_step = tf.Variable(0, trainable=False, name="global_step")
+        optimizer = tf.train.AdamOptimizer(1e-3)
+        grads_and_vars = optimizer.compute_gradients(cnn.loss) # 这里就是loss的op
+        train_op = optimizer.apply_gradients(grads_and_vars, global_step=global_step)
 
-    #....
+        #....
 
-    current_step = tf.train.global_step(sess, global_step) # 如果直接用sess.run(global_step)的话,和这个current_step是相等的值
-```
-
+        current_step = tf.train.global_step(sess, global_step) # 如果直接用sess.run(global_step)的话,和这个current_step是相等的值
+    ```
+    2. 获得global_step
+        1. <方法1>
+        ```
+        global_step = ckpt_latest.split('/')[-1].split('-')[-1]
+        ```
+        2. <方法2> 调用函数寻找名字为"global_step:0"的函数
+        ```
+        global_step = tf.train.get_global_step()
+        ```
 51. 创建graph,并设置为默认的graph
 ```
 # 执行和tensor无关的操作,比如加载数据集
@@ -1714,89 +1739,104 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
             sys.stdout.flush()
         ```
 
-58. 创建batch,将一个列表按batch_size不断输出
-    1. tf.train.slice_input_producer:
-        1. 参数
-            1. tensor_list
-            2. num_epochs: 决定遍历多少轮整个数据.遍历结束后就会返回`tf.errors.OutOfRangeError`
-                + 注意:需要在创建`slice_input_producer`后初始化local变量!!
-                + None:表示一直循环
-            3. shuffle
-                1. True: 每个batch都会是洗牌后的结果,所以可能会重复.但是如果规定了num_epochs后,每个元素必然会出现num_epochs
-                2. False: 完全按照顺序输出.比如`[0,1,2,3,4]`两个两个输出就是`[0,1]`,`[2,3]`,`[4,0]`,...
-        2. 返回值:input_queue可以理解为和参数的第一个元素相同,表面上操作的是一个元素,实际上会对整个列表产生影响
-    2. [使用tf.train.batch实现按批输出图片的程序](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/batch-images/batch-images.py)
-        + `tf.image.resize_image_with_crop_or_pad`:图片太大,选中间部分;图片太小,周围填充0(黑色).
-    3. [使用tf.train.batch实现按批输出图片的程序2,解决yield下threads无法join的](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/batch-images/batch-images2.py)
-```
-import tensorflow as tf
+58. 数据预处理
+    1. 创建batch,将一个列表按batch_size不断输出
+        1. <方法1> tf.train.batch
+            1. tf.train.slice_input_producer:
+                1. 参数
+                    1. tensor_list
+                    2. num_epochs: 决定遍历多少轮整个数据.遍历结束后就会返回`tf.errors.OutOfRangeError`
+                        + 注意:需要在创建`slice_input_producer`后初始化local变量!!
+                        + None:表示一直循环
+                    3. shuffle
+                        1. True: 每个batch都会是洗牌后的结果,所以可能会重复.但是如果规定了num_epochs后,每个元素必然会出现num_epochs
+                        2. False: 完全按照顺序输出.比如`[0,1,2,3,4]`两个两个输出就是`[0,1]`,`[2,3]`,`[4,0]`,...
+                2. 返回值:input_queue可以理解为和参数的第一个元素相同,表面上操作的是一个元素,实际上会对整个列表产生影响
+            2. [使用tf.train.batch实现按批输出图片的程序](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/batch-images/batch-images.py)
+                + `tf.image.resize_image_with_crop_or_pad`:图片太大,选中间部分;图片太小,周围填充0(黑色).
+            3. [使用tf.train.batch实现按批输出图片的程序2,解决yield下threads无法join的](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/batch-images/batch-images2.py)
+        ```
+        import tensorflow as tf
 
-def next_batch(sess, l, elm_type, shuffle, num_epochs, batch_size, num_threads,capacity):
-    # 转换普通的list为tf能识别的类型
-    l = tf.cast(l,elm_type)
-    
-    # 创建队列
-    input_queue = tf.train.slice_input_producer([l], shuffle=shuffle,num_epochs=num_epochs) # if there are 2 elms in the 1st param,the next sentence uses '[1]' to get that param
-    # 获取队列的第一个元素
-    l = input_queue[0]
-    
-    #####################################################################################################
-    # 这里可以将l当做一个元素进行操作,最终会影响整个队列.
-    # 比如如果是image的filename的话,可以用读内容,decode,标准化等
-    #
-    # 比如
-    # image_contents = tf.read_file(input_queue[0])
-    # image = tf.image.decode_jpeg(image_contents,channels=3) # image={shape:(?, ?, 3),dtype:uint8}
-    # image = tf.image.resize_image_with_crop_or_pad(image,image_h,image_w) # image={shape:(208, 208, 3),dtype:uint8}
-    # #image = tf.image.per_image_standardization(image) # image={shape:(208, 208, 3),dtype:float32}
-    # #image = tf.cast(image,tf.float32)
-    #####################################################################################################
-    
-    
-    # 获取batch对象.l_batch={shape:(batch_size,xxx)}
-    l_batch = tf.train.batch([l],batch_size=batch_size,num_threads=num_threads,capacity=capacity)
-    
+        def next_batch(sess, l, elm_type, shuffle, num_epochs, batch_size, num_threads,capacity):
+            # 转换普通的list为tf能识别的类型
+            l = tf.cast(l,elm_type)
+
+            # 创建队列
+            input_queue = tf.train.slice_input_producer([l], shuffle=shuffle,num_epochs=num_epochs) # if there are 2 elms in the 1st param,the next sentence uses '[1]' to get that param
+            # 获取队列的第一个元素
+            l = input_queue[0]
+
+            #####################################################################################################
+            # 这里可以将l当做一个元素进行操作,最终会影响整个队列.
+            # 比如如果是image的filename的话,可以用读内容,decode,标准化等
+            #
+            # 比如
+            # image_contents = tf.read_file(input_queue[0])
+            # image = tf.image.decode_jpeg(image_contents,channels=3) # image={shape:(?, ?, 3),dtype:uint8}
+            # image = tf.image.resize_image_with_crop_or_pad(image,image_h,image_w) # image={shape:(208, 208, 3),dtype:uint8}
+            # #image = tf.image.per_image_standardization(image) # image={shape:(208, 208, 3),dtype:float32}
+            # #image = tf.cast(image,tf.float32)
+            #####################################################################################################
 
 
-    sess.run(tf.local_variables_initializer()) # initialize num_epochs
+            # 获取batch对象.l_batch={shape:(batch_size,xxx)}
+            l_batch = tf.train.batch([l],batch_size=batch_size,num_threads=num_threads,capacity=capacity)
 
-    # 启动线程
-    coord = tf.train.Coordinator()
-    threads = tf.train.start_queue_runners(coord=coord)
-    try:
-        while not coord.should_stop():
-            # get & process the batch
-            yield sess.run([l_batch])
 
-    except tf.errors.OutOfRangeError:
-        print("done!")
-    finally:
-        coord.request_stop()
 
-    coord.join(threads)
+            sess.run(tf.local_variables_initializer()) # initialize num_epochs
 
-# input
-l = []
-for i in range(5):
-    l.append(i)
-# [0,
-#  1,
-#  2,
-#  .,
-# 63,]
+            # 启动线程
+            coord = tf.train.Coordinator()
+            threads = tf.train.start_queue_runners(coord=coord)
+            try:
+                while not coord.should_stop():
+                    # get & process the batch
+                    yield sess.run([l_batch])
 
-# cast list to tf type
+            except tf.errors.OutOfRangeError:
+                print("done!")
+            finally:
+                coord.request_stop()
 
-gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
-config = tf.ConfigProto(gpu_options=gpu_options)
+            coord.join(threads)
 
-with tf.Session(config=config) as sess:
-    for l_batch in next_batch(sess, l, elm_type=tf.int32, shuffle=True, num_epochs=2, batch_size=2, num_threads=64, capacity=256):
-        print(l_batch)
-        # [array([23, 42, 16, 63,  3, 27, 39, 55, 20, 50,  9, 29, 38, 44, 26, 52],
-        #       dtype=int32)]
-```
+        # input
+        l = []
+        for i in range(5):
+            l.append(i)
+        # [0,
+        #  1,
+        #  2,
+        #  .,
+        # 63,]
 
+        # cast list to tf type
+
+        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+        config = tf.ConfigProto(gpu_options=gpu_options)
+
+        with tf.Session(config=config) as sess:
+            for l_batch in next_batch(sess, l, elm_type=tf.int32, shuffle=True, num_epochs=2, batch_size=2, num_threads=64, capacity=256):
+                print(l_batch)
+                # [array([23, 42, 16, 63,  3, 27, 39, 55, 20, 50,  9, 29, 38, 44, 26, 52],
+                #       dtype=int32)]
+        ```
+        2. <方法2> Dataset的API
+            1. 循环输出
+            ```
+            ds = tf.data.Dataset.from_tensor_slices((X_train,y_train))
+            ds = ds.repeat().shuffle(1000).batch(FLAGS.batch_size)
+            X, y = ds.make_one_shot_iterator().get_next()
+            ```
+            2. 全部作为1个batch输出
+            ```
+            ds = tf.data.Dataset.from_tensor_slices((X_test,y_test))
+            ds = ds.batch(1)
+            X, y = ds.make_one_shot_iterator().get_next()
+
+            ```
 59. 验证
     1. 使用tf.nn.in_top_k
         1. 参数
@@ -2191,6 +2231,17 @@ lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-testlogs -> /home/orris/.cache
                [ 0.37601032,  0.25528411],  #random
                [ 0.49313049,  0.94909878]]) #random
         ```
+2. 转为python的slice切割出来的数组的每个元素为单个数组
+```
+a = np.array([1,2,3,4])
+a[0:3,np.newaxis]
+#-------------------------------
+# array([[1],
+#        [2],
+#        [3]])
+#-------------------------------
+
+```
 ## 4. plt
 `import matplotlib.pyplot as plt`
 1. 画画
