@@ -2299,7 +2299,7 @@ for variable_name in variables_dict:
         # convert image dtype to tf.float
         image = tf.image.convert_image_dtype(image,dtype=tf.float32)
         # resize (requires float type)
-        resized_image = tf.image.resize_images(image,[300,300],method=np.random.randint(4))
+        image = tf.image.resize_images(image,[300,300],method=np.random.randint(4))
         ```
         2. 裁剪 或 填充
         ```
@@ -2366,16 +2366,16 @@ for variable_name in variables_dict:
         image = tf.image.convert_image_dtype(image,dtype=tf.float32)
         image = tf.expand_dims(image,0) # 画批注框要求为4维的图片,第一维度是batch_size
 
-        boxes = tf.constant([[[0.05,0.05,0.9,0.7],[0.35,0.47,0.5,0.56]]]) # 分别代表[ymin,xmin,ymax,xmax],为相对位置
+        bbox = tf.constant([[[0.05,0.05,0.9,0.7],[0.35,0.47,0.5,0.56]]]) # 分别代表[ymin,xmin,ymax,xmax],为相对位置
 
-        image = tf.image.draw_bounding_boxes(image,boxes) # image[0]就是画出标注图的图
+        image = tf.image.draw_bounding_boxes(image,bbox) # image[0]就是画出标注图的图
         ```
         2. 随机截取包含标注框40%的内容
         ```
-        boxes = tf.constant([[[0.05,0.05,0.9,0.7],[0.35,0.47,0.5,0.56]]])
+        bbox = tf.constant([[[0.05,0.05,0.9,0.7],[0.35,0.47,0.5,0.56]]])
 
         begin, size, bbox_for_draw = tf.image.sample_distorted_bounding_box(
-                tf.shape(image),bounding_boxes=boxes,min_object_covered=0.4) # 0.4 <=> 40%
+                tf.shape(image),bounding_boxes=bbox,min_object_covered=0.4) # 0.4 <=> 40%
 
         image = tf.image.convert_image_dtype(image,dtype=tf.float32)
         image = tf.slice(image,begin,size)
