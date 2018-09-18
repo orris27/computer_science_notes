@@ -2173,7 +2173,24 @@ lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-testlogs -> /home/orris/.cache
                [ 0.37601032,  0.25528411],  #random
                [ 0.49313049,  0.94909878]]) #random
         ```
-## 4. Python
+## 4. plt
+`import matplotlib.pyplot as plt`
+1. 画画
+    1. 文字
+    ```
+    plt.figure() # start
+    plt.text(0.3,0.4,"hello")
+    plt.show() # end
+    ```
+    2. 曲线图
+    ```
+    plt.figure()
+    plt.plot(y_predicted,label='predictions') # y_predicted是一维数组
+    plt.show()
+    ```
+    3. 散点图:plt.scatter
+    
+## 5. Python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
