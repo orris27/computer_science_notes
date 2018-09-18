@@ -2351,6 +2351,27 @@ for variable_name in variables_dict:
     image = tf.image.per_image_standardization(image)
     image = tf.clip_by_value(image,0.0,1.0)
     ```
+    5. 标注框: 标注重点信息
+        1. 画出标注框
+        ```
+        #image = tf.image.resize_image_with_crop_or_pad(image,50,50) # 方便观看设置裁剪了
+        image = tf.image.convert_image_dtype(image,dtype=tf.float32)
+        image = tf.expand_dims(image,0) # 画批注框要求为4维的图片,第一维度是batch_size
+
+        boxes = tf.constant([[[0.05,0.05,0.9,0.7],[0.35,0.47,0.5,0.56]]]) # 分别代表[ymin,xmin,ymax,xmax],为相对位置
+
+        image = tf.image.draw_bounding_boxes(image,boxes) # image[0]就是画出标注图的图
+        ```
+        2. 随机截取包含标注框40%的内容
+        ```
+        boxes = tf.constant([[[0.05,0.05,0.9,0.7],[0.35,0.47,0.5,0.56]]])
+
+        begin, size, bbox_for_draw = tf.image.sample_distorted_bounding_box(
+                tf.shape(image),bounding_boxes=boxes,min_object_covered=0.4) # 0.4 <=> 40%
+
+        image = tf.image.convert_image_dtype(image,dtype=tf.float32)
+        image = tf.slice(image,begin,size)
+        ```
 ## 2. Bazel
 ```
 cat BUILD 
