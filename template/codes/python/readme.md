@@ -2796,7 +2796,8 @@ with codecs.open(raw_data,'r','utf-8') as f:
             counter[word] += 1
 ```
 ## 8. NLP
-1. 转换文本文件得到高频词(后续将行号作为该单词的编号)
+1. 一行一句话的文本文件 => 一行一个高频词的文本文件(后续将行号作为该单词的编号)
+    + `<unk>`:稀有词; `<eos>`:语句结束标记符
 ```
 import codecs
 import collections
@@ -2834,11 +2835,34 @@ sorted_word_to_cnt = sorted(counter.items(),key=itemgetter(1),reverse=True)
 #########################################################################################################################
 sorted_words = [x[0] for x in sorted_word_to_cnt]
 
+# 直接将<eos>添加到高频词列表中,而不是添加到文本文件中
 sorted_words = ["<eos>"] + sorted_words
 
 with codecs.open(vocab_output,'w','utf-8') as file_output:
     for word in sorted_words:
         file_output.write(word + '\n')
+```
+2. 一行一个高频词的文本文件 => 一行一句int话的文本文件
+```
+import codecs
+import sys
+
+raw_data = 'simple-examples/data/ptb.train.txt'
+vocab = 'ptb.vocab'
+output_data = 'ptb.train'
+
+with codecs.open(vocab,'r','utf-8') as f_vocab:
+    vocab = [word.strip() for word in f_vocab.readlines()]
+
+word_to_id = {k:v for (k,v) in zip(vocab,range(len(vocab)))}
+
+def get_id(word):
+    return word_to_id[word] if word in word_to_id else word_to_id['<unk>']
+
+with codecs.open(raw_data,'r','utf-8') as f_input, codecs.open(output_data,'w','utf-8') as f_output:
+    for line in f_input.readlines():
+        new_line = ' '.join([str(get_id(word)) for word in (line.strip().split() + ['<eos>'])]) + '\n'
+        f_output.write(new_line)
 ```
 ## 9. Python
 1. 如果是`__main__`的话
