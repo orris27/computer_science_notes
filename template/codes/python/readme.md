@@ -1788,8 +1788,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
                 f.write(encoded_image.eval())
         ```
 58. 数据预处理
-    1. 队列线程方法
-    2. 数据集方法
     
     1. 创建batch,将一个列表按batch_size不断输出
         1. <方法1> tf.train.batch
@@ -2495,7 +2493,44 @@ with tf.Session(config=config) as sess:
 ```
 
 
+74. Dataset方法
+    1. 基于python list创建dataset
+    ```
+    import tensorflow as tf
 
+    input_data = [1,2,3,5,8]
+    dataset = tf.data.Dataset.from_tensor_slices(input_data)
+
+    iterator = dataset.make_one_shot_iterator()
+
+    x = iterator.get_next()
+
+    y = x * x
+
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+    config = tf.ConfigProto(gpu_options=gpu_options)
+    with tf.Session(config=config) as sess:
+        for i in range(len(input_data)):
+            print(sess.run(y))
+    ```
+    2. 基于文本文件创建dataset
+    ```
+    import tensorflow as tf
+
+    input_files = ['simple.py','text.py']
+
+    dataset = tf.data.TextLineDataset(input_files)
+
+    iterator = dataset.make_one_shot_iterator()
+
+    line = iterator.get_next()
+
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+    config = tf.ConfigProto(gpu_options=gpu_options)
+    with tf.Session(config=config) as sess:
+        for i in range(40):
+            print(sess.run(line))
+    ```
 
 ## 2. Bazel
 ```
