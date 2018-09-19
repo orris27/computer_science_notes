@@ -1280,17 +1280,39 @@ python -m test
     queue = tf.FIFOQueue(capacity=100, dtypes=[tf.string, tf.int64])
     ```
     2. 添加元素到队列
-        1. `[b'hello', 1]`
-        2. `[b'world', 2]`
-        3. `[b'orris', 3]`
-        4. `[b'hello', 1]`
-    ```
-    # enqueue_many 的写法，两个元素放在两个列表里。
-    en_m = queue.enqueue_many([['hello', 'world', 'orris'], [1, 2, 3]])
-    queue_init = queue.enqueue_many([[1, 10],]) # shape为[1]的时候,这样才能插入2个数据
-    # enqueue 的写法
-    en = queue.enqueue(['hello', 1])
-    ```
+        1. 单线程入队
+            1. `[b'hello', 1]`
+            2. `[b'world', 2]`
+            3. `[b'orris', 3]`
+            4. `[b'hello', 1]`
+        ```
+        # enqueue_many 的写法，两个元素放在两个列表里。
+        en_m = queue.enqueue_many([['hello', 'world', 'orris'], [1, 2, 3]])
+        queue_init = queue.enqueue_many([[1, 10],]) # shape为[1]的时候,这样才能插入2个数据
+        # enqueue 的写法
+        en = queue.enqueue(['hello', 1])
+        ```
+        2. 多线程入队
+        ```
+        queue = tf.FIFOQueue(capacity=5, dtypes=tf.int32)
+        enqueue_ops = [queue.enqueue_many([[i + 1],]) for i in range(5)]
+
+        dequeue_op = queue.dequeue()
+        qr = tf.train.QueueRunner(queue,enqueue_ops)
+        tf.train.add_queue_runner(qr)
+
+        with tf.Session() as sess:
+            sess.run(tf.global_variables_initializer())
+
+            coord = tf.train.Coordinator()
+            threads = tf.train.start_queue_runners(sess,coord)
+
+            for i in range(5):
+                print(sess.run(dequeue_op))
+
+            coord.request_stop()
+            coord.join(threads)
+        ```
     3. 出队列
     ```
     deq = queue.dequeue()
@@ -1302,8 +1324,8 @@ python -m test
     5. 获得队列
     ```
     with tf.Session() as sess:
-        sess.run(en_m)
-        print(sess.run(deq))
+    sess.run(en_m)
+    print(sess.run(deq))
     ```
 
 40. 变量集合.GraphKeys, collection
@@ -1766,6 +1788,9 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
                 f.write(encoded_image.eval())
         ```
 58. 数据预处理
+    1. 队列线程方法
+    2. 数据集方法
+    
     1. 创建batch,将一个列表按batch_size不断输出
         1. <方法1> tf.train.batch
             1. tf.train.slice_input_producer:
@@ -1864,7 +1889,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
             ds = tf.data.Dataset.from_tensor_slices((X_test,y_test))
             ds = ds.batch(1)
             X, y = ds.make_one_shot_iterator().get_next()
-
             ```
 59. 验证
     1. 使用tf.nn.in_top_k
@@ -2382,6 +2406,28 @@ for variable_name in variables_dict:
         image = tf.slice(image,begin,size)
         ```
     6. [图像预处理代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/preprocess/preprocess.py)
+    
+    
+72. Coordinator
+    + [完整的Coordinator管理Python线程的代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/coordinator/coord.py)
+```
+def work(coord, i):
+    # while haven't receive stop info
+    while not coord.should_stop():
+        # do sth
+        coord.request_stop()
+
+coord = tf.train.Coordinator()
+threads = [threading.Thread(target=work,args=(coord,i)) for i in range(5)]
+for thread in threads:
+    thread.start()
+coord.join(threads)
+```
+
+
+
+
+
 ## 2. Bazel
 ```
 cat BUILD 
