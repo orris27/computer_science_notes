@@ -2532,6 +2532,13 @@ Thu Sep  6 00:50:49 2018
 ## 73. rsync
 > [rsync笔记](https://coggle.it/diagram/Wzt-CA8lIivLBTlF/t/rsync)
 
+## 74. du
+查看整个目录的大小
+```
+du -h --max-depth=1 ../dogs-cats/dataset/train/
+```
+
+
 ## 0. 实战
 ### 0-1. 找到/etc/passwd下的shell出现次数
 ```
