@@ -583,3 +583,5 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
 
     stacked_lstm = tf.nn.rnn_cell.MultiRNNCell([create_lstm_cell(FLAGS.lstm_size, FLAGS.keep_prob) for _ in range(num_layers)])
     ```
+3. `module 'tensorflow' has no attribute 'FIFOQueue'`
+    + 文件名和模块冲突了.比如`queue.py`就冲突了
