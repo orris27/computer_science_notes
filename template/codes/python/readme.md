@@ -2531,6 +2531,127 @@ with tf.Session(config=config) as sess:
         for i in range(40):
             print(sess.run(line))
     ```
+    3. 基于tfrecord创建dataset
+        1. tfrecord文件名已经确定
+        ```
+        import tensorflow as tf
+
+        def parser(record):
+
+            features = tf.parse_single_example(
+                    record,
+                    features = {
+                        'image_raw': tf.FixedLenFeature([],tf.string),
+                        'height': tf.FixedLenFeature([],tf.int64),
+                        'width': tf.FixedLenFeature([],tf.int64),
+                        'channels': tf.FixedLenFeature([],tf.int64),
+                        'label': tf.FixedLenFeature([],tf.int64),
+                        })
+            return features['height'],features['width']
+
+        input_files = ['images.tfrecords']
+        dataset = tf.data.TFRecordDataset(input_files)
+
+        dataset = dataset.map(parser)
+
+        iterator = dataset.make_one_shot_iterator()
+
+        height, width = iterator.get_next()
+
+        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+        config = tf.ConfigProto(gpu_options=gpu_options)
+        with tf.Session(config=config) as sess:
+            for i in range(3):
+                print(sess.run([height,width]))
+        ```
+        2. tfrecord文件名是placeholder形式
+        ```
+        import tensorflow as tf
+
+        def parser(record):
+            features = tf.parse_single_example(
+                    record,
+                    features = {
+                        'image_raw': tf.FixedLenFeature([],tf.string),
+                        'height': tf.FixedLenFeature([],tf.int64),
+                        'width': tf.FixedLenFeature([],tf.int64),
+                        'channels': tf.FixedLenFeature([],tf.int64),
+                        'label': tf.FixedLenFeature([],tf.int64),
+                        })
+            return features['height'],features['width']
+
+        input_files = tf.placeholder(tf.string)
+        dataset = tf.data.TFRecordDataset(input_files)
+
+        dataset = dataset.map(parser)
+
+        iterator = dataset.make_initializable_iterator()
+
+        height, width = iterator.get_next()
+
+        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+        config = tf.ConfigProto(gpu_options=gpu_options)
+        with tf.Session(config=config) as sess:
+            sess.run(iterator.initializer,feed_dict={input_files:'images.tfrecords'})
+            while True:
+                try:
+                    print(sess.run([height,width]))
+                except tf.errors.OutOfRangeError:
+                    break
+        ```
+    4. 数据集的处理
+        1. 单独处理image而不处理label.(这里简单的通过height和width来解决)
+            1. 单独处理dataset里的一个元素
+            2. shuffle
+            2. batch
+            3. num_epochs
+        ```
+        import tensorflow as tf
+
+        def parser(record):
+
+            features = tf.parse_single_example(
+                    record,
+                    features = {
+                        'image_raw': tf.FixedLenFeature([],tf.string),
+                        'height': tf.FixedLenFeature([],tf.int64),
+                        'width': tf.FixedLenFeature([],tf.int64),
+                        'channels': tf.FixedLenFeature([],tf.int64),
+                        'label': tf.FixedLenFeature([],tf.int64),
+                        })
+            return features['height'],features['width']
+
+        def f(x,y,z):
+            return x*z,y
+
+        input_files = tf.placeholder(tf.string)
+        dataset = tf.data.TFRecordDataset(input_files)
+        
+        #################################################################################
+        dataset = dataset.map(parser)
+        dataset = dataset.map(lambda x,y:f(x,y,100))
+        dataset = dataset.shuffle(100) # =tf.train.shuffle_batch's min_after_dequeue
+        batch_size = 16
+        dataset = dataset.batch(batch_size)
+        num_epochs = 3
+        dataset = dataset.repeat(num_epochs)
+        #################################################################################
+    
+        
+        iterator = dataset.make_initializable_iterator()
+
+        height, width = iterator.get_next()
+
+        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+        config = tf.ConfigProto(gpu_options=gpu_options)
+        with tf.Session(config=config) as sess:
+            sess.run(iterator.initializer,feed_dict={input_files:'images.tfrecords'})
+            while True:
+                try:
+                    print(sess.run([height,width]))
+                except tf.errors.OutOfRangeError:
+                    break
+        ```
 
 ## 2. Bazel
 ```
