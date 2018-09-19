@@ -2778,8 +2778,69 @@ len(img.getbands())
 ```
 
 
+## 6. Collections
+1. 统计词频为一个类词典
+```
+counter = collections.Counter()
+with codecs.open(raw_data,'r','utf-8') as f:
+    for line in f:
+        for word in line.strip().split():
+            counter[word] += 1
+```
+## 7. codecs
+1. 打开文件,utf8格式
+```
+with codecs.open(raw_data,'r','utf-8') as f:
+    for line in f:
+        for word in line.strip().split():
+            counter[word] += 1
+```
+## 8. NLP
+1. 转换文本文件得到高频词(后续将行号作为该单词的编号)
+```
+import codecs
+import collections
+from operator import itemgetter
 
-## 6. Python
+raw_data = 'simple-examples/data/ptb.train.txt'
+vocab_output = 'ptb.vocab'
+
+#########################################################################################################################
+ aer banknote berlitz calloway centrust cluett fromstein gitano guterman hydro-quebec ipo kia memotec mlx nahb punts rake regatta rubens sim snack-food ssangyong swapo wachter 
+ pierre <unk> N years old will join the board as a nonexecutive director nov. N 
+ mr. <unk> is chairman of <unk> n.v. the dutch publishing group 
+    ||
+Counter({'the': 50770, '<unk>': 45020, 'N': 32481, 'of': 24400, 'to': 23638, 'a': 21196, 'in': 18000, 'and': 17474, "'s": 9784, 'that': 8931, 'for': 8927, '$': 7541, 'is': 7337, 'it': 6112, 'said': 6027, 'on': 5650, 'by': 4915, 'at': 4894, 'as': 4833, 'from': 4724, 'million': 4627, 'with': 4585 })
+#########################################################################################################################
+
+counter = collections.Counter()
+with codecs.open(raw_data,'r','utf-8') as f:
+    for line in f:
+        for word in line.strip().split():
+            counter[word] += 1
+
+#########################################################################################################################
+Counter({'the': 50770, '<unk>': 45020, 'N': 32481, 'of': 24400, 'to': 23638, 'a': 21196, 'in': 18000, 'and': 17474, "'s": 9784, 'that': 8931, 'for': 8927, '$': 7541, 'is': 7337, 'it': 6112, 'said': 6027, 'on': 5650, 'by': 4915, 'at': 4894, 'as': 4833, 'from': 4724, 'million': 4627, 'with': 4585 })
+    ||
+[('the', 50770), ('<unk>', 45020), ('N', 32481), ('of', 24400), ('to', 23638), ('a', 21196), ('in', 18000), ('and', 17474), ("'s", 9784), ('that', 8931), ('for', 8927), ('$', 7541), ('is', 7337), ('it', 6112), ('said', 6027), ('on', 5650), ('by', 4915), ('at', 4894), ('as', 4833), ('from', 4724), ('million', 4627), ('with', 4585), ('mr.', 4326), ('was', 4073), ('be', 3923), ('are', 3914), ('its', 3846), ('he', 3632), ('but', 3541), ('has', 3494), ('an', 3477), ("n't", 3388), ('will', 3270), ('have', 3245), ('new', 2793), ('or', 2704), ('company', 2680), ('they', 2562), ('this', 2438), ('year', 2379), ('which', 2362), ('would', 2308), ('about', 2220), ('says', 2092), ('more', 2065), ('were', 2009), ('market', 2005), ('billion', 1881), ('his', 1852), ('had', 1850)]
+#########################################################################################################################
+sorted_word_to_cnt = sorted(counter.items(),key=itemgetter(1),reverse=True)
+
+
+#########################################################################################################################
+[('the', 50770), ('<unk>', 45020), ('N', 32481), ('of', 24400), ('to', 23638), ('a', 21196), ('in', 18000), ('and', 17474), ("'s", 9784), ('that', 8931), ('for', 8927), ('$', 7541), ('is', 7337), ('it', 6112), ('said', 6027), ('on', 5650), ('by', 4915), ('at', 4894), ('as', 4833), ('from', 4724), ('million', 4627), ('with', 4585), ('mr.', 4326), ('was', 4073), ('be', 3923), ('are', 3914), ('its', 3846), ('he', 3632), ('but', 3541), ('has', 3494), ('an', 3477), ("n't", 3388), ('will', 3270), ('have', 3245), ('new', 2793), ('or', 2704), ('company', 2680), ('they', 2562), ('this', 2438), ('year', 2379), ('which', 2362), ('would', 2308), ('about', 2220), ('says', 2092), ('more', 2065), ('were', 2009), ('market', 2005), ('billion', 1881), ('his', 1852), ('had', 1850)]
+    ||
+['the', '<unk>', 'N', 'of', 'to', 'a', 'in', 'and', "'s", 'that', 'for', '$', 'is', 'it', 'said', 'on', 'by', 'at', 'as', 'from', 'million', 'with', 'mr.', 'was', 'be', 'are', 'its', 'he', 'but', 'has', 'an', "n't", 'will', 'have', 'new', 'or', 'company', 'they', 'this', 'year', 'which', 'would', 'about', 'says', 'more', 'were', 'market', 'billion', 'his', 'had', 'their', 'up', 'u.s.', 'one', 'than', 'who',
+#########################################################################################################################
+sorted_words = [x[0] for x in sorted_word_to_cnt]
+
+sorted_words = ["<eos>"] + sorted_words
+
+with codecs.open(vocab_output,'w','utf-8') as file_output:
+    for word in sorted_words:
+        file_output.write(word + '\n')
+```
+## 9. Python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
