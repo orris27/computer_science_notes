@@ -1768,13 +1768,13 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
         import tensorflow as tf
         import matplotlib.pyplot as plt
 
-        image_raw_data = tf.gfile.FastGFile('/home/orris/Pictures/1.jpeg','rb').read()
+        image_raw = tf.gfile.FastGFile('/home/orris/Pictures/1.jpeg','rb').read()
 
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
         config = tf.ConfigProto(gpu_options=gpu_options)
 
         with tf.Session(config=config) as sess:
-            image = tf.image.decode_jpeg(image_raw_data)
+            image = tf.image.decode_jpeg(image_raw)
             print(image.eval())
 
             plt.figure()
