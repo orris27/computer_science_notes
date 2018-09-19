@@ -2440,7 +2440,7 @@ for thread in threads:
 coord.join(threads)
 ```
 
-73. QueueRunner
+73. QueueRunner.[输入文件的队列原理图](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/tf-files-queue.png)
 ```
 def preprocess(filename):
     # create a reader 
