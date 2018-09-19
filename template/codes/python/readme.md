@@ -2217,13 +2217,15 @@ for variable_name in variables_dict:
 ```
 
 70. tfrecord
-    1. 保存MNIST图像
+    1. 保存图像
     ```
     import tensorflow as tf
-    from tensorflow.examples.tutorials.mnist import input_data
+    from PIL import Image
+    import os 
     import numpy as np
 
-    mnist_path = '../MNIST_data'
+    data_path = '../dogs-cats/dataset/train/'
+    output_filename = 'images.tfrecords'
 
     def _int64_feature(value):
         return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
@@ -2231,38 +2233,43 @@ for variable_name in variables_dict:
     def _bytes_feature(value):
         return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
-
-    mnist = input_data.read_data_sets(mnist_path,dtype=tf.uint8,one_hot=True)
-
-    images = mnist.train.images
-
-    labels = mnist.train.labels
-
-    # get image' pixels
-    pixels = images.shape[1]
-    num_examples = mnist.train.num_examples
-
-    filename = './mnist.tfrecords'
+    count = 0
 
     # create a writer to record this big event!
-    writer = tf.python_io.TFRecordWriter(filename)
+    writer = tf.python_io.TFRecordWriter(output_filename)
 
-    # write one image at one time~
-    for index in range(num_examples):
-        # get image's raw data
-        image_raw = images[index].tostring()
+    # for file in data_path:
+    list_dirs = os.walk(data_path) 
+    for root, dirs, files in list_dirs: 
+        for f in files: 
+            if f.endswith('jpg') and count < 1000: # 这里的count是为了控制图片数量,不然一个tfrecord文件太大...
+                # obtain image_raw
+                img = Image.open(os.path.join(root,f))
+                image_raw = img.tobytes()
 
-        # construct an example (a bit like a dictionary) that can be serialized to string
-        example = tf.train.Example(features=tf.train.Features(feature={
-            'pixels':_int64_feature(pixels),
-            'label':_int64_feature(np.argmax(labels[index])),
-            'image_raw':_bytes_feature(image_raw)}))
 
-        # serialize the example and write it to the file
-        writer.write(example.SerializeToString())
+
+                # get label
+                label = f.split('.')[0]
+                if label == 'dog':
+                    label = 1
+                else:
+                    label = 0
+
+                example = tf.train.Example(features=tf.train.Features(feature={
+                    'height':_int64_feature(img.height),
+                    'width':_int64_feature(img.width),
+                    'channels':_int64_feature(len(img.getbands())),
+                    'label':_int64_feature(label),
+                    'image_raw':_bytes_feature(image_raw)}))
+                # serialize the example and write it to the file
+                writer.write(example.SerializeToString())
+
+                count += 1
 
     # close the writer and have fun!
     writer.close()
+
     ```
     2. 读取图像
         1. reader.read && reader.read_up_to(一次性读取多个样例)
@@ -2277,7 +2284,7 @@ for variable_name in variables_dict:
 
     # open the file
     filename_queue = tf.train.string_input_producer(
-            ["./mnist.tfrecords"])
+            ["./images.tfrecords"])
     # read one example at one time
     _, serialized_example = reader.read(filename_queue)
     # get the dictionary object
@@ -2285,16 +2292,20 @@ for variable_name in variables_dict:
             serialized_example,
             features = {
                 'image_raw': tf.FixedLenFeature([],tf.string),
-                'pixels': tf.FixedLenFeature([],tf.int64),
+                'height': tf.FixedLenFeature([],tf.int64),
+                'width': tf.FixedLenFeature([],tf.int64),
+                'channels': tf.FixedLenFeature([],tf.int64),
                 'label': tf.FixedLenFeature([],tf.int64),
                 })
 
     # extract the image
-    image = tf.decode_raw(features['image_raw'],tf.uint8)
+    image_raw_op = tf.decode_raw(features['image_raw'],tf.uint8)
     # extract the label
-    label = tf.cast(features['label'],tf.int32)
+    label_op = tf.cast(features['label'],tf.int32)
     # extract the pixel
-    pixels = tf.cast(features['pixels'],tf.int32)
+    height_op = tf.cast(features['height'],tf.int32)
+    width_op = tf.cast(features['width'],tf.int32)
+    channels_op = tf.cast(features['channels'],tf.int32)
 
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.5)
     config = tf.ConfigProto(gpu_options=gpu_options)
@@ -2306,7 +2317,13 @@ for variable_name in variables_dict:
             i = 0
             while not coord.should_stop() and i < 5:
                 # iterator
-                print(sess.run([image,label,pixels]))
+                image_raw, label, height, width, channels = sess.run([image_raw_op,label_op,height_op,width_op,channels_op])
+                image = np.reshape(image_raw,[height,width,channels])
+
+                plt.figure()
+                plt.imshow(image)
+                plt.show()
+
                 i += 1
 
         except tf.errors.OutOfRangeError:
@@ -2315,6 +2332,7 @@ for variable_name in variables_dict:
             coord.request_stop()
 
         coord.join(threads)
+
     ```
     
 71. 图像预处理
@@ -2589,7 +2607,23 @@ l.tostring()
     plt.show()
     
     ```
-## 5. Python
+    
+## 5. PIL
+1. 基本操作
+```
+from PIL import Image
+
+img = Image.open('1.jpg')
+img.tobytes()
+img.size
+img.height
+img.width
+len(img.getbands())
+```
+
+
+
+## 6. Python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
@@ -2833,3 +2867,14 @@ list(map(int,l))
     f()
     7
     ```
+17. 遍历目录下的内容
+```
+import os 
+
+list_dirs = os.walk('.') 
+for root, dirs, files in list_dirs: 
+    for d in dirs: 
+        print(os.path.join(root, d))
+    for f in files: 
+        print(os.path.join(root, f))
+```
