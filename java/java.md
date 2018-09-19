@@ -101,6 +101,7 @@ New Perspective>MapReduce>New Location>location name:localhost(选择namenode的
     6. 空常量
         1. null
         2. 不可以输出
+    7. 自定义常量:`final int SIZE = 3`
 2. 自定义常量
 ### 3-3. 变量
 #### 3-3-1. 数据类型
