@@ -2424,6 +2424,57 @@ for thread in threads:
 coord.join(threads)
 ```
 
+73. QueueRunner
+```
+def preprocess(filename):
+    # create a reader 
+    reader = tf.TFRecordReader()
+
+    # read one example at one time
+    _, serialized_example = reader.read(filename)
+    # get the dictionary object
+    features = tf.parse_single_example(
+            serialized_example,
+            features = {
+                'i': tf.FixedLenFeature([],tf.int64),
+                'j': tf.FixedLenFeature([],tf.int64),
+                })
+
+    # extract the i
+    i = tf.cast(features['i'],tf.int32)
+    # extract the j
+    j = tf.cast(features['j'],tf.int32)
+    # return features
+    return i, j
+
+# open the files
+# form a file list
+filenames = tf.train.match_filenames_once('data.tfrecords-*')
+# construct a string input queue
+filename_queue = tf.train.string_input_producer(filenames,shuffle=False)
+
+# preprocess a filename
+i, j = preprocess(filename_queue)
+
+gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+config = tf.ConfigProto(gpu_options=gpu_options)
+# start session
+with tf.Session(config=config) as sess:
+    # init vars
+    sess.run(tf.local_variables_initializer()) # tf.train.match_filenames_once需要
+
+    print(sess.run(filenames))
+    
+    coord = tf.train.Coordinator()
+    threads = tf.train.start_queue_runners(sess=sess, coord=coord)
+
+    # get i & j
+    for _ in range(6):
+        print(sess.run([i,j]))
+
+    coord.request_stop()
+    coord.join(threads)
+```
 
 
 
