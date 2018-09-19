@@ -1287,6 +1287,7 @@ python -m test
     ```
     # enqueue_many 的写法，两个元素放在两个列表里。
     en_m = queue.enqueue_many([['hello', 'world', 'orris'], [1, 2, 3]])
+    queue_init = queue.enqueue_many([[1, 10],]) # shape为[1]的时候,这样才能插入2个数据
     # enqueue 的写法
     en = queue.enqueue(['hello', 1])
     ```
