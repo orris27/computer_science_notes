@@ -678,15 +678,15 @@ scope_assign('s1','s2',sess)
         1. `[batch_size, num_steps]` => embedding层(`[vocab_size, embedding_size]`) => `[batch_size, num_steps, embedding_size]` => dynamic_rnn => outputs(`[batch_size, num_steps, lstm_size]`), final_state 
         2. embedding_size 和 lstm_size 的关系: embedding_size和lstm_size不需要相等,但是如果相等的话,就可以共享embedding层和softmax层的权重了
         3. 参数
-            1. initial_state:
+            1. initial_state
                  1. None: 默认会初始化为0.源代码中是`state = cell.zero_state(batch_size, dtype)`
                  2. zero_state或者dynamic_rnn的返回值
-             2. sequence_length: `[batch_size]`形状. `a[i]`表示这个batch里的第i个句子的有效单词长度.(由于padding的缘故会小于embedding_size).如果你要输入三句话，且三句话的长度分别是5,10,25,那么sequence_length=`[5,10,25]`
+             2. sequence_length: `[batch_size]`形状. `a[i]`表示这个batch里的第i个句子的有效单词长度.(由于padding的缘故会小于embedding_size).如果你要输入三句话，且三句话的长度分别是5,10,25,那么sequence_length=`[5,10,25]`.最后的outputs在第一个句子的第5个step后全为0
         4. 返回值
             1. final_state
                 1. `final_state[0]`: cell_state的结果 => 提供给forget gate, 而不是作为输入提供给input gate, cell gate和output gate
                 2. `final_state[1]`: hidden_state的结果 => 提供给下一个时间步长的input gate, cell gate 和 output gate
-            2. outputs:
+            2. outputs
                 1. time_major
                     1. False(Default):
                         1. shape: `[batch_size, num_steps, lstm_size]`
