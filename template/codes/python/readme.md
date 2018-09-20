@@ -674,44 +674,30 @@ scope_assign('s1','s2',sess)
     ```
     
 17. rnn
-    1. 使用rnn:`[-1,784]`=>`[-1,28,28]`=>rnn=>`[-1,lstm_size]`
-        + 使用
-            1. 使用前:使用dynamic_rnn前要先将输入转换为`[batch_size,time_step,embedding_size]`.所以要先进行embedding的转换后才进行rnn,而不是在rnn内执行embedding.(embedding_size和lstm_size不需要相等)
-            2. 使用后:获得的`final_state[1]`为`[-1,lstm_size]`.而outputs为`[batch_size, max_time,lstm_size]`
-                1. final_state
-                    1. `final_state[0]`为cell_state的结果
-                    2. `final_state[1]`为hidden_state的结果
-                2. outputs:
-                    1. time_major
-                        1. False(Default):
-                            1. shape
-                                + inputs 和 outputs 都为`[batch_size, max_time, lstm_size]`
-                            2. 1个结论:如果time_major=False,那么`output = tf.squeeze(outputs[:,-1,:])`<=>`final_state[1]`
-                            3. 注意:使用tf.squeeze后,output的shape就`<unknown>`了,所以如果后续需要output的shape的话,可以考虑去掉tf.squeeze,直接用这个 `outputs[:,-1,:]`
-                        2. True:
-                            1. shape
-                                + inputs 和 outputs 都为`[max_time, batch_size, lstm_size]`
-                            2. 1个结论:如果time_major=True,那么
-                            ```
-                            # reshape
-                            inputs=tf.reshape(features,[-1,train_times,n_inputs])
-                            ##############################################################################
-                            # inputs需要改变
-                            ##############################################################################
-                            inputs = tf.transpose(inputs,[1,0,2])  ##
+    1. dynamic_rnn
+        1. `[batch_size, num_steps]` => embedding层(`[vocab_size, embedding_size]`) => `[batch_size, num_steps, embedding_size]` => dynamic_rnn => outputs(`[batch_size, num_steps, lstm_size]`), final_state 
+        2. embedding_size 和 lstm_size 的关系: embedding_size和lstm_size不需要相等,但是如果相等的话,就可以共享embedding层和softmax层的权重了
+        3. 参数
+            1. initial_state:
+                 1. None: 默认会初始化为0.源代码中是`state = cell.zero_state(batch_size, dtype)`
+                 2. zero_state或者dynamic_rnn的返回值
+             2. sequence_length: `[batch_size]`形状. `a[i]`表示这个batch里的第i个句子的有效单词长度.(由于padding的缘故会小于embedding_size).如果你要输入三句话，且三句话的长度分别是5,10,25,那么sequence_length=`[5,10,25]`
+        4. 返回值
+            1. final_state
+                1. `final_state[0]`: cell_state的结果 => 提供给forget gate, 而不是作为输入提供给input gate, cell gate和output gate
+                2. `final_state[1]`: hidden_state的结果 => 提供给下一个时间步长的input gate, cell gate 和 output gate
+            2. outputs:
+                1. time_major
+                    1. False(Default):
+                        1. shape: `[batch_size, num_steps, lstm_size]`
+                        2. 1个结论:如果time_major=False,那么`output = tf.squeeze(outputs[:,-1,:])`<=>`final_state[1]`
+                        3. 注意:使用tf.squeeze后,output的shape就`<unknown>`了,所以如果后续需要output的shape的话,可以考虑去掉tf.squeeze,直接用这个 `outputs[:,-1,:]`
+                    2. True:
+                        1. shape
+                            + inputs 和 outputs 都为`[max_time, batch_size, lstm_size]`
+                        2. 1个结论:如果time_major=True,那么:[time_major为真的处理](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/examples/dynamic-time-major.py)
 
-                            lstm_cell = tf.contrib.rnn.BasicLSTMCell(lstm_size,state_is_tuple=True)
-                            lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=0.5)
-                            outputs,final_state=tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32,time_major=True)
-
-                            ##############################################################################
-                            # outputs需要改变,后面使用final_state[1]的地方,用output就可以了
-                            ##############################################################################
-                            output = tf.squeeze(outputs[-1,:,:])
-                            ```
-                3. 后续可以考虑全连接层.比如W为`[lstm_size,10]`,b为`[10]`,然后用矩阵乘法来解决.`y_predicted=tf.nn.softmax(tf.matmul(final_state[1],weights)+bias)`
-        + dynamic_rnn
-            1. initial_state:如果为None,默认会初始化为0.源代码中是`state = cell.zero_state(batch_size, dtype)`
+                2. 后续可以考虑全连接层.比如W为`[lstm_size,10]`,b为`[10]`,然后用矩阵乘法来解决.`y_predicted=tf.nn.softmax(tf.matmul(final_state[1],weights)+bias)`
     ```
     train_times = 28
     embedding_size = 28
@@ -742,17 +728,6 @@ scope_assign('s1','s2',sess)
     ```
     3. 运行RNN:
         1. tf.nn.dynamic_rnn
-            + 通过inputs中的max_time将网络按时间展开
-            1. 参数
-                1. cell:上面的返回值
-                2. inputs:`[batch_size,max_time,size]`
-                3. sequence_length:是一个list，如果你要输入三句话，且三句话的长度分别是5,10,25,那么sequence_length=[5,10,25]
-            2. 返回:（outputs, states）.一般我们选择states[1]就行了
-                1. output:输出的是最上面一层的输出
-                    1. time_major=False:`[batch_size, max_time, num_units]`
-                    2. time_major=True:`[max_time,batch_size,num_units]`
-                2. states:保存的是最后一个时间输出的states
-                    1. `[batch_size, 2*len(cells)]或[batch_size,s]`
         ```
         tf.nn.dynamic_rnn(cell, inputs, sequence_length=None, initial_state=None,dtype=None,time_major=False)
         ```
