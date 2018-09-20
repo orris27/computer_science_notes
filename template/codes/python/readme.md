@@ -2653,6 +2653,10 @@ with tf.Session(config=config) as sess:
                     break
         ```
 
+
+
+75. reduce函数
+> [TensorFlow下reduce数学接口介绍](https://www.jianshu.com/p/7fbce28e85a4)
 ## 2. Bazel
 ```
 cat BUILD 
