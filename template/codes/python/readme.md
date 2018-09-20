@@ -1455,7 +1455,7 @@ with tf.Session() as sess:
     
     tf.flags.DEFINE_integer("num_filters", 128, "num of filters")
     tf.flags.DEFINE_integer("num_classes", 2, "num of classes")
-    tf.flags.DEFINE_integer("num_epochs", 200, "num of ")
+    tf.flags.DEFINE_integer("num_epochs", 200, "num of epochs")
     tf.flags.DEFINE_integer("embedding_size", 128, "embedding size")
     tf.flags.DEFINE_integer("batch_size", 64, "batch size")
     tf.flags.DEFINE_integer("save_every", 100, "save_every")
@@ -3047,18 +3047,33 @@ x = np.arange(9.0)
 # array([0., 1., 2., 3., 4., 5., 6., 7., 8.])
 ```
 
-12. 分割列表:根据下标进行切割
-```
-x = np.arange(8.0)
-np.split(x, [3, 5, 6, 10], axis=0) # axis表示从0开始切割
-#--------------------------------------------------------------------------------
-# [array([ 0.,  1.,  2.]),
-#  array([ 3.,  4.]),
-#  array([ 5.]),
-#  array([ 6.,  7.]),
-#  array([], dtype=float64)]
-#--------------------------------------------------------------------------------
-```
+12. 分割列表:
+    1. 根据下标进行切割
+    ```
+    x = np.arange(8.0)
+    np.split(x, [3, 5, 6, 10], axis=0) # axis表示从0开始切割
+    #--------------------------------------------------------------------------------
+    # [array([ 0.,  1.,  2.]),
+    #  array([ 3.,  4.]),
+    #  array([ 5.]),
+    #  array([ 6.,  7.]),
+    #  array([], dtype=float64)]
+    #--------------------------------------------------------------------------------
+    ```
+    2. 分割成k份:
+        + a是`[m,n]`的矩阵,第二个参数是k的话:
+            1. axis=0: `[k, m/k, n]`
+            2. axis=1: `[k, m, n/k]`
+    ```
+    a.shape
+    # (15, 28)
+
+    np.array(np.split(a,3,axis=0)).shape
+    # (3, 5, 28)
+
+    np.array(np.split(a,7,axis=1)).shape
+    # (7, 15, 4)
+    ```
 
 13. python2的UTF8声明
 ```
