@@ -675,8 +675,9 @@ scope_assign('s1','s2',sess)
     
 17. rnn
     1. dynamic_rnn
-        1. `[batch_size, num_steps]` => embedding层(`[vocab_size, embedding_size]`) => `[batch_size, num_steps, embedding_size]` => dynamic_rnn => outputs(`[batch_size, num_steps, lstm_size]`), final_state 
-        2. embedding_size 和 lstm_size 的关系: embedding_size和lstm_size不需要相等,但是如果相等的话,就可以共享embedding层和softmax层的权重了
+        1. `[batch_size, num_steps]` => embedding层(`[vocab_size, embedding_size]`) => `[batch_size, num_steps, embedding_size]` => dynamic_rnn => outputs(`[batch_size, num_steps, lstm_size]`), final_state
+            + `[有几句话, 每句话最多几个单词]` => embedding层 => `[有几句话, 每句话最多几个单词, 一个单词对应多长的词向量]` => dynamic_rnn => `[有几句话, 每句话最多几个单词, RNN内部有多少个节点]`, `(最后一个节点的c输出, 最后一个节点的h输出)`
+        2. embedding_size(一个单词转化后的词向量长度) 和 lstm_size(RNN隐藏层的节点个数) 的关系: embedding_size和lstm_size不需要相等,但是如果相等的话,就可以共享embedding层和softmax层的权重了
         3. 参数
             1. initial_state
                  1. None: 默认会初始化为0.源代码中是`state = cell.zero_state(batch_size, dtype)`
