@@ -2844,6 +2844,48 @@ with codecs.open(raw_data,'r','utf-8') as f_input, codecs.open(output_data,'w','
         new_line = ' '.join([str(get_id(word)) for word in (line.strip().split() + ['<eos>'])]) + '\n'
         f_output.write(new_line)
 ```
+3. 一行一句int话的文本文件 => `[num_batches, batch_size, num_steps]`的int列表
+    + 支持PTB等可以全部载入内存的小数据集
+```
+'''
+    int_text => [num_batches, batch_size, num_steps]
+'''
+import tensorflow as tf
+import numpy as np
+
+def make_batches(data_file, batch_size, num_steps):
+    # put together a large sentence
+    with open(data_file,'r') as f:
+        sentence = ' '.join([line.strip() for line in f.readlines()])
+    # split into [int, ]
+    data = np.array(sentence.strip().split())
+    # calculate number of batches (len(data) - 1, because we need an extra elm)
+    num_batches = (len(data) - 1 ) // (batch_size * num_steps)
+
+    ###############################################################################
+    # features
+    ###############################################################################
+    # capture the first (num_batches * batch_size * num_steps) elms
+    features = data[:(num_batches * batch_size * num_steps)]
+    # split into num_batches batches => (num_batches, batch_size * num_steps)
+    features = np.split(features, num_batches)
+    # reshape => [num_batches, batch_size, num_steps]
+    features = np.reshape(features, [num_batches, batch_size, num_steps])
+     
+     
+    ###############################################################################
+    # label
+    ###############################################################################
+    # capture the first elm to (num_batches * batch_size * num_steps + 1) elms
+    labels = data[1:(num_batches * batch_size * num_steps + 1)]
+    # split into num_batches batches => (num_batches, batch_size * num_steps)
+    labels = np.split(labels, num_batches)
+    # reshape => [num_batches, batch_size, num_steps]
+    labels = np.reshape(labels, [num_batches, batch_size, num_steps])
+
+    # return zip (features,label)
+    return list(zip(features,labels))
+```
 ## 9. Python
 1. 如果是`__main__`的话
 ```
