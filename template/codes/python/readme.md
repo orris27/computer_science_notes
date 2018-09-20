@@ -2885,6 +2885,14 @@ def make_batches(data_file, batch_size, num_steps):
 
     # return zip (features,label)
     return list(zip(features,labels))
+
+
+train_batches = data_loader.make_batches(
+        FLAGS.train_data,FLAGS.train_batch_size,FLAGS.train_num_steps)
+# ...
+for X, y in batches:
+    # ...
+
 ```
 ## 9. Python
 1. 如果是`__main__`的话
