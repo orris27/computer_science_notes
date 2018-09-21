@@ -162,7 +162,7 @@ learning_rate = tf.Variable(1e-3)
     ```
 
 
-3. 代价函数(损失函数)
+3. loss代价函数(损失函数)
     1. sigmoid_cross_entropy_with_logits
         + labels:正确的y
         + logits:预测的y
@@ -174,6 +174,8 @@ learning_rate = tf.Variable(1e-3)
         + 注意
             1. logits.shape是[batch_size, num_classes] (dtype=tf.float)，labels.shape必须是[batch_size] (dtype=tf.int)
             2. 使用前不能经过softmax.即y_predicted没有经过softmax处理
+            3. output: a tensor of the same shape as labels
+            4. tf.reduce_sum() && tf.reduce_mean(): if the shape of labels is (700,), then tf.reduce_sum() is the 700 times the length of tf.reduce_mean()
     ```
     cross_entropy = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels,logits = y_predicted))
     tf.add_to_collection('losses',cross_entropy)
@@ -228,7 +230,28 @@ learning_rate = tf.Variable(1e-3)
     self.d_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope='disc')
     self.d_train  = self.optimizer(self.d_loss, self.d_params, self.learning_rate)
     ```
-
+    5. more concrete examples
+        1. perplexity
+            1. labels: `[batch_size * num_steps]`
+            2. y_predicted: `[batch_size * num_steps, vocab_size]`
+        ```
+        self.loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = self.labels,logits = y_predicted))
+        params = tf.trainable_variables()
+        opt = tf.train.GradientDescentOptimizer(learning_rate) # learning_rate = 1.0
+        gradients = tf.gradients(self.loss * num_steps, params) # reduce (self.loss * num_steps)
+        clipped_gradients, norm = tf.clip_by_global_norm(gradients,max_grad_norm) # max_grad_norm = 5
+        self.train = opt.apply_gradients(zip(clipped_gradients, params))
+        
+        ##########################################################################
+        # ... The self.loss only calculates the perplexity in that batch
+        ##########################################################################
+        total_loss = 0.0
+        step = 0
+        while batches:
+            total_loss += loss
+            step += 1
+            perplexity = np.exp(total_loss / step) # => correct perplexity
+        ```
 4. 训练
     + 整个训练集训练多少次:1000
     + 单次训练的实例个数:100
@@ -711,7 +734,6 @@ scope_assign('s1','s2',sess)
     lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=0.5)
     # map.  
     outputs,final_state = tf.nn.dynamic_rnn(lstm_cell,inputs,dtype=tf.float32)
-
     ```
     2. BasicLSTMCell.[原理图](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/BasicLSTMCell.png)
         1. state_is_tuple
@@ -755,26 +777,72 @@ scope_assign('s1','s2',sess)
     #stacked_lstm = tf.nn.rnn_cell.MultiRNNCell([lstm_cell] * 2)
     #stacked_lstm = tf.nn.rnn_cell.MultiRNNCell([lstm_cell for _ in range(num_layers)])
     ```
-    5. 基本结构
-    ```
-    import tensorflow as tf
+    5. more concrete examples
+        1. embedding + LSTM + softmax
+        ```
+        def __init__(self,num_steps, lstm_size, vocab_size, num_layers, share_emb_and_softmax, is_training, learning_rate, max_grad_norm,batch_size):
+            ###############################################################################
+            # attr
+            ###############################################################################
+            with tf.name_scope('placeholder'):
+                self.features = tf.placeholder(tf.int32,[None,num_steps], name='features') 
+                self.labels = tf.placeholder(tf.int32,[None,num_steps], name='labels')
+                self.keep_prob = tf.placeholder(tf.float32, name='keep_prob')
+            self.num_steps = num_steps
+            self.lstm_size = lstm_size
+            self.vocab_size = vocab_size
+            self.num_layers = num_layers
+            self.share_emb_and_softmax = share_emb_and_softmax
+            self.is_training = is_training
+            self.learning_rate = learning_rate
+            self.max_grad_norm = max_grad_norm
 
-    lstm_cell = tf.nn.rnn_cell.BasicLSTMCell(lstm_hidden_size)
+            ###############################################################################
+            # embedding
+            ###############################################################################
+            embedding_size = lstm_size
+            W_embedding = tf.get_variable(name="W_embedding", shape=[vocab_size,embedding_size])
+            embedded_chars = tf.nn.embedding_lookup(W_embedding, self.features)
 
-    state = lstm_cell.zero_state(batch_size,tf.float32)
+            if is_training:
+                embedded_chars = tf.nn.dropout(embedded_chars,FLAGS.embedding_keep_prob)
+            ###############################################################################
+            # lstm
+            ###############################################################################
+            def create_lstm_cell(lstm_size, output_keep_prob):
+                lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size,state_is_tuple=True)
+                lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=output_keep_prob)
+                return lstm_cell
 
-    loss = 0.0
+            lstm_cell = tf.nn.rnn_cell.MultiRNNCell([create_lstm_cell(lstm_size, self.keep_prob) for _ in range(num_layers)])
+            outputs,final_state = tf.nn.dynamic_rnn(lstm_cell,embedded_chars,dtype=tf.float32)
 
-    for i in time_steps:
-        if i > 0: tf.get_variable_scope().reuse_variables()
 
-        lstm_output, state = lstm_cell(curr_input, state)
+            ###############################################################################
+            # softmax => [batch_size, num_steps, vocab_size]
+            ###############################################################################
+            if share_emb_and_softmax:
+                W_softmax = tf.transpose(W_embedding)
+            else:
+                W_softmax = tf.get_variable(name='W_softmax',shape=[lstm_size, vocab_size])
+            b_softmax = tf.get_variable(name="b_softmax", shape=[vocab_size])
+            outputs = tf.reshape(outputs, [-1, lstm_size])
+            y_predicted = tf.matmul(outputs,W_softmax) + b_softmax
 
-        final_output = nn(lstm_output)
+            ###############################################################################
+            # loss + train
+            ###############################################################################
+            self.loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = tf.reshape(self.labels, [-1]),logits = y_predicted))
 
-        loss += calc_loss(final_output, expected_output)
+            if not is_training:
+                return 
 
-    ```
+            params = tf.trainable_variables()
+            opt = tf.train.GradientDescentOptimizer(learning_rate)
+            gradients = tf.gradients(self.loss * num_steps, params) # depends on your actual model
+            clipped_gradients, norm = tf.clip_by_global_norm(gradients,max_grad_norm)
+            self.train = opt.apply_gradients(zip(clipped_gradients, params))
+        ```
 18. 获得形状
 ```
 a = tf.zeros([3,2])
@@ -2633,6 +2701,13 @@ with tf.Session(config=config) as sess:
 
 75. reduce函数
 > [TensorFlow下reduce数学接口介绍](https://www.jianshu.com/p/7fbce28e85a4)
+
+
+76. Define a tensor that does nothing
+```
+tf.no_op()
+```
+
 ## 2. Bazel
 ```
 cat BUILD 
