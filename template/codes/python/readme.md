@@ -2712,6 +2712,28 @@ with tf.Session(config=config) as sess:
 tf.no_op()
 ```
 
+77. tf.string_split: split elms in the 1st argument based on delimiter to a list of single word
+```
+tf.string_split(['hello world ',' a b c '],' ').values.eval()
+# array([b'hello', b'world', b'a', b'b', b'c'], dtype=object)
+```
+
+78. InteractiveSession
+```
+sess = tf.InteractiveSession()
+sess.as_default() # normal session does not make sense 
+
+tf.string_split(['hello world ',' a b c '],' ').eval()
+# show results...
+```
+
+79. Convert tensor string to tensor number
+    + ~~tf.cast~~
+```
+tf.string_to_number('12312',tf.int32).eval()
+#12312
+```
+
 ## 2. Bazel
 ```
 cat BUILD 
