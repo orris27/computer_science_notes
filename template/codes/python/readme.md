@@ -2647,6 +2647,7 @@ with tf.Session(config=config) as sess:
                     break
         ```
     4. Create dataset by zipping together the given datasets
+        + Do not use 'x.eval()'
     ```
     sess = tf.InteractiveSession()
     sess.as_default()
@@ -2660,7 +2661,7 @@ with tf.Session(config=config) as sess:
 
     x = iterator.get_next()
 
-    for i in range(10):
+    for i in range(5):
         print(sess.run(x))
     ```
     5. 数据集的处理
