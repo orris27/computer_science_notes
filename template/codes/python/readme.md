@@ -3164,3 +3164,7 @@ for root, dirs, files in list_dirs:
     for f in files: 
         print(os.path.join(root, f))
 ```
+18. 设置环境变量
+```
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+```
