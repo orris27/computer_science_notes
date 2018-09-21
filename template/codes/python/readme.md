@@ -2668,7 +2668,7 @@ with tf.Session(config=config) as sess:
         1. 单独处理image而不处理label.(这里简单的通过height和width来解决)
             1. 单独处理dataset里的一个元素
             2. shuffle
-            2. batch
+            2. batch && padded_batch
             3. num_epochs
         ```
         import tensorflow as tf
@@ -2717,7 +2717,22 @@ with tf.Session(config=config) as sess:
                 except tf.errors.OutOfRangeError:
                     break
         ```
+        2. padded_batch: expand the dims of one instance to the specified or maximum length of all elms in that batch.
+        ```
+        d = tf.data.Dataset.from_tensor_slices([[1,2,2,3],[1,2,3,4],[3,4,5,7],[5,6,7,8]])
+        it = d.make_one_shot_iterator()
+        d = d.repeat(100)
+        d = d.padded_batch(2, tf.TensorShape([5]))
+        it = d.make_one_shot_iterator()
 
+        x = it.get_next()
+        #array([[1, 2, 2, 3, 0],
+               [1, 2, 3, 4, 0]], dtype=int32)
+        x
+        #array([[3, 4, 5, 7, 0],
+               [5, 6, 7, 8, 0]], dtype=int32)
+
+        ```
 
 
 75. reduce函数
