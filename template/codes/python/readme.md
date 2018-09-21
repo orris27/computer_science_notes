@@ -780,68 +780,72 @@ scope_assign('s1','s2',sess)
     5. more concrete examples
         1. embedding + LSTM + softmax
         ```
-        def __init__(self,num_steps, lstm_size, vocab_size, num_layers, share_emb_and_softmax, is_training, learning_rate, max_grad_norm,batch_size):
-            ###############################################################################
-            # attr
-            ###############################################################################
-            with tf.name_scope('placeholder'):
-                self.features = tf.placeholder(tf.int32,[None,num_steps], name='features') 
-                self.labels = tf.placeholder(tf.int32,[None,num_steps], name='labels')
-                self.keep_prob = tf.placeholder(tf.float32, name='keep_prob')
-            self.num_steps = num_steps
-            self.lstm_size = lstm_size
-            self.vocab_size = vocab_size
-            self.num_layers = num_layers
-            self.share_emb_and_softmax = share_emb_and_softmax
-            self.is_training = is_training
-            self.learning_rate = learning_rate
-            self.max_grad_norm = max_grad_norm
+        class PTBModel(object):
 
-            ###############################################################################
-            # embedding
-            ###############################################################################
-            embedding_size = lstm_size
-            W_embedding = tf.get_variable(name="W_embedding", shape=[vocab_size,embedding_size])
-            embedded_chars = tf.nn.embedding_lookup(W_embedding, self.features)
+            def __init__(self,num_steps, lstm_size, vocab_size, num_layers, share_emb_and_softmax, is_training, learning_rate, max_grad_norm,batch_size):
+                ###############################################################################
+                # attr
+                ###############################################################################
+                with tf.name_scope('placeholder'):
+                    self.features = tf.placeholder(tf.int32,[None,num_steps], name='features') 
+                    self.labels = tf.placeholder(tf.int32,[None,num_steps], name='labels')
+                    self.keep_prob = tf.placeholder(tf.float32, name='keep_prob')
+                self.num_steps = num_steps
+                self.lstm_size = lstm_size
+                self.vocab_size = vocab_size
+                self.num_layers = num_layers
+                self.share_emb_and_softmax = share_emb_and_softmax
+                self.is_training = is_training
+                self.learning_rate = learning_rate
+                self.max_grad_norm = max_grad_norm
 
-            if is_training:
-                embedded_chars = tf.nn.dropout(embedded_chars,FLAGS.embedding_keep_prob)
-            ###############################################################################
-            # lstm
-            ###############################################################################
-            def create_lstm_cell(lstm_size, output_keep_prob):
-                lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size,state_is_tuple=True)
-                lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=output_keep_prob)
-                return lstm_cell
+                ###############################################################################
+                # embedding
+                ###############################################################################
+                embedding_size = lstm_size
+                W_embedding = tf.get_variable(name="W_embedding", shape=[vocab_size,embedding_size])
+                embedded_chars = tf.nn.embedding_lookup(W_embedding, self.features)
 
-            lstm_cell = tf.nn.rnn_cell.MultiRNNCell([create_lstm_cell(lstm_size, self.keep_prob) for _ in range(num_layers)])
-            outputs,final_state = tf.nn.dynamic_rnn(lstm_cell,embedded_chars,dtype=tf.float32)
+                if is_training:
+                    embedded_chars = tf.nn.dropout(embedded_chars,FLAGS.embedding_keep_prob)
+                ###############################################################################
+                # lstm
+                ###############################################################################
+                def create_lstm_cell(lstm_size, output_keep_prob):
+                    lstm_cell=tf.contrib.rnn.BasicLSTMCell(lstm_size,state_is_tuple=True)
+                    lstm_cell = tf.nn.rnn_cell.DropoutWrapper(lstm_cell, output_keep_prob=output_keep_prob)
+                    return lstm_cell
+
+                lstm_cell = tf.nn.rnn_cell.MultiRNNCell([create_lstm_cell(lstm_size, self.keep_prob) for _ in range(num_layers)])
+                outputs,final_state = tf.nn.dynamic_rnn(lstm_cell,embedded_chars,dtype=tf.float32)
 
 
-            ###############################################################################
-            # softmax => [batch_size, num_steps, vocab_size]
-            ###############################################################################
-            if share_emb_and_softmax:
-                W_softmax = tf.transpose(W_embedding)
-            else:
-                W_softmax = tf.get_variable(name='W_softmax',shape=[lstm_size, vocab_size])
-            b_softmax = tf.get_variable(name="b_softmax", shape=[vocab_size])
-            outputs = tf.reshape(outputs, [-1, lstm_size])
-            y_predicted = tf.matmul(outputs,W_softmax) + b_softmax
+                ###############################################################################
+                # softmax => [batch_size, num_steps, vocab_size]
+                ###############################################################################
+                if share_emb_and_softmax:
+                    W_softmax = tf.transpose(W_embedding)
+                else:
+                    W_softmax = tf.get_variable(name='W_softmax',shape=[lstm_size, vocab_size])
+                b_softmax = tf.get_variable(name="b_softmax", shape=[vocab_size])
+                outputs = tf.reshape(outputs, [-1, lstm_size])
+                y_predicted = tf.matmul(outputs,W_softmax) + b_softmax
 
-            ###############################################################################
-            # loss + train
-            ###############################################################################
-            self.loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = tf.reshape(self.labels, [-1]),logits = y_predicted))
+                ###############################################################################
+                # loss + train
+                ###############################################################################
+                self.loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = tf.reshape(self.labels, [-1]),logits = y_predicted))
 
-            if not is_training:
-                return 
+                if not is_training:
+                    return 
 
-            params = tf.trainable_variables()
-            opt = tf.train.GradientDescentOptimizer(learning_rate)
-            gradients = tf.gradients(self.loss * num_steps, params) # depends on your actual model
-            clipped_gradients, norm = tf.clip_by_global_norm(gradients,max_grad_norm)
-            self.train = opt.apply_gradients(zip(clipped_gradients, params))
+                params = tf.trainable_variables()
+                opt = tf.train.GradientDescentOptimizer(learning_rate)
+                gradients = tf.gradients(self.loss * num_steps, params) # depends on your actual model
+                clipped_gradients, norm = tf.clip_by_global_norm(gradients,max_grad_norm)
+                self.train = opt.apply_gradients(zip(clipped_gradients, params))
+        train_model = PTBModel(FLAGS.train_num_steps, FLAGS.lstm_size, FLAGS.vocab_size, FLAGS.num_layers,FLAGS.share_emb_and_softmax, True, FLAGS.learning_rate, FLAGS.max_grad_norm,FLAGS.train_batch_size)
+        # train_model.train
         ```
 18. 获得形状
 ```
