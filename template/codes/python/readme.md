@@ -1836,7 +1836,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
                 f.write(encoded_image.eval())
         ```
 58. 数据预处理
-    
     1. 创建batch,将一个列表按batch_size不断输出
         1. <方法1> tf.train.batch
             1. tf.train.slice_input_producer:
@@ -2647,7 +2646,24 @@ with tf.Session(config=config) as sess:
                 except tf.errors.OutOfRangeError:
                     break
         ```
-    4. 数据集的处理
+    4. Create dataset by zipping together the given datasets
+    ```
+    sess = tf.InteractiveSession()
+    sess.as_default()
+
+    d1 = tf.data.Dataset.from_tensor_slices([1,2,3,4, 5])
+    d2 = tf.data.Dataset.from_tensor_slices([10,20,30,40,50])
+
+    d = tf.data.Dataset.zip((d1,d2))
+
+    iterator = d.make_one_shot_iterator()
+
+    x = iterator.get_next()
+
+    for i in range(10):
+        print(sess.run(x))
+    ```
+    5. 数据集的处理
         1. 单独处理image而不处理label.(这里简单的通过height和width来解决)
             1. 单独处理dataset里的一个元素
             2. shuffle
@@ -2732,6 +2748,15 @@ tf.string_split(['hello world ',' a b c '],' ').eval()
 ```
 tf.string_to_number('12312',tf.int32).eval()
 #12312
+```
+
+80. Calculate the number of elms of a variable
+```
+a.shape
+TensorShape([Dimension(3), Dimension(4)])
+
+tf.size(a).eval()
+# 12
 ```
 
 ## 2. Bazel
