@@ -2855,7 +2855,18 @@ with codecs.open(raw_data,'r','utf-8') as f:
             counter[word] += 1
 ```
 ## 8. NLP
-1. 一行一句话的文本文件 => 一行一个高频词的文本文件(后续将行号作为该单词的编号)
+1. 普通的文本文件 => 干净的一行一句话的文本文件
+    1. English
+    ```
+    wget https://raw.githubusercontent.com/moses-smt/mosesdecoder/master/scripts/tokenizer/tokenizer.perl
+    perl ./tokenizer.perl -no-escape -l en < ./train.en > train.txt.en
+    ```
+    2. Chinese: 以字为单位切割汉字
+        + "我们将用一些影片来讲述一些深海里的故事。" => "我 们 将 用 一 些 影 片 来 讲 述 一 些 深 海 里 的 故 事。"
+    ```
+    sed 's/ //g; s/\B/ /g' ./train.tags.zh-en.zh > train.txt.zh
+    ```
+2. 一行一句话的文本文件 => 一行一个高频词的文本文件(后续将行号作为该单词的编号)
     + `<unk>`:稀有词; `<eos>`:语句结束标记符
 ```
 import codecs
