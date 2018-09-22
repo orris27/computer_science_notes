@@ -572,8 +572,8 @@ scope_assign('s1','s2',sess)
         ckpt_latest = tf.train.latest_checkpoint('ckpt/') # model比如说是'ckpt/-9'(表示第global_step=9时save到'ckpt/').如果没有的话,model=None.常用这个来判断是否能恢复模型
         if ckpt_latest:
             saver.restore(sess,ckpt_latest)
-            global_step = ckpt_latest.split('/')[-1].split('-')[-1]
-            print(sess.run(W1))
+            global_step = int(ckpt_latest.split('/')[-1].split('-')[-1])
+            #print(sess.run(W1))
         ```
     3. 保存结果
     ```
