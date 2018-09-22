@@ -570,7 +570,7 @@ scope_assign('s1','s2',sess)
         3. 恢复最后一次save的模型:`tf.train.latest_checkpoint('ckpt/')`<=>`ckpt = tf.train.get_checkpoint_state('ckpt/')`下的`ckpt.model_checkpoint_path`(ckpt是checkpoint里面所有信息的字典)
         ```
         ckpt_latest = tf.train.latest_checkpoint('ckpt/') # model比如说是'ckpt/-9'(表示第global_step=9时save到'ckpt/').如果没有的话,model=None.常用这个来判断是否能恢复模型
-        if model:
+        if ckpt_latest:
             saver.restore(sess,ckpt_latest)
             global_step = ckpt_latest.split('/')[-1].split('-')[-1]
             print(sess.run(W1))
