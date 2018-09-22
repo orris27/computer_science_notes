@@ -2759,12 +2759,17 @@ tf.string_split(['hello world ',' a b c '],' ').eval()
 # show results...
 ```
 
-79. Convert tensor string to tensor number
-    + ~~tf.cast~~
-```
-tf.string_to_number('12312',tf.int32).eval()
-#12312
-```
+79. Type Conversion
+    1. Convert tensor string to tensor number
+        + ~~tf.cast~~
+    ```
+    tf.string_to_number('12312',tf.int32).eval()
+    #12312
+    ```
+    2. Convert tf.int to tf.float
+    ```
+    loss = cost / tf.to_float(batch_size)
+    ```
 
 80. Calculate the number of elms of a variable
 ```
