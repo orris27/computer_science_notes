@@ -1174,8 +1174,13 @@ with sv.managed_session(config=config) as sess:
     #-------------------------------------------------------------
     # [57.0]
     #-------------------------------------------------------------
-
     ```
+    4. [PTB数据集语言模型训练](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/ptb)
+    5. [Seq2Seq中英翻译简单模型训练]
+        1. 2个不同lstm_cell的dynamic_rnn需要用不同的scope分开
+        2. forward函数定义了新的op,所以要在session前调用forward,而不是在global_variables_initializer之后甚至在epoch循环里
+        3. 基本变量定义在init中,train和loss定义在forward里,并作为函数返回获得
+        4. NLP中使用tf.reduce_sum(tf.nn.sparse_softmax_cross_entropy_with_logtis())获得cost,然后实际打印的损失值是`cost / 单词个数`(PTB中直接是reduce_mean,但Seq2Seq则是根据reduce_sum(mask)来获得);而训练用的loss是`cost / tf.to_float(batch_size)`
 
 32. 设置随机数的种子
 ```
@@ -2614,6 +2619,7 @@ with tf.Session(config=config) as sess:
                 print(sess.run([height,width]))
         ```
         2. tfrecord文件名是placeholder形式
+            + `sess.run(iterator.initializer,feed_dict={input_files:'images.tfrecords'})`: If we call this method, then the return value of `get_next()` will start from the first elm. => An alternative to `repeat` method
         ```
         import tensorflow as tf
 
@@ -2661,10 +2667,19 @@ with tf.Session(config=config) as sess:
 
     iterator = d.make_one_shot_iterator()
 
+    ###############################################################################
+    # 1st method
+    ###############################################################################
     x = iterator.get_next()
-
     for i in range(5):
         print(sess.run(x))
+
+    ###############################################################################
+    # 2nd method
+    ###############################################################################
+    x, y = iterator.get_next()
+    for i in range(5):
+        print(sess.run([x, y]))
     ```
     5. 数据集的处理
         1. 单独处理image而不处理label.(这里简单的通过height和width来解决)
@@ -2791,6 +2806,36 @@ array([[1., 1., 1., 1.],
        [1., 0., 0., 0.]], dtype=float32)
 
 ```
+
+
+82. tf.sequence_mask实现消除padding计算出来的loss
+```
+#####################################################################
+# loss + train
+#####################################################################
+cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(labels = tf.reshape(trg_label, [-1]),logits = y_predicted)
+label_weights = tf.sequence_mask(trg_len, maxlen=tf.shape(trg_label)[1],dtype=tf.float32)
+label_weights = tf.reshape(label_weights, [-1])
+cost = tf.reduce_sum(cross_entropy * label_weights) # cost is our original loss
+
+############################################################################################
+# Loss for printing
+############################################################################################
+# NLP: We concern this loss value
+cost_per_token = cost / tf.reduce_sum(label_weights) # divide by the number of words
+
+############################################################################################
+# Loss for optimizing
+############################################################################################
+loss = cost / tf.to_float(batch_size)
+
+params = tf.trainable_variables()
+opt = tf.train.GradientDescentOptimizer(learning_rate)
+gradients = tf.gradients(loss, params) # depends on your actual model
+clipped_gradients, norm = tf.clip_by_global_norm(gradients,max_grad_norm)
+train = opt.apply_gradients(zip(clipped_gradients, params))
+```
+
 
 ## 2. Bazel
 ```
