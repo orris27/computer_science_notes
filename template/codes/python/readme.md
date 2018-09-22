@@ -778,7 +778,7 @@ scope_assign('s1','s2',sess)
     #stacked_lstm = tf.nn.rnn_cell.MultiRNNCell([lstm_cell for _ in range(num_layers)])
     ```
     5. more concrete examples
-        1. embedding + LSTM + softmax
+        1. embedding + LSTM + softmax (一定要指定scope的intializer!!)
         ```
         class PTBModel(object):
 
@@ -844,7 +844,9 @@ scope_assign('s1','s2',sess)
                 gradients = tf.gradients(self.loss * num_steps, params) # depends on your actual model
                 clipped_gradients, norm = tf.clip_by_global_norm(gradients,max_grad_norm)
                 self.train = opt.apply_gradients(zip(clipped_gradients, params))
-        train_model = PTBModel(FLAGS.train_num_steps, FLAGS.lstm_size, FLAGS.vocab_size, FLAGS.num_layers,FLAGS.share_emb_and_softmax, True, FLAGS.learning_rate, FLAGS.max_grad_norm,FLAGS.train_batch_size)
+        initializer=tf.random_uniform_initializer(-0.05, 0.05)
+        with tf.variable_scope('model',reuse=False,initializer=initializer):
+            train_model = PTBModel(FLAGS.train_num_steps, FLAGS.lstm_size, FLAGS.vocab_size, FLAGS.num_layers,FLAGS.share_emb_and_softmax, True, FLAGS.learning_rate, FLAGS.max_grad_norm,FLAGS.train_batch_size)
         # train_model.train
         ```
 18. 获得形状
