@@ -603,3 +603,6 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
 5. `FailedPreconditionError (see above for traceback): Attempting to use uninitialized value decode/rnn/multi_rnn_cell/cell_1/basic_lstm_cell/kernel`
     1. 原因: 部分tensor变量没有初始化
     2. 解决: 我在设计Seq2Seq的时候,根据教材写了model.forward这个函数(里面包括embedding_lookup, dynamic_rnn, train等),但是我把这个forward函数的调用写在了session下的epoch循环体里,就导致我原来一开始初始化全局变量的时候,没有初始化这些内容.所以我把forward的调用提到了session前面,就OK了
+6. `tensorflow.python.framework.errors_impl.FailedPreconditionError: Attempting to use uninitialized value cell_0/basic_lstm_cell/bias`
+    1. 原因: 我使用`class Model`的方式定义的,但是在创建对象的时候,原来的`train.py`中放在"model"的scope下,但是在`eval.py`中没有把`model = Model(...)`放在"model"的scope下,所以就产生了这个错误
+    2. 解决: 把eval.py的定义写到scope下就行了
