@@ -599,3 +599,6 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
         outputs,final_state = tf.nn.dynamic_rnn(self.dec_lstm_cell,trg_embedded_chars,dtype=tf.float32,initial_state=encoder_state)
 
     ```
+5. `FailedPreconditionError (see above for traceback): Attempting to use uninitialized value decode/rnn/multi_rnn_cell/cell_1/basic_lstm_cell/kernel`
+    1. 原因: 部分tensor变量没有初始化
+    2. 解决: 我在设计Seq2Seq的时候,根据教材写了model.forward这个函数(里面包括embedding_lookup, dynamic_rnn, train等),但是我把这个forward函数的调用写在了session下的epoch循环体里,就导致我原来一开始初始化全局变量的时候,没有初始化这些内容.所以我把forward的调用提到了session前面,就OK了
