@@ -2775,6 +2775,16 @@ tf.size(a).eval()
 # 12
 ```
 
+81. tf.sequence_mask
+```
+In [6]: tf.sequence_mask([4.,3.,1.],maxlen=4,dtype=tf.float32).eval()
+Out[6]: 
+array([[1., 1., 1., 1.],
+       [1., 1., 1., 0.],
+       [1., 0., 0., 0.]], dtype=float32)
+
+```
+
 ## 2. Bazel
 ```
 cat BUILD 
