@@ -585,3 +585,17 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     ```
 3. `module 'tensorflow' has no attribute 'FIFOQueue'`
     + 文件名和模块冲突了.比如`queue.py`就冲突了
+4. `ValueError: Variable rnn/multi_rnn_cell/cell_0/basic_lstm_cell/kernel already exists, disallowed. Did you mean to set reuse=True or reuse=tf.AUTO_REUSE in VarScope? Originally defined at:`
+    1. 原因: 可能是连续对不同lstm_cell调用2次tf.nn.dynamic_rnn
+    ```
+    _, encoder_state = tf.nn.dynamic_rnn(self.enc_lstm_cell,src_embedded_chars,dtype=tf.float32)
+    outputs,final_state = tf.nn.dynamic_rnn(self.dec_lstm_cell,trg_embedded_chars,dtype=tf.float32,initial_state=encoder_state)
+    ```
+    2. 解决: 添加scope就好了
+    ```
+    with tf.variable_scope('encode'):
+        _, encoder_state = tf.nn.dynamic_rnn(self.enc_lstm_cell,src_embedded_chars,dtype=tf.float32)
+    with tf.variable_scope('decode'):
+        outputs,final_state = tf.nn.dynamic_rnn(self.dec_lstm_cell,trg_embedded_chars,dtype=tf.float32,initial_state=encoder_state)
+
+    ```
