@@ -2903,7 +2903,7 @@ tf.slice(t, [1, 0, 0], [2, 1, 3])  # [[[3, 3, 3]],
                                    #  [[5, 5, 5]]]
 ```
 
-87. replicate i-th dimension n times
+87. replicate i-th dimension serveral times
     + requirement: `tf.rank(input) == tf.rank(multiples)`
 ```
 tf.tile([[0,1],[2,3]],[0,0]).eval()
