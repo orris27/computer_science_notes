@@ -4,6 +4,38 @@
 1. lobster
 2. shrimp
 3. prawn
+4. chimp
+5. moth
+6. gorilla
+7. bill: 支票, 法案, 鸟嘴
+8. beak
+9. caterpillar
+10. scale
+11. spleen
+12. clam: claim:无论你怎么claim,都被认为是蛤
+13. antenna
+14. spineless
+15. pest
+16. chameleon
+17. trot
+18. gregarious
+19. petrify
+20. hide: 兽皮,藏
+21. prey
+22. predator
+23. rhinoceros
+24. canary
+25. family & class & suborder & order & genus
+26. baboon
+27. jellyfish
+28. finch
+29. flock
+30. oyster
+31. greasy
+32. spine
+33. lizard
+34. peck
+
 
 ### 1-2. Law
 1. verb
@@ -217,6 +249,81 @@
     2. police force
     3. electricity board
     4. make off: 草莓 + 哦呼 => 心美吃草莓,齐木害羞地逃掉了
+    
+    
+    
+### 1-3. geography
+1. maritime: Fate玛丽拿着ball,被海往上推,放着七彩的光芒
+2. terrain
+3. oasis: oils=>用加油站的油管喷出来,流在地上,然后就都长出绿洲了
+4. topography
+5. subterranean
+6. cosmopolitan
+7. islet: 爱兰=>新一包住小兰,征服了小岛
+8. crevice: 格林威治=>格林尼治=>马德里太阳门下的井盖=>井盖的指针"轰"地划出裂缝
+9. flaw: floor=>地板上有七彩的洞,我避开他们回寝室
+10. ledge
+11. peninsula: 拍你手啦=>齐木拍海腾的手啦,海腾飞到朝鲜半岛
+12. harbour
+13. insular: 鹰输了=>老鹰和其他人赛车,然后士郎投影,老鹰输了,哭着去海岛上了: 
+14. alibi: 阿里巴巴(支付宝)+笔=>小偷取出包袱里的所有笔,用支付宝扫他们,手机上显示出小偷的不在场证明: 
+15. basement
+16. fussy
+17. longitude: 龙踢球=>龙在东京踢球,球滚过海洋,来到北京天安门,绽放出樱花: 
+18. equator
+19. gasp for airs
+20. ebb: 尾部=>用尾部挡住潮: ebb away
+21. good heavens
+22. ranges
+23. cleft: c(大海)+左边 => 用手把大海推到左边,右边出现巨大的裂缝: 
+24. strait: straight=>台湾海峡有个很直的管道
+25. elevation: 爱丽文身=>爱丽的手臂上有纹身,是一个大的山峰,我们往上爬
+26. subsidiary: sub死diary=>sub打开diary,被匕首击伤,血流出来了
+27. salinity
+28. meridian: mary电死=>mary被电到,用球推了下子午线
+29. Arctic
+30. endemic: under milk=>milk下面显示青田,我高兴地把milk做成石雕: 
+31. Antarctic: 安踏可踢=>安踏踢了我,我滑到了,我的鞋子飞起来把太阳带到了最南端
+32. lowland: low(低)+land(地)
+33. coastland
+34. subterrane: sub+太燃 => sub太燃,向前救人,呈现出臀部.从臀部可以向下走到地下室(地下的)
+35. geothermy: 只有十米=>齐木只有十米的地方,释放出地热
+36. ambassador
+37. plateau: plate拖=>有人拖这plates,沿着悬崖到高原
+38. chirp: chip + r(草) => 薯片掉在草地上,被草"喳喳"地扎
+39. hibernate
+40. kit
+41. fertilize
+42. wiikite
+43. lead
+44. quartz
+45. vein
+46. bonanza
+47. ore
+48. whale
+49. gem
+50. seism & sesimic & seismology: 骰子=> 骰子由于地震而抖来抖去,从天上抖到下面
+51. gregraious
+52. beaver
+53. limestone
+54. mantle: 馒头=>我把馒头输入到地下,结果很慢才下去
+55. granite
+56. plankton
+57. crator
+58. fieldstone
+59. magnitude
+60. grease
+61. aluminum
+62. prawn
+63. fuzzy
+64. tremor
+65. squeak
+66. porpoise
+67. camouflage
+68. carnal
+69. coral
+70. larva
+
 ## 2. stake
 1. pro: 盒子
 2. abs(||两堵墙夹过来)
