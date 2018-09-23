@@ -2874,6 +2874,34 @@ train = opt.apply_gradients(zip(clipped_gradients, params))
 tf.__version__
 ```
 
+85. get the rank of a tensor
+```
+tf.rank([[4,3,5],[4,2,5]]).eval()
+2
+
+tf.rank([3,4]).eval()
+1
+
+tf.rank(3).eval()
+0
+```
+
+
+86. tf.slice: Extract a slice from a tensor
+    1. input
+    2. begin: `begin[i]` represents the offset of the i-th dimenstion you start to extract
+    3. size: `size[i]` represents the number of elms of the i-th dimension you want to extract
+```
+t = tf.constant([[[1, 1, 1], [2, 2, 2]],
+                 [[3, 3, 3], [4, 4, 4]],
+                 [[5, 5, 5], [6, 6, 6]]])
+                 
+tf.slice(t, [1, 0, 0], [1, 1, 3])  # [[[3, 3, 3]]]
+tf.slice(t, [1, 0, 0], [1, 2, 3])  # [[[3, 3, 3],
+                                   #   [4, 4, 4]]]
+tf.slice(t, [1, 0, 0], [2, 1, 3])  # [[[3, 3, 3]],
+                                   #  [[5, 5, 5]]]
+```
 ## 2. Bazel
 ```
 cat BUILD 
