@@ -187,6 +187,8 @@
     ```
     political pluralism
     ```
+    18. pensioner: pen + 神 + 儿子 => 齐神用pen画了小的自己(儿子),心美过来看到了,拿出了点钱给这个小齐木
+    
     
 
 3. adj
@@ -212,8 +214,12 @@
     ```
 4. phrase
     1. apartment complex
-    
+    2. police force
+    3. electricity board
+    4. make off: 草莓 + 哦呼 => 心美吃草莓,齐木害羞地逃掉了
 ## 2. stake
 1. pro: 盒子
-2. scribe: 蛇哭了
-3. abs(||两堵墙夹过来)
+2. abs(||两堵墙夹过来)
+
+
+## 3. expression 
