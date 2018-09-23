@@ -764,6 +764,12 @@ scope_assign('s1','s2',sess)
                 (cell_out, state) = lstm_cell(inputs[:,time_step,:], state)
                 outputs.append(cell_out)
         ```
+        3. call: execute LSTM cell once
+            1. outputs: `[batch_size, lstm_size]`
+        ```
+        outputs, state = self.dec_lstm_cell.call(state=state,inputs=embedded_chars)
+        ```
+        
     4. Deep RNN: 不能用同一层循环体
     ```
     def create_lstm_cell(lstm_size, output_keep_prob):
@@ -2835,6 +2841,22 @@ gradients = tf.gradients(loss, params) # depends on your actual model
 clipped_gradients, norm = tf.clip_by_global_norm(gradients,max_grad_norm)
 train = opt.apply_gradients(zip(clipped_gradients, params))
 ```
+
+83. TensorArray
+    1. `__init__`
+        1. clear_after_read: If true, clear the values after reading them
+    ```
+    init_array = tf.TensorArray(dtype=tf.int32, size=0, dynamic_size=True, clear_after_read=False)
+    ```
+    2. read: read the value at location index in the TensorArray
+    ```
+    trg_input = trg_id.read(step)
+    ```
+    3. write: write value into index index of the TensorArray
+        1. Returns: a TensorArray object with flow that ensures the write occurs. Use the return value for the subsequent operations
+    ```
+    init_array = init_array.write(0,SOS_ID)
+    ```
 
 
 ## 2. Bazel
