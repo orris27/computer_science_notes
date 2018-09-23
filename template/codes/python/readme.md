@@ -2783,13 +2783,25 @@ tf.string_split(['hello world ',' a b c '],' ').eval()
 ```
 
 79. Type Conversion
-    1. Convert tensor string to tensor number
+    1. Interface
+    ```
+    tf.string_to_number
+    tf.to_double # tf.float64
+    tf.to_float # tf.float32
+    tf.to_bfloat16
+    tf.to_int32
+    tf.to_int64
+    tf.cast
+    tf.bitcast
+    tf.saturate_cast # a safer cast
+    ```
+    2. Convert tensor string to tensor number
         + ~~tf.cast~~
     ```
     tf.string_to_number('12312',tf.int32).eval()
     #12312
     ```
-    2. Convert tf.int to tf.float
+    3. Convert tf.int to tf.float
     ```
     loss = cost / tf.to_float(batch_size)
     ```
@@ -2857,7 +2869,10 @@ train = opt.apply_gradients(zip(clipped_gradients, params))
     ```
     init_array = init_array.write(0,SOS_ID)
     ```
-
+84. show TF version
+```
+tf.__version__
+```
 
 ## 2. Bazel
 ```
