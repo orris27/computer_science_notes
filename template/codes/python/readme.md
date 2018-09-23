@@ -2902,6 +2902,31 @@ tf.slice(t, [1, 0, 0], [1, 2, 3])  # [[[3, 3, 3],
 tf.slice(t, [1, 0, 0], [2, 1, 3])  # [[[3, 3, 3]],
                                    #  [[5, 5, 5]]]
 ```
+
+87. replicate i-th dimension n times
+    + requirement: `tf.rank(input) == tf.rank(multiples)`
+```
+tf.tile([[0,1],[2,3]],[0,0]).eval()
+array([], shape=(0, 0), dtype=int32)
+
+tf.tile([[0,1],[2,3]],[1,0]).eval()
+array([], shape=(2, 0), dtype=int32)
+
+tf.tile([[0,1],[2,3]],[1,1]).eval()
+array([[0, 1],
+       [2, 3]], dtype=int32)
+
+tf.tile([[0,1],[2,3]],[1,2]).eval()
+array([[0, 1, 0, 1],
+       [2, 3, 2, 3]], dtype=int32)
+
+tf.tile([[0,1],[2,3]],[2,1]).eval()
+array([[0, 1],
+       [2, 3],
+       [0, 1],
+       [2, 3]], dtype=int32)
+```
+
 ## 2. Bazel
 ```
 cat BUILD 
