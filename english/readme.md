@@ -37,6 +37,9 @@
 34. peck
 35. coral
 36. buffalo: buff + 楼(比萨斜塔) => 比萨斜塔就要倒下了,带水的牛帮忙扶起来了
+37. crocodile
+
+
 
 ### 1-2. Law
 1. verb
