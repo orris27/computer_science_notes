@@ -51,9 +51,9 @@
     ```
     surgery is proscribed
     ```
-    12. abstain: || + 坦克 => 两堵墙企图夹坦克,坦克节制地发了一个很小很小的子弹,结果就将两堵墙给打穿了
+    12. prescribe: 祈祷 + 蛇 + 哭了 => 心美在祈祷的时候,蛇看到了,感动地哭了出来,走到心美前面,结果感动地晕了过去,心美开药方
     ```
-    they abstain
+    prescribe medication
     ```
     13. veto: vote的o和e反一下就是了 => 反就是否决
     ```
@@ -75,6 +75,60 @@
     ```
     how can you abide him
     ```
+    18. impeach: 鹰 + peach => 老鹰吃了桃子后,就起身到筋斗云上,然后有个子弹飞了过来,被筋斗云给弹飞了
+    ```
+    impeach the president
+    ```
+    19. indictment: 鹰 + dict + 门 => 老鹰钻到dict里面,我把书带到寝室门里面,然后举起书来了(起诉),撞碎了天花板
+    ```
+    an indictment of Hollywood
+    ```
+    20. incriminate: 鹰 + crimte + ate => 老鹰因为crime而被关进了监狱,这个时候他就疯狂吃铁栅栏,然后吃完后本来可以逃掉,结果吃太胖了跳不掉.罪孽深重又被关了
+    ```
+    incriminate me
+    ```
+    21. prosecute: 盒子 + 蛇 + cute => 盒子里出来的蛇很cute,但仔细一看是公的
+    ```
+    the police decided not to prosecute
+    ```
+    22. interrogate: intel + roll + gate => 巨大的芯片在滚动,滚动压扁了学校的大门,然后将被审问的金木研给卷起来.但金木研就像待在摩天乱上,很开心的样子
+    ```
+    I interrogate everyone even slightly involved
+    ```
+    23. exempt: exam + 葡萄 => 燃堂在考试的时候吃葡萄,结果葡萄的汁液掉到了试卷上,老师只好免除考试,吃葡萄就结束了
+    ```
+    exempt from military service
+    ```
+    24. condone: 康师傅 + 子弹 => 我买了很多康师傅,但是有人扔芙蓉月饼攻击我,我一个一个月饼都吃掉了
+    ```
+    condone violence
+    ```
+    25. liberate: liberty => 释放
+    ```
+    liberate the city
+    ```
+    26. absolve: ab(做题的多选题) + 手窝 => 我用手窝遮住ab的选项."不要再遮住了",另一个同学要来抄答案
+    ```
+    absolve the soldiers
+    ```
+    27. acquit: AC部警告(新闻部P图) + quit => 把P图P好的图片的嘴巴去掉(无罪),新闻部女的自己都高兴的结果嘴巴跑掉了
+    ```
+    be acquitted of attempted murder
+    ```
+    28. legislate: 雷电 + 锯子 + late(迟到) => 大雄拿着锯子跑去教室,用锯子引来了雷电,然后在教室门前和老师说自己被电到了,老师重新写个新的规章(立法),"不能带锯子"
+    ```
+    most countries have legislated against excessive of overtime
+    ```
+    29. legalize: 合法化
+    30. abstain: || + 坦克 => 两堵墙企图夹坦克,坦克节制地发了一个很小很小的子弹,结果就将两堵墙给打穿了
+    ```
+    they abstain
+    ```    
+    31. enact: 老鹰 + actor(六神通) => 老鹰转换成了六神通的样子,然后要去排演.发现一张白纸,一直盯着,然后疯狂啄
+    ```
+    enact a low
+    ```
+    
 
 2. noun
     1. verdict: 蚊子 + 字典 => 蚊子带着牌子,被判决惩罚.空中掉下来牛津字典,蚊子将它的钉子刺向字典,结果粉碎了
@@ -112,6 +166,25 @@
     ```
     His testimony is very important
     ```
+    12. impunity: im(不) + punish(惩罚) => 免罚
+    ```
+    the gangs operate with apparent impunity
+    ```
+    13. constitution: 康师傅 + 吐司 => 康师傅里拿出来的吐司有很多辣的,"先发给我",我就拿走了那个吐司吃
+    ```
+    a new consitution which reduces his power
+    ```
+    14. decree: 地 + create => 齐木发令, 在天涯海角那里创造出大地
+    ```
+    issue a decree
+    ```
+    15. credential: create + 子弹 + 神 => 创造出了一个子弹,不小心要打到齐神.理所当然地没被打到,然后开了个欠人情的凭证
+    ```
+    retrieve the sensitive credential information 
+    ```
+    
+    
+    
 
 3. adj
     1. penal: pen + 脑 => 用pen往自己的脑子里转,头发变白了,然后眼睛冒出了星星
