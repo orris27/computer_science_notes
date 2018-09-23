@@ -72,4 +72,3 @@
     ```
     we become domineering
     ```
-3. indemnity: 
