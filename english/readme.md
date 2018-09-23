@@ -182,8 +182,11 @@
     ```
     retrieve the sensitive credential information 
     ```
-    
-    
+    16. tractor: track + 头 => 轨道上,一个拖拉机拖出了一个头
+    17. pluralism: blue + reason => 她提出借口的时候,冒出了很多语言的reason
+    ```
+    political pluralism
+    ```
     
 
 3. adj
@@ -207,6 +210,9 @@
     ```
     we become domineering
     ```
+4. phrase
+    1. apartment complex
+    
 ## 2. stake
 1. pro: 盒子
 2. scribe: 蛇哭了
