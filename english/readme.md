@@ -23,7 +23,7 @@
 20. hide: 兽皮,藏
 21. prey
 22. predator
-23. rhinoceros
+23. rhinoceros: 来人哪 => 心美喊"来人呐",犀牛很粘她
 24. canary
 25. family & class & suborder & order & genus
 26. baboon
@@ -36,7 +36,7 @@
 33. lizard
 34. peck
 35. coral
-
+36. buffalo: buff + 楼(比萨斜塔) => 比萨斜塔就要倒下了,带水的牛帮忙扶起来了
 
 ### 1-2. Law
 1. verb
