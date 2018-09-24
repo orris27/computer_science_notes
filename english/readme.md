@@ -914,6 +914,16 @@
     ```
     the room is a pigsty
     ```
+    29. trough: 车夫 => 车夫推车,猪都围过去喝水
+    ```
+    the old trough still sits by the main entrance
+    ```
+    30. plantation: plate + station => 在铁轨上方plates,然后train撞飞了他们!之后plates就分散在各自的草地上(种植园)
+    ```
+    he owns coffee plantation
+    ```
+    
+    
 3. adj
     1. prolific: 箱子 + 篱笆 + 飞 => 箱子把篱笆当滑行轨道,然后飞了起来,里面出来很多很好吃的东西
     ```
