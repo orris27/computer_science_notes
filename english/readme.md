@@ -958,3 +958,4 @@
 7. be made of
 8. cleaning agents
 9. the great depression
+10. check your Ubuntu version from the terminal
