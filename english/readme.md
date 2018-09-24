@@ -443,7 +443,22 @@
     ```
     24. zine: z + 鹰 => z发出爱心的光波给老鹰
     25. helium
-    26. silicon: 
+    26. silicon: 西莉卡 + coin => 西莉卡玩一个巨大的硬币,然后这个硬币突然变成了一只乌龟
+    ```
+    the chip was made from a piece of silicon
+    ```
+    29. ammonia: 鹅 + 摸你 => 鹅摸你(齐木国雄的人偶),结果摸到了一个按钮,通过这个按钮就发出光线了
+    ```
+    make ammonia
+    ```
+    30. sulfur
+    31. iodine: eye + 电 => 眼睛发出电,然后拿出棕红色的碘酒保存了起来
+    ```
+    apply some iodine before the bandage
+    ```
+    32. nitrogen: 奶 + 车 + 针 => ...
+    
+    
 
 3. adj
     1. caustic: course + 踢 => 老师上课的时候,提了下讲台桌,结果脚被腐蚀掉了,我们只能看到一个没有右脚的老师
