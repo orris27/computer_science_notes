@@ -942,12 +942,20 @@
 1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
 2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
 
-## 2. stake
-1. pro: 盒子
-2. abs: ||两堵墙夹过来
-3. st: 斯科特, 滑雪的衣装
-
-
+## 1. multiple meanings
+1. ascend
+    1. 上溯
+    2. 向上
+2. bill
+    1. 鸟嘴
+    2. 法案
+    3. 支票
+3. default
+    1. 不遵守
+    2. 默认
+4. bar
+    1. 法院
+    2. 酒吧
 ## 3. expression 
 1. apartment complex
 2. police force
@@ -959,3 +967,10 @@
 8. cleaning agents
 9. the great depression
 10. check your Ubuntu version from the terminal
+
+
+
+## 4. stake
+1. pro: 盒子
+2. abs: ||两堵墙夹过来
+3. st: 斯科特, 滑雪的衣装
