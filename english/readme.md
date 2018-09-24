@@ -248,12 +248,7 @@
     ```
     we become domineering
     ```
-4. phrase
-    1. apartment complex
-    2. police force
-    3. electricity board
-    4. make off: 草莓 + 哦呼 => 心美吃草莓,齐木害羞地逃掉了
-    
+
     
     
 ### 1-3. geography
@@ -328,15 +323,93 @@
 69. coral
 70. larva
 
+### 1-4. chemistry
+1. verb
+    1. hackneyed: hack + 泥 + d => 黑客的房间里出现了巨大的泥巴,然后从窗口进来了巨大的勺子,这个勺子将泥巴"啾啾"地滚动了起来.房间的设备上都是灰尘
+    2. erode: 椅 + roll => 308寝室我的椅子在滚动,结果滚过的地方都被腐蚀掉了
+    3. rot: roll + t => 兔子在滚动,兔子的耳朵腐烂成铁锈了
+    ```
+    the grains start rotting 
+    ```
+    4. decay: 地 + 凯 =>　凯疯狂地往地上冲，结果自己给磨损掉了(腐烂)
+    ```
+    the bodies slowly decayed
+    ```
+    5. corrode: 可乐 + d => 可乐,巨大的勺子伸进去,立马勺子全都被腐烂没了
+    ```
+    the gold wires will not corrode
+    ```
+    6. scorch: score + 扭曲 => 齐神的九亿分的试卷被扭曲了,然后烧焦了
+    ```
+    the bomb scorched the side of the building 
+    ```
+    7. bleach: 笔 + 力气 => 用力气将笔插进洗衣机的漂白处,水就从笔那里出去了
+    ```
+    bleach the hair
+    ```
 
+2. noun
+    1. rust: 床褥 + 斯科特(滑雪装) => 斯科特在房间里,房间里有床褥,结果斯科特经过的地方都变成了雪地,而门因为生着铁锈,所以斯科特出不去
+    ```
+    a decaying tractor, with red rust
+    ```
+    2. silica: 西莉卡 => 西莉卡吸着同人的气息,然后身上痒得不行
+    ```
+    diatoms already secrete silica by exocytosis
+    ```
+    3. petroleum: 爬车 + lion => 一只狮子在爬车子,齐神看见了,马上就把狮子石化了,放下来,呀嘞呀嘞
+    ```
+    the petroleum price will be unfrozen
+    ```
+    4. methane: 门神 => 门神被夹着玩(甲烷)的很开心
+    ```
+    methane from livestock and manure
+    ```
+    5. hydrocarbon: hydro(氢/水) + carbon => 碳氢化合物
+    6. intermediary: intel + 米 + diary => 我在大米袋里发现了intel芯片,然后将它扔向日记,结果有个中间人突然挡住了
+    ```
+    act as an intermediary in the dispute with Moscow
+    ```
+    7. catalyst
+    8. adhesive: ad + 河神(河童) => YouTube出现广告,我生气地将河童砸向广告,结果河童被粘在了iPad上
+    ```
+    glue the mirror in with a strong adhesive
+    ```
+    9. tint: 亭子 + 兔子 => 兔子跳过亭子的各个地方,结果就变白了
+    ```
+    show a delicate purple tint
+    ```
+    10. biochemistry
+    11. hydronic: 
+    
+    
+3. adj
+    1. caustic: course + 踢 => 老师上课的时候,提了下讲台桌,结果脚被腐蚀掉了,我们只能看到一个没有右脚的老师
+    ```
+    caustic cleaning agents
+    ```
+    2. stale: stage + 可乐 => stage上放着巨大的可乐,很多肥宅都要争着抢.一天两天就过去了,结果可乐都长苔藓了
+    ```
+    stale bread
+    ```
+    3. 
 
-### 1-3. extra
+### 1-5. extra
 1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
 2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
 
 ## 2. stake
 1. pro: 盒子
-2. abs(||两堵墙夹过来)
+2. abs: ||两堵墙夹过来
+3. st: 斯科特, 滑雪的衣装
 
 
 ## 3. expression 
+1. apartment complex
+2. police force
+3. electricity board
+4. make off: 草莓 + 哦呼 => 心美吃草莓,齐木害羞地逃掉了
+5. pay the debt
+6. give evidence in a trial
+7. be made of
+8. cleaning agents
