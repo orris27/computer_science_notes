@@ -746,7 +746,7 @@
     ```
     the enemy met with a repulse
     ```
-    13. expedition: egss + dish => 盘子上有很多鸡蛋,我放了个小人类去远征
+    13. expedition: eggs + dish => 盘子上有很多鸡蛋,我放了个小人类去远征
     ```
     expedition to Antarctica
     ```
