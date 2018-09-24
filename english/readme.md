@@ -694,10 +694,14 @@
     ```
     exterminate the rats
     ```
-
-    
-    
-    
+    9. beset: 笔 + 三个头 => 齐神看了自己的笔,上面有三个燃堂的头,非常困扰 
+    ```
+    the country is beset by economic problems
+    ```
+    10. besiege: 笔 + 围攻 => 笔要围攻我,我摆出一副很困扰的样子,结果他们就走了
+    ```
+    she was besieged by the press
+    ```
     
 2. noun
     1. cipher: c + 佛 => 大海上出现了个巨大的佛,用手势做了个密码
@@ -738,6 +742,24 @@
     ```
     stop the onset of the winter
     ```
+    12. repulse: 热 + 脉冲 => 海腾的手突然冒热,然后就一个脉冲波把百鬼行他们给击退了
+    ```
+    the enemy met with a repulse
+    ```
+    13. expedition: egss + dish => 盘子上有很多鸡蛋,我放了个小人类去远征
+    ```
+    expedition to Antarctica
+    ```
+    14. morale: 摩天轮 + 拉链 => 摩天轮上开了个拉链,然后灰吕发现下面的人都很有士气.灰吕燃了起来,然后摩天轮逆转了
+    ```
+    suffer from low morale 
+    ```
+    15. mandate: mandatory(强制的) => 强制给你的东西(权力)只能接收了
+    ```
+    read this vote as a mandate for continued economic reform
+    ```
+    16. tactic: 策略
+    
     
 3. adj
     1. confidential: 看 + 飞机 + 等死 => 看,飞机上有个高桥快要死了,但是周围人都包住他,机密
@@ -749,9 +771,118 @@
     clandestine meeting
     ```
 
+### 1-9. archaeology
+1. verb
+    1. unearth: 安兹 + 土壤 => 从土壤中挖掘出了安兹
+    ```
+    unearthed documents
+    ```
+    2. scoop: school + p => 在精灵家训练师的学校里,大家都会用勺子挖出精灵来战斗
+    ```
+    scoop dog food out of a can
+    ```
+    3. exhume: 一个猪 => 在一个猪上不断地挖掘,最后发现了猪肉...
+    ```
+    exhume the grave site
+    ```
+2. noun
+    1. Neolithic: 泥偶(地藏菩萨) + risk => 地藏菩萨冒水(risks)发现了女神拿出了新的石器,最后给了菩萨新的石器
+    ```
+    the monumnet was Neolithic
+    ```
+    2. Mesolithic: 没手 + risk(这次还是水把) => 这次地藏菩萨冲过水的时候,因为没有手游泳,到一般就沉到(中石器)了地下
+    3. Paleolithic: pale + risk(这次还是水把) => 这次地藏菩萨脸色很苍白,看来已经很老了
+    4. porcelain: 我死了 => 我死了,然后倒在了瓷器里面
+    ```
+    the porcelain plates have original designs on them
+    ```
+    5. antiquity: 安踏 + quit => 我的鞋子自己quit逃掉了,我变成了化石,后人疯狂一轮我
+    ```
+    the remains of Chinese antiquity
+    ```
+    6. skull
+    
+    
+3. adj
+    1. chronological
+    2. archaic: archer + cake => archer要射箭了,这是士郎拿来了cake,然后就高兴地吃了,但是硬的不行
+    ```
+    archaic laws that are seldom used
+    ```
+    3. remnant
 
 
-### 1-9. extra
+### 1-10. agriculture
+1. verb
+    1. graze: great + 遮住 => great国雄大人,然后被甩到了角落,看到了草后就开始吃草
+    ```
+    five cows grazed
+    ```
+    2. irrigate: irrigation => irrigate
+    3. squash: school + 嘘 => 齐神去学校的时候,用手做"嘘"的动作.然后巨大的南瓜砸了下来,燃堂被压扁了
+    ```
+    be squashed against a fence by a car
+    ```
+    
+2. noun
+    1. aquaculture: aquatic + culture => 水产业
+    ```
+    aquaculture development
+    ```
+    2. husbandry: husband + angry => 齐神作为husband,由于才虎盯上了心美,就angrily爆破了才虎的家,在上面有猪在移动
+    ```
+    study animal husbandry in college
+    ```
+    3. manure: menu + 热 => 给menu加热一下,就出现了肥料
+    ```
+    bags of manure
+    ```
+    4. horticulture: hot + culture => 庙会着火了,齐神用洒水机旋转地浇灭了他们
+    ```
+    a long tradition of horticulture
+    ```
+    5. hydroponics: hydro(水) + 坡地 + 可乐 => 洪水了,经过坡地后就变成了可乐,植物喝了快乐水后快乐地长成了苍天大树
+    ```
+    hydroponics is a cheap way of producing food
+    ```
+    6. insecticide: insect + cide => 杀虫剂
+    7. pesticide: pest + cide => 杀虫剂
+    8. ridge
+    9. silt
+    10. garlic: 咖喱 => 志贵看到了咖喱后,用大蒜来包住自己辟邪
+    ```
+    he smelled of garlic
+    ```
+    11. eggplant: 鸡蛋 + 种植 => 将茄子种了下去,然后收获了鸡蛋,鸡蛋里生出了小鸡
+    12. fodder: 佛 + d => 佛用勺子抢了马的饲料
+    ```
+    fodder for horses
+    ```
+    13. hay: 黑人 => 索菲尔跑步的时候跑不动了,齐神往里面灌输了干草,然后充满了力量
+    ```
+    cows feed on hay
+    ```
+    14. haystack: hay + stack => 干草堆
+    15. sorghum: 手 + 割 + hum(类似gasp喘气) => 手割到了,快要死了,疯狂喘气,用高粱将他们缝了起来
+    ```
+    the sorghum is in the ear
+    ```
+
+3. adj
+    1. prolific: 箱子 + 篱笆 + 飞 => 箱子把篱笆当滑行轨道,然后飞了起来,里面出来很多很好吃的东西
+    ```
+    a prolific writer
+    ```
+    2. arable: area + ball => 永谦活动广场(area)上滚过球,都变成了可以耕种的地方
+    ```
+    arable land
+    ```
+    3. indigenous: 硬币 + genus(属,老鼠) => 硬币扔了出去,然后老鼠追着,咬到后就调到了土地上
+    ```
+    indigenous population
+    ```
+
+### 1-11. extra
 1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
 2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
 
