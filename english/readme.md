@@ -347,6 +347,24 @@
     ```
     bleach the hair
     ```
+    8. blast
+    9. kindle: kindle电子书 => ch的电脑燃起火来了,然后电子书会自己跑过去浇灭
+    ```
+    the wet wood wouldn't kindle easily
+    ```
+    10. sear: sea + 耳朵 => 大海全都进入到耳朵里了,然后就看到下面的火焰了
+    ```
+    grass fires have seared the land
+    ```
+    11. ignite: 一个奶 => 燃堂扔完球后,班长就点燃了
+    ```
+    the bombs ignited a fire
+    ```
+    12. neutralize: neutral => 中和
+    ```
+    neutralize the acid
+    ```
+    
 
 2. noun
     1. rust: 床褥 + 斯科特(滑雪装) => 斯科特在房间里,房间里有床褥,结果斯科特经过的地方都变成了雪地,而门因为生着铁锈,所以斯科特出不去
@@ -380,9 +398,53 @@
     show a delicate purple tint
     ```
     10. biochemistry
-    11. hydronic: 
-    
-    
+    11. hydronic: 天涯海角 + 泥巴 => 天涯海角的海上出现了巨大的泥巴,然后这些泥巴在海上不断循环,结果就加热了
+    ```
+    hydronic heating system
+    ```
+    12. alchemy: 艾斯 + kick + 大米 => 艾斯踢大地,吃大米,连金块都吃了进去
+    ```
+    I have sought gold in alchemy
+    ```
+    13. ion: eye + on => 睁开眼睛,发现篱笆,然后自己女性化了(子)
+    ```
+    ion channel
+    ```
+    14. molecule
+    15. solubility: solve + ability => 溶解度
+    ```
+    increase the solubility of inorganic phosphorus
+    ```
+    16. solvent: 手窝 + 门 => 手窝放在门上,结果门溶解在了我的手里
+    ```
+    a small amount of cleaning solvent
+    ```
+    17. impurity: im(不) + pure => 不纯的
+    ```
+    remove impurities
+    ```
+    18. particle
+    19. polymerization: 玻璃 + 门 + Ray + 神 => 玻璃跑向门被弄破了,洒出玻璃渣,然后Ray吓到了,她的神跑去救她,最后zack举起锯子要砍玻璃
+    ```
+    condensation polymerization
+    ```
+    20. Mercury
+    21. platinum: plate + 门 => 扔plate到门上,结果被移动到了簸箕上
+    ```
+    platinum exceeds gold in value
+    ```
+    22. sodium: 手 + 电 => 齐神用手拿住电,就真的拿了起来
+    ```
+    salt decomposes into sodium and chlorine
+    ```
+    23. tin: 亭子 => 亭子放了很多金属面包,都要撑开了
+    ```
+    store the biscuits in an airtight tin
+    ```
+    24. zine: z + 鹰 => z发出爱心的光波给老鹰
+    25. helium
+    26. silicon: 
+
 3. adj
     1. caustic: course + 踢 => 老师上课的时候,提了下讲台桌,结果脚被腐蚀掉了,我们只能看到一个没有右脚的老师
     ```
@@ -392,7 +454,7 @@
     ```
     stale bread
     ```
-    3. 
+    3. synthetic
 
 ### 1-5. extra
 1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
