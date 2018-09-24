@@ -646,7 +646,10 @@
     ```
     our agents get a 3-5% commission
     ```
-    
+    23. lottery: 楼 + 特累 => 爬楼特别累,小五郎就买彩票,结果没中奖
+    ```
+    the stockmarket is a lottery
+    ```
     
 3. adj
     1. indigent: india + gentleman => 印度的绅士穿西装回家,结果脱下来就是全部的泥巴
