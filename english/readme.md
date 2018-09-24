@@ -650,6 +650,12 @@
     ```
     the stockmarket is a lottery
     ```
+    24. ransom: run + 神 =>　将赎金放在摩天轮下面,然后齐神拿到后马上就跑掉了
+    ```
+    should I ransom my freedom
+    ```
+    
+    
     
 3. adj
     1. indigent: india + gentleman => 印度的绅士穿西装回家,结果脱下来就是全部的泥巴
@@ -657,8 +663,95 @@
     indigent citizens
     ```
 
+### 1-8. military
+1. verb
+    1. dissimulate: 笛子 + music => 鸟束用笛子吹出了动听的music,但齐神走掉之后,就掩盖不了其实很难听的事实
+    ```
+    The man was too injured to dissimulate well
+    ```
+    2. disarm: dis(不) + arm(武器) => 放下武装
+    3. scout: 史考兵 =>　史考兵用狙击枪瞄准浴池,企图侦查
+    ```
+    scout the area for the junk
+    ```
+    4. enlist: in + list => 军队根据list上的人来攻击
+    ```
+    He enlisted
+    ```
+    5. raid: 磁盘阵列 => 我玩电脑好好的,结果突然出现磁盘阵列来袭击我
+    ```
+    raid banks
+    ```
+    6. encroach: 鹰 + 苦肉 + 曲 => 老鹰看到苦肉,想要吃的时候,突然空间扭曲了,结果侵犯到老鹰的..
+    ```
+    encroach on political powers
+    ```
+    7. despoil: 笛子 + 破了 => 燃堂从不良那里抢来了笛子,结果笛子就破了,然后出血了
+    ```
+    people who despoil the countryside
+    ```
+    8. exterminate: excel + 米娜桑 => excel中写完大家的名字,然后全部清空
+    ```
+    exterminate the rats
+    ```
 
-### 1-8. extra
+    
+    
+    
+    
+2. noun
+    1. cipher: c + 佛 => 大海上出现了个巨大的佛,用手势做了个密码
+    ```
+    sent in cipher
+    ```
+    2. fort: 福特 => 福特冲着堡垒开,结果将堡垒给弄塌陷了
+    ```
+    the men in the fort capitulated
+    ```
+    3. fortress: 福特 + 蕾丝 => 福特压毁堡垒后,寻找蕾丝
+    ```
+    the enemy has circled our fortress
+    ```
+    4. hatchet: hatch + t => hatch出来的鸡蛋和梯子组成了短柄小斧
+    ```
+    hatchet man
+    ```
+    5. dagger
+    6. armor: arm + or(哦呼) => 心美换装的时候手臂特别大的那个类似于铠甲
+    ```
+    knights in shining armor
+    ```
+    7. corps
+    8. armament: arm + 门 => 用arm召唤出武器,然后打开了门
+    ```
+    armament system
+    ```
+    9. squad: school + d => 齐神搭着勺子来到班级里
+    ```
+    the bomb squad
+    ```
+    10. assault: ass + on => on,on地向ass猛攻
+    ```
+    be poised for a new assault
+    ```
+    11. onset: on + 手 => 手打开了点灯开关,好的,开始做事情把
+    ```
+    stop the onset of the winter
+    ```
+    
+3. adj
+    1. confidential: 看 + 飞机 + 等死 => 看,飞机上有个高桥快要死了,但是周围人都包住他,机密
+    ```
+    leak confidential information
+    ```
+    2. clandestine: clanned(小埋) + destiny(saber) => 小埋抽出了saber,给哥哥看,哥哥羡慕死了
+    ```
+    clandestine meeting
+    ```
+
+
+
+### 1-9. extra
 1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
 2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
 
