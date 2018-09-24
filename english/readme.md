@@ -471,7 +471,66 @@
     ```
     3. synthetic
 
-### 1-5. extra
+
+### 1-5. environment
+1. verb
+    1. contaminate
+2. noun
+    1. noxious: knocks => Ray 敲门,打开门后发现里面是有毒气体,就关上门,高高跃起
+    ```
+    give off noxious fumes
+    ```
+    2. sewage: 手机 => 将手机扔到污水里,回来后还是新的
+    ```
+    treatment of raw sewege
+    ```
+    3. fume: 衣服 + 没了 => 国雄的衣服没了,散发出臭气
+    ```
+    many household products give off noxious fumes
+    ```
+    4. fauna: four + 哪吒 => 四个哪吒在动物群里照顾牛
+    ```
+    the flora and flauna of the jungle
+    ```
+    5. decibel: 笛子 + 贝壳 => 笛子被贝壳塞满了,燃堂疯狂吹终于就吹好了,结果分贝很大,众人想要死亡
+    ```
+    continuous exposure to sound over 80 decibels could be harmful
+    ```
+    6. ozonosphere: 偶人(人偶) + 脑子 + 飞了 => 人偶的脑子飞了,结果到了臭氧层,一起发出的口臭让世界灭亡了
+    ```
+    the air ozonosphere is one of the most important factors
+    ```
+3. adj
+
+### 1-6. education
+1. verb
+    1. initiate: initial + ate => 开始
+    ```
+    initiate a discussion
+    ```
+    2. instill: 鹰 + still => 老鹰站着不动,给老鹰灌水,然后老鹰高兴地活了过来
+    ```
+    instill in them the pleasure of giving
+    ```
+    3. enlighten: 有灯光了 => 动画中的人物如果有想法了,旁边就会有电灯泡(启发)
+    ```
+    enlighten her on this subject
+    ```
+    4. edify: editor + fire => 在editor上防火,结果editor被陶冶成了陶器
+    ```
+    if you study my project, it will edify your mind
+    ```
+2. noun
+    2. sermon: 神 + 门 => 门不断对齐神说教,然而齐神不张嘴
+    ```
+    deliver the sermon
+    ```
+3. adj
+
+
+
+
+### 1-7. extra
 1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
 2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
 
