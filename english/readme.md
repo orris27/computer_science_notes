@@ -539,6 +539,27 @@
     ```
     the rebate appears in my account
     ```
+    3. depreciate: appreciate(增值) => 贬值
+    ```
+    the inflation is rising, and yuan is depreciating
+    ```
+    4. reimburse: rain + birds => 下雨了,一大群鸟飞了起来为我们遮挡雨水,我扔了爆米花到鸟的嘴里作为赔偿
+    ```
+    reimburse you for expenses
+    ```
+    5. garner: 嘎嘎(鸭子) + 人 => 高桥嘎嘎地叫,伸出手来,我就给了他一个录音机
+    ```
+    garner three times as many votes as Carey
+    ```
+    6. consolidate: con + solid + ate => 更solid => 巩固
+    ```
+    consolidate power by force
+    ```
+    7. barter: 巴特 => 不良画出了巴特,然后我用一百块钱想要收买他,结果他真的从画里走了出来,拿到了钱,又回去了
+    ```
+    bater wheat for cotton and timber
+    ```
+    
 2. noun
     1. toll: toy => 巨大的玩具熊想要通行,就交了通行费
     ```
@@ -593,6 +614,38 @@
     ```
     disburse over $350M for the project
     ```
+    15. inertia: 老鹰 + 能伸 => 老鹰能伸缩,就伸的很长,但由于惯性而停不下来
+    ```
+    the idea of inertia
+    ```
+    16. shipment: ship + 门 => 船上有个门,打开后放上很多食物,然后这些食物可以装运到其他地方
+    ```
+    food shipments to the port
+    ```
+    17. surplus: 手 + plus => 增加了一只手,用来爬绳子
+    ```
+    there is a surplus of labours
+    ```
+    18. residue: 热 + 手 + 丢 => 手着火了,我把手丢掉,发现手断臂的地方有漂亮的彩虹的残渣
+    ```
+    a residue can build up the hair
+    ```
+    19. collateral: 烤肉 + 很累 => 叔叔烤肉很累了,看到高桥同学过来了,就用钱包抵押在哪里,让高桥来烤肉.高桥答应后就逃掉了
+    ```
+    use personal assets as collateral
+    ```
+    20. patronage: party + age(上年数) => 齐神开party,结果是齐木大叔,大家惊得都粘住对方了
+    ```
+    government patronage of arts
+    ```
+    21. deposit: 地 + 破 + seat => 大地破了,他们掉了下去,坐在了椅子上,里面都是钱
+    ```
+    the initial deposit
+    ```
+    22. commission: 康师傅 + mission => 我买了穿着迷彩服的康师傅,帮忙我解决一个人,然后康师傅归来,收了我点服务费用
+    ```
+    our agents get a 3-5% commission
+    ```
     
     
 3. adj
@@ -621,3 +674,4 @@
 6. give evidence in a trial
 7. be made of
 8. cleaning agents
+9. the great depression
