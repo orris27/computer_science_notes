@@ -529,8 +529,80 @@
 
 
 
+### 1-7. economy
+1. verb
+    1. redress: 热 + dress => 勇太把连衣裙放到了热水机里准备烧,心美看到了赶紧纠正(拿了)起来
+    ```
+    redress wrongs done to them
+    ```
+    2. rebate: 热 + debate => 辩论会两边都很热情地充满了火焰,然后我拿出了一元硬币,他们就把这个硬币拆成两部分,然后就开心地结束了辩论
+    ```
+    the rebate appears in my account
+    ```
+2. noun
+    1. toll: toy => 巨大的玩具熊想要通行,就交了通行费
+    ```
+    pay a toll to drive on highway
+    ```
+    2. prosperity: pro + spain + 梯子 => 西班牙家的箱子里出现了梯子,这个梯子撞破了墙,墙上映照出了另一个世界,这个世界里有繁荣的景色
+    ```
+    we wish your country evergrowing properity.
+    ```
+    3. fortune: fortunate => 好运来 => 财富
+    4. opulence: apple + 冷死 => apple被冷风吹着冷死了,躲进了某人的口袋里,这个人的口袋里全是钱,所以apple就很开心了
+    ```
+    support growing opulence
+    ```
+    5. penury: pen + 有点热 => 笔有点热,结果烧着了我的裤子,我的钱包没了
+    ```
+    brought up in penury
+    ```
+    6. bidding: 白 + 灯 => 2家公司在招标,我用白开水往他们的电灯上浇,一个出现电火花烧毁了整个房子
+    ```
+    the bidding was higher than I expected
+    ```
+    7. defict: defeat + c => 齐神和大海争斗,就要被defeat的时候,齐神撕了血,洒红了海浪
+    ```
+    deal with the defict
+    ```
+    8. levy: 雷夫 => 雷夫的衣服要征收税收,小偷看到了却也没要
+    ```
+    an annual levy on all drivers
+    ```
+    9. ration: 雷 + 神 => 齐神被电到后很舒服,然后就再配给了很多机器
+    ```
+    the meat ration is down to one pound per person per week
+    ```
+    10. quota: 夸父 + 特斯拉 => 特斯拉发出了每天限额的三个电流,结果都被夸父给踩在脚下了
+    ```
+    meeet the quota
+    ```
+    11. tariff: 塔 + 飞 => 塔飞了起来,结果被tax free的人抓了回来,付关税
+    ```
+    tariff on items such as electronics
+    ```
+    12. inflation: 老鹰 + fly + 神 => 老鹰飞的很高很高,内心很膨胀,结果遇见齐神,就虚下去了
+    ```
+    galloping inflation
+    ```
+    13. cause(起因;事业): 考试 => 考试的试卷有十页.但翻不完页数
+    ```
+    a successor in the revolutionary cause
+    ```
+    14. disburse: 笛子 + burst => 国雄去买笛子,结果爆炸了,只好自己掏腰包,结果没钱,就A梦
+    ```
+    disburse over $350M for the project
+    ```
+    
+    
+3. adj
+    1. indigent: india + gentleman => 印度的绅士穿西装回家,结果脱下来就是全部的泥巴
+    ```
+    indigent citizens
+    ```
 
-### 1-7. extra
+
+### 1-8. extra
 1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
 2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
 
