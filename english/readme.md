@@ -823,6 +823,10 @@
     ```
     be squashed against a fence by a car
     ```
+    4. sow: 手 => 用手变魔术出来很多种子,然后播撒了下去
+    ```
+    as you sow, as you reap
+    ```
     
 2. noun
     1. aquaculture: aquatic + culture => 水产业
@@ -867,7 +871,49 @@
     ```
     the sorghum is in the ear
     ```
-
+    16. livestock
+    ```
+    killed scores of livestock
+    ```
+    17. poultry: 破车 => 我爸爸的破车开到一半要撞到家禽,就飞了起来
+    ```
+    a poultry farm
+    ```
+    18. fowl: fool(燃堂) => 燃堂突然"咕咕"地叫了
+    ```
+    carve the fawl into 8 pieces
+    ```
+    19. conservatory: 康师傅 + 手 + 比克提尼 => 用手从康师傅里把比克提尼给抓了出来,比克提尼挖地道淘到了温室下方
+    ```
+    flowers in the conservatory
+    ```
+    20. barn
+    21. cowshed: cow + 害羞 => 奶牛害羞地逃到了牛舍里
+    22. seedbed: seed + bed => 苗圃
+    23. sheepfold: sheep + folder => 一个目录下全是sheep的照片,用红圈标注起来,这人有问题
+    ```
+    we return to the sheepfold
+    ```
+    24. orchard: 喝茶 => 喝茶,将水果从果园那里拿过来,然后做成水果茶
+    ```
+    the garden abutted on to an orchard
+    ```
+    25. pasture: pass + 车 => 车通过pass后,就开到了一望无际的牧场上,非常开心
+    ```
+    they turned out cows to pasture
+    ```
+    26. ranch: run + 去 => 无论怎么run都离开不了的大牧场!
+    ```
+    he lives on a cattle ranch
+    ```
+    27. pigpen: pig + pen => 在pig后面插个pen,pig逃到了自己家里
+    ```
+    make a pot in front of the pigpen
+    ```
+    28. pigsty: pig + style => pigs跳完江南style后就回到猪舍里面了
+    ```
+    the room is a pigsty
+    ```
 3. adj
     1. prolific: 箱子 + 篱笆 + 飞 => 箱子把篱笆当滑行轨道,然后飞了起来,里面出来很多很好吃的东西
     ```
