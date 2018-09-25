@@ -1023,9 +1023,64 @@
     ```
     juvenile behaviour
     ```
+    2. tribe: 踹 + ball => 踹球,踢到了部落里
+    ```
+    tribe member
+    ```
+    3. ethnology: 艾斯 + 老酒 => 艾斯喝老酒,然后皮肤变黑了
+    ```
+    an expert on Asian ethnology
+    ```
+    4. aboriginal: abc + original => 原来人是不认识abc的,类似于猪一样.不是,是土著
+    ```
+    aboriginal's tales
+    ```
+    5. forerunner: 佛 + runner => 佛参加了马拉松跑,不停地在前面左右扭曲地跑
+    ```
+    define him as a forerunner of rap music
+    ```
+    6. hominid: 猴 + 迷你 => 迷你的卡通孙悟空...为我演示了人类的进化
+    ```
+    a hominid is really any extinct ape
+    ```
+3. adj
+    1. ethnic
+    2. cranial: create + 牛 => "image洗咯",创造出牛,"嗷"地一声后就头盖骨上发出电光
+    ```
+    cranial nerves
+    ```
+    
+### 1-15. people
+1. verb
+2. noun
+    1. aviator: av + actor => 那个东西飞天算了
+    ```
+    he hopes to become a naval aviator
+    ```
+    2. playwright: play + write => 剧本家
+    ```
+    the playwright does sth remarkable in this scene
+    ```
+    3. clergy: 可乐 + 锯子 => 可乐开不了,用锯子锯开,然后里面是空白的,哦不,这是照桥的世界
+    4. satirist: satire(讽刺文学) + ist => 讽刺作家
+    5. sculptor: sculpture + or => 雕刻家
+    6. astronaut
+    7. astronomer: 宇航员 + 门 => 天文学家为宇航员开了一扇通往太空的门
+    8. botanist: botany(植物学) + ist => 植物学家
+    9. choreographer: 炒肉 + graph => 一个人在炒肉的同时不断跳舞,肉飞起来的时候就念想成一张图片
+    ```
+    a choreographer told me that ...
+    ```
+    10. geographer & geologist: 地理学者 & 地质学家
+    11. treasurer: treasure + r => 姐姐(会计)将财富都偷偷藏在了草地下
+    ```
+    she was assigned to the position of treasurer of the school
+    ```
+    
+    
 3. adj
 
-### 1-13. extra
+### 1-14. extra
 1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
 2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
 
@@ -1043,6 +1098,9 @@
 4. bar
     1. 法院
     2. 酒吧
+5. descent
+    1. 血缘
+    2. 下降
 ## 3. expression 
 1. apartment complex
 2. police force
