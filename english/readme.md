@@ -827,7 +827,8 @@
     ```
     as you sow, as you reap
     ```
-    
+    5. plow: p + low => 精灵球掉到了地上,但是被犁了过去
+
 2. noun
     1. aquaculture: aquatic + culture => 水产业
     ```
@@ -938,7 +939,93 @@
     indigenous population
     ```
 
-### 1-11. extra
+
+### 1-13. Meteorology
+1. verb
+    1. saturate: 饱和 => 浸透
+    2. chill: 吃 + l => 吃高铁,里面的空调让牙齿很舒服
+    ```
+    chill the fruit salad
+    ```
+2. noun
+    1. meteorology: meter + 老酒 => 米尺伸进老酒坛里,测量深度,结果一直伸进去,拔出来后出现天气球
+    ```
+    Meteorology is a very practical science
+    ```
+    2. gale: 鸭子 + 可乐 => 可达鸭将可乐挤了一下,然后可乐就出来了,被风吹到可达鸭的嘴巴里了
+    ```
+    there's a gale blowing
+    ```
+    3. barometer: 爸爸 + roll + meter => 国春滚了一米,就撞到透明的墙了,这个墙的对面是下暴雨的天气,国春看了下自己的气压计
+    ```
+    look at your barometer
+    ```
+    4. whirlwind: 蜗牛 + wind => 蜗牛被风吹,然后不断旋转,刮起了旋风
+    ```
+    a whirlwind romance
+    ```
+    5. troposphere: 车把(方向盘) + 球体 => 从方向盘抽取出球体,在里面的气体不断上下对流
+    ```
+    travel through the troposphere
+    ```
+    6. funnel: 发 + 哪吒 => 哪吒的头发没有,所以就用漏斗盛水生发
+    ```
+    rain falls through the funnel into the jar
+    ```
+    7. smog
+    8. fog
+    9. precipitation: pray + c + 皮卡丘 + station => ray在大海上上走,出现了巨大的皮卡丘,ray将这个巨大的皮卡丘给打到station里,巨大的皮卡丘承受不住重量就压倒了station(沉淀) 
+    ```
+    no signs of precipitation
+    ```
+    10. drizzle: 锯子 +走 => 我拐着锯子走路,让毛毛雨降了下来,这样就可以滑行了
+    ```
+    it was starting to drizzle
+    ```
+    11. blizzard: blood + 炸 => 手臂流血(雪)了,突然炸开,就变成暴风雪了
+    ```
+    a blizzard had just swept through Portland
+    ```
+    12. downpour: pour down => 倾盆大雨
+    13. droplet: emoji里的表情 => 小雨滴
+    14. vapor: 蒸汽
+    15. tempest: temple + 斯科特 => 斯科特经过了寺庙,冻住了里面的钟,这个钟要晃动,就哭了起来,结果变成了暴风雨
+    ```
+    a tempest is a very violent storm
+    ```
+    16. hail: 黑人 + l => 黑人和train赛跑,但是黑人跑太快了,狡猾的高铁就下起冰雹阻止它前进
+    ```
+    a storm with heavy hail
+    ```
+    
+3. adj
+    1. dank: d + tank => 坦克吐出勺子,这个勺子里盛满了水,然后水变成蒸汽,整个空气变湿润了
+    ```
+    The kitchen was dank
+    ```
+    2. arid: apple + red => 苹果将沙漠给染红了,都是苹果
+    ```
+    arid climate
+    ```
+    3. chilly: chill => chilly => 寒冷的
+    4. frigid: fridge => 冰箱 => 寒冷的
+    5. serene: serena => 安静的
+    6. tepid: 特斯拉 + 屁 => 特斯拉将臀部一会烤一会儿不烤
+    ```
+    the tepid economic recovery
+    ```
+
+### 1-12. human
+1. verb
+    1. 
+2. noun
+    1. juvenile: 脚不挠 => 不能挠脚,糟糕了,好在我是青少年,我就让手长大,这样就挠到了!
+    ```
+    juvenile behaviour
+    ```
+3. adj
+
+### 1-13. extra
 1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
 2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
 
