@@ -1076,6 +1076,7 @@
     ```
     she was assigned to the position of treasurer of the school
     ```
+    12. spaceman(在宇宙飞船里的人)
     
     
 3. adj
