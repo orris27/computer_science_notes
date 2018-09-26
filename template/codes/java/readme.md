@@ -77,3 +77,9 @@ Integer.toOctalString
 
 Integer.toHexString 
 ```
+3. 输入
+```
+Scanner input1 = new Scanner(System.in);
+System.out.println("Enter an integer:");
+int v1 = input1.nextInt();
+```
