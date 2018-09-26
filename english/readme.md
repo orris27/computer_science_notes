@@ -1100,7 +1100,7 @@
     12. grease: greasy => grease
     13. nephew
     14. monk: monkey => 僧侣每天抓猴子,然后放生
-    
+    15. salvage: sail + 蚊子 => 用蚊子作为船航行,结果蚊子沉到了地下,所以就呼叫抢救
     
 3. adj
 4. adv
