@@ -83,3 +83,19 @@ Scanner input1 = new Scanner(System.in);
 System.out.println("Enter an integer:");
 int v1 = input1.nextInt();
 ```
+
+## 2. System
+1. calculate the time
+```
+long startTime = System.currentTimeMillis();// 取得计算开始时的时间
+
+@SuppressWarnings("unused")
+int sum = 0;// 声明变量并初始化
+for (int i = 0; i < 1000000000; i++) { // 进行累加
+    sum+=i;
+}
+long endTime = System.currentTimeMillis();// 取得计算结束时间
+
+// 计算所花费的时间
+System.out.println("累加所花费的时间" + (endTime - startTime) + "毫秒");
+```
