@@ -1161,8 +1161,60 @@
     ```
     a large recipient of U.S. foreign aid
     ```
+    43. bachelor(学士)
+    44. novice: nose + voice => 我刚骑自行车的时候摇摇晃晃的,鼻子也摇晃,发出奇怪的声音
+    ```
+    I am a noive at these things
+    ```
+    45. cult: 卡 + 塔 => 每个人拿着卡在塔里举行虔诚的仪式,雷电突然劈到塔里
+    46. fanatic: 坟墓 + native => 说native的都会进入坟墓,而我很盲信,所以就从来不说
+    ```
+    I am a fanatic
+    ```
+    47. adherent: adhesive + 人 =>　粘着剂一样的人 => 信徒，追随者
+    ```
+    The idea is gaining adherents
+    ```
+    48. disciple: 笛子 + 摔破 => 齐神拿着笛子,震惊,笛子掉了下去,就要摔破的时候,鸟束将它以很恶心的动作举了起来
+    ```
+    his disciple
+    ```
+    49. bandit: 绑带 => 强盗为了掩饰自己的身份,就用绑带将自己的连给绑住,白的一批
+    ```
+    bandit gang
+    ```
+    50. burglar: 包 + glue => 我用胶水黏住书包,并把书包粘在地上,窃贼要偷我书包的时候就偷不了
+    ```
+    Burglars broke into their home
+    ```
+    51. barbarian: 八百人 => 笨女孩点过八百人后就把他们都降智成野蛮人
+    ```
+    He is a compele barbarian
+    ```
+    52. exile: eggs + 爱 => 流亡的王子看到母鸡生的蛋,都爱不释手
+    ```
+    He is now living in exile in Egypt
+    ```
+    53. beneficiary: benefactor + 手来 => 恩人说,"手拿出来",所以对方是受益人
+    ```
+    one of the beneficiaries of the will
+    ```
+    54. zealot: zoo + lot => 动物园里有很多很多人,他们都是狂热者,产生了巨大的热量,整个动物园都是蒸汽
+    ```
+    he is by no means a zealot
+    ```
+    55. precursor: 前 + cursor => 我的鼠标突然出现了一个向前的幻影,我就一直跟着这个前导的光标
+    ```
+    a precursor to merger
+    ```
+    
     
 3. adj
+    1. inferior: infer(放大镜) + 人 => 福尔摩斯用巨大的放大镜去看人,"在下面拉",往下看发现是小矮人
+    ```
+    he prefered people who were intellectually inferior to himself.
+    ```
+    2. avant-garde: 阿门 + gardent => 
 
 ### 1-14. extra
 1. verb
@@ -1208,11 +1260,14 @@
     1. 血缘
     2. 下降
 6. exponent
-    1. 倡导者
+    1. 倡导者: 指数增长的图表更容易说明exponent
     ```
     a leading exponent of test-tube baby techniques
     ```
     2. 指数
+7. will
+    1. 遗嘱: 如果一直说will而不行动的话,就成了遗嘱
+    2. 意愿
 ## 3. expression 
 1. apartment complex
 2. police force
