@@ -1077,7 +1077,8 @@
     she was assigned to the position of treasurer of the school
     ```
     12. spaceman(在宇宙飞船里的人)
-    
+    13. dustman: dust + man => 清洁工
+    14. 
     
 3. adj
 
@@ -1086,7 +1087,10 @@
 2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
 3. errant: error + ant => 不小心要踩到蚂蚁上了,"不好意思",蚂蚁接受了我的道歉
 4. awry: arrive => 飞机就要到达了,结果突然错误地上下翻转了,地球要灭亡了!
-
+5. pence: 胖次 => 胖次里放着很多便士
+6. windowsill: window + c => 大海上涨到了窗台
+7. feline: 飞 + line => 飞机要滑行的轨道飞了起来,飞机像猫一样掉了下来,结果就翻身成功着陆了
+8. monastery: 码农 + story => 我坐在PDD的码农旁边,听他讲故事,我看他满头秃子,就说去修道院看看
 ## 1. multiple meanings
 1. ascend
     1. 上溯
