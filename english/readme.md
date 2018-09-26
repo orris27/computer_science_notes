@@ -1078,19 +1078,35 @@
     ```
     12. spaceman(在宇宙飞船里的人)
     13. dustman: dust + man => 清洁工
-    14. 
     
 3. adj
 
 ### 1-14. extra
-1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
-2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
-3. errant: error + ant => 不小心要踩到蚂蚁上了,"不好意思",蚂蚁接受了我的道歉
-4. awry: arrive => 飞机就要到达了,结果突然错误地上下翻转了,地球要灭亡了!
-5. pence: 胖次 => 胖次里放着很多便士
-6. windowsill: window + c => 大海上涨到了窗台
-7. feline: 飞 + line => 飞机要滑行的轨道飞了起来,飞机像猫一样掉了下来,结果就翻身成功着陆了
-8. monastery: 码农 + story => 我坐在PDD的码农旁边,听他讲故事,我看他满头秃子,就说去修道院看看
+1. verb
+    1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
+    
+2. noun
+    1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
+    2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
+    3. errant: error + ant => 不小心要踩到蚂蚁上了,"不好意思",蚂蚁接受了我的道歉
+    4. awry: arrive => 飞机就要到达了,结果突然错误地上下翻转了,地球要灭亡了!
+    5. pence: 胖次 => 胖次里放着很多便士
+    6. windowsill: window + c => 大海上涨到了窗台
+    7. feline: 飞 + line => 飞机要滑行的轨道飞了起来,飞机像猫一样掉了下来,结果就翻身成功着陆了
+    8. monastery: 码农 + story => 我坐在PDD的码农旁边,听他讲故事,我看他满头秃子,就说去修道院看看
+    9. miniature: 迷你(迷你龙) + 曲 => 迷你龙不断弯曲,最后就变成很微型的东西
+    10. crockery: clock + 可乐 => 在可乐里面放闹钟的冰块,之后倒到陶器里面,发出很悦耳的声音
+    11. brigade: bring + gate => 拿来一个大的门,然后消防队在上面扑火
+    12. grease: greasy => grease
+    13. nephew
+    14. monk: monkey => 僧侣每天抓猴子,然后放生
+    
+    
+3. adj
+4. adv
+    1. rashly: red + 嘘嘘 + 篱笆 => 红人在那里嘘嘘,结果掉到篱笆外面,然后高桥很鲁莽地生气了
+
+
 ## 1. multiple meanings
 1. ascend
     1. 上溯
@@ -1119,7 +1135,7 @@
 8. cleaning agents
 9. the great depression
 10. check your Ubuntu version from the terminal
-
+11. fire brigade
 
 
 ## 4. stake
