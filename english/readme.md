@@ -1166,7 +1166,7 @@
     ```
     I am a noive at these things
     ```
-    45. cult: 卡 + 塔 => 每个人拿着卡在塔里举行虔诚的仪式,雷电突然劈到塔里
+    45. cult(狂热信徒): 卡 + 塔 => 每个人拿着卡在塔里举行虔诚的仪式,雷电突然劈到塔里
     46. fanatic: 坟墓 + native => 说native的都会进入坟墓,而我很盲信,所以就从来不说
     ```
     I am a fanatic
