@@ -1207,6 +1207,55 @@
     ```
     a precursor to merger
     ```
+    56. alumni: 俄国 + 奶 => 俄国的奶都是小哟
+    ```
+    alumni association
+    ```
+    57. skeptic: skeptical(怀疑的) => 怀疑者
+    58. figurehead: 手指 + head => 慈禧用手给皇帝传递脑电波,控制皇帝
+    ```
+    the president will be little more than a figurehead
+    ```
+    59. veteran: 蚊子 + 他人 => 蚊子出现了,我立马掀开蚊帐,吹吹风,蚊子就出去了.(很老手吧..)
+    ```
+    a veteran campaigner
+    ```
+    60. traitor: trait(特性)... 曲 + 头 => 叛徒要叛徒了,就把头转360度,然后开始背叛
+    ```
+    Some say he's a traitor of the peace movement
+    ```
+    61. feminist: 发明(电灯泡) + 斯科特 => 电灯泡利用电要攻击斯科特,斯科特都躲过去了,这次电灯泡要攻击saber,斯科特马上就过去挡刀
+    ```
+    consider themselves a feminist
+    ```
+    62. humanitarian: human + 泥巴 + 特累(灰吕) => 灰吕从人道拿起很大的泥巴,虽然很重很累,但还是为了他人移动到其他地方
+    ```
+    humanitarian crises
+    ```
+    63. throng: 思涌 => 思绪涌现过来的都是心美(人),就形成了人群
+    ```
+    an offical pushed through a throng
+    ```
+    64. civilian: civilize + 脸 => 在大都市里一样的脸都是平民
+    ```
+    the safety of civilian
+    ```
+    65. monarch: 摸哪颗 => 君王可以随便摸哪颗,啧啧啧
+    ```
+    The monath was ousted by military group
+    ```
+    66. envoy: 按摩 => 使者来了,阿谀奉承一波,按摩一波,他很高兴地回去了
+    ```
+    A U.S. envoy
+    ```
+    67. aristocrat: area + 头 + create => 才虎在永谦活动广场用钱创造出巨大的头,金色传说,跪(贵)了
+    ```
+    a wealthy aristocrat
+    ```
+    68. gentry: 脚踹 => 看到天龙人贵族,就想脚踹
+    69. autocrat: automobile(汽车) + cat => 汽车就要撞到cat了,结果这只cat使用了超能力将里面的人变成了自己的仆人
+    70. democrat: autocrat + demo => 民主党人
+    
     
     
 3. adj
@@ -1214,7 +1263,11 @@
     ```
     he prefered people who were intellectually inferior to himself.
     ```
-    2. avant-garde: 阿门 + gardent => 
+    2. avant-garde: 阿门 + garden => monks到了花园,然后阿门阿门的说,结果花园里的话都唱出动听的歌声,monk向前走进,仿佛进入了天国
+    ```
+    avant-garde concert music
+    ```
+    3. conservertive(保守的)
 
 ### 1-14. extra
 1. verb
