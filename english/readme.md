@@ -1078,6 +1078,89 @@
     ```
     12. spaceman(在宇宙飞船里的人)
     13. dustman: dust + man => 清洁工
+    14. anthropologist: 安兹 + 玻璃 + 仪式 => 安兹使用了玻璃弄出超位魔法,里面映射出人的样子
+    15. imagist: image + ist(人) => 画画的英梨梨,摊开手,将自己的意想全部注入进去
+    16. mechanic: make(流水线) + 泥巴 => 流水线上都是泥巴,然后用所有泥巴塑造成扳手(表示修理)
+    17. biographer: 百岁山 + graph => 百岁山洒到了名画上,然后将作者的名字(传记作者)给冲掉了
+    18. censor: 绳子 + 手 => 监视别人的时候突然要掉下去了,手抓住绳子,愤怒地审查别人
+    ```
+    censored the news
+    ```
+    19. philanthropist: 飞机 + 蓝色 + throw + 斯科特 => 小孩子扔蓝色的飞机,结果直接砸到地上.地上都是冰块.前面有一个瑟瑟发抖的斯科特大叔在乞讨,就给他点钱把
+    ```
+    he is not just a philanthropist
+    ```
+    20. congressman
+    21. connoisseur: corner + 手 => 在角落里冒出一只手,然后这只手里拿着中国陶瓷(鉴赏品)
+    22. entrepreneur: enterprise + 能 => 能够开企业的都是企业家
+    23. commentator: comment + tor => 评论员
+    24. attendant: 河童 + ant => 蚂蚁要过河,河童变成蚂蚁大小,就带着蚂蚁飞了过去
+    ```
+    flight attendant
+    ```
+    25. trapper: trap + er => 陷阱 + 人 => 使用陷阱的人 => 捕捉者
+    ```
+    the old trapper's hut
+    ```
+    26. orator: oral + or => 口头 + 人 => 演说家
+    ```
+    he was a gifted orator who knew how to work a crowd
+    ```
+    27. idiocy(白痴的行为)
+    28. moron: 蘑菇 + 蝾螈 => 蝾螈吃了蘑菇后,就只能哦哦哦了2
+    ```
+    Gordon was a moron
+    ```
+    29. illiterate: 伊利 + 特累 => 灰吕疯狂喝伊利,喝得太累了,把伊利里的文字都吸走了
+    ```
+    a large percentage of the population was illiterate
+    ```
+    30. deputy: 代表人 => 代理人
+    ```
+    I delegates my responsibilities to my deputy
+    ```
+    31. proprietor: 箱子 + ray + 头 => ray拿着箱子,然后突然箱子里出来了zack的头,ray吓到了,zack说:"惊喜".然后抱住ray,说你是我的..,
+    ```
+    the proprietor of a local restaurant
+    ```
+    32. debtor: debt + or => 债务人
+    ```
+    debtor countries
+    ```
+    33. arbitrator: arbitration => 仲裁人
+    34. superintendent: superman + intel => 一个主管在超人的肩膀上,告诉他怎么拼成intel芯片
+    ```
+    he became a superintendent of the bank
+    ```
+    35. apprentice: apple + 人 + 提示(电灯泡) => 我吃着苹果,吃出了金光闪闪的电灯泡,"收我为徒吧"
+    ```
+    I started off as an apprentice
+    ```
+    36. tenant: tent + ant => ant进到一个人的帐篷里,都是钱,把它带了出去,因为我才是租户
+    ```
+    can you help me to find a new tenant for my new flat
+    ```
+    37. miser: 卖手 => 这个人只要不给足够的钱就不卖手
+    ```
+    I'm married to a miser
+    ```
+    38. donor: donate + or => 捐赠者
+    39. personnel: person + nose => 哆啦A梦的nose是圆的 => 人员
+    ```
+    dispatch military pensonnel abroad
+    ```
+    40. benefactor: benefit + actor => 行动带来好处的人 => 赞助,恩人,施主
+    ```
+    my benefactor
+    ```
+    41. mortal: 摩托 => 齐神和空助比较的时候用到了摩托 => 空助:一介凡人
+    ```
+    a man is deliberately designed to be mortal
+    ```
+    42. recipient: receiver => 接收方
+    ```
+    a large recipient of U.S. foreign aid
+    ```
     
 3. adj
 
@@ -1124,6 +1207,12 @@
 5. descent
     1. 血缘
     2. 下降
+6. exponent
+    1. 倡导者
+    ```
+    a leading exponent of test-tube baby techniques
+    ```
+    2. 指数
 ## 3. expression 
 1. apartment complex
 2. police force
