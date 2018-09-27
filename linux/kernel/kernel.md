@@ -1,5 +1,6 @@
     
 ## 1. Linux内核编译
+[CentOS内核编译参考文档](https://blog.csdn.net/mrzhouxiaofei/article/details/79140435)
 1. `make menuconfig`
     1. `<*>`或`[*]`: 将该功能编译到内核中
     2. `[]`: 不将该功能编译到内核中
