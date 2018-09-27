@@ -1092,10 +1092,13 @@ modprobe ip_vs
 ## 37. 磁盘和文件系统
 ### 37-1. dumpe2fs
 dump ext2, ext3, ext4 filesystem infomation
-#### 37-1-1. 查看`/dev/vda1`的文件系统信息
+1. 查看`/dev/vda1`的文件系统信息
 ```
 sudo dumpe2fs /dev/vda1
 ```
+### 37-2. mount
+[Linux磁盘笔记](https://coggle.it/diagram/W0Hti6_5PWtihPnC/t/linux%E7%A3%81%E7%9B%98))
+
 
 ## 38. iptables
 Administration tool for ipv4 and ipv6 packet filtering and NAT.
