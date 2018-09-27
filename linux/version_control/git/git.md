@@ -9,7 +9,7 @@
 ```
 # yum info git
 yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel -y
-yum install gcc perl-ExtUtils-MakeMaker autoconf asciidoc xmlto docbook2X -y
+yum install gcc perl-ExtUtils-MakeMaker autoconf asciidoc xmlto docbook2X autoconf -y
 ln -s /usr/bin/db2x_docbook2texi /usr/bin/docbook2x-texi
 
 
