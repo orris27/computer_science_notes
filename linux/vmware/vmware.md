@@ -367,3 +367,24 @@ NAME=ens33
     3. 填入要给Ubuntu的磁盘空间
     
 ## 7. 共享目录
+1. 将CD/DVD设置成物理驱动器下的自动检测
+2. 启动虚拟机
+3. 右键虚拟机,点击安装VMWare Tools
+4. 执行下面代码
+```
+yum install -y kernel-devel-$(uname -r)
+
+export kernel_headers=`ls -hd /usr/src/kernels/3*`
+sudo ln -s ${kernel_headers}/include/generated/uapi/linux/version.h ${kernel_headers}/include/linux/version.h
+
+mkdir /mnt/cdrom
+mount /dev/cdrom /mnt/cdrom
+cd /tmp
+tar zxpf /mnt/cdrom/VMwareTools-10.3.2-9925305.tar.gz
+umount /dev/cdrom 
+cd vmware-tools-distrib
+sudo ./vmware-install.pl
+####################################################
+/usr/include/linux/
+####################################################
+```
