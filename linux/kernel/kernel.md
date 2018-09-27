@@ -26,3 +26,56 @@ cat /boot/grub/grub.cfg
 reboot
 uname -r
 ```
+## 2. 内核
+
+```
+yum install kernel-devel-$(uname -r)
+vim helloworld.c
+####################################################################
+#define MODULE
+#include <linux/module.h>
+int init_module(void) 
+{
+    printk(" Hello World!\n");
+    //printk()函数是由Linux内核定义
+    return 0; 
+}
+void cleanup_module(void) 
+{
+    printk("Goodbye!\n");
+}
+MODULE_LICENSE("GPL");
+####################################################################
+
+
+####################################################################
+# makefile: 注意将4个空格替换成tab键
+####################################################################
+
+vim Makefile # 好像小写的makefile是不行的
+####################################################################
+TARGET = helloworld
+KDIR = /lib/modules/$(shell uname -r)/build
+PWD = $(shell pwd)
+obj-m += $(TARGET).o
+default:
+    make -C $(KDIR) M=$(PWD) modules
+####################################################################
+
+
+lsmod | grep helloworld
+#-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+
+
+insmod helloworld.ko 
+
+
+lsmod | grep helloworld
+#-------------------------------------------------------------------------
+helloworld             12426  0 
+#-------------------------------------------------------------------------
+
+
+rmmod helloworld
+```
