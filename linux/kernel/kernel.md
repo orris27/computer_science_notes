@@ -10,7 +10,7 @@ uname -r
 # 3.10.0-862.el7.x86_64
 #--------------------------------------------
 
-yum install -y bc
+yum install -y bc ncurses-devel elfutils-libelf-devel openssl-devel
 
 
 mkdir ~/tools
@@ -25,15 +25,23 @@ cp /usr/src/linux-headers-4.10.0-38-generic/.config .
 ##############################################################################
 # 确定编译配置: menu界面形式.最后生成.config文件
 ##############################################################################
-make menuconfig
+#make config #（基于文本的配置界面）
+make menuconfig #（基于文本菜单的配置界面）
+#make xconfig #（基于图形窗口的配置界面）
+#make oldconfig #（基于原来内核配置的基础上修改）
 
 
 make # 利用.config文件进行编译
-
 make modules_install
 make install
+
+ll /boot # 可以看到新的内核了
+
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+
 cat /boot/grub/grub.cfg
-reboot
+reboot # 会看到2个内核
 uname -r
 ```
 
