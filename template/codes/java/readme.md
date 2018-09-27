@@ -83,6 +83,38 @@ Scanner input1 = new Scanner(System.in);
 System.out.println("Enter an integer:");
 int v1 = input1.nextInt();
 ```
+4. 数组
+    1. 定义一个数组的引用变量: 实际没有指向有效内存
+    ```
+    int[] intArray;
+    int intArray[]; // 建议使用第一种方式,因为第一种方式更体现这个变量是引用变量
+    ```
+    2. 创建一维数组
+    ```
+    int[] intArray = new int[5];
+    ```
+    3. 使用一维数组
+    ```
+    for(int i=0;i<5;++i)
+    {
+        arr[i] = i;
+    }
+
+    for(int i=0;i<5;++i)
+    {
+        System.out.println(arr[i]);
+    }
+    ```
+5. global variables
+```
+public static int[] arr = new int[5];
+public static void main(String[] args)
+{
+    // ...
+}
+```
+
+
 
 ## 2. System
 1. calculate the time
@@ -99,3 +131,13 @@ long endTime = System.currentTimeMillis();// 取得计算结束时间
 // 计算所花费的时间
 System.out.println("累加所花费的时间" + (endTime - startTime) + "毫秒");
 ```
+2. various ways of printing
+    1. println
+    ```
+    System.out.println("HelloWorld!");
+    System.out.println();
+    ```
+    2. print: without newline
+    ```
+    System.out.print("no newline");
+    ```
