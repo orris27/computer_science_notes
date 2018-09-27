@@ -26,7 +26,10 @@ cat /boot/grub/grub.cfg
 reboot
 uname -r
 ```
-## 2. 内核
+
+
+
+## 2. 编写内核模块,并安装内核模块
 
 ```
 yum install kernel-devel-$(uname -r)
