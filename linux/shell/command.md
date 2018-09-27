@@ -1064,12 +1064,20 @@ lsmod | grep ip_vs
 ```
 insmod helloworld.ko # 一般添加的内核模块都是ko后缀名
 ```
+#### 34-2-1. 原理
+1. 从命令行中读入要链接的模块名，通常是扩展名为“.ko”，elf格式的目标文件。
+2. 确定模块对象代码所在文件的位置。通常这个文件都是在lib/modules的某个子目录中。
+3. 计算存放模块代码、模块名和module对象所需要的内存大小。
+4. 在用户空间中分配一个内存区，把module对象、模块名以及为正在运行的内核所重定位的模块代码拷贝到这个内存里。其中，module对象中的init域指向这个模块的入口函数重新分配到的地址；exit域指向出口函数所重新分配的地址。
+5. 调用init_module()，向它传递上面所创建的用户态的内存区的地址，其实现过程我们已经详细分析过了。
+6. 释放用户态内存, 整个过程结束。
 
 ### 34-3. rmmod
 删除内核模块
 ```
 rmmod helloworld
 ```
+
 
 ## 35. modprobe
 Add and remove modules from the Linux Kernel
