@@ -1049,12 +1049,26 @@ dos2unix xx.sh
 /sbin/arping -U -I eth0 10.0.0.162
 ```
 
-## 34. lsmod
+## 34. 内核模块
+[编写helloworld内核模块](https://github.com/orris27/orris/blob/master/linux/kernel/kernel.md)
+### 34-1. lsmod
 Show the status of modules in the Linux Kernel
-### 34-1. 检测Linux内核是否已经有ipvs
+### 34-1-1. 检测Linux内核是否已经有ipvs
 ```sudo iptables -t filter -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 sudo iptables -t filter -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 lsmod | grep ip_vs
+```
+
+### 34-2. insmod
+添加内核模块
+```
+insmod helloworld.ko # 一般添加的内核模块都是ko后缀名
+```
+
+### 34-3. rmmod
+删除内核模块
+```
+rmmod helloworld
 ```
 
 ## 35. modprobe
