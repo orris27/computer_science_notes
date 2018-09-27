@@ -1269,7 +1269,99 @@
     ```
     3. conservertive(保守的)
 
-### 1-14. extra
+### 1-14. society
+1. verb
+    1. 
+2. noun
+    1. institution: 老鹰 + 吐司 => 老鹰吃了吐司后,不能写字了,就只读(constitution是宪法)
+    ```
+    I believe in the institution of marriage
+    ```
+    2. clan: 大海 + 蓝色 => 大海是蓝色的,冲刷了人类,然后只留下家族的人
+    ```
+    a rival clan
+    ```
+    3. taboo: 特斯拉 + 毛巾 => 特斯拉在盥洗室把毛巾直接放在水里,不能这样的
+    ```
+    a taboo in our family
+    ```
+    4. ethics: 艾斯 + c => 艾斯突然要掉到海上了,"救我",大家都救他了(伦理?)
+    ```
+    a violation of medical ethics
+    ```
+    5. household(一家人,家庭)
+
+3. adj
+    1. rustic: 铁锈 + c => 海上都是铁锈,然后走过去就到了乡村
+    ```
+    the rustic charm
+    ```
+    2. patriarchal: 爬车 + ankle => 小孩子用脚踝在爬车,然后家长在加油
+    ```
+    a victim of patriarchal society
+    ```
+    3. genteel: 角 + 踢 => 足球场上在边角踢球,然后给黑山羊一个一个吃了,很开心的黑山羊(教养)
+    ```
+    genteel families
+    ```
+    4. polygamous: 玻璃 + 游戏机的console => 玻璃上映射出GalGame(一夫多妻/一妻多夫)的内容,然后用console玩
+    ```
+    some countries are polygamous
+    ```
+    
+### 1-15. biology
+1. verb
+    1. strain: 死角 => 死角悄悄压紧
+    ```
+    strain the air traffic system
+    ```
+    2. breed: b + red => 豆子很红,喂给小鸡们
+    ```
+    breeding horses and dogs
+    ```
+    3. reproduce: 热 + 流水线 => 流水线上突然变热了,然后里面生出了很多小孩(小火焰)
+    ```
+    we are reproducing ourselves
+    ```
+    4. proliferate: prolific + 人 => 人多产 => 激增
+    ```
+    Computerized databases are proliferating fast
+    ```
+    5. subsist: sub + seat => sub要做到位置上,屁股很长,然后做下去发现有个小仓鼠在帮助供养力量
+    ```
+    I can subsist your children
+    ```
+2. noun
+    1. parasite: pair + 色子 => 一对色子在那里转,寄生虫赶紧将结果给改变了
+    ```
+    Kangeroos harbour a vast range of parasites
+    ```
+    2. mimicry: 咪咪 + cry => 咪咪cry,大家一起来模仿
+    ```
+    one of his strengths was the skill at mimicry
+    ```
+    3. symbiosis: sea + bios(笔记本电脑) => 笔记本电脑漂浮在大海上,然后和鱼们一起游泳(共生)
+    ```
+    the cosy symbiosis of these traditional parties
+    ```
+    4. posterity: 邮箱 + rat => 一只元组rat在邮箱上产卵(实际并不产卵),在每个邮箱里都有卵,然后就都生出子孙了
+    ```
+    a photographer recorded this scene for posterity
+    ```
+    5. fermentation: 发明(电灯泡) + station => 电灯泡在高铁前发光,高铁里的饮料都发酵了
+    ```
+    fermentation process
+    ```
+3. adj
+    1. ripe: rice + p => 米饭里都是精灵球,然后吃下去感觉这米饭烧熟了
+    ```
+    always choose ripe fruit
+    ```
+    2. 
+
+
+
+### 1-16. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     
@@ -1321,6 +1413,10 @@
 7. will
     1. 遗嘱: 如果一直说will而不行动的话,就成了遗嘱
     2. 意愿
+8. propagate
+    1. 繁殖 
+    2. 传播
+    
 ## 3. expression 
 1. apartment complex
 2. police force
