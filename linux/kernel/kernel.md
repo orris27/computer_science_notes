@@ -11,7 +11,7 @@ uname -r
 # 3.10.0-862.el7.x86_64
 #--------------------------------------------
 
-yum install -y bc ncurses-devel elfutils-libelf-devel openssl-devel wget gcc
+yum install -y bc ncurses-devel elfutils-libelf-devel openssl-devel wget gcc perl
 # yum install -y kernel-devel-$(uname -r) 
 
 mkdir ~/tools
