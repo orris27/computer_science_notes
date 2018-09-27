@@ -22,9 +22,13 @@ cd linux-4.13.3
 cp /usr/src/linux-headers-4.10.0-38-generic/.config .
 
 
+##############################################################################
+# 确定编译配置: menu界面形式.最后生成.config文件
+##############################################################################
+make menuconfig
 
-#make menuconfig
-make
+
+make # 利用.config文件进行编译
 
 make modules_install
 make install
