@@ -1429,6 +1429,7 @@
     
 ### 1-17. astronomy
 1. verb
+    1. revolve: 热 + voice => 热的喉咙都干的说不出话,就四处转圈让自己流汗,再吸收汗水到喉咙,然后就能发声了
 2. noun
     1. galaxy(星系,银河系The Galaxy)
     2. intergalactic: inter + galaxy => 在星系之间
@@ -1439,12 +1440,57 @@
     the meteor was probably the size of a football
     ```
     6. dwarf: JOJO + 扶 => JOJO挤进墙,扶了一下墙,变矮了就好了
+    7. cosmos(宇宙)
+    8. nebula: 能不拉 => 突然想要大号,为了能不拉,就一直忍,忍了好久结果拉出星云
+    ```
+    Rosette Nebula
+    ```
+    9. quasar: quick + 炸弹 => 炸弹很快炸平了地球,地球上的人类都死亡了
+    ```
+    the galaxies that have just passed through a quasar phase
+    ```
+    10. planetoid: plane + toy => 飞机上有一个toy,这个时候小行星要撞击地球了,地球要灭亡了.结果这个toy瞬间从飞机出来,然后迎击小行星,拯救了地球
+    ```
+    the Mars-sized planetoid approached proto-Earth
+    ```
+    11. intergalactic: inter + galaxy => 在星系之间
+    12. interplanetary: inter + planetoid => 行星之间
+    13. interstellar: inter + stellar => 星际
+    ```
+    interstellar space
+    ```
+    14. corona: 可乐 + 骑拉帝纳 => 骑拉帝纳围着可乐像条狗一样地吐舌头,一直绕着走,结果晕了
+    ```
+    the atoms burst out through the corona into space
+    ```
+    15. chromosphere: chrome + sphere => 我的chrome卷成一个球,然后红橙黄绿青蓝紫地闪烁
+    ```
+    a photosphere, a chromosphere and a corona
+    ```
+    16. photosphere: photo + sphere => 海腾他们去参观美术馆的时候的那副几何画,这幅画的球体突然发出光芒,像灯光一样
+    17. pseudoscience(伪科学)
+    18. astrology: 鹅 + straight + 老酒 => 鹅一直往前走,然后看到老酒,就头伸进去看,发现有星星沾在酒里,高兴地点着酒喝
+    ```
+    Astronomy inherits from astrology
+    ```
+    19. Uranus: 油 + 燃烧 + 骑拉帝纳 => 油倒在了地上,火燃烧了起来,结果往反转世界烧了,骑拉帝纳吓得逃走了,为了能逃掉就往反转世界的天上跑了
+    20. Pluto: 布 + 路 + 拖 => 用毛巾拖地,结果不小心惊动了埋在地里的冥王老子
+    21. Neptune(海王星)
+    22. Saturn(土星)
+    23. emission: 一米 + 绳子 => 这个绳子只有一米,阻止液体的排放
+    24. interferometer: intel + 飞咯 + meter => 芯片要飞咯,结果只能飞一米,因为被干涉仪干涉了
+    
+    
+    
 3. adj
 
 ### 1-18. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
-    
+    2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
+    ```
+    A karate expert battered a man to death
+    ```
 2. noun
     1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
     2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
@@ -1494,9 +1540,12 @@
     1. 遗嘱: 如果一直说will而不行动的话,就成了遗嘱
     2. 意愿
 8. propagate
-    1. 繁殖 
+    1. 繁殖
     2. 传播
-    
+9. article
+    1. 物品
+    2. 文章
+    3. 冠词
 ## 3. expression 
 1. apartment complex
 2. police force
