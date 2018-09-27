@@ -11,8 +11,8 @@ uname -r
 # 3.10.0-862.el7.x86_64
 #--------------------------------------------
 
-yum install -y bc ncurses-devel elfutils-libelf-devel openssl-devel
-
+yum install -y bc ncurses-devel elfutils-libelf-devel openssl-devel wget gcc
+# yum install -y kernel-devel-$(uname -r) 
 
 mkdir ~/tools
 cd ~/tools
@@ -20,7 +20,7 @@ cd ~/tools
 wget http://mirrors.aliyun.com/linux-kernel/v4.x/linux-4.13.3.tar.gz
 tar -xvf linux-4.13.3.tar.gz
 cd linux-4.13.3
-cp /usr/src/linux-headers-4.10.0-38-generic/.config .
+#cp /usr/src/linux-headers-4.10.0-38-generic/.config .
 
 
 ##############################################################################
