@@ -366,3 +366,4 @@ NAME=ens33
     2. 选择一个比较大的磁盘,右击>Shrink Volumes
     3. 填入要给Ubuntu的磁盘空间
     
+## 7. 共享目录
