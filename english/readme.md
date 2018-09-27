@@ -1331,6 +1331,14 @@
     ```
     I can subsist your children
     ```
+    6. secrete: secret => 偷偷干的事情
+    ```
+    The sweat glands secrete water
+    ```
+    7. assimilate: a + similar => 使相似,使同化
+    ```
+    They are trying to assimilate into the new community    
+    ```
 2. noun
     1. parasite: pair + 色子 => 一对色子在那里转,寄生虫赶紧将结果给改变了
     ```
@@ -1352,16 +1360,88 @@
     ```
     fermentation process
     ```
+    6. respiration
+    7. metabolism: 草莓 + 塔 + 玻璃 => 巨大的草莓进入到塔里面,然后撞破玻璃,这些玻璃在河水上面上下移动(新陈代谢)
+    ```
+    Your metabolism will slow down, if you skip breakfast
+    ```
+    8. morphology: 俺没鸡(魔法师) + 老酒 => 俺没鸡将齐神放到老酒里面,用锯子切割,齐神改变自己的形态来避免被切到
+    9. calorie: 卡路里
+    10. carbohydrate: carbon + hydro(氢/水) => 碳水化合物
+    11. glucose: glue + coat => 用胶水黏住我们和外套,这样跑步的时候就会分泌出更多葡萄糖
+    ```
+    Glucose is dripping into patients.
+    ```
+    
 3. adj
     1. ripe: rice + p => 米饭里都是精灵球,然后吃下去感觉这米饭烧熟了
     ```
     always choose ripe fruit
     ```
-    2. 
+    2. stodgy: store + 锯子 => 佐藤广扛着锯子来到古董商店里
+    ```
+    The company hasn't been able to shake off its image as stodgy and old-fashion
+    ```
+    3. p
 
 
+### 1-16. Mathematics
+1. verb
+2. noun
+    1. dual: dual-mode => 2个,双
+    2. induction: 鹰 + dark +绳子 => 老鹰在黑天里飞行,遇到一个谜之绳子,然后向上爬,最后发现燃堂(鬼)呐,电磁感应地吓死了,
+    ```
+    induction heating
+    ```
+    3. inference: infer => 推断,推论
+    4. plumb: p + 小兰 => 小兰对新一用精灵球捕捉,结果新一垂直掉到了mantle附近,没抓到
+    ```
+    pull the building back into plumb
+    ```
+    5. facet: face + 踢 => 他的脸被踢后就平了
+    ```
+    The caste system nearly shapes every facet of India life.
+    ```
+    6. circumference: circle + 发热 => 一个圆环不断旋转,然后发热了,而且就是在周边(diameter是直径)
+    ```
+    a scientist calculating the Earth's circumference
+    ```
+    7. caliber: 咖喱 + ball => 志贵在吃咖喱的时候,突然有铅球飞了过来,立马就抓住,"什么人"(志贵很有才能)
+    ```
+    caliber of their fellow students
+    ```
+    8. deduction: 地上 + 大神 => 我走在路上,突然看到有个腿(推论),拔出来后发现是大神
+    ```
+    It was a pretty astute deduction
+    ```
+    9. abacus: 爱博 + 壳子 => 燃堂说爱博,结果发现只剩下一个壳子,这个壳子里面是算盘
+    10. calculus(微积分学)
+    
+3. adj
+    1. qualitative: quality + tive => 质量的
+    ```
+    qualitative differens
+    ```
+    2. upright: 上 + 右手 => 右手高高举起来,垂直状态
+    ```
+    he moved into an upright position
+    ```
+    
+### 1-17. astronomy
+1. verb
+2. noun
+    1. galaxy(星系,银河系The Galaxy)
+    2. intergalactic: inter + galaxy => 在星系之间
+    3. constellation: 看 + stella => 看,stella变成星座,然后一直stella
+    4. chondrite: 康师傅 + dry => 康师傅干了,然后用火烤,结果就出现了很多粒状陨石
+    5. meteor: 米尺 => 米尺摇一摇,就射出一个流星
+    ```
+    the meteor was probably the size of a football
+    ```
+    6. dwarf: JOJO + 扶 => JOJO挤进墙,扶了一下墙,变矮了就好了
+3. adj
 
-### 1-16. extra
+### 1-18. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     
