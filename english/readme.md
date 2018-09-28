@@ -1525,6 +1525,10 @@
     ```
     it have to be dehydrated
     ```
+    13. chafe: chief => 厨师山治为烤苹果,用平底锅摩擦苹果生热
+    ```
+    my pants were chafing my thighs
+    ```
        
 2. noun
     1. bulk: bark => 小狗要吠叫了,一个巨大(大部分,大块)的"汪"字从喉咙里勉强出来了,结果掉到了体重计上(容量,体积),体重计撞了一圈又回来了 
@@ -1600,6 +1604,17 @@
     ```
     The long way of attrition
     ```
+    25. resonance: 胃疼 + 门 => 高桥同学胃疼,然后就冲过门,所有门都共鸣了,共同组成一排阻止高桥...
+    ```
+    They had the same resonance for them as for Michael
+    ```
+    26. ultrasonics: ultra beasts(虚吾伊德) + 索尼耳机 => 虚吾伊德像耳机一样在耳边侵扰,非常舒服,真的是超舒服(ultrasonic超声波)
+    27. sonar: 声呐 => 声波定位仪
+    28. acoustic: 听觉的
+    29. amplifier: 按钮 + 玻璃 + fire => 一个按钮将一个玻璃点燃了,"施展魔术",将火焰扩大咯
+    ```
+    power amplifier
+    ```
     
 3. adj
     1. cohesive: 可乐 + 河 + save => 倒可乐在河水里,河水被弄黑了,里面有个小孩,燃堂看到后就把手提箱给扔了,结果手提箱黏在手上扔不掉,就直接整个人跳了进去
@@ -1634,7 +1649,10 @@
     13. nephew
     14. monk: monkey => 僧侣每天抓猴子,然后放生
     15. salvage: sail + 蚊子 => 用蚊子作为船航行,结果蚊子沉到了地下,所以就呼叫抢救
-    
+    16. thigh: 晒 => 将自己的大腿伸出来,让太阳舔(晒),然后就真的变黑了
+    ```
+    my shorts were chafing my thighs
+    ```
 3. adj
 4. adv
     1. rashly: red + 嘘嘘 + 篱笆 => 红人在那里嘘嘘,结果掉到篱笆外面,然后高桥很鲁莽地生气了
@@ -1673,6 +1691,10 @@
     1. 物品
     2. 文章
     3. 冠词
+10. band
+    1. 波段
+    2. 条带
+    3. 乐队
 ## 3. expression 
 1. apartment complex
 2. police force
