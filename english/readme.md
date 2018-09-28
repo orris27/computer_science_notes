@@ -1517,15 +1517,15 @@
     ```
     Water are sublimated from the gaseous to the solid
     ```
-    11. distillation: 笛子 + 梯子 + 神 => 齐神背着一大桶笛子,把蒸馏实验装置当做梯子往上爬
+    11. dilute: 袋子 + 道路 + 特斯拉 => 用袋子将道路装起来,剩下田地,然后特斯拉出来,释放了雷电球,结果被大气稀释了,特斯拉演艺
     ```
-    obtain another material by distillation
+    dilute it well with cooled water
     ```
-    12. equilibrium: 
-    
-    
-    
-   
+    12. dehydrate: carbohydrat + de => 脱水
+    ```
+    it have to be dehydrated
+    ```
+       
 2. noun
     1. bulk: bark => 小狗要吠叫了,一个巨大(大部分,大块)的"汪"字从喉咙里勉强出来了,结果掉到了体重计上(容量,体积),体重计撞了一圈又回来了 
     ```
@@ -1576,7 +1576,31 @@
     The blood refused to clot.
     a blood clot in the patient's brain
     ```
-
+    16. distillation: 笛子 + 梯子 + 神 => 齐神背着一大桶笛子,把蒸馏实验装置当做梯子往上爬
+    ```
+    obtain another material by distillation
+    ```
+    17. equilibrium: liquid(胶头滴管) + 篱笆 + breed(羊吃草) => 在羊吃草的草地的篱笆里往里用胶头滴管注射液体,然后将整个草地像碗一样弄平衡
+    ```
+    not to upset the economy equilibrium
+    ```
+    18. declivity: decline + wiki => 日站碧蓝航线的Wiki的画面向后倾斜,然后变成了长长的下坡
+    19. foam: fool + m => 燃堂吃汉堡,用嘴吐出泡沫,分解了汉堡并回到体内
+    ```
+    Memory Foam
+    ```
+    20. ventilation: 蚊子 + 梯子 + 拉链 + 齐神 => 蚊子沿着梯子上去,发现有一条裂缝,叮出拉链的形状,打开,齐神用类似于通气的窗户阻挡,结果蚊子就真的进不来了
+    ```
+    It has ventilation
+    ```
+    21. evaporation(蒸发)
+    22. thermodynamic: thermo(meter) + dynamic => 热力学
+    23. friction(摩擦): free + 神 => 齐神在空中自由地飞翔,为了更自由,就取消掉摩擦力
+    24. attrition: 耳机 + 神 => 齐神扔耳机,结果耳机接收了太大的摩擦力,就销毁了
+    ```
+    The long way of attrition
+    ```
+    
 3. adj
     1. cohesive: 可乐 + 河 + save => 倒可乐在河水里,河水被弄黑了,里面有个小孩,燃堂看到后就把手提箱给扔了,结果手提箱黏在手上扔不掉,就直接整个人跳了进去
     ```
