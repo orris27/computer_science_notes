@@ -1512,6 +1512,20 @@
     It was transpired that the king was already dead
     ```
     8. radiate(辐射)
+    9. thaw: 手 => 手融解成雪花了
+    10. sublimate: sublime => 使变得太美妙 => 升华(物理意义,抽象意义)
+    ```
+    Water are sublimated from the gaseous to the solid
+    ```
+    11. distillation: 笛子 + 梯子 + 神 => 齐神背着一大桶笛子,把蒸馏实验装置当做梯子往上爬
+    ```
+    obtain another material by distillation
+    ```
+    12. equilibrium: 
+    
+    
+    
+   
 2. noun
     1. bulk: bark => 小狗要吠叫了,一个巨大(大部分,大块)的"汪"字从喉咙里勉强出来了,结果掉到了体重计上(容量,体积),体重计撞了一圈又回来了 
     ```
@@ -1552,10 +1566,25 @@
     10. proton: 箱子 + 马桶 => 纸箱里放一个马桶,因为马桶是纸,所以就脆了下去
     11. nuclear(原子核的,原子能的)
     12. nucleus(原子核)
+    13. centigrade: 三体(空心立方体) + grade(试卷) => 空心立方体放入试卷,然后利用thermometer来测量,发现超过300摄氏度后就燃烧了
+    ```
+    read the temperature in centigrade
+    ```
+    14. Fahrenheit: 法海(三藏) + 黑体(FH里的黑体) => 给FH里的黑体戴上三藏的头冠.黑体眨了下花花的眼睛,然后就很华氏温度
+    15. clot: 可乐 + 弹 => 倒出来的可乐不断弹来弹去,然后用手把他们握紧,这样他们就凝结了
+    ```
+    The blood refused to clot.
+    a blood clot in the patient's brain
+    ```
+
 3. adj
     1. cohesive: 可乐 + 河 + save => 倒可乐在河水里,河水被弄黑了,里面有个小孩,燃堂看到后就把手提箱给扔了,结果手提箱黏在手上扔不掉,就直接整个人跳了进去
     ```
     a cohesive community
+    ```
+    2. sublime(so good that it affects you deeply)
+    ```
+    sublime music
     ```
     
 ### 1-19. extra
