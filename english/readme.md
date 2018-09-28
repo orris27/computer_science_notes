@@ -1484,7 +1484,65 @@
     
 3. adj
 
-### 1-18. extra
+### 1-18. physics
+1. verb
+    1. decelerate: accelerate => 减速
+    2. expedite: expedition + e => 鱼远征,鱼在水里移动的速度很快
+    ```
+    expedite deliveries to customers
+    ```
+    3. quiver: quick + 蚊子 => 蚊子反复横跳,老头子都吓得颤抖的不得了
+    ```
+    the dog quivered in the rain
+    ```
+    4. jar: 夹子 => 夹子夹住罐子,然后罐子猛地震动
+    ```
+    the spade jarred on something metal
+    ```
+2. noun
+    1. bulk: bark => 小狗要吠叫了,一个巨大(大部分,大块)的"汪"字从喉咙里勉强出来了,结果掉到了体重计上(容量,体积),体重计撞了一圈又回来了 
+    ```
+    The bulk of this oil tank is about 500 tons.
+    ```
+    2. brim: 布雷 + 麦当劳的汉堡 => 布雷要从镜子王国出来的时候,被巨无霸汉堡给挡住,然后被弹飞到镜子王国的边缘
+    ```
+    a hat with a broad brim
+    ```
+    3. rim: 太阳 + 汉堡 => 太阳要蒸发汉堡,汉堡的边缘先开始蒸发
+    ```
+    on the very rim of the cliff
+    ```
+    4. brink: brick => 将砖块放在峭壁的边缘堆叠起来,这样就能不断前进(brink专门指峭壁的边缘)
+    ```
+    on the very brink of the cliff
+    ```
+    5. constituent: 康师傅 + 梯子 + 门 => 爬梯子,打开门,看见巨大的康师傅,撒辣粉(成分),迅速扩散开来了
+    ```
+    is an important constituent of a good character
+    ```
+    6. cohesion: cohesive => 凝聚力,团结
+    ```
+    a sense of social cohesion
+    ```
+    7. mechanics: mechanic + (physic)s => 力学
+    ```
+    influence mechanics dramtically
+    ```
+    8. impetus: 硬币 + 吐司 => 在西班牙的小店里,硬币滚了过来,买吐司.给吐司.吐司突然后劲火箭喷射了出去
+    ```
+    impetus to do sth. / for sth
+    ```
+    9. vibration: 外部 + 绳子 => 将绳子扔出外部,用来对地震振动的测量
+    ```
+    vibration in the engine
+    ```
+3. adj
+    1. cohesive: 可乐 + 河 + save => 倒可乐在河水里,河水被弄黑了,里面有个小孩,燃堂看到后就把手提箱给扔了,结果手提箱黏在手上扔不掉,就直接整个人跳了进去
+    ```
+    a cohesive community
+    ```
+    
+### 1-19. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
