@@ -6,10 +6,19 @@
     2. `[]`: 不将该功能编译到内核中
     3. `[M]`: 允许该功能后期动态地编译到内核中
 ```
+cat /etc/redhat-release 
+#--------------------------------------------
+# CentOS Linux release 7.5.1804 (Core) 
+#--------------------------------------------
 uname -r
 #--------------------------------------------
 # 3.10.0-862.el7.x86_64
 #--------------------------------------------
+uname -m
+#--------------------------------------------
+# x86_64
+#--------------------------------------------
+
 
 yum install -y bc ncurses-devel elfutils-libelf-devel openssl-devel wget gcc perl
 # yum install -y kernel-devel-$(uname -r) 
@@ -31,19 +40,30 @@ make menuconfig #（基于文本菜单的配置界面）
 #make xconfig #（基于图形窗口的配置界面）
 #make oldconfig #（基于原来内核配置的基础上修改）
 
-
 make # 利用.config文件进行编译
 make modules_install
 make install
-
-ll /boot # 可以看到新的内核了
-
-grub2-mkconfig -o /boot/grub2/grub.cfg
+#-------------------------------------------------------------
+#   ...
+#   INSTALL /lib/firmware/edgeport/down2.fw
+#   INSTALL /lib/firmware/edgeport/down3.bin
+#   INSTALL /lib/firmware/whiteheat_loader.fw
+#   INSTALL /lib/firmware/whiteheat.fw
+#   INSTALL /lib/firmware/keyspan_pda/keyspan_pda.fw
+#   INSTALL /lib/firmware/keyspan_pda/xircom_pgs.fw
+#   DEPMOD  4.13.3
+# sh ./arch/x86/boot/install.sh 4.13.3 arch/x86/boot/bzImage \
+#     System.map "/boot"
+#-------------------------------------------------------------
 
 
 cat /boot/grub/grub.cfg
 reboot # 会看到2个内核
 uname -r
+#--------------------------------------------
+# 4.13.3
+#--------------------------------------------
+
 ```
 
 
