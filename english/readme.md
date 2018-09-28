@@ -1499,6 +1499,19 @@
     ```
     the spade jarred on something metal
     ```
+    5. discharge: 笛子 + charge(充电) => 用笛子桶充电的插座,然后就作死了,不能去上课了(准许某人离开)
+    ```
+    He was discharged from the hospital.
+    ```
+    6. diffuse: 大地 + 服 + 石头 => 大地上浮现出衣服,石头砸了该衣服,结果该衣服居然出血了,然后血分散地飞溅了出去
+    ```
+    The winds diffuse the smoke throughout the neighborhood
+    ```
+    7. transpire: train + 派 => 列车压扁了苹果派,奄奄一息的苹果派看起来就像是在蒸发一样,印刻在苹果派上的"苹果"两字出来了(泄露)
+    ```
+    It was transpired that the king was already dead
+    ```
+    8. radiate(辐射)
 2. noun
     1. bulk: bark => 小狗要吠叫了,一个巨大(大部分,大块)的"汪"字从喉咙里勉强出来了,结果掉到了体重计上(容量,体积),体重计撞了一圈又回来了 
     ```
@@ -1536,6 +1549,9 @@
     ```
     vibration in the engine
     ```
+    10. proton: 箱子 + 马桶 => 纸箱里放一个马桶,因为马桶是纸,所以就脆了下去
+    11. nuclear(原子核的,原子能的)
+    12. nucleus(原子核)
 3. adj
     1. cohesive: 可乐 + 河 + save => 倒可乐在河水里,河水被弄黑了,里面有个小孩,燃堂看到后就把手提箱给扔了,结果手提箱黏在手上扔不掉,就直接整个人跳了进去
     ```
