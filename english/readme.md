@@ -1615,6 +1615,18 @@
     ```
     power amplifier
     ```
+    30. oscillation: Os(很多太阳) + 雷神 => 很多太阳在空中,然后雷神(雷电云)将这些太阳振荡的方式来做运动
+    ```
+    the oscillation of a trapped atom of aluminium-27
+    ```
+    31. optics: o派 + tick => tick o派然后就会发光,不断反射
+    ```
+    the quantum nature of optics
+    ```
+    32. spectrum(光谱)
+    33. magnifier(放大镜) (amplifier放大器)
+   
+    
     
 3. adj
     1. cohesive: 可乐 + 河 + save => 倒可乐在河水里,河水被弄黑了,里面有个小孩,燃堂看到后就把手提箱给扔了,结果手提箱黏在手上扔不掉,就直接整个人跳了进去
@@ -1625,8 +1637,30 @@
     ```
     sublime music
     ```
-    
-### 1-19. extra
+    3. opaque: 不透明的
+    4. translucent: 透明的
+
+### 1-19. medicine
+1. verb
+
+2. noun
+    1. 
+3. adj
+    1. contagious: 康师傅 + 塔 + 藕 => 康师傅里的面条是巴黎铁塔,放着一些藕片,齐神吃的很开心,心美被感染了,贴近他一起吃这包康师傅(body, feeling)
+    ```
+    Laughter is contagious
+    ```
+    2. infectious: 手势 => 做个手势发出激光(through the air, feeling)
+    ```
+    a highly infectious virus
+    ```
+    3. acute: 鹅 + cute => 那只天鹅发光,真可爱,称体重的时候特别重,但是拿掉光环后就特别轻了
+    ```
+    the shortage of skilled workers is acute
+    ```
+
+
+### 1-20. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
@@ -1695,6 +1729,10 @@
     1. 波段
     2. 条带
     3. 乐队
+11. contract
+    1. 感染
+    2. 收缩
+    3. 合同
 ## 3. expression 
 1. apartment complex
 2. police force
