@@ -646,8 +646,6 @@ locate -n 1 mkdir # 显示前面1行
 ### 25-1. strace
 跟踪某个命令在系统中的应用层具体是怎么调用的
 
-
-
 #### 25-1-1. 实例
 1. 跟踪cat 
 ```
@@ -720,6 +718,57 @@ sudo nohup netease-cloud-music &
 ### 25-8. taskset
 将进程绑定到某个CPU上
 + CPU亲和力
+
+### 25-9. top
+1. jobs作业=user programs用户程序= tasks任务= process 进程
+2. 内核的可用内存 = free + buff/cache.
+    + free是指还没被内核纳入管理的内存.但是内核管理了一定内存后,不会将它free掉,而是作为buff/cache给以后
+3. 说明
+    1. PR: 进程优先级 
+    2. NI: nice值(负值高优先级,正值低) 
+    3. VIRT: 使用的虚拟内存总量 
+    4. RES: 使用的未被交换出去的物理内存大小(kb) 
+    5. SHR: 共享内存大小
+    6. S: 进程状态
+        1. D: 不可中断的睡眠状态
+        2. R: 运行中
+        3. S: 睡眠
+        4. T: 跟踪/停止
+        5. Z: 僵尸进程
+    7. `%CPU`: CPU时间占用比
+    8. `%MEM`: 物理内存占用比
+    9. TIME+: 进程使用的CPU时间总计,单位1/100秒
+
+```
+top - 16:09:39 up 8 min,             1 user,           load average: 0.01, 0.07, 0.05
+#     当前时间 系统已经运行的时间长度   当前在线用户人数    1,5,15的负载情况
+Tasks:  93 total,   1 running,     92 sleeping,         0 stopped,              0 zombie
+#     总共任务数     运行的任务数量  sleep的任务数量(sleep函数)     stopped任务数量(Ctrl+Z)    僵尸进程
+%Cpu(s):  0.0 us,               0.3 sy,  0.0 ni,            99.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+#        用户空间占用CPU的百分比  内核空间  改变过优先级的进程   空闲CPU   IO等待   硬中断   软中断    
+KiB Mem :   997956 total,   580880 free,    81636 used,   335440 buff/cache
+#          物理内存总量 =    空闲内存      +  占用中的内存 +  缓冲的内存
+KiB Swap:  1048572 total,  1048572 free,        0 used.        736564 avail Mem 
+#          交换分区总量     空闲交换分区        占用中的交换分区   
+   PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND                         
+     1 root      20   0  127952   6464   4080 S  0.0  0.6   0:01.96 systemd                                          
+     2 root      20   0       0      0      0 S  0.0  0.0   0:00.00 kthreadd                                         
+     3 root      20   0       0      0      0 S  0.0  0.0   0:00.12 ksoftirqd/0                                      
+     4 root      20   0       0      0      0 S  0.0  0.0   0:00.32 kworker/0:0                                      
+     5 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 kworker/0:0H                                     
+     7 root      rt   0       0      0      0 S  0.0  0.0   0:00.00 migration/0                                      
+     8 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcu_bh                                           
+     9 root      20   0       0      0      0 S  0.0  0.0   0:00.68 rcu_sched                                        
+    10 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 lru-add-drain                                    
+    11 root      rt   0       0      0      0 S  0.0  0.0   0:00.00 watchdog/0                                       
+    13 root      20   0       0      0      0 S  0.0  0.0   0:00.00 kdevtmpfs                                        
+    14 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 netns                                            
+    15 root      20   0       0      0      0 S  0.0  0.0   0:00.00 khungtaskd                                       
+    16 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 writeback                                        
+    17 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 kintegrityd                                      
+    18 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 bioset     
+```
+
 
 
 
@@ -2562,6 +2611,7 @@ Thu Sep  6 00:50:49 2018
 ```
 du -h --max-depth=1 ../dogs-cats/dataset/train/
 ```
+
 
 
 ## 0. 实战
