@@ -738,7 +738,7 @@ sudo nohup netease-cloud-music &
     7. `%CPU`: CPU时间占用比
     8. `%MEM`: 物理内存占用比
     9. TIME+: 进程使用的CPU时间总计,单位1/100秒
-
+4. 默认是按照CPU使用率来排序的
 ```
 top - 16:09:39 up 8 min,             1 user,           load average: 0.01, 0.07, 0.05
 #     当前时间 系统已经运行的时间长度   当前在线用户人数    1,5,15的负载情况
@@ -768,8 +768,10 @@ KiB Swap:  1048572 total,  1048572 free,        0 used.        736564 avail Mem
     17 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 kintegrityd                                      
     18 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 bioset     
 ```
-
-
+#### options
+1. `shift + <`/`shift + >`: 改变排序规则
+2. `1`: 单独显示不同CPU或者单个CPU的不同核的信息.(2个CPU和1个CPU的2个核在top和htop里显示的样子一样,都是cpu0, cpu1)
+3. `b`: 高亮当前运行中的进程
 
 
 ## 26. 网络Network
