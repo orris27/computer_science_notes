@@ -1642,9 +1642,75 @@
 
 ### 1-19. medicine
 1. verb
-
+    1. fracture: friend + 车 => 我把朋友塞进了一辆车,结果他整个人就破碎掉了
+    ```
+    the rock fractured
+    ```
+    2. tingle: 亭子 + 可乐 => 亭子里面的可乐喷出一点点,然后就弄得亭子被刺痛了一点点,就很舒服
+    ```
+    my skin tingled
+    ```
+    3. recur: 热 + 可乐 => 我从自动售货机买冰阔落,结果是热的还会在地上发射到太空中.古队也买了冰阔落,结果也飞上去(bad things happen again)
+    ```
+    the disease may recur
+    ```
+    4. relapse: 热 + 老不死(虫爷) => 虫爷发烧了(热),用发火技能把病菌给赶了出去,结果刚要说话,结果又发烧了(become ill again)
+    ```
+    We are afraid that he might relapse into a coma
+    ```
+    5. fester: 飞机 + 斯科特 => 斯科特在飞机上,结果飞机被冻住了,即将坠毁.斯科特的伤口突然被感染,细菌入侵了进去,结果就不能冰住飞机了,飞机正常运行
+    ```
+    festering sores
+    ```
+    6. dissect: 大地 + 三颗糖 => 三颗糖在大地上滚,结果都化了,最后的粉末组成了被解剖的人体形状
+    ```
+    dissect a frog
+    ```
+    
+    
 2. noun
-    1. 
+    1. malady: melody => Beautiful notes hit the ground, exerting threat to our society.
+    ```
+    regard the virus as a malady
+    ```
+    2. corpse: corps + e => 军队一起去捕鱼,结果直接一个大叉子扎下去,一条活生生的超大鱼就去世了
+    ```
+    let the doctor identify the corpse
+    ```
+    3. gash: 嘎 + 嘘嘘 => 可达鸭在某人身体上的裂缝出拉niao,被它给打了一顿
+    ```
+    there was a gash just above his right eye
+    ```
+    4. scab: scan(扫描仪,金属探测器) + b => 我在进高铁站的时候被检查出来拿着笔,这支笔是武器,保安对着自己的手尝试设射击,"嘣",擦伤了保安的手,手上迅速形成结痂,我不好意思额
+    ```
+    The cut began to scab # cut: 伤口
+    ```
+    5. bruise: blue + 蛇 => 蓝色的蛇要来袭击我,结果我就纵身一跃跳到大厦的楼顶,而蓝色的蛇撞到了墙上,留下了purple mark
+    ```
+    how did you get that bruise on your cheek
+    ```
+    6. remedy: read(书) + 地上 => 把一本书狠狠地砸到大地上,结果夹住了,拿不出来了,"救救我啊!!"
+    ```
+    the problem do not have a remedy
+    ```
+    7. prescription: pray + description(描述 => 画) => ray开始画Zack(的药方),因为Zack生病了
+    8. anatomy: 安娜(日记) + 淘米 => 将日记一起来淘米,然后把日记拿出来,将里面的青蛙给解剖了
+    ```
+    a professor of anatomy
+    ```
+    9. hygiene: 天涯海角 => 伸出一只大手,然后这个手在大海里洗手
+    ```
+    be careful about hygiene
+    ```
+    10. sanitation: 大山 + station => train撞到了大山上,结果直接将整个山的环境给净化了
+    ```
+    the hazards of poor sanitation
+    ```
+    11. sustenance: sustain + 门 => 索隆挡住门,然后维持这个状态.为了维持这个状态就一直吃食物
+    ```
+    potatos were only means of sustenance
+    ```
+    
 3. adj
     1. contagious: 康师傅 + 塔 + 藕 => 康师傅里的面条是巴黎铁塔,放着一些藕片,齐神吃的很开心,心美被感染了,贴近他一起吃这包康师傅(body, feeling)
     ```
@@ -1658,7 +1724,38 @@
     ```
     the shortage of skilled workers is acute
     ```
-
+    4. feverish: fever(发烧) => 发烧友,为自己喜欢的东西会感到极其兴奋
+    ```
+    hours of feverish activity
+    ```
+    5. morbid: 没病的 => 个鬼啦,有病的,还是病态的
+    ```
+    some people have a morbid fascination with crime
+    ```
+    6. numb: 脑 => 长时间的不思考,结果大脑就变得麻木了
+    ```
+    grow numb
+    ```
+    7. fragile(易碎的)
+    8. susceptible: 蛇 + 赛步起跑 => 蛇马上就要起跑了,以n的姿势起跑,其他所有人都收到影响,也做起这个恶心的姿势
+    ```
+    older people are more susceptible to infections
+    ```
+    9. intoxicate: 老鹰 + taxi + cat => 老鹰停在出租车上,老鹰的爪将出租车给打碎了,结果碎片砸到娘口三三上,娘口三三醉醺醺地说怎么了
+    ```
+    The driver was intoxicate
+    ```
+    10. sterile: stella + 可乐 => 大英雄喝可乐,结果那个没了,就不yu了
+    ```
+    he was sterile
+    ```
+    11. healthful(likely to make you healthy)
+    12. malnourished: 码农 + rich => PDD的码农在码代码,结果从电脑那里出来很多钱,饥渴不已的码农就一直在码代码,结果就忘记了吃喝东西
+    ```
+    malnourished children 
+    ```
+    13. spiritual(精神上的)
+    
 
 ### 1-20. extra
 1. verb
