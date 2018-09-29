@@ -2546,6 +2546,13 @@ stat main.c
 5. LWP:线程号,进程内部用来区分为线程的.不等于线程id
     + 可以启动firefox,然后使用`ps -Lf <firefox的pid>`查看到
 6. NLWP:当前进程内的线程数量
+### 68-2. options
+1. `aux`: 显示所有包含其他使用者的行程
+    1. `a`: Basic Options: 所有进程
+    2. `u`: Output Format: 显示用户信息(`-u`表示筛选条件,即筛选指定的用户的进程)
+    3. `x`: Basic Options: processes without controlling ttys
+
+
 
 ## 69. tty
 打印stdin的终端设备名称.类似于C语言用`ttyname(0);`操作
