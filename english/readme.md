@@ -1757,7 +1757,19 @@
     13. spiritual(精神上的)
     
 
-### 1-20. extra
+### 1-20. art
+1. (adj)picturesque: 照片 + sequence(句子) => 我拿起一只笔,想在这个照片上写一个句子,结果这个照片突然出现萌萌的古建筑,古雅的..
+```
+a picturesque mountain village
+```
+2. (n)mold: 模子(读音就像了) => 圆形的模子上会滋生很多霉菌
+3. (v)embroider: 老鹰 + blonde(saber的金头发) => 老鹰飞到saber旁边,在她旁边刺绣出漂亮的花花
+```
+embroider my name on the pillow
+```
+
+
+### 1-21. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
