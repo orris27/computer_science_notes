@@ -606,3 +606,19 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
 6. `tensorflow.python.framework.errors_impl.FailedPreconditionError: Attempting to use uninitialized value cell_0/basic_lstm_cell/bias`
     1. 原因: 我使用`class Model`的方式定义的,但是在创建对象的时候,原来的`train.py`中放在"model"的scope下,但是在`eval.py`中没有把`model = Model(...)`放在"model"的scope下,所以就产生了这个错误
     2. 解决: 把eval.py的定义写到scope下就行了
+
+
+
+
+
+
+## 20. blacklist.conf
+1. `libkmod: ERROR ../libkmod/libkmod-config.c:656 kmod_config_parse: /etc/modprobe.d/blacklist-nouveau.conf line 1: ignoring bad line starting with 'cklist'`
+    1. 查看blacklist-nouveau.conf文件:
+    ```
+    cklist nouveau # 这里的cklist是不正确的,可以看到应该是blacklist,所以改成blacklist就可以了
+    blacklist lbm-nouveau
+    options nouveau modeset=0
+    alias nouveau off
+    alias lbm-nouveau off
+    ```
