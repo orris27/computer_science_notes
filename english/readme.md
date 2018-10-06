@@ -1767,9 +1767,45 @@ a picturesque mountain village
 ```
 embroider my name on the pillow
 ```
+4. (v)enact: 老鹰 + action(舞台) => 老鹰在舞台上摆出pose,然后两只手之间出现了一本词典(颁布)
+```
+enact a law
+```
+5. (v)rehearse: 蕾姆 + hear(耳朵) + 蛇 => 类目的耳朵上突然冒出蛇,这只蛇在(齐木的)龙宫城那里游动(排练)
+```
+rehearse a play
+```
+6. (n)prelude: ray + loud => Ray在知道Zack说不是神的时候,崩溃的高歌了一区(前奏),然后疯狂地靠近Zack了
+```
+a prelude to sleep
+```
+7. (v)conjure: 康师傅 + 脚 => 用脚在康师傅里面画魔法阵(施魔术)
+```
+conjure a career from thin air
+```
+8. (adj)euphonious: 幽灵 + phone + 耳朵 => 幽灵通过电话进入到耳朵里面,然后舔耳朵(悦耳)
+```
+euphonious sound
+```
+9. (adj)harsh(刺耳的)
+10. (n)percussion: 爬虫 + 可乐 + 绳子 => 一条爬虫在可乐上面爬行,可以看到这条虫子下面有一根绳子,这根绳子拖着打击乐器的东西,然后虫子上下移动,进行打击
+11. (n)string(弦乐)
+12. (n)wind(管乐)
 
 
-### 1-21. extra
+### 1-21. language
+1. (adj)succinct: 三颗 + 绳子 => 有三个人,拿着各自的绳子,然后作为剑来互相攻击对方
+```
+succinct acount of the technology
+```
+2. (adj)cogent: 可乐 + 脚 => 喝了可乐后脚变得强有力了,跑起来自己都怕
+```
+cogent arguments
+```
+
+
+
+### 1-22. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
@@ -1864,6 +1900,15 @@ embroider my name on the pillow
 12. conviction
     1. 强烈的信念
     2. 定罪
+13. movement
+    1. 乐章(指挥官不是非常高昂嘛)
+    2. 运动
+14. score
+    1. 乐谱(分数用四分线)
+    2. 分数
+15. conservatory
+    1. 音乐学校
+    2. 温室
 ## 3. expression 
 1. apartment complex
 2. police force
