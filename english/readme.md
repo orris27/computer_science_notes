@@ -1848,7 +1848,7 @@ cogent arguments
     30. pathetic(可悲的)
     31. limelight: limestone(石灰石 => 石灰) + light(灯) => 石灰光的灯 => 收到注目
     32. grail: gray => 圣杯流出的液体是灰色的.
-    
+    33. pumpkin(南瓜)
 3. adj
     1. overarching: 上面 + archer => archer要射箭了,逐渐archer往天空平移,然后archer用手放在弓箭上,射了出去
     2. mediocre: medium + core => 有三个核桃,哪个最好敲?当然是适合我的中间(中庸)的核桃
