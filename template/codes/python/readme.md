@@ -1808,7 +1808,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     + 接口:不需要sess.run
         1. `tf.gfile.FastGFile`
         2. 打开后的文件:`<class 'tensorflow.python.platform.gfile.FastGFile'>`
-            1. `f.read()`
+            1. `f.read()`: bytes
             2. `f.readlines()`
     1. 打开文件,并打印每一行
         1. 方法1
@@ -2927,6 +2927,34 @@ array([[0, 1],
        [2, 3]], dtype=int32)
 ```
 
+88. parse string
+    1. return the given argument as a unicode string
+    ```
+    filename = 'hello.zip'
+
+    with zipfile.ZipFile(filename) as f:
+        print(f.read(f.namelist()[0]))
+        #--------------------------------------------------------------------------
+        # b'hello\nworld\nmy\nname\nis\norris\n'
+        #--------------------------------------------------------------------------
+
+        print(tf.compat.as_str(f.read(f.namelist()[0])))
+        #--------------------------------------------------------------------------
+        # hello
+        # world
+        # my
+        # name
+        # is
+        # orris
+        #
+        #--------------------------------------------------------------------------
+        
+        print(tf.compat.as_str(f.read(f.namelist()[0])).split())
+        #--------------------------------------------------------------------------
+        # ['hello', 'world', 'my', 'name', 'is', 'orris']
+        #--------------------------------------------------------------------------
+    ```
+
 ## 2. Bazel
 ```
 cat BUILD 
@@ -3478,15 +3506,44 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 ```
 import urllib.request
 import sys
+import os
 
-url = "http://www.python.org/ftp/python/2.7.5/Python-2.7.5.tar.bz2"
-filename = url.split('/')[-1]
+def download(url):
+    filename = url.split('/')[-1]
+    if os.path.exists(filename):
+        return filename
 
-def show_progress(block_num, block_size, total_size):
-    progress = float(block_num * block_size) / float(total_size) * 100.0
-    sys.stdout.write('\r>> Downloading %s %.1f%%' % (filename, progress))
-    sys.stdout.flush()
+    def show_progress(block_num, block_size, total_size):
+        progress = float(block_num * block_size) / float(total_size) * 100.0
+        sys.stdout.write('\r>> Downloading %s %.1f%%' % (filename, progress))
+        sys.stdout.flush()
 
-filepath, _ = urllib.request.urlretrieve(url, filename, show_progress)
-print()
+    filename, _ = urllib.request.urlretrieve(url, filename, show_progress)
+    print()
+    return filename
+
+url = 'http://cn.wordpress.org/wordpress-3.1-zh_CN.zip'
+filename = download(url)
+print(filename)
+# wordpress-3.1-zh_CN.zip
 ```
+20. 查看文件属性: os.stat
+```
+filename = 'Python-2.7.5.tar.bz2'
+
+statinfo = os.stat(filename)
+print(statinfo)
+# os.stat_result(st_mode=33188, st_ino=1449407, st_dev=2067, st_nlink=1, st_uid=1000, st_gid=1000, st_size=12147710, st_atime=1538840255, st_mtime=1538840612, st_ctime=1538840612)
+
+print(statinfo.st_size)
+# 12147710
+```
+21. zipfile
+    1. unzip a file
+    ```
+    import zipfile
+    
+    with zipfile.ZipFile(filename) as f:
+        print(f.namelist()) # type: list
+    # ['ptb/', 'ptb/orris/', 'ptb/orris/__pycache__/', 'ptb/orris/__pycache__/data_loader.cpython-36.pyc', 'ptb/orris/.git/', 'ptb/orris/.git/refs/', 'ptb/orris/.git/refs/heads/', 'ptb/orris/.git/refs/heads/master', 'ptb/orris/.git/refs/heads/loss', 'ptb/orris/.git/refs/tags/', 'ptb/orris/.git/logs/', 'ptb/orris/.git/logs/refs/', 'ptb/orris/.git/logs/refs/heads/',]
+    ```
