@@ -3473,3 +3473,20 @@ for root, dirs, files in list_dirs:
 ```
 os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 ```
+
+19. download: (import `urllib.request` instead of `urllib`
+```
+import urllib.request
+import sys
+
+url = "http://www.python.org/ftp/python/2.7.5/Python-2.7.5.tar.bz2"
+filename = url.split('/')[-1]
+
+def show_progress(block_num, block_size, total_size):
+    progress = float(block_num * block_size) / float(total_size) * 100.0
+    sys.stdout.write('\r>> Downloading %s %.1f%%' % (filename, progress))
+    sys.stdout.flush()
+
+filepath, _ = urllib.request.urlretrieve(url, filename, show_progress)
+print()
+```
