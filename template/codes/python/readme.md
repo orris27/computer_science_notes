@@ -700,6 +700,7 @@ scope_assign('s1','s2',sess)
     1. dynamic_rnn
         1. `[batch_size, num_steps]` => embedding层(`[vocab_size, embedding_size]`) => `[batch_size, num_steps, embedding_size]` => dynamic_rnn => outputs(`[batch_size, num_steps, lstm_size]`), final_state
             + `[有几句话, 每句话最多几个单词]` => embedding层 => `[有几句话, 每句话最多几个单词, 一个单词对应多长的词向量]` => dynamic_rnn => `[有几句话, 每句话最多几个单词, RNN内部有多少个节点]`, `(最后一个节点的c输出, 最后一个节点的h输出)`
+            + `embedding_lookup`: 最终结果就是在最后增加一维,这个维度的长度是embedding_size.如果输入是1维或2维都没有关系
         2. embedding_size(一个单词转化后的词向量长度) 和 lstm_size(RNN隐藏层的节点个数) 的关系: embedding_size和lstm_size不需要相等,但是如果相等的话,就可以共享embedding层和softmax层的权重了
         3. 参数
             1. initial_state
@@ -3054,6 +3055,36 @@ a[0:3,np.newaxis]
 l = np.array([1,2,3])
 l.tostring()
 #b'\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00'
+```
+4. argsort: return the indices that will sort the array
+    1. sort
+    ```
+    data
+    #---------------------------------------
+    # array([2, 0, 1, 4, 3])
+    #---------------------------------------
+
+    data.argsort()
+    #---------------------------------------
+    # array([1, 2, 0, 4, 3]) # means that "data[1], data[2], data[0], data[4], data[3]" will be correct answer
+    #---------------------------------------
+
+    data[data.argsort()]
+    #---------------------------------------
+    # array([0, 1, 2, 3, 4])
+    #---------------------------------------
+    ```
+    2. sort reversely
+    ```
+    (-data).argsort()
+    #---------------------------------------
+    # array([3, 4, 0, 2, 1])
+    #---------------------------------------
+
+    data[(-data).argsort()]
+    #---------------------------------------
+    # array([4, 3, 2, 1, 0])
+    #---------------------------------------
 ```
 ## 4. plt
 `import matplotlib.pyplot as plt`
