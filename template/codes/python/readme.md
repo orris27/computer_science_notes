@@ -3081,14 +3081,28 @@ len(img.getbands())
 
 
 ## 6. Collections
-1. 统计词频为一个类词典
-```
-counter = collections.Counter()
-with codecs.open(raw_data,'r','utf-8') as f:
-    for line in f:
-        for word in line.strip().split():
-            counter[word] += 1
-```
+1. 统计词频
+    1. 统计词频为一个类词典
+    ```
+    counter = collections.Counter()
+    with codecs.open(raw_data,'r','utf-8') as f:
+        for line in f:
+            for word in line.strip().split():
+                counter[word] += 1
+    ```
+    2. 简单实践
+    ```
+    from collections import Counter
+
+    c = Counter()
+
+    for ch in 'apple':
+        c[ch] = c[ch] + 1 # 默认c[某个字符]为0
+    c
+    #----------------------------------------------------
+    # Counter({'a': 1, 'e': 1, 'l': 1, 'p': 2})
+    #----------------------------------------------------
+    ```
 ## 7. codecs
 1. 打开文件,utf8格式
 ```
