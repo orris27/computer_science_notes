@@ -3176,6 +3176,10 @@ with codecs.open(raw_data,'r','utf-8') as f:
             counter[word] += 1
 ```
 ## 8. NLP
+0. 思路
+    1. Get the dict: {word: index}
+    2. Get the dict: {index: word}
+    3. Translate the word into the index
 1. 普通的文本文件 => 干净的一行一句话的文本文件
     1. English
     ```
@@ -3304,6 +3308,10 @@ train_batches = data_loader.make_batches(
 for X, y in batches:
     # ...
 
+```
+4. dict: {word: index} => dict: {index: word}
+```
+reverse_dictionary = dict(zip(dictionary.values(), dictionary.keys()))
 ```
 ## 9. Python
 1. 如果是`__main__`的话
