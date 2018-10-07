@@ -1802,10 +1802,71 @@ succinct acount of the technology
 ```
 cogent arguments
 ```
-
-
-
-### 1-22. extra
+3. (n)glossary(术语)
+4. (n)phonetics: phone + 踢 => 用脚踢电话,电话就会发出娇喘(发音)
+```
+Japanese phonetics system
+```
+5. (n)slogan: slow + 杆子 => 晾衣杆慢慢地向上爬,结果将广告语的文字慢慢抖出来了(口号,广告语)
+```
+They could campaign on the slogan "We'll take less of your money"
+```
+6. (adj,n)lryic(抒情的)
+7. (n)byword: buy + word(名牌) => 我在小卖部里买了名牌,上面写着Ray的名字,这样我就可以代替Ray去B7了(代名词)
+```
+a byword for quality
+```
+8. (n)fable: 发 + ball => 漂亮的小姐姐要发球了,球绕过网后到了小孩子的手上,小孩子高兴地玩玩啊,发出了动人的音乐,结果就睡着了(听寓言故事而睡着)
+```
+the fable of the turtoise and the hare
+```
+9. (n)maxim: 马克思(上毛概的大教室) + 汉堡 => 我刚进入大教室,看到一个巨大的汉堡,然后在上面不断写下"我要减肥"作为格言激励自己,最后克服了这个诱惑
+```
+I believe in the maxim "if it ain't broke, don't fix it"
+```
+10. (n)farce: 发 + 蛇 => 俺没鸡的头发里有蛇,结果这只蛇在表演的时候在台上大闹,然后天花板都要塌陷下来了,观众大笑
+```
+the audience roared at the farce
+```
+11. (n)adage(很老的格言): apple + 大地 + 锯子 => 一个苹果咂烂了大地,然后我用锯子看下这个apple,之后这个apple里有个女神出来,在我耳边说了很好听的话,我好开心(格言)
+```
+You know the old adage
+```
+12. (n)synopsis: 大海 + nose + 石头 => 大海上有个鼻子形状的岛屿,然后我扔了个石头进去,结果这个石头变得很大(大纲),进不去这个鼻孔
+```
+a synopsis of the book
+```
+13. (v)emend: 椅子 + 门 => 用椅子砸坏了大门,结果就要重新给这个门打补丁(修订,remove mistakes from the passage)
+```
+emend rule
+```
+14. (n,v)paraphrase: 爬路 + free(象征着自由的比利) => 比利在路上爬,结果看到有个盖子上有汉字,问旁边的老婆婆这个字是什么,然后老婆婆解释给了他,比利对这个老婆婆表示了感谢
+```
+paraphrase the contents
+```
+15. (n,v) excerpt: eggs + 蛇 + 葡萄 => 鸡蛋砸在了蛇上面,蛇吐出了葡萄,然后这个葡萄被大家给摘走了
+```
+an excerpt from this book
+```
+16. (v)abridge: apple + 桥 => 一个苹果经过了桥后就被车上的人给吃了,然后就残缺不齐了(删节)
+```
+abridge his stay
+```
+### 1-22. policy
+1. (adj)factious: fake(红a) + 绳子 => 红a从绳子上去,结果晃来晃去(好捣乱的)
+```
+factious fellows
+```
+2. (adj,n)partisan(偏袒的,游击队员): party + 三人 => 三个人举行派对,干杯的时候被游击队员射死,然后游击队员要包庇,就围成一个圈,害羞了起来
+```
+He is too partisan to be a referee
+```
+3. (n)congress(国会)
+4. (n)senate: 蛇 + 骑拉帝纳 + 特斯拉 => 蛇进入到反转世界,要掉下去的时候突然被电到了,然后蛇就变得很长,并且碰到了下面的建筑(参议院)
+```
+The Senate is expected to pass the bill
+```
+### 1-23. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
