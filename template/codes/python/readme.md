@@ -3584,3 +3584,8 @@ print(statinfo.st_size)
         print(f.namelist()) # type: list
     # ['ptb/', 'ptb/orris/', 'ptb/orris/__pycache__/', 'ptb/orris/__pycache__/data_loader.cpython-36.pyc', 'ptb/orris/.git/', 'ptb/orris/.git/refs/', 'ptb/orris/.git/refs/heads/', 'ptb/orris/.git/refs/heads/master', 'ptb/orris/.git/refs/heads/loss', 'ptb/orris/.git/refs/tags/', 'ptb/orris/.git/logs/', 'ptb/orris/.git/logs/refs/', 'ptb/orris/.git/logs/refs/heads/',]
     ```
+22. dict
+    1. reverse dictionary: {word, index} => {index, word}
+    ```
+    reverse_dictionary = dict(zip(dictionary.values(), dictionary.keys()))
+    ```
