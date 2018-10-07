@@ -3321,8 +3321,21 @@ if __name__ == '__main__':
     os.path.splitext(file)[-1] # 文件的扩展名
     ```
 3. 随机生成0,1的大小为5的numpy矩阵
+    1. a: 1-D array-like or int(<=> np.arange(a))
+    2. size: output shape
+    3. replace: allows repeatition
 ```
 np.array(np.random.choice(2, size=(5,)))
+np.random.choice(5, 5, replace=False)
+#-------------------------------------------------
+# array([4, 2, 3, 0, 1])
+#-------------------------------------------------
+
+np.random.choice(5, 5, replace=True)
+#-------------------------------------------------
+# array([3, 3, 2, 1, 3])
+#-------------------------------------------------
+
 ```
 
 4. 组装字符串的列表.将字符串的内容分隔后,转换成整数,然后组成列表
