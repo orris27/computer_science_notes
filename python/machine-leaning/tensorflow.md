@@ -21,13 +21,29 @@ pip install tensorflow==1.8.0
 2. gpu
 ```
 nvcc -V # 检查CUDA版本
+#-------------------------------------------------------------------------------------------
+# nvcc: NVIDIA (R) Cuda compiler driver
+# Copyright (c) 2005-2017 NVIDIA Corporation
+# Built on Mon_Jun_26_16:13:28_CDT_2017
+# Cuda compilation tools, release 9.0, V9.0.102
+#-------------------------------------------------------------------------------------------
+
+
+cat /proc/driver/nvidia/version 
+#-------------------------------------------------------------------------------------------
+# NVRM version: NVIDIA UNIX x86_64 Kernel Module  384.130  Wed Mar 21 03:37:26 PDT 2018
+# GCC version:  gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.10) 
+#-------------------------------------------------------------------------------------------
 
 nvidia-smi
 
-(orris) user@ubuntu:~/orris/test$ cat /proc/driver/nvidia/version 
-NVRM version: NVIDIA UNIX x86_64 Kernel Module  384.130  Wed Mar 21 03:37:26 PDT 2018
-GCC version:  gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.10) 
 
+conda create -n venv pip python=2.7 # conda版本
+source activate venv
+    
+pip install --upgrade tensorflow-gpu
+source deactivate
+#conda remove -n your_env_name(虚拟环境名称) --all # 删除虚拟环境
 ```
 
 ## 2. 神经网络
