@@ -94,6 +94,7 @@ source /etc/profile
     deactivate # 退出当前环境
     ```
     2. conda
+        + 实际查询的sys.path是`['/home/orris/fun/test', '/home/orris/anaconda3/envs/orris/lib/python27.zip', '/home/orris/anaconda3/envs/orris/lib/python2.7', '/home/orris/anaconda3/envs/orris/lib/python2.7/plat-linux2', '/home/orris/anaconda3/envs/orris/lib/python2.7/lib-tk', '/home/orris/anaconda3/envs/orris/lib/python2.7/lib-old', '/home/orris/anaconda3/envs/orris/lib/python2.7/lib-dynload', '/home/orris/.local/lib/python2.7/site-packages', '/home/orris/anaconda3/envs/orris/lib/python2.7/site-packages']`,也就是说除了`.`和`.local`下的内容外就是环境下的包
     ```
     conda create -n venv pip python=2.7 # conda版本
     
@@ -104,9 +105,10 @@ source /etc/profile
     # /home/user/anaconda2/envs/venv/bin/python
     #---------------------------------------------------------------------------------
 
-    #pip install --ignore-installed --upgrade <packageURL> # 必须是pip包的完整路径
-    pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.11.0-cp27-none-linux_x86_64.whl
-    conda install -n venv [package]
+    conda install -n venv <package> # 这里填写package的名字就行了."-n"表示指定环境
     
     source deactivate
+    
+    
+    conda remove -n your_env_name(虚拟环境名称) --all # 删除虚拟环境
     ```
