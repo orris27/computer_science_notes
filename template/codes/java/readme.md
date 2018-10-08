@@ -83,9 +83,17 @@ Integer.toHexString
         ```
         import java.util.Scanner;
         
-        Scanner input1 = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
         System.out.println("Enter an integer:");
-        int v1 = input1.nextInt();
+        int v1 = input.nextInt();
+        ```
+        2. line
+        ```
+        import java.util.Scanner;
+        
+        Scanner input = new Scanner(System.in);
+        String line = input.nextLine(); // 貌似要弄2次
+        line = input.nextLine();
         ```
 4. 数组
     1. 定义一个数组的引用变量: 实际没有指向有效内存
