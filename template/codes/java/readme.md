@@ -77,12 +77,16 @@ Integer.toOctalString
 
 Integer.toHexString 
 ```
-3. 输入
-```
-Scanner input1 = new Scanner(System.in);
-System.out.println("Enter an integer:");
-int v1 = input1.nextInt();
-```
+3. IO
+    1. 输入
+        1. int
+        ```
+        import java.util.Scanner;
+        
+        Scanner input1 = new Scanner(System.in);
+        System.out.println("Enter an integer:");
+        int v1 = input1.nextInt();
+        ```
 4. 数组
     1. 定义一个数组的引用变量: 实际没有指向有效内存
     ```
@@ -107,15 +111,29 @@ int v1 = input1.nextInt();
     ```
 5. global variables
 ```
+public static final int MAX_LEFT = 100; # 定义常量
+
 public static int[] arr = new int[5];
 public static void main(String[] args)
 {
     // ...
 }
 ```
-
-
-
+6. 随机
+    1. 产生`[0, 1)`的实数
+    ```
+    import java.util.Random;
+    
+    System.out.print(Math.random());
+    ```
+    2. 产生`a, a+1, a+2 ,..., b-1`的整数,即`[a, b)`
+    ```
+    import java.util.Random;
+    
+    int a = 3;
+    int b = 5;
+    System.out.print((int)(Math.random() * (b - a) + a ));
+    ```
 ## 2. System
 1. calculate the time
 ```
@@ -141,3 +159,14 @@ System.out.println("累加所花费的时间" + (endTime - startTime) + "毫秒"
     ```
     System.out.print("no newline");
     ```
+
+## 3. Math
+1. min
+```
+Math.min(3, 5)
+
+double min(double arg1, double arg2)
+float min(float arg1, float arg2)
+int min(int arg1, int arg2)
+long min(long arg1, long arg2)
+```
