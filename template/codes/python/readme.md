@@ -3085,7 +3085,7 @@ l.tostring()
     #---------------------------------------
     # array([4, 3, 2, 1, 0])
     #---------------------------------------
-```
+    ```
 ## 4. plt
 `import matplotlib.pyplot as plt`
 1. 画画
@@ -3167,8 +3167,8 @@ len(img.getbands())
         #----------------------------------------------------
         # [('p', 2), ('a', 1)]
         #----------------------------------------------------
-
         ```
+        
 2. bidirectional queue
     1. create a bidirectional queue: `dq = collections.deque(maxlen=3)`
     2. enqueue: `dq.append(3)`
