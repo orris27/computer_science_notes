@@ -3126,14 +3126,35 @@ len(img.getbands())
 
 ## 6. Collections
 1. 统计词频: Counter是dict的一个子类
-    1. 统计词频为一个类词典
-    ```
-    counter = collections.Counter()
-    with codecs.open(raw_data,'r','utf-8') as f:
-        for line in f:
-            for word in line.strip().split():
-                counter[word] += 1
-    ```
+    1. 统计词频
+        1. 文本文件
+        ```
+        counter = collections.Counter()
+        with codecs.open(raw_data,'r','utf-8') as f:
+            for line in f:
+                for word in line.strip().split():
+                    counter[word] += 1
+        ```
+        2. list
+        ```
+        a = [ch for ch in 'apple']
+        a
+        #----------------------------------------------------
+        # ['a', 'p', 'p', 'l', 'e']
+        #----------------------------------------------------
+
+        c = Counter(a)
+        c
+        #----------------------------------------------------
+        # Counter({'a': 1, 'e': 1, 'l': 1, 'p': 2})
+        #----------------------------------------------------
+
+        c = Counter(a).most_common(2)
+        c
+        #----------------------------------------------------
+        # [('p', 2), ('a', 1)]
+        #----------------------------------------------------
+        ```
     2. 简单实践
         1. 手动while循环统计词频
         ```
@@ -3142,7 +3163,8 @@ len(img.getbands())
         c = Counter()
 
         for ch in 'apple':
-            c[ch] = c[ch] + 1 # 默认c[某个字符]为0
+            #c[ch] = c[ch] + 1 # 默认c[某个字符]为0
+            c[ch] += 1
         c
         #----------------------------------------------------
         # Counter({'a': 1, 'e': 1, 'l': 1, 'p': 2})
