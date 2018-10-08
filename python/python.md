@@ -68,3 +68,17 @@ echo 'PATH=/usr/local/python/bin/:$PATH'>>/etc/profile
 source /etc/profile
 
 ```
+3. 配置虚拟环境
+```
+sudo pip install -U virtualenv
+virtualenv --version
+#------------------------------------------------------------
+# 16.0.0
+#------------------------------------------------------------
+
+virtualenv --system-site-packages -p python2.7 ./venv
+source ./venv/bin/activate
+(venv) [root@centos test]# pip list # 这样就是自己的环境了
+
+deactivate # 退出当前环境
+```
