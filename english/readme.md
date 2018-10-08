@@ -1866,6 +1866,72 @@ He is too partisan to be a referee
 ```
 The Senate is expected to pass the bill
 ```
+
+5. (adj)diplomatic(外交上的)
+6. (n)diplomacy(外交)
+7. (n, adj)confederate: 康师傅 + 飞 + 德雷克 => 康师傅突然飞到空中,然后被德雷克击中,德雷克旁边出现很多海盗船(同盟)
+8. (n, v)affiliate: apple + 飞 + 脸 + ate => apple飞到了我的脸上,被我吃掉了,然后消化的内容在我体内转换为我的组织工作了(成员组织)
+```
+have several affiliates in around 120 countries
+```
+9. (adj)dictatorial: 词典 + 太太 + 太累(灰吕) => 打开词典,太太出现,然后太太很热血,看到屁股,我独裁
+```
+claim dictatorial power
+```
+10. (adj)potent(强有力的): 破 + tent => 这个帐篷有结界,要很强有力的力量才能打破帐篷
+```
+potent evils
+```
+11. (n)petition: 破 + station => train进站,结果打破了前面的车厢,发现Ray在车厢前面请愿
+```
+a petition signed by 4,500 people
+```
+12. (n)regimen(养生法,政体): 热 + 锯子 + 门 => 火上烤着锯子,这个锯子之后攻击门,结果门把锯子给冻住了,门"呵呵"地捋胡子
+```
+This regimen will improve your health
+```
+13. (n)sovereignty: solve(批改试卷的圈) + 梯子 => 在圈上架起梯子,安莉大将军就爬到了猪圈里养猪
+```
+protect national sovereignty
+```
+14. (n)committee(委员会)
+15. (n, v)ballot: 博尔特 => 博尔特在投票箱上迅速拉si后就以飞快的速度逃掉了
+```
+the result of the ballot
+```
+16. (v)confer(协商)   
+
+17. (v)maneuver(调遣,策略)
+18. (v, n)reform(改革)
+19. (v)emigrate(移出): ab(压力测试 => 力量) + grade(试卷) => 想要以巨大的力量撕掉试卷,里面的文字都吓得移民到其他纸张上去了
+```
+He emigrated to America
+```
+20. (v)immigrate(移民): 一米 + grade(试卷) => 将试卷扔出去,结果到了一米,然后就跳上去,文字移民了
+21. (v)enslave(使变成奴隶,束缚)
+22. (v)hustle: 蛤蟆 + 头 => 蛤蟆跳到了我的头,猛拉我的头,结果只有我的头很赶紧地往前走
+```
+hustle Harry out of the car
+you'll have to hustle if you want to have breakfast
+```
+23. (v)impel: 老鹰 + pair => 老鹰一起飞,亲嘴后更有驱使力了
+```
+impel me to take risks
+```
+24. (v)oust: 莲藕 + 斯科特 => 斯科特吃莲藕,结果莲藕的小圆点给结冰了,这时候斯科特就用手驱逐了它
+```
+oust leaders from power
+```
+25. (v)banish: 棒子 + fish => 棒子在水里驱逐fish
+```
+banish John from England
+```
+26. (v)reign: Ray => Ray红光的表情,统治着大楼
+27. (v)abdicate: ab(力量) + decade(十年 => 日历) => 打我家里的日历,然后就不行了(退位),交给妹妹解决 
+```
+he abdicated in 1958
+```
+
 ### 1-23. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
@@ -1970,6 +2036,9 @@ The Senate is expected to pass the bill
 15. conservatory
     1. 音乐学校
     2. 温室
+16. commission
+    1. 委员会
+    2. 委任状
 ## 3. expression 
 1. apartment complex
 2. police force
