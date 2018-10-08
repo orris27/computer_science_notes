@@ -126,7 +126,7 @@ public static void main(String[] args)
     
     System.out.print(Math.random());
     ```
-    2. 产生`a, a+1, a+2 ,..., b-1`的整数,即`[a, b)`
+    2. 产生`a, a+1, a+2 ,..., b-1`的整数,即`[a, b)`: 一定要在用小括号包住Math.random!!!!否则就是0了
     ```
     import java.util.Random;
     
