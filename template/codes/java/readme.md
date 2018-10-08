@@ -170,3 +170,10 @@ float min(float arg1, float arg2)
 int min(int arg1, int arg2)
 long min(long arg1, long arg2)
 ```
+2. pow
+```
+System.out.println(Math.pow(2,3));
+#----------------------------------------------
+# 8.0
+#----------------------------------------------
+```
