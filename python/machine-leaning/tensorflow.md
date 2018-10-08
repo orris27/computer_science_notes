@@ -1,4 +1,5 @@
 ## 1. 安装
+1. 普通安装
 ```
 # 如果是python3源码安装好后,直接安装tensorflow的话,是不会有任何报错的
 
@@ -17,7 +18,17 @@ pip -V
 pip install -U tensorflow
 pip install tensorflow==1.8.0
 ```
+2. gpu
+```
+nvcc -V # 检查CUDA版本
 
+nvidia-smi
+
+(orris) user@ubuntu:~/orris/test$ cat /proc/driver/nvidia/version 
+NVRM version: NVIDIA UNIX x86_64 Kernel Module  384.130  Wed Mar 21 03:37:26 PDT 2018
+GCC version:  gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.10) 
+
+```
 
 ## 2. 神经网络
 ```
