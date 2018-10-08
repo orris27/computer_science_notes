@@ -106,6 +106,7 @@ source /etc/profile
 
     #pip install --ignore-installed --upgrade <packageURL> # 必须是pip包的完整路径
     pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.11.0-cp27-none-linux_x86_64.whl
+    conda install -n venv [package]
     
     source deactivate
     ```
