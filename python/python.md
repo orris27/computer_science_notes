@@ -69,16 +69,43 @@ source /etc/profile
 
 ```
 3. 配置虚拟环境
-```
-sudo pip install -U virtualenv
-virtualenv --version
-#------------------------------------------------------------
-# 16.0.0
-#------------------------------------------------------------
+    1. 普通pip
+        1. `python2.7`: 最后我们在虚拟环境里的python
+        2. `./venv`: 虚拟环境的名字
+    ```
+    sudo pip install -U virtualenv
+    virtualenv --version
+    #------------------------------------------------------------
+    # 16.0.0
+    #------------------------------------------------------------
 
-virtualenv --system-site-packages -p python2.7 ./venv
-source ./venv/bin/activate
-(venv) [root@centos test]# pip list # 这样就是自己的环境了
+    ###########################################################################
+    # 创建虚拟环境的三种方式
+    ###########################################################################
+    #virtualenv --system-site-packages -p python2.7 ./venv # 原来pip的内容会复制过去
+    #conda create -n venv pip python=2.7 # conda版本
+    python -m venv venv/ # 完全从零开始
 
-deactivate # 退出当前环境
-```
+
+    source ./venv/bin/activate
+
+    (venv) [root@centos test]# pip list # 这样就是自己的环境了
+
+    deactivate # 退出当前环境
+    ```
+    2. conda
+    ```
+    conda create -n venv pip python=2.7 # conda版本
+    
+    source activate venv
+    
+    (venv) user@ubuntu:~/orris$ which python
+    #---------------------------------------------------------------------------------
+    # /home/user/anaconda2/envs/venv/bin/python
+    #---------------------------------------------------------------------------------
+
+    #pip install --ignore-installed --upgrade <packageURL> # 必须是pip包的完整路径
+    pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.11.0-cp27-none-linux_x86_64.whl
+    
+    source deactivate
+    ```
