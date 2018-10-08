@@ -2338,7 +2338,33 @@ ipcrm -Q 0x4d2 #删除key是0x4D2的消息队列
 
 6. 跟踪子进程
     1. `set follow-fork-mode child或者parent`
-    
+
+
+
+### 59-3. jdb
+1. clear: 打印断点
+2. stop: 设置断点
+    1. `stop in Match.main`
+    2. `stop at Match：12`
+3. use: 指定当前jdb环境.只有指定`use .`才能找到当前目录下对应的Match.java
+4. next: 执行不进去下一条语句
+5. step: 执行且进去下一条语句
+6. cont: 运行到断点
+7. list: 列出代码
+
+```
+javac -g javac -g  Match.java
+jdb Match
+
+stop in Match.main
+run
+use .
+list
+
+
+```
+
+
 ## 60. pstree
 查看线程情况
 ```
