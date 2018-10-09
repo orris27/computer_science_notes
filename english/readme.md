@@ -2023,6 +2023,7 @@ luxuiant foliage
     ```
     A karate expert battered a man to death
     ```
+    3. annotate: 河 + nose + taste => 河上有鼻子,然后舌头要舔它,结果出现了猪(注释)(注意和synopsis区分)
 2. noun
     1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
     2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
