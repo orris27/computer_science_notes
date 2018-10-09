@@ -3038,6 +3038,10 @@ lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-testlogs -> /home/orris/.cache
                [ 0.37601032,  0.25528411],  #random
                [ 0.49313049,  0.94909878]]) #random
         ```
+    2. randint
+    ```
+    np.random.randint(1,4) # generate {1, 2, 3}
+    ```
 2. 转为python的slice切割出来的数组的每个元素为单个数组
 ```
 a = np.array([1,2,3,4])
@@ -3111,6 +3115,18 @@ l.tostring()
     #        [0.25819889, 0.34426519, 0.43033148, 0.51639778, 0.60246408]])
     #--------------------------------------------------------------------------------
     ```
+6. np.ndarray
+    1. construct
+        1. np.arrary: `array(object, dtype=None, copy=True, order='K', subok=False, ndmin=0)`
+        ```
+        a = np.array(3.4)
+        ```
+        2. np.ndarray: `ndarray(shape, dtype=float, buffer=None, offset=0, strides=None, order=None)`
+
+        ```
+        a = np.ndarray(shape=(3,3), dtype=np.int32)
+        ```
+        
 ## 4. plt
 `import matplotlib.pyplot as plt`
 1. 画画
@@ -3639,7 +3655,14 @@ int(time.time())
 11. 生成`[0,10)`的整数的列表
 ```
 x = np.arange(9.0)
+#---------------------------------------------------------------
 # array([0., 1., 2., 3., 4., 5., 6., 7., 8.])
+#---------------------------------------------------------------
+
+np.arange(0, 5, dtype=np.int32)
+#---------------------------------------------------------------
+# array([0, 1, 2, 3, 4], dtype=int32)
+#---------------------------------------------------------------
 ```
 
 12. 分割列表:
@@ -3783,4 +3806,52 @@ print(statinfo.st_size)
     1. reverse dictionary: {word, index} => {index, word}
     ```
     reverse_dictionary = dict(zip(dictionary.values(), dictionary.keys()))
+    ```
+    2. check if a value is in the keys
+    ```
+    dictionary = {"apple":350, "banana":500}
+
+    "apple" in dictionary
+    #--------------------------------------
+    # True
+    #--------------------------------------
+
+    "apple1" in dictionary
+    #--------------------------------------
+    # False
+    #--------------------------------------
+
+    ```
+23. list
+    1. extend: Cannot use `a = a.extend(...)` which will assign NoneType to a
+    ```
+    a = [[1,2]]
+    a.extend([[2,3],[3,4]])
+
+    a
+    #-----------------------------------------------------
+    # [[1, 2], [2, 3], [3, 4]]
+    #-----------------------------------------------------
+
+    ```
+    2. remove && pop: remove => value; pop => index
+    ```
+    k = [10,20,30,40]
+
+    k.remove(10)
+    k
+    #--------------------
+    # [20, 30, 40]
+    #--------------------
+
+    k.pop(1)
+    #--------------------
+    # 30
+    #--------------------
+
+    k
+    #--------------------
+    # [20, 40]
+    #--------------------
+
     ```
