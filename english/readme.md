@@ -1931,6 +1931,31 @@ banish John from England
 ```
 he abdicated in 1958
 ```
+28. (n)institute(学会)
+29. (n)amendment: 阿门(法海) + 门 => 三藏对门使用了紧箍咒,门吐出了修正案
+```
+an amendment to the defence bill
+```
+30. (n)monarchy: money + 弯曲 => 一个硬币突然弯曲了,然后就被路易十六君主拿走了,在嘴里将硬币弄弯曲了
+```
+a debate about the future of the monarchy
+```
+31. (n)republican: re + public + an(天安门广场) => 群众被热情锁围绕,然后在天安门广场上期待建立共和政体. 
+```
+the republican form of government
+```
+32. (n)anarchism: 安娜日记 + archer + c => archer突然看到日记,结果被吸进去变成q版archer,在大海上开心地玩耍,射穿了五角大厦
+```
+He advocated anarchism as the answer to social problems
+```
+33. (n)doctrine: doctor + train => danny医生在列车上学习如何说话(学说)
+```
+the Marxist doctrine
+```
+34. (adj)municipal: 美女 + c + pool => 美女在大海上赶过来,然后跳进了泳池里,最后搬起了巨大的石头,用针给刺破了它(市政的)
+```
+municipal elections
+```
 
 ### 1-23. extra
 1. verb
