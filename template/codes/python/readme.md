@@ -1780,7 +1780,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
 
 
 56. [训练学习一元线性函数的代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/linear/linear.py)
-    1. `step 99:loss=nan	k=[nan]	b=[nan]`
+    1. `step 99:loss=nan    k=[nan] b=[nan]`
         1. 不能使用tf自带的`tf.nn.sigmoid_cross_entropy_with_logits`
         2. 使用`tf.square`.因为直接对`y_predicted-labels`求平均值的话,得到的结果可能是负数
         3. k和b接近真实的k和b.因为如果远离太多的话,得到的loss就会很大,有可能就溢出
@@ -3432,7 +3432,21 @@ for X, y in batches:
 ```
 reverse_dictionary = dict(zip(dictionary.values(), dictionary.keys()))
 ```
-## 9. Python
+## 9. sklearn
+1. TSEN 降维: 这里的参数是根据word2vec来设计的,所以可能不太正确
+``` 
+from sklearn.manifold import TSNE
+tsne = TSNE(perplexity=30, n_components=2, init='pca', n_iter=5000)
+
+matrix = np.array([[1,2,3,4,5], [6,7,8,9,10]])
+
+low_dim_embs = tsne.fit_transform(matrix)
+#-------------------------------------------------------------
+# array([[ 5949.602,     0.   ],
+#        [-5949.602,     0.   ]], dtype=float32)
+#-------------------------------------------------------------
+```
+## 10. Python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
