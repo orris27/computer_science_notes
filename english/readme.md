@@ -1957,7 +1957,66 @@ the Marxist doctrine
 municipal elections
 ```
 
-### 1-23. extra
+### 1-23. botany
+1. (n)shrub(灌木丛)
+2. (n)laurel: 老了 => 老了就去月球上砍月桂树
+3. (n)sequoia: sea + quora => 大海上漂着quora的文字,然后这些文字被吹到岛上攻击到了美洲杉,结果这个美洲杉就像雨伞一样逃走了
+4. (n)herb(药草)
+5. (n)fern: 风 => 风将这些蕨类植物吹到了空中,然后发出很多针
+6. (n)orchid: 莲藕 + 吃 => 吃下莲藕,结果整个人就变成蓝人了
+7. (n)rosette: rose + 梯子 => 玫瑰用自己的花瓣组成了梯子,沿着梯子向上,我们可以看到玫瑰型饰物
+8. (v)germinate: 脚 + 大米 + ate => 脚踩在大米上要滑倒的时候,突然被塞了一大堆种子,这些种子在嘴里发芽了
+```
+some seed varities germinate fast
+```
+9. (v)sprout: spoon + 奥特曼 => 一个勺子扔了出去,被奥特曼接住了,勺子上发芽了
+```
+the plants sprout
+```
+10. (n)bough: 包 => 包挂在大树枝上,然后做弹弓,这样就能飞到学校了
+```
+a pine bough
+```
+11. (n)stalk: 蛇 + talk => 蛇做出茎的样子,然后要和我们talk
+12. (n)leafstalk: leaf + stalk => 叶的茎 => 叶柄
+13. (n)leaflet: 叶子 + 雷 => 叶子突然遭到雷劈,结果就只剩骨架,放这个骨架在小传单上,推销给别人
+```
+hand out leaflet
+```
+14. (n)foliage: fall(秋天 => 树叶落地的场景) + age(老人) => 在银杏落地的场景,一个老人(阿笠博士)走过,看着地上的银杏,不禁感伤起来了
+```
+shrubs with silver foliage
+```
+15. (n)husk: 蛤蟆 + 桥 => 蛤蟆跳到了桥上,然后在桥上拉了谷壳
+```
+remove the husk of the grains
+```
+16. (n)pollen(花粉)
+17. (n)flora: floor + apple => 地板上有苹果,拿起来去洗,结果上面开花了
+```
+the flora change
+```
+18. (n)crossbreed(杂交)
+19. (n)necrosis: neco(猫) + 石头 => 猫咬着石头,然后牙齿给咬坏了
+```
+liver necrosis
+```
+20. (v)peel: 皮卡丘 + train => 皮卡丘在列车上剥列车的皮
+```
+peel potato
+```
+21. (n)photosynthesis(光合作用): photo + 合成 => 植物对着太阳拍照,然后照片合成能量进入到植物体内
+22. (v)pollinate: poll + 奶 => 在投票箱上放入奶,记过就授粉了
+```
+pollinate the local plants
+```
+23. (n)starch: star + 曲 => 星星突然开始弯曲地发射光芒,这个时候电了一下就恢复原型了
+24. (adj)luxuriant: 两个 + ant => 两个蚂蚁,突然要pk,疯狂用各种技能,放出大量能量,让周围的树木都茂盛了起来
+```
+luxuiant foliage
+```
+
+### 1-24. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
@@ -2064,6 +2123,9 @@ municipal elections
 16. commission
     1. 委员会
     2. 委任状
+17. shoot
+    1. 发芽
+    2. 射击
 ## 3. expression 
 1. apartment complex
 2. police force
