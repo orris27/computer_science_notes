@@ -1992,7 +1992,7 @@ shrubs with silver foliage
 remove the husk of the grains
 ```
 16. (n)pollen(花粉)
-17. (n)flora: floor + apple => 地板上有苹果,拿起来去洗,结果上面开花了
+17. (n)flora: floor + apple => 地板上有苹果,拿起来去洗,结果上面开花了,并且宿舍旁边的植物都开花了
 ```
 the flora change
 ```
