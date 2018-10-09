@@ -3098,7 +3098,10 @@ l.tostring()
     2. 曲线图
     ```
     plt.figure()
-    plt.plot(y_predicted,label='predictions') # y_predicted是一维数组
+    #plt.plot(y_predicted,label='predictions') # y_predicted是一维数组
+    x = np.linspace(-1.0, 1.0, 50)
+    y = 2 * x ** 2+ 1
+    plt.plot(x, y)
     plt.show()
     ```
     3. 散点图:plt.scatter
@@ -3109,7 +3112,32 @@ l.tostring()
     plt.show()
     
     ```
-    
+2. 显示
+    1. 显示在外部
+    ```
+    plt.show()
+    ```
+    2. 保存在图像文件中: 注意: show和savefig都会导致图像清空,所以不能同时调用,否则只有第一个才能成功
+    ```
+    plt.savefig("pic.png")
+    ```
+3. 画面大小
+```
+plt.figure(figsize=(18,18)) # set the size of the figure
+plt.text(0.3,0.4,"hello")
+plt.show()
+
+```
+4. annotation
+    1. `s`: annotation
+    2. `xytext`: the position of the annotation
+    3. `xy`: the position which the annotation points to
+    4. `arrowprops`: the style of the arrow. refer to [annotate-documentation](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.annotate.html)
+```
+plt.figure()
+plt.annotate(s="annotation",  xytext=(0.8, 0.8), xy=(0.2, 0.2), arrowprops=dict(arrowstyle="->"))
+plt.show()
+```
 ## 5. PIL
 1. 基本操作
 ```
