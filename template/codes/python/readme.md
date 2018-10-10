@@ -1976,11 +1976,17 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     ```
 
 60. Graph
-    1. 获得某个变量所在的Graph,并且判断是不是当前默认的Graph
+    1. 使用建议: 构建图的时候,使用下面的代码,这样看起来会更清晰吧
+    ```
+    graph = tf.Graph()
+    with graph.as_default():
+        pass
+    ```
+    2. 获得某个变量所在的Graph,并且判断是不是当前默认的Graph
     ```
     print(v1.graph is tf.get_default_graph())
     ```
-    2. 创建新的视图,并在该视图下计算.(不同Graph的张量和运算都不共享)
+    3. 创建新的视图,并在该视图下计算.(不同Graph的张量和运算都不共享)
         + 在指定的graph对象的as_default下做的定义,都写在这个graph对象里面.
         + tf.Session可以指定使用的计算图
         + `with tf.variable_scope('',reuse=True):`可以在默认的variable_scope里启动reuse
@@ -2007,7 +2013,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
         with tf.variable_scope('',reuse=True):
             print(sess.run(tf.get_variable("v")))
     ```
-    3. 导出元图为json格式
+    4. 导出元图为json格式
     ```
     import tensorflow as tf
     import numpy as np
@@ -2969,6 +2975,9 @@ tf.matmul(a,b).eval()
 #--------------------------------------------------------------------------
 
 ```
+
+
+
 ## 2. Bazel
 ```
 cat BUILD 
