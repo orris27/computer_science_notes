@@ -3596,7 +3596,22 @@ low_dim_embs = tsne.fit_transform(matrix)
 #        [-5949.602,     0.   ]], dtype=float32)
 #-------------------------------------------------------------
 ```
-## 10. Python
+## 10. gym
+1. usage
+```
+import gym
+
+env = gym.make("CartPole-v0")
+
+env.reset()
+#env.render() # paint the picture
+env.close()
+```
+
+
+
+
+## 11. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
