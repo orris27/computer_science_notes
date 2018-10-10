@@ -2016,7 +2016,91 @@ pollinate the local plants
 luxuiant foliage
 ```
 
-### 1-24. extra
+### 1-24. nature
+1. (adj)scenic(景色优美的): scene + ic(形容词后缀) => 关于scene的褒义词的话,当然是景色优美的啦
+2. (n)spectacle(看头,奇观): spy(土御门) + 头 => 土御门突然用头咂了美少女的xio,然后一个人眼里的奇观自然就没了
+```
+it was a spectacle not to be missed
+```
+3. (n)meadow: 大米 + 漏斗 => 大米从漏斗滑下,然后在草地上滚来滚去
+```
+the colt bounded through the meadow
+```
+4. (n)lawn(草地): 拉链 + n(门) => 将xio上的拉链解开撞门,然后摔到了草地上,在草地上打滚
+```
+sit on the lawn
+```
+5. (n)summit: 沙子 + 大米 => 在大米上撒沙子,然后沙子堆成金字塔象征顶端(峰会)
+```
+Washington summit
+```
+6. (n)gorge: 搞基 => 比利王被峡谷困住,左右为难
+
+7. (n)puddle: 爬 + 漏斗 => 婴儿在爬漏斗,然后摔下来,掉到了水坑里
+
+8. (n)creek: create + k(大桥) => 我想去对面,直接create了一个大桥,然后走过大桥...大桥下的小溪会和我问好
+
+9. (v)trickle: tree + 口 => 茵蒂克丝用嘴咬下了大树,然后流口水了
+```
+a tear trickled down the old man's cheek
+```
+
+10. (adj)limpid: 里面 + 皮卡丘 => 进到房间里面,皮卡丘的眼睛无比清澈
+```
+limpid blue eyes
+```
+
+
+
+### 1-25. religion
+1. (n)invocation: 老鹰 + 文字 + 绳子 => 老鹰经过一个燃烧的大文字,然后身体被捕获了,变成绳子,转换成大十字架(祈求),然后倒在了主教身上
+```
+an invocation for divine guidance
+```
+
+2. (adj)pious: 皮卡丘 + 偶数 => 两个皮卡丘互相对我朝拜,十分虔诚
+```
+pious female relatives
+```
+
+3. (adj)devout: 大地 + 文字 => 大地上突然燃烧的"大"字,然后向我鞠躬献上诚意(虔诚)
+```
+devout Christian
+```
+
+4. (v)consecrate(被宣告是神圣的): 砍手 + create => 当麻说砍手,然后create了大翅膀,那是天使(神圣的)
+```
+The church was consecrated in 1958
+```
+
+5. (n)creed: create + d(勺子) => 创建了一个勺子文件夹,然后在里面放上齐神的刺客信条的照片,然后用勺子帮他逃脱
+
+6. (adj,v)doom: 独角兽 + 汉堡 => 独角兽吃起了汉堡,然后汉堡的脂肪跑到了独角上,和角一起蒸发了,角变成钉子了(注定)
+```
+The plan was doomed to failure
+```
+
+7. (n)fatalism(宿命论): fate + ism(主义) => 听从命运的主义 => 宿命论
+
+8. (adj)sacred: 色子 + 红色 => 这个色子滚啊滚啊,变得红的发光,然后映照出了齐神的模样(神圣的)
+```
+The owl was sacred from them
+```
+
+
+9. (n)rite(仪式)
+
+10. (n)dogma: 狗 + 妈妈 => 一条狗出现了,这条狗长的和dio一样,然后妈妈叫它跳下去(教条)
+```
+political dogma
+```
+
+11. (n)deity: 等(公交车牌) + 踢 => 佐藤广在公交车站牌等,然后被踢进了公交车,头上有光环出现,变成了神
+
+
+
+
+### 1-26. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
@@ -2068,7 +2152,7 @@ luxuiant foliage
     1. rashly: red + 嘘嘘 + 篱笆 => 红人在那里嘘嘘,结果掉到篱笆外面,然后高桥很鲁莽地生气了
 
 
-## 1. multiple meanings
+## 2. multiple meanings
 1. ascend
     1. 上溯
     2. 向上
