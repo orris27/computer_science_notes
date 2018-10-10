@@ -3242,7 +3242,19 @@ l.tostring()
         ```
         a = np.ndarray(shape=(3,3), dtype=np.int32)
         ```
-        
+        3. np.zeros_like: return an array of zeros with the same shape and type as a given array
+        ```
+        a = [[1,2,3], [4,5,6]]
+
+        np.zeros_like(a)
+        #--------------------------------------------
+        # array([[0, 0, 0],
+        #        [0, 0, 0]])
+        #--------------------------------------------
+        ```
+
+
+
 ## 4. plt
 `import matplotlib.pyplot as plt`
 1. 画画
@@ -4003,4 +4015,11 @@ print(statinfo.st_size)
     # [20, 40]
     #--------------------
 
+    ```
+    3. reversed
+    ```
+    [j for j in reversed([i for i in range(10)])]
+    #------------------------------------------------
+    # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+    #------------------------------------------------
     ```
