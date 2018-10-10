@@ -1977,7 +1977,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     indices, dictionary, reverse_dictionary = words_to_indices(words)
     del words
     ```
-    3. Skip-Gram: indices => X, y
+    3. Skip-Gram: indices => X, y. 完整代码参考[skip-gram代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/word2vec.py/skip-gram.py)
         + `[23, 10, 2, 33]` => `[10, 10, 2, 2 ,...]`, `[[23], [2], [10], [33], ...]`
     ```
     data_index = 0
@@ -3218,6 +3218,10 @@ l.tostring()
     ```
     def unitize_2d(vectors):
         return vectors / np.sqrt(np.sum(np.square(vectors), axis=1, keepdims=True))
+    # TensorFlow version
+    #def unitize_2d(vectors): 
+    #   return vectors / tf.sqrt(tf.reduce_sum(tf.square(vectors), axis=1, keepdims=True))
+
 
     l = np.array([[1,2,3,4,5],[5,4,3,2,1],[3,4,5,6,7]]) 
     unitize_2d(l)
@@ -3439,6 +3443,12 @@ with codecs.open(raw_data,'r','utf-8') as f:
     sed 's/ //g; s/\B/ /g' ./train.tags.zh-en.zh > train.txt.zh
     ```
 2. 一行一句话的文本文件 => 一行一个高频词的文本文件(后续将行号作为该单词的编号)
+    + 表示如下
+    ```
+    I am a boy.               a
+    You are a girl.    =>     boy
+    study                     girl
+    ```
     + `<unk>`:稀有词; `<eos>`:语句结束标记符
 ```
 import codecs
@@ -3485,6 +3495,12 @@ with codecs.open(vocab_output,'w','utf-8') as file_output:
         file_output.write(word + '\n')
 ```
 2. 一行一个高频词的文本文件 => 一行一句int话的文本文件
+    + 表示如下
+    ```
+    a             23  40 55  123 0
+    boy    =>     30  59 20  394 58 0
+    girl          129 38 492 0
+    ```
 ```
 import codecs
 import sys
@@ -3507,6 +3523,12 @@ with codecs.open(raw_data,'r','utf-8') as f_input, codecs.open(output_data,'w','
         f_output.write(new_line)
 ```
 3. 一行一句int话的文本文件 => `[num_batches, batch_size, num_steps]`的int列表
+    + 表示如下
+    ```
+    23  40 55  123 0
+    30  59 20  394 58 0   =>    [num_batches, batch_size, num_steps]
+    129 38 492 0
+    ```
     + 支持PTB等可以全部载入内存的小数据集
 ```
 '''
