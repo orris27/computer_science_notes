@@ -1850,7 +1850,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
                 f.write(encoded_image.eval())
         ```
 58. 数据预处理
-    1. 创建batch,将一个列表按batch_size不断输出
+    1. 给定一个一维列表,按`[batch_size]`的大小输出
         1. <方法1> tf.train.batch
             1. tf.train.slice_input_producer:
                 1. 参数
@@ -1893,8 +1893,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
             # 获取batch对象.l_batch={shape:(batch_size,xxx)}
             l_batch = tf.train.batch([l],batch_size=batch_size,num_threads=num_threads,capacity=capacity)
 
-
-
             sess.run(tf.local_variables_initializer()) # initialize num_epochs
 
             # 启动线程
@@ -1913,16 +1911,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
             coord.join(threads)
 
         # input
-        l = []
-        for i in range(5):
-            l.append(i)
-        # [0,
-        #  1,
-        #  2,
-        #  .,
-        # 63,]
-
-        # cast list to tf type
+        l = [i for i in range(64)]
 
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
         config = tf.ConfigProto(gpu_options=gpu_options)
@@ -1930,8 +1919,14 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
         with tf.Session(config=config) as sess:
             for l_batch in next_batch(sess, l, elm_type=tf.int32, shuffle=True, num_epochs=2, batch_size=2, num_threads=64, capacity=256):
                 print(l_batch)
-                # [array([23, 42, 16, 63,  3, 27, 39, 55, 20, 50,  9, 29, 38, 44, 26, 52],
-                #       dtype=int32)]
+                #--------------------------------------------------------
+                # [array([11,  6], dtype=int32)]
+                # [array([27, 39], dtype=int32)]
+                # [array([55, 61], dtype=int32)]
+                # [array([47, 57], dtype=int32)]
+                # [array([31,  3], dtype=int32)]
+                # ...
+                #--------------------------------------------------------
         ```
         2. <方法2> Dataset的API
             1. 循环输出.
@@ -1949,6 +1944,96 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
             ds = ds.batch(1)
             X, y = ds.make_one_shot_iterator().get_next()
             ```
+
+    2. words => indices, dictionary, reverse_dictionary. 完整代码参考[skip-gram代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/word2vec.py/skip-gram.py)
+        + `['I', 'am', 'a', 'boy']` => [23, 10, 2, 33], {'I': 23, 'am': 10,..}, {23: 'I', 10:'am', ...}
+    ```
+    def words_to_indices(words):
+        # count words and filter the most common words
+        count = collections.Counter(words).most_common(vocab_size - 1)
+        # add <unk>
+        freq = [['<unk>', -1]]
+        freq.extend(count)
+
+        dictionary = dict()
+        # calc the dictionary
+        for i in range(vocab_size):
+            dictionary[freq[i][0]] = i
+
+        # calc the reverse_dictionary
+        reverse_dictionary = dict(zip(dictionary.values(), dictionary.keys()))
+
+        # define a indices
+        indices = []
+        # create indices
+        for word in words:
+            if word in dictionary:
+                indices.append(dictionary[word])
+            else:
+                indices.append(0)
+
+        return indices, dictionary, reverse_dictionary
+
+    indices, dictionary, reverse_dictionary = words_to_indices(words)
+    del words
+    ```
+    3. Skip-Gram: indices => X, y
+        + `[23, 10, 2, 33]` => `[10, 10, 2, 2 ,...]`, `[[23], [2], [10], [33], ...]`
+    ```
+    data_index = 0
+
+    # define generate_batch function
+    def generate_batch(indices, batch_size):
+
+        global data_index
+        len_indices = len(indices)
+
+        X = np.ndarray(shape=(batch_size,), dtype=np.int32)
+        y = np.ndarray(shape=(batch_size, 1), dtype=np.int32)
+
+        dq_len = skip_window * 2 + 1
+        # create a deque with length of "skip_window * 2 + 1"
+        dq = collections.deque(maxlen=dq_len)
+        # init dq
+        for _ in range(dq_len):
+            dq.append(indices[data_index])
+            data_index = (data_index + 1) % len_indices
+
+        sub = 0
+        for _ in range(batch_size // num_skips):
+
+            # obtain the feature: dq[skip_window]
+            # randomly choose num_skips elms from 0 to skip_window*2+1(not included) except skip_window
+            # 1. create a list <choices>:[0, skip_window*2+1)
+            choices = [i for i in range(skip_window * 2 + 1)]
+            # 2. remove skip_window
+            choices.pop(skip_window)
+            # 3. while len(choices) != num_skips:
+            while len(choices) != num_skips:
+                # 1. randomly determine a elm: [0, len(choices))
+                choice = np.random.randint(0, len(choices))
+                # 2. remove it
+                choices.pop(choice)
+
+            # obtain the label
+            for choice in choices:
+                X[sub] = dq[skip_window]
+                y[sub][0] = dq[choice]
+                sub += 1
+
+            # move the dq
+            dq.append(indices[data_index])
+            data_index = (data_index + 1) % len_indices
+
+        return X, y
+        
+    # ...   
+    for step in range(num_epochs):
+        # get X,y from generate_batch
+        X, y = generate_batch(indices, batch_size)
+        _, loss1 = sess.run([train, loss], feed_dict = {features:X, labels:y})
+        # ...
+    ```
 59. 验证
     1. 使用tf.nn.in_top_k
         1. 参数
@@ -2976,6 +3061,24 @@ tf.matmul(a,b).eval()
 
 ```
 
+90. NCE loss
+```
+# ...
+
+num_sampled = 64
+with tf.name_scope("nce"):
+    # define NCE loss
+    nce_weights = tf.Variable(tf.truncated_normal([vocab_size, embedding_size], stddev=1.0 / math.sqrt(embedding_size)))
+    nce_biases = tf.Variable(tf.zeros([vocab_size]))
+
+    loss = tf.reduce_mean(tf.nn.nce_loss(weights = nce_weights, # [num_classes, embedding_size]
+                                         biases = nce_biases, # [num_classes] 
+                                         inputs = embedded_chars, # [batch_size, embedding_size]
+                                         labels = labels, # [batch_size, num_true]; 
+                                         num_sampled = num_sampled, # the number of negative samples
+                                         num_classes = vocab_size)) # num_classes
+#train = tf.train.GradientDescentOptimizer(1.0).minimize(loss)
+```
 
 
 ## 2. Bazel
