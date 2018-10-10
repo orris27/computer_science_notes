@@ -613,6 +613,18 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
 
 
 
+7. `TypeError: Cannot interpret feed_dict key as Tensor: Tensor Tensor("placeholder/features:0", shape=(8,), dtype=int32) is not an element of this graph.`
+    1. 原因: 定义的tensor不在默认的graph里面
+    2. 解决
+    ```
+    graph = tf.Graph()
+    with graph.as_default():
+        pass
+    # ...
+    with tf.Session(graph=graph) as sess:
+        pass
+    ```
+
 
 
 
