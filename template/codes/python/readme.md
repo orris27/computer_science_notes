@@ -3693,7 +3693,7 @@ import gym
 
 env = gym.make("CartPole-v0")
 
-env.reset()
+observation = env.reset()
 #env.render() # paint the picture
 
 observation, reward, done, info  = env.step(action)
