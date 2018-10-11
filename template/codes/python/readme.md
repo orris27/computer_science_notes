@@ -252,6 +252,12 @@ learning_rate = tf.Variable(1e-3)
             step += 1
             perplexity = np.exp(total_loss / step) # => correct perplexity
         ```
+    6. Policy Gradients下取值只有{0, 1}的Action. (具体看30-4的CartPole问题解决的代码)
+    ```
+    with tf.name_scope("loss"):
+        loglik = tf.log((false_labels - probability) ** 2)
+        loss = -tf.reduce_mean(loglik * advantages) # 这里的advantages是经过标准化的Discounted Future Rewards
+    ```
 4. 训练
     + 整个训练集训练多少次:1000
     + 单次训练的实例个数:100
@@ -1190,6 +1196,8 @@ with sv.managed_session(config=config) as sess:
     1. [构建TF代码](https://blog.csdn.net/u012436149/article/details/53843158)
     2. [自定义loss函数.表示商品生产数量的预测值和实际值导致的利润](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/my-loss/my-loss.py)
     3. [利用RNN实现基于前n个sinx的值判断下一个sinx的值](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/sin/sin.py)
+    4. [Policy Gradients解决CartPole问题](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/reinforcement/cartpole.py)
+    
 31. 空
 
 32. 设置随机数的种子
@@ -3083,6 +3091,36 @@ with tf.name_scope("nce"):
 #train = tf.train.GradientDescentOptimizer(1.0).minimize(loss)
 ```
 
+91. 计算Discounted Future Rewards: `r = r0 + r1 * γ ** 1 + r2 * γ ** 2 + ... + rn * γ ** n`
+```
+def discount(rewards, gamma):
+    '''
+        [1, 2, 3] => [1 + 2 * gamma + 3 * gamma ** 2, 2 + 3 * gamma, 3]
+    '''
+    discounted_rewards = np.zeros_like(rewards)
+    discounted_value = 0
+
+    for ri in reversed(range(len(rewards))):
+        discounted_value = discounted_value * gamma + rewards[ri]
+        discounted_rewards[ri] = discounted_value
+    return discounted_rewards
+
+
+drs = []
+
+# 对于单个实例,保存每个时间点的reward到一个数组中
+drs.append(reward)
+
+if done:
+    vdrs = np.vstack(drs)
+    vdiscounted_rewards = discount(vdrs, gamma)
+    drs = [] # reset
+    def standardize(l):
+        l -= np.mean(l)
+        l /= np.std(l)
+        return l
+    vdiscounted_rewards = standardize(vdiscounted_rewards)
+```
 
 ## 2. Bazel
 ```
