@@ -20,7 +20,9 @@ set pastetoggle=<F9>
 set fo=r
 ````
 ## vim.rc
-将已经保存的文件的tab转化为4个空格的话:
+1. 使用指定的vimrc文件： 使用`-u`参数, 如`vim -u /home/user/orris/vimrc my-cartpole.py`
+
+2. 将已经保存的文件的tab转化为4个空格的话:
 ```
 :set ts=4
 :set expandtab
