@@ -951,20 +951,48 @@ a1_pool = tf.nn.local_response_normalization(a1_pool, depth_radius=None, bias=No
     ```
 
 
-24. 训练,自己处理梯度:[第三方文档](https://blog.csdn.net/u012436149/article/details/53006953)
-    1. 计算梯度
+24. 梯度: [第三方文档](https://blog.csdn.net/u012436149/article/details/53006953)
+    1. 计算梯度: 本质上, 因为我们最后的作用对象就是第二个参数,所以形状就是第二个参数形状,并且类型是float
+        1. 如果xs是列表:计算ys对每个xs里的x的偏导并返回.结果的shape等于第二个参数的shape
+        ```
+        a = tf.constant(2.)
+        b = 2 * (a**3) + 3 * a + 3
+        grad = tf.gradients(b, [a, b])
+        #------------------------------------------------
+        # [27.0, 1.0]
+        #------------------------------------------------
+        ```
+        2. 如果ys是列表,则计算y对x的梯度,并且对于每个x,将y的梯度简单相加作为这个x的值
+        ```
+        a = tf.constant(2.)
+        b = 2 * (a**3) + 3 * a + 3
+        grad = tf.gradients([2*a, a, b, b], a)
+        #-------------------------------------------------------------
+        # [57.0]
+        #-------------------------------------------------------------
+        ```
+        4. [PTB数据集语言模型训练](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/ptb)
+        5. [Seq2Seq中英翻译简单模型训练]
+            1. 2个不同lstm_cell的dynamic_rnn需要用不同的scope分开
+            2. forward函数定义了新的op,所以要在session前调用forward,而不是在global_variables_initializer之后甚至在epoch循环里
+            3. 基本变量定义在init中,train和loss定义在forward里,并作为函数返回获得
+            4. NLP中使用tf.reduce_sum(tf.nn.sparse_softmax_cross_entropy_with_logtis())获得cost,然后实际打印的损失值是`cost / 单词个数`(PTB中直接是reduce_mean,但Seq2Seq则是根据reduce_sum(mask)来获得);而训练用的loss是`cost / tf.to_float(batch_size)`
+
+
     2. 处理梯度
+        + 如果函数是`y = tf.clip_by_value(x, 0, 5)`,那么`[0,5]`内返回1,而其他范围内返回0
     3. 应用梯度
-```
-params = tf.trainable_variables()
-opt = tf.train.AdamOptimizer(learning_rate)
-gradients = tf.gradients(loss, params)
+    4. 总结
+    ```
+    params = tf.trainable_variables()
+    opt = tf.train.AdamOptimizer(learning_rate)
+    gradients = tf.gradients(loss, params)
 
-max_gradient_norm = 5 # 这里的5是我随便填的
-clipped_gradients, norm = tf.clip_by_global_norm(gradients,max_gradient_norm)
+    max_gradient_norm = 5 # 这里的5是我随便填的
+    clipped_gradients, norm = tf.clip_by_global_norm(gradients,max_gradient_norm)
 
-train = opt.apply_gradients(zip(clipped_gradients, params))
-```
+    train = opt.apply_gradients(zip(clipped_gradients, params))
+    ```
 
 
 25. clip
@@ -1162,32 +1190,7 @@ with sv.managed_session(config=config) as sess:
     1. [构建TF代码](https://blog.csdn.net/u012436149/article/details/53843158)
     2. [自定义loss函数.表示商品生产数量的预测值和实际值导致的利润](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/my-loss/my-loss.py)
     3. [利用RNN实现基于前n个sinx的值判断下一个sinx的值](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/sin/sin.py)
-31. 计算梯度
-    + 如果函数是`y = tf.clip_by_value(x, 0, 5)`,那么`[0,5]`内返回1,而其他范围内返回0
-    1. 如果xs是列表:计算ys对每个xs里的x的偏导并返回.结果的shape=b的shape
-    ```
-    a = tf.constant(2.)
-    b = 2 * (a**3) + 3 * a + 3
-    grad = tf.gradients(b, [a, b])
-    #------------------------------------------------
-    # [27.0, 1.0]
-    #------------------------------------------------
-    ```
-    2. 如果ys是列表,则计算y对x的梯度,并且对于每个x,将y的梯度简单相加作为这个x的值
-    ```
-    a = tf.constant(2.)
-    b = 2 * (a**3) + 3 * a + 3
-    grad = tf.gradients([2*a, a, b, b], a)
-    #-------------------------------------------------------------
-    # [57.0]
-    #-------------------------------------------------------------
-    ```
-    4. [PTB数据集语言模型训练](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/ptb)
-    5. [Seq2Seq中英翻译简单模型训练]
-        1. 2个不同lstm_cell的dynamic_rnn需要用不同的scope分开
-        2. forward函数定义了新的op,所以要在session前调用forward,而不是在global_variables_initializer之后甚至在epoch循环里
-        3. 基本变量定义在init中,train和loss定义在forward里,并作为函数返回获得
-        4. NLP中使用tf.reduce_sum(tf.nn.sparse_softmax_cross_entropy_with_logtis())获得cost,然后实际打印的损失值是`cost / 单词个数`(PTB中直接是reduce_mean,但Seq2Seq则是根据reduce_sum(mask)来获得);而训练用的loss是`cost / tf.to_float(batch_size)`
+31. 空
 
 32. 设置随机数的种子
 ```
