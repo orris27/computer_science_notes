@@ -252,7 +252,7 @@ learning_rate = tf.Variable(1e-3)
             step += 1
             perplexity = np.exp(total_loss / step) # => correct perplexity
         ```
-    6. Policy Gradients下取值只有{0, 1}的Action. (具体看30-4的CartPole问题解决的代码)
+    6. Policy Gradients下取值只有{0, 1}的Action. (完整代码看30-4的CartPole问题解决的代码)
     ```
     with tf.name_scope("loss"):
         loglik = tf.log((false_labels - probability) ** 2)
@@ -987,6 +987,25 @@ a1_pool = tf.nn.local_response_normalization(a1_pool, depth_radius=None, bias=No
 
     2. 处理梯度
         + 如果函数是`y = tf.clip_by_value(x, 0, 5)`,那么`[0,5]`内返回1,而其他范围内返回0
+        + 汇总一个batch的梯度进行应用. 不需要取平均值. (完整代码看30-4的CartPole问题解决的代码)
+        ```
+        # init grads
+        grads_buf = sess.run(params)
+        for index, grad in enumerate(grads_buf):
+            grads_buf[index] = grad * 0
+
+        #for each instance:
+            curr_gradients = sess.run(gradients, feed_dict = {...})
+            for i, curr_grads in enumerate(curr_gradients):
+                grads_buf[i] += curr_grads
+            
+            #if num_instances % batch_size == 0:
+                sess.run(train, feed_dict = {grad1: grads_buf[0], grad2: grads_buf[1]}) # apply.(In this case, only 2 vars)
+                
+                # reset grads
+                for index, grad in enumerate(grads_buf):
+                    grads_buf[index] = grad * 0
+        ```
     3. 应用梯度
     4. 总结
     ```
