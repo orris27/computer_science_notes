@@ -2097,10 +2097,100 @@ political dogma
 
 11. (n)deity: 等(公交车牌) + 踢 => 佐藤广在公交车站牌等,然后被踢进了公交车,头上有光环出现,变成了神
 
+12. (n)atheism: 爱死人(杀天里的南瓜头) => 南瓜头爱死人,看见了齐神人偶,就将它"杀"了,爱不释手
+
+13. (n)heresy: hear(耳朵) + 石头 => 石头要砸向耳朵,结果突然向另一端飞了(异端)
+```
+it was considered heresy to support such a notion
+```
+
+14. (v)immerse: emend(修订 => 创口贴) + 石头 => 创口贴贴在石头上,然后石头积累的颗粒溶解(沉浸)在创口贴里面了
+```
+immerse myself in learning
+```
+
+15. (v)enchant: 老鹰 + 长 => 老鹰将自己的双臂和身体伸的很长,然后组成爱心的形状
+```
+I am enchant by machine learning
+```
+
+16. (v)preach: ray + 弯曲 => ray的图像弯曲了,ray的嘴巴很大,然后嘴角有口水
+```
+preach peace
+```
+
+17. (n)exodus: eggs + 漏斗 => 大量鸡蛋滚到了漏斗前面,然后孵化出小鸡,小鸡从漏斗离去了
 
 
 
-### 1-26. extra
+### 1-26. character
+1. (adj)despicable: 笛子 + 皮卡丘 + ball => 笛子在皮卡丘那里,皮卡丘使用电击并利用笛子导向了天空,天空顿时漆黑,然后打在了足球上,踢球少年佐藤广碰到球后眼睛失去高光,然后拿起球扔进了对方球网(可鄙的)
+
+2. (n)contempt: 康师傅 + temple => 康师傅给鸟束吃,鸟束在康师傅里看到燃堂的父亲做鬼脸(鄙视)
+```
+havve contempt for them
+```
+
+3. (adj)contemptible: contempt => 鄙视 => 可鄙的
+
+4. (adj)ignominious: 一个糯米饭 + 牛 => 糯米饭上吃的时候突然看到一头牛在空中劈叉,然后下流地拉尿了...
+```
+the ignominious defeat
+```
+
+5. (adj)menial: 美女 => 女仆 => 仆人
+```
+low-paid menial jobs
+```
+
+6. (adj)scornful: score + 焚烧 => 史提尔看到自己考了0分,就蔑视地扔到了地上烧了
+```
+He is deeply scornful of politicians
+```
+
+7. (adj)filthy: 飞机 + 石头 => 飞机在石头上着陆,结果在石头上留下了肮脏的黑色污渍
+```
+a filthy old jacket
+```
+
+8. (v)contemn: contempt => 蔑视 => 蔑视 
+```
+contemn God
+```
+
+9. (v)belittle: 笔 + little => 笔逐渐变小,看的我的眼珠子也逐渐变小
+```
+belittle her achievement
+```
+
+10. (n)disdain: 笛子 + 灯 => 我用笛子砸向灯,然后笛子掉下来,出现了木屑(不屑)
+```
+he looked at her with disdain
+```
+
+11. (v)dispise: 笛子 + 派 => 吹笛子,蛋糕分出不同的派,然后笔从派里面出现了,写着生日快乐
+```
+I despise him
+```
+
+
+12. (adj)clumsy: club(雏鹰社团的教室) + 石头 => 搬起石头要砸门的时候,突然压到自己的脚了(笨拙)
+```
+a clumsy boxer
+```
+
+13. (adj)inert: 椅子 + 脑 => 椅子放在脑上,坚持时间不让其动,防止掉下去
+```
+inert body
+```
+
+14. (adj)blunt: 布朗(布朗运动 => 保健室) + 梯子 => 在保健室里有自动梯子训练爬梯,然后柯南里的笨男孩在那里眼里放直光,立马上去了
+```
+she is blunt about her life
+a blunt object
+```
+
+### 1-27. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
@@ -2211,6 +2301,9 @@ political dogma
 17. shoot
     1. 发芽
     2. 射击
+18. discrimination
+    1. 歧视
+    2. 辨别
 ## 3. expression 
 1. apartment complex
 2. police force
