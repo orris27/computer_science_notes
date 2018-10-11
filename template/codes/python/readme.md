@@ -4081,3 +4081,7 @@ print(statinfo.st_size)
     # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
     #------------------------------------------------
     ```
+24. Python里面的三目运算符`?:`
+```
+action = 1 if np.random.random() < probability1 else 0
+```
