@@ -3675,6 +3675,10 @@ env = gym.make("CartPole-v0")
 
 env.reset()
 #env.render() # paint the picture
+
+observation, reward, done, info  = env.step(action)
+# env state  reward  True/False _
+
 env.close()
 ```
 
