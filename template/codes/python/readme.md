@@ -1217,7 +1217,7 @@ with sv.managed_session(config=config) as sess:
     3. [利用RNN实现基于前n个sinx的值判断下一个sinx的值](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/sin/sin.py)
     4. [Policy Gradients解决CartPole问题](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/reinforcement/cartpole.py)
         + CartPole问题中初始化权重的代码: `W1 = tf.get_variable("W1", shape=[env_dims, hidden_size], initializer=tf.contrib.layers.xavier_initializer())`
-    
+    5. [sklearn实现决策树的简单代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/sklearn/decision-tree/all_electronics.py)
 31. 空
 
 32. 设置随机数的种子
@@ -3686,6 +3686,51 @@ low_dim_embs = tsne.fit_transform(matrix)
 #        [-5949.602,     0.   ]], dtype=float32)
 #-------------------------------------------------------------
 ```
+2. one-hot编码离散数据
+    1. 根据词典编码
+    ```
+    from sklearn.feature_extraction import DictVectorizer
+
+    vec = DictVectorizer()
+    l = [{"gender":"boy", "age": 17}, {"gender":"girl","age":18}, {"gender":"girl","age":20}]
+
+    vec.fit_transform(l).toarray()
+    #----------------------------------------------------------------
+    # array([[17.,  1.,  0.],
+    #        [18.,  0.,  1.],
+    #        [20.,  0.,  1.]])
+    #----------------------------------------------------------------
+
+    vec.get_feature_names()
+    #----------------------------------------------------------------
+    # ['age', 'gender=boy', 'gender=girl']
+    #----------------------------------------------------------------
+    ```
+    
+    2. 根据一维列表编码: 类似于`embedding_lookup`一样,直接在`[dims]`的形状上增加一维度成为`[dims, num_classes]`
+    ```
+    from sklearn import preprocessing
+
+    lb = preprocessing.LabelBinarizer()
+    lb.fit_transform(["yes", "no", "yes"])
+    
+    #----------------------------------------------------------------
+    # array([[1],
+    #        [0],
+    #        [1]])
+    #----------------------------------------------------------------
+
+    lb.fit_transform(["yes", "no", "yes", "unk"])
+    #----------------------------------------------------------------
+    # array([[0, 0, 1],
+    #        [1, 0, 0],
+    #        [0, 0, 1],
+    #        [0, 1, 0]])
+    #----------------------------------------------------------------
+
+    ```
+    
+
 ## 10. gym
 1. usage
 ```
@@ -3705,7 +3750,36 @@ env.close()
 
 
 
-## 11. python
+## 11. csv
+1. read lines: 自动根据逗号分割成字符串列表
+    + `next` cannot be used if the open mode is `bytes`
+```
+reader = csv.reader(open('AllElectronics.csv','r'))
+#-----------------------------------------------------------------------------------
+# RID,age,income,student,credit_rating,class_buys_computer
+# 1,youth,high,no,fair,no
+# 2,youth,high,no,excellent,no
+#-----------------------------------------------------------------------------------
+
+
+next(reader)
+#-----------------------------------------------------------------------------------
+# ['RID', 'age', 'income', 'student', 'credit_rating', 'class_buys_computer']
+#-----------------------------------------------------------------------------------
+
+next(reader)
+#-----------------------------------------------------------------------------------
+# ['1', 'youth', 'high', 'no', 'fair', 'no']
+#-----------------------------------------------------------------------------------
+
+next(reader)
+#-----------------------------------------------------------------------------------
+# ['2', 'youth', 'high', 'no', 'excellent', 'no']
+#-----------------------------------------------------------------------------------
+```
+
+
+## 12. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
