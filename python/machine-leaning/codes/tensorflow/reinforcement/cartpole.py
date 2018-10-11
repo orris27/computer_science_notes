@@ -154,9 +154,9 @@ with tf.Session(config=config) as sess:
 
     #grads_refer = sess.run(gradients, feed_dict={})
     #grads = [np.zeros(shape=(env_dims, hidden_size),dtype=np.float32), np.zeros(shape=(hidden_size, action_dims),dtype=np.float32)]
-    grads = sess.run(params)
-    for index, grad in enumerate(grads):
-        grads[index] = grad * 0
+    grads_buf = sess.run(params)
+    for index, grad in enumerate(grads_buf):
+        grads_buf[index] = grad * 0
 
 
     # reset xs, ys, drs
@@ -244,21 +244,21 @@ with tf.Session(config=config) as sess:
                 #grads[i] += curr_grads[i]
                 # update grads[1]: grads[1][i] = curr_grads[1]
                 #grads[1][i] = curr_grads[1]
-                grads[i] += curr_grads
+                grads_buf[i] += curr_grads
     
 
             # if curr_episode % batch_size == 0:
             if curr_episode % batch_size == 0:
 
                 # update gradients: {grad1: grads[0], grad2: grads[1]}
-                sess.run(train, feed_dict = {grad1: grads[0], grad2: grads[1]})
+                sess.run(train, feed_dict = {grad1: grads_buf[0], grad2: grads_buf[1]})
                 # reset grads
                 #grads = []
                 #for i in range(gradients):
                 #   grads[i] = gradients[i] * 0
                 #grads = [np.zeros(shape=(env_dims, hidden_size),dtype=np.float32), np.zeros(shape=(hidden_size, action_dims),dtype=np.float32)]
-                for index, grad in enumerate(grads):
-                    grads[index] = grad * 0
+                for index, grad in enumerate(grads_buf):
+                    grads_buf[index] = grad * 0
                 
 
                 # calc average reward: total_reward / batch_size
