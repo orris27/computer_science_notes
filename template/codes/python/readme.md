@@ -1226,7 +1226,8 @@ with sv.managed_session(config=config) as sess:
     3. [利用RNN实现基于前n个sinx的值判断下一个sinx的值](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/sin/sin.py)
     4. [Policy Gradients解决CartPole问题](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/reinforcement/cartpole.py)
         + CartPole问题中初始化权重的代码: `W1 = tf.get_variable("W1", shape=[env_dims, hidden_size], initializer=tf.contrib.layers.xavier_initializer())`
-    5. [sklearn实现决策树的简单代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/sklearn/decision-tree/all_electronics.py)
+    5. [sklearn实现决策树](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/sklearn/decision-tree/all_electronics.py)
+    6. [skleanr实现iris的knn解法](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/sklearn/knn/iris.py)
 31. 空
 
 32. 设置随机数的种子
