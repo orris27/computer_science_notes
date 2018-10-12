@@ -129,6 +129,11 @@ sudo apt-get install -y numix-icon-theme-circle
 ```
 unity-tweak-tool
 ```
++ 选择Appearance里面的Theme就能改变主题了
++ 默认Ubuntu的选项
+    1. Theme: Ambiance
+    2. Icons: Ubunutu-mono-dark
+    3. Cursor: Dmz-white
 ## 安装系统指示器syspeek
 看看网速啊，CPU占用啊等系统指标的
 ```
