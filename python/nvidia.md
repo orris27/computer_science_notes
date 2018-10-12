@@ -91,7 +91,7 @@ https://www.nvidia.cn/Download/index.aspx?lang=cn
 nvidia-smi #若列出GPU的信息列表，表示驱动安装成功
 nvidia-settings #若弹出设置对话框，亦表示驱动安装成功
 ```
-
+![NVIDIA test](https://mmbiz.qpic.cn/mmbiz_jpg/hBIUUHOiaY6oy9b4w8zXyEqJAWU4djRgWsewKQSia2XPcFn81RpAfG5S8kN0Puic2Mibrh3xNO1zIZnUn9z0S2ticbg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 ## 安装CUDA
 到CUDA官方下载页面下载CUDA包(runfile)
 ![CUDA website](https://github.com/orris27/orris/raw/master/images/cuda-website.png)
@@ -152,61 +152,54 @@ source ~/.bashrc
 到cuDNN官方下载页面下载与CUDA版本相匹配的cuDNN包，要注册一个Nvidia账号，然后才可以下载。
 
 建议的版本：cudnn 7.0 for cuda 9.0
+![cudnn](https://github.com/orris27/orris/blob/master/images/cudnn.png?raw=true)
 
 
-
-cuDNN官方下载页面：
+### cuDNN官方下载页面：
 https://developer.nvidia.com/cudnn
 
 进入安装包所在目录，依次输入以下命令：
-
+```
 tar -xzvf cudnn-9.0-linux-x64-v7.tgz
 sudo cp cuda/include/cudnn.h /usr/local/cuda/include
 sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
 sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
+```
 至此，关于NVIDIA显卡环境的一切已全部配置完成。
 
-安装 Tensorflow GPU 版本
+## 安装 Tensorflow GPU 版本
 关于GPU加速训练过程不再强调，推荐tensorflow 1.6 版本，刚好和cuda对应起来，非常稳定。
-
+```
 sudo pip install tensorflow-gpu==1.6 --user #python2
 sudo pip3 install tensorflow-gpu==1.6 --user #python3
-安装 Pytorch GPU 版本
+```
+## 安装 Pytorch GPU 版本
 到Pytorch官网安装最新版本就可以了，pytorch用户体验很好，一般没有兼容性问题。选择你的Python版本和安装方式，推荐使用pip安装，选好cuda 9.0，然后官网会生成安装命令，copy到命令行执行即可安装。
+![pytorch](https://mmbiz.qpic.cn/mmbiz_png/hBIUUHOiaY6rN5FbeWiaYMtE0IhgT3VuTj5lEypLQVyjdNmSf1Z24gP1NHDqvj6FEe5yqFX1ibsxCLoBgJu5o899Q/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
 
-
-Pytorch官网：
+### Pytorch官网：
 https://pytorch.org/
 
-安装 MxNet GPU 版本
+## 安装 MxNet GPU 版本
 参考MxNet官网安装教程安装最新版本就可以了。
 
-MxNet官网安装教程：
+### MxNet官网安装教程：
 https://mxnet.incubator.apache.org/install/index.html
 
-安装依赖
-
-
-
++ 安装依赖
+```
 sudo apt-get update
 sudo apt-get install -y wget python
 wget https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
-安装cuda 9.0 版
-
-
-
+```
++ 安装cuda 9.0 版
+```
 pip install mxnet-cu90 --pre
-
-
+```
 其他有一些可选安装项可以看MxNet官网安装选择性安装。
 
-
-
-MxNet官网安装：
-
-
+### MxNet官网安装：
 https://mxnet.incubator.apache.org/install/index.html
-
 
 
