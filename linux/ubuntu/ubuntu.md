@@ -123,13 +123,15 @@ sudo apt-get update && sudo apt-get install -y flatabulous-theme ultra-flat-icon
 看看网速啊，CPU占用啊等系统指标的
 ```
 sudo add-apt-repository ppa:nilarimogard/webupd8
-sudo apt-get update &&　sudo apt-get install -y syspeek
+sudo apt-get update
+sudo apt-get install -y syspeek
 ```
 ## 安装系统备份工具systemback
 系统备份工具，非常好用。
 ```
 sudo add-apt-repository ppa:nemh/systemback
-sudo apt-get update && sudo apt-get install -y systemback unionfs-fuse
+sudo apt-get update
+sudo apt-get install -y systemback unionfs-fuse
 ```
 
 
