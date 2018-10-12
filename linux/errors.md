@@ -655,7 +655,7 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
 
 ## 22. Ubuntu
 1. `sudo apt-get update`的时候报错`E: The repository 'http://ppa.launchpad.net/fcitx-team/nightly/ubuntu artful Release' does not have a Release file.N: Updating from such a repository can't be done securely, and is therefore disabled by default.`
-    1. 解决
+    1. 解决: 直接删除对应的文件就行了
     ```
     cd /etc/apt/sources.list.d/
     ls
