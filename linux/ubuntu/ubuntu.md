@@ -109,21 +109,25 @@ format = columns
 sudo pip2 install --upgrade pip
 sudo pip3 install --upgrade pip
 ```
-## 安装unity-tweak-tool 和主题(失败了..)
+## 安装unity-tweak-tool 和主题
 系统美化工具，效果如下：
 ![scheme](https://mmbiz.qpic.cn/mmbiz_png/hBIUUHOiaY6oy9b4w8zXyEqJAWU4djRgWHMEeVKPedjicWGF1URNqf1R6vDXXfKNhc1AWFT2LyNfvrFPQbBX2nRg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 ```
 sudo add-apt-repository ppa:noobslab/themes
 sudo add-apt-repository ppa:noobslab/icons
 sudo add-apt-repository ppa:noobslab/apps
+sudo add-apt-repository ppa:noobslab/macbuntu
 sudo apt-add-repository ppa:numix/ppa  
+sudo add-apt-repository ppa:numix/ppa
 
 sudo apt-get update 
 
 sudo apt-get install -y notify-osd
 sudo apt-get install -y unity-tweak-tool
 sudo apt-get install -y numix-icon-theme-circle  
+sudo apt-get install numix-gtk-theme numix-icon-theme-circle
 #sudo apt-get install -y flatabulous-theme ultra-flat-icons
+
 ```
 使用
 ```
