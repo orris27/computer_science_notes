@@ -668,3 +668,5 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     
     sudo rm t-tujikawa-ubuntu-ppa-artful.list
     ```
+3. 执行`unity-tweak-tool`时报错`Error: schema com.canonical.notify-osd not installed`
+    + 解决: `sudo apt-get install notify-osd`
