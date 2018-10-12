@@ -338,6 +338,15 @@ with tf.Session() as sess:
         mnist = input_data.read_data_sets('MNIST_data/',one_hot = True)    
         X_train,y_train = mnist.train.next_batch(100)
         ```
+    2. iris
+    ```
+    from sklearn import datasets
+    
+    iris = datasets.load_iris()
+
+    print(iris)
+    # knn.fit(iris.data, iris.target) # iris.data => [batch_size, features_dims]; iris.target => [batch_size]
+    ```
 6. 改变形状
 ```
 #features = tf.placeholder(tf.float32,[None,784])
@@ -3768,14 +3777,31 @@ print(labels)
 #  [0]]
 #--------------------------------------------------------------
 
-
-
 # predict
 y_predicted = clf.predict(features)
 print(y_predicted)
 #--------------------------------------------------------------
 # [0 0 1 1 1 0 1 0 1 1 1 1 1 0]
 #--------------------------------------------------------------
+```
+
+
+4. KNN
+```
+from sklearn import neighbors
+from sklearn import datasets
+
+knn = neighbors.KNeighborsClassifier()
+
+iris = datasets.load_iris()
+
+print(iris)
+
+knn.fit(iris.data, iris.target) # iris.data => [batch_size, features_dims]; iris.target => [batch_size]
+
+#predictedLabel = knn.predict([[0.1, 0.2, 0.3, 0.4]])
+predictedLabel = knn.predict(iris.data)
+print(predictedLabel)
 ```
 
 ## 10. gym
