@@ -2052,6 +2052,7 @@ limpid blue eyes
 
 
 
+
 ### 1-25. religion
 1. (n)invocation: 老鹰 + 文字 + 绳子 => 老鹰经过一个燃烧的大文字,然后身体被捕获了,变成绳子,转换成大十字架(祈求),然后倒在了主教身上
 ```
@@ -2188,6 +2189,83 @@ inert body
 ```
 she is blunt about her life
 a blunt object
+```
+
+
+15. (adj)torpid: 头 + 皮卡丘 => 皮卡丘的头很大,走路的时候很迟钝
+
+16. (adj)idiotic: idiot(笨蛋名词) + ic(形容词后缀) => 笨蛋的
+
+
+17. (adj)fatuous: 发 + 吐司 => 在食堂里打饭的时候(分发),里面的员工有一个吐司,然后里面馅着鱼(愚昧),这只鱼眼里放出诡异的光芒
+```
+It was a fatuous show
+```
+
+18. (adj)hoax: 猴哥 + eggs => 齐天大圣踩在鸡蛋堆里面然后摔倒了,这时候梦原走了过去,吹着口哨,说不是我干的
+```
+he denied making the hoax
+```
+
+19. (adj)curt: 锄头 + RT => 贴吧的一楼放出锄头,然后我用鼠标指挥锄头除草
+
+20. (adj)reckless: 两颗 + 蕾丝 => 她穿2个蕾丝,然后鲁莽地抱住了
+```
+he is charged with reckless driving
+```
+
+
+21. (adj)impudent: 老鹰 + 皮卡丘 + 灯 => 老鹰被皮卡丘十万伏特电击到了地上,这时候路灯突然亮起来照在了老鹰身上,老鹰吐了口痰到路灯上
+```
+they are impudent
+```
+
+22. (adj)imprudent: 老鹰 + blue + 灯 => 老鹰降落在灯上,然后眼睛是蓝色的,这时候突然有只蚊子飞进了老鹰的眼睛里...
+```
+an imprudent investment
+```
+
+23. (adj)astute: 鹅 + 死掉了 => 骨王里的企鹅看到自己的计划成功了,狡猾地阴笑起来,结果笑死了
+```
+She was politically astute
+```
+
+24. (adj)shrewd: she + red => 她脸红了,然后被shiro机智地夺过初吻
+```
+she's shrewd businesswoman 
+```
+
+25. (adj)sane: 雨伞 => 雨伞突然将笨女孩的大脑(心智健全的)给带走了
+```
+he is sane
+```
+
+26. (adj)exquisite: eggs + quiz + 梯子 => 鸡蛋在"?"的记号里滚,然后滚到梯子上面,接着灯光照射,发现内部的精致设计
+```
+exquisite products
+```
+
+27. (adj)expeditious: expedite(加速) + ious(形容词后缀) => 加速的 => 敏捷的
+```
+expeditious decision-making process
+```
+
+
+28. (adj)nimble: 泥巴 + ball => 泥巴不断袭击球,然后球不断敏捷地躲开
+```
+nimble fingers
+```
+
+29. (n)tact: tactic(策略) => 能想到策略的人都是很机智的,然后因为没有形容词后缀,所以是名词 => 机智
+```
+lack of tact
+```
+
+30. (adj)adroit: android + 梯子 => 将安卓手机放在梯子上,安卓手机就像磁悬浮列车一样可以敏捷地在梯子上滑行
+
+31. (adj)acute: 鹅 + cute => 骨王的企鹅眼里放着清澈的光,结果得了很严重的眼疾...
+```
+acute economic crisis
 ```
 
 ### 1-27. extra
