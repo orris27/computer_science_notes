@@ -109,15 +109,28 @@ format = columns
 sudo pip2 install --upgrade pip
 sudo pip3 install --upgrade pip
 ```
-## 安装unity-tweak-tool 和主题
+## 安装unity-tweak-tool 和主题(失败了..)
 系统美化工具，效果如下：
 
 
 ```
-sudo apt-get install -y unity-tweak-tool 
+sudo add-apt-repository ppa:noobslab/themes
+sudo add-apt-repository ppa:noobslab/apps
+
+
+sudo apt-add-repository ppa:numix/ppa  
+sudo add-apt-repository ppa:noobslab/themes
+
+
+sudo apt-get update 
+sudo apt-get install -y unity-tweak-tool
+sudo apt-get install -y numix-icon-theme-circle  
+
+
 sudo add-apt-repository ppa:noobslab/themes
 sudo add-apt-repository ppa:noobslab/icons
-sudo apt-get update && sudo apt-get install -y flatabulous-theme ultra-flat-icons
+sudo apt-get update
+sudo apt-get install -y flatabulous-theme ultra-flat-icons
 ```
 ## 安装系统指示器syspeek
 看看网速啊，CPU占用啊等系统指标的
