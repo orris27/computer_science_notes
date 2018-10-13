@@ -2268,6 +2268,73 @@ lack of tact
 acute economic crisis
 ```
 
+32. (n)acumen: 耳机 + 门 => 扔耳机到门上,门上就黏有耳机,这个时候音乐里传出来的是词汇的歌曲
+```
+business acumen
+```
+
+33. (adj)gauche: 蛋糕 + 扭曲 => 一个蛋糕扭曲了结果里面的液体就慢慢地射了出来,在地上笨拙地爬行
+```
+I'm somewhat gauche
+```
+
+34. (adj)rugged：蓝色 + 鸽子 + d => 蓝色的鸽子停在勺子上,鸽子走起路来崎岖不平的
+```
+rugged cliffs
+```
+
+35. (adj)coarse(粗糙的)
+
+36. (adj)rustic: 铁锈 + ink  => 在铁锈上涂墨水,结果墨水一直通过隧道延伸到我的老家
+```
+the rustic charm of a country lifestyle
+```
+
+37. (adj)grumpy: 英格兰 + 皮卡丘 => 皮卡丘在英国的地图上走,结果突然掉到了海里,心情非常暴躁,就开始胡乱放电
+```
+I am a grumpy old man
+```
+
+38. (adj)brutal(残忍的)
+
+
+39. (adj)bashful: bash + 风 => bash突然吹来一阵风,里面的字符组成害羞的样子
+```
+a bashful lady
+```
+
+40. (adj)timid(胆怯的)
+
+41. (adj)pitiful: pity(遗憾,可怜) + ful(充满) => 充满遗憾/可怜的东西 => 可怜的
+
+42. (adj)genial: 句子 + 泥巴 + 儿子 => 我扔了一个句子在泥巴里,然后奎儿子去捡,捡的时候笑的贼诡异(和蔼)
+```
+Bob was genial
+```
+
+43. (adj)benign: 笔 + 奶 => 用笔垫起奶,然后和蔼地让让人喝
+```
+I just smiled benignly
+```
+
+44. (adj)facile: 头发 + 色子 => 在头发里摇色子,结果头发变浅了,变秃了
+```
+facile summarization
+```
+
+45. (adj)merciful: mercy(仁慈) + ful(充满) => 充满仁慈的
+
+
+46. (adj)humane: human(人) + e(鱼) => 一个人抓到一条鱼,然后放生了,充满了人道
+```
+a caring and humane society
+```
+
+47. (adj)ductile: dark + tire => 轮胎滚到了黑暗中,滚回来的时候被拉直了,而且很柔软
+
+
+48. (adj)frank: frankly(坦白地说) => 坦白的
+
 ### 1-27. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
@@ -2382,6 +2449,9 @@ acute economic crisis
 18. discrimination
     1. 歧视
     2. 辨别
+19. spineless
+    1. 没有骨气的
+    2. 无脊椎的
 ## 3. expression 
 1. apartment complex
 2. police force
