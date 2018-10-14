@@ -2335,6 +2335,53 @@ a caring and humane society
 
 48. (adj)frank: frankly(坦白地说) => 坦白的
 
+49. (adj)outspoken: 外面 + 说 => 话唠疯狂说话,把秘密都透露出去了,果然很直言
+
+50. (adj)meek: 米饭 + 可乐 => 把可乐倒在米饭上,然后米饭就变温热了(温顺的)
+
+
+51. (adj)tractable: check(支票) + ball => 一个球飞向齐神的口袋里的支票,结果停住了,很好地驾驭力道扔了回去
+
+52. (adj)facetious: 脸 + 贴 + 莲藕 => 俺没鸡在自己的脸上贴莲藕,台下的人都笑了,很幽默
+
+53. (adj)courteous: 球场 + 莲藕 => 佐藤广踢莲藕到球门里,被教练拦了下来,佐藤广很有礼貌地去道歉了
+
+54. (adj)gregarious: grail + 莲藕 => 圣杯实现愿望,发出莲藕状的光芒,将一群山羊给合在一起了
+
+55. (adj)gentility(有教养的): gentle(和蔼的) => 有教养的
+
+56. (adj)affable: 儿子 + 佛 + ball => 奎儿子变成佛祖,然后被球打脸了,强行和蔼的
+
+57. (adj)crooked: crew + 基德 => 在青田,有个培训员工的餐馆,正在培训的时候,基德偷走了一个女性,漏出了狡诈的笑容
+
+58. (adj)sly: 史莱姆 => 史莱姆脚滑了一下,滑出去了很远
+
+59. (adj)cunning: 卡 + 宁宁 => 宁宁鸡叼着卡片,然后脚滑了一下
+
+60. (adj)designing: 设计 => 设计好的 => 蓄意而为的
+
+
+61. (adj)frugal: fruits(葡萄) + goal(射门) => 康纳先吃几个葡萄,然后再射门
+
+62. (adj)economize: 经济化的 => 对经济好的 => 提高经济 => 增大消费?不,扣那节俭哒
+
+63. (adj)canny: 卡片 + 泥巴 => 卡片掉在了泥巴里面,然后再捡回来重新利用(节俭的)
+
+64. (adj)stocially: store(小卖部) + 手 => 在小店里一只手买了矿泉水,非常单播
+
+65. (adj)austerity: 偶 + 特斯拉 + 梯子 => 两个特斯拉一起爬梯子,天气冷,紧缩在一起
+
+66. (adj)thrift: 石蕊 + 福特(车) => 在车的里面喷射石蕊,一滴可以开好久,节俭
+
+
+67. (adj)conservative: conservatory(有保存力的) => 保守的
+
+68. (adj)composed: 康师傅 + pose => 在康师傅里放动感超人的pose,结果沉了下去
+
+69. (adj)prudent: imprudent(鲁莽的) + im(反义词) => 谨慎的
+
+70. (adj)vigilant: Wiki + 蓝色 => Wiki铭感话题变蓝了,发出蓝光,然后瞬间让我清醒了,我警惕地看了看周围
+
 ### 1-27. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
