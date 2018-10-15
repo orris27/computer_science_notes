@@ -1260,7 +1260,7 @@ with sv.managed_session(config=config) as sess:
     6. [skleanr实现iris的knn解法](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/sklearn/knn/iris.py)
     7. [TensorFlow实现VGGNet,评测forward(inference)和backward(training)的耗时](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/vggnet)
     8. [TensorFlow实现MNIST数据集的CNN识别](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
-    9. [slim基于CNN实现MNIST数字识别](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/slim/readme.md)
+    9. [slim基于LeNet-5实现MNIST数字识别](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/slim/readme.md)
 31. 空
 
 32. 设置随机数的种子
