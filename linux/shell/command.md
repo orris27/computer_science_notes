@@ -2647,10 +2647,15 @@ Thu Sep  6 00:50:49 2018
 du -h --max-depth=1 ../dogs-cats/dataset/train/
 ```
 
+## 75. powertop
+1. Basic usage: 参考资料:[電源管理 - PowerTOP](https://chusiang.gitbooks.io/working-on-gnu-linux/08.power-management-with-powertop.html)
+```
+sudo powertop
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 方向键上下左右,tab等操作
+# q退出
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+```
 
 
-## 0. 实战
-### 0-1. 找到/etc/passwd下的shell出现次数
-```
-cat /etc/passwd | awk -F: '$7!=""{print $7}' | sort | uniq -c
-```
