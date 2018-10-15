@@ -2382,6 +2382,61 @@ a caring and humane society
 
 70. (adj)vigilant: Wiki + 蓝色 => Wiki铭感话题变蓝了,发出蓝光,然后瞬间让我清醒了,我警惕地看了看周围
 
+71. (adj)hardheaded: hard(硬的东西 => 石头) + head => 面试前的时候用石头砸自己的脑袋,流血就能冷静了
+
+72. (adj)sober: 西班牙的灌装饮料 => 喝了饮料就清醒了很多,可以继续玩代码了
+
+73. (adj)discreet: 笛子 + 创造 => 创造笛子,结果太重了
+
+74. (n)discretion: discreet(慎重的) => 慎重
+
+75. (adj)circumspect: circle(圈 => 呼啦圈) + spy(土御门) => 土御门用呼啦圈练举重
+
+76. (adj)meticulously: 美杜莎 + 可乐 + 楼 + 石头 => 美杜莎喝了可乐就像火箭人一样喷了出去,喷出物体是石头,结果撞到了大楼,大楼要倒塌了.远处的人很仔细地看到了这个
+```
+check spelling mistakes meticulously
+```
+
+77. (n)sanity: 三个 + 梯子 => 三个梯子,用绳子绑起来,然后被灰吕抬走训练
+
+78. (adj)sluggish: 死啦 + fish => 我死啦,出现鱼的灵魂,然后鱼趴在床上,怠惰地睡着了
+```
+The economy remains sluggish
+```
+
+79. (n)slug: 死啦 + 锯子 => 我死啦,朋友要锯我,但慢吞吞的.(此外sluggish也是偏向于怠惰的缓慢,所以slug也是缓慢)
+
+80. (adj)indolent: 印度(三傻) + 蓝灯 => 三傻用蓝灯照亮一个睡觉的人,这个人很懒惰地挠挠肚子
+
+81. (n)inertia: inert(不动的) + apple => 用水管(惯性)打apple,不倒翁
+
+82. (n)sloth: 石头 + 楼 + 石头 => 用石头砸大楼,结果大楼往左边塌陷,然后用石头再砸大楼,结果大楼就恢复了,里面怠惰的心美突然起床了
+
+83. (adj)slothful: sloth(怠惰) + ful(充满) => 充满怠惰的
+
+
+84. (adj)stout: 石头 + 梯子 => 灰吕右手拿着石头爬梯子,锻炼自己健壮的身材
+
+85. (adj)stocky: stock(股票曲线) + y => 股票曲线呈现y,y往下的一撇粗短
+
+86. (adj)hardy(强壮的)
+
+87. (adj)lusty: 拉链 + 石头 + 梯子 => 拉链出来的石头砸到了梯子上,结果石头砸碎了,果然梯子很强壮
+
+88. (adj)prodigal: pro(箱子) + 迪哥(小迪) => 小迪从箱子里出来,吃了酸奶,剩下来给我
+
+89. (adj)improvident: 老鹰 + provide + 梯子 => 老鹰从流水线里被生产(提供)出来,然后去砸梯子,砸出酸奶下来,喝了几口就不喝了
+
+90. (adj)lavish: 拉链 + fish => 很多人聚餐,中间是大拉链,打开后是大鱼,吃剩下了很多,真浪费
+
+91. (adj)extravagant: extra + vegas => 软需中有个<可行性报告>选做(extra),拖到vegas里面,结果冒出了金闪闪奢侈的样子
+
+92. (adj)squander: school + de => 把球门搬到学校,结果没人踢,很浪费
+
+93. (adj)flamboyant: flame + 簸箕 + ant => 着火了,用簸箕灭火,下面出现蚂蚁,以为这是救世主,搬到了他们华丽的水晶宫
+
+
+
 ### 1-27. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
