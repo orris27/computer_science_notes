@@ -258,6 +258,20 @@ learning_rate = tf.Variable(1e-3)
         loglik = tf.log((false_labels - probability) ** 2)
         loss = -tf.reduce_mean(loglik * advantages) # 这里的advantages是经过标准化的Discounted Future Rewards
     ```
+    7. l2_loss: `output = sum(t ** 2) / 2`
+        + warning: data type of the input should be float
+    ```
+    a
+    #-----------------------------------------------------
+    # array([-3., -2., -1.,  0.,  1.,  2.,  3.])
+    #-----------------------------------------------------
+
+    tf.nn.l2_loss(a).eval()
+    #-----------------------------------------------------
+    # 14.0  # <= (3 ** 2 + 2 ** 2 + 1 ** 2 ) * 2 / 2
+    #-----------------------------------------------------
+
+    ```
 4. 训练
     + 整个训练集训练多少次:1000
     + 单次训练的实例个数:100
@@ -450,7 +464,8 @@ scope_assign('s1','s2',sess)
     2. 维度:1开始的下标
     3. 训练次数
         1. `num_pretrain_steps`
-        2. `num_steps`或`num_epochs`
+        2. `num_steps`或`num_epochs`: 表示训练整个数据集的个数
+        3. `num_batches`: 表示训练1个batch的次数
     4. CNN
         1. `filter_size`:窗口的宽
         2. `filter_sizes`:窗口的宽的列表
@@ -1054,7 +1069,7 @@ a1_pool = tf.nn.local_response_normalization(a1_pool, depth_radius=None, bias=No
     train = opt.apply_gradients(zip(clipped_gradients, params))
 
     ```
-26. 变量名字
+26. name_scope & variable_scope变量名字
     1. 打印变量名字
     ```
     with tf.variable_scope('foo', reuse=tf.AUTO_REUSE):
@@ -1074,7 +1089,7 @@ a1_pool = tf.nn.local_response_normalization(a1_pool, depth_radius=None, bias=No
     #---------------------------------------------------------------------
 
     ```
-    2. name_scope:只不影响get_vafiable
+    2. name_scope:只不影响get_variable
     ```
     with tf.name_scope("foo1"):
         var = tf.Variable(1.32,dtype=tf.float32)
@@ -4349,4 +4364,9 @@ print(statinfo.st_size)
 24. Python里面的三目运算符`?:`
 ```
 action = 1 if np.random.random() < probability1 else 0
+```
+
+25. 计时
+```
+time.time() #<=> clock()
 ```
