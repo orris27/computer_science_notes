@@ -1260,6 +1260,7 @@ with sv.managed_session(config=config) as sess:
     6. [skleanr实现iris的knn解法](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/sklearn/knn/iris.py)
     7. [TensorFlow实现VGGNet,评测forward(inference)和backward(training)的耗时](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/vggnet)
     8. [TensorFlow实现MNIST数据集的CNN识别](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
+    9. [slim基于CNN实现MNIST数字识别](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/slim/readme.md)
 31. 空
 
 32. 设置随机数的种子
@@ -3183,7 +3184,38 @@ if done:
         return l
     vdiscounted_rewards = standardize(vdiscounted_rewards)
 ```
+### 1-1. slim
+基本使用: 完整代码参看30-8处的内容
+```
+import tensorflow.contrib.slim as slim
 
+
+features = tf.placeholder(tf.float32,[None,784])
+labels = tf.placeholder(tf.float32,[None,10])
+keep_prob = tf.placeholder(tf.float32)
+
+inputs_reshaped = tf.reshape(features, [-1, 28, 28, 1])
+
+conv1 = slim.conv2d(inputs_reshaped, num_outputs=32, kernel_size=[5, 5], padding='SAME', scope="layer1_conv")
+conv1_pooling = slim.max_pool2d(conv1, kernel_size=[2, 2],stride=2,scope="layer1_pooling")
+
+conv2 = slim.conv2d(conv1_pooling, num_outputs=64, kernel_size=[5, 5], padding='SAME', scope="layer2_conv")
+conv2_pooling = slim.max_pool2d(conv2, kernel_size=[2, 2],stride=2,scope="layer2_pooling")
+
+conv2_reshape = slim.flatten(conv2_pooling, scope="reshape")
+
+nn3 = slim.fully_connected(conv2_reshape, num_outputs=1024, activation_fn=tf.nn.sigmoid, scope="layer3") # activation_fn is default to ReLU
+
+y_predicted = slim.fully_connected(nn3, num_outputs=10, activation_fn=None, scope="layer4")
+
+####################################################################################################################
+# Do not use the loss above!! Otherwise, the params will not be updated
+####################################################################################################################
+#loss=-tf.reduce_mean(tf.reduce_sum(labels*tf.log(y_predicted)))
+loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=y_predicted, labels=tf.argmax(labels, 1)))
+
+train=tf.train.GradientDescentOptimizer(0.01).minimize(loss)
+```
 ## 2. Bazel
 ```
 cat BUILD 
