@@ -1259,6 +1259,7 @@ with sv.managed_session(config=config) as sess:
     5. [sklearn实现决策树](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/sklearn/decision-tree/all_electronics.py)
     6. [skleanr实现iris的knn解法](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/sklearn/knn/iris.py)
     7. [TensorFlow实现VGGNet,评测forward(inference)和backward(training)的耗时](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/vggnet)
+    8. [TensorFlow实现MNIST数据集的CNN识别](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
 31. 空
 
 32. 设置随机数的种子
