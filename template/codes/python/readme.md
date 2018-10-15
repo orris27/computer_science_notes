@@ -24,7 +24,7 @@ learning_rate = tf.Variable(1e-3)
             with tf.variable_scope(scope_name,reuse=tf.AUTO_REUSE) as scope:
                 W = tf.get_variable("W", [kernel_width,kernel_height,input_filters,output_filters], initializer=tf.contrib.layers.xavier_initializer_conv2d())
 
-                b = tf.get_variable("b", [output_filters], initializer=tf.constant_initializer(0.0))
+                b = tf.get_variable("b", [output_filters], initializer=tf.constant_initializer(0.1))
 
                 a = tf.nn.relu(tf.nn.bias_add(tf.nn.conv2d(inputs,W,strides = [1,stride_width,stride_height,1],padding = 'SAME'), b))
 
@@ -1258,6 +1258,7 @@ with sv.managed_session(config=config) as sess:
         + CartPole问题中初始化权重的代码: `W1 = tf.get_variable("W1", shape=[env_dims, hidden_size], initializer=tf.contrib.layers.xavier_initializer())`
     5. [sklearn实现决策树](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/sklearn/decision-tree/all_electronics.py)
     6. [skleanr实现iris的knn解法](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/sklearn/knn/iris.py)
+    7. [TensorFlow实现VGGNet,评测forward(inference)和backward(training)的耗时](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/vggnet)
 31. 空
 
 32. 设置随机数的种子
