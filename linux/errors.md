@@ -637,6 +637,20 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     # 取名字为loss1
     _, loss1 = sess.run([train, loss], feed_dict = {features:X, labels:y})
     ```
+    
+9. 使用`sess.run(grads)`时报错`TypeError: Fetch argument None has invalid type <class 'NoneType'>`
+    1. 原因: 我的grads使用`tf.gradients(loss, params)`,而params是通过`tf.trainable_variables()`获得的,但是在模型中我计算loss时可能没用到所有可训练的变量,导致有些可训练变量计算出来的梯度为None,也就是没有计算梯度.理论上所有可训练变量在计算loss时都会被使用到,但是部分没有被运行很可能是因为我变量写错了
+    2. 解决
+    ```
+    # 6th layer: nn: [batch_size, 7 * 7 * 512] => [batch_size, 4096]
+    nn6 = self._nn(reshape1, 4096, tf.tanh, 'layer6')
+    nn6_dropout = tf.nn.dropout(nn6,keep_prob)
+
+    # 7th layer: nn: [batch_size, 4096] => [batch_size, 4096]
+    nn7 = self._nn(nn6, 4096, tf.tanh, 'layer7') # 比如这里的写错成nn6就会导致错误,应该是nn6_dropout
+    nn7_dropout = tf.nn.dropout(nn7,keep_prob)
+
+    ```
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
