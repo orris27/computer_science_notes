@@ -15,7 +15,36 @@ with tf.name_scope('placeholder'):
 learning_rate = tf.Variable(1e-3)
 ```
 2. NN/CNN
-    1. 定义卷积神经网络的一层:四维矩阵=>二维矩阵
+    1. CNN
+        1. <方法1> 函数
+        ```
+        def _conv(self, inputs, kernel_width, kernel_height, output_filters, stride_width, stride_height, scope_name):
+            input_filters = inputs.shape[-1]
+
+            with tf.variable_scope(scope_name,reuse=tf.AUTO_REUSE) as scope:
+                W = tf.get_variable("W", [kernel_width,kernel_height,input_filters,output_filters], initializer=tf.contrib.layers.xavier_initializer_conv2d())
+
+                b = tf.get_variable("b", [output_filters], initializer=tf.constant_initializer(0.0))
+
+                a = tf.nn.relu(tf.nn.bias_add(tf.nn.conv2d(inputs,W,strides = [1,stride_width,stride_height,1],padding = 'SAME'), b))
+
+            return a
+
+        def _max_pooling(self, inputs, kernel_width, kernel_height, stride_width, stride_height):
+            return tf.nn.max_pool(inputs,ksize = [1,kernel_width,kernel_height,1],strides = [1,stride_width,stride_height,1],padding = 'SAME', name='pooling')
+
+
+        ########################################################################################################
+        # 使用范例
+        ########################################################################################################
+        with tf.variable_scope("layer1"):
+            conv1_1 = self._conv(inputs, 3, 3, 64, 1, 1, "conv1_1")
+
+            conv1_2 = self._conv(conv1_1, 3, 3, 64, 1, 1, "conv1_2")
+
+            pool1 = self._max_pooling(conv1_2, 2, 2, 1, 1)
+        ```
+        2. <方法2> 代码块
         + conv2d
             1. a0:输入的4维矩阵
             2. W1:`[5,5]`/`[filter_size,5]`是窗口的大小;`[1]`是输入的厚度;`[32]`/`[num_filters]`是输出的厚度
@@ -24,42 +53,40 @@ learning_rate = tf.Variable(1e-3)
                 1. 'VALID':最后结果的shape=`[batch_size,a0的2nd维度 - 窗口大小的1st维度 + 1, a0的3rd维度 - 窗口大小的2nd维度 + 1, 输出的厚度]`
                 2. 'SAME':最后结果的shape=a0.shape
         + max_pool
-            1. 参数
-                1. a1
-                2. ksize:将中间2个维度大小的矩阵变成`1*1`的矩阵
-                3. strides:pooling会重新作用于使用过的点,除非我们步长设置的和ksize一样.
-                4. padding
-                    1. VALID:如果不够pooling的话,就不管了.比如对于`[1,2,3,1]`使用`{ksize=[1,2,2,1],strides=[1,2,2,1]}`时结果为`[1,1,1,1]`(第3列被抛弃了)
-                    2. SAME:只有需要补全的时候才补全.比如对于`[1,2,3,1]`使用`{ksize=[1,2,2,1],strides=[1,2,2,1]}`时结果为`[1,1,2,1]`(补全成`[1,2,4,1]`)
-    ```
-    # Layer1 (conv+pooling+lrn)
-    with tf.variable_scope('conv1',reuse=tf.AUTO_REUSE) as scope:
-        # W:[5,5]是窗口的大小;[1]是输入的厚度;[32]是输出的厚度
-        W = tf.get_variable("W", [5,5,1,32], initializer=tf.truncated_normal_initializer(stddev = 0.1))
-        if self.regularizer:
-            tf.add_to_collection('losses',self.regularizer(W))
+            1. a1
+            2. ksize:将中间2个维度大小的矩阵变成`1*1`的矩阵
+            3. strides:pooling会重新作用于使用过的点,除非我们步长设置的和ksize一样.
+            4. padding
+                1. VALID:如果不够pooling的话,就不管了.比如对于`[1,2,3,1]`使用`{ksize=[1,2,2,1],strides=[1,2,2,1]}`时结果为`[1,1,1,1]`(第3列被抛弃了)
+                2. SAME:只有需要补全的时候才补全.比如对于`[1,2,3,1]`使用`{ksize=[1,2,2,1],strides=[1,2,2,1]}`时结果为`[1,1,2,1]`(补全成`[1,2,4,1]`)
+        ```
+        # Layer1 (conv+pooling+lrn)
+        with tf.variable_scope('conv1',reuse=tf.AUTO_REUSE) as scope:
+            # W:[5,5]是窗口的大小;[1]是输入的厚度;[32]是输出的厚度
+            W = tf.get_variable("W", [5,5,1,32], initializer=tf.truncated_normal_initializer(stddev = 0.1))
+            if self.regularizer:
+                tf.add_to_collection('losses',self.regularizer(W))
 
-        # b:[32]是输出的厚度
-        b = tf.get_variable("b", [32], initializer=tf.constant_initializer(0.1))
+            # b:[32]是输出的厚度
+            b = tf.get_variable("b", [32], initializer=tf.constant_initializer(0.1))
 
-        # activate:a0是输入的图像们;strides = [1,1,1,1]是步长,一般取这个值就OK了
-        a = tf.nn.relu(tf.nn.conv2d(a0,W,strides = [1,1,1,1],padding = 'SAME')+b, name='conv2d-relu')
-        #a = tf.nn.relu(tf.nn.bias_add(tf.nn.conv2d(a0,W1,strides = [1,1,1,1],padding = 'SAME'), b1))
+            # activate:a0是输入的图像们;strides = [1,1,1,1]是步长,一般取这个值就OK了
+            a = tf.nn.relu(tf.nn.conv2d(a0,W,strides = [1,1,1,1],padding = 'SAME')+b, name='conv2d-relu')
+            #a = tf.nn.relu(tf.nn.bias_add(tf.nn.conv2d(a0,W1,strides = [1,1,1,1],padding = 'SAME'), b1))
 
-        # pooling:池化操作.就这样子就OK了 = >表示长宽缩小一半而厚度不变.
-        a_pool = tf.nn.max_pool(a,ksize = [1,2,2,1],strides = [1,2,2,1],padding = 'VALID', name='pooling')
+            # pooling:池化操作.就这样子就OK了 = >表示长宽缩小一半而厚度不变.
+            a_pool = tf.nn.max_pool(a,ksize = [1,2,2,1],strides = [1,2,2,1],padding = 'VALID', name='pooling')
 
-        # lrn层
-        a1 = tf.nn.lrn(a_pool,depth_radius=4,bias=1.0,alpha=0.001/9.0,beta=0.75,name='lrn')
+            # lrn层
+            a1 = tf.nn.lrn(a_pool,depth_radius=4,bias=1.0,alpha=0.001/9.0,beta=0.75,name='lrn')
 
-        # 最后输出的shape可以通过print(a1.get_shape())查看
-    ```
+            # 最后输出的shape可以通过print(a1.get_shape())查看
+        ```
     2. 过渡卷积神经网路到全连接神经网络,改变特征值的形状
         1. TensorFlow的reshape:不能使用在普通变量
         ```
         # 改变适应卷积神经网络的形状到适应全连接神经网络的形状.[-1,7,7,64]  = > [-1.7*7*64]
         a2_pool_tran = tf.reshape(a2_pool,[-1,7*7*64])
-
         ```
         2. numpy的reshape:如果是和张量无关的话,就使用np.reshape
         ```
@@ -81,31 +108,19 @@ learning_rate = tf.Variable(1e-3)
         ```
         2. 方法2
         ```
-        def nn(self, inputs, output_dim, activator=None, scope_name=None, regularizer=None):
-            '''
-                定义神经网络的一层
-            '''
-            # 定义权重的初始化器
-            norm = tf.random_normal_initializer(stddev=1.0)
-            # 定义偏差的初始化
-            const = tf.constant_initializer(0.1)
-
-            # 打开变量域,或者使用None
+        def _nn(self, inputs, output_dim, activator=None, scope_name=None, regularizer=None):
             with tf.variable_scope(scope_name, reuse=tf.AUTO_REUSE):
-                # 定义权重
-                W = tf.get_variable("W",[inputs.get_shape()[1],output_dim],initializer=norm)
+                W = tf.get_variable("W",[inputs.get_shape()[1],output_dim],initializer=tf.random_normal_initializer(stddev=1.0))
                 if regularizer:
                     tf.add_to_collection('losses',regularizer(W))
-                # 定义偏差
-                b = tf.get_variable("b",[output_dim],initializer=const)
-                # 激活
+
+                b = tf.get_variable("b",[output_dim],initializer=tf.constant_initializer(0.1))
+
                 if activator is None:
                     return tf.matmul(inputs,W)+b
-                a = activator(tf.matmul(inputs,W)+b)
-                # dropout
-                # 返回输出值
-                return a
 
+                a = activator(tf.matmul(inputs,W)+b)
+                return a
             
         # 使用方法如下所示
         def discriminator(self,inputs,dim):
@@ -113,15 +128,15 @@ learning_rate = tf.Variable(1e-3)
                 定义判别器的模型
             '''
             # 第0层全连接神经网络:节点数=dim,激活函数=tf.tanh,scope=d0
-            a0 = self.nn(inputs,dim*2,tf.tanh,'d0')
+            a0 = self._nn(inputs,dim*2,tf.tanh,'d0')
             # 第1层全连接神经网络:节点数=dim,激活函数=tf.tanh,scope=d1
-            a1 = self.nn(a0,dim*2,tf.tanh,'d1')
+            a1 = self._nn(a0,dim*2,tf.tanh,'d1')
             # 第2层全连接神经网络:节点数=dim,激活函数=tf.tanh,scope=d2
-            a2 = self.nn(a1,dim*2,tf.tanh,'d2')
+            a2 = self._nn(a1,dim*2,tf.tanh,'d2')
             # 第3层全连接神经网络:节点数=dim,激活函数=tf.tanh,scope=d3
-            #a3 = self.nn(a2,dim*2,tf.tanh,'d3') 
+            #a3 = self._nn(a2,dim*2,tf.tanh,'d3') 
             # 返回判别器的预测给分:节点数=1,激活函数=tf.sigmoid,形状=[batch_size,1]
-            y_predicted = self.nn(a2,1,tf.nn.sigmoid,'d3')
+            y_predicted = self._nn(a2,1,tf.nn.sigmoid,'d3')
             return y_predicted
         ```
         3. 方法3:[fully_connected官方文档](https://www.tensorflow.org/api_docs/python/tf/contrib/layers/fully_connected)
