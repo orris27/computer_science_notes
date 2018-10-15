@@ -22,7 +22,7 @@ conv2_pooling = slim.max_pool2d(conv2, kernel_size=[2, 2],stride=2,scope="layer2
 conv2_reshape = slim.flatten(conv2_pooling, scope="reshape")
 
 # layer3: nn
-nn3 = slim.fully_connected(conv2_reshape, num_outputs=1024, activation_fn=tf.nn.sigmoid, scope="layer3") # activation_fn is default to ReLU
+nn3 = slim.fully_connected(conv2_reshape, num_outputs=500, activation_fn=tf.nn.sigmoid, scope="layer3") # activation_fn is default to ReLU
 # layer4: nn
 #nn4 = slim.fully_connected(nn3, num_outputs=10, scope="layer4")
 #y_predicted = slim.fully_connected(nn3, num_outputs=10, activation_fn=tf.nn.softmax, scope="layer4")
