@@ -2397,7 +2397,7 @@ a caring and humane society
 check spelling mistakes meticulously
 ```
 
-77. (n)sanity: 三个 + 梯子 => 三个梯子,用绳子绑起来,然后被灰吕抬走训练
+77. (n)sanity: 三个 + 梯子 => 三个梯子,用绳子绑起来,然后被灰吕抬走训练,灰吕的头都红起来摇晃,心智不定(此外sane表示心智的意思)
 
 78. (adj)sluggish: 死啦 + fish => 我死啦,出现鱼的灵魂,然后鱼趴在床上,怠惰地睡着了
 ```
