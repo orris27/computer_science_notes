@@ -3186,6 +3186,56 @@ if done:
         return l
     vdiscounted_rewards = standardize(vdiscounted_rewards)
 ```
+
+92. Download: `tf.keras.utils.get_file`下载文件,并保存文件到cache里面(cache实际是`~/.keras/datasets`目录)
+    1. 下载到cache的默认子目录下: 默认是`~/.keras/datasets/`
+    ```
+    url = "https://github.com/orris27/orris/raw/master/java/java.md"
+    a = tf.keras.utils.get_file("test.md", origin=url)
+    #---------------------------------------------------------------
+    # Downloading data from https://github.com/orris27/orris/raw/master/java/java.md
+    # 8192/5408 [=============================================] - 0s 0us/step
+    #---------------------------------------------------------------
+
+    a
+    #---------------------------------------------------------------
+    # '/home/orris/.keras/datasets/test.md'
+    #---------------------------------------------------------------
+    ``` 
+    2. 下载到cache内指定的子目录下: 比如指定`cache_subdir`为`model`,那么就会保存到`~/.keras/model/`目录下
+        1. 相对路径: 相对于`~/.keras/`
+        ```
+        url = "https://github.com/orris27/orris/raw/master/java/java.md"
+        a = tf.keras.utils.get_file("test.md", origin=url, cache_subdir="model")
+
+        #---------------------------------------------------------------
+        # Downloading data from https://github.com/orris27/orris/raw/master/java/java.md
+        # 8192/5408 [=============================================] - 0s 0us/step
+        #---------------------------------------------------------------
+
+        a
+        #---------------------------------------------------------------
+        # '/home/orris/.keras/model/test.md'
+        #---------------------------------------------------------------
+        ```
+        2. 绝对路径: 
+        ```
+        import os
+
+        url = "https://github.com/orris27/orris/raw/master/java/java.md"
+        a = tf.keras.utils.get_file("test.md", origin=url, cache_subdir=os.path.abspath("."))
+        #---------------------------------------------------------------
+        # Downloading data from https://github.com/orris27/orris/raw/master/java/java.md
+        # 8192/5408 [=============================================] - 0s 0us/step
+        #---------------------------------------------------------------
+        
+        a
+        #---------------------------------------------------------------
+        # '/home/orris/fun/tensorflow/test.md'
+        #---------------------------------------------------------------
+        ```
+
+
 ### 1-1. slim
 1. Basic Usage: 完整代码参看30-8处的内容
 ```
