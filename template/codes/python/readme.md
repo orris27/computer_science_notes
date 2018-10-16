@@ -1262,6 +1262,7 @@ with sv.managed_session(config=config) as sess:
     8. [TensorFlow实现MNIST数据集的CNN识别](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
     9. [slim基于LeNet-5实现MNIST数字识别](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/slim/readme.md)
     10. [TFLearn基于LeNet-5实现MNIST数字识别](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/tflearn)
+    11. [Keras基于LeNet-5实现MNIST数字手写识别](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/keras)
 31. 空
 
 32. 设置随机数的种子
