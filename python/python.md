@@ -114,10 +114,16 @@ source /etc/profile
     
     conda remove -n your_env_name(虚拟环境名称) --all # 删除虚拟环境
     ```
-## 2. 使用ipynb文件
+## 2. ipynb文件
+1. 使用
 ```
 sudo pip install ipython --upgrade
 sudo pip install jupyter
 
 jupyter notebook --ip=10.214.144.222
+```
+
+2. 转化ipynb文件为py文件
+```
+jupyter nbconvert --to script xx.ipynb
 ```
