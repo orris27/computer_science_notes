@@ -2515,6 +2515,7 @@ The economy remains sluggish
     
     34. Catholic(天主教的): 卡片 + 石头 + 篱笆 => 卡片撞到石头,结果变成碎片,散落在篱笆里,然后天主教(Ray)天使般地起来了
     35. half-brother: 半个 + 兄弟 => 亲兄弟需要父母都相同,一半满足就是说父或者母的其中一个是不同的
+    36. preemptive: pray(ray) + 踢球 => ray在踢球,先发制人进球了
 3. adj
     1. overarching: 上面 + archer => archer要射箭了,逐渐archer往天空平移,然后archer用手放在弓箭上,射了出去
     2. mediocre: medium + core => 有三个核桃,哪个最好敲?当然是适合我的中间(中庸)的核桃
