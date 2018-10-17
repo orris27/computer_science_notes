@@ -2127,6 +2127,42 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
         _, loss1 = sess.run([train, loss], feed_dict = {features:X, labels:y})
         # ...
     ```
+    
+    
+    5. sentences => indices
+    ```
+    train_captions = ['<sos> I am a boy <eos>', '<sos> I love a pen <eos>']
+    top_k = 5 # 最后的结果会留下top_k-1个不同的数字
+
+    tokenizer = tf.keras.preprocessing.text.Tokenizer(num_words=top_k, oov_token='<unk>', filters='!"#$%&()*+.,-/:;=?@[\]^_`{|}~ ')
+    tokenizer.fit_on_texts(train_captions) # 让分词器适应该语料库
+
+    tokenizer.texts_to_sequences(train_captions) # 使用已经被训练好的tokenizer去分词
+    #-----------------------------------------------------------------------------------------------------------------------------
+    # [[2, 3, 1, 4, 1, 1], [2, 3, 1, 4, 1, 1]]
+    #-----------------------------------------------------------------------------------------------------------------------------
+
+    tokenizer.get_config() # 查看tokenizer的属性
+    #-----------------------------------------------------------------------------------------------------------------------------
+    # {'num_words': 5,
+    #  'filters': '!"#$%&()*+.,-/:;=?@[\\]^_`{|}~ ',
+    #  'lower': True,
+    #  'split': ' ',
+    #  'char_level': False,
+    #  'oov_token': '<unk>',
+    #  'document_count': 2,
+    #  'word_counts': '{"<sos>": 2, "i": 2, "am": 1, "a": 2, "boy": 1, "<eos>": 2, "love": 1, "pen": 1}',
+    #  'word_docs': '{"<eos>": 2, "<sos>": 2, "boy": 1, "i": 2, "a": 2, "am": 1, "love": 1, "pen": 1}',
+    #  'index_docs': '{"5": 2, "2": 2, "7": 1, "3": 2, "4": 2, "6": 1, "8": 1, "9": 1}',
+    #  'index_word': '{"1": "<unk>", "2": "<sos>", "3": "i", "4": "a", "5": "<eos>", "6": "am", "7": "boy", "8": "love", "9": "pen"}',
+    #  'word_index': '{"<unk>": 1, "<sos>": 2, "i": 3, "a": 4, "<eos>": 5, "am": 6, "boy": 7, "love": 8, "pen": 9}'}
+    #-----------------------------------------------------------------------------------------------------------------------------
+    ```
+    
+    
+    
+    
+    
 59. 验证
     1. 使用tf.nn.in_top_k
         1. 参数
@@ -3264,7 +3300,7 @@ if done:
     new_input = image_model.input
     hidden_layer = image.layers[-1].output
     ```
-    2. 
+
     
 ### 1-1. slim
 1. Basic Usage: 完整代码参看30-8处的内容
