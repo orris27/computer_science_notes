@@ -1,4 +1,3 @@
-    
 ## 1. Java
 1. HelloWorld
 ```
@@ -19,70 +18,47 @@ javac HelloWorld.java
 java HelloWorld
 ```
 2. 进制转换
-```
-十进制转成十六进制： 
-Integer.toHexString(int i) 
 
-十进制转成八进制:
-Integer.toOctalString(int i) 
+   + 十六进制 => 二进制
 
-十进制转成二进制:
-Integer.toBinaryString(int i) 
+   + 十六进制 => 十进制
 
-十六进制转成十进制:
-Integer.valueOf("FFFF",16).toString() 
-
-八进制转成十进制 :
-Integer.valueOf("876",8).toString() 
-
-二进制转十进制:
-Integer.valueOf("0101",2).toString() 
+     ```
+     Integer.valueOf("FFFF",16).toString();
+     parseInt("-FF", 16); //returns -255
+     ```
 
 
+   + 二进制 => 十进制
 
-有什么方法可以直接将2,8,16进制直接转换为10进制的吗? 
-java.lang.Integer类 
-parseInt(String s, int radix) 
-使用第二个参数指定的基数，将字符串参数解析为有符号的整数。 
-examples from jdk: 
-parseInt("0", 10) returns 0 
-
-parseInt("473", 10) returns 473 
-
-parseInt("-0", 10) returns 0 
-
-parseInt("-FF", 16) returns -255 
-
-parseInt("1100110", 2) returns 102 
-
-parseInt("2147483647", 10) returns 2147483647 
-
-parseInt("-2147483648", 10) returns -2147483648 
-
-parseInt("2147483648", 10) throws a NumberFormatException 
-
-parseInt("99",throws a NumberFormatException 
-
-parseInt("Kona", 10) throws a NumberFormatException 
-
-parseInt("Kona", 27) returns 411787 
+     ```
+     Integer.valueOf("0101",2).toString();
+     parseInt("1100110", 2); //returns 102 
+     ```
 
 
+   + 二进制 => 十六进制
 
-进制转换如何写（二，八，十六）不用算法 
+   + 十进制 => 二进制
 
-Integer.toBinaryString 
+     ```
+     Integer.toBinaryString(int i);
+     ```
 
-Integer.toOctalString 
 
-Integer.toHexString 
-```
+   + 十进制 => 十六进制
+
+     ```
+     Integer.toHexString(int i);
+     ```
+
+
 3. IO
     1. 输入
         1. int
         ```
         import java.util.Scanner;
-        
+
         Scanner input = new Scanner(System.in);
         System.out.println("Enter an integer:");
         int v1 = input.nextInt();
@@ -90,7 +66,7 @@ Integer.toHexString
         2. line
         ```
         import java.util.Scanner;
-        
+
         Scanner input = new Scanner(System.in);
         String line = input.nextLine(); // 貌似要弄2次
         line = input.nextLine();
@@ -131,16 +107,32 @@ public static void main(String[] args)
     1. 产生`[0, 1)`的实数
     ```
     import java.util.Random;
-    
+
     System.out.print(Math.random());
     ```
     2. 产生`a, a+1, a+2 ,..., b-1`的整数,即`[a, b)`: 一定要在用小括号包住Math.random!!!!否则就是0了
     ```
     import java.util.Random;
-    
+
     int a = 3;
     int b = 5;
     System.out.print((int)(Math.random() * (b - a) + a ));
+    ```
+7. array
+    1. anonymous
+    ```
+    private static void print(int[] a)
+    {
+        for (int i = 0;i < a.length; ++i)
+        {
+            System.out.println(a[i]);
+        }
+    }
+    ```
+    2. 锯齿状的二维数组
+    ```
+    int[][] a = {{1,2},{3,4},{5,6,7}};
+    int[][] a = new int[2][3];
     ```
 ## 2. System
 1. calculate the time
