@@ -3343,6 +3343,15 @@ y = tf.py_func(sqrt, [inp], tf.float32)
 with tf.Session() as sess:
     print(sess.run(y, feed_dict={inp:9}))
 ```
+
+95. Environment test
+    1. is_gpu_available: whether TensorFlow can access a gpu
+    ```
+    tf.test.is_built_with_cuda()
+    #---------------------------------------------------------
+    # True
+    #---------------------------------------------------------
+    ```
     
 ### 1-1. slim
 1. Basic Usage: 完整代码参看30-8处的内容
