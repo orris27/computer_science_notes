@@ -2174,7 +2174,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     
     
     ```
-    6. padding indices from the whole sentences
+    6. indices => padded incdices: padding indices from the whole sentences
     ```
     a
     #-----------------------------------------------------------------------------------------------------------------------------
@@ -3329,6 +3329,13 @@ if done:
     image_model = tf.keras.applications.InceptionV3(include_top=False, weights='imagenet')
     new_input = image_model.input
     hidden_layer = image.layers[-1].output
+    image_features_extract_model = tf.keras.Model(new_input, hidden_layer)
+    
+    for img, path in image_dataset:
+    # img.shape=TensorShape([Dimension(16), Dimension(299), Dimension(299), Dimension(3)])
+
+      batch_features = image_features_extract_model(img)
+      # batch_features.shape=TensorShape([Dimension(16), Dimension(8), Dimension(8), Dimension(2048)])
     ```
 
 
@@ -3346,6 +3353,13 @@ with tf.Session() as sess:
 
 95. Environment test
     1. is_gpu_available: whether TensorFlow can access a gpu
+    ```
+    tf.test.is_gpu_available()
+    #---------------------------------------------------------
+    # True
+    #---------------------------------------------------------
+    ```
+    2. is_built_with_cuda: Returns whether TensorFlow was built with CUDA (GPU) support.
     ```
     tf.test.is_built_with_cuda()
     #---------------------------------------------------------
