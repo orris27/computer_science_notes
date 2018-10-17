@@ -321,6 +321,13 @@ int b = 3; // => Integer.valueOf(3);
         String message = new String("hello");
         String message = new String();
         ```
-        
-8. 常量池技术
-
+    8. boxing: Integer.valueOf        
+### 常量池技术
+1. int
+    1. 125 + new Integer(1) => 就是后者先intValue编程普通的int,然后相加,最后再valueOf
+    2. IntegerCache为-127到128,所以超过范围的就不会被缓存
+    3. `==`: 如果是int类型就是比较值是否相同,如果是Integer类型,则是比较引用是否相同
+    4. Integer.valueOf会考虑缓存,而new Integer则不会,所以尽量使用前者
+2. double没有缓存,因为太多了.所以Double.valueOf就是创建1个新的空间
+3. string
+    1. intern方法
