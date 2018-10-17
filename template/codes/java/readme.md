@@ -223,3 +223,104 @@ for (int i = 0; i < a.length(); ++i)
 # e
 #----------------------------------------------
 ```
+## 5. Objects and Class
+1. this
+```
+this.
+```
+2. new & valueOf
+```
+int a = new Integer(3);
+int b = 3; // => Integer.valueOf(3);
+```
+3. 静态工厂
+    1. 可以返回原返回类型的任何子类型的对象。我们在选择返回对象的类有更大的灵活性。
+
+4. 单例对象构建: 只创建1个对象.实现Singleton
+    1. 
+    
+    ```
+    public enum Elvis{
+        INSTANCE;
+    }
+    ```
+5. package
+    1. 基本说明
+    + package语句作为Java源文件的第一条语句。(若缺省该语句，则指定为无名包。) 约定俗成的给包起名为把公司域名倒过来写，如com.sun
+    + Java编译器把包对应于文件系统的目录管理，package语句中，用‘.’来指明包（目录）的层次，例如`package com.sun;`则该文件中所有的类位于`.\com\sun`目录下
+    2. 类的导入
+        1. 可以在每个类前添加完整的包名
+        `java.time.LocalDate today = java.time.LocalDate.now();`
+        2. 使用import语句: `import java.time.*`的语法比较简单，对代码的大小也没有任何负面的影响。但如果能明确指出导入的类，可以让读者明确知道加载了哪个类.
+        ```
+        import java.time.*;
+        LocalDate today = LocalDate.now();
+        ```
+        3. 只导入包中的特定类
+        ```
+        import java.time.LocalDate;
+        ```
+    3. C++
+    + C++程序员会将import与#include弄混。其实，两者并没有共同之处。
+    + C++中需要用#include将外部声明加载进来，这是因为C++编译器只能查看正在编译的文件和include的文件；而java编译器可以查看其他文件，只要告诉它到哪里去查看就可以了。
+    + 在Java中，显式给出包名时（如java.util.Date），则不需要import；而C++中无法避免用#include。
+    + Java中，package与import类似于C++中的namespace和using.
+
+    4. 静态导入: 什么是静态导入?
+        1. import不仅可以导入类，还可以导入静态方法和静态域。
+        `import static java.lang.System.*;`就可以使用System类的静态方法和静态域了。
+        ```
+        out.println(“Hello World!”); //System.out
+        exit(0); //System.exit
+        ```
+        2. 也可以导入特定的方法或域
+        `import static java.lang.System.out;`
+
+
+    5. 将类放入包中
+    要将类放到包中，必须将包的名字放在源文件的开始，例如：
+    ```
+    package com.horstmann.corejava
+    public class Employee
+    {
+    …
+    }
+    ```
+    如果没有放置package语句，则这个类被放置在默认包（default package)中。
+
+
+    需要将类文件切实安置到其所归属之Package所对应的相对路径下。
+    ```
+    package com.horstmann.corejava
+    public class Employee
+    {
+    …
+    }
+    ```
+    需要将Employee.java放到`com/horstmann/corejava`目录下
+    编译器也会将class文件放到相同的目录结构中
+
+
+6. 类的关系
++ association: 涉及其他类,2个类就是association
++ aggregation: 这两个对象有has的关系,比如城市和树
++ composition: 2个对象有包含关系,其中1个对象不能独立于另一个对象存在.比如人和心脏
+
+
+7. Wrapper Class
+    1. MAX_VALUE, MIN_VALUE
+    2. Integer类内部包装了int类型,而Double类型内部封装了double
+    3. Integer构造函数可以接收int或string
+    4. Integer.valueOf => 构造一个指定值初始化的Integer类型
+    5. unboxing: 用`+`处理2个Integer对象,那么就会unboxing成2个int
+    6. BigInteger, BigDecimal => 2个都是不可修改的,内部有multiply/divede等成员方法
+    7. String
+        1. 构建
+        ```
+        String message = "hello"; // 如果使用这个方法构造,那么不同的对象都会引用相同的地址空间(放在常量池里面).可以使用==判断2个对象是否相同
+        String message = new String("hello");
+        String message = new String();
+        ```
+        
+8. 常量池技术
+
