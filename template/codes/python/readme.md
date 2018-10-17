@@ -376,6 +376,23 @@ with tf.Session() as sess:
     print(iris)
     # knn.fit(iris.data, iris.target) # iris.data => [batch_size, features_dims]; iris.target => [batch_size]
     ```
+    3. COCO
+        1. json
+        + `info`: annotations['info'] => `{'description': 'This is stable 1.0 version of the 2014 MS COCO dataset.', 'url': 'http://mscoco.org', 'version': '1.0', 'year': 2014, 'contributor': 'Microsoft COCO group', 'date_created': '2015-01-27 09:11:52.357475'}`
+        + `type`: annotations['type'] => `'captions'`
+        + `images`: a list of image's infos. `annotations['images'][0]` => `{'license': 5, 'url': 'http://farm4.staticflickr.com/3153/2970773875_164f0c0b83_z.jpg', 'file_name': 'COCO_train2014_000000057870.jpg', 'id': 57870, 'width': 640, 'date_captured': '2013-11-14 16:28:13', 'height': 480}`
+        + `annotations`: a list of image's annotations: `annotations['annotations'][0]` => `{'image_id': 318556, 'id': 48, 'caption': 'A very clean and well decorated empty bathroom'}`
+        ```
+        annotation_file = './captions_train2014.json'
+        with open(annotation_file, 'r') as f:
+            annotations = json.load(f)
+        #-----------------------------------------------------------
+        # annotations.keys() => dict_keys(['info', 'images', 'licenses', 'type', 'annotations'])
+        #-----------------------------------------------------------
+        ```
+        
+
+
 6. 改变形状
 ```
 #features = tf.placeholder(tf.float32,[None,784])
