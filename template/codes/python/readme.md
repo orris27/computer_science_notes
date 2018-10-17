@@ -3331,6 +3331,18 @@ if done:
     hidden_layer = image.layers[-1].output
     ```
 
+
+94. tf.py_func: wraps a python function and uses it as a tensor operation
+```
+def sqrt(x):
+    return np.sqrt(x)
+
+inp = tf.placeholder(tf.float32)
+y = tf.py_func(sqrt, [inp], tf.float32)
+
+with tf.Session() as sess:
+    print(sess.run(y, feed_dict={inp:9}))
+```
     
 ### 1-1. slim
 1. Basic Usage: 完整代码参看30-8处的内容
