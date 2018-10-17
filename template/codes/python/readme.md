@@ -3253,6 +3253,18 @@ if done:
         ```
 
 
+93. `tf.kears.applications.InceptionV3`: [参考资料](https://keras.io/applications/#inceptionv3)
+    1. 类似于`keras.applications.inception_v3.InceptionV3(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)`
+    + default input shape: `[299, 299]`
+    + `include_top`: whether to include a fully connected layer at the top of the network
+    + `weights`: pretraining on ImageNet
+    + Returns: keras model
+    ```
+    image_model = tf.keras.applications.InceptionV3(include_top=False, weights='imagenet')
+    new_input = image_model.input
+    hidden_layer = image.layers[-1].output
+    ```
+    
 ### 1-1. slim
 1. Basic Usage: 完整代码参看30-8处的内容
 ```
@@ -4650,3 +4662,56 @@ action = 1 if np.random.random() < probability1 else 0
 ```
 time.time() #<=> clock()
 ```
+
+
+26. set
+    1. cast a list into a set( a set is different from a dict)
+    ```
+    a = set([1,2,3])
+    #-----------------------
+    # {1, 2, 3}
+    #-----------------------
+    ```
+    2. Basic use
+    ```
+    1 in a
+    #-----------------------
+    # True
+    #-----------------------
+
+    1 not in a
+    #-----------------------
+    # False
+    #-----------------------
+
+    a.add(4)
+    #-----------------------
+    # {1, 2, 3, 4}
+    #-----------------------
+    
+    a.remove(3)
+    #-----------------------
+    # {1, 2, 4}
+    #-----------------------
+
+    a.clear()
+    #-----------------------
+    # set()
+    #-----------------------
+    
+    a = set([1,2,3])
+    a.pop()
+    #-----------------------
+    # 1
+    #-----------------------
+    
+    a.pop()
+    #-----------------------
+    # 2
+    #-----------------------
+    
+    a.pop()
+    #-----------------------
+    # 3
+    #-----------------------
+    ```
