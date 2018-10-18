@@ -676,6 +676,11 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     1. 原因: `dataset = tf.data.Dataset.from_tensor_slices([filenames_train,padded_indices_train])`
     2. 解决: `dataset = tf.data.Dataset.from_tensor_slices((filenames_train,padded_indices_train))`
 
+
+13. 使用tf.keras里的Dense的时候,报错`ValueError: Input 0 of layer dense is incompatible with the layer: : expected min_ndim=2, found ndim=1. Full shape received: [64]`
+    1. 原因: 全连接神经网络的输入不能只有1个维度,也就是说我传入的是`[64]`形状的,所以至少要2个维度
+    2. 解决: 变成`[64, x]`或者`[x, 64]`
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
