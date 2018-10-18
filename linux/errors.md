@@ -672,6 +672,10 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     2. 解决: `image = tf.image.resize_images(image,(image_h,image_w))`
 
 
+12. `ValueError: Can't convert Python sequence with mixed types to Tensor.`
+    1. 原因: `dataset = tf.data.Dataset.from_tensor_slices([filenames_train,padded_indices_train])`
+    2. 解决: `dataset = tf.data.Dataset.from_tensor_slices((filenames_train,padded_indices_train))`
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
