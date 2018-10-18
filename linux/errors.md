@@ -681,6 +681,12 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     1. 原因: 全连接神经网络的输入不能只有1个维度,也就是说我传入的是`[64]`形状的,所以至少要2个维度
     2. 解决: 变成`[64, x]`或者`[x, 64]`
 
+
+14. 跑TF官网的image caption时报错`tensorflow.python.framework.errors_impl.UnknownError: Fail to find the dnn implementation. [Op:CudnnRNN]`
+    1. 原因: 使用eager模式时config设置了0.7的使用率
+    2. 解决: 取消这个设置就好了
+
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
