@@ -35,8 +35,11 @@ cat /proc/driver/nvidia/version
 # GCC version:  gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.10) 
 #-------------------------------------------------------------------------------------------
 
-nvidia-smi
+nvidia-smi # 检测driver是否出问题
+# nvidia-settings # 若弹出设置对话框,也表示驱动安装成功
 
+
+lsmod | grep nouveau # 如果没有输出,表示成功禁用nouveau驱动
 
 conda create -n venv pip python=2.7 # conda版本
 source activate venv
