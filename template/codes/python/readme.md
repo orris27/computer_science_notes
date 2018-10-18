@@ -3556,6 +3556,7 @@ model.fit(X_train, y_train, n_epoch=20, validation_set=([X_test, y_test]), show_
 ```
 
 ### 1-3. Keras
+1. Sequential
 ```
 import keras
 from keras.datasets import mnist
@@ -3632,7 +3633,53 @@ print("Test loss:", score[0])
 print('Test accuracy:', score[1])
 
 ```
+2. `tf.keras.models.Model` <=> `tf.keras.Model`: [reference-website](https://www.tensorflow.org/api_docs/python/tf/keras/models/Model#__call__)
++ With the "functional API", where you start from Input, you chain layer calls to specify the model's forward pass, and finally you create your model from inputs and outputs
+```
+import tensorflow as tf
 
+inputs = tf.keras.Input(shape=(3,))
+x = tf.keras.layers.Dense(4, activation=tf.nn.relu)(inputs)
+outputs = tf.keras.layers.Dense(5, activation=tf.nn.softmax)(x)
+model = tf.keras.Model(inputs=inputs, outputs=outputs)
+```
++ By subclassing the `Model` class: in that case, you should define your layers in `__init__` and you should implement the model's forward pass in `call`.
+```
+import tensorflow as tf
+
+class MyModel(tf.keras.Model):
+
+  def __init__(self):
+    super(MyModel, self).__init__()
+    self.dense1 = tf.keras.layers.Dense(4, activation=tf.nn.relu)
+    self.dense2 = tf.keras.layers.Dense(5, activation=tf.nn.softmax)
+
+  def call(self, inputs):
+    x = self.dense1(inputs)
+    return self.dense2(x)
+
+model = MyModel()
+```
+If you subclass `Model`, you can optionally have a `training` argument (boolean) in `call`, which you can use to specify a different behavior in training and inference:
+```
+import tensorflow as tf
+
+class MyModel(tf.keras.Model):
+
+  def __init__(self):
+    super(MyModel, self).__init__()
+    self.dense1 = tf.keras.layers.Dense(4, activation=tf.nn.relu)
+    self.dense2 = tf.keras.layers.Dense(5, activation=tf.nn.softmax)
+    self.dropout = tf.keras.layers.Dropout(0.5)
+
+  def call(self, inputs, training=False):
+    x = self.dense1(inputs)
+    if training:
+      x = self.dropout(x, training=training)
+    return self.dense2(x)
+
+model = MyModel()
+```
 
 
 ## 2. Bazel
