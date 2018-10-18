@@ -665,6 +665,13 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     ```
     1. 原因: loss的计算公式不对:`loss=-tf.reduce_mean(tf.reduce_sum(labels*tf.log(y_predicted)))`这个是错误的
     2. 解决: loss的计算公式更正为: `loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=y_predicted, labels=tf.argmax(labels, 1)))`
+    
+    
+11. `ValueError: 'size' must be a 1-D Tensor of 2 elements: new_height, new_width`
+    1. 原因: `image = tf.image.resize_images(image,image_h,image_w)`
+    2. 解决: `image = tf.image.resize_images(image,(image_h,image_w))`
+
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
