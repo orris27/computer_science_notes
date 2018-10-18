@@ -382,7 +382,8 @@ with tf.Session() as sess:
         + `type`: annotations['type'] => `'captions'`
         + `images`: a list of image's infos. `annotations['images'][0]` => `{'license': 5, 'url': 'http://farm4.staticflickr.com/3153/2970773875_164f0c0b83_z.jpg', 'file_name': 'COCO_train2014_000000057870.jpg', 'id': 57870, 'width': 640, 'date_captured': '2013-11-14 16:28:13', 'height': 480}`
         + `annotations`: a list of image's annotations: `annotations['annotations'][0]` => `{'image_id': 318556, 'id': 48, 'caption': 'A very clean and well decorated empty bathroom'}`
-        + NOTE: `'COCO_train2014_' + '%012d.jpg' % (image_id)` is the true filename rather than file_name.当然这里的文件名指的是直接`unzip train2014.zip`
+        + NOTE: `'COCO_train2014_' + '%012d.jpg' % (image_id)` is the true filename rather than file_name.当然这里的文件名指的是直接`unzip train2014.zip`. 
+        + NOTE2: `train2014.zip`总共有82783个图片,但`captions_train2014.json`总共只为16643个图片注释了,被注释的图片可能有多个注释,但是其他图片就没有caption了.
         ```
         annotation_file = './captions_train2014.json'
         with open(annotation_file, 'r') as f:
