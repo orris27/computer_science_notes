@@ -3425,7 +3425,7 @@ with tf.Session() as sess:
     import tensorflow.contrib.eager as tfe
     ```
     
-    3. training model in eager mode
+    3. training model in eager mode: `python xx.py` to execute the codes below
     ```
     import numpy as np
     import tensorflow as tf
