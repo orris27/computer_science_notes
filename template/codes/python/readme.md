@@ -3370,6 +3370,9 @@ with tf.Session() as sess:
     
 96. eager mode
     1. Basic use
+    + `tfe.Variable`: in eager mode, `tf.Variable` is not supported, use `tfe.Variable` instead
+    + It's okay to use `tf.reduce_mean`, `tf.square`, etc
+    + `tf.random_normal` or `np.random.xxx` are nearly same.
     ```
     import tensorflow as tf
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
@@ -3409,6 +3412,53 @@ with tf.Session() as sess:
     import tensorflow.contrib.eager as tfe
     ```
     
+    3. training model in eager mode
+    ```
+    import numpy as np
+    import tensorflow as tf
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
+    config = tf.ConfigProto(gpu_options=gpu_options)
+    tf.enable_eager_execution(config=config)
+
+    import tensorflow.contrib.eager as tfe
+
+
+
+    learnin_rate = 0.01
+    training_size = 1000
+    #X_train = np.random.random([training_size]) * 10 
+    X_train = tf.random_normal([training_size]) # 初始化X_train用tf和numpy都可以,毕竟只是训练用的数据.但是计算的时候最好使用TF的API
+    noise = (np.random.random(training_size) - 0.5) * 0.01 
+    y_train = X_train * 4.9 + noise + 1.1
+
+
+    w = tfe.Variable(5.2)
+    b = tfe.Variable(1.2)
+    def inference(X_train, w, b):
+        return X_train * w + b
+
+    def get_loss(y_predicted, labels):
+        return tf.reduce_mean(tf.square(y_predicted - labels))
+        #return np.reduce_mean(np.square(y_predicted - labels)) # we cannot use numpy op
+
+    num_epochs = 1000
+    for step in range(num_epochs):
+        with tf.GradientTape() as tape:
+            y_predicted = inference(X_train, w, b) # tape里面必须包含能从w, b(参数们)一起追溯到loss的所有计算,所以这两行不能放在tap以外的代码段
+            loss = get_loss(y_predicted, y_train)
+        dw, db = tape.gradient(loss, [w, b])
+        w.assign_sub(dw * learnin_rate)
+        b.assign_sub(db * learnin_rate)
+        if step % 10 == 0:
+            print(w.numpy(), b.numpy())
+    ```
+
+
+97. noise
+```
+noise = tf.random_normal([NUM_EXAMPLES]) # eager mode's noise
+noise = (np.random.random(training_size) - 0.5) * 0.01 # my noise for eager training
+```
     
 ### 1-1. slim
 1. Basic Usage: 完整代码参看30-8处的内容
