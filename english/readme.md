@@ -2582,6 +2582,7 @@ The economy remains sluggish
 
 164. (adj)crude: crew + 球网 => 飞机上的职员们在踢球,然后都光着身子,就像生的,未提炼的
 
+165. (n)cereal: 厕所 + 针 => 厕所里很多针, 骨头在插针(谷类)
 ### 1-27. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
