@@ -18,7 +18,7 @@ pip -V
 pip install -U tensorflow
 pip install tensorflow==1.8.0
 ```
-2. gpu
+2. gpu: [参考资料](https://github.com/orris27/orris/blob/master/python/machine-leaning/nvidia.md)
 ```
 nvcc -V # 检查CUDA版本
 #-------------------------------------------------------------------------------------------
@@ -42,6 +42,17 @@ cat /usr/local/cuda/version.txt
 
 nvidia-smi # 检测driver是否出问题
 # nvidia-settings # 若弹出设置对话框,也表示驱动安装成功
+
+echo $LD_LIBRARY_PATH # 检查使用的cuda
+#-------------------------------------------------------------------------------------------
+# /usr/local/cuda-9.0/lib64
+#-------------------------------------------------------------------------------------------
+
+ls /usr/local/cuda-8.0/lib64/libcudnn.so* # 查看是否该cuda下有cudnn
+#-------------------------------------------------------------------------------------------
+# /usr/local/cuda-8.0/lib64/libcudnn.so  /usr/local/cuda-8.0/lib64/libcudnn.so.7.1.3
+#-------------------------------------------------------------------------------------------
+
 
 
 lsmod | grep nouveau # 如果没有输出,表示成功禁用nouveau驱动
