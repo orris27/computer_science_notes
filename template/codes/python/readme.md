@@ -382,6 +382,7 @@ with tf.Session() as sess:
         + `type`: annotations['type'] => `'captions'`
         + `images`: a list of image's infos. `annotations['images'][0]` => `{'license': 5, 'url': 'http://farm4.staticflickr.com/3153/2970773875_164f0c0b83_z.jpg', 'file_name': 'COCO_train2014_000000057870.jpg', 'id': 57870, 'width': 640, 'date_captured': '2013-11-14 16:28:13', 'height': 480}`
         + `annotations`: a list of image's annotations: `annotations['annotations'][0]` => `{'image_id': 318556, 'id': 48, 'caption': 'A very clean and well decorated empty bathroom'}`
+        + NOTE: `'COCO_train2014_' + '%012d.jpg' % (image_id)` is the true filename rather than file_name.当然这里的文件名指的是直接`unzip train2014.zip`
         ```
         annotation_file = './captions_train2014.json'
         with open(annotation_file, 'r') as f:
@@ -389,6 +390,17 @@ with tf.Session() as sess:
         #-----------------------------------------------------------
         # annotations.keys() => dict_keys(['info', 'images', 'licenses', 'type', 'annotations'])
         #-----------------------------------------------------------
+
+
+
+        l = [['COCO_train2014_' + '%012d.jpg' % (annotation['image_id']), annotation['caption']] for image, annotation in zip(annotations['images'], annotations['annotations'])]
+        #----------------------------------------------------------------------------------------------------
+        # ['COCO_train2014_000000318556.jpg', 'A very clean and well decorated empty bathroom']
+        # ['COCO_train2014_000000116100.jpg', 'A panoramic view of a kitchen and all of its appliances.']
+        # ....
+        #----------------------------------------------------------------------------------------------------
+
+        
         ```
         
 
