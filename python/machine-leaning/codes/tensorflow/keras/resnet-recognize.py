@@ -1,3 +1,6 @@
+'''
+    Usage: put "elephant.jpg" in the current directory & python resnet-recognize.py
+'''
 import keras
 from keras.applications.resnet50 import ResNet50
 #from keras.preprocessing import image
