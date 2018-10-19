@@ -199,11 +199,18 @@ learning_rate = tf.Variable(1e-3)
     #cross_entropy = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = tf.argmax(labels,1),logits = y_predicted)) 
     ```
     3. mean_squared_error
-        + 差的平方和的平均值
-    ```
-    # labels 和 predictions 都是一维数组
-    loss = tf.losses.mean_squared_error(labels=self.labels,predictions=self.y_predicted)
-    ```
+    + 差的平方和的平均值
+        1. <方法1>
+        ```
+        # labels 和 predictions 都是一维数组
+        loss = tf.losses.mean_squared_error(labels=self.labels,predictions=self.y_predicted)
+        ```
+        2. <方法2>
+            1. y_predicted.shape == labels.shape
+            2. shape=`[batch_size,num_classes]`或者`[batch_size]`等都可以
+        ```
+        #loss = tf.reduce_mean(tf.square(y_predicted - labels)) # 适用于回归等
+        ```
     4. 自带学习率衰减
         + var_list:类似于`self.d_params = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES,scope='disc')`
             + tf.GraphKeys.TRAINABLE_VARIABLES是字符串类型,为`trainable_variables`
@@ -1903,14 +1910,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
         ```
         X_train = np.linspace(-10, 10, 64)[:,np.newaxis] + np.random.random([64,1]) * 0.01
         ```
-    3. 损失函数
-        1. 均方误差
-            + 条件
-                1. y_predicted.shape == labels.shape
-                2. shape=`[batch_size,num_classes]`或者`[batch_size]`等都可以
-        ```
-        loss = tf.reduce_mean(tf.square(y_predicted - labels)) # 适用于回归等
-        ```
+
 
 57. 文件操作
     + 接口:不需要sess.run
