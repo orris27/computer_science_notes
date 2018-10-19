@@ -1292,7 +1292,7 @@ with sv.managed_session(config=config) as sess:
     8. [TensorFlow实现MNIST数据集的CNN识别](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
     9. [slim基于LeNet-5实现MNIST数字识别](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/slim/readme.md)
     10. [TFLearn基于LeNet-5实现MNIST数字识别](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/tflearn)
-    11. [Keras基于LeNet-5实现MNIST数字手写识别](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/keras)
+    11. [Keras基于LeNet-5实现MNIST数字手写识别,使用Sequential和Model继承方法](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/keras)
 31. 空
 
 32. 设置随机数的种子
@@ -3623,6 +3623,18 @@ print("Test accuracy:", score[1])
 ```
 2. `tf.keras.models.Model` <=> `tf.keras.Model`: [reference-website](https://www.tensorflow.org/api_docs/python/tf/keras/models/Model#__call__)
 + With the "functional API", where you start from Input, you chain layer calls to specify the model's forward pass, and finally you create your model from inputs and outputs
+```
+import tensorflow as tf
+
+inputs = tf.keras.Input(shape=(3,))
+x = tf.keras.layers.Dense(4, activation=tf.nn.relu)(inputs)
+outputs = tf.keras.layers.Dense(5, activation=tf.nn.softmax)(x)
+model = tf.keras.Model(inputs=inputs, outputs=outputs)
+```
+
+
+
++ By subclassing the `Model` class: in that case, you should define your layers in `__init__` and you should implement the model's forward pass in `call`.
     1. basic
     ```
     import tensorflow as tf
@@ -3640,16 +3652,8 @@ print("Test accuracy:", score[1])
 
     model = MyModel()
     ```
+    
     2. MNIST classification
-    ```
-    import tensorflow as tf
-
-    inputs = tf.keras.Input(shape=(3,))
-    x = tf.keras.layers.Dense(4, activation=tf.nn.relu)(inputs)
-    outputs = tf.keras.layers.Dense(5, activation=tf.nn.softmax)(x)
-    model = tf.keras.Model(inputs=inputs, outputs=outputs)
-    ```
-    + By subclassing the `Model` class: in that case, you should define your layers in `__init__` and you should implement the model's forward pass in `call`.
     ```
     import keras
     import tensorflow as tf
@@ -3730,6 +3734,8 @@ print("Test accuracy:", score[1])
     print("Test score:", score[0])
     print("Test accuracy:", score[1])
     ```
+
+
 If you subclass `Model`, you can optionally have a `training` argument (boolean) in `call`, which you can use to specify a different behavior in training and inference:
 ```
 import tensorflow as tf
