@@ -1956,6 +1956,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
                 f.write(encoded_image.eval())
         ```
 58. 数据预处理
++ 通用
     1. 给定一个一维列表,按`[batch_size]`的大小输出
         1. <方法1> tf.train.batch
             1. tf.train.slice_input_producer:
@@ -2050,8 +2051,8 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
             ds = ds.batch(1)
             X, y = ds.make_one_shot_iterator().get_next()
             ```
-
-    2. words => indices, dictionary, reverse_dictionary. 完整代码参考[skip-gram代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/word2vec.py/skip-gram.py)
++ NLP
+    1. words => indices, dictionary, reverse_dictionary. 完整代码参考[skip-gram代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/word2vec.py/skip-gram.py)
         + `['I', 'am', 'a', 'boy']` => [23, 10, 2, 33], {'I': 23, 'am': 10,..}, {23: 'I', 10:'am', ...}
     ```
     def words_to_indices(words):
@@ -2083,7 +2084,10 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     indices, dictionary, reverse_dictionary = words_to_indices(words)
     del words
     ```
-    3. Skip-Gram: indices => X, y. 完整代码参考[skip-gram代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/word2vec.py/skip-gram.py)
+    
+    
+    
+    2. Skip-Gram: indices => X, y. 完整代码参考[skip-gram代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/word2vec.py/skip-gram.py)
         + `[23, 10, 2, 33]` => `[10, 10, 2, 2 ,...]`, `[[23], [2], [10], [33], ...]`
     ```
     data_index = 0
@@ -2142,7 +2146,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     ```
     
     
-    5. sentences => indices
+    3. sentences => indices
     ```
     train_captions = ['<sos> I am a boy <eos>', '<sos> I love a pen <eos>']
     top_k = 5 # 最后的结果会留下top_k-1个不同的数字
@@ -2183,11 +2187,12 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     #  'love': 8,
     #  'pen': 9}
     #-----------------------------------------------------------------------------------------------------------------------------
-
-    
-    
     ```
-    6. indices => padded incdices: padding indices from the whole sentences
+    
+    
+    
+    
+    4. indices => padded incdices: padding indices from the whole sentences
     ```
     a
     #-----------------------------------------------------------------------------------------------------------------------------
@@ -2202,6 +2207,24 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     #-----------------------------------------------------------------------------------------------------------------------------
     ```
     
++ 图像预处理: 1. `filename`: string => `image_raw`: bytes => `image`:(width, height, channels), dtype=int32 => `images`:(batch_size, width, height, channles), dtype=int32 => `dimages`:(batch_size, width, height, channels), dtype=float32 当然不是简单的类型转换啦 2. `img`用来表示其他类型的图像,如PIL结构的图像
+
+    1. 单张图片
+    ```
+    import keras
+    from keras.applications.resnet50 import ResNet50
+    from keras.applications.resnet50 import preprocess_input, decode_predictions
+    import numpy as np
+
+    model = ResNet50(weights='imagenet')
+
+    #img_path = 'elephant.jpg'
+    img_path = 'surf.jpg'
+    img = keras.preprocessing.image.load_img(img_path, target_size=(224, 224))
+    image = keras.preprocessing.image.img_to_array(img)
+    images = np.expand_dims(image, axis=0)
+    dimages = preprocess_input(images)
+    ```
     
     
     
