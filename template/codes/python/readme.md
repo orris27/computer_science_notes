@@ -3621,6 +3621,9 @@ score = model.evaluate(X_test, y_test)
 print("Test score:", score[0])
 print("Test accuracy:", score[1])
 ```
+
+
+
 2. `tf.keras.models.Model` <=> `tf.keras.Model`: [reference-website](https://www.tensorflow.org/api_docs/python/tf/keras/models/Model#__call__)
 + With the "functional API", where you start from Input, you chain layer calls to specify the model's forward pass, and finally you create your model from inputs and outputs
 ```
@@ -3758,6 +3761,32 @@ class MyModel(tf.keras.Model):
 
 model = MyModel()
 ```
+
+
+3. `tf.keras.applications`
+    1. InceptionV3 (未完待续)
+    + 输入的形状必须是: `(batch_size, 299, 299, 3)`
+    ```
+    def load_image(image_path):
+        img = tf.read_file(image_path)
+        img = tf.image.decode_jpeg(img, channels=3)
+        img = tf.image.resize_images(img, (299, 299))
+        img = tf.keras.applications.inception_v3.preprocess_input(img)
+        return img, image_path
+
+    
+    
+    image_model = tf.keras.applications.InceptionV3(include_top=False, weights='imagenet')
+    new_input = image_model.input
+    hidden_layer = image_model.layers[-1].output
+
+    image_features_extract_model = tf.keras.Model(new_input, hidden_layer)
+
+
+    batch_features = image_features_extract_model(img)
+    # img.shape=TensorShape([Dimension(16), Dimension(299), Dimension(299), Dimension(3)])
+    # batch_features.shape=TensorShape([Dimension(16), Dimension(8), Dimension(8), Dimension(2048)])
+    ```
 
 
 ## 2. Bazel
