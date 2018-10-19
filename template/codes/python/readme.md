@@ -3654,6 +3654,8 @@ model = tf.keras.Model(inputs=inputs, outputs=outputs)
     ```
     
     2. MNIST classification
+    + `super(YourClass, self).__init__()`: do not forget
+    + `model.compile`: use `tf.keras` API, instead of `tf.nn.xxx` or `tf.train.AdamOptimizer`
     ```
     import keras
     import tensorflow as tf
