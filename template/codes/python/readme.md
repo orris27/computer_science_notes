@@ -1293,6 +1293,7 @@ with sv.managed_session(config=config) as sess:
     9. [slim基于LeNet-5实现MNIST数字识别](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/slim/readme.md)
     10. [TFLearn基于LeNet-5实现MNIST数字识别](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/tflearn)
     11. [Keras基于LeNet-5实现MNIST数字手写识别,使用Sequential和Model继承方法](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/keras)
+    12. [Keras基于现成的ResNet50识别图片](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/keras/resnet-recognize.py)
 31. 空
 
 32. 设置随机数的种子
@@ -2212,20 +2213,13 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     1. 单张图片
     ```
     import keras
-    from keras.applications.resnet50 import ResNet50
-    from keras.applications.resnet50 import preprocess_input, decode_predictions
     import numpy as np
 
-    model = ResNet50(weights='imagenet')
-
-    #img_path = 'elephant.jpg'
-    img_path = 'surf.jpg'
-    img = keras.preprocessing.image.load_img(img_path, target_size=(224, 224))
+    filename = 'elephant.jpg'
+    img = keras.preprocessing.image.load_img(filename, target_size=(224, 224))
     image = keras.preprocessing.image.img_to_array(img)
     images = np.expand_dims(image, axis=0)
-    dimages = preprocess_input(images)
     ```
-    
     
     
     
@@ -3355,25 +3349,7 @@ if done:
         ```
 
 
-93. `tf.kears.applications.InceptionV3`: [参考资料](https://keras.io/applications/#inceptionv3)
-    1. 类似于`keras.applications.inception_v3.InceptionV3(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)`
-    + default input shape: `[299, 299]`
-    + `include_top`: whether to include a fully connected layer at the top of the network
-    + `weights`: pretraining on ImageNet
-    + Returns: keras model
-    ```
-    image_model = tf.keras.applications.InceptionV3(include_top=False, weights='imagenet')
-    new_input = image_model.input
-    hidden_layer = image.layers[-1].output
-    image_features_extract_model = tf.keras.Model(new_input, hidden_layer)
-    
-    for img, path in image_dataset:
-    # img.shape=TensorShape([Dimension(16), Dimension(299), Dimension(299), Dimension(3)])
-
-      batch_features = image_features_extract_model(img)
-      # batch_features.shape=TensorShape([Dimension(16), Dimension(8), Dimension(8), Dimension(2048)])
-    ```
-
+93. 空
 
 94. tf.py_func: wraps a python function and uses it as a tensor operation
 ```
@@ -3787,8 +3763,12 @@ model = MyModel()
 
 
 3. `tf.keras.applications`
-    1. InceptionV3 (未完待续)
-    + 输入的形状必须是: `(batch_size, 299, 299, 3)`
+    1. InceptionV3 (未完待续): [参考资料](https://keras.io/applications/#inceptionv3)
+    + 类似于`keras.applications.inception_v3.InceptionV3(include_top=True, weights='imagenet', input_tensor=None, input_shape=None, pooling=None, classes=1000)`
+    + default input shape: `[batch_size, 299, 299, 3]`
+    + `include_top`: whether to include a fully connected layer at the top of the network
+    + `weights`: pretraining on ImageNet
+    + Returns: keras model
     ```
     def load_image(image_path):
         img = tf.read_file(image_path)
@@ -3796,8 +3776,6 @@ model = MyModel()
         img = tf.image.resize_images(img, (299, 299))
         img = tf.keras.applications.inception_v3.preprocess_input(img)
         return img, image_path
-
-    
     
     image_model = tf.keras.applications.InceptionV3(include_top=False, weights='imagenet')
     new_input = image_model.input
@@ -3805,10 +3783,41 @@ model = MyModel()
 
     image_features_extract_model = tf.keras.Model(new_input, hidden_layer)
 
-
-    batch_features = image_features_extract_model(img)
+    for img, path in image_dataset:
     # img.shape=TensorShape([Dimension(16), Dimension(299), Dimension(299), Dimension(3)])
-    # batch_features.shape=TensorShape([Dimension(16), Dimension(8), Dimension(8), Dimension(2048)])
+
+      batch_features = image_features_extract_model(img)
+      # batch_features.shape=TensorShape([Dimension(16), Dimension(8), Dimension(8), Dimension(2048)])
+    ```
+    
+    
+    
+    
+    2. ResNet: 完整代码请查看30代码实战中的"Keras基于现成的ResNet50识别图片"
+    ```
+    import keras
+    from keras.applications.resnet50 import ResNet50
+    from keras.applications.resnet50 import preprocess_input, decode_predictions
+    import numpy as np
+
+    model = ResNet50(weights='imagenet')
+    # ...
+
+    dimages = preprocess_input(images) # suppose images: [1, width, height, 3], dtype=int32(0~255)
+
+    y_predicted = model.predict(dimages) # y_predicted => (batch_size, 1000). 表示总共有1000个分类的one-hot
+    
+    
+    print(decode_predictions(y_predicted)) # => [1, 5, 3]
+    #----------------------------------------------------------------------------------------------------------
+    # [[('n02504458', 'African_elephant', 0.63380444), ('n01871265', 'tusker', 0.27116048), ('n02504013', 'Indian_elephant', 0.094646156), ('n09428293', 'seashore', 5.843781e-05), ('n01704323', 'triceratops', 3.599315e-05)]]
+    #----------------------------------------------------------------------------------------------------------
+    
+    
+    print('Predicted:', decode_predictions(y_predicted, top=3)[0])
+    #----------------------------------------------------------------------------------------------------------
+    # Predicted: [(u'n02504013', u'Indian_elephant', 0.82658225), (u'n01871265', u'tusker', 0.1122357), (u'n02504458', u'African_elephant', 0.061040461)]
+    #----------------------------------------------------------------------------------------------------------
     ```
 
 
