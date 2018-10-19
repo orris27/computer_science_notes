@@ -2835,12 +2835,14 @@ with tf.Session(config=config) as sess:
 
 
 74. Dataset方法
++ `prefetch`: prefetch elms from the dataset in the buffer
     1. 基于python list创建dataset
     ```
     import tensorflow as tf
 
     input_data = [1,2,3,5,8]
     dataset = tf.data.Dataset.from_tensor_slices(input_data)
+    # dataset = dataset.prefetch(1)
 
     iterator = dataset.make_one_shot_iterator()
 
@@ -3791,9 +3793,8 @@ model = MyModel()
     ```
     
     
-    
-    
-    2. ResNet: 完整代码请查看30代码实战中的"Keras基于现成的ResNet50识别图片"
+    2. predict: 完整代码请查看30代码实战中的"Keras基于现成的ResNet50识别图片"
+    + `ResNet50`, `InceptionV3`, etc all make senses
     ```
     import keras
     from keras.applications.resnet50 import ResNet50
