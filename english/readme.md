@@ -2583,7 +2583,51 @@ The economy remains sluggish
 164. (adj)crude: crew + 球网 => 飞机上的职员们在踢球,然后都光着身子,就像生的,未提炼的
 
 165. (n)cereal: 厕所 + 针 => 厕所里很多针, 骨头在插针(谷类)
-### 1-27. extra
+
+
+
+
+
+
+
+
+
+### 1-27. fight!!
+(v)deviate: deviation(偏差) => 偏离
+
+(v)deflect: 大地 + fleck(斑点) => 将自己的脸上的斑点给脱离下来,放到大地上
+
+
+(adj)impertinent: 硬币 + 梯子 + 门 => 硬币冲了过去,冲破梯子,然后门是没有关闭的(无关的),所以就带起门飞了起来
+
+(adj)homogeneous: home + 锯子 + ear => 对家里用锯子,巨大的耳塞遮住自己的耳朵,然后锯开后发现有很多同类的人,就是我
+
+(adj)subordinate: subway + 莲藕 + 大地 + 奶 => subway上下来了一个莲藕,这个莲藕突然伏地魔,奶来了,然后压迫着,吃着(次要的)
+
+(adj)monotonous: money + 桶 + 脑 => 硬币掉到了桶里,砸到了御坂妹的脑,然后御坂妹一脸单调的表情出来了
+
+(n)midst: 米粒 + 大地 + 斯科特 => 米饭掉到了大地上,斯科特从中间走过,避开了冻结这些米粒
+
+(adj)extraneous: extra(这个文档的extra部分) + ear => 选中这个文档的extra部分,用耳朵听,结果无关的东西就进来就出去
+
+(v)digress: 袋子 + grass => 袋子里有很多草,然后阻止这些草离开(离开本体)
+
+(v)embrace: 鹰 + brave => 老鹰鼓起勇气,终于抱住了妹子 + 包含
+
+(v)invert: 老鹰 + 蚊子 + t => 老鹰在t舞台上,然后蚊子过来倒转了变成了蜜蜂,这样就可以对抗了
+
+(adj)inverse: invert(倒转) => inverse(倒转的,反的)
+
+(adj)peerless: 同伴 + 没有 => 一方通行没有同伴,觉得赛高了(无与伦比)
+
+(n)shade: 树荫 => 树荫下有个小男孩用插座在玩计算机
+
+(n)affinity: apple + 飞 + 泥巴 + 梯子 => 苹果在空中飞,着陆在泥巴上,掀起形成了梯子,梯子接近雷电,雷电害羞了(类似处)
+
+
+(adj)abstruse: ab(力量) + straw + 蛇 => 用力量殴打稻草,然后稻草碰到蛇,蛇的眼睛突然很深
+
+### 1-28. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
