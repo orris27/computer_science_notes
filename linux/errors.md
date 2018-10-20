@@ -687,6 +687,12 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     2. 解决: 取消这个设置就好了
 
 
+
+15. 执行`python xx.py`时报错`SyntaxError: unexpected EOF while parsing`
+    1. 原因
+    + 最后的语句少了一个括号, 比如`print("step {0}: loss={1}".format(step, loss / padded_indices.shape[1])`
+    + 有个indent的地方没有是使用`pass`或者写代码
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
