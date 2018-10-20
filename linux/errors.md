@@ -713,6 +713,19 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     1. 原因: 对于`sparse_softmax_cross_entropy_with_logits`, logits必须是`[batch_size, num_classes]`,而labels必须是`[batch_size]`.报这个错多半是logits或者labels的shape不对
 
 
+17. 执行`loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels,logits = logits) * mask)`时报错
+    ```
+    Traceback (most recent call last):
+      File "my.py", line 345, in <module>
+        loss += calc_loss(logits=output, labels=padded_indices[:, curr_timestep])
+      File "my.py", line 295, in calc_loss
+        loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels,logits = logits) * mask)
+      File "/home/user/anaconda2/envs/ovenv/lib/python3.6/site-packages/tensorflow/python/ops/nn_ops.py", line 2063, in sparse_softmax_cross_entropy_with_logits
+        (labels_static_shape.ndims, logits.get_shape().ndims))
+    ValueError: Rank mismatch: Rank of labels (received 1) should equal rank of logits minus 1 (received 3).
+    ```
+    1. 原因: 见报错,logits的dims应该是2
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
