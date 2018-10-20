@@ -1793,6 +1793,61 @@ euphonious sound
 12. (n)wind(管乐)
 
 
+13. (n)fine art(美术)
+
+14. (n)expressionism(表现主义)
+
+15. (n)neo-classic: new + classic => 新古典主义
+
+16. (n)minimalism: minimal + ism(主义) => 极简主义 => 极简抽象主义
+
+17. (n)Dadaism(达达主义)
+
+18. (n)impasto: 硬币 + 爬 + 头 => 葡萄牙厚涂颜料的地方有一个硬币向上爬,这个硬币变成了炮姐的头
+
+19. (n)disciple: 笛子 + 大海 + 破 => 笛子在大海上漂浮,然后突然破了,这个时候里面的俄罗斯女孩背着书包(上学 => 学徒)在吹笛子
+
+20. (n)engraving: 老鹰 + grave(墓穴) => 老鹰跑进grave里面,成为了雕刻
+
+21. (n)fresco: free(自由女神像) + school => 进入自由女神像的脚下上课,里面的壁画就是PPT
+
+22. (n)tronie: 车子 + 泥巴 => 车子开进泥巴,然后司机的头给弄成泥巴了
+
+23. (n)bust: 浴霸 + 斯科特 => 斯科特用浴霸冲热水澡,上半身没有冰块了
+
+24. (n)watercolor: 水彩画
+
+25. (n)charcoal drawing: char(烧焦) + coal(木炭) + drawing => 木炭画
+
+26. (n)wood board painting: 木版画
+
+27. (n)still life: 静止的生命 => 静止的生命就像一个物体一样 => 静止的物体,静物
+
+28. (n)mosaics: 蘑菇 + zack => 蘑菇,zack用镰刀,结果被镶嵌进去(吸进去)了
+
+29. (n)mural: grave + roll => 滚滚象滚进grave里面,结果变成壁画,2边胀了出来
+
+30. (n)calligraphy: carylee + photography => COO的电梯照片上写着"女"的书法
+
+31. (adj)subjective(傻 => 主观的); objective(客观的)
+
+32. (n)exaggeration: 一个 + generation => 新的七班,佐助笑的很夸张
+
+33. (adj)primitive: ray + 踢 => ray踢人,然后把zack踢成了猴子(原始的)
+
+34. (n)ingenuity: 老鹰 + 哥哥 + 弓弩 + 梯子 => 老鹰停在空助身上,空助将它利用成弓弩,然后不断射一个箭,心灵手巧地变成了梯子
+
+35. (adj)prestigious: ray + 死 + 梯子 + 鸡 + 莲藕 => ray濒死状态下搀扶着梯子,然后给鸡喂了莲藕,鸡望着ray,哭了出来,声音很响(有声望的)
+
+36. (n)division of labour: 分工
+
+37. (n)posture: 邮局 => 放邮件的时候姿势很奇怪
+
+38. (n)Gothic: 哥哥 + 石头 + 大海 => 空助将石头扔进了大海,出现了金色的哥哥
+
+
+
+
 ### 1-21. language
 1. (adj)succinct: 三颗 + 绳子 => 有三个人,拿着各自的绳子,然后作为剑来互相攻击对方
 ```
