@@ -693,6 +693,26 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     + 最后的语句少了一个括号, 比如`print("step {0}: loss={1}".format(step, loss / padded_indices.shape[1])`
     + 有个indent的地方没有是使用`pass`或者写代码
 
+
+16. 执行`loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels,logits = logits) * mask)`时报错
+    ```
+    Node: {{node SparseSoftmaxCrossEntropyWithLogits}} = SparseSoftmaxCrossEntropyWithLogits[T=DT_INT32, Tlabels=DT_INT32](dummy_input, dummy_input)
+    All kernels registered for op SparseSoftmaxCrossEntropyWithLogits :
+      device='CPU'; T in [DT_HALF]; Tlabels in [DT_INT64]
+      device='CPU'; T in [DT_HALF]; Tlabels in [DT_INT32]
+      device='CPU'; T in [DT_DOUBLE]; Tlabels in [DT_INT64]
+      device='CPU'; T in [DT_DOUBLE]; Tlabels in [DT_INT32]
+      device='CPU'; T in [DT_FLOAT]; Tlabels in [DT_INT64]
+      device='CPU'; T in [DT_FLOAT]; Tlabels in [DT_INT32]
+      device='GPU'; T in [DT_HALF]; Tlabels in [DT_INT64]
+      device='GPU'; T in [DT_HALF]; Tlabels in [DT_INT32]
+      device='GPU'; T in [DT_FLOAT]; Tlabels in [DT_INT64]
+      device='GPU'; T in [DT_FLOAT]; Tlabels in [DT_INT32]
+     [Op:SparseSoftmaxCrossEntropyWithLogits]
+    ```
+    1. 原因: 对于`sparse_softmax_cross_entropy_with_logits`, logits必须是`[batch_size, num_classes]`,而labels必须是`[batch_size]`.报这个错多半是logits或者labels的shape不对
+
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
