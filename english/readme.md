@@ -18,7 +18,7 @@
 15. pest
 16. chameleon
 17. trot
-18. gregarious
+18. 空
 19. petrify
 20. hide: 兽皮,藏
 21. prey
@@ -2465,7 +2465,7 @@ a caring and humane society
 
 63. (adj)canny: 卡片 + 泥巴 => 卡片掉在了泥巴里面,然后再捡回来重新利用(节俭的)
 
-64. (adj)stocially: store(小卖部) + 手 => 在小店里一只手买了矿泉水,非常单播
+64. (adj)stoically: store(小卖部) + 手 => 在小店里一只手买了矿泉水,非常单薄的
 
 65. (adj)austerity: 偶 + 特斯拉 + 梯子 => 两个特斯拉一起爬梯子,天气冷,紧缩在一起
 
