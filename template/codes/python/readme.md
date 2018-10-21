@@ -760,16 +760,19 @@ scope_assign('s1','s2',sess)
         config = tf.ConfigProto(gpu_options=gpu_options)
         session = tf.Session(config=config, ...)
         ```
-    3. 控制使用哪块GPU
-    ```
-    ~/ CUDA_VISIBLE_DEVICES=0  python your.py#使用GPU0
-    ~/ CUDA_VISIBLE_DEVICES=0,1 python your.py#使用GPU0,1
-    #注意单词不要打错
-
-    #或者在 程序开头
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0' #使用 GPU 0
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0,1' # 使用 GPU 0，1
-    ```
+    3. 控制使用哪块GPU: 设置环境变量
+        1. 命令行
+        ```
+        CUDA_VISIBLE_DEVICES=0  python your.py#使用GPU0
+        CUDA_VISIBLE_DEVICES=0,1 python your.py#使用GPU0,1
+        #注意单词不要打错
+        ```
+        2. 程序
+        ```
+        #或者在 程序开头
+        os.environ['CUDA_VISIBLE_DEVICES'] = '0' #使用 GPU 0
+        os.environ['CUDA_VISIBLE_DEVICES'] = '0,1' # 使用 GPU 0，1
+        ```
     4. 指定设备
         + 设备在TensorFlow中的命名是`/gpu:n`或者`/cpu:n`
         + "/cpu:0"一般会认为是所有CPU;但"/gpu:0"会认为就是第一个GPU,而第二个GPU就是"/gpu:1"
