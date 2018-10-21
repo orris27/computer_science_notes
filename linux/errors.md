@@ -726,6 +726,14 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     ```
     1. 原因: 见报错,logits的dims应该是2
 
+
+
+
+18. loss一直没有减少,或者减少的几率很少
+    1. 学习率是不是设置错误.比如0.01设置成0.1之类的
+    2. 在eager mode下optimizer的定义`optimizer = tf.train.AdamOptimizer()`是不是设置在内部的epoch循环内.(参考我模仿TF官网的image-caption)
+
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
