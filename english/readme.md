@@ -1846,6 +1846,49 @@ euphonious sound
 38. (n)Gothic: 哥哥 + 石头 + 大海 => 空助将石头扔进了大海,出现了金色的哥哥
 
 
+39. (n)indigo: 硬币 + 狗 + 蓝色 => 一个硬币抛出来,然后狗追逐,发出蓝色的光芒一直往前冲
+
+40. (patronage:爬车 + age(老化) => 爬车的爬虫变老了,将自己的胡子积攒起来,放到储蓄罐里
+
+41. (adj)elusive: 鱼 + 路 + save => 一条鱼在浮现在路上,然后正义的伙伴去捉这条鱼,结果捕捉不到
+
+42. (adj)allusive: apple + 路 + save => 一个苹果掉到了路上,正义的伙伴(save)
+
+43. (adj)bleak: 豆子 + leak => 豆子泄露出来,然后填满大海,结冰,里面是阴冷的
+
+44. (adj)murky: 门 + key => 用钥匙打开寝室门后,里面是阴暗的
+
+45. (adj)tangible: 糖果 + 球 => 一个糖果被一个球踢开,然后里面的内容变得非常明亮(明显)
+
+46. (adj)sarcastic: 色子 + caster + ink => 巨大色子压扁caster,然后caster变成墨水,被风吹走
+
+47. (adj)secular: 蛇 + 醋 + 雷 => 蛇从醋中出来,脸红的,然后被雷皮劈中,死了(世俗的)
+
+48. (n)saturation: sub + 吐出来 + 雷神 => sub嘴里塞满了雷神,只能吐出来
+
+49. (n)easel: ear + sell => 拍卖都是画ear的画架
+
+50. (adj,n)monochrome: 摩天轮 + chrome => chrome在摩天轮上变黑白了,因为要死了
+
+51. (n)autobiography: 人物传记
+
+52. (n)editorial: editor + 太累 => 齐木爸爸太累了,结果被社论攻击
+
+53. (adj)contemplative: contempt + 踢 => 鄙视(魔禁里川澄姐姐配的),一脚踢中沉思的雕塑
+
+54. (adj)improvisational: improvident + 绳子 + 男 => 老鹰被制造出来,然后被绳子拉过去,男的,然后即兴地狂欢
+
+55. (adj)incipient: 老鹰 + 大海 + 皮卡丘 + 摁住 => 老鹰在大海里漂泊,然后遇到皮卡丘,要kiss,摁住,结果推到了澡堂(早期的)
+
+56. (v)diffuse: di(反义词) + fuse(融合) => 漫射,传播
+
+57. (adj)intricate: 老鹰 + 车 + cat => 老鹰停在车上,然后遇到猫,之后猫吓得分身,变得非常复杂
+
+
+58. (adj)bustling: bust + 凛 => 凛拿着很多半身像,帮来帮去,很繁忙
+
+59. patches of color: 小片的颜色
+
 
 
 ### 1-21. language
