@@ -3828,8 +3828,17 @@ model = MyModel()
 
 
 
-4. attetion implementation
+4. attention implementation
 ```
+class CNNEncoder(tf.keras.Model):
+    def __init__(self, embedding_size):
+        super(CNNEncoder, self).__init__()
+
+        self.dense = tf.keras.layers.Dense(embedding_size, activation=tf.nn.relu)
+
+    def call(self, inputs):
+        return self.dense(inputs)
+
 def gru(units):
     if tf.test.is_gpu_available():
         return tf.keras.layers.CuDNNGRU(units,
@@ -3843,13 +3852,13 @@ def gru(units):
                                    recurrent_activation='sigmod',
                                    recurrent_initializer='glorot_uniform')
 
-
 class BahdanauAttention(tf.keras.Model):
     def __init__(self, wv_size):
         super(BahdanauAttention, self).__init__()
         self.V = tf.keras.layers.Dense(wv_size, activation=None)
         self.W = tf.keras.layers.Dense(wv_size, activation=None)
         self.U = tf.keras.layers.Dense(1, activation=None)
+        
 
     def call(self, encoder_output, hidden_state):
         hidden_state_with_time = tf.expand_dims(hidden_state, axis=1)
@@ -3873,6 +3882,7 @@ class RNNDecoder(tf.keras.Model):
         decoder_input = tf.concat([tf.expand_dims(context, axis=1), decoder_input], -1)
         output, hidden_state = self.gru(decoder_input)
         output = self.dense1(output)
+        output = tf.reshape(output, [-1, output.shape[-1]])
         output = self.dense2(output)
         return output, hidden_state
 
@@ -3884,18 +3894,18 @@ decoder = RNNDecoder(embedding_size, units, vocab_size)
 
 def calc_loss(logits, labels):
     mask = 1 - np.equal(labels, 0)
-    loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels,logits = tf.squeeze(logits)) * mask)
+    loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels,logits = logits) * mask)
     return loss
 
 optimizer = tf.train.AdamOptimizer()
 for epoch in range(num_epochs):
-    for (step, (dimages, padded_indices)) in enumerate(dataset): # one batch
+    for (step, (dimages, padded_indices)) in enumerate(dataset):
         loss = 0
         hidden_state = decoder.reset_state(batch_size=padded_indices.shape[0])
         decoder_input = tf.expand_dims([tokenizer.word_index["<start>"]] * batch_size, axis=1)
         with tf.GradientTape() as tape:
             encoder_output = encoder(dimages)
-            for curr_timestep in range(1, padded_indices.shape[1]): # iterates time steps for one batch
+            for curr_timestep in range(1, padded_indices.shape[1]):
                 output, hidden_state = decoder(decoder_input, encoder_output, hidden_state)
                 loss += calc_loss(logits=output, labels=padded_indices[:, curr_timestep])
                 decoder_input = tf.expand_dims(padded_indices[:, curr_timestep], axis=1)
@@ -3904,7 +3914,6 @@ for epoch in range(num_epochs):
         log_every = 20
         if step % log_every == 0:
             print("batch {2} step {0}: loss={1}".format(step, loss.numpy() / (int)(padded_indices.shape[1]), epoch))
-
 ```
 
 ## 2. Bazel
