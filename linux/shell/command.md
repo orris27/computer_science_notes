@@ -682,6 +682,19 @@ ltrace cat b.txt
 1. `sh xx.sh &`
 2. `nohub xx.sh &`
 3. `screen`
+    1. `-ls`: 列出所有的screen
+    2. `-r 24839`: Reattach a session
+    3. C-a ?   显示所有键绑定信息
+    4. C-a w   显示所有窗口列表
+    5. C-a C-a 切换到之前显示的窗口
+    6. C-a c   创建一个新的运行shell的窗口并切换到该窗口
+    7. C-a n   切换到下一个窗口
+    8. C-a p   切换到前一个窗口(与C-a n相对)
+    9. C-a 0..9    切换到窗口0..9
+    10. C-a a   发送 C-a到当前窗口
+    11. C-a d   暂时断开screen会话
+    12. C-a k   杀掉当前窗口
+    13. C-a [   进入拷贝/回滚模式
 4. `bg`
 
 ### 25-4. jobs
