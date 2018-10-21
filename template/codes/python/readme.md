@@ -841,6 +841,7 @@ scope_assign('s1','s2',sess)
         tf.nn.dynamic_rnn(cell, inputs, sequence_length=None, initial_state=None,dtype=None,time_major=False)
         ```
         2. 自己循环train_times次
+        + `lstm_cell`会改变自己!!如果直接调用的话,就不能放到dynamic_rnn里面了!!
         ```
         outputs = []
         states = initial_states
@@ -3478,6 +3479,29 @@ with tf.Session() as sess:
 noise = tf.random_normal([NUM_EXAMPLES]) # eager mode's noise
 noise = (np.random.random(training_size) - 0.5) * 0.01 # my noise for eager training
 ```
+
+
+
+98. Image-Caption-based-on-SeqGAN
+```
+python image_processing.py # Create image_feature: "eval_img_feature.pkl", "test_img_feature.pkl", "train_img_feature.pkl"
+
+python text_processing.py # Create :data/MSCOCO/word_embedding/{dictionary.pkl, embedding.pkl}"
+
+mv data/MSCOCO/cache/cache.pkl data/MSCOCO/cache/cache.pkl.ori
+
+
+cp dataloader/MSCOCODataLoader.py mscoco1.py
+python mscoco1.py
+rm mscoco1.py
+
+
+```
+
+
+
+
+
     
 ### 1-1. slim
 1. Basic Usage: 完整代码参看30-8处的内容
@@ -4761,7 +4785,7 @@ next(reader)
 
 
 ## 12. pickle
-1. basic use
+1. basic use: `out.pkl: 8086 relocatable (Microsoft)`
 ```
 import pickle
 
