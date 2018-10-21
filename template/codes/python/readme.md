@@ -4760,7 +4760,30 @@ next(reader)
 ```
 
 
-## 12. python
+## 12. pickle
+1. basic use
+```
+import pickle
+
+path = "./out.pkl"
+
+class Apple:
+    def __init__(self, num):
+        self.num = num
+    def __str__(self):
+        return str(self.num)
+
+var = Apple(123)
+
+with open(path, "wb") as f:
+    pickle.dump(var, f)
+    
+print("restoring...")
+
+with open(path, "rb") as f:
+    print(pickle.load(f))
+```
+## 13. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
