@@ -1304,6 +1304,7 @@ with sv.managed_session(config=config) as sess:
     10. [TFLearn基于LeNet-5实现MNIST数字识别](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/tflearn)
     11. [Keras基于LeNet-5实现MNIST数字手写识别,使用Sequential和Model继承方法](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/keras)
     12. [Keras基于现成的ResNet50识别图片](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/keras/resnet-recognize.py)
+    13. [TF基于attention的image caption](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/keras/image-caption.py)
 31. 空
 
 32. 设置随机数的种子
@@ -3825,6 +3826,86 @@ model = MyModel()
     #----------------------------------------------------------------------------------------------------------
     ```
 
+
+
+4. attetion implementation
+```
+def gru(units):
+    if tf.test.is_gpu_available():
+        return tf.keras.layers.CuDNNGRU(units,
+                                        return_sequences=True,
+                                        return_state=True,
+                                        recurrent_initializer='glorot_uniform')
+    else:
+        return tf.keras.layers.GRU(units,
+                                   return_sequences=True,
+                                   return_state=True,
+                                   recurrent_activation='sigmod',
+                                   recurrent_initializer='glorot_uniform')
+
+
+class BahdanauAttention(tf.keras.Model):
+    def __init__(self, wv_size):
+        super(BahdanauAttention, self).__init__()
+        self.V = tf.keras.layers.Dense(wv_size, activation=None)
+        self.W = tf.keras.layers.Dense(wv_size, activation=None)
+        self.U = tf.keras.layers.Dense(1, activation=None)
+
+    def call(self, encoder_output, hidden_state):
+        hidden_state_with_time = tf.expand_dims(hidden_state, axis=1)
+        weights = tf.nn.softmax(self.U(tf.tanh(self.V(encoder_output) + self.W(hidden_state_with_time))), axis=1)
+        context = tf.reduce_sum(weights * encoder_output, axis=1)
+        return context
+
+class RNNDecoder(tf.keras.Model):
+    def __init__(self, embedding_size, wv_size, vocab_size):
+        super(RNNDecoder, self).__init__()
+        self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_size)
+        self.attention = BahdanauAttention(wv_size)
+        self.gru_size = gru_size
+        self.gru = gru(self.gru_size)
+        self.dense1 = tf.keras.layers.Dense(self.gru_size, activation=None)
+        self.dense2 = tf.keras.layers.Dense(vocab_size, activation=None)
+
+    def call(self, decoder_input, encoder_output, hidden_state):
+        decoder_input = self.embedding(decoder_input)
+        context = self.attention(encoder_output, hidden_state)
+        decoder_input = tf.concat([tf.expand_dims(context, axis=1), decoder_input], -1)
+        output, hidden_state = self.gru(decoder_input)
+        output = self.dense1(output)
+        output = self.dense2(output)
+        return output, hidden_state
+
+    def reset_state(self, batch_size):
+        return tf.zeros([batch_size, self.gru_size])
+
+encoder = CNNEncoder(embedding_size)
+decoder = RNNDecoder(embedding_size, units, vocab_size)
+
+def calc_loss(logits, labels):
+    mask = 1 - np.equal(labels, 0)
+    loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels,logits = tf.squeeze(logits)) * mask)
+    return loss
+
+optimizer = tf.train.AdamOptimizer()
+for epoch in range(num_epochs):
+    for (step, (dimages, padded_indices)) in enumerate(dataset): # one batch
+        loss = 0
+        hidden_state = decoder.reset_state(batch_size=padded_indices.shape[0])
+        decoder_input = tf.expand_dims([tokenizer.word_index["<start>"]] * batch_size, axis=1)
+        with tf.GradientTape() as tape:
+            encoder_output = encoder(dimages)
+            for curr_timestep in range(1, padded_indices.shape[1]): # iterates time steps for one batch
+                output, hidden_state = decoder(decoder_input, encoder_output, hidden_state)
+                loss += calc_loss(logits=output, labels=padded_indices[:, curr_timestep])
+                decoder_input = tf.expand_dims(padded_indices[:, curr_timestep], axis=1)
+        grads = tape.gradient(loss, encoder.variables + decoder.variables)
+        train = optimizer.apply_gradients(zip(grads, encoder.variables + decoder.variables))
+        log_every = 20
+        if step % log_every == 0:
+            print("batch {2} step {0}: loss={1}".format(step, loss.numpy() / (int)(padded_indices.shape[1]), epoch))
+
+```
 
 ## 2. Bazel
 ```
