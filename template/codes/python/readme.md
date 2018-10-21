@@ -3390,6 +3390,7 @@ with tf.Session() as sess:
     + `tfe.Variable`: in eager mode, `tf.Variable` is not supported, use `tfe.Variable` instead
     + It's okay to use `tf.reduce_mean`, `tf.square`, etc
     + `tf.random_normal` or `np.random.xxx` are nearly same.
+    + 注意: 绝对不要将`optimizer = tf.train.AdamOptimizer()`放在epoch循环内,因为这样就会重复定义,而且在loss减少的很少...具体的原因是来自
     ```
     import tensorflow as tf
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
