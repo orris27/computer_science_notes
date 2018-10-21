@@ -767,3 +767,23 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     ```
 3. 执行`unity-tweak-tool`时报错`Error: schema com.canonical.notify-osd not installed`
     + 解决: `sudo apt-get install notify-osd`
+
+
+## 23. Python
+1. 使用pickle的时候报错`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte`
+    ```
+    import pickle
+
+    with open(path) as f:
+        info = pickle.load(f)
+        print(info)
+    ```
+    1. 原因: f编码错误,可以尝试decode等,但是这里的问题是open没有指定`rb`
+    2. 解决
+    ```
+    import pickle
+
+    with open(path, "rb") as f:
+        info = pickle.load(f)
+        print(info)
+    ```
