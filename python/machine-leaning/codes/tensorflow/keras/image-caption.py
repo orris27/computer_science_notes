@@ -1,6 +1,7 @@
 '''
     配置环境: 1. 当前目录下放"train2014"(COCO中的train2014.zip解压出来)
              2. 当前目录下放"captions_train2014.json"
+             3. 当前目录下放"surf.jpg"(比如可以使用官网的冲浪图片https://github.com/tensorflow/tensorflow/blob/r1.11/tensorflow/contrib/eager/python/examples/generative_examples/image_captioning_with_attention.ipynb)
              
     Usage: 配置环境 & 取消110行左右的所有注释,获取npy文件,然后python image-caption.py & 之后可以注释110行的内容,这样就可以省下npy的制作,直接python image-caption.py
 '''
