@@ -734,6 +734,10 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     2. 在eager mode下optimizer的定义`optimizer = tf.train.AdamOptimizer()`是不是设置在内部的epoch循环内.(参考我模仿TF官网的image-caption)
 
 
+
+19. 使用了`python xx.py 2>&1 >xx.out`和`print`函数,但为什么有的会直接输出到文件里,有的要等到程序结束后才输出过去?
+    1. 原因: 具体差别我不知道,总之不直接输出到文件的可以直接使用`sys.stdout.flush()`
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
