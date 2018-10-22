@@ -2725,7 +2725,11 @@ The economy remains sluggish
 
 (adj)abstruse: ab(力量) + straw + 蛇 => 用力量殴打稻草,然后稻草碰到蛇,蛇的眼睛突然很深
 
-### 1-28. extra
+### 1-28. listening
+1. radioactivate decay
+
+
+### 1-29. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
