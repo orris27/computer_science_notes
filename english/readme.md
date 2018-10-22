@@ -1852,7 +1852,7 @@ euphonious sound
 
 41. (adj)elusive: 鱼 + 路 + save => 一条鱼在浮现在路上,然后正义的伙伴去捉这条鱼,结果捕捉不到
 
-42. (adj)allusive: apple + 路 + save => 一个苹果掉到了路上,正义的伙伴(save)
+42. (adj)allusive: apple + 路 + save => 一个苹果掉到了路上,正义的伙伴(save),结果被电到了(引用典故的)
 
 43. (adj)bleak: 豆子 + leak => 豆子泄露出来,然后填满大海,结冰,里面是阴冷的
 
