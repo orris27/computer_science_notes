@@ -738,6 +738,17 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
 19. 使用了`python xx.py 2>&1 >xx.out`和`print`函数,但为什么有的会直接输出到文件里,有的要等到程序结束后才输出过去?
     1. 原因: 具体差别我不知道,总之不直接输出到文件的可以直接使用`sys.stdout.flush()`
 
+
+
+
+20. restore图的时候报错
+    ```
+    Assign requires shapes of both tensors to match. lhs shape= [2,1,512] rhs shape= [2,64,512]
+         [[{{node save/Assign_5}} = Assign[T=DT_FLOAT, _class=["loc:@Generator/decoder_1/Variable"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/device:GPU:0"](Generator/decoder_1/Variable, save/RestoreV2/_11)]]
+    ```
+    1. 原因：名字为`Generator/decoder_1/Variable`(`:0`)的形状和存储中的形状不一样，存储的是`[2,64,512]`,而restore时是`[2, 1 512]`,所以只要改变该变量的shape就可以了.当然,查找到该变量只要用`tf.get_tensor_by_name`就可以了,配合`tf.global_variables()`等
+
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
