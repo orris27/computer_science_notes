@@ -5,7 +5,6 @@
              
     Usage: 配置环境 & 取消110行左右的所有注释,获取npy文件,然后python image-caption.py & 之后可以注释110行的内容,这样就可以省下npy的制作,直接python image-caption.py
 '''
-
 import matplotlib.pyplot as plt
 import re
 from PIL import Image
@@ -14,6 +13,7 @@ from glob import glob
 import numpy as np
 import time
 import os
+import sys
 import json
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
@@ -23,7 +23,7 @@ import tensorflow as tf
 #tf.enable_eager_execution(config=config)
 
 
-config = tf.ConfigProto(allow_soft_placement=True)
+config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 tf.enable_eager_execution(config=config)
 
@@ -254,13 +254,13 @@ class BahdanauAttention(tf.keras.Model):
 
 # define decoder
 class RNNDecoder(tf.keras.Model):
-    def __init__(self, embedding_size, units, vocab_size):
+    def __init__(self, embedding_size, wv_size, vocab_size):
         super(RNNDecoder, self).__init__()
 
         self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_size)
-        self.attention = BahdanauAttention(units)
+        self.attention = BahdanauAttention(wv_size)
     
-        self.gru_size = units
+        self.gru_size = gru_size
         self.gru = gru(self.gru_size)
 
 
@@ -294,7 +294,6 @@ class RNNDecoder(tf.keras.Model):
         # fc1
         output = self.dense1(output)
 
-        # reshape: 
         output = tf.reshape(output, [-1, output.shape[-1]])
 
         # fc2
@@ -318,17 +317,72 @@ def calc_loss(logits, labels):
     # calc & dot mask
     #loss = tf.reduce_mean(tf.square(logits - labels) * mask)
     # squeeze the logits to [batch_size, vocab_size]
-    #loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels,logits = tf.squeeze(logits)) * mask)
     loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = labels,logits = logits) * mask)
     return loss
 
-#learning_rate = 0.01 
-optimizer = tf.train.AdamOptimizer()
+
+
+
+def evaluate(filename):
+
+    image, _ = load_image(filename)
+    images = np.expand_dims(image, axis=0)
+
+    # extract features from image
+    dimages = image_features_extract_model(images)
+    #dimages => shape=(1, 8, 8, 2048), dtype=float32
+
+    # CNN encoder => encoder_output
+    encoder_output = encoder(dimages)
+
+    # reshape encoder_output to [batch_size, 64, 256]
+    encoder_output = tf.reshape(encoder_output, [1, -1, encoder_output.shape[-1]])
+
+
+    # init decoder_input 
+    decoder_input = tf.expand_dims([tokenizer.word_index['<start>']], 0)
+
+
+    # get initial hidden state: [batch_size, gru_size]
+    hidden_state = decoder.reset_state(batch_size=1)
+
+    # result = []
+    result = []
+    # for curr_timestep in range(max_timesteps):
+    for i in range(1, padded_indices.shape[1]):
+        # RNN decoder => decoder_output, hidden_state
+        # decoder_input: [batch_size, 1]
+        # hidden_state: [batch_size, gru_size]
+        # encoder_output: [batch_size, 8, 8, 256]
+        output, hidden_state = decoder(decoder_input, encoder_output, hidden_state)
+
+
+        # append decoder_output to result
+        # output => [1, 1, vocab_size]
+        #result.append((tf.squeeze(tf.argmax(output, axis=-1))).numpy())
+        result.append((tf.squeeze(tf.argmax(output, axis=-1))).numpy())
+        # output => []
+
+        if tokenizer.index_word[result[-1]] == '<end>':
+            break
+        
+        # assign decoder_output to decoder_input
+        decoder_input = tf.expand_dims(tf.argmax(output, axis=-1), axis=1)
+        
+    # translate result
+    #for index in result:
+    #    print(tokenizer.index_word[index])
+    print(' '.join([tokenizer.index_word[index] for index in result]))
+
+
+
 
 ####################################################################################
 # train
 ####################################################################################
 
+#learning_rate = 0.01 
+optimizer = tf.train.AdamOptimizer()
 for epoch in range(num_epochs):
 
     total_loss = 0
@@ -388,25 +442,25 @@ for epoch in range(num_epochs):
 
         #?Where to apply masking? At the satuation where we compute loss
 
-        variables = encoder.variables + decoder.variables
         # computes grads
         #?How to get all variables: the class that inherits tf.keras.Model has attribute called variables
-        grads = tape.gradient(loss, variables)
+        grads = tape.gradient(loss, encoder.variables + decoder.variables)
 
 
 
         #?Can we use tf.apply_gradients?? => NO! We use optimizer.apply_gradients
         #?Do we need to save the return value of apply_gradients in eager mode?
         # apply grads
-        train = optimizer.apply_gradients(zip(grads, variables))
+        train = optimizer.apply_gradients(zip(grads, encoder.variables + decoder.variables))
 
         #!We should print the average loss based on one timestep, which means we need to divide the <loss> by num_timesteps
-        #log_every = 100
+#log_every = 100
         log_every = 20
 
         if step % log_every == 0:
-            print("step {0}: loss={1}".format(step, loss.numpy() / (int)(padded_indices.shape[1])))
-            
+            print("batch {2} step {0}: loss={1}".format(step, loss.numpy() / (int)(padded_indices.shape[1]), epoch))
+            evaluate("surf.jpg")
+            sys.stdout.flush()
 
 
 ####################################################################################
@@ -418,77 +472,3 @@ for epoch in range(num_epochs):
 #     image = tf.image.resize_images(image,(image_h,image_w))
 #     image = tf.keras.applications.inception_v3.preprocess_input(image)
 #     return image, filename
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# get image
-filename = 'surf.jpg'
-image, _ = load_image(filename)
-images = np.expand_dims(image, axis=0)
-
-# extract features from image
-dimages = image_features_extract_model(images)
-#dimages => shape=(1, 8, 8, 2048), dtype=float32
-
-# CNN encoder => encoder_output
-encoder_output = encoder(dimages)
-
-# reshape encoder_output to [batch_size, 64, 256]
-encoder_output = tf.reshape(encoder_output, [1, -1, encoder_output.shape[-1]])
-
-
-# init decoder_input 
-decoder_input = tf.expand_dims([tokenizer.word_index['<start>']], 0)
-
-
-# get initial hidden state: [batch_size, gru_size]
-hidden_state = decoder.reset_state(batch_size=1)
-
-# result = []
-result = []
-# for curr_timestep in range(max_timesteps):
-for i in range(padded_indices.shape[1]):
-    # RNN decoder => decoder_output, hidden_state
-    # decoder_input: [batch_size, 1]
-    # hidden_state: [batch_size, gru_size]
-    # encoder_output: [batch_size, 8, 8, 256]
-    output, hidden_state = decoder(decoder_input, encoder_output, hidden_state)
-
-
-    # append decoder_output to result
-    # output => [1, 1, vocab_size]
-    result.append((tf.squeeze(tf.argmax(output, axis=-1))).numpy())
-    # output => []
-
-    if tokenizer.index_word[result[-1]] == '<end>':
-        break
-    
-    # assign decoder_output to decoder_input
-    decoder_input = tf.argmax(output, axis=-1)
-    
-# translate result
-#for index in result:
-#    print(tokenizer.index_word[index])
-print(' '.join([tokenizer.index_word[index] for index in result]))
-
