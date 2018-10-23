@@ -1435,61 +1435,122 @@
     ```
     
 ### 1-17. astronomy
-1. verb
-    1. revolve: 热 + voice => 热的喉咙都干的说不出话,就四处转圈让自己流汗,再吸收汗水到喉咙,然后就能发声了
-2. noun
-    1. galaxy(星系,银河系The Galaxy)
-    2. intergalactic: inter + galaxy => 在星系之间
-    3. constellation: 看 + stella => 看,stella变成星座,然后一直stella
-    4. chondrite: 康师傅 + dry => 康师傅干了,然后用火烤,结果就出现了很多粒状陨石
-    5. meteor: 米尺 => 米尺摇一摇,就射出一个流星
-    ```
-    the meteor was probably the size of a football
-    ```
-    6. dwarf: JOJO + 扶 => JOJO挤进墙,扶了一下墙,变矮了就好了
-    7. cosmos(宇宙)
-    8. nebula: 能不拉 => 突然想要大号,为了能不拉,就一直忍,忍了好久结果拉出星云
-    ```
-    Rosette Nebula
-    ```
-    9. quasar: quick + 炸弹 => 炸弹很快炸平了地球,地球上的人类都死亡了
-    ```
-    the galaxies that have just passed through a quasar phase
-    ```
-    10. planetoid: plane + toy => 飞机上有一个toy,这个时候小行星要撞击地球了,地球要灭亡了.结果这个toy瞬间从飞机出来,然后迎击小行星,拯救了地球
-    ```
-    the Mars-sized planetoid approached proto-Earth
-    ```
-    11. intergalactic: inter + galaxy => 在星系之间
-    12. interplanetary: inter + planetoid => 行星之间
-    13. interstellar: inter + stellar => 星际
-    ```
-    interstellar space
-    ```
-    14. corona: 可乐 + 骑拉帝纳 => 骑拉帝纳围着可乐像条狗一样地吐舌头,一直绕着走,结果晕了
-    ```
-    the atoms burst out through the corona into space
-    ```
-    15. chromosphere: chrome + sphere => 我的chrome卷成一个球,然后红橙黄绿青蓝紫地闪烁
-    ```
-    a photosphere, a chromosphere and a corona
-    ```
-    16. photosphere: photo + sphere => 海腾他们去参观美术馆的时候的那副几何画,这幅画的球体突然发出光芒,像灯光一样
-    17. pseudoscience(伪科学)
-    18. astrology: 鹅 + straight + 老酒 => 鹅一直往前走,然后看到老酒,就头伸进去看,发现有星星沾在酒里,高兴地点着酒喝
-    ```
-    Astronomy inherits from astrology
-    ```
-    19. Uranus: 油 + 燃烧 + 骑拉帝纳 => 油倒在了地上,火燃烧了起来,结果往反转世界烧了,骑拉帝纳吓得逃走了,为了能逃掉就往反转世界的天上跑了
-    20. Pluto: 布 + 路 + 拖 => 用毛巾拖地,结果不小心惊动了埋在地里的冥王老子
-    21. Neptune(海王星)
-    22. Saturn(土星)
-    23. emission: 一米 + 绳子 => 这个绳子只有一米,阻止液体的排放
-    24. interferometer: intel + 飞咯 + meter => 芯片要飞咯,结果只能飞一米,因为被干涉仪干涉了
+1. galaxy(星系,银河系The Galaxy)
+2. intergalactic: inter + galaxy => 在星系之间
+3. constellation: 看 + stella => 看,stella变成星座,然后一直stella
+4. chondrite: 康师傅 + dry => 康师傅干了,然后用火烤,结果就出现了很多粒状陨石
+5. meteor: 米尺 => 米尺摇一摇,就射出一个流星
+```
+the meteor was probably the size of a football
+```
+6. dwarf: JOJO + 扶 => JOJO挤进墙,扶了一下墙,变矮了就好了
+7. cosmos(宇宙)
+8. nebula: 能不拉 => 突然想要大号,为了能不拉,就一直忍,忍了好久结果拉出星云
+```
+Rosette Nebula
+```
+9. quasar: quick + 炸弹 => 炸弹很快炸平了地球,地球上的人类都死亡了
+```
+the galaxies that have just passed through a quasar phase
+```
+10. planetoid: plane + toy => 飞机上有一个toy,这个时候小行星要撞击地球了,地球要灭亡了.结果这个toy瞬间从飞机出来,然后迎击小行星,拯救了地球
+```
+the Mars-sized planetoid approached proto-Earth
+```
+11. intergalactic: inter + galaxy => 在星系之间
+12. interplanetary: inter + planetoid => 行星之间
+13. interstellar: inter + stellar => 星际
+```
+interstellar space
+```
+14. corona: 可乐 + 骑拉帝纳 => 骑拉帝纳围着可乐像条狗一样地吐舌头,一直绕着走,结果晕了
+```
+the atoms burst out through the corona into space
+```
+15. chromosphere: chrome + sphere => 我的chrome卷成一个球,然后红橙黄绿青蓝紫地闪烁
+```
+a photosphere, a chromosphere and a corona
+```
+16. photosphere: photo + sphere => 海腾他们去参观美术馆的时候的那副几何画,这幅画的球体突然发出光芒,像灯光一样
+17. pseudoscience(伪科学)
+18. astrology: 鹅 + straight + 老酒 => 鹅一直往前走,然后看到老酒,就头伸进去看,发现有星星沾在酒里,高兴地点着酒喝
+```
+Astronomy inherits from astrology
+```
+19. Uranus: 油 + 燃烧 + 骑拉帝纳 => 油倒在了地上,火燃烧了起来,结果往反转世界烧了,骑拉帝纳吓得逃走了,为了能逃掉就往反转世界的天上跑了
+20. Pluto: 布 + 路 + 拖 => 用毛巾拖地,结果不小心惊动了埋在地里的冥王老子
+21. Neptune(海王星)
+22. Saturn(土星)
+23. emission: 一米 + 绳子 => 这个绳子只有一米,阻止液体的排放
+24. interferometer: intel + 飞咯 + meter => 芯片要飞咯,结果只能飞一米,因为被干涉仪干涉了
+25. revolve: 热 + voice => 热的喉咙都干的说不出话,就四处转圈让自己流汗,再吸收汗水到喉咙,然后就能发声了
     
-    
-    
-3. adj
+26. celestial: 厕所 + 雷 + 手 => 厕所里打雷,手接住,扔到了天上
+
+27. celestial body: 天上的 + 身体 => 天上的身体变成了星星,搭载着梯子上到了天堂(天体)
+
+28. heavenly body: 天上的 + 身体 => 天上的身体变成了星星,搭载着梯子上到了天堂(天体)
+
+29. meteorite: meteor + 特斯拉 => 流星经过大气层,变成了陨石,打到了特斯拉的电子保护障上
+
+30. meteoriod: meteor + roll => 流星滚来滚去,然后通过梯子下来了(流星体?流星体!)
+
+31. Jovian: 脚 + 刺猬 => 脚踩在了刺猬上,然后猪在狂叫(朱比特神的)
+
+32. observatory: observe + 塔 => 瞭望塔
+
+33. leap: lip => 嘴唇变得湿润 => 闰年
+
+34. star cluster(星云)
+
+35. protoplanet: proto(原型) + planet => 原型的行星 => 元行星
+
+
+36. space shuttle: 太空 + 沙发套 => 太空里的航天飞机非常靠近沙发套
+
+37. radio telescope: 收音机 + 望远镜 => 收音机变成望远镜,伸出去,炮姐射电
+
+
+38. binoculars: 百岁山 + 拿 + 可乐 => 拿起2瓶百岁山,疯狂摇,然后变成可乐,当做双筒望远镜,里面的可乐将星星拿了下来
+
+39. lunar(阴历)
+
+40. solar(阳历)
+
+
+41. revolution: 革命 => 革命的时候公转,打击对手 => 公转
+
+42. orbit debris: 轨道 + 大便 => 轨道突然伸出来,够到了大便,吐出了太空垃圾
+
+
+43. cosmic radiation(宇宙辐射)
+
+44. cosmic rays(宇宙射线) => ray: 射线
+
+45. regolith: 热狗 + 领子 => 热狗放在领子,自己变成沙子,变化了风化层
+
+46. sunspot: 太阳 + 地点 => 太阳一道光束,指定地球上的某个地方,烧焦变成黑的了
+
+47. eclipse(日食)
+
+48. flare: f + 太累 => 刷牙很用力,太累,结果牙齿非常耀眼的
+
+49. space probes: 太空 + 探测 => 航天探测器
+
+50. navigational device: 导航设备
+
+51. reference point: 参考点
+
+52. landing module: 着陆 + 分子 => 一个分子一样的舱着陆了,然后里面的内容原来是登陆舱
+
+53. Uranus: 尤娜 => 尤娜后来被桐人的一刀砍死升天了,变成了魔鬼也不会忘记(天王星)
+
+54. Pluto: 布鲁托 => 布鲁托是被烧死的,冥土追魂真香
+
+
+
+
+
 
 ### 1-18. physics
 1. verb
