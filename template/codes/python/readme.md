@@ -569,7 +569,10 @@ scope_assign('s1','s2',sess)
 14. 保存和还原会话
     1. 保存
         1. 保存会话里的所有变量
-            + `+=`赋值的变量不会被保存
+            + variables not saved:
+                1. `+=`赋值的变量不会被保存
+                2. placeholder
+                3. output of op (`self.initial_state = tf.Variable(self.lstm_cell.zero_state(self.batch_size, tf.float32), trainable=False)`saved, while `self.initial_state = self.lstm_cell.zero_state(self.batch_size, tf.float32)` not saved)
             + `saver = tf.train.Saver()`的max_to_keep=5:如果调用save的话,只有最近的max_to_keep次的结果会被保存
                 + 如果用i循环`[0,10)`并且每个循环都调用save,默认使用5的话,就只有5,6,7,8,9会被保存,前面的都被删除
                 + 如果想要保存所有save调用的结果的话,那么设置为0或者None
