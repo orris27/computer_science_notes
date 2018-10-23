@@ -37,8 +37,15 @@
 34. peck
 35. coral
 36. buffalo: buff + 楼(比萨斜塔) => 比萨斜塔就要倒下了,带水的牛帮忙扶起来了
-37. crocodile
+37. crocodile: 可乐 + 口 + 袋子 => 可乐有个小口,这个小口里冒出一个绿色的袋子,里面有个鳄鱼,害羞了
 
+
+38. reptile: 热 + tire  => 很热的天气下,轮胎熔化了,然后爬行
+
+
+39. eggshell: egg + shell => 蛋壳
+
+40. brood: 哺乳 + d => 哺乳中,用勺子接住,然后浇到鸡蛋上,结果鸡蛋就孵化出来了
 
 
 ### 1-2. Law
@@ -2829,6 +2836,9 @@ The economy remains sluggish
     36. preemptive: pray(ray) + 踢球 => ray在踢球,先发制人进球了
     
     37. pickle: python中的cPickle => 将pickle扔到泡茶里一起泡
+    
+    
+    38. commonality: common + 爱丽 => 爱丽和伊利亚有很多共性
     
 3. adj
     1. overarching: 上面 + archer => archer要射箭了,逐渐archer往天空平移,然后archer用手放在弓箭上,射了出去
