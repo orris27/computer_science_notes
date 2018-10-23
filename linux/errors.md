@@ -746,7 +746,8 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     Assign requires shapes of both tensors to match. lhs shape= [2,1,512] rhs shape= [2,64,512]
          [[{{node save/Assign_5}} = Assign[T=DT_FLOAT, _class=["loc:@Generator/decoder_1/Variable"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/device:GPU:0"](Generator/decoder_1/Variable, save/RestoreV2/_11)]]
     ```
-    1. 原因：名字为`Generator/decoder_1/Variable`(`:0`)的形状和存储中的形状不一样，存储的是`[2,64,512]`,而restore时是`[2, 1 512]`,所以只要改变该变量的shape就可以了.当然,查找到该变量只要用`tf.get_tensor_by_name`就可以了,配合`tf.global_variables()`等
+    1. 原因：名字为`Generator/decoder_1/Variable`(`:0`)的形状和存储中的形状不一样，存储的是`[2,64,512]`,而restore时是`[2, 1 512]`,所以只要改变该变量的shape就可以了.当然,查找到该变量只要用`tf.get_tensor_by_name`就可以了,配合`tf.global_variables()`等.
+    2. 解决: 实际上是`self.initial_state = tf.Variable(self.lstm_cell.zero_state(self.batch_size, tf.float32), trainable=False)`造成,但是这个变量实际上在后续是没有多大用的,但是又需要`initial_state = sess.run(self.generator.inference_initial_state, {...})`这里来运行,所以不能直接删除`self.initial_state`这个变量.所以最终只要不要把这个`self.initial_state`放到saver里面save就可以了.所以只要去掉`tf.Variable`就行,即`self.initial_state = self.lstm_cell.zero_state(self.batch_size, tf.float32)`
 
 
 ## 20. gym
