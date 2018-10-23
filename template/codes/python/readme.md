@@ -3504,19 +3504,14 @@ rm mscoco1.py
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 将training.py里面的batch_size设置为1
-# batch_size = 1 # 15行左右
-# reward = np.transpose(np.squeeze(reward, 1), [1, 0])  # 190行左右这里的np.squeeze多加一个参数,因为修改batch_size=1后,reward就变成(xx,1,1),原来squeeze后是二维,可以不加参数就会squeeze成1维,所以要保证为2维才行
+# 将generator/generator.py里的initial_state修改一下
+# #_, self.initial_state = self.lstm_cell.call(self.image_input, self.zero_state)
+# self.initial_state = self.lstm_cell.zero_state(self.batch_size, tf.float32)
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 
 python training.py
-
 python inference_py # we'll get the result
-
-
 ```
 
 
