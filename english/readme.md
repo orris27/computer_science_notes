@@ -372,6 +372,7 @@
     neutralize the acid
     ```
     
+    13. bounce back: 反弹
 
 2. noun
     1. rust: 床褥 + 斯科特(滑雪装) => 斯科特在房间里,房间里有床褥,结果斯科特经过的地方都变成了雪地,而门因为生着铁锈,所以斯科特出不去
@@ -466,6 +467,50 @@
     32. nitrogen: 奶 + 车 + 针 => ...
     
     
+    33. isotope: 爱 + 手 + top => 亲一下手,手里释放出力量,摸一下天花板,碰到了木桶,结果水桶就倒水下来,形成了雨水(同位素)
+    
+    34. filtration: filter + ation => 过滤的名词
+    
+    35. equilibrium: equal + brain => 2个大脑用`=`连接起来,然后里面的脑细胞就开始均衡起来了
+    
+    36. cyclotron: 赛车 + 龙 => 赛车旋转了几圈就冲飞了龙
+    
+    37. fusion: fuse + ion => 融合(熔合)的名词
+    
+    38. phosphorus: 理发师 + 发热 => 理发师发热了,就落在了沙发上,凛坐在了理发师上(磷)
+    
+    39. potassium: 坡 + 塔 + 大海 + m => 坡上塔冲了下来,进入大海,贯穿汉堡,汉堡的缝隙夹了起来(钾)
+    
+    40. manganese: 漫画 + neat => 猛力将漫画的灰尘给弄干净
+    
+    41. platinum: plate + 门 => 盘子叠起来,碰到了门上,洒出了黄金
+    
+    42. kerosene: 可乐 + 大海 => 可乐浇在大海上,然后蒸发没了
+    
+    43. phlogiston: floor + 锯子 + ton => 成吨的锯子砸在了地板上,然后灰吕很燃却拿不起来(燃素)
+    
+    44. prism: prison => 监狱里肖申克用棱镜弄出地洞
+    
+    45. infrasound: 老鹰 + afraid + sound => 老鹰害怕说出来的声音都被自己吃了
+    
+    46. infrared: 老鹰 + afraid + red => 老鹰害怕地脸红了,然后红的把周围的气氛都变红了
+    
+    47. electric charge: 充电 => 用河流充电 => 电荷
+    
+    48. alloy: 河流 + y => 河流成y状,然后洒出黄金了(合金)
+    
+    49. bronze: blonde => 金发女人喜欢亲儿童(亲童)
+    
+    50. mechanics(力学)
+    
+    51. echolocation: echo + location => 回声定位
+    
+    52. fission: 飞机 + 绳子 => 飞机拖着绳子,被人拽着把飞机弄裂了
+    
+    53. uranium: 油 + 燃烧 + 你们 => 油燃烧了烧到了你们,然后你们也变成了油(铀)
+    
+    54. turbine: 特斯拉 + bin => 特斯拉拿起bin,然后涡旋推进
+    
 
 3. adj
     1. caustic: course + 踢 => 老师上课的时候,提了下讲台桌,结果脚被腐蚀掉了,我们只能看到一个没有右脚的老师
@@ -478,6 +523,11 @@
     ```
     3. synthetic
 
+    4. homogeneous: home + gene => 家里基因过来了,被我拉成了纸
+    
+    5. heterogeneous: 黑他 + gene => 抹他一身黑,然后黑色的基因出来进入到一堆很合的东西
+    
+    6. optics(光学的)
 
 ### 1-5. environment
 1. verb
