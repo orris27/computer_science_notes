@@ -402,3 +402,52 @@ System.out.println(bi.divide(bi2)); // 4
 2. double没有缓存,因为太多了.所以Double.valueOf就是创建1个新的空间
 3. string
     1. intern方法
+
+
+
+## 6. Multithreading
+1. Create a thread: [reference](https://www.tutorialspoint.com/java/java_multithreading.htm)
++ implement a runnable interface
+```
+package com.orris;
+
+public class ThreadDemo implements Runnable {
+	private Thread t;
+	private String threadName;
+
+	public ThreadDemo(String name) {
+		threadName = name;
+
+	}
+
+	public void run() {
+		for (int i = 0; i < 5; ++i) {
+			System.out.println(threadName + ":" + i);
+		}
+	}
+
+	public void start() {
+		if (t == null) {
+			t = new Thread(this, threadName);
+			t.start();
+		}
+	}
+}
+#################################################################################
+
+import com.orris.ThreadDemo;
+
+public class Test {
+
+	public static void main(String[] args) {
+		System.out.println("HelloWorld");
+
+		ThreadDemo td1 = new ThreadDemo("thread-1");
+		td1.start();
+		ThreadDemo td2 = new ThreadDemo("thread-2");
+		td2.start();
+	}
+
+}
+
+```
