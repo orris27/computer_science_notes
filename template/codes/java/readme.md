@@ -326,37 +326,53 @@ public class Employee
 
 7. Wrapper Class
     1. MAX_VALUE, MIN_VALUE
-    2. Integer类内部包装了int类型,而Double类型内部封装了double
-    3. Integer构造函数可以接收int或string
+    ```
+    System.out.println(Integer.MIN_VALUE);  // -2147483648 
+    System.out.println(Integer.MAX_VALUE);  // 2147483647
+    ```
+    2. create an instance
+    + `new Integer()` => no;
+    + `Integer.valueOf()` => recommended;
+    ```
+    java.lang.Integer i1 = new java.lang.Integer(1); // build from int
+    Integer i2 = new Integer("2"); // build from String
+    Integer i3 = Integer.valueOf(3); // build using valueOf
+    int i4 = Integer.valueOf(4); // cast
+    
+    import java.math.BigInteger;
+    BigInteger bi = BigInteger.valueOf(16);
+    BigInteger bi2 = new BigInteger("4"); // int argument is not allowed
+    System.out.println(bi.multiply(bi2)); // 64
+    System.out.println(bi.divide(bi2)); // 4
+    ```
     4. Integer.valueOf => 构造一个指定值初始化的Integer类型
     5. unboxing: 用`+`处理2个Integer对象,那么就会unboxing成2个int
-    6. BigInteger, BigDecimal => 2个都是不可修改的,内部有multiply/divede等成员方法
-    7. String
-        1. 构建
-        ```
-        String message = "hello"; // 如果使用这个方法构造,那么不同的对象都会引用相同的地址空间(放在常量池里面).可以使用==判断2个对象是否相同
-        String message = new String("hello");
-        String message = new String();
-        ```
+
     8. boxing: Integer.valueOf        
 
+### String
+1. 构建
+```
+String message = "hello"; // 如果使用这个方法构造,那么不同的对象都会引用相同的地址空间(放在常量池里面).可以使用==判断2个对象是否相同
+String message = new String("hello");
+String message = new String();
+```
 
-
-8. Eclipse: create packages
-    1. File > New > Package
-    + Source folder: `hello/src`(for instance)
-    + Name: `cn.test.java`
-    2. click `cn.test.java` > New > Class
-    + Source folder: `hello/src`
-    + Package: package name, such as `cn.test.java`
-    + Name: class name, `Test` for example
-    3. click `Test.java` below `cn.test.java` and view the code. We find that `package cn.test.java;` is at the top of the codes, indicating this java file belong to the package called `cn.test.java`
+### Eclipse: create packages
+1. File > New > Package
++ Source folder: `hello/src`(for instance)
++ Name: `cn.test.java`
+2. click `cn.test.java` > New > Class
++ Source folder: `hello/src`
++ Package: package name, such as `cn.test.java`
++ Name: class name, `Test` for example
+3. click `Test.java` below `cn.test.java` and view the code. We find that `package cn.test.java;` is at the top of the codes, indicating this java file belong to the package called `cn.test.java`
     
-    4. implement a static method called `print`
+4. implement a static method called `print`
     
-    5. return back to the main java file
-    + `import cn.test.java.Test;` or `import cn.test.java.*`;  (package name + class name)
-    + `Test.print()`
+5. return back to the main java file
++ `import cn.test.java.Test;` or `import cn.test.java.*`;  (package name + class name)
++ `Test.print()`
 
 
 
