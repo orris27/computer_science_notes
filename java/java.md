@@ -53,7 +53,8 @@ javap -c Demo # 输出字节码
 
 
 
-## 2. Ubuntu安装Eclipse
+## 2. Eclipse
+### Ubuntu下安装Eclipse
 ```
 tar zxf eclipse-jee-photon-R-linux-gtk-x86_64.tar.gz
 mv eclipse /usr/local/
@@ -78,6 +79,19 @@ alt+/ 自动补全(Ctrl+Space显示候选内容)
     4. window>Hadoop这个条目如果存在的话,就说明安装好了
 New Perspective>MapReduce>New Location>location name:localhost(选择namenode的ip地址,不过好像是随便取的),dfs master选择namenode的ip:8020
 ```
+
+
+
+### 安装Vim插件Vrapper
+1. help > Install New Software
+2. Work with:  `http://vrapper.sourceforge.net/update-site/stable`
+3. 勾选所有, 一路Next,Finish. 然后过一段时间会说没有什么凭证之类的,是否继续安装,就继续安装并重启
+
+
+
+
+
+
 
 ## 3. Syntax
 ### 3-1. 注释
@@ -153,3 +167,5 @@ New Perspective>MapReduce>New Location>location name:localhost(选择namenode的
 1. 沿用
 2. 不沿用
     1. 字符类型的乘法:`"-"*30`不能在Java中使用
+
+
