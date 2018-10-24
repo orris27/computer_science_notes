@@ -71,7 +71,7 @@ java HelloWorld
         String line = input.nextLine(); // 貌似要弄2次
         line = input.nextLine();
         ```
-4. 数组
+4. array
     1. 定义一个数组的引用变量: 实际没有指向有效内存
     ```
     int[] intArray;
@@ -80,6 +80,7 @@ java HelloWorld
     2. 创建一维数组
     ```
     int[] intArray = new int[5];
+    int[] intArray = {1, 2, 3};
     ```
     3. 使用一维数组
     ```
@@ -93,6 +94,8 @@ java HelloWorld
         System.out.println(arr[i]);
     }
     ```
+    4. method
+        1. length: `System.out.println(a.length);`
 5. global variables
 ```
 public static final int MAX_LEFT = 100; # 定义常量
