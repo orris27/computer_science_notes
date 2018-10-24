@@ -178,6 +178,14 @@ System.out.println(Math.pow(2,3));
 #----------------------------------------------
 ```
 ## 4. String
+### create
+```
+String message = "hello"; // 如果使用这个方法构造,那么不同的对象都会引用相同的地址空间(放在常量池里面).可以使用==判断2个对象是否相同
+String message = new String("hello");
+String message = new String();
+```
+
+### method
 1. trim: <=>python.strip()
 ```
 String a = "    app le  ";
@@ -223,6 +231,20 @@ for (int i = 0; i < a.length(); ++i)
 # e
 #----------------------------------------------
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 5. Objects and Class
 ### this
 ```
@@ -244,8 +266,6 @@ int b = 3; // => Integer.valueOf(3);
 
 
 ### 单例对象构建: 只创建1个对象.实现Singleton
-1. 
-    
 ```
 public enum Elvis{
     INSTANCE;
@@ -324,39 +344,32 @@ public class Employee
 + composition: 2个对象有包含关系,其中1个对象不能独立于另一个对象存在.比如人和心脏
 
 
-7. Wrapper Class
-    1. MAX_VALUE, MIN_VALUE
-    ```
-    System.out.println(Integer.MIN_VALUE);  // -2147483648 
-    System.out.println(Integer.MAX_VALUE);  // 2147483647
-    ```
-    2. create an instance
-    + `new Integer()` => no;
-    + `Integer.valueOf()` => recommended;
-    ```
-    java.lang.Integer i1 = new java.lang.Integer(1); // build from int
-    Integer i2 = new Integer("2"); // build from String
-    Integer i3 = Integer.valueOf(3); // build using valueOf
-    int i4 = Integer.valueOf(4); // cast
+### Wrapper Class
+1. MAX_VALUE, MIN_VALUE
+```
+System.out.println(Integer.MIN_VALUE);  // -2147483648 
+System.out.println(Integer.MAX_VALUE);  // 2147483647
+```
+2. create an instance
++ `new Integer()` => no;
++ `Integer.valueOf()` => recommended;
+```
+java.lang.Integer i1 = new java.lang.Integer(1); // build from int
+Integer i2 = new Integer("2"); // build from String
+Integer i3 = Integer.valueOf(3); // build using valueOf
+int i4 = Integer.valueOf(4); // cast
     
-    import java.math.BigInteger;
-    BigInteger bi = BigInteger.valueOf(16);
-    BigInteger bi2 = new BigInteger("4"); // int argument is not allowed
-    System.out.println(bi.multiply(bi2)); // 64
-    System.out.println(bi.divide(bi2)); // 4
-    ```
-    4. Integer.valueOf => 构造一个指定值初始化的Integer类型
-    5. unboxing: 用`+`处理2个Integer对象,那么就会unboxing成2个int
-
-    8. boxing: Integer.valueOf        
-
-### String
-1. 构建
+import java.math.BigInteger;
+BigInteger bi = BigInteger.valueOf(16);
+BigInteger bi2 = new BigInteger("4"); // int argument is not allowed
+System.out.println(bi.multiply(bi2)); // 64
+System.out.println(bi.divide(bi2)); // 4
 ```
-String message = "hello"; // 如果使用这个方法构造,那么不同的对象都会引用相同的地址空间(放在常量池里面).可以使用==判断2个对象是否相同
-String message = new String("hello");
-String message = new String();
-```
+4. Integer.valueOf => 构造一个指定值初始化的Integer类型
+5. unboxing: 用`+`处理2个Integer对象,那么就会unboxing成2个int
+
+8. boxing: Integer.valueOf        
+
 
 ### Eclipse: create packages
 1. File > New > Package
