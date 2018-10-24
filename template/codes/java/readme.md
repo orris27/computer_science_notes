@@ -224,81 +224,98 @@ for (int i = 0; i < a.length(); ++i)
 #----------------------------------------------
 ```
 ## 5. Objects and Class
-1. this
+### this
 ```
 this.
 ```
-2. new & valueOf
+
+
+
+### new & valueOf
 ```
 int a = new Integer(3);
 int b = 3; // => Integer.valueOf(3);
 ```
-3. 静态工厂
-    1. 可以返回原返回类型的任何子类型的对象。我们在选择返回对象的类有更大的灵活性。
 
-4. 单例对象构建: 只创建1个对象.实现Singleton
-    1. 
+
+### 静态工厂
+1. 可以返回原返回类型的任何子类型的对象。我们在选择返回对象的类有更大的灵活性。
+
+
+
+### 单例对象构建: 只创建1个对象.实现Singleton
+1. 
     
+```
+public enum Elvis{
+    INSTANCE;
+}
+```
+### package
+1. 基本说明
++ package语句作为Java源文件的第一条语句。(若缺省该语句，则指定为无名包。) 约定俗成的给包起名为把公司域名倒过来写，如com.sun
++ Java编译器把包对应于文件系统的目录管理，package语句中，用‘.’来指明包（目录）的层次，例如`package com.sun;`则该文件中所有的类位于`.\com\sun`目录下
+2. import
+    1. complete name of the class
     ```
-    public enum Elvis{
-        INSTANCE;
-    }
+    java.time.LocalDate today = java.time.LocalDate.now();
     ```
-5. package
-    1. 基本说明
-    + package语句作为Java源文件的第一条语句。(若缺省该语句，则指定为无名包。) 约定俗成的给包起名为把公司域名倒过来写，如com.sun
-    + Java编译器把包对应于文件系统的目录管理，package语句中，用‘.’来指明包（目录）的层次，例如`package com.sun;`则该文件中所有的类位于`.\com\sun`目录下
-    2. 类的导入
-        1. 可以在每个类前添加完整的包名
-        `java.time.LocalDate today = java.time.LocalDate.now();`
-        2. 使用import语句: `import java.time.*`的语法比较简单，对代码的大小也没有任何负面的影响。但如果能明确指出导入的类，可以让读者明确知道加载了哪个类.
-        ```
-        import java.time.*;
-        LocalDate today = LocalDate.now();
-        ```
-        3. 只导入包中的特定类
-        ```
-        import java.time.LocalDate;
-        ```
-    3. C++
-    + C++程序员会将import与#include弄混。其实，两者并没有共同之处。
-    + C++中需要用#include将外部声明加载进来，这是因为C++编译器只能查看正在编译的文件和include的文件；而java编译器可以查看其他文件，只要告诉它到哪里去查看就可以了。
-    + 在Java中，显式给出包名时（如java.util.Date），则不需要import；而C++中无法避免用#include。
-    + Java中，package与import类似于C++中的namespace和using.
+    2. 使用import语句: `import java.time.*`的语法比较简单，对代码的大小也没有任何负面的影响。但如果能明确指出导入的类，可以让读者明确知道加载了哪个类.
+    ```
+    import java.time.*;
+    LocalDate today = LocalDate.now();
+    ```
+    3. 只导入包中的特定类
+    ```
+    import java.time.LocalDate;
+    // ...    
+    System.out.println(LocalDate.now());
+    ```
+    4. static
+    ```
+    import static java.lang.System.out;
+    // ...
+    out.println("test");
+    ```
+3. C++
++ C++程序员会将import与#include弄混。其实，两者并没有共同之处。
++ C++中需要用#include将外部声明加载进来，这是因为C++编译器只能查看正在编译的文件和include的文件；而java编译器可以查看其他文件，只要告诉它到哪里去查看就可以了。
++ 在Java中，显式给出包名时（如java.util.Date），则不需要import；而C++中无法避免用#include。
++ Java中，package与import类似于C++中的namespace和using.
 
-    4. 静态导入: 什么是静态导入?
-        1. import不仅可以导入类，还可以导入静态方法和静态域。
-        `import static java.lang.System.*;`就可以使用System类的静态方法和静态域了。
-        ```
-        out.println(“Hello World!”); //System.out
-        exit(0); //System.exit
-        ```
-        2. 也可以导入特定的方法或域
-        `import static java.lang.System.out;`
-
-
-    5. 将类放入包中
-    要将类放到包中，必须将包的名字放在源文件的开始，例如：
+4. 静态导入: 什么是静态导入?
+    1. import不仅可以导入类，还可以导入静态方法和静态域。
+    `import static java.lang.System.*;`就可以使用System类的静态方法和静态域了。
     ```
-    package com.horstmann.corejava
-    public class Employee
-    {
-    …
-    }
+    out.println(“Hello World!”); //System.out
+    exit(0); //System.exit
     ```
-    如果没有放置package语句，则这个类被放置在默认包（default package)中。
+    2. 也可以导入特定的方法或域
+    `import static java.lang.System.out;`
 
 
-    需要将类文件切实安置到其所归属之Package所对应的相对路径下。
-    ```
-    package com.horstmann.corejava
-    public class Employee
-    {
-    …
-    }
-    ```
-    需要将Employee.java放到`com/horstmann/corejava`目录下
-    编译器也会将class文件放到相同的目录结构中
+5. 将类放入包中
+要将类放到包中，必须将包的名字放在源文件的开始，例如：
+```
+package com.horstmann.corejava
+public class Employee
+{
+…
+}
+```
+如果没有放置package语句，则这个类被放置在默认包（default package)中。
+
+
+需要将类文件切实安置到其所归属之Package所对应的相对路径下。
+```
+package com.horstmann.corejava
+public class Employee
+{
+…
+}
+```
+需要将Employee.java放到`com/horstmann/corejava`目录下
+编译器也会将class文件放到相同的目录结构中
 
 
 6. 类的关系
@@ -322,6 +339,28 @@ int b = 3; // => Integer.valueOf(3);
         String message = new String();
         ```
     8. boxing: Integer.valueOf        
+
+
+
+8. Eclipse: create packages
+    1. File > New > Package
+    + Source folder: `hello/src`(for instance)
+    + Name: `cn.test.java`
+    2. click `cn.test.java` > New > Class
+    + Source folder: `hello/src`
+    + Package: package name, such as `cn.test.java`
+    + Name: class name, `Test` for example
+    3. click `Test.java` below `cn.test.java` and view the code. We find that `package cn.test.java;` is at the top of the codes, indicating this java file belong to the package called `cn.test.java`
+    
+    4. implement a static method called `print`
+    
+    5. return back to the main java file
+    + `import cn.test.java.Test;` or `import cn.test.java.*`;  (package name + class name)
+    + `Test.print()`
+
+
+
+
 ### 常量池技术
 1. int
     1. 125 + new Integer(1) => 就是后者先intValue编程普通的int,然后相加,最后再valueOf
