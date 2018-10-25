@@ -3023,6 +3023,8 @@ The economy remains sluggish
 3. adj
     1. overarching: 上面 + archer => archer要射箭了,逐渐archer往天空平移,然后archer用手放在弓箭上,射了出去
     2. mediocre: medium + core => 有三个核桃,哪个最好敲?当然是适合我的中间(中庸)的核桃
+    
+    3. color-coated: color + coat(外套 => 覆盖...的表面) => 用色彩覆盖 => 彩涂
 4. adv
     1. rashly: red + 嘘嘘 + 篱笆 => 红人在那里嘘嘘,结果掉到篱笆外面,然后高桥很鲁莽地生气了
 
