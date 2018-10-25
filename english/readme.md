@@ -48,6 +48,17 @@
 40. brood: 哺乳 + d => 哺乳中,用勺子接住,然后浇到鸡蛋上,结果鸡蛋就孵化出来了
 
 
+41. microorganism: 微小的 + organ => 器官突然变得很微小,然后变成了血小板的生物,在我身上啾啾~~
+
+42. microfabrication: micro + fabric(脂肪) => 将自己身上的脂肪捏成很小的油滴
+
+43. amino acids: ammonia(氨) => 氨基酸
+
+
+44. abiotic: 二百 + tick => 将二百放到地上,用拐杖击打一下,结果就变成了非生物
+
+
+
 ### 1-2. Law
 1. verb
     1. convict: 康师傅 + 比克提尼 => 法庭上审判官将康师傅当做精灵球一样扔了出来.比克提尼出现了.比克提尼做出了经典的指头,判定左边的秃子有罪
@@ -511,6 +522,23 @@
     
     54. turbine: 特斯拉 + bin => 特斯拉拿起bin,然后涡旋推进
     
+    
+    55. propellar: 箱子 + 怕了 => 在箱子的一角,怕了,结果箱子用螺旋桨飞走了
+
+    56. ground clutter: (clutter => club + 特斯拉 => 进入雏鹰俱乐部的特斯拉一脸懵逼,非常混乱) => 大地混乱,胡乱反射波
+    
+    57. medium(介质)
+    
+    58. resonance: 热身 + 南边 => 热身的灰吕,地球突然向南运动,灰吕拱起身子,身子就跟针一样(共振),结果桥从下面过去了
+    
+    59. reverberation: river + bear + 绳子 => 河流冲到熊那边,熊将河流作为绳子甩了起来,结果由于空气反射,形成了巨大的回响
+    
+    60. direct current(直流电)
+    
+    61. alternating current: alter => 变性 => 交流电的特斯拉突然变成女性化(alter),和爱迪生快乐地生活在了一起
+    
+    
+
 
 3. adj
     1. caustic: course + 踢 => 老师上课的时候,提了下讲台桌,结果脚被腐蚀掉了,我们只能看到一个没有右脚的老师
@@ -2057,6 +2085,40 @@ euphonious sound
 
 82. choreography: 可乐 + 热 + 照相机 => 可乐变热,推到照相机,结果烟变成了巫女
 
+83. mason: 梅林 + 森林 => 梅林坐在森林的石头上,石头开花了(石匠)
+
+84. glod smith: blacksmith(铁匠) => 金匠
+
+85. attic: apple + tick => 用苹果轻轻滴答一下"大地",结果落到了人间,砸坏了人家的阁楼
+
+86. cabin: 卡片 + bin => 卡片和小箱子组合在一起,不良用木棒打,木棒碎了,很开心~
+
+87. log structure(原木结构)
+
+88. timber & lumber (木材)
+
+89. plaster: place + 特斯拉线圈 => 在大卫的石膏像上放一个特斯拉线圈,然后发出了光!
+
+90. hemp: 黑皮 => 齐神动画里的黑皮变得很大,踩着马
+
+91. textile(纺织品)
+
+92. fireplace(壁炉)
+
+93. pillar: 皮卡丘 + 勒紧 => 皮卡丘被柱子勒紧了
+
+94. skyscraper: sky + script(脚本 => 脚) => 乔布斯踩着摩天大楼登天了
+
+95. alignment(直线排列)
+
+96. suburb: sub + 2b => sub拿着2b铅笔跑出城外嚣张了
+
+97. specimen: space + man => 太空人突然身体很痒,结果笨拙地挠不到(样本)
+
+
+
+
+
 
 ### 1-21. language
 1. (adj)succinct: 三颗 + 绳子 => 有三个人,拿着各自的绳子,然后作为剑来互相攻击对方
@@ -2950,6 +3012,13 @@ The economy remains sluggish
     
     
     38. commonality: common + 爱丽 => 爱丽和伊利亚有很多共性
+    
+    39. enrollment: 老鹰 + 滚动 + 门 => 老鹰滚动一下然后到了学校里面,背着书包的老鹰放着灯光来登记了
+    
+    40. spacing: 太空 + 老鹰 => 老鹰在太空飞不动,和地球的间隔拉大了
+    
+    
+    
     
 3. adj
     1. overarching: 上面 + archer => archer要射箭了,逐渐archer往天空平移,然后archer用手放在弓箭上,射了出去
