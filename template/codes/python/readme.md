@@ -755,13 +755,13 @@ scope_assign('s1','s2',sess)
         ```
         config = tf.ConfigProto()
         config.gpu_options.allow_growth = True
-        session = tf.Session(config=config, ...)
+        sess = tf.Session(config=config, ...)
         ```
         2. 设置每个GPU应该拿出多少容量给进程使用，0.4代表40%
         ```
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
         config = tf.ConfigProto(gpu_options=gpu_options)
-        session = tf.Session(config=config, ...)
+        sess = tf.Session(config=config, ...)
         ```
     3. 控制使用哪块GPU: 设置环境变量
         1. 命令行
