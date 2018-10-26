@@ -3,9 +3,9 @@
 
 But there are compelling reasons in favor of another Moon landing, **not the least of which** is trying to **pinpoint** the moon's age.
 
-2. We could do this in theory, known as South pole basin.
+2. `We could do this in theory, known as South pole basin.`
 
-=> We could do this **in theory** by studying an **enormous** **impact crater**, known as the **South Pole-Aitken Basin**.
+We could do this **in theory** by studying an **enormous** **impact crater**, known as the **South Pole-Aitken Basin**.
 
 3. But since it's far side of the Moon, it can only be seen from the space
 
