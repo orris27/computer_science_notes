@@ -107,5 +107,5 @@ But it first showed up in US **northeast**, **in the New England region**, aroun
 6. `For those who do not know the region, Cape Cod persists in the northeast coast land, so many houses in the particular sytle were built, that the name of the place became the name of the style.`
 
 
-For those of you who do not know the northeast coast region, Cape Cod **is a peninsular**, a narrow strip of land that juts out into the Atlantic, and so many houses in this particular sytle were built on Cape Cod, that the name of the place became the name of the style.
+For those of you who do not know the northeast coast region, Cape Cod **is a peninsular**, a narrow **strip of land** that **juts out into the Atlantic**, and so many houses in this particular sytle were built on Cape Cod, that the name of the place became the name of the style.
 
