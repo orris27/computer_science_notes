@@ -1458,6 +1458,60 @@
     Glucose is dripping into patients.
     ```
     
+    12. muon: milk + on => 姐姐(介子)帮我按下牛奶的开关,牛奶就开始像豆浆一样制作了
+    
+    
+    13. cellulose: cell + u(马蹄磁铁 => 吸引) + loser(garilu的娜塔尼亚) => 细胞被吸走了,将loser的衣服(纤维素)夺走了
+    
+    14. cytoplasm: 赛车 + plaster => 赛车冲向plaster,刚好在纸上,把纸提了起来
+    
+    
+    15. chromosome: chrome + 太阳 => chrome在太阳下变透明了,里面的染色体清晰可见
+    
+    16. filament: 飞了 + 门 => 门飞了,被子弹击中,然后线出现,恢复了
+    
+    17. mitochondria: 埋头看脚 => 埋头看脚,做线的编织游戏,里面变成粒子一样掉了下来(线粒体)
+    
+    18. amphibian: 按钮 + 飞机 + 大便 => 按钮下来,飞机起飞,出现大便,在水坑和地面之间
+    
+    19. crustacean: crust + ocean => 地壳 + 海洋 => 甲壳类动物
+    
+    20. microbe: 微小 + 笔 => 笔变得微小了起来,用笔轻轻碰一下血小板
+    
+    
+    21. domain, kindom, class, order, family, genus, species: 大门 + 英国 + 班级 + 点餐 + 老鼠一家人 + 吱吱 + 速度很快 => 通过大门到了伦敦,进入班级,在里面点餐,出现老鼠一家人,吱吱,老鼠移动的速度很快
+    
+    22. primate: proud + mate => 它很骄傲,结果mate,很大长,变成幽灵(灵长类)
+    
+    
+    23. rodent: 肉 + 灯光 => 肉被灯光照着,小仓鼠高兴地吃
+    
+    
+    24. ruminant: 路 + 米 + ant => 路上有米,蚂蚁捡起来,结果进入马的嘴巴里(反刍)
+    
+    25. parastic: parasite(寄生虫) => 寄生动物
+    
+    
+    26. mollusk: 摩天轮 + 可乐 + 四个 => 摩天轮上有可乐,俄罗斯套娃出现四个,都软掉了
+    
+    27. carnivore: 卡片 + 泥巴 + 蚊子 => 卡片堵住泥巴,蚊子进去吸走了肉
+    
+    28. herbivore: 河边 + 蚊子 => 河边蚊子在草丛里走
+    
+    29. omnivore: 欧米茄 + 蚊子 => 蚊子怕欧米茄,给她肉和菜吃
+    
+    30. poikilotherm: 假面超人的pose + kilogram + 十米 => 假面超人的玩具重,扔十米,手很烫,结果变冷了
+    
+    31. enzyme: 摁门铃 + 在吗 => 摁门铃, 在吗,莓良心出现了
+    
+    32. neuron: 牛 + 人 => 斗牛人突然神经元一皱,和牛对刚了
+    
+    33. membrane: 门 + brave => ta勇敢地冲向门,结果用膜顶破
+    
+    34. unicellular: unique + cell => 单一个细胞 => 单细胞的
+    
+    
+    
 3. adj
     1. ripe: rice + p => 米饭里都是精灵球,然后吃下去感觉这米饭烧熟了
     ```
