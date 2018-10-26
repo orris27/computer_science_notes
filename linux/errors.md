@@ -751,6 +751,17 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     + 注意: 我一开始的解决方法为了restore成功,就把`train.py`里的`batch_size`改成1,后期训练很慢,而且成功率很低,所以最后就不行了
 
 
+21. GAN来做手写数字生成的时候报错
+    ```
+    step 0: g_loss=nan    d_loss=inf
+    step 1000: g_loss=nan    d_loss=nan
+    step 2000: g_loss=nan    d_loss=nan
+    ```
+    1. 原因:
+    + 我的D和G都是2层神经网络,激活函数都是sigmoid+softmax.结果换成relu+sigmoid就解决这个问题了
+    + 初始化W和b也有问题
+    + ...
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
