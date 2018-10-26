@@ -1,5 +1,5 @@
 ### Moon Landing
-1. But there is compeling reason in favor of another moon landing, which try to pinpoint the age of the moon.
+1. `But there is compeling reason in favor of another moon landing, which try to pinpoint the age of the moon.`
 
 => But there are compelling reasons in favor of another Moon landing, **not the least of which** is trying to **pinpoint** the moon's age.
 
