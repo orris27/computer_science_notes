@@ -109,3 +109,25 @@ But it first showed up in US **northeast**, **in the New England region**, aroun
 
 For those of you who do not know the northeast coast region, Cape Cod **is a peninsular**, a narrow **strip of land** that **juts out into the Atlantic**, and so many houses in this particular sytle were built on Cape Cod, that the name of the place became the name of the style.
 
+
+7. `Notice how the house sit the low ground.`
+
+Notice how the house **is** **fairly** low to the ground.
+
+8. `The relatively low campact struture help the building stand the wind from the ocean.`
+
+This relatively low **compact** struture helps the house **withstand** the strong winds blowing off the ocean.
+
+9. `And look at the slope of the roof, the angle helps to rid water and snow that accumulates in the winter`
+
+And look at the **slope of the roof**, the **steep** angle helps to keep off all that rain and snow that accumulates in the winter
+
+
+10. `Seaside house also has very few decoration that is also typical of Cape Cod houses.`
+
+Now see how the house has very little **exterior decoration** that is also typical of early Cape Cod houses.
+
+11. `Not only the wind is one reason, not blowing off the decoration, there might be other reason, the New England region's custom`
+
+The wind was one reason, **nothing sticking out** might **blow away** in the harsh weather,but there was probabably another reason, not related to the climate, more **reflection** of a **rural** New England society back then.
+
