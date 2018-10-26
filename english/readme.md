@@ -2133,9 +2133,25 @@ euphonious sound
 
 97. specimen: space + man => 太空人突然身体很痒,结果笨拙地挠不到(样本)
 
+98. cape: 凯 + 精灵球 => 凯被精灵球给抓住,然后凯开了八门将精灵球打到了海角
+
+99. detour: 低头 => 低头走弯路
 
 
+100. ranch-style house: 大农场住宅风格的房子
 
+101. show up: 露面
+
+
+102. jut: jet(喷气式飞机) => 鱼向浮在海水上的油伸出手
+
+103. a strip of land(狭长的地带)
+
+
+104. slope: 石楼 + 精灵球 => 石楼要塌陷了,被精灵球撑住
+
+
+105. exterior: extend + or(太阳) => 伸出手抓住太阳,必须到外部去
 
 
 ### 1-21. language
