@@ -19,6 +19,11 @@ set pastetoggle=<F9>
 ```
 set fo=r
 ````
+
+### 5. 部分操作系统backspace失效,比如不能删除前面的字符,或者在行首时不能删除换行
+```
+set backspace=2
+```
 ## vim.rc
 1. 使用指定的vimrc文件： 使用`-u`参数, 如`vim -u /home/user/orris/vimrc my-cartpole.py`
 
@@ -104,6 +109,7 @@ set autoindent
 set cindent
 set pastetoggle=<F9>
 set fo=r
+set backspace=2
 
 "set softtabstop=4
 "set autoindent
