@@ -1626,7 +1626,25 @@ Astronomy inherits from astrology
 54. Pluto: 布鲁托 => 布鲁托是被烧死的,冥土追魂真香
 
 
+55. perpetually: 爬车 + 篱笆 => 车爬篱笆,结果永恒地卡在那里了
 
+56. crust(地壳)
+
+57. give or take: 给你又拿回来 => 可以增加可以减少 => 允许有误差
+
+58. planetary formation(行星形成)
+
+59. meteor shower: 流星 + 洗澡 => 洗澡在流星里,下雨也算洗澡 => 流星雨
+
+60. self-sustaining(自给自足的)
+
+61. moon base
+
+62. departure point(启程点)
+
+63. mining camp(采矿营地)
+
+64. haul: 猴哥 + 列车 => 猴哥用肩膀扛着列车进行搬运
 
 
 
