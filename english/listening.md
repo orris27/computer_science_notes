@@ -1,3 +1,4 @@
+## Astronomy
 ### Moon Landing
 1. `But there is compeling reason in favor of another moon landing, which try to pinpoint the age of the moon.`
 
@@ -76,4 +77,35 @@ We could do this **in theory** by studying an **enormous** **impact crater**, kn
 => The dust at the bottom of the SPA basin, really does have a fascinating story to tell.
 
 
+
+## 2. Architecture
+1. `Today we are taking a little deto of grand part architecture reso design architecture in the United States`
+
+Today we are taking a little **detour** from the grand styles of public architecture we've been stduying to look at **residential architecture** in the United States
+
+2. `Since this is sth we can all identify with, and I think it will help us see the relation between the function of structure and its style or form`
+
+Since this is sth we can all identify with, I think it will help us see the **relationship** between the function of structure and its style or form
+
+
+
+3. `This is being ungoing theme we've discussed, and we'll be getting back in just a moment.`
+
+This **has been** **ongoing** theme **in our discussion**, and we'll be getting back **to it** in just a moment.
+
+
+
+4. `I bet it is the ranch style house`
+
+I bet it is the **ranch-style** house.
+
+
+5. `But it's first showed up in the US north-east, late in the 70-th century`
+
+But it first showed up in US **northeast**, **in the New England region**, around the late 1600s.
+
+6. `For those who do not know the region, Cape Cod persists in the northeast coast land, so many houses in the particular sytle were built, that the name of the place became the name of the style.`
+
+
+For those of you who do not know the northeast coast region, Cape Cod **is a peninsular**, a narrow strip of land that juts out into the Atlantic, and so many houses in this particular sytle were built on Cape Cod, that the name of the place became the name of the style.
 
