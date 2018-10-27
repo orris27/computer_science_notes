@@ -1552,7 +1552,7 @@
     
     53. sterilization: stellar + 雷神 => 星星走过篱笆,然后躺在篱笆上,肚子里出现雷神,将细菌给消灭了
     
-    
+    54. penicillin: peninsular + 大海 + 零(轮胎) => 海岛上的大海,轮胎滚过去,蜻蜓队长把轮胎弄没了
     
     
 3. adj
