@@ -1512,6 +1512,49 @@
     
     
     
+    35. yeast: 椅子 + 斯科特 => 斯科特坐在椅子上,然后冰冻的脚母亲将它温暖了起来
+    
+    36. fungus: 房子 + gate => 房子的门被全是针的怪物给打破了
+    
+    37. perspire: 坡 + spider => 蜘蛛人在上下坡里不断移动,出汗
+    
+    38. reproductive system: 繁殖 + 系统 => 生殖系统
+    
+    39. hormonal system: 荷尔蒙 + 系统 => 分泌荷尔蒙的是内部分泌的 => 内分泌系统
+    
+    40. pheromone: feather + 门 => 一个巨大的羽毛要进入门,就放到信箱(信息素)上
+    
+    41. metamorphosis: vitamin + fur => 维他命的瓶子长出翅膀,然后变态凑了过来
+    
+    42. germ: 脚 => 脚趾头变细了(细菌)
+    
+    43. venom: 蚊子 + nose => 蚊子停在了鼻子上,然后将毒液注射了进去,鼻子上流出紫色的液体
+    
+    44. antibiotic: anti + biology => 对抗 + 生物学 => 抗生素
+    
+    45. probiotic: antibiotic的反义词 => 益生素
+    
+    46. digestive system(消化系统)
+    
+    47. vaccine: weak(病床) + 大海 => 上条在病床里看海,发现有一个独苗,将椅子移动到那里,然后看独苗
+    
+    
+    48. immunity: immune免疫的 => 免疫
+    
+    49. aerobic: area + 笔 => 这块地上有笔提供氧气,大家在这里吸收氧气
+    
+    50. anaerobic: 按钮 + aerobic(有氧的) => 笔有按钮,按下按钮后就不提供氧气了
+    
+    51. epidemic: 鹅皮 + danny => 鹅脱了皮,然后danny过来结果被传染了,整个人都变紫了
+    
+    52. postulation: poster + 雷神 => 雷神在信箱里当做自己的家(假说)住了下来
+    
+    
+    53. sterilization: stellar + 雷神 => 星星走过篱笆,然后躺在篱笆上,肚子里出现雷神,将细菌给消灭了
+    
+    
+    
+    
 3. adj
     1. ripe: rice + p => 米饭里都是精灵球,然后吃下去感觉这米饭烧熟了
     ```
