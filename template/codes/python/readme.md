@@ -644,9 +644,7 @@ scope_assign('s1','s2',sess)
         saver = tf.train.import_meta_graph("ckpt/model.ckpt.meta")
         v2 = tf.Variable(3.14,name='v2')
 
-        gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
-        config = tf.ConfigProto(gpu_options=gpu_options)
-        with tf.Session(config=config) as sess:
+        with tf.Session() as sess:
             saver.restore(sess,"ckpt/model.ckpt")
             print(sess.run(tf.get_default_graph().get_tensor_by_name("v1:0")))
             print(sess.run(tf.get_default_graph().get_tensor_by_name("v2:0"))) # 返回的是3.14
@@ -678,10 +676,7 @@ scope_assign('s1','s2',sess)
 
     saver = tf.train.Saver(max_to_keep=0) # 保存所有save结果
 
-    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
-    config = tf.ConfigProto(gpu_options=gpu_options)
-
-    with tf.Session(config=config) as sess:
+    with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
 
         for i in range(10):
@@ -5366,6 +5361,12 @@ time.time() #<=> clock()
 #------------------------------------------
 # '000ab'
 #------------------------------------------
+```
 
 
+28. 智能创建文件夹
+```
+dir = xxx
+if not os.path.exists(dir):
+    os.makedirs(dir)
 ```
