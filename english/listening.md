@@ -79,6 +79,7 @@ We could do this **in theory** by studying an **enormous** **impact crater**, kn
 
 
 ## 2. Architecture
+### Cape Cod House
 1. `Today we are taking a little deto of grand part architecture reso design architecture in the United States`
 
 Today we are taking a little **detour** from the grand styles of public architecture we've been stduying to look at **residential architecture** in the United States
@@ -130,4 +131,28 @@ Now see how the house has very little **exterior decoration** that is also typic
 11. `Not only the wind is one reason, not blowing off the decoration, there might be other reason, the New England region's custom`
 
 The wind was one reason, **nothing sticking out** might **blow away** in the harsh weather,but there was probabably another reason, not related to the climate, more **reflection** of a **rural** New England society back then.
+
+12. `You see, Cape Cod house isn't built in a big city, where all rich ppeple live there.`
+You see, Cape Cod houses **were** not built in the big cities, where all the rich ppeple lived **back then**.
+
+13. `This were modest `
+This were modest **dwellings**.
+
+14. `The people who built them simple could not afford large of expensive and decorated details`
+The people who built them simple could not afford **lots** of expensive **decorative** details.
+
+15. `But it was more matter just than money.`
+But it was more than just a matter of money.
+
+16. `You would avoid set a part from the neighbors, the same people you might help some day.`
+You'd want to avoid anything that might **set your apart** from your neighbors, the same people you might **need** to help you some day.
+
+17. `You will see the attitudes confirmation in community,  a modest and plain sytle would be innative thoughout New England.`
+So all these help to create an attitude of **conformity** in the community, and you can see why a modest, a very plain sytle would become so widely **imitated** thoughout rural New England.
+
+18. `Good point. As it can apple, it's peality poposion enjoys wide popularity.`
+Good point. and in fact it's precisely that as **aesthetic** appeal, the purity, the nearly perfect **proportions** of the house...that's another reason for the Cape Cod's **enduring** popularity.
+
+
+
 
