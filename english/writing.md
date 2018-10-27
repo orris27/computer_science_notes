@@ -104,6 +104,7 @@ With the significant advances in economy and transportation, many people move be
 
 
 2. 主题句和原题有什么关系?
+
 Since they do not stay in a place for a long time, they lack the motivation to devote much time or energy to improving their the area where they live.
 
 
@@ -127,6 +128,10 @@ Since they do not stay in a place for a long time, they lack the motivation to d
 
 4. 扣紧主题句和原题,不要写无关的内容
 
+5. <为什么这样会导致原题?>时,最好具体一点.比如"提高邻里关系",可以写成"对邻里有疏远感"类似的.
+
+#### 思路
+1. 职业强无敌: 我的谁谁谁是做什么的,所以就会导致主题句的情况.我们就发生了原题的情况.
 
 #### conjunction
 1. 比如说: "<说理:主题句和原题有什么关系> \_\_\_ <举例>"
@@ -136,8 +141,24 @@ Since they do not stay in a place for a long time, they lack the motivation to d
 + `To illustrate, ___`
 
 
+#### 1. busy
+
+#### 2. not financially capable
 
 
+
+#### 3. migrate frequently
+1. 为什么这个例子会导致主题句?
+
+```
+For example, my father does business all over the country. Because of his job, we have moved between several countries in the past few years.
+```
+
+2. 为什么这样会导致原题?
+
+```
+We feel isolated from our neighborhood and thus are less interested in improving it.
+```
 
 
 
