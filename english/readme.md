@@ -1555,6 +1555,66 @@
     54. penicillin: peninsular + 大海 + 零(轮胎) => 海岛上的大海,轮胎滚过去,蜻蜓队长把轮胎弄没了
     
     
+    55. natal: 骑拉帝纳 + 头 => 骑拉帝纳诞生下来的时候只有一个很大的头
+    
+    56. prenatal: pre + natal => 产前的
+    
+    57. mitigate: 大米 + 梯子 + gate => 吃完饭后力气很足,踩着梯子上去了,然后力量忘记减轻就直接将门给推翻了
+    
+    58. docile: 豆浆 + 色子 => 豆浆有点冷,放了点色子进去,色子摇动,然后变温暖了(温顺的)
+    
+    59. mutualism: 相互 + 生 => 互生的,共生的
+    
+    60. dormant: 冬眠 => 休眠的
+    
+    61. alpha animal: 领头的动物
+    
+    62. beta:次要的动物
+    
+    63. hatchling: hatch + 铃铛 => 孵化出了铃铛,铃铛响了起来,所有的蛋壳都破裂,孵化出了小鸡(后代)
+    
+    64. hibernation(冬眠)
+    
+    65. imperial: 硬币 + 肉包 => 硬币放在肉包里面,咬下去牙齿要危险了(危及)
+    
+    66. lure: 路 + 热 => 老鹰(引诱)沿着路飞了过去,火一直蔓延到天上
+    
+    67. blend into(融入环境)
+    
+    68. defensemechanism(防卫机制)
+    
+    69. selective adaptation(选择性适应)
+    
+    70. disguise(伪装)
+    
+    71. verbal: 蚊子 + 足球 => 蚊子踢足球都是直接用口头呼气的
+    
+    72. vocalization: 门口 + 雷神 => 雷神到了门口,用电气让自己发出里面的人能听懂的声音
+    
+    73. forage: 佛 + age => 佛的白胡子往下垂,将面包找到(觅食),给佛吃
+    
+    74. ingestion: digestion(消化) + in => 消化进去 => 摄取
+    
+    75. devour: 大帝 + 蚊子 => 大帝吃了很多蚊子,结果都吞了下来,很满足
+    
+    76. groom: 锯子 + room => 我用锯子当扫把在寝室里打扫卫生
+    
+    77. regeneration: re(再次) + generation(生成) => 再生
+    
+    78. breeding season(繁殖季)
+    
+    79. fledgling: fly + 铃铛 => 铃铛展开翅膀飞翔,里面的雏鸟好奇地看着世界
+    
+    80. predecessor: ray + 单手 + 收拾 => ray单手收拾了所有东西给前任(日富美)看
+    
+    81. solitude: solid(固体的 => 石头) + 调教 => 齐神独居的时候,在角落里调教石头
+    
+    82. solitary: solid + 太累(灰吕) => 灰吕独居的时候疯狂举石头
+    
+    83. nourishment(营养品)
+    
+    
+    
 3. adj
     1. ripe: rice + p => 米饭里都是精灵球,然后吃下去感觉这米饭烧熟了
     ```
