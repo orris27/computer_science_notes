@@ -55,13 +55,26 @@
 
 4. recharge batteries
     1. 联想
-    + reduce pressure
+    + reduce stress
     + enhance health
     + balance study and life
-    + 
-
+    + improve physical fitness
+    + prepare for exams in order to achieve high academic perfomance and earn high socres
+    + feel refreshed
+    + take a break from normal routines/ the busy city life
+    + have a positive compact on mental and physical health
+    + maintain health
+    + students have to complete a large number of assignments
+    + suffer from intense pressure
 
     2. 范文
+    
+    3. 我自己写的..
+    ```
+    Secondly, field trips enable students to recharge their batteries. 
+    It is known to all that students have to complete a large number of assignments and thus suffer from intense pressure. Since it is common for students to be confronted with academic pressure, providing them with the opportunities of direct access to the outside world has a positive impact on their study. 
+    For instance, my friend used to study at classroom to prepare for physical exam for a long time without participating in recreational activities. Because of the lack of the exercise, he felt sick on the day of the exam, and thus failed to earn high score. However, if he took a break from normal routines and went on field trips to have a relax, he was bound to achieve high academic performance in the physical exams.
+    ```
 
 
 ### 联想
@@ -89,7 +102,7 @@
 
 
 ### education
-1. 获得更多知识: acquire a wide range of knowledge beyond textbooks, have access to knowledge 
+1. 获得更多知识: acquire/ gain a wide range of knowledge beyond textbooks, have access to knowledge 
 2. 理论知识: theoretical knowledge
 3. 实践知识: practical knowledge
 4. 应用知识: apply theory to practice
@@ -151,6 +164,9 @@
 
 17. 促进新陈代谢: boost metabolism 
 
+18. 考试当天生病: feel sick on the day of the exam
+
+
 ### economy
 1. higher cost of living
 
@@ -161,6 +177,7 @@
 2. explicit
 3. neighborhood
 4. business
+5. activities
 
 ## 1. Introduction
 
@@ -172,9 +189,11 @@
 主要说明body > top sentence的万能理由
 
 ### 2-2. 说理
-1. 为什么主题句是对的?
-2. 主题句和原题有什么关系?
-
+1. A和B对立,证明A正确
+    1. 为什么主题句是对的?
+    2. 主题句和原题有什么关系?
+2. A和B不完全相反,A更好
+    1. 
 
 
 #### conjunction
@@ -251,3 +270,5 @@
 1. 有今昔对比的最好简明对比一下
 
 
+### 3. 让步段
+It is true that <反方观点可能有道理>. However, <简单地总结前2个explanation,并逻辑反驳>. Therefore, I still hold the view that <重申观点>
