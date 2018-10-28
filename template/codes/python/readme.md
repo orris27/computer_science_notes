@@ -5408,3 +5408,16 @@ dir = xxx
 if not os.path.exists(dir):
     os.makedirs(dir)
 ```
+
+
+29. ipynb
+1. 使用
+```
+sudo pip install ipython --upgrade
+sudo pip install jupyter
+jupyter notebook --ip=10.214.144.222
+```
+2. 转化ipynb文件为py文件
+```
+jupyter nbconvert --to script xx.ipynb
+```
