@@ -77,7 +77,7 @@ learning_rate = tf.Variable(1e-3)
             # pooling:池化操作.就这样子就OK了 = >表示长宽缩小一半而厚度不变.
             a_pool = tf.nn.max_pool(a,ksize = [1,2,2,1],strides = [1,2,2,1],padding = 'VALID', name='pooling')
 
-            # lrn层
+            # lrn层: 可以放到pooling前面或者后面,经验法则
             a1 = tf.nn.lrn(a_pool,depth_radius=4,bias=1.0,alpha=0.001/9.0,beta=0.75,name='lrn')
 
             # 最后输出的shape可以通过print(a1.get_shape())查看
