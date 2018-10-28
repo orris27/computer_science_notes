@@ -1304,6 +1304,9 @@ with sv.managed_session(config=config) as sess:
     11. [Keras基于LeNet-5实现MNIST数字手写识别,使用Sequential和Model继承方法](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/keras)
     12. [Keras基于现成的ResNet50识别图片](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/keras/resnet-recognize.py)
     13. [TF基于attention的image caption](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/keras/image-caption.py)
+    
+    14. [Slim实现InceptionV3,评测耗时](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
+    
 31. 空
 
 32. 设置随机数的种子
@@ -3549,6 +3552,41 @@ loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=y_pr
 
 train=tf.train.GradientDescentOptimizer(0.01).minimize(loss)
 ```
+
+
+2. slim.arg_scope: 给指定函数的指定参数赋予默认值
+```
+# 设置slim.conv2d和slim.fully_connected两个函数的weights_regularizer参数的默认值为slim.l2_regularizer(weight_decay)
+with slim.arg_scope([slim.conv2d, slim.fully_connected], weights_regularizer=slim.l2_regularizer(weight_decay))
+
+```
+
+3. Batch Normalization: 
+    1. 将slim.batch_norm作为slim.conv2d的normalizer_fn的参数
+    2. 设置slim.conv2d的normalizer_params参数
+    ```
+    def inception_v3_arg_scope(weight_decay=0.00004, stddev=0.1, batch_norm_var_collection='moving_vars'):
+        batch_norm_params = {
+                'decay': 0.9997,
+                'epsilon': 0.001,
+                'updates_collections': tf.GraphKeys.UPDATE_OPS,
+                'variables_collections': {
+                    'beta': None,
+                    'gamma': None,
+                    'moving_mean': [batch_norm_var_collection],
+                    'moving_variance': [batch_norm_var_collection],
+                    },
+                }
+
+        with slim.arg_scope([slim.conv2d, slim.fully_connected], weights_regularizer=slim.l2_regularizer(weight_decay)):
+            with slim.arg_scope([slim.conv2d], weights_initializer=tf.truncated_normal_initializer(stddev=stddev),
+                                               activation_fn=tf.nn.relu,
+                                               normalizer_fn=slim.batch_norm,
+                                               normalizer_params=batch_norm_params) as sc:
+                return sc
+
+    ```
+
 
 
 ### 1-2. TFLearn
