@@ -3157,6 +3157,11 @@ The economy remains sluggish
     A karate expert battered a man to death
     ```
     3. annotate: 河 + nose + taste => 河上有鼻子,然后舌头要舔它,结果出现了猪(注释)(注意和synopsis区分)
+    
+    4. utter: 奥特曼 => 奥特曼发出光线
+    
+    
+    
 2. noun
     1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
     2. gloomy: 阁楼 + 米 => 背着大米到阁楼,结果太重了就被压下去了,非常抑郁
@@ -3208,7 +3213,14 @@ The economy remains sluggish
     
     40. spacing: 太空 + 老鹰 => 老鹰在太空飞不动,和地球的间隔拉大了
     
+    41. at any rate(至少, 总之)
     
+    
+    42. preen: princess => 女王(saber)的头发由别人整理
+    
+    43. ruffle: run + 风 => 她皱了下眉头,就像风一样跑了起来
+    
+    44. limb: 凛 => 凛强化身体,结果自己的四肢先过去了
     
     
 3. adj
@@ -3216,6 +3228,10 @@ The economy remains sluggish
     2. mediocre: medium + core => 有三个核桃,哪个最好敲?当然是适合我的中间(中庸)的核桃
     
     3. color-coated: color + coat(外套 => 覆盖...的表面) => 用色彩覆盖 => 彩涂
+    
+    
+    4. bizarre: 笔 + 炸弹 + 热 => 笔炸了,高温流出黄色(荒谬)的液体
+    
 4. adv
     1. rashly: red + 嘘嘘 + 篱笆 => 红人在那里嘘嘘,结果掉到篱笆外面,然后高桥很鲁莽地生气了
 
