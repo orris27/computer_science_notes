@@ -1,26 +1,180 @@
+## 构思题
+1. People in the past were more interested in improving their neighborhood (the area where they live) than now.
+    1. agree
+    + too busy
+    + not financially capable
+    + migrate frequently
 
-## 2. body
+
+2. Nowadays people are more willing to help the people who they do not know than they were in the past 
+    1. agree
+    + financially capable
+    + have better awareness, take social responsibility
+    + have various way, such as social media
+    2. disagree
+    + too busy
+    + not financially capable
+    + for fear of being cheated: fraud
+
+3. Some people think that it is an important part of a child’s education to go on field trips (e.g. visit museums). Others believe that a child’s time is better spent learning in a classroom at school. Which do you prefer?
+    1. going on field trips is important
+    + broaden their horizons
+    + relax: recharge their batteries
+    2. learning in a classroom is better
+
+### 理由
+1. migrate frequently
+    1. 联想
+    + with the significant advances of economy and transportation
+    + move between different places
+    + build a better community, improve the areas where they live
+    + maintain a close bond with neighbors
+    + feel isolated from
+    
+    
+    2. 范文
+    + 序数词, **it is common for** people to migrate frequently nowadays.
+    + This is because with the significant advances of economy and transportation, many people move between different places in search of jobs or educational opportunities. Since they randomly stay in the same place for a long time, they lack the motivation to devote their time or energy to improving the areas where they live. 
+    + For instance, my father **does bussiness** all over the country. Because of his job, we have moved between several countries in the past few years. We **feel isolated from** our neighborhood and **thus** are less interested in improving it.
+    + However, people in the past tended to live in the same neighborhood for their entire life. As a result, they **were more willing to** build a better community by **constructing more public facilities** or **maintaining a close bond with** their neighbors.
+
+2. too busy
+
+3. acquire a wide range of knowledge
+    1. 联想
+    + have hands-on experience
+    + broaden one's horizons
+    + develop skills
+    + have direct contact with the outside world
+    + improve comprehensive skills and knowledge
+    
+    
+    2. 范文
+    + 序数词, children can acquire a wide range of knowledge beyond textbooks **during field trips**
+
+
+4. recharge batteries
+    1. 联想
+    + reduce pressure
+    + enhance health
+    + balance study and life
+    + 
+
+
+    2. 范文
+
+
+### 联想
+1. go on a trip
+    + museum: culture, knowledge, history, custom and art
+    + zoo: animals' behaviors, diets and habitats
+    + farm: agriculture, farming, crops and raise animals
+    + chocolate factories: the latest manufacturing technology and equipment
+
+
+
+
+## 万能词组
+### 虚词
+1. tend to 
+2. devote much time or energy to doing 
+3. lack the motivation to do, be reluctant to do, be passinate about sth.
+4. be willing to do 
+5. contribute money to 
+6. with the significant advances in economy and transportation
+7. it is common for people to
+8. a large number of assignments
+9. have a positive impact on, have a negative impact on
+
+
+
+### education
+1. 获得更多知识: acquire a wide range of knowledge beyond textbooks, have access to knowledge 
+2. 理论知识: theoretical knowledge
+3. 实践知识: practical knowledge
+4. 应用知识: apply theory to practice
+5. 扩展视野: broaden one's horizons, expand knowledge
+6. 有实践经验: have hands-on experience
+7. 提高技能: improve/ enhance/ cultivate/ develop skills, improve comprehensive knowledge and skills
+8. 独立xx的能力: the ability to think/ work/ solve problems independently
+9. 交际能力: interpersonal/ social/ communication skills
+10. 时间管理: time management skills, balance work/ study and life
+11. 责任感: a sense of responsibility
+12. 接触外部的世界: have direct contact with the outside world
+
+
+
+### life
+1. 求职: in search of jobs or educational opportunities
+2. 小区: community, the area where people live, improve the neighborhoods, build a better community, organize community activities
+3. 生活设施: build gardens, libraries, and other public facilities, clean public areas
+4. 绿色生活: plant trees and flowers
+5. 友好相处: maintain a close bond with neighbors
+6. 志愿服务: do community service, participate in volunteer work
+
+
+
+### 压力, 健康
+1. 过着快节奏的生活: live a fast-paced life
+
+2. 面临激烈的竞争: face fierce/ intense competition
+
+3. 承受巨大的压力: suffer from intense pressure, feel overwhelmed 
+
+4. 对某人施加巨大的压力: put great pressure on sb.
+
+5. 减轻压力: reduce stress
+
+
+6. 作业很多: students have to complete a large number of assignments
+
+7. 准备考试: prepare for exams
+
+8. 取得好成绩: achieve high academic performance, earn high scores
+
+9. 加班: work overtime and stay up late 
+
+10. 维持生计: make a living and support their family 
+
+11. 忙: have a tight schedule
+
+12. 减轻/缓解空气污染/交通堵塞: reduce air pollution / traffic congestion
+
+13. 放松: recharge one's batteries, feel refreshed, help sb. relax, take a break from normal routines/ from the busy city life, ~~relax oneself~~
+
+14. 休闲活动: recreational activities, leisure activities
+
+
+15. 对身体和心理健康有利: have a positive compact on mental and physical health, improve physical fitness
+
+16. 保持健康: maintain health
+
+17. 促进新陈代谢: boost metabolism 
+
+### economy
+1. higher cost of living
+
+
+
+## 错别字
+1. museum
+2. explicit
+3. neighborhood
+4. business
+
+## 1. Introduction
+
+
+
+
+## 2. Body
 ### 2-1. top sentence
 主要说明body > top sentence的万能理由
-#### 1. People in the past were more interested in improving their neighborhood (the area where they live) than now.
-1. agree
-+ too busy
-
-+ not financially capable
-
-+ migrate frequently
-```
-序数词, it is common for people to migrate frequently
-```
-
-
-
-
-
-
-
 
 ### 2-2. 说理
+1. 为什么主题句是对的?
+2. 主题句和原题有什么关系?
+
 
 
 #### conjunction
@@ -55,61 +209,12 @@
 
 
 
-#### expression
-
-be willing to => **be passionate about sth.** / **be reluctant to do (lack motivation)**
-
-**community**: the area where people live
-
-improve the neighborhood => **build a better community**
-
-build parks, gardens, libraries, gyms and other public facilities
-
-plant trees and flowers 
-
-clean public areas
-
-organize community activities 
-
-maintain a close bond with neighbors
-
-contribute money
-
-do community service
-
-participate in volunteer work
-
-lack the motivation to do
-
-with the significant advances in economy and transportation
-
-in search of jobs or educational opportunities
-
-
-#### 1. busy
-1. have a tight schedule
-
-2. 
-
-#### 2. not financially capable
-1. higher cost of living
-
-
-
-
-#### 3. migrate frequently
-1. 为什么主题句是对的?
-
-With the significant advances in economy and transportation, many people move between different places in search of jobs or educational opportunities.
-
-
-2. 主题句和原题有什么关系?
-
-Since they do not stay in a place for a long time, they lack the motivation to devote much time or energy to improving their the area where they live.
 
 
 
 ### 2-3. 举例
+1. 为什么这个例子会导致主题句?
+2. 为什么这样会导致原题?
 #### NOTE:
 1. 泛、笼统、抽象 => 具体: 不要泛泛而谈
 
@@ -141,24 +246,8 @@ Since they do not stay in a place for a long time, they lack the motivation to d
 + `To illustrate, ___`
 
 
-#### 1. busy
 
-#### 2. not financially capable
-
-
-
-#### 3. migrate frequently
-1. 为什么这个例子会导致主题句?
-
-```
-For example, my father does business all over the country. Because of his job, we have moved between several countries in the past few years.
-```
-
-2. 为什么这样会导致原题?
-
-```
-We feel isolated from our neighborhood and thus are less interested in improving it.
-```
-
+### 2-4. 对比
+1. 有今昔对比的最好简明对比一下
 
 
