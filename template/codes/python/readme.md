@@ -839,7 +839,7 @@ scope_assign('s1','s2',sess)
         tf.nn.dynamic_rnn(cell, inputs, sequence_length=None, initial_state=None,dtype=None,time_major=False)
         ```
         2. 自己循环train_times次
-        + `lstm_cell`会改变自己!!如果直接调用的话,就不能放到dynamic_rnn里面了!!
+        + `lstm_cell`在第一次调用`__call__`或者`dynamic_rnn`后会改变自己!!比如说`__call__`第一次调用的时候,使用的输入shape是`[batch_size, a]`的话,那么后续调用`__call__`或者`dynamic_rnn`时,输入的shape必须是`[batch_size, a]`或者`[batch_size, num_steps, a]`,这个a是不能改变的
         ```
         outputs = []
         states = initial_states
