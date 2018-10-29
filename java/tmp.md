@@ -216,20 +216,80 @@ public static String valueOf(char c) {
 //....
 ```
 
-public static String valueOf(char data[], int offset, int count) {
-public static String copyValueOf(char data[], int offset, int count) {
-public static String copyValueOf(char data[]) {
-public static String valueOf(boolean b) {
-public static String valueOf(char c) {
-public static String valueOf(int i) {
-public static String valueOf(long l) {
-public static String valueOf(float f) {
-public static String valueOf(double d) {
-public native String intern();
+### 2. StringBuffer
+1. 构造函数： 调用AbstractStringBuilder的构造函数进行构造，
+```
+public StringBuffer() {
+}
+public StringBuffer(int capacity) {
+    super(capacity);
+}
+```
+我们直接看父类的构造函数，可以看到默认构造函数是直接对value成员创建new的字符数组。而如果使用capacity作为参数进行构造函数的话，就不使用INITIAL_CAPACITY长度的字符数组，而是直接使用参数长度的字符数组。
+```
+AbstractStringBuilder() {
+    value = new char[INITIAL_CAPACITY];
+}
+AbstractStringBuilder(int capacity) {
+    if (capacity < 0) {
+        throw new NegativeArraySizeException(Integer.toString(capacity));
+    }
+    value = new char[capacity];
+}
+```
+
+
+2. append：给StringBuffer字符串添加新的内容。该方法有很多重载，这里只看Object和String的部分。它们都是通过append0来append进去的。首先判断参数是否为null，如果是的话，就调用appendNULL添加"null"到字符串里面，它的实现是通过动态增大字符串的长度（当然如果字符串的长度已经满足要求的话，就不会重新创建新的字符数组），然后直接对后面的4个字符修改，从而构成"null"。
+```
+public synchronized StringBuffer append(Object obj) {
+    if (obj == null) {
+        appendNull();
+    } else {
+        append0(obj.toString());
+    }
+    return this;
+}
+
+public synchronized StringBuffer append(String string) {
+    append0(string);
+    return this;
+}
+```
+如果进一步调用append0的话，首先也是按需增大字符串的长度，然后调用`_getChars`来给value有效字符串后面赋予新的字符串。
+```
+final void append0(String string) {
+    if (string == null) {
+        appendNull();
+        return;
+    }
+    int length = string.length();
+    int newCount = count + length;
+    if (newCount > value.length) {
+        enlargeBuffer(newCount);
+    }
+    string._getChars(0, length, value, count);
+    count = newCount;
+}
+```
+需要注意的是，StringBuffer里的append通过synchronized定义，也就是说这个方法是不允许同时被执行的，从而保证线程安全。
+
+
+### 3. StringBuilder
+1. 构造函数：StringBuilder构造函数和StringBuffer的构造函数基本一样，不赘述
+
+2. append：类似于StringBuffer的append函数，也是通过调用父类的append0来实现的，前面的介绍也已经有了。而与StringBuffer不一样的是，StringBuilder的append没有通过synchronized来申明，因此是线程不安全的
+```
+public StringBuilder append(String str) {
+    append0(str);
+    return this;
+}
+```
+
 
 
 
 ## 设计原因
+1. 
 
 
 ## 影响
