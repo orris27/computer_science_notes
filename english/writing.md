@@ -20,6 +20,10 @@
     1. going on field trips is important
     + broaden their horizons
     + relax: recharge their batteries
+        1. 让步段(采用建议版本的让步段)
+        + It is true that students should spend2 most of their time at the classroom to acquire academic knowledge which benefit their future study.
+        + However, it does not mean that they have to be **isolated from the outside world** **all the time**. In fact, school should organize field trips **once or twice month**, so that students can benefit a lot from that.
+    
     2. learning in a classroom is better
 
 ### 理由
@@ -45,7 +49,7 @@
     + have hands-on experience
     + broaden one's horizons
     + develop skills
-    + have direct contact with the outside world
+    + have direct contact with the outside world, have direct contact with nature
     + improve comprehensive skills and knowledge
     
     
@@ -66,6 +70,7 @@
     + maintain health
     + students have to complete a large number of assignments
     + suffer from intense pressure
+    + be tired of
 
     2. 范文
     
@@ -91,19 +96,18 @@
 ### 虚词
 1. tend to 
 2. devote much time or energy to doing 
-3. lack the motivation to do, be reluctant to do, be passinate about sth.
-4. be willing to do 
+3. 喜好: get tired of, lack the motivation to do, be reluctant to do, be passinate about sth., be willing to do
+4. 频率: all the time, once or twice a month
 5. contribute money to 
 6. with the significant advances in economy and transportation
 7. it is common for people to
 8. a large number of assignments
-9. have a positive impact on, have a negative impact on
-
-
+9. have a positive impact on <=> benefit, have a negative impact on
+10. 接触: be isolated from, have direct contact with, have access to
 
 ### education
 1. 获得更多知识: acquire/ gain a wide range of knowledge beyond textbooks, have access to knowledge 
-2. 理论知识: theoretical knowledge
+2. 理论知识: theoretical knowledge, academic knowledge
 3. 实践知识: practical knowledge
 4. 应用知识: apply theory to practice
 5. 扩展视野: broaden one's horizons, expand knowledge
@@ -138,7 +142,6 @@
 
 5. 减轻压力: reduce stress
 
-
 6. 作业很多: students have to complete a large number of assignments
 
 7. 准备考试: prepare for exams
@@ -153,7 +156,7 @@
 
 12. 减轻/缓解空气污染/交通堵塞: reduce air pollution / traffic congestion
 
-13. 放松: recharge one's batteries, feel refreshed, help sb. relax, take a break from normal routines/ from the busy city life, ~~relax oneself~~
+13. 放松: recharge one's batteries, feel refreshed and energetic, help sb. relax, take a break from normal routines/ from the busy city life, ~~relax oneself~~
 
 14. 休闲活动: recreational activities, leisure activities
 
@@ -165,6 +168,11 @@
 17. 促进新陈代谢: boost metabolism 
 
 18. 考试当天生病: feel sick on the day of the exam
+
+19. 走出教室: go outside the classroom
+
+20. 去郊游: go camping
+
 
 
 ### economy
