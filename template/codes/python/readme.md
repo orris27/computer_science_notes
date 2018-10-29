@@ -3595,6 +3595,7 @@ with slim.arg_scope([slim.conv2d, slim.fully_connected], weights_regularizer=sli
 3. Batch Normalization: 
     1. 将slim.batch_norm作为slim.conv2d的normalizer_fn的参数
     2. 设置slim.conv2d的normalizer_params参数
+    + slim.batch_norm自身有activation_fn的参数,可以实现ResNet中输入前使用BN方法+激活,如`preact = slim.batch_norm(inputs, activateion_fn=tf.nn.relu, scope="preact")`
     ```
     def inception_v3_arg_scope(weight_decay=0.00004, stddev=0.1, batch_norm_var_collection='moving_vars'):
         batch_norm_params = {
@@ -4480,6 +4481,43 @@ dq[0]
 # 2
 #----------------------------------------------------------
 ```
+
+
+
+3. namedtuple: 类似于dict,只是不可变把
+```
+class Block(collections.namedtuple('Block', ['scope', 'unit_fn', 'args'])):
+    pass
+
+a =  Block('scope_name', 'unit_fn_name', [1, 2])
+
+a
+#----------------------------------------------------------
+# Block(scope='scope_name', unit_fn='unit_fn_name', args=[1, 2])
+#----------------------------------------------------------
+
+a.scope
+#----------------------------------------------------------
+# 'scope_name'
+#----------------------------------------------------------
+
+a.unit_fn
+#----------------------------------------------------------
+# 'unit_fn_name'
+#----------------------------------------------------------
+
+a.args
+#----------------------------------------------------------
+# [1, 2]
+#----------------------------------------------------------
+
+a.args[0]
+#----------------------------------------------------------
+# 1
+#----------------------------------------------------------
+```
+
+
 ## 7. codecs
 1. 打开文件,utf8格式
 ```
