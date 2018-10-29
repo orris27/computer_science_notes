@@ -1,6 +1,6 @@
 ## MagicDrawUML 安装
 
-1. 下载`Magicdraw crack.zip`,解压后点击`Setup.exe`,让她自己装Java虚拟机
+1. 下载`Magicdraw crack.zip`(百度网盘的python>uml目录下,或者搜索查找),解压后点击`Setup.exe`,让她自己装Java虚拟机
 
 2. 将`md_common.jar`覆盖在安装目录的`lib/`目录下
 
