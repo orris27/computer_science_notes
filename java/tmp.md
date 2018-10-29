@@ -255,7 +255,7 @@ public synchronized StringBuffer append(String string) {
     return this;
 }
 ```
-如果进一步调用append0的话，首先也是按需增大字符串的长度，然后调用`_getChars`来给value有效字符串后面赋予新的字符串。
+如果进一步调用append0的话，首先也是按需增大字符串的长度，然后调用`_getChars`来给value有效字符串后面赋予新的字符串。并且StringBuffer的append会直接返回对象，而不会创建新的对象。
 ```
 final void append0(String string) {
     if (string == null) {
@@ -288,10 +288,20 @@ public StringBuilder append(String str) {
 
 
 
-## 设计原因
-1. 
+## 设计原因和影响
+总结String、StringBuffer、StringBuilder的几大区别
+1. String是不可变字符串，StringBuffer和StringBuilder是可变字符串
+
+2. StringBuffer是线程安全的，StringBuilder是线程不安全的
+
+三个不同类的设计根据各自的功能而不同，并且导致了不同的影响。
+
+String的
 
 
-## 影响
+
+
+
+
 
 ## 使用场景
