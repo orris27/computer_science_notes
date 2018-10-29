@@ -50,6 +50,183 @@ private static final long serialVersionUID = 3388685877147921107L;
 
 ## 功能实现
 
+### 1. String
+
+String类的主要方法有length、isEmpty、getChars、startsWith等，这里介绍部分功能的实现。
+
+1. 构造函数
+    1. 默认构造函数：构造一个没有元素的字符数组表示空的字符串
+    ```
+    public String() {
+        this.value = new char[0];
+    }
+    ```
+    2. 基于字符数组构造：利用Arrays.copyOf拷贝字符数组的每个字节到value成员中
+    ```
+    public String(char value[]) {
+        this.value = Arrays.copyOf(value, value.length);
+    }
+    ```
+    
+2. length：通过value成员作为字符数组时的长度来判断。换句话说，String中的value所有元素都是有效的，比如“apple”使用String存储的话，value一定就是刚好“apple”5个元素，并且不包含其他多余的元素。所以可以直接通过字符数组的长度来判断字符串的长度
+```
+public int length() {
+    return value.length;
+}
+```
+
+3. isEmpty：通过value成员是否为空数组来确定这个字符串是否为空
+```
+public boolean isEmpty() {
+    return value.length == 0;
+}
+```
+
+
+4. equals：String类型的equals函数要求比较严格。如果要返回true的话，必须参数是一个String对象，并且字符长度以及字符数组value完全相同才行，否则就不能成立。当然，如果对象是“hello”这样的表达形式的话，也是可以返回true的，因为可以类型转换到String。
+```
+public boolean equals(Object anObject) {
+    if (this == anObject) {
+        return true;
+    }
+    if (anObject instanceof String) {
+        String anotherString = (String) anObject;
+        int n = value.length;
+        if (n == anotherString.value.length) {
+            char v1[] = value;
+            char v2[] = anotherString.value;
+            int i = 0;
+            while (n-- != 0) {
+                if (v1[i] != v2[i])
+                        return false;
+                i++;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+```
+
+
+5. contentEquals：比较字符串内容是否相等。equals要求不仅内容相同，而且类型必须是String类型，但是contentEquals不那么严格，主要比较字符创内容是否相等。比如我么有一个StringBuffer的内容，那么会将这个实例转换成CharSequence类，然后进一步调用深入的contentEquals方法，类似于equal的比较方法，逐个比较字符是否相等。在StringBuffer的情况下，由于StringBuffer是AbstractStringBuilder的派生类，所以会调用if里面的内容，如果内容都是相同的话，就会返回true
+```
+public boolean contentEquals(StringBuffer sb) {
+    synchronized (sb) {
+        return contentEquals((CharSequence) sb);
+    }
+}
+public boolean contentEquals(CharSequence cs) {
+    if (value.length != cs.length())
+        return false;
+    // Argument is a StringBuffer, StringBuilder
+    if (cs instanceof AbstractStringBuilder) {
+        char v1[] = value;
+        char v2[] = ((AbstractStringBuilder) cs).getValue();
+        int i = 0;
+        int n = value.length;
+        while (n-- != 0) {
+            if (v1[i] != v2[i])
+                return false;
+            i++;
+        }
+        return true;
+    }
+    // Argument is a String
+    if (cs.equals(this))
+        return true;
+    // Argument is a generic CharSequence
+    char v1[] = value;
+    int i = 0;
+    int n = value.length;
+    while (n-- != 0) {
+        if (v1[i] != cs.charAt(i))
+            return false;
+        i++;
+    }
+    return true;
+}
+```
+
+
+6. substring：返回字符串的子串。根据下面的代码可以看到，首先进行越界检查，然后直接返回新创建的String对象
+```
+public String substring(int beginIndex) {
+    if (beginIndex < 0) {
+        throw new StringIndexOutOfBoundsException(beginIndex);
+    }
+    int subLen = value.length - beginIndex;
+    if (subLen < 0) {
+        throw new StringIndexOutOfBoundsException(subLen);
+    }
+    return (beginIndex == 0) ? this : new String(value, beginIndex, subLen);
+}
+
+```
+
+
+7. replace：替换字符串的某个字符为另一个字符。由于String类中的value成员是常量，不能直接修改。所以源代码对于String类的replace处理是创建value相同长度的新字符数组，然后将String对象的value值不断赋值进去，并且需要改变的地方进行改变，最后根据这个新字符数组重新构造String对象，并返回这个String对象。
+```
+public String replace(char oldChar, char newChar) {
+    if (oldChar != newChar) {
+        int len = value.length;
+        int i = -1;
+        char[] val = value; /* avoid getfield opcode */
+
+        while (++i < len) {
+            if (val[i] == oldChar) {
+                break;
+            }
+        }
+        if (i < len) {
+            char buf[] = new char[len];
+            for (int j = 0; j < i; j++) {
+                buf[j] = val[j];
+            }
+            while (i < len) {
+                char c = val[i];
+                buf[i] = (c == oldChar) ? newChar : c;
+                i++;
+            }
+            return new String(buf, true);
+        }
+    }
+    return this;
+}
+
+```
+
+
+8. valueOf：构造String对象。如果参数已经第一个对想了，就调用toString方法。如果是字符数组或者单个字符等，都是直接构调用new来进一步调用构造函数来创建新的构造函数，所以创建的字符串仍然是保留在常量池里，如果已经有新的常量了，就会直接使用这个常量。
+```
+public static String valueOf(Object obj) {
+    return (obj == null) ? "null" : obj.toString();
+}
+public static String valueOf(char data[]) {
+    return new String(data);
+}
+
+public static String valueOf(char data[], int offset, int count) {
+    return new String(data, offset, count);
+}
+public static String valueOf(char c) {
+    char data[] = {c};
+    return new String(data, true);
+}
+//....
+```
+
+public static String valueOf(char data[], int offset, int count) {
+public static String copyValueOf(char data[], int offset, int count) {
+public static String copyValueOf(char data[]) {
+public static String valueOf(boolean b) {
+public static String valueOf(char c) {
+public static String valueOf(int i) {
+public static String valueOf(long l) {
+public static String valueOf(float f) {
+public static String valueOf(double d) {
+public native String intern();
+
 
 
 ## 设计原因
