@@ -1136,223 +1136,266 @@
     ```
     
 ### 1-15. people
-1. verb
-2. noun
-    1. aviator: av + actor => 那个东西飞天算了
-    ```
-    he hopes to become a naval aviator
-    ```
-    2. playwright: play + write => 剧本家
-    ```
-    the playwright does sth remarkable in this scene
-    ```
-    3. clergy: 可乐 + 锯子 => 可乐开不了,用锯子锯开,然后里面是空白的,哦不,这是照桥的世界
-    4. satirist: satire(讽刺文学) + ist => 讽刺作家
-    5. sculptor: sculpture + or => 雕刻家
-    6. astronaut
-    7. astronomer: 宇航员 + 门 => 天文学家为宇航员开了一扇通往太空的门
-    8. botanist: botany(植物学) + ist => 植物学家
-    9. choreographer: 炒肉 + graph => 一个人在炒肉的同时不断跳舞,肉飞起来的时候就念想成一张图片
-    ```
-    a choreographer told me that ...
-    ```
-    10. geographer & geologist: 地理学者 & 地质学家
-    11. treasurer: treasure + r => 姐姐(会计)将财富都偷偷藏在了草地下
-    ```
-    she was assigned to the position of treasurer of the school
-    ```
-    12. spaceman(在宇宙飞船里的人)
-    13. dustman: dust + man => 清洁工
-    14. anthropologist: 安兹 + 玻璃 + 仪式 => 安兹使用了玻璃弄出超位魔法,里面映射出人的样子
-    15. imagist: image + ist(人) => 画画的英梨梨,摊开手,将自己的意想全部注入进去
-    16. mechanic: make(流水线) + 泥巴 => 流水线上都是泥巴,然后用所有泥巴塑造成扳手(表示修理)
-    17. biographer: 百岁山 + graph => 百岁山洒到了名画上,然后将作者的名字(传记作者)给冲掉了
-    18. censor: 绳子 + 手 => 监视别人的时候突然要掉下去了,手抓住绳子,愤怒地审查别人
-    ```
-    censored the news
-    ```
-    19. philanthropist: 飞机 + 蓝色 + throw + 斯科特 => 小孩子扔蓝色的飞机,结果直接砸到地上.地上都是冰块.前面有一个瑟瑟发抖的斯科特大叔在乞讨,就给他点钱把
-    ```
-    he is not just a philanthropist
-    ```
-    20. congressman
-    21. connoisseur: corner + 手 => 在角落里冒出一只手,然后这只手里拿着中国陶瓷(鉴赏品)
-    22. entrepreneur: enterprise + 能 => 能够开企业的都是企业家
-    23. commentator: comment + tor => 评论员
-    24. attendant: 河童 + ant => 蚂蚁要过河,河童变成蚂蚁大小,就带着蚂蚁飞了过去
-    ```
-    flight attendant
-    ```
-    25. trapper: trap + er => 陷阱 + 人 => 使用陷阱的人 => 捕捉者
-    ```
-    the old trapper's hut
-    ```
-    26. orator: oral + or => 口头 + 人 => 演说家
-    ```
-    he was a gifted orator who knew how to work a crowd
-    ```
-    27. idiocy(白痴的行为)
-    28. moron: 蘑菇 + 蝾螈 => 蝾螈吃了蘑菇后,就只能哦哦哦了2
-    ```
-    Gordon was a moron
-    ```
-    29. illiterate: 伊利 + 特累 => 灰吕疯狂喝伊利,喝得太累了,把伊利里的文字都吸走了
-    ```
-    a large percentage of the population was illiterate
-    ```
-    30. deputy: 代表人 => 代理人
-    ```
-    I delegates my responsibilities to my deputy
-    ```
-    31. proprietor: 箱子 + ray + 头 => ray拿着箱子,然后突然箱子里出来了zack的头,ray吓到了,zack说:"惊喜".然后抱住ray,说你是我的..,
-    ```
-    the proprietor of a local restaurant
-    ```
-    32. debtor: debt + or => 债务人
-    ```
-    debtor countries
-    ```
-    33. arbitrator: arbitration => 仲裁人
-    34. superintendent: superman + intel => 一个主管在超人的肩膀上,告诉他怎么拼成intel芯片
-    ```
-    he became a superintendent of the bank
-    ```
-    35. apprentice: apple + 人 + 提示(电灯泡) => 我吃着苹果,吃出了金光闪闪的电灯泡,"收我为徒吧"
-    ```
-    I started off as an apprentice
-    ```
-    36. tenant: tent + ant => ant进到一个人的帐篷里,都是钱,把它带了出去,因为我才是租户
-    ```
-    can you help me to find a new tenant for my new flat
-    ```
-    37. miser: 卖手 => 这个人只要不给足够的钱就不卖手
-    ```
-    I'm married to a miser
-    ```
-    38. donor: donate + or => 捐赠者
-    39. personnel: person + nose => 哆啦A梦的nose是圆的 => 人员
-    ```
-    dispatch military pensonnel abroad
-    ```
-    40. benefactor: benefit + actor => 行动带来好处的人 => 赞助,恩人,施主
-    ```
-    my benefactor
-    ```
-    41. mortal: 摩托 => 齐神和空助比较的时候用到了摩托 => 空助:一介凡人
-    ```
-    a man is deliberately designed to be mortal
-    ```
-    42. recipient: receiver => 接收方
-    ```
-    a large recipient of U.S. foreign aid
-    ```
-    43. bachelor(学士)
-    44. novice: nose + voice => 我刚骑自行车的时候摇摇晃晃的,鼻子也摇晃,发出奇怪的声音
-    ```
-    I am a noive at these things
-    ```
-    45. cult(狂热信徒): 卡 + 塔 => 每个人拿着卡在塔里举行虔诚的仪式,雷电突然劈到塔里
-    46. fanatic: 坟墓 + native => 说native的都会进入坟墓,而我很盲信,所以就从来不说
-    ```
-    I am a fanatic
-    ```
-    47. adherent: adhesive + 人 =>　粘着剂一样的人 => 信徒，追随者
-    ```
-    The idea is gaining adherents
-    ```
-    48. disciple: 笛子 + 摔破 => 齐神拿着笛子,震惊,笛子掉了下去,就要摔破的时候,鸟束将它以很恶心的动作举了起来
-    ```
-    his disciple
-    ```
-    49. bandit: 绑带 => 强盗为了掩饰自己的身份,就用绑带将自己的连给绑住,白的一批
-    ```
-    bandit gang
-    ```
-    50. burglar: 包 + glue => 我用胶水黏住书包,并把书包粘在地上,窃贼要偷我书包的时候就偷不了
-    ```
-    Burglars broke into their home
-    ```
-    51. barbarian: 八百人 => 笨女孩点过八百人后就把他们都降智成野蛮人
-    ```
-    He is a compele barbarian
-    ```
-    52. exile: eggs + 爱 => 流亡的王子看到母鸡生的蛋,都爱不释手
-    ```
-    He is now living in exile in Egypt
-    ```
-    53. beneficiary: benefactor + 手来 => 恩人说,"手拿出来",所以对方是受益人
-    ```
-    one of the beneficiaries of the will
-    ```
-    54. zealot: zoo + lot => 动物园里有很多很多人,他们都是狂热者,产生了巨大的热量,整个动物园都是蒸汽
-    ```
-    he is by no means a zealot
-    ```
-    55. precursor: 前 + cursor => 我的鼠标突然出现了一个向前的幻影,我就一直跟着这个前导的光标
-    ```
-    a precursor to merger
-    ```
-    56. alumni: 俄国 + 奶 => 俄国的奶都是小哟
-    ```
-    alumni association
-    ```
-    57. skeptic: skeptical(怀疑的) => 怀疑者
-    58. figurehead: 手指 + head => 慈禧用手给皇帝传递脑电波,控制皇帝
-    ```
-    the president will be little more than a figurehead
-    ```
-    59. veteran: 蚊子 + 他人 => 蚊子出现了,我立马掀开蚊帐,吹吹风,蚊子就出去了.(很老手吧..)
-    ```
-    a veteran campaigner
-    ```
-    60. traitor: trait(特性)... 曲 + 头 => 叛徒要叛徒了,就把头转360度,然后开始背叛
-    ```
-    Some say he's a traitor of the peace movement
-    ```
-    61. feminist: 发明(电灯泡) + 斯科特 => 电灯泡利用电要攻击斯科特,斯科特都躲过去了,这次电灯泡要攻击saber,斯科特马上就过去挡刀
-    ```
-    consider themselves a feminist
-    ```
-    62. humanitarian: human + 泥巴 + 特累(灰吕) => 灰吕从人道拿起很大的泥巴,虽然很重很累,但还是为了他人移动到其他地方
-    ```
-    humanitarian crises
-    ```
-    63. throng: 思涌 => 思绪涌现过来的都是心美(人),就形成了人群
-    ```
-    an offical pushed through a throng
-    ```
-    64. civilian: civilize + 脸 => 在大都市里一样的脸都是平民
-    ```
-    the safety of civilian
-    ```
-    65. monarch: 摸哪颗 => 君王可以随便摸哪颗,啧啧啧
-    ```
-    The monath was ousted by military group
-    ```
-    66. envoy: 按摩 => 使者来了,阿谀奉承一波,按摩一波,他很高兴地回去了
-    ```
-    A U.S. envoy
-    ```
-    67. aristocrat: area + 头 + create => 才虎在永谦活动广场用钱创造出巨大的头,金色传说,跪(贵)了
-    ```
-    a wealthy aristocrat
-    ```
-    68. gentry: 脚踹 => 看到天龙人贵族,就想脚踹
-    69. autocrat: automobile(汽车) + cat => 汽车就要撞到cat了,结果这只cat使用了超能力将里面的人变成了自己的仆人
-    70. democrat: autocrat + demo => 民主党人
-    
-    
-    
-3. adj
-    1. inferior: infer(放大镜) + 人 => 福尔摩斯用巨大的放大镜去看人,"在下面拉",往下看发现是小矮人
-    ```
-    he prefered people who were intellectually inferior to himself.
-    ```
-    2. avant-garde: 阿门 + garden => monks到了花园,然后阿门阿门的说,结果花园里的话都唱出动听的歌声,monk向前走进,仿佛进入了天国
-    ```
-    avant-garde concert music
-    ```
-    3. conservertive(保守的)
+1. aviator: av + actor => 那个东西飞天算了
+```
+he hopes to become a naval aviator
+```
+2. playwright: play + write => 剧本家
+```
+the playwright does sth remarkable in this scene
+```
+3. clergy: 可乐 + 锯子 => 可乐开不了,用锯子锯开,然后里面是空白的,哦不,这是照桥的世界
+4. satirist: satire(讽刺文学) + ist => 讽刺作家
+5. sculptor: sculpture + or => 雕刻家
+6. astronaut
+7. astronomer: 宇航员 + 门 => 天文学家为宇航员开了一扇通往太空的门
+8. botanist: botany(植物学) + ist => 植物学家
+9. choreographer: 炒肉 + graph => 一个人在炒肉的同时不断跳舞,肉飞起来的时候就念想成一张图片
+```
+a choreographer told me that ...
+```
+10. geographer & geologist: 地理学者 & 地质学家
+11. treasurer: treasure + r => 姐姐(会计)将财富都偷偷藏在了草地下
+```
+she was assigned to the position of treasurer of the school
+```
+12. spaceman(在宇宙飞船里的人)
+13. dustman: dust + man => 清洁工
+14. anthropologist: 安兹 + 玻璃 + 仪式 => 安兹使用了玻璃弄出超位魔法,里面映射出人的样子
+15. imagist: image + ist(人) => 画画的英梨梨,摊开手,将自己的意想全部注入进去
+16. mechanic: make(流水线) + 泥巴 => 流水线上都是泥巴,然后用所有泥巴塑造成扳手(表示修理)
+17. biographer: 百岁山 + graph => 百岁山洒到了名画上,然后将作者的名字(传记作者)给冲掉了
+18. censor: 绳子 + 手 => 监视别人的时候突然要掉下去了,手抓住绳子,愤怒地审查别人
+```
+censored the news
+```
+19. philanthropist: 飞机 + 蓝色 + throw + 斯科特 => 小孩子扔蓝色的飞机,结果直接砸到地上.地上都是冰块.前面有一个瑟瑟发抖的斯科特大叔在乞讨,就给他点钱把
+```
+he is not just a philanthropist
+```
+20. congressman
+21. connoisseur: corner + 手 => 在角落里冒出一只手,然后这只手里拿着中国陶瓷(鉴赏品)
+22. entrepreneur: enterprise + 能 => 能够开企业的都是企业家
+23. commentator: comment + tor => 评论员
+24. attendant: 河童 + ant => 蚂蚁要过河,河童变成蚂蚁大小,就带着蚂蚁飞了过去
+```
+flight attendant
+```
+25. trapper: trap + er => 陷阱 + 人 => 使用陷阱的人 => 捕捉者
+```
+the old trapper's hut
+```
+26. orator: oral + or => 口头 + 人 => 演说家
+```
+he was a gifted orator who knew how to work a crowd
+```
+27. idiocy(白痴的行为)
+28. moron: 蘑菇 + 蝾螈 => 蝾螈吃了蘑菇后,就只能哦哦哦了2
+```
+Gordon was a moron
+```
+29. illiterate: 伊利 + 特累 => 灰吕疯狂喝伊利,喝得太累了,把伊利里的文字都吸走了
+```
+a large percentage of the population was illiterate
+```
+30. deputy: 代表人 => 代理人
+```
+I delegates my responsibilities to my deputy
+```
+31. proprietor: 箱子 + ray + 头 => ray拿着箱子,然后突然箱子里出来了zack的头,ray吓到了,zack说:"惊喜".然后抱住ray,说你是我的..,
+```
+the proprietor of a local restaurant
+```
+32. debtor: debt + or => 债务人
+```
+debtor countries
+```
+33. arbitrator: arbitration => 仲裁人
+34. superintendent: superman + intel => 一个主管在超人的肩膀上,告诉他怎么拼成intel芯片
+```
+he became a superintendent of the bank
+```
+35. apprentice: apple + 人 + 提示(电灯泡) => 我吃着苹果,吃出了金光闪闪的电灯泡,"收我为徒吧"
+```
+I started off as an apprentice
+```
+36. tenant: tent + ant => ant进到一个人的帐篷里,都是钱,把它带了出去,因为我才是租户
+```
+can you help me to find a new tenant for my new flat
+```
+37. miser: 卖手 => 这个人只要不给足够的钱就不卖手
+```
+I'm married to a miser
+```
+38. donor: donate + or => 捐赠者
+39. personnel: person + nose => 哆啦A梦的nose是圆的 => 人员
+```
+dispatch military pensonnel abroad
+```
+40. benefactor: benefit + actor => 行动带来好处的人 => 赞助,恩人,施主
+```
+my benefactor
+```
+41. mortal: 摩托 => 齐神和空助比较的时候用到了摩托 => 空助:一介凡人
+```
+a man is deliberately designed to be mortal
+```
+42. recipient: receiver => 接收方
+```
+a large recipient of U.S. foreign aid
+```
+43. bachelor(学士)
+44. novice: nose + voice => 我刚骑自行车的时候摇摇晃晃的,鼻子也摇晃,发出奇怪的声音
+```
+I am a noive at these things
+```
+45. cult(狂热信徒): 卡 + 塔 => 每个人拿着卡在塔里举行虔诚的仪式,雷电突然劈到塔里
+46. fanatic: 坟墓 + native => 说native的都会进入坟墓,而我很盲信,所以就从来不说
+```
+I am a fanatic
+```
+47. adherent: adhesive + 人 =>　粘着剂一样的人 => 信徒，追随者
+```
+The idea is gaining adherents
+```
+48. disciple: 笛子 + 摔破 => 齐神拿着笛子,震惊,笛子掉了下去,就要摔破的时候,鸟束将它以很恶心的动作举了起来
+```
+his disciple
+```
+49. bandit: 绑带 => 强盗为了掩饰自己的身份,就用绑带将自己的连给绑住,白的一批
+```
+bandit gang
+```
+50. burglar: 包 + glue => 我用胶水黏住书包,并把书包粘在地上,窃贼要偷我书包的时候就偷不了
+```
+Burglars broke into their home
+```
+51. barbarian: 八百人 => 笨女孩点过八百人后就把他们都降智成野蛮人
+```
+He is a compele barbarian
+```
+52. exile: eggs + 爱 => 流亡的王子看到母鸡生的蛋,都爱不释手
+```
+He is now living in exile in Egypt
+```
+53. beneficiary: benefactor + 手来 => 恩人说,"手拿出来",所以对方是受益人
+```
+one of the beneficiaries of the will
+```
+54. zealot: zoo + lot => 动物园里有很多很多人,他们都是狂热者,产生了巨大的热量,整个动物园都是蒸汽
+```
+he is by no means a zealot
+```
+55. precursor: 前 + cursor => 我的鼠标突然出现了一个向前的幻影,我就一直跟着这个前导的光标
+```
+a precursor to merger
+```
+56. alumni: 俄国 + 奶 => 俄国的奶都是小哟
+```
+alumni association
+```
+57. skeptic: skeptical(怀疑的) => 怀疑者
+58. figurehead: 手指 + head => 慈禧用手给皇帝传递脑电波,控制皇帝
+```
+the president will be little more than a figurehead
+```
+59. veteran: 蚊子 + 他人 => 蚊子出现了,我立马掀开蚊帐,吹吹风,蚊子就出去了.(很老手吧..)
+```
+a veteran campaigner
+```
+60. traitor: trait(特性)... 曲 + 头 => 叛徒要叛徒了,就把头转360度,然后开始背叛
+```
+Some say he's a traitor of the peace movement
+```
+61. feminist: 发明(电灯泡) + 斯科特 => 电灯泡利用电要攻击斯科特,斯科特都躲过去了,这次电灯泡要攻击saber,斯科特马上就过去挡刀
+```
+consider themselves a feminist
+```
+62. humanitarian: human + 泥巴 + 特累(灰吕) => 灰吕从人道拿起很大的泥巴,虽然很重很累,但还是为了他人移动到其他地方
+```
+humanitarian crises
+```
+63. throng: 思涌 => 思绪涌现过来的都是心美(人),就形成了人群
+```
+an offical pushed through a throng
+```
+64. civilian: civilize + 脸 => 在大都市里一样的脸都是平民
+```
+the safety of civilian
+```
+65. monarch: 摸哪颗 => 君王可以随便摸哪颗,啧啧啧
+```
+The monath was ousted by military group
+```
+66. envoy: 按摩 => 使者来了,阿谀奉承一波,按摩一波,他很高兴地回去了
+```
+A U.S. envoy
+```
+67. aristocrat: area + 头 + create => 才虎在永谦活动广场用钱创造出巨大的头,金色传说,跪(贵)了
+```
+a wealthy aristocrat
+```
+68. gentry: 脚踹 => 看到天龙人贵族,就想脚踹
+69. autocrat: automobile(汽车) + cat => 汽车就要撞到cat了,结果这只cat使用了超能力将里面的人变成了自己的仆人
+70. democrat: autocrat + demo => 民主党人
+
+
+
+71. inferior: infer(放大镜) + 人 => 福尔摩斯用巨大的放大镜去看人,"在下面拉",往下看发现是小矮人
+```
+he prefered people who were intellectually inferior to himself.
+```
+72. avant-garde: 阿门 + garden => monks到了花园,然后阿门阿门的说,结果花园里的话都唱出动听的歌声,monk向前走进,仿佛进入了天国
+```
+avant-garde concert music
+```
+73. conservertive(保守的)
+
+74. marsh: 马 + 蓄电池 => 马拥有蓄电池,在沼泽地里自由地奔跑
+
+
+75. perennial: 爬路 + 妮儿(手机侠里的妹妹) => 手机侠里的妹妹爬路,结果生出了很多小妹妹(多年生植物)
+
+76. osmosis: 太阳 + 摩天轮 => 太阳用自己的神之力,神通广大地让摩天轮告诉运转(渗透)
+
+77. moss: 四个摩天轮 => 四个摩天轮构成四边形,然后互相推动,将苔藓都驱除了出去
+
+
+78. permafrost: permanent + frost(霜 => 有点冰冻的意味) => 永久冻土
+
+79. rhizome: 来人啊 => 来了很多人,都是看地下室里的金块(地下茎)
+
+
+80. pistil: 屁 + still => 女孩子放屁了很害羞,就静止在那里
+
+81. stamen: stay + 门 => 那个出来了,给我站在门后
+
+82. seed disposal: disperse(传播) => 传播种子
+
+83. chemosynthesis: 车子 + 摩天轮 + 合成 => 车子撞到了摩天轮,结果摩天轮合成为一个潘多拉盒子(化合作用)
+
+84. terrestrial plant: 领域 + 植物 => 人类中领域很重要 => 陆生植物
+
+
+85. chlorophy: 克隆人(御坂) + 飞 => 御坂绿了自己开心地飞了起来
+
+
+86. deciduous tree: 笛子 + 莲藕 + 树 => 笛子吹出了莲藕(光环一样的)放在树的上面,被风吹了后就洒落在地,非常好看
+
+87. conifer: 康纳 + 飞 => 康纳吐出针头,飞了起来
+
+88. excrete: eggs + create => 下蛋的时候分泌出液体,然后变成了蛋
+
+89. pesticide(杀虫剂)
+
+90. barren: 背人 => 背了女孩子,力气瞬间就有了,直接就跑出了荒芜的地方
+
+91. canopy: can + 牛b => 罐头,它很牛逼,直接就将它扔到了树林中最上面的一层
+
+
+92. savanna: 蛇 + 放大 => 蛇放大,吐出很大的火焰,将草原的大部分树给烧没了
+
+93. annual: 周年 => 植物庆生,就生了一个孩子(一年生植物)
 
 ### 1-14. society
 1. verb
