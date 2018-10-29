@@ -3485,6 +3485,29 @@ noise = (np.random.random(training_size) - 0.5) * 0.01 # my noise for eager trai
 
 98. Image-Caption-based-on-SeqGAN
 ```
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 修改dataloader/MSCOCODataLoader.py下的这些内容为自己的目录
+# annotation_dir = os.path.join(config.DATA_DIR, "MSCOCO", "annotation")
+annotation_dir = os.path.join("/home/user/dataset", "MSCOCO", "annotation")
+# image_feature_dir = os.path.join(config.DATA_DIR, "MSCOCO", "image_feature")
+image_feature_dir = os.path.join("/home/user/dataset", "MSCOCO", "image_feature")
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 修改processor/image_processor.py下面内容
+#IMG_MODEL_FILE = os.path.join(config.DATA_DIR, "models", "tensorflow_inception_graph.pb")
+IMG_MODEL_FILE = os.path.join("/home/user/dataset", "models", "tensorflow_inception_graph.pb")
+
+#data_dir = os.path.join(config.DATA_DIR, "MSCOCO")
+data_dir = os.path.join("/home/user/dataset", "MSCOCO")
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+
+
+
 python image_processing.py # Create image_feature: "eval_img_feature.pkl", "test_img_feature.pkl", "train_img_feature.pkl"
 
 python text_processing.py # Create :data/MSCOCO/word_embedding/{dictionary.pkl, embedding.pkl}"
