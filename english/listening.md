@@ -155,4 +155,39 @@ Good point. and in fact it's precisely that as **aesthetic** appeal, the purity,
 
 
 
+## 3. botany
+### Plants in salt marshes
+1. `Ok, today we are going to talk about plants in salt marshes in North America.`
+Ok, today we are going to continue our discussion of plant life in **coastal** salt marshes in North America.
+
+
+2. `Salt marshes are xx environments for the plants.`
+Salt marshes are among the **least** **inviting** environments for plants.
+
+
+3. `The water is salty, there was a shade, and ocean comes in and out, and constantly floods the marshes, so the variety found in the marshes are limited, but there is a plant that survives there, spartina`
+The water is salty, there is **litte** shade, and the ocean **tide** comes in and out, constantly flooding the marsh, so the variety of plants found in salt marshes is limited, but there is a plant **genus** that **thrives** there, the Spartina
+
+
+4. `In fact, the Spartina genus is the dorminant speices found in the salt marshes.`
+In fact, the Spartina genus is the dorminant plant found in salt marshes.
+
+
+
+5. `You can find two types of the Spartina rwo xx xx, in the low salt marshes.`
+You can find one type of the Spartina, **Saltmarsh Cordgrass**, **growing** in **low marsh areas**.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
