@@ -3513,6 +3513,11 @@ data_dir = os.path.join("/home/user/dataset", "MSCOCO")
 
 python image_processing.py # Create image_feature: "eval_img_feature.pkl", "test_img_feature.pkl", "train_img_feature.pkl"
 
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 修改processor/text_processor.py里的
+# WORD_VEC_DIM = 1008
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 python text_processing.py # Create :data/MSCOCO/word_embedding/{dictionary.pkl, embedding.pkl}"
 
 mv data/MSCOCO/cache/cache.pkl data/MSCOCO/cache/cache.pkl.ori
@@ -3534,7 +3539,7 @@ rm mscoco1.py
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # 将generator/generator.py里的initial_state修改一下
 # #_, self.initial_state = self.lstm_cell.call(self.image_input, self.zero_state)
-# self.initial_state = self.lstm_cell.zero_state(self.batch_size, tf.float32)
+# self.initial_state = self.lstm_cell(self.image_input, self.zero_state)
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 python training.py
