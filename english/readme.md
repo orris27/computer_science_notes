@@ -3319,6 +3319,8 @@ The economy remains sluggish
     
     46. iron sulfide(硫化铁)
     
+    47. tidbit: 踢 + bit => 将齐神新闻下的小bits给踢掉了~
+    
 3. adj
     1. overarching: 上面 + archer => archer要射箭了,逐渐archer往天空平移,然后archer用手放在弓箭上,射了出去
     2. mediocre: medium + core => 有三个核桃,哪个最好敲?当然是适合我的中间(中庸)的核桃
