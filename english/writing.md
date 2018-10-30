@@ -283,3 +283,10 @@
 
 ### 3. 让步段
 It is true that <反方观点可能有道理>. However, <简单地总结前2个explanation,并逻辑反驳>. Therefore, I still hold the view that <重申观点>
+
+
+
+
+## problems
+1. 没有时间做某事
+2. 不需要深入研究
