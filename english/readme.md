@@ -2577,6 +2577,54 @@ pollinate the local plants
 luxuiant foliage
 ```
 
+
+25. broad tree(阔叶林)
+
+26. maize: 小埋 + 忍者 => 小埋扮成忍者,通过玉米跳上了墙
+
+27. cactus: cake + 吐司 => 吐司沾上一点蛋糕,就会变成仙人模式
+
+28. elm: ell + mm => ell看到mm后很愉悦
+
+29. spruce(云杉)
+
+30. aspen: 艾斯 + 钢笔 => 艾斯拿到钢笔不知道怎么用,就扔了出去,砸到了山羊
+
+31. wilt: 萎了 => 枯萎
+
+32. willow: 围巾 + 楼志豪 => 楼志豪的围巾随风飘扬,就和柳树一样
+
+33. osmotic: osmosis(渗透作用) + ic(形容词) => 渗透的
+
+34. acorn: echo => 回音,很多橡子就反弹了回来
+
+35. teosinte: tear + see => 大叔看到墨西哥烤肉后眼泪就流了下来
+
+36. cedar: 球网 + 大海 => 球网在大海上前进,将阿松变成冰块
+
+37. pine: pineapple => 菠萝突然长出很多针
+
+38. birch(桦树)
+
+39. walnut: wall + 哪吒 => 一堵很大的墙,哪吒跳过墙到了树上摘桃子吃(胡桃树)
+
+40. succulent plant: 三个lens => 三个lens一起聚光产生肉,掉了下来,继续产生
+
+41. plum: 弗朗克 + m => 弗朗克将汉堡放在屁股那里汉堡没了(梅子),弗朗克充满了力量
+
+42. chrysanthemun: create + 绅士们 => 创造出绅士们,他们的那个很
+
+43. rhododendron: 肉的 + 灯龙 => 这个人很肉的,一个头戴着灯的龙撞到了那人的肚子(杜鹃)
+
+44. carnation: 谐音 => 康乃馨
+
+45. jasmine: 珍视明 => 将珍视明涂抹在眼睛上(茉莉花),就能看清楚了
+
+46. cinnamon: cinema => 齐神去电影院,买了很贵的超大肉串
+
+47. taro: 太空人 + 肉 => 太空人在太空中,巨大的芋头撞到了太空人,结果芋头反弹毁灭了地球
+
+
 ### 1-24. nature
 1. (adj)scenic(景色优美的): scene + ic(形容词后缀) => 关于scene的褒义词的话,当然是景色优美的啦
 2. (n)spectacle(看头,奇观): spy(土御门) + 头 => 土御门突然用头咂了美少女的xio,然后一个人眼里的奇观自然就没了
@@ -3203,7 +3251,9 @@ The economy remains sluggish
     
     4. utter: 奥特曼 => 奥特曼发出光线
     
+    5. perish: 脸盆 + 嘘嘘 => 嘘嘘在脸盆上,倒在花上结果花就凋零了
     
+    6. interlock(互锁)
     
 2. noun
     1. lease: 梨子 => 猪(租借)用鼻子吸梨子,想要吃了它
@@ -3265,6 +3315,9 @@ The economy remains sluggish
     
     44. limb: 凛 => 凛强化身体,结果自己的四肢先过去了
     
+    45. iron oxide(氧化铁)
+    
+    46. iron sulfide(硫化铁)
     
 3. adj
     1. overarching: 上面 + archer => archer要射箭了,逐渐archer往天空平移,然后archer用手放在弓箭上,射了出去
@@ -3272,9 +3325,12 @@ The economy remains sluggish
     
     3. color-coated: color + coat(外套 => 覆盖...的表面) => 用色彩覆盖 => 彩涂
     
-    
     4. bizarre: 笔 + 炸弹 + 热 => 笔炸了,高温流出黄色(荒谬)的液体
+
+    5. resilient: 热身 + 脸 => 热身的时候捏脸,弹来弹去
     
+    
+
 4. adv
     1. rashly: red + 嘘嘘 + 篱笆 => 红人在那里嘘嘘,结果掉到篱笆外面,然后高桥很鲁莽地生气了
 
