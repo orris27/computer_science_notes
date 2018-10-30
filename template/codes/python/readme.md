@@ -3548,8 +3548,90 @@ python inference_py # we'll get the result
 ```
 
 
+99. contribs:
+    1. `avg_pool2d`
+    ```
+    weight, height = 3, 3
+    images = np.random.uniform(size=[32, height, width, 3])
 
+    tf.contrib.layers.avg_pool2d(images, [3, 3])                         
+    #--------------------------------------------------------------------------------
+    # <tf.Tensor 'AvgPool2D_2/AvgPool:0' shape=(32, 1, 1, 3) dtype=float64>
+    #--------------------------------------------------------------------------------
+    ```
+    2. `convolution2d`: inputs, num_outpus, kernel_size, stride, padding(SAME), acitvation_fn(ReLu), normalizer_fn, weights_initializer, weights_regularizer, biases_initializer, biases_regularizer, reuse, variables_collection, outputs_collection, trainable, scope => `Conv/Relu`
+    ```
+    weight, height = 3, 3
+    images = np.random.uniform(size=[32, height, width, 3])
+    
+    tf.contrib.layers.convolution2d(images, num_outputs=32, kernel_size=[3, 3])                  
+    #--------------------------------------------------------------------------------
+    # <tf.Tensor 'Conv/Relu:0' shape=(32, 3, 3, 32) dtype=float64>
+    #--------------------------------------------------------------------------------
+    
+    weights = tf.contrib.framework.get_variables_by_name('weights')[0]                            
 
+    weights_shape = weights.get_shape().as_list()                                                 
+
+    weights                                                                                       
+    #--------------------------------------------------------------------------------
+    # <tf.Variable 'Conv/weights:0' shape=(3, 3, 3, 32) dtype=float64_ref>
+    #--------------------------------------------------------------------------------
+
+    weights_shape                                                                                 
+    #--------------------------------------------------------------------------------
+    # [3, 3, 3, 32]
+    #--------------------------------------------------------------------------------
+
+    ```
+    3. `arg_scope`: 减少代码重用.
+    ```
+    weight, height = 3, 3
+    images = np.random.uniform(size=[32, height, width, 3])
+    
+    with tf.contrib.framework.arg_scope([tf.contrib.layers.convolution2d], num_outputs=64, kernel_size=[3, 3]): 
+        outputs = tf.contrib.layers.convolution2d(images)                                                            
+
+    outputs                                                                                                          
+    #--------------------------------------------------------------------------------
+    # <tf.Tensor 'Conv_3/Relu:0' shape=(32, 3, 3, 64) dtype=float64>
+    #--------------------------------------------------------------------------------
+
+    ```
+    
+    4. `fully_connected`
+    ```
+    inputs = np.random.uniform(size=[64, 1024])                                        
+
+    tf.contrib.layers.fully_connected(inputs, 10)                                      
+    #--------------------------------------------------------------------------------
+    # <tf.Tensor 'fully_connected/Relu:0' shape=(64, 10) dtype=float64>
+    #--------------------------------------------------------------------------------
+    ```
+    
+    
+    5. `repeat`: 构建串联的相同网络. repeat(inputs, repetitions, layer, \*args, \*\*kwargs)
+    ```
+    inputs = np.random.uniform(size=[64, 1024])                                       
+
+    tf.contrib.layers.repeat(inputs, 4, tf.contrib.layers.fully_connected, 100)
+    #--------------------------------------------------------------------------------
+    # <tf.Tensor 'Repeat/fully_connected_4/Relu:0' shape=(64, 100) dtype=float64>
+    #--------------------------------------------------------------------------------
+
+    ```
+    
+    6. `stack`: 构建串联的不同参数的网络. stack(inputs, layer, stack_args, \*\*kwargs).
+    + 注意: 下面代码中的scope不是4个,但会自动添加后缀,为fc_1, fc_2等
+    ```
+    inputs = np.random.uniform(size=[64, 1024])                                       
+    
+    tf.contrib.layers.stack(inputs, tf.contrib.layers.fully_connected, [100, 50, 10, 2], scope='fc')                 
+    #--------------------------------------------------------------------------------
+    # <tf.Tensor 'fc/fc_4/Relu:0' shape=(64, 2) dtype=float64>
+    #--------------------------------------------------------------------------------
+
+    ```
 
     
 ### 1-1. slim
