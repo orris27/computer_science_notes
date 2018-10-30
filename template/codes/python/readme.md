@@ -1306,6 +1306,7 @@ with sv.managed_session(config=config) as sess:
     13. [TF基于attention的image caption](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/keras/image-caption.py)
     
     14. [Slim实现InceptionV3,评测耗时](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
+    15. [Slim实现ResNetV2,评测耗时](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
     
 31. 空
 
