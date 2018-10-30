@@ -26,6 +26,17 @@
     
     2. learning in a classroom is better
 
+
+4. After high school, students should have at least one year to work or travel. It is better than attending university straight away.
+    1. agree
+    + acquire a wide range of knowledge
+    + recharge one's batteries
+    
+
+5. Universities should spend more money supporting social activities rather than improving canteen food
+
+
+
 ### 理由
 1. migrate frequently
     1. 联想
@@ -51,26 +62,28 @@
     + develop skills
     + have direct contact with the outside world, have direct contact with nature
     + improve comprehensive skills and knowledge
-    
+    + 
     
     2. 范文
     + 序数词, children can acquire a wide range of knowledge beyond textbooks **during field trips**
 
 
-4. recharge batteries
+4. recharge batteries and get refreshed and energetic
     1. 联想
-    + reduce stress
-    + enhance health
-    + balance study and life
-    + improve physical fitness
-    + prepare for exams in order to achieve high academic perfomance and earn high socres
-    + feel refreshed
-    + take a break from normal routines/ the busy city life
-    + have a positive compact on mental and physical health
-    + maintain health
-    + students have to complete a large number of assignments
-    + suffer from intense pressure
-    + be tired of
+    + 正面
+        + reduce stress
+        + enhance health,i mprove physical fitness, maintain health
+        + balance study and life
+        + prepare for exams in order to achieve high academic perfomance and earn high socres
+        + feel refreshed
+        + take a break from normal routines/ the busy city life
+        + have a positive compact on mental and physical health
+        + go outside the classroom
+    + 反面
+        + lack the motivation to
+        + be tired of
+        + suffer from intense pressure
+        + have to complete a large number of assignments
 
     2. 范文
     
@@ -118,6 +131,11 @@
 10. 时间管理: time management skills, balance work/ study and life
 11. 责任感: a sense of responsibility
 12. 接触外部的世界: have direct contact with the outside world
+13. 高中毕业的学生: high school graduates
+14. 直接升学还是停一年: take a gap year, continue higher education directly
+15. 文化: experience diverse cultures and customs
+16. 社团: volunteer work, clubs, student organizations, sports teams => develop team spirit, cooperate, team management skills
+17. 精神: 
 
 
 
@@ -133,50 +151,35 @@
 
 ### 压力, 健康
 1. 过着快节奏的生活: live a fast-paced life
-
 2. 面临激烈的竞争: face fierce/ intense competition
-
 3. 承受巨大的压力: suffer from intense pressure, feel overwhelmed 
-
 4. 对某人施加巨大的压力: put great pressure on sb.
-
 5. 减轻压力: reduce stress
-
 6. 作业很多: students have to complete a large number of assignments
-
 7. 准备考试: prepare for exams
-
 8. 取得好成绩: achieve high academic performance, earn high scores
-
 9. 加班: work overtime and stay up late 
-
 10. 维持生计: make a living and support their family 
-
 11. 忙: have a tight schedule
-
 12. 减轻/缓解空气污染/交通堵塞: reduce air pollution / traffic congestion
-
 13. 放松: recharge one's batteries, feel refreshed and energetic, help sb. relax, take a break from normal routines/ from the busy city life, ~~relax oneself~~
-
-14. 休闲活动: recreational activities, leisure activities
-
-
+14. 休闲活动: recreational activities, leisure activities, social activities. (organize / participate in)
 15. 对身体和心理健康有利: have a positive compact on mental and physical health, improve physical fitness
-
 16. 保持健康: maintain health
-
 17. 促进新陈代谢: boost metabolism 
-
 18. 考试当天生病: feel sick on the day of the exam
-
 19. 走出教室: go outside the classroom
-
 20. 去郊游: go camping
-
-
+21. 解决烦恼: handle complaints
 
 ### economy
 1. higher cost of living
+
+### work
+1. waiter: how to introduce food to customers and handle complaints
+2. 教师: how to use appropriate teaching methods to arouse students' interest
+3.
+
 
 
 
