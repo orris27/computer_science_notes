@@ -2665,7 +2665,7 @@ luxuiant foliage
 
 36. cedar: 球网 + 大海 => 球网在大海上前进,将阿松变成冰块
 
-37. pine: pineapple => 菠萝突然长出很多针
+37. pine: pineapple => 菠萝突然长出很多坚果,松鼠们都过来吃了~
 
 38. birch(桦树)
 
