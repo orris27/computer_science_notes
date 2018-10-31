@@ -2004,6 +2004,69 @@ Astronomy inherits from astrology
     3. opaque: 不透明的
     4. translucent: 透明的
 
+
+
+1. 赤道的: equatorial
+
+2. latitude(维度)
+
+3. tropics(热带地区)
+
+4. 北回归线: tropics of Cancer: 热带 + 癌症 => 癌症的人突然发热,然后在北回归线变成火焰
+
+5. 南回归线: tropics of Capricorn: 船长 + 热 + 硬币 => 船长用宝具发射超电磁炮,硬币在大气层中熔化了
+
+6. elongated: e + long => 鱼被拉长
+
+7. 板块运动学说: tectonic plate movement: 铁头 + nick + plate => 我Nick铁头撞盘子,碎掉的盘子组合成世界地图
+
+8. temperate(温带地区)
+
+9. subarctic: sub + 啊 + 踢 => sub啊的一声结果被我踢了下去,然后变成鸭子破冰
+
+10. diameter: 袋子 => 袋子将直径这么细长的棒子给拿走了
+
+11. lopsided: loop(救生圈) + 赛艇 => 赛艇拖着救生圈,往一侧倾斜了
+
+12. drift: 锯子 + 福特 => 锯子在海上漂浮,福特汽车只能跟着漂流了
+
+13. 椭圆的: elliptical
+
+14. oval: oven => 将炉灶弄椭圆,方便放锅
+
+15. coma cluster: come + cluster => 来嘛,星团~然后我放到后面一起扔了出去
+
+16. hexagonal: 六 + 拱 => 手势六个,像体操运动员拱了起来一样
+
+17. streamlined: stream + line => 流线型
+
+18. rigorous: 热狗 + 肉丝 => 热狗咬下来的时候里面的肉丝组成了网格图(严格的)
+
+19. solar wind(太阳风)
+
+20. geomagnetic field(地磁场)
+
+21. slab: 蛇 + lab => 蛇在lab里看iPad里的平板女生
+
+22. dynamic of the earth motion(地球运动)
+
+23. wobble: 我抱 => 我抱住了大腿,但是现在大腿还在晃动
+
+24. precipitation: ray + 台 => ray在台上祈祷雨水
+
+25. 升华: sublimation
+
+26. 冷凝: condensation
+
+27. vaporize: evaporation => 蒸发
+
+28. patina: 坡 + 克里斯蒂娜 => 克里斯蒂娜冲坡,然后绣出了绿色的树
+
+29. disintegration: dis(不) + integration => 不要聚合在一起 => 分解
+
+
+
+
 ### 1-19. medicine
 1. verb
     1. fracture: friend + 车 => 我把朋友塞进了一辆车,结果他整个人就破碎掉了
