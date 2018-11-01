@@ -341,6 +341,65 @@
 69. coral
 70. larva
 
+
+71. waterway: 水 + 路 => 水倒在路上,蚂蚁在水上航行
+
+72. inland waterway(内陆河)
+
+73. depression: 低落 => 凹陷处
+
+74. fissure: 飞机 + show => 飞机明星跳了下来,沟裂出来给我们看
+
+75. fault: 错误 => 写X的时候突然地震手抖,出现断层
+
+76. permeate: 脸盆 + meat => 脸盆里很多肉,渗透作用来吃肉
+
+77. tributary: 车子 + biu + 灰吕 => 车子biu地冲向灰吕,灰吕扛到支流,不让继续前进
+
+78. upper reaches: 上游
+
+79. lower reaches: 下游
+
+80. desertification: 沙漠 + 飞 + 开始 => 开始沙漠化,飞把
+
+81. landslide: 大地 + slide => slide展示的时候大地突然崩塌了(山体滑坡)
+
+82. avalanche: eva + 兰斯洛特(加特林) => eva里的男用加特林打出雪到对方身上,然后雪崩塌了下来
+
+83. soluble: 手 + lu + ball => 手lu出来ball,结果溶解在地上了
+
+84. aurora: 奥罗拉 => 丽丽爱奥罗拉后粗大的手指变长,画出了极光
+
+85. deformation: 迪迦 + 风 => 迪迦在风中变形了
+
+86. lubricate: 路 + brick => 路上搬砖,润滑地面,滑动就好了
+
+87. abrasive: apple + the brave => 勇者吃苹果,牙齿磨
+
+88. soak: 手 + 大桥 => 手抓住大桥然后吸收了进来
+
+89. run-off: run + off离开 => 马拉松时她跑丢了,然后掉到了排水口里
+
+90. coalification: coal + desertification => 煤化作用
+
+91. deforestation: de(不好的) + forestation => 森林采伐
+
+92. habit fragmentation: 栖息地破碎
+
+93. El Nino: 厄尔尼诺现象
+
+94. mountain chain: = mountain range
+
+95. mountain slope: 山坡
+
+96. abyss: 鹅 + 鼻屎 => 鹅抠鼻屎,结果鼻屎在深渊里,抠不到
+
+97. watershed: 水 + 手 => 水冲洗手,手上两条水流分开了(分水岭)
+
+98. standing water: 站 + 水 => 水突然站了起来,静止流动了
+
+99. reservoir: reserve + oir => 储水 => 水库
+
 ### 1-4. chemistry
 1. verb
     1. hackneyed: hack + 泥 + d => 黑客的房间里出现了巨大的泥巴,然后从窗口进来了巨大的勺子,这个勺子将泥巴"啾啾"地滚动了起来.房间的设备上都是灰尘
@@ -3400,6 +3459,12 @@ The economy remains sluggish
     1. rashly: red + 嘘嘘 + 篱笆 => 红人在那里嘘嘘,结果掉到篱笆外面,然后高桥很鲁莽地生气了
 
 
+
+
+1. unshielded: un(无) + shield(盾牌) => 未加掩盖的
+
+
+
 ## 2. multiple meanings
 1. ascend
     1. 上溯
@@ -3482,6 +3547,12 @@ The economy remains sluggish
 10. check your Ubuntu version from the terminal
 11. fire brigade
 
+
+12. and stuff: 等等,诸如此类
+
+13. ones that aren't pointed downward: 漫射, 听不懂
+
+14. uns
 
 ## 4. stake
 1. pro: 盒子
