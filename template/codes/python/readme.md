@@ -178,10 +178,8 @@ learning_rate = tf.Variable(1e-3)
 
 
 3. loss代价函数(损失函数)
-    1. sigmoid_cross_entropy_with_logits
-        + labels:正确的y
-        + logits:预测的y
-        + 优化器:AdamOptimizer
+    1. sigmoid_cross_entropy_with_logits: `tf.losses.sigmoid_cross_entropy`最终调用`tf.nn.xx`,基本一样
+    + `tf.losses.sigmoid_cross_entropy(logits=logits, multi_class_labels=labels)` <=> `-1 * tf.reduce_mean(labels * tf.log(tf.sigmoid(logits)) + (1 - labels) * tf.log(1 - tf.sigmoid(logits)))`
     ```
     loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(labels = labels,logits = y_predicted))
     ```
@@ -198,8 +196,8 @@ learning_rate = tf.Variable(1e-3)
     # 如果使用的labels为[batch_size, num_classes]格式的话,用tf.argmax缩减第二个维度
     #cross_entropy = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = tf.argmax(labels,1),logits = y_predicted)) 
     ```
-    3. mean_squared_error
-    + 差的平方和的平均值
+    3. mean_squared_error: 差的平方和的平均值
+        + `tf.losses.mean_squared_error(predictions=logits, labels=labels)` <=> `tf.reduce_mean((logits - labels) ** 2)`
         1. <方法1>
         ```
         # labels 和 predictions 都是一维数组
