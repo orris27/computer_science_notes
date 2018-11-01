@@ -8,3 +8,9 @@
     + A: not good at performing => upset, give up => hate
     + B: feel relaxed (not worry that I might play it smashed) + acquire a wide range of knowledge (the show teach us a lot of things)
     
+2. saving money is important
+    1. develop a good habit
+    2. improve our life
+    
+    
+3. 
