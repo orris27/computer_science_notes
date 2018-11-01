@@ -2281,9 +2281,9 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     g2 = tf.Graph()
     with g2.as_default():
         v = tf.get_variable("v",shape=[1],initializer=tf.ones_initializer)
-
-    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
-    config=tf.ConfigProto(gpu_options=gpu_options)
+        
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
     with tf.Session(config=config,graph=g1) as sess:
         sess.run(tf.global_variables_initializer())
         with tf.variable_scope('',reuse=True):
@@ -2844,25 +2844,49 @@ with tf.Session(config=config) as sess:
 74. Dataset方法
 + `prefetch`: prefetch elms from the dataset in the buffer
     1. 基于python list创建dataset
-    ```
-    import tensorflow as tf
+        1. standard(not eager)
+        ```
+        import tensorflow as tf
 
-    input_data = [1,2,3,5,8]
-    dataset = tf.data.Dataset.from_tensor_slices(input_data)
-    # dataset = dataset.prefetch(1)
+        input_data = [1,2,3,5,8]
+        dataset = tf.data.Dataset.from_tensor_slices(input_data)
+        # dataset = dataset.prefetch(1)
 
-    iterator = dataset.make_one_shot_iterator()
+        iterator = dataset.make_one_shot_iterator()
 
-    x = iterator.get_next()
+        x = iterator.get_next()
 
-    y = x * x
+        y = x * x
 
-    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
-    config = tf.ConfigProto(gpu_options=gpu_options)
-    with tf.Session(config=config) as sess:
-        for i in range(len(input_data)):
-            print(sess.run(y))
-    ```
+        config = tf.ConfigProto()
+        config.gpu_options.allow_growth = True
+        with tf.Session(config=config) as sess:
+            for i in range(len(input_data)):
+                print(sess.run(y))
+        ```
+        2. eager mode: `dataset.__iter__()` is only supported when eager
+        ```
+        import tensorflow as tf
+
+        config = tf.ConfigProto()
+        config.gpu_options.allow_growth = True
+        tf.enable_eager_execution(config=config)
+
+        input_data = [i for i in range(100)]
+        dataset = tf.data.Dataset.from_tensor_slices(input_data).shuffle(100).batch(64)
+        # dataset = dataset.prefetch(1)
+
+
+        num_epochs = 5
+
+        for epoch in range(num_epochs):
+            print('*'*30)
+            print("epoch {0}".format(epoch))
+            for inputs in dataset:
+                print(inputs)
+            print('*'*30)
+
+        ```
     2. 基于文本文件创建dataset
     ```
     import tensorflow as tf
@@ -3397,8 +3421,9 @@ with tf.Session() as sess:
     + 注意: 绝对不要将`optimizer = tf.train.AdamOptimizer()`放在epoch循环内,因为这样就会重复定义,而且在loss减少的很少...具体的原因是来自
     ```
     import tensorflow as tf
-    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
-    config = tf.ConfigProto(gpu_options=gpu_options)
+
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
     tf.enable_eager_execution(config=config) # add this code at the top of the program
 
     a = tf.constant([1,2,3,4])
@@ -3633,7 +3658,15 @@ python inference_py # we'll get the result
 
     ```
 
-    
+100. Deconvolution
+```
+inputs = tf.random_uniform([1, 7, 7, 64])
+conv = tf.keras.layers.Conv2DTranspose(32, (5, 5), strides=(1, 1), padding='same', use_bias=False)
+outputs = conv(inputs)
+#-------------------------------------------------------------------------------------------------------
+# shape=(1, 7, 7, 32)
+#-------------------------------------------------------------------------------------------------------
+```
 ### 1-1. slim
 1. Basic Usage: 完整代码参看30-8处的内容
 ```
@@ -5012,7 +5045,32 @@ print("restoring...")
 with open(path, "rb") as f:
     print(pickle.load(f))
 ```
-## 13. python
+
+
+
+## 13. IPython
+### display
+1. display an image
+```
+from IPython import display
+Image(filename="/home/user/orris/image-caption/try/Image-Caption-based-on-SeqGAN/images/surf.jpg")
+```
+
+2. clear_output: Clear the output of the current cell receiving output.
+```
+display.clear_output(wait=True)
+```
+
+
+
+
+
+
+
+
+
+
+## 14. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
