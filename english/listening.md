@@ -78,6 +78,19 @@ We could do this **in theory** by studying an **enormous** **impact crater**, kn
 
 
 
+
+### Difficulties in Astronomy
+1. `Isn't it strange that the Milky Way is within our xxx, but we haven't seen it?`
+Isn't that strange that the Milky Way is the galaxy taht the planet earth is in, and most of us have never seen it?
+
+2. `Yes, especially unxxx street lights, you know, xxx.`
+Yes, especially unshielded street light, you know, ones that aren't pointed downward.
+
+3. `This is irony, the building is here, and the unshielded lights are there...`
+Now here is an irony, the building we are in now, the astronomy building not far from the obversatory, has unshield lights.
+
+
+
 ## 2. Architecture
 ### Cape Cod House
 1. `Today we are taking a little deto of grand part architecture reso design architecture in the United States`
