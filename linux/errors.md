@@ -762,6 +762,25 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     + 初始化W和b也有问题
     + ...
 
+22. dcgan-mnist.py里报错
+    ```
+    Traceback (most recent call last):
+      File "dcgan-mnist.py", line 144, in <module>
+        real_pred = discriminator(images)
+      File "/home/user/anaconda2/envs/ovenv/lib/python3.6/site-packages/tensorflow/python/keras/engine/base_layer.py", line 769, in __call__
+        outputs = self.call(inputs, *args, **kwargs)
+      File "dcgan-mnist.py", line 90, in call
+        net = self.conv1(inputs)
+      File "/home/user/anaconda2/envs/ovenv/lib/python3.6/site-packages/tensorflow/python/keras/engine/base_layer.py", line 743, in __call__
+        self._assert_input_compatibility(inputs)
+      File "/home/user/anaconda2/envs/ovenv/lib/python3.6/site-packages/tensorflow/python/keras/engine/base_layer.py", line 1474, in _assert_input_compatibility
+        if x.shape.ndims is None:
+    AttributeError: 'tuple' object has no attribute 'ndims'
+
+    ```
+    1. 解决: 之前用的mnist是`mnist = input_data.read_data_sets('MNIST_data/',one_hot = True)`,实际应该使用的是`(X_train, y_train), (X_test, y_test) = mnist.load_data()`
+
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
