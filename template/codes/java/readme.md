@@ -392,7 +392,6 @@ System.out.println(bi.divide(bi2)); // 4
 
 
 
-
 ### 常量池技术
 1. int
     1. 125 + new Integer(1) => 就是后者先intValue编程普通的int,然后相加,最后再valueOf
@@ -412,26 +411,26 @@ System.out.println(bi.divide(bi2)); // 4
 package com.orris;
 
 public class ThreadDemo implements Runnable {
-	private Thread t;
-	private String threadName;
+    private Thread t;
+    private String threadName;
 
-	public ThreadDemo(String name) {
-		threadName = name;
+    public ThreadDemo(String name) {
+        threadName = name;
 
-	}
+    }
 
-	public void run() {
-		for (int i = 0; i < 5; ++i) {
-			System.out.println(threadName + ":" + i);
-		}
-	}
+    public void run() {
+        for (int i = 0; i < 5; ++i) {
+            System.out.println(threadName + ":" + i);
+        }
+    }
 
-	public void start() {
-		if (t == null) {
-			t = new Thread(this, threadName);
-			t.start();
-		}
-	}
+    public void start() {
+        if (t == null) {
+            t = new Thread(this, threadName);
+            t.start();
+        }
+    }
 }
 #################################################################################
 
@@ -439,15 +438,29 @@ import com.orris.ThreadDemo;
 
 public class Test {
 
-	public static void main(String[] args) {
-		System.out.println("HelloWorld");
+    public static void main(String[] args) {
+        System.out.println("HelloWorld");
 
-		ThreadDemo td1 = new ThreadDemo("thread-1");
-		td1.start();
-		ThreadDemo td2 = new ThreadDemo("thread-2");
-		td2.start();
-	}
+        ThreadDemo td1 = new ThreadDemo("thread-1");
+        td1.start();
+        ThreadDemo td2 = new ThreadDemo("thread-2");
+        td2.start();
+    }
 
 }
 
 ```
+
+
+## 7. JUnit
+1. Basic use
+    1. 点击class,然后选中JUnit Test case
+    ![JUnit1.png](https://raw.githubusercontent.com/orris27/orris/master/images/junit1.png)
+    2. 选择junit4, 然后命名.命名格式一般为"类名 + Test"(我这里因为之前已经建好了,所以就多了个1),然后点击Next
+    ![JUnit2.png](https://raw.githubusercontent.com/orris27/orris/master/images/junit2.png)
+    3. 选择要测试的类,然后Finish就可以了
+    ![JUnit3.png](https://raw.githubusercontent.com/orris27/orris/master/images/junit3.png)
+
+
+
+
