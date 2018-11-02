@@ -117,6 +117,10 @@
 8. a large number of assignments
 9. have a positive impact on <=> benefit, have a negative impact on
 10. 接触: be isolated from, have direct contact with, have access to
+11. 凭自己意愿做这件事: do sth of one's own free will, take the initiative to do sth
+12. 兴趣: follow one's interests, arouse one's interest in sth, 
+13. 被迫做某事: be forced to
+14. 习惯: form a long-term habit
 
 ### education
 1. 获得更多知识: acquire/ gain a wide range of knowledge beyond textbooks, have access to knowledge 
@@ -135,8 +139,7 @@
 14. 直接升学还是停一年: take a gap year, continue higher education directly
 15. 文化: experience diverse cultures and customs
 16. 社团: volunteer work, clubs, student organizations, sports teams => develop team spirit, cooperate, team management skills
-17. 精神: 
-
+17. 老师布置的阅读: provide a reading list
 
 
 ### life
