@@ -140,6 +140,14 @@
 15. 文化: experience diverse cultures and customs
 16. 社团: volunteer work, clubs, student organizations, sports teams => develop team spirit, cooperate, team management skills
 17. 老师布置的阅读: provide a reading list
+18. 被动学习: passive learners, overly rely on teachers
+
+
+
+
+
+
+
 
 
 ### life
