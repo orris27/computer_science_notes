@@ -729,10 +729,19 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
 
 
 
-18. loss一直没有减少,或者减少的几率很少
-    1. 学习率是不是设置错误.比如0.01设置成0.1之类的
-    2. 在eager mode下optimizer的定义`optimizer = tf.train.AdamOptimizer()`是不是设置在内部的epoch循环内.(参考我模仿TF官网的image-caption)
-
+18. loss的问题
+    1. 一直没有减少,或者减少的几率很少
+        1. 学习率是不是设置错误.比如0.01设置成0.1之类的
+        2. eager mode中:optimizer的定义`optimizer = tf.train.AdamOptimizer()`是不是设置在内部的epoch循环内.(参考我模仿TF官网的image-caption)
+        3. GAN中: Generator和Discriminator的GradientTape和optimizer都要不同才行
+    2. 学习TensorFlow官网的DCGAN代码自己写后,发现Generator的loss不断上升
+    ```
+    epoch=0    gen_loss=2.8731160163879395    disc_loss=0.05911536514759064
+    epoch=0    gen_loss=2.9348721504211426    disc_loss=0.059374239295721054
+    epoch=0    gen_loss=2.995558023452759    disc_loss=0.059433963149785995
+    epoch=0    gen_loss=3.054912805557251    disc_loss=0.059680353850126266
+    epoch=0    gen_loss=3.112762212753296    disc_loss=0.04616463556885719
+    ```
 
 
 19. 使用了`python xx.py 2>&1 >xx.out`和`print`函数,但为什么有的会直接输出到文件里,有的要等到程序结束后才输出过去?
