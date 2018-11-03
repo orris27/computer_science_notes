@@ -192,7 +192,8 @@
 3.
 
 
-
+### extra
+1. **Of those bits**, **7 are** for data and **1 is** for control. 
 
 ## 错别字
 1. museum
