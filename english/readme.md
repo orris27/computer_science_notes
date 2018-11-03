@@ -12,7 +12,7 @@
 9. caterpillar
 10. scale
 11. spleen
-12. clam: claim:无论你怎么claim,都被认为是蛤
+12. clam: claim => 无论你怎么claim,都被认为是蛤
 13. antenna
 14. spineless
 15. pest
@@ -421,6 +421,33 @@
 109. gulf: 骨王 + golf => 骨王打高尔夫,结果球飞到了海湾里
 
 110. archipelago: 尔康 + 泼了狗 => 尔康泼了狗的水,狗的裙子...
+
+
+111. coral island(珊瑚岛)
+
+112. sedimentary rock(沉积岩)
+
+113. metamorphic rock: metamorphosis + rock => 变质岩
+
+114. ocean bottom(海床)
+
+115. continential shelf: continent + shelf => 大陆架
+
+116. trench: tree + 弯曲 => 大树弯曲,去海底看沟试探试探了
+
+117. lagoon: 拉弓 => 拉弓,弓箭迅速射中环礁湖,引起巨大的爆炸
+
+118. coastline: coast + line => 海岸 + 线 => 海岸线
+
+119. sea-floor: 海 + 地板 => 在地板上可以睡觉 => 海床
+
+120. reef: rey + f => ray刷牙的时候突然发现里面有暗礁,就赶紧刷走了它
+
+121. sand dune: sand + 子弹 => 沙丘上有一个子弹射了进来,结果沙子就弄成沙丘防御住了
+
+122. core(地核)
+
+123. sandstone: 沙子 + 石头 => 砂岩
 
 
 
