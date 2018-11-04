@@ -129,8 +129,11 @@ What we are seeing from earth is actually electronmagnetic radiation that's comi
 When **photons** and light waves hit objects in our atmosphere, water **droplets**, oxygen and nitrogen molecules, **dust particles** and so on.
 
 
-12. ``
+12. Unlike visible light waves, these radio waves can get **through the various gaxes and dusts in** space, and through our own earth's atmosphere comparatively easily.
 
+13. How do they do that? (我听成了How do we use that?)
+
+14. And they use electronics, quite **sophisticated**.
 
 
 
