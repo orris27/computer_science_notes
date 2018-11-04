@@ -272,6 +272,17 @@ learning_rate = tf.Variable(1e-3)
             step += 1
             perplexity = np.exp(total_loss / step) # => correct perplexity
         ```
+        2. GAN: real_pred和fake_pred是Discriminator的输出,完整代码查看代码实战里的TF官网DCGAN实现
+        ```
+        def get_disc_loss(real_pred, fake_pred):
+            real_loss = tf.losses.sigmoid_cross_entropy(multi_class_labels = tf.ones_like(real_pred), logits=real_pred)
+            fake_loss = tf.losses.sigmoid_cross_entropy(multi_class_labels = tf.zeros_like(fake_pred), logits=fake_pred)
+            return real_loss + fake_loss
+
+        def get_gen_loss(fake_pred):
+            fake_loss = tf.losses.sigmoid_cross_entropy(multi_class_labels = tf.ones_like(fake_pred), logits=fake_pred)
+            return fake_loss
+        ```
     6. Policy Gradients下取值只有{0, 1}的Action. (完整代码看30-4的CartPole问题解决的代码)
     ```
     with tf.name_scope("loss"):
@@ -344,12 +355,27 @@ with tf.Session() as sess:
             ```
         3. 获得
             1. 训练集特征值(X_train)
-            ```
-            from tensorflow.examples.tutorials.mnist import input_data
-            
-            mnist = input_data.read_data_sets('MNIST_data/',one_hot = True)            
-            X_train,y_train = mnist.train.next_batch(100)
-            ```
+                1. <方法1>
+                ```
+                from tensorflow.examples.tutorials.mnist import input_data
+
+                mnist = input_data.read_data_sets('MNIST_data/',one_hot = True)            
+                X_train,y_train = mnist.train.next_batch(100)
+                ```
+                2. <方法2>
+                ```
+                (train_images, train_labels), (_, _) = tf.keras.datasets.mnist.load_data()
+
+                train_images = train_images.reshape(train_images.shape[0], 28, 28, 1).astype('float32')
+                train_images = (train_images - 127.5) / 127.5
+
+                buffer_size = 60000
+                train_dataset = tf.data.Dataset.from_tensor_slices(train_images).shuffle(buffer_size).batch(batch_size)
+                
+                # ...
+                for images in train_dataset:
+                    # ...
+                ```
             2. 训练集标签(y_train):同上
             3. 测试集特征值(X_test)
             ```
@@ -1305,7 +1331,15 @@ with sv.managed_session(config=config) as sess:
     
     14. [Slim实现InceptionV3,评测耗时](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
     15. [Slim实现ResNetV2,评测耗时](https://github.com/orris27/orris/tree/master/python/machine-leaning/codes/tensorflow/cnn)
-    
+    16. [TF官网DCGAN代码自己实现](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/gan/dcgan-mnist.py)
+        1. 计算梯度的的时候,使用各自的GradientTape
+        2. 应用梯度的时候,使用各自的Optimizer
+        3. 生成图像检查的时候,注意Discriminator传入的real_images和fake_images形状是一样的,根据这一点,我们可以将fake_images还原成可以看的图片
+        4. Evaluate和Train的时候,Dropout和BatchNormal表现不一样,必须通过training控制
+        5. eager mode还是什么原因,总之MNIST输入必须使用tf.keras.datasets.mnist.load_data()这个API,得到的结果是ndarray,形状为[60000, 28, 28] 和 [60000,]
+        6. 真实图片可以考虑手动切换到[-1, 1]的区域之间,之后再传入网络
+        7. Discriminator中如果报错最后全连接层时说shape不对,是因为real_images和fake_images的shape不对,前者已经定义好Fully_connected层的结构了,所以如果fake_images不正确就会出现问题
+
 31. 空
 
 32. 设置随机数的种子
