@@ -87,7 +87,50 @@ Isn't that strange that the Milky Way is the galaxy taht the planet earth is in,
 Yes, especially unshielded street light, you know, ones that aren't pointed downward.
 
 3. `This is irony, the building is here, and the unshielded lights are there...`
+
 Now here is an irony, the building we are in now, the astronomy building not far from the obversatory, has unshield lights.
+
+
+4. `It's basically beyond our control, especially our night sky and `
+
+It's basically beyond control, as far as expecting to view the night sky anywhere near city, I mean.
+
+
+5. `I've lived around here my whole life.`
+
+I've lived around here my whole life.
+
+6. `I've never seen the Milky Way within city in it.`
+
+I've never seen the Milky Way within city **limits**.
+
+7. `There is price or progress, uh?`
+
+There is a price **for** progress, eh?
+
+
+8. `Let's think beyond light pollution, that's only one technology advances that interferes with astronomy research`
+
+Let's think beyond light pollution, that's only one kind of technological advances that has interfered with **astronomical** research
+
+
+9. `We don't always get information by looking at the stars. For the periods of 17 years ago, we use radio which lets us to study radio rays from the sky`
+
+9. `We don't always get information by looking at the stars. For the periods of 17 years ago, we use radio which lets us to study radio rays from the sky`
+We don't **only** gain information by looking at the stars. For the **past 70 years or so**, we have also used radio **astronomy**, which lets us to study radio **waves** from the sky
+
+10. `What we see from earth is actually electronical from the sun.`
+
+What we are seeing from earth is actually electronmagnetic radiation that's coming from stars.
+
+11. `When phone times come right way, and hits the object in the atmosphere, water drops the nitrogen and hitrogen, and so on`
+
+
+When **photons** and light waves hit objects in our atmosphere, water **droplets**, oxygen and nitrogen molecules, **dust particles** and so on.
+
+
+12. ``
+
 
 
 
