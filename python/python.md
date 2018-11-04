@@ -127,3 +127,14 @@ jupyter notebook --ip=10.214.144.222
 ```
 jupyter nbconvert --to script xx.ipynb
 ```
+
+## 3. 安装pip包
+```
+pip install gym
+```
+或者
+```
+git clone https://github.com/openai/gym.git
+cd gym
+pip install -e .
+```
