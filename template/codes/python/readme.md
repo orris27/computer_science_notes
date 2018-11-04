@@ -3,7 +3,7 @@
 1. 定义features和labels
 ```
 with tf.name_scope('placeholder'):
-    #  [[特征值0,特征值1,特征值2,...,特征值783],
+    #  [[特征值0,特征值1,特征值2,...,特征值f783],
     #   [第二个实例],
     #   [第三个实例],]
     features = tf.placeholder(tf.float32,[None,784], name='features') 
@@ -1147,7 +1147,7 @@ a1_pool = tf.nn.local_response_normalization(a1_pool, depth_radius=None, bias=No
     train = opt.apply_gradients(zip(clipped_gradients, params))
 
     ```
-26. name_scope & variable_scope变量名字
+26. scope: name_scope & variable_scope变量名字
     1. 打印变量名字
     ```
     with tf.variable_scope('foo', reuse=tf.AUTO_REUSE):
@@ -1165,23 +1165,50 @@ a1_pool = tf.nn.local_response_normalization(a1_pool, depth_radius=None, bias=No
     # foo/b:0
     # foo/b_1:0
     #---------------------------------------------------------------------
+    ```
+    2. get_variable只受variable_scope影响,而Variable同时受name_scope和variable_scope影响.
+        1. name_scope和variable_scope互相嵌套
+        ```
+        with tf.name_scope("123"):
+            with tf.variable_scope("456"):
+                with tf.name_scope("789"):
+                    a = tf.Variable(3.14, name="a")
+                    print(a.name) # 123/456/789/a:0
+                    b = tf.get_variable("b", 1)
+                    print(b.name) # 456/b:0
 
-    ```
-    2. name_scope:只不影响get_variable
-    ```
-    with tf.name_scope("foo1"):
-        var = tf.Variable(1.32,dtype=tf.float32)
-        var_get = tf.get_variable('var_get',[1])
-        add = tf.add(var,3)
-        print('Variable:',var.name)
-        print('get_variable:',var_get.name)
-        print(add.name)
-    #---------------------------------------------------------------------------------
-    # Variable: foo1/Variable:0
-    # get_variable: var_get:0
-    # foo1/Add:0
-    #---------------------------------------------------------------------------------
-    ```
+
+        ```
+        2. 重复name_scope: 第二个scope开始加后缀`_1`等
+        ```
+        with tf.name_scope("123"):
+            a = tf.Variable(3.14, name="a")
+            print(a.name) # 123/a:0
+            b = tf.get_variable("b", 1)
+            print(b.name) # b:0
+
+        with tf.name_scope("123"):
+            a = tf.Variable(3.14, name="a")
+            print(a.name) # 123_1/a:0
+            #b = tf.get_variable("b", 1) # 不能定义
+            #print(b.name)
+
+        ```
+        3. 重复variable_scope: 对于Variable而言第二个scope开始加后缀`_1`等,而对于get_variable而言,还是原来的那个.
+        ```
+        with tf.variable_scope("123"):
+            a = tf.Variable(3.14, name="a")
+            print(a.name) # 123/a:0
+            b = tf.get_variable("b", 1)
+            print(b.name) # 123/b:0
+
+        with tf.variable_scope("123"):
+            a = tf.Variable(3.14, name="a")
+            print(a.name) # 123_1/a:0
+            #b = tf.get_variable("b", 1)
+            #print(b.name) # 123/b:0
+
+        ```
     3. 清除name_scope
         + 不能清除`variable_scope`
     ```
