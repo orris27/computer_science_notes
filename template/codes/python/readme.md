@@ -3726,6 +3726,76 @@ outputs = conv(inputs)
 # shape=(1, 7, 7, 32)
 #-------------------------------------------------------------------------------------------------------
 ```
+
+101. Operations
+    1. get_operations
+    ```
+    g = tf.get_default_graph()
+    g.get_operations()
+    #-----------------------------------------------------------------
+    # []
+    #-----------------------------------------------------------------
+
+    a = tf.get_variable('a', 1)
+
+    g.get_operations()
+    #-----------------------------------------------------------------
+    # [<tf.Operation 'a/Initializer/random_uniform/shape' type=Const>,
+    #  <tf.Operation 'a/Initializer/random_uniform/min' type=Const>,
+    #  <tf.Operation 'a/Initializer/random_uniform/max' type=Const>,
+    #  <tf.Operation 'a/Initializer/random_uniform/RandomUniform' type=RandomUniform>,
+    #  <tf.Operation 'a/Initializer/random_uniform/sub' type=Sub>,
+    #  <tf.Operation 'a/Initializer/random_uniform/mul' type=Mul>,
+    #  <tf.Operation 'a/Initializer/random_uniform' type=Add>,
+    #  <tf.Operation 'a' type=VariableV2>,
+    #  <tf.Operation 'a/Assign' type=Assign>,
+    #  <tf.Operation 'a/read' type=Identity>]
+    #-----------------------------------------------------------------
+
+    c = tf.Variable(3.14)
+
+    g.get_operations()
+    #-----------------------------------------------------------------
+    # [<tf.Operation 'a/Initializer/random_uniform/shape' type=Const>,
+    #  <tf.Operation 'a/Initializer/random_uniform/min' type=Const>,
+    #  <tf.Operation 'a/Initializer/random_uniform/max' type=Const>,
+    #  <tf.Operation 'a/Initializer/random_uniform/RandomUniform' type=RandomUniform>,
+    #  <tf.Operation 'a/Initializer/random_uniform/sub' type=Sub>,
+    #  <tf.Operation 'a/Initializer/random_uniform/mul' type=Mul>,
+    #  <tf.Operation 'a/Initializer/random_uniform' type=Add>,
+    #  <tf.Operation 'a' type=VariableV2>,
+    #  <tf.Operation 'a/Assign' type=Assign>,
+    #  <tf.Operation 'a/read' type=Identity>,
+    #  <tf.Operation 'Variable/initial_value' type=Const>,
+    #  <tf.Operation 'Variable' type=VariableV2>,
+    #  <tf.Operation 'Variable/Assign' type=Assign>,
+    #  <tf.Operation 'Variable/read' type=Identity>]
+    #-----------------------------------------------------------------
+    ```    
+    2. get_operations的返回值Op的相关方法: 查看输入和输出
+    ```
+    add = a + b
+    g.get_operations()[-1]
+    #-----------------------------------------------------------------
+    # <tf.Operation 'add' type=Add>
+    #-----------------------------------------------------------------
+    
+    add_op = g.get_operations()[-1]
+
+    add_op.inputs[:]
+    #-----------------------------------------------------------------
+    # [<tf.Tensor 'a/read:0' shape=(1,) dtype=float32>,
+    #  <tf.Tensor 'b/read:0' shape=(2,) dtype=float32>]
+    #-----------------------------------------------------------------
+
+
+    add_op.outputs
+    #-----------------------------------------------------------------
+    # [<tf.Tensor 'add:0' shape=(2,) dtype=float32>]
+    #-----------------------------------------------------------------
+
+    ```
+
 ### 1-1. slim
 1. Basic Usage: 完整代码参看30-8处的内容
 ```
