@@ -47,13 +47,11 @@
 
 40. brood: 哺乳 + d => 哺乳中,用勺子接住,然后浇到鸡蛋上,结果鸡蛋就孵化出来了
 
-
 41. microorganism: 微小的 + organ => 器官突然变得很微小,然后变成了血小板的生物,在我身上啾啾~~
 
 42. microfabrication: micro + fabric(脂肪) => 将自己身上的脂肪捏成很小的油滴
 
 43. amino acids: ammonia(氨) => 氨基酸
-
 
 44. abiotic: 二百 + tick => 将二百放到地上,用拐杖击打一下,结果就变成了非生物
 
@@ -448,6 +446,45 @@
 122. core(地核)
 
 123. sandstone: 沙子 + 石头 => 砂岩
+
+124. aftershock(余震)
+
+125. epicenter: epic + center => 拿到史诗级的图片后不停震动图片,激动不已,center的内容倒是都没有震动
+
+126. pit: 皮卡丘 + tiao => 皮卡丘跳进了深坑,一直在降落
+
+127. fire pit: fire(火) + pit => 火山坑
+
+128. bombardment: 棒棒糖 + 爸爸 + 门 => 爸爸拿起了棒棒糖,一下子就扔到了门上,轰炸了
+
+129. boulder: 抱的 + de => 抱住球网,结果头变大了,然后成为石头,撞柱子撞碎了 => 巨头
+
+130. obsidian: orbit + 电 => 地球公转的轨道上有电流,然后照耀了黑色的天空
+
+131. inter glacier period(间冰期)
+
+132. vent: 蚊子 + t => 蚊子从T型台的出口出来咬人
+
+133. rubble: run + ball => 跑步的时候,一脚把球踢碎了前面的石头
+
+134. volcanic vent: 火山口
+
+135. magnitude(震级)
+
+136. volcanic belt(火山带)
+
+137. active / dormant / extinct volcano: 活/休眠/死火山
+
+138. moraine: 魔人 => 魔人使用了冰碛攻击
+
+139. glacier epoch / period / age(冰川期)
+
+140. Mt. Everest: mountain + never + est(最) => 从未被超越最强的山 => 珠穆朗玛峰
+
+141. lapis lazuli: laps + 来这里 => laps来到了青田这里的天空,然后化作沉睡的石头沉到了水里
+
+142. quartz: quarter => 时钟到四分之一的时候小英雄将时钟打碎成石头
+
 
 
 
@@ -2521,7 +2558,7 @@ euphonious sound
 103. a strip of land(狭长的地带)
 
 
-104. slope: 石楼 + 精灵球 => 石楼要塌陷了,被精灵球撑住
+104. slope: 石楼 + 精灵球 => 石楼上精灵球滚来滚去,里面的精灵很开心
 
 
 105. exterior: extend + or(太阳) => 伸出手抓住太阳,必须到外部去
@@ -3513,7 +3550,17 @@ The economy remains sluggish
 
 
 1. unshielded: un(无) + shield(盾牌) => 未加掩盖的
+2. stand a chance: 有希望
 
+3. ambient: 按住 + 大便 => 按住大便后周围的液体会出来...
+
+4. bounce off: 跳跃 + off => 跳跃到墙上,结果off离开的时候反弹了过去
+
+5. faraway: 遥远的
+
+6. faint: fate => saber身体比较微弱,需要shiro... => 微弱的
+
+7. satellite dish: 卫星 + dish => 有一个巨大的餐具飞向卫星,卫星开始不断接收它的位置绕着地球转...
 
 
 ## 2. multiple meanings
