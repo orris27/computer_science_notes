@@ -3726,28 +3726,9 @@ outputs = conv(inputs)
 # shape=(1, 7, 7, 32)
 #-------------------------------------------------------------------------------------------------------
 ```
-101. Operations
-1. get_operations
+1. Operations
+    1. get_operations
     ```
-    g = tf.get_default_graph()
-    g.get_operations()
-    #-----------------------------------------------------------------
-    # []
-    #-----------------------------------------------------------------
-    a = tf.get_variable('a', 1)
-    g.get_operations()
-    #-----------------------------------------------------------------
-    # [<tf.Operation 'a/Initializer/random_uniform/shape' type=Const>,
-    #  <tf.Operation 'a/Initializer/random_uniform/min' type=Const>,
-    #  <tf.Operation 'a/Initializer/random_uniform/max' type=Const>,
-    #  <tf.Operation 'a/Initializer/random_uniform/RandomUniform' type=RandomUniform>,
-    #  <tf.Operation 'a/Initializer/random_uniform/sub' type=Sub>,
-    #  <tf.Operation 'a/Initializer/random_uniform/mul' type=Mul>,
-    #  <tf.Operation 'a/Initializer/random_uniform' type=Add>,
-    #  <tf.Operation 'a' type=VariableV2>,
-    #  <tf.Operation 'a/Assign' type=Assign>,
-    #  <tf.Operation 'a/read' type=Identity>]
-    #-----------------------------------------------------------------
 
     c = tf.Variable(3.14)
 
