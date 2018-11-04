@@ -3726,18 +3726,15 @@ outputs = conv(inputs)
 # shape=(1, 7, 7, 32)
 #-------------------------------------------------------------------------------------------------------
 ```
-
 101. Operations
-    1. get_operations
+1. get_operations
     ```
     g = tf.get_default_graph()
     g.get_operations()
     #-----------------------------------------------------------------
     # []
     #-----------------------------------------------------------------
-
     a = tf.get_variable('a', 1)
-
     g.get_operations()
     #-----------------------------------------------------------------
     # [<tf.Operation 'a/Initializer/random_uniform/shape' type=Const>,
@@ -3771,7 +3768,7 @@ outputs = conv(inputs)
     #  <tf.Operation 'Variable/Assign' type=Assign>,
     #  <tf.Operation 'Variable/read' type=Identity>]
     #-----------------------------------------------------------------
-    ```    
+    ```
     2. get_operations的返回值Op的相关方法: 查看输入和输出
     ```
     add = a + b
@@ -3779,7 +3776,7 @@ outputs = conv(inputs)
     #-----------------------------------------------------------------
     # <tf.Operation 'add' type=Add>
     #-----------------------------------------------------------------
-    
+
     add_op = g.get_operations()[-1]
 
     add_op.inputs[:]
