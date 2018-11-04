@@ -844,3 +844,16 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
         info = pickle.load(f)
         print(info)
     ```
+
+
+## 24. Markdown
+1. 为什么我同样使用下面代码,有的时候可以用,有的时候不能用(比如GitHub上`2.ghi`会是灰色的)?  =>  因为我的abc序号可能超过100了,如果是101的话就不行了
+```
+1. abc
+    1. def
+    ```
+    ```
+    2. ghi
+    ```
+    ```
+```
