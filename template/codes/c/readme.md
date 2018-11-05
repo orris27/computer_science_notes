@@ -1383,7 +1383,7 @@ fflush(stdout);
 sleep(5);
 ```
 
-11. 生成随机数
+11. 生成随机数: `rand()`默认生成0~INT_MAX的数字
 ```
 srand(getpid());
 int a = rand() % 3;
