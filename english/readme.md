@@ -2563,6 +2563,7 @@ euphonious sound
 
 105. exterior: extend + or(太阳) => 伸出手抓住太阳,必须到外部去
 
+106. portraiture: portrait + picture= > 肖像画
 
 ### 1-21. language
 1. (adj)succinct: 三颗 + 绳子 => 有三个人,拿着各自的绳子,然后作为剑来互相攻击对方
@@ -3530,6 +3531,10 @@ The economy remains sluggish
     46. iron sulfide(硫化铁)
     
     47. tidbit: 踢 + bit => 将齐神新闻下的小bits给踢掉了~
+    
+    48. gauge: gay + 锯子 => gay使用体重计,结果发现变胖了,就拿起锯子砍了体重计
+    
+    
     
 3. adj
     1. overarching: 上面 + archer => archer要射箭了,逐渐archer往天空平移,然后archer用手放在弓箭上,射了出去
