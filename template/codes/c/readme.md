@@ -1891,6 +1891,8 @@ pthread_mutex_destroy(&mutex);
 1. 消费者等待条件变量
     1. 没有超时时间
     ```
+    pthread_cond_t cond;
+    
     pthread_mutex_lock(&mutex);
     /* while(仓库里没有产品) */
     while(total == 0)
