@@ -227,3 +227,19 @@ all:$(objs)
 clean:
 	rm -f $(objs) $(target)
 ```
+
+
+## 2. 连接时添加参数
+```
+.PHONY:clean all
+CC=gcc
+CFLAGS=-Wall -g
+BIN=mq
+all:$(BIN)
+$.o:%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+mq:mq.o
+	$(CC) $(CFLAGS) $^ -o $@ -lrt
+clean:
+	rm -f *.o $(BIN)
+```
