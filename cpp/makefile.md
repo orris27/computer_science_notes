@@ -152,7 +152,8 @@ target=main
 CC=gcc
 CPPFLAGS=-I
 $(target):$(objs)
-	$(CC) main.c add.c sub.c -o main -Wall -g
+
+$(CC) main.c add.c sub.c -o main -Wall -g
 %.o:%.c
 	$(CC) -c $< -o $@
 clean:
