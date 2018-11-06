@@ -3602,6 +3602,17 @@ The economy remains sluggish
 
 12. fortuitous: fortune(幸运) + ous(形容词) => 幸运的事情,根据信息熵,是偶然的 => 偶然的
 
+13. board of director(董事会)
+
+14. gross: grow + 蛇 => 蛇不断长大,然后吃掉了总共所有人
+
+15. equity: 一块钱 => 一块钱被普通人佐藤捡到了,交到了派出所
+
+16. balance out: 奥特曼 + 平衡 => 奥特曼保持平衡结果抵消了平衡的气场
+
+17. redeem: 热 + 电 => 手里放出热量,结果电流自己就跑过来了
+
+
 
 ## 2. multiple meanings
 1. ascend
@@ -3672,6 +3683,16 @@ The economy remains sluggish
 20. bold
     1. 黑体的
     2. 大胆的
+    
+    
+21. settlement
+    1. 结算
+    2. 定居
+
+22. efficiency
+    1. 效益(经济学)
+    2. 效率
+
 ## 3. expression 
 1. apartment complex
 2. police force
