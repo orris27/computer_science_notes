@@ -3592,6 +3592,16 @@ The economy remains sluggish
 
 7. satellite dish: 卫星 + dish => 有一个巨大的餐具飞向卫星,卫星开始不断接收它的位置绕着地球转...
 
+8. headway: head + way => 走路的时候头突然前进
+
+9. characteristic(典型的)
+
+10. have regard for(尊重)
+
+11. dip: deep => 不断下降,浸泡其中,深入
+
+12. fortuitous: fortune(幸运) + ous(形容词) => 幸运的事情,根据信息熵,是偶然的 => 偶然的
+
 
 ## 2. multiple meanings
 1. ascend
