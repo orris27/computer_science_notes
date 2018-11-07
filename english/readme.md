@@ -3626,7 +3626,7 @@ The economy remains sluggish
 18. segregation: 蛇 + great + 神 => 蛇突然变得很大,成神了,结果被人隔离起来,苦笑不得
 
 
-19. arbitrager: 2b + trigger(手枪) => 手枪发射2b铅笔,结果套住了东西
+19. arbitrager: 2b + trigger(手枪) => 手枪发射2b铅笔,结果套住了篱笆
 
 
 ## 2. multiple meanings
