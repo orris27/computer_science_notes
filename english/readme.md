@@ -3612,7 +3612,7 @@ The economy remains sluggish
 
 17. redeem: 热 + 电 => 手里放出热量,结果电流自己就跑过来了
 
-
+18. segregation: 蛇 + great + 神 => 蛇突然变得很大,成神了,结果被人隔离起来,苦笑不得
 
 ## 2. multiple meanings
 1. ascend
