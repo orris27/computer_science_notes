@@ -1828,6 +1828,17 @@ avant-garde concert music
     
     83. nourishment(营养品)
     
+    84. antelope: ant + 楼zh => ant在地上爬,变成楼,我摇铃铛,结果他就像羊一样过来了
+    
+    85. orangutan: orange + 坦克 => 一个orange,坦克把子弹发射出去,变成红毛猩猩,在那里亲嘴(红色的口红)
+    
+    86. marmot: 马 + 摸 => 马想要摸xx的xx,然后脱水变干旱,崩塌了
+    
+    87. beaver: bea + 蚊子 => 蜜蜂变成蚊子想要蛰我,我是水属性的,弄出大海,离我远点
+    
+    88. elk: ear + l => 列车驶来,就要撞上大耳朵,很多迷路了跑过来抵挡主了
+    
+    89. prairie dog(土拨鼠)
     
     
 3. adj
@@ -3613,6 +3624,10 @@ The economy remains sluggish
 17. redeem: 热 + 电 => 手里放出热量,结果电流自己就跑过来了
 
 18. segregation: 蛇 + great + 神 => 蛇突然变得很大,成神了,结果被人隔离起来,苦笑不得
+
+
+
+
 
 ## 2. multiple meanings
 1. ascend
