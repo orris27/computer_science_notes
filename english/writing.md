@@ -68,7 +68,7 @@
     + 序数词, children can acquire a wide range of knowledge beyond textbooks **during field trips**
 
 
-4. recharge batteries and get refreshed and energetic
+4. recharge batteries and get refreshed and energetic / feel overwhelmed if xxx
     1. 联想
     + 正面
         + reduce stress
@@ -94,6 +94,24 @@
     For instance, my friend used to study at classroom to prepare for physical exam for a long time without participating in recreational activities. Because of the lack of the exercise, he felt sick on the day of the exam, and thus failed to earn high score. However, if he took a break from normal routines and went on field trips to have a relax, he was bound to achieve high academic performance in the physical exams.
     ```
 
+5. follow one's interests
+    1. 联想: arouse one's interests, lack the motivation to, be willing to, devote much time and energy to, do sth. of his own free will, boost motivation
+    
+6. encourage students' independence
+    1. 联想: the ability of reading independently, do sth. of their own free will, take the initiative to do, overly rely on teachers, passive learners
+
+7. teachers can choose books suited to students' levels and needs
+    1. 联想: teachers are professional and experienced, confident, improve learning effectiveness, books that are inappropriate for them to read, cannot understand the contents
+
+8. cooperation: think from different perspectives / develop team spirit
+    1. 联想: provide a reading list, exchange ideas, develop an in-depth reading material, brainstorm with each other, think from different perspectives, discuss with each other, develop team spirit, cooperate, be distracted by social media or computer games, everyone has his or her own strengths and weaknesses, share, socialize with people from diverse backgrounds
+
+9. develop an in-depth understanding of knowledge (和`acquire a wide range of knowledge beyond textbooks`比较,横纵)
+    1. 联想: be distracted by other courses, devote much time and energy, consolidate knowledge, achieve higher academic performance
+
+
+
+
 
 ### 联想
 1. go on a trip
@@ -118,19 +136,21 @@
 9. have a positive impact on <=> benefit, have a negative impact on
 10. 接触: be isolated from, have direct contact with, have access to
 11. 凭自己意愿做这件事: do sth of one's own free will, take the initiative to do sth
-12. 兴趣: follow one's interests, arouse one's interest in sth, 
+12. 兴趣: follow one's interests, arouse one's interest in sth, boost motivation
 13. 被迫做某事: be forced to
 14. 习惯: form a long-term habit
+15. 适合: books suited to sb, books that are inappropriate for students to read
+
 
 ### education
-1. 获得更多知识: acquire/ gain a wide range of knowledge beyond textbooks, have access to knowledge 
+1. 获得更多知识: acquire/ gain a wide range of knowledge beyond textbooks, have access to knowledge, develop an in-depth understanding of the reading material, consolidate knowledge
 2. 理论知识: theoretical knowledge, academic knowledge
 3. 实践知识: practical knowledge
 4. 应用知识: apply theory to practice
 5. 扩展视野: broaden one's horizons, expand knowledge
 6. 有实践经验: have hands-on experience
 7. 提高技能: improve/ enhance/ cultivate/ develop skills, improve comprehensive knowledge and skills
-8. 独立xx的能力: the ability to think/ work/ solve problems independently
+8. 独立: the ability to think/ work/ solve problems independently, encourage students' independence
 9. 交际能力: interpersonal/ social/ communication skills
 10. 时间管理: time management skills, balance work/ study and life
 11. 责任感: a sense of responsibility
@@ -141,13 +161,13 @@
 16. 社团: volunteer work, clubs, student organizations, sports teams => develop team spirit, cooperate, team management skills
 17. 老师布置的阅读: provide a reading list
 18. 被动学习: passive learners, overly rely on teachers
-
-
-
-
-
-
-
+19. 专业,有经验的: professional, experienced
+20. 提高学习效率: improve learning effectiveness
+21. 头脑风暴: exchange ideas, brainstorm with each other, think from different perspectives, discuss with each other
+22. 提问题: raise questions
+23. 分散: be distracted by social media or computer games
+24. 合作: everyone has his or her own strengths and weaknesses
+25. 课程: required courses = compulsory courses ~ selective courses = optional courses, 
 
 
 ### life
@@ -157,7 +177,7 @@
 4. 绿色生活: plant trees and flowers
 5. 友好相处: maintain a close bond with neighbors
 6. 志愿服务: do community service, participate in volunteer work
-
+7. 认识其他同学: socialize with people from diverse backgrounds
 
 
 ### 压力, 健康
