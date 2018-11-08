@@ -109,6 +109,8 @@
 9. develop an in-depth understanding of knowledge (和`acquire a wide range of knowledge beyond textbooks`比较,横纵)
     1. 联想: be distracted by other courses, devote much time and energy, consolidate knowledge, achieve higher academic performance
 
+10. financial: increase the financial burden of the university
+    1. 联想: build more labs and purchase more equipment, hire more professors, the expenditure will increase, the school budget is not unlimited, may cause deficit, impractical / infeasible
 
 
 
@@ -140,7 +142,7 @@
 13. 被迫做某事: be forced to
 14. 习惯: form a long-term habit
 15. 适合: books suited to sb, books that are inappropriate for students to read
-
+16. 不可能: infeasible, impractical
 
 ### education
 1. 获得更多知识: acquire/ gain a wide range of knowledge beyond textbooks, have access to knowledge, develop an in-depth understanding of the reading material, consolidate knowledge
@@ -168,7 +170,9 @@
 23. 分散: be distracted by social media or computer games
 24. 合作: everyone has his or her own strengths and weaknesses
 25. 课程: required courses = compulsory courses ~ selective courses = optional courses, 
-
+26. 雇佣: hire more professors
+27. 设备: purchase more equipment and build more labs
+28. 费用: the expenditure will increase dramatically, the school budget is not unlimited, may cause deficit
 
 ### life
 1. 求职: in search of jobs or educational opportunities
@@ -209,7 +213,6 @@
 ### work
 1. waiter: how to introduce food to customers and handle complaints
 2. 教师: how to use appropriate teaching methods to arouse students' interest
-3.
 
 
 ### extra
