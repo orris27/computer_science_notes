@@ -3680,7 +3680,43 @@ The economy remains sluggish
 
 20. and so forth(以此类推)
 
+21. cane: can + e => 罐头里一条咸鱼突然亮出了眼睛,然后眼睛的视线变成了手杖
 
+22. permian: 泡面 => 泡面用一张纸隔离,形成2个泡面
+
+23. profusely: 盒子 + 服饰 => 盒子里有很多服饰,saber穿了很丰富的衣服
+
+24. proliferate: 盒子 + 篱笆 + 飞 + rat => 盒子从5舍下来撞到了篱笆,然后篱笆飞了起来,插到了老鼠的臀部,然后老鼠使用了分身术激增
+
+25. hog: 猴哥 => 濑户的花嫁里的猴哥被人踢了肚子,整个人拱了起来
+
+26. canal: kernel => 地核到地面有运河
+
+27. extraterrestrial: extra + terrestrial => 地球外的
+
+28. unprecedented: 按钮 + process + 灯 => 按钮按了下去,然后灯要被下面的绞刑机器给处理了,然后灯直接爆破了前面的装置
+
+29. translocate: change + locate => 改变位置
+
+30. pave: pei姐 + 蚊子 => 蚊子停在了pei姐的xi上,然后叮了一下后就流出了瀑布
+
+31. mascon: mass + concentration => 质量集中
+
+32. lump: 小兰 + 精灵球 => 小兰用精灵球砸新一,结果新一的头上出现了大包
+
+33. anomaly: apple + 大脑 + 篱笆 => 吃了苹果后发现大脑被控制,濑户的花嫁里的男主就跨越篱笆很异常地走了出去
+
+34. swell: 蛇 + well => 蛇被说了好话就整个人都膨胀了
+
+35. sugar cane: sugar + 手杖 => 甘蔗
+
+36. intimately: 阴地 + mate => 在阴地里mate,私底下的
+
+37. oversight: over + sight => "日常"里的老师用眼光的时候,死了,然后大家都很照管她
+
+38. viable: 外星人 + ball => 外星人鼓起勇气去踢球,并发现这是可行的
+
+39. seedling: hatchling也是ling => 刚从seed出来的新生命 => 幼苗
 
 
 ## 2. multiple meanings
