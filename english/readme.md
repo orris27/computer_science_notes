@@ -3528,7 +3528,14 @@ The economy remains sluggish
 
 ### 1-28. listening
 1. radioactivate decay
-
+2. an asteroid
+3. tree root
+4. radiate
+5. peninsula
+6. mass extinction
+7. continent
+8. just short for
+9. slam into
 
 ### 1-29. extra
 1. verb
@@ -3670,6 +3677,10 @@ The economy remains sluggish
 
 
 19. arbitrager: 2b + trigger(手枪) => 手枪发射2b铅笔,结果套住了篱笆
+
+20. and so forth(以此类推)
+
+
 
 
 ## 2. multiple meanings
