@@ -3719,6 +3719,9 @@ The economy remains sluggish
 39. seedling: hatchling也是ling => 刚从seed出来的新生命 => 幼苗
 
 
+40. just to be on the safe side: 安全起见, ...
+
+
 ## 2. multiple meanings
 1. ascend
     1. 上溯
