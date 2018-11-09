@@ -35,7 +35,7 @@
 
 5. Universities should spend more money supporting social activities rather than improving canteen food
 
-
+6. Some people think it is the best approach for students to learn if schools start the day at an early time in the morning. But someone think schools should start the day at late time. Which do you prefer?
 
 ### 理由
 1. migrate frequently
@@ -112,7 +112,11 @@
 10. financial: increase the financial burden of the university
     1. 联想: build more labs and purchase more equipment, hire more professors, the expenditure will increase, the school budget is not unlimited, may cause deficit, impractical / infeasible
 
-
+11. stay awake and focus in class
+    1. 联想: go to bed early and wake up early, form a good living habit and sustain a stable biological clock, improve learning effectiveness
+    
+12. have more time to consolidate knowledge after class
+    1. 联想: review and complete assignments, raise questions, finish school work early
 
 
 ### 联想
@@ -140,7 +144,7 @@
 11. 凭自己意愿做这件事: do sth of one's own free will, take the initiative to do sth
 12. 兴趣: follow one's interests, arouse one's interest in sth, boost motivation
 13. 被迫做某事: be forced to
-14. 习惯: form a long-term habit
+14. 习惯: form a long-term habit, form a good living habit and sustain a stable biological clock 
 15. 适合: books suited to sb, books that are inappropriate for students to read
 16. 不可能: infeasible, impractical
 
@@ -173,6 +177,9 @@
 26. 雇佣: hire more professors
 27. 设备: purchase more equipment and build more labs
 28. 费用: the expenditure will increase dramatically, the school budget is not unlimited, may cause deficit
+29. 上课: stay focus in class, fall asleep in class
+
+
 
 ### life
 1. 求职: in search of jobs or educational opportunities
