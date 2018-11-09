@@ -169,7 +169,7 @@
 22. 提问题: raise questions
 23. 分散: be distracted by social media or computer games
 24. 合作: everyone has his or her own strengths and weaknesses
-25. 课程: required courses = compulsory courses ~ selective courses = optional courses, 
+25. 课程: required courses = compulsory courses ~ selective courses = optional courses, set the courses as selective courses
 26. 雇佣: hire more professors
 27. 设备: purchase more equipment and build more labs
 28. 费用: the expenditure will increase dramatically, the school budget is not unlimited, may cause deficit
@@ -213,7 +213,7 @@
 ### work
 1. waiter: how to introduce food to customers and handle complaints
 2. 教师: how to use appropriate teaching methods to arouse students' interest
-
+3. 有竞争力: have a competitive edge in the job market and have better career prospects
 
 ### extra
 1. **Of those bits**, **7 are** for data and **1 is** for control. 
