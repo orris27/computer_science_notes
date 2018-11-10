@@ -135,7 +135,23 @@
 
 
 18. citizens have better environmental awareness and are more willing to protect the environment
-    > 
+    1. schools put more emphasis on the education of environmental protection in additional to academic subjects, deliver lectures and watch documentaries, become more ecologically-minded
+    2. examples
+        1. public transportation
+        2. waste
+        3. throw-away products
+        4. trees
+        5. plastic bags
+        6. organic food
+
+
+19. the government imposes stricter supervision on environmental protection
+    1. pass / introduce laws and policies, punish the illegal behaviours that pose a threat to the environment
+    2. examples
+        1. restrict the us of plastic bags among people
+        2. in the past, economic development was the top priority of the government to improve citizens' standards of living
+        3. punish factories that produce excessive exhaust fumes or waste water
+
 
 
 
@@ -154,15 +170,15 @@
 
 ## 万能词组
 ### 虚词
-1. tend to 
-2. devote much time or energy to doing 
+1. 倾向于: tend to 
+2. 贡献: devote much time or energy to doing, contribute money to 
 3. 喜好: get tired of, lack the motivation to do, be reluctant to do, be passinate about sth., be willing to do
 4. 频率: all the time, once or twice a month
-5. contribute money to 
-6. with the significant advances in economy and transportation
-7. it is common for people to
-8. a large number of assignments
-9. have a positive impact on <=> benefit, have a negative impact on
+5. 有能力做某事: be more capable of doing
+6. 伴随着: with the significant advances in economy and transportation
+7. 某某是很常见的: it is common for people to
+8. 大量: a large number of assignments
+9. 影响: have a positive impact on <=> benefit, have a negative impact on
 10. 接触: be isolated from, have direct contact with, have access to
 11. 凭自己意愿做这件事: do sth of one's own free will, take the initiative to do sth
 12. 兴趣: follow one's interests, arouse one's interest in sth, boost motivation
@@ -173,6 +189,10 @@
 17. 担心: worry about doing sth
 18. 有空闲做某事: have more leisure time to do what they like after work
 19. 今昔: now = nowadays = today, people today, in the past = before
+20. 威胁: pose a great threat to the environment
+21. 优先做某事: economic development was the top priority of the government to improve citizens' standards of living
+
+
 
 
 
@@ -264,11 +284,16 @@
 ### environment
 1. 保护环境: protect environment = preserve environment, environmental protection, ecosystem, maintain ecological balance
 2. 污染环境: contamination, environmental pollution
-3. 可持续的发展: sustainable development
+3. 可持续的发展: pay more attention to sustainable development
 4. 技术: have advanced technology
-5. 政府: the government has invested large sums of money in environmental technology, 
+5. 政府: the government has invested large sums of money in environmental technology, pass / introduce laws and policies, punish illegal behaviors that pose a great threat to the environment, strike a balance between economic development and environmental protection, in the past, economic development was the top priortiy of the government to improve citizens' standards of living
 6. 新能源: develop clean, renewable energy from solar, wind and water power as alternatives for fossil fuels, such as coal, oil and gas
 7. 新技术: eletric cars, improve recycling technology, convert waste into new materials, an increasing number of inventions and innovations have emerged
+8. 教育: schools put more emphasis on the education of environmental protection in addition to academic subjects, 
+9. 具体措施
+    1. citizens: plant more trees, use public transportation rather than driving, separate and recycle waste, buy organic food to reduce the use of chemical pesticides and fertilizers, use fewer throw-away products and plastic bags
+    2. government: punish factories that produce excessive exhaust fumes or waste water, restrict the use of plastic bags among the public
+10. awareness: deliver lectures and watch documentaries, become more ecologically-minded
 
 
 ### extra
