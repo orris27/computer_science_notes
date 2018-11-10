@@ -191,7 +191,7 @@
 19. 今昔: now = nowadays = today, people today, in the past = before
 20. 威胁: pose a great threat to the environment
 21. 优先做某事: economic development was the top priority of the government to improve citizens' standards of living
-
+22. 监管: impose stricter supervision on 
 
 
 
