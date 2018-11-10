@@ -37,6 +37,11 @@
 
 6. Some people think it is the best approach for students to learn if schools start the day at an early time in the morning. But someone think schools should start the day at late time. Which do you prefer?
 
+
+7. Having a low-paying but secure job is better than having a high-paying job that can be lost easily.
+
+
+
 ### 理由
 1. migrate frequently
     1. 联想
@@ -56,67 +61,85 @@
 2. too busy
 
 3. acquire a wide range of knowledge
-    1. 联想
-    + have hands-on experience
-    + broaden one's horizons
-    + develop skills
-    + have direct contact with the outside world, have direct contact with nature
-    + improve comprehensive skills and knowledge
-    + 
-    
-    2. 范文
-    + 序数词, children can acquire a wide range of knowledge beyond textbooks **during field trips**
+    > have hands-on experience, broaden one's horizons, develop skills, have direct contact with the outside world, have direct contact with nature, improve comprehensive skills and knowledge
 
 
-4. recharge batteries and get refreshed and energetic / feel overwhelmed if xxx
-    1. 联想
-    + 正面
-        + reduce stress
-        + enhance health,i mprove physical fitness, maintain health
-        + balance study and life
-        + prepare for exams in order to achieve high academic perfomance and earn high socres
-        + feel refreshed
-        + take a break from normal routines/ the busy city life
-        + have a positive compact on mental and physical health
-        + go outside the classroom
-    + 反面
-        + lack the motivation to
-        + be tired of
-        + suffer from intense pressure
-        + have to complete a large number of assignments
+4. recharge batteries and get refreshed and energetic / feel overwhelmed / feel less overwhelmed
+    > reduce stress, enhance health,i mprove physical fitness, maintain health, balance study and life, prepare for exams in order to achieve high academic perfomance and earn high socres, feel refreshed, take a break from normal routines/ the busy city life, have a positive compact on mental and physical health, go outside the classroom, lack the motivation to, be tired of, suffer from intense pressure, have to complete a large number of assignments, have more leisure time to do what they like after work
 
-    2. 范文
-    
-    3. 我自己写的..
-    ```
-    Secondly, field trips enable students to recharge their batteries. 
-    It is known to all that students have to complete a large number of assignments and thus suffer from intense pressure. Since it is common for students to be confronted with academic pressure, providing them with the opportunities of direct access to the outside world has a positive impact on their study. 
-    For instance, my friend used to study at classroom to prepare for physical exam for a long time without participating in recreational activities. Because of the lack of the exercise, he felt sick on the day of the exam, and thus failed to earn high score. However, if he took a break from normal routines and went on field trips to have a relax, he was bound to achieve high academic performance in the physical exams.
-    ```
+
 
 5. follow one's interests
-    1. 联想: arouse one's interests, lack the motivation to, be willing to, devote much time and energy to, do sth. of his own free will, boost motivation
-    
+    > arouse one's interests, lack the motivation to, be willing to, devote much time and energy to, do sth. of his own free will, boost motivation
+
+
+
+
 6. encourage students' independence
-    1. 联想: the ability of reading independently, do sth. of their own free will, take the initiative to do, overly rely on teachers, passive learners
+    > the ability of reading independently, do sth. of their own free will, take the initiative to do, overly rely on teachers, passive learners
+
+
 
 7. teachers can choose books suited to students' levels and needs
-    1. 联想: teachers are professional and experienced, confident, improve learning effectiveness, books that are inappropriate for them to read, cannot understand the contents
+    > teachers are professional and experienced, confident, improve learning effectiveness, books that are inappropriate for them to read, cannot understand the contents
+
+
 
 8. cooperation: think from different perspectives / develop team spirit
-    1. 联想: provide a reading list, exchange ideas, develop an in-depth reading material, brainstorm with each other, think from different perspectives, discuss with each other, develop team spirit, cooperate, be distracted by social media or computer games, everyone has his or her own strengths and weaknesses, share, socialize with people from diverse backgrounds
+    > provide a reading list, exchange ideas, develop an in-depth reading material, brainstorm with each other, think from different perspectives, discuss with each other, develop team spirit, cooperate, be distracted by social media or computer games, everyone has his or her own strengths and weaknesses, share, socialize with people from diverse backgrounds
+
+
+
 
 9. develop an in-depth understanding of knowledge (和`acquire a wide range of knowledge beyond textbooks`比较,横纵)
-    1. 联想: be distracted by other courses, devote much time and energy, consolidate knowledge, achieve higher academic performance
+    > be distracted by other courses, devote much time and energy, consolidate knowledge, achieve higher academic performance
+
+
 
 10. financial: increase the financial burden of the university
-    1. 联想: build more labs and purchase more equipment, hire more professors, the expenditure will increase, the school budget is not unlimited, may cause deficit, impractical / infeasible
+    > build more labs and purchase more equipment, hire more professors, the expenditure will increase, the school budget is not unlimited, may cause deficit, impractical / infeasible
+
+
 
 11. stay awake and focus in class
-    1. 联想: go to bed early and wake up early, form a good living habit and sustain a stable biological clock, improve learning effectiveness
-    
+    > go to bed early and wake up early, form a good living habit and sustain a stable biological clock, improve learning effectiveness
+
+
+
 12. have more time to consolidate knowledge after class
-    1. 联想: review and complete assignments, raise questions, finish school work early
+    > review and complete assignments, raise questions, finish school work early
+
+
+
+13. taking a permanent job brings a sense of security
+    > do not need to worry about losing the job, have a regular income, a permanent job, maka a living, cover daily expenses, support their family, have a small chance of being unemployed, face fierce competition
+
+
+14. workers are likely to have quality time with their family members if they have a low-paying job
+    > work overtime, stay up late, do some simple and repetitive work, make a living & support their family & cover daily expnses, accompany their families 
+
+
+
+15. improve their quality of life / living conditions / standards of living
+    > satisfy material demands, living & support & expenses, reduce financial burden, purchase cars and apartments, travel around the world
+
+
+16. have a sense of achievement if they take a challenging job 
+    > keep pace with changing business and absorb new knowledge, update knowledge and skills, do some simple and repetitive work, make progress, push people beyong their comfort zones, be passionate about their jobs
+
+
+
+17. people have advanced technology to preserve the environment
+    > protect the environment, preserve the environment, environmental protection, electric cars, the government has invested large sums of money in environmental technology, an increasing number of inventions and innovations have emerged, develop a clean, renewable energy from solar, wind and water power as alternatives for fossil fuels, such as coal, oil and gas, reduce air pollution, improve recycling technology, convert waste into new materials
+
+
+
+18. citizens have better environmental awareness and are more willing to protect the environment
+    > 
+
+
+
+
 
 
 ### 联想
@@ -146,10 +169,15 @@
 13. 被迫做某事: be forced to
 14. 习惯: form a long-term habit, form a good living habit and sustain a stable biological clock 
 15. 适合: books suited to sb, books that are inappropriate for students to read
-16. 不可能: infeasible, impractical
+16. 可能性: have a small change of doing sth, infeasible, impractical, be likely to do sth, be less likely to do sth
+17. 担心: worry about doing sth
+18. 有空闲做某事: have more leisure time to do what they like after work
+19. 今昔: now = nowadays = today, people today, in the past = before
+
+
 
 ### education
-1. 获得更多知识: acquire/ gain a wide range of knowledge beyond textbooks, have access to knowledge, develop an in-depth understanding of the reading material, consolidate knowledge
+1. 获得更多知识: acquire/ gain a wide range of knowledge beyond textbooks, have access to knowledge, develop an in-depth understanding of the reading material, consolidate knowledge, update their knowledge and skills, absorb new knowledge, keep pace with the changing business world
 2. 理论知识: theoretical knowledge, academic knowledge
 3. 实践知识: practical knowledge
 4. 应用知识: apply theory to practice
@@ -188,7 +216,9 @@
 4. 绿色生活: plant trees and flowers
 5. 友好相处: maintain a close bond with neighbors
 6. 志愿服务: do community service, participate in volunteer work
-7. 认识其他同学: socialize with people from diverse backgrounds
+7. 认识其他同学: socialize with people from diverse backgrounds, contact old friends with cellphone, email and social medias
+
+
 
 
 ### 压力, 健康
@@ -201,7 +231,7 @@
 7. 准备考试: prepare for exams
 8. 取得好成绩: achieve high academic performance, earn high scores
 9. 加班: work overtime and stay up late 
-10. 维持生计: make a living and support their family 
+10. 维持生计: make a living, support their family, cover daily expenses
 11. 忙: have a tight schedule
 12. 减轻/缓解空气污染/交通堵塞: reduce air pollution / traffic congestion
 13. 放松: recharge one's batteries, feel refreshed and energetic, help sb. relax, take a break from normal routines/ from the busy city life, ~~relax oneself~~
@@ -213,6 +243,9 @@
 19. 走出教室: go outside the classroom
 20. 去郊游: go camping
 21. 解决烦恼: handle complaints
+22. 陪伴家人: have quality time with family members, accompany their families
+
+
 
 ### economy
 1. higher cost of living
@@ -221,6 +254,22 @@
 1. waiter: how to introduce food to customers and handle complaints
 2. 教师: how to use appropriate teaching methods to arouse students' interest
 3. 有竞争力: have a competitive edge in the job market and have better career prospects
+5. 工作性质: low-paying = low salary / ncome ~ high-paying = a well-paid / decent / lucrative job, job reward, have a regular income, have a challenging job
+6. 具体工作: cleaners, waiters, bus drivers, teachers, civil servants, cashiers
+7. 失去工作: lose the job
+8. 有钱: purchase cars and apartments, reduce financial burden, increase financial burden, satisfy material demands
+9. 走出舒适区: push people beyond their comfort zones
+10. 进步: make progress 
+
+### environment
+1. 保护环境: protect environment = preserve environment, environmental protection, ecosystem, maintain ecological balance
+2. 污染环境: contamination, environmental pollution
+3. 可持续的发展: sustainable development
+4. 技术: have advanced technology
+5. 政府: the government has invested large sums of money in environmental technology, 
+6. 新能源: develop clean, renewable energy from solar, wind and water power as alternatives for fossil fuels, such as coal, oil and gas
+7. 新技术: eletric cars, improve recycling technology, convert waste into new materials, an increasing number of inventions and innovations have emerged
+
 
 ### extra
 1. **Of those bits**, **7 are** for data and **1 is** for control. 
@@ -332,3 +381,11 @@ It is true that <反方观点可能有道理>. However, <简单地总结前2个e
 ## problems
 1. 没有时间做某事
 2. 不需要深入研究
+
+
+
+## 范例
+4. recharge batteries and get refreshed and energetic / feel overwhelmed / feel less overwhelmed
+    > Secondly, field trips enable students to recharge their batteries. 
+    > It is known to all that students have to complete a large number of assignments and thus suffer from intense pressure. Since it is common for students to be confronted with academic pressure, providing them with the opportunities of direct access to the outside world has a positive impact on their study. 
+    > For instance, my friend used to study at classroom to prepare for physical exam for a long time without participating in recreational activities. Because of the lack of the exercise, he felt sick on the day of the exam, and thus failed to earn high score. However, if he took a break from normal routines and went on field trips to have a relax, he was bound to achieve high academic performance in the physical exams.
