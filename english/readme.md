@@ -3718,8 +3718,47 @@ The economy remains sluggish
 
 39. seedling: hatchling也是ling => 刚从seed出来的新生命 => 幼苗
 
-
 40. just to be on the safe side: 安全起见, ...
+
+
+41. averse: 鹅 + 蚊子 => 鹅身上有很多蚊子,鹅很不愿意的样子
+
+42. poise: iphone + pose => 手顶着iphone,保持着姿势
+
+43. anecdote: ant + code => 蚂蚁在我电脑里的代码上往上爬,仔细一看,在1上面爬
+
+44. eminent: army + 门 => 军队来到门的前面,一个杰出的人出来打开大门
+
+45. biography: 百岁山 + graph => 百岁山滴在graph上,出现了saber(自传)
+
+46. lucrative: 路 + create => saber在路上创造出红钞票,结果很高兴
+
+47. civil servant: 文明 + 仆人 => 文明的仆人 => 公务员
+
+48. herd: her + d => saber拿着勺子,然后将里面一群颗粒喝了进去,很好吃
+
+49. supplant: 手 + plant => 手放在树根旁边,然后树就代替花朵开出了手的花朵
+
+50. scrap: school + rap(比大叔) => 比大叔在学校里唱rap,结果八尾掉了很多碎片
+
+51. extensive: extend + sive(adj) => 不断延伸 => 广泛的
+
+52. ponder: 胖的 => 思考者的肚子变胖了
+
+53. granary: grain + 哪里 => 谷物在哪里,只能在谷仓里
+
+54. head start => 带头冲锋 => 抢先
+
+55. proximate: approximate(近似) => 近似的
+
+56. tame: tamen => tamen被驯服了
+
+57. niche: 泥巴 + 弯曲 => 泥巴突然弯曲,抖一下就出来了黄金 => 有利可图的市场呢
+
+58. unwind: un + wind => 没有风了,他给文艺少女一件外套穿了
+
+
+
 
 
 ## 2. multiple meanings
