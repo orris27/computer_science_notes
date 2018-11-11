@@ -3755,7 +3755,7 @@ The economy remains sluggish
 
 57. niche: 泥巴 + 弯曲 => 泥巴突然弯曲,抖一下就出来了黄金 => 有利可图的市场呢
 
-58. unwind: un + wind => 没有风了,他给文艺少女一件外套穿了
+58. unwind: un + wind => 没有风了,他解开外套,给文艺少女一件外套穿了
 
 
 
