@@ -423,3 +423,26 @@ sudo ./vmware-install.pl
 /usr/include/linux/
 ####################################################
 ```
+
+## 8. VMware Tools
+1. 先进入操作系统比如Ubuntu桌面版本
+
+2. 点击虚拟机>安装VMware Tools
+3. Ubuntu桌面版的话会有提示, 然后我最终进入的是`/media/orris/VMware Tools`
+
+4. 拷贝这个文件夹到`~/`里
+```
+cp -r VMware\ Tools/ ~/
+```
+5. 解压
+```
+sudo tar -zxvf VMwareTools-10.3.2-9925305.tar.gz
+```
+6. 运行
+```
+cd vmware-tools-distrib/
+sudo ./vmware-install.pl
+```
+7. 疯狂enter,疯狂yes
+
+8. 看到`enjoy, VMware Team`后就可以重启了
