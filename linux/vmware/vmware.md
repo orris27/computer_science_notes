@@ -368,21 +368,39 @@ iface ens33 inet static
 address 192.168.56.5
 netmask 255.255.255.0
 gateway 192.168.56.2
+dns-nameservers 10.10.0.21
 ######################################################
 ```
 3. 重启网络
 ```
 systemctl restart networking
 ```
-3. 修改DNS
+3. 修改DNS(下面的东西应该不需要,之前没有直接在interfaces里面设置DNS.注意Ubuntu的resolv.conf是自动生成的,所以修改没有意义)
 ```
+
 sudo vi /etc/resolv.conf
 ######################################################
 nameserver 10.10.0.21
 nameserver 127.0.0.53
 ######################################################
 
+sudo apt-get update
+sudo apt install openresolv
+sudo apt install resolvconf
+
+
+sudo mkdir /etc/resolvconf/resolv.conf.d
+sudo vi /etc/resolvconf/resolv.conf.d/base
+######################################################
+nameserver 10.10.0.21
+######################################################
+resolvconf -u
 ```
+4. 安装net-tools
+```
+sudo apt install net-tools
+```
+
 
 
 ### 5-3 常见问题
