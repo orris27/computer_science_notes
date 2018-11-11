@@ -3058,7 +3058,7 @@ a filthy old jacket
 contemn God
 ```
 
-9. (v)belittle: 笔 + little => 笔逐渐变小,看的我的眼珠子也逐渐变小
+9. (v)belittle: 笔 + little => 笔逐渐变小,要戳我的眼睛,但我的眼珠子也逐渐变小,所以就戳到了其他地方
 ```
 belittle her achievement
 ```
