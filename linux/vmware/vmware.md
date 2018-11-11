@@ -354,8 +354,38 @@ NAME=ens33
         NAME=eth0
         ```
 
+### 5-2. 配置情况(Ubuntu)
+1. 确认版本: 18.04版本
+2. 修改网卡
+```
+sudo vi /etc/network/interfaces
+######################################################
+auto lo
+#iface lo inet loopback
 
-### 5-2. 常见问题
+auto ens33
+iface ens33 inet static
+address 192.168.56.5
+netmask 255.255.255.0
+gateway 192.168.56.2
+######################################################
+```
+3. 重启网络
+```
+systemctl restart networking
+```
+3. 修改DNS
+```
+sudo vi /etc/resolv.conf
+######################################################
+nameserver 10.10.0.21
+nameserver 127.0.0.53
+######################################################
+
+```
+
+
+### 5-3 常见问题
 1. 虚拟机ping不通`192.168.56.1`和`192.168.56.2`
     1. 金山毒霸这些软件有开机加速,如果他们屏蔽了VMware Workstation的话,那么就会导致这个问题.所以解决方法就是允许VMware Workstation开机启动
 
