@@ -163,6 +163,23 @@
     1. argument: professional knowledge and skills => damage => (keep them in the original order might be a better chance => enjoy historical heritage and learn about history and culture)
     2. examples: govenment => repaint a historical building => complain & disappointed
 
+
+22. the restoration of historical buildings and streets can create a better image of the city
+    1. argument: appearance => impress & feast their eyes on => willing to & recommend
+    2. examples: the Chinese government => the Great Wall / the Forbidden City
+
+23. a large number of policemen are likely to cause great panic among th public
+    1. argument: see many armed police officers => remind them of terrorism and crime => feel uncomfortable and anxious => cannot enjoy the tourist attractions => spoil their trips
+    2. examples: Paris after the terrorist explosion: increased the number of police officers - terrify the tourists
+
+24. feel exhaust(do exercise)
+
+25. boost metabolism and spirit
+    1. argument: take a break from normal routines and forget troubles, refreshed, ...
+    
+26. stare at the screen or book for a long time => cause eye strain
+
+
 ### 联想
 1. go on a trip
     + museum: culture, knowledge, history, custom and art
@@ -199,6 +216,9 @@
 22. 监管: impose stricter supervision on 
 23. 想出: think out
 24. 不断增长: a increasing number of
+25. 推荐: they might recommend their families and friends to come
+36. 使害怕: terrify the tourists
+
 
 
 ### education
@@ -259,7 +279,7 @@
 10. 维持生计: make a living, support their family, cover daily expenses
 11. 忙: have a tight schedule
 12. 减轻/缓解空气污染/交通堵塞: reduce air pollution / traffic congestion
-13. 放松: recharge one's batteries, feel refreshed and energetic, help sb. relax, take a break from normal routines/ from the busy city life, ~~relax oneself~~
+13. 放松: recharge one's batteries, feel refreshed and energetic, help sb. relax, take a break from normal routines/ from the busy city life and forget troubles, ~~relax oneself~~
 14. 休闲活动: recreational activities, leisure activities, social activities. (organize / participate in)
 15. 对身体和心理健康有利: have a positive compact on mental and physical health, improve physical fitness
 16. 保持健康: maintain health
@@ -269,15 +289,20 @@
 20. 去郊游: go camping
 21. 解决烦恼: handle complaints
 22. 陪伴家人: have quality time with family members, accompany their families
-
-
+23. 沉浸在异世界: temporarily excape from reality and be immerse in a new world
+24. 眼疲劳: stare at the screen or book for a long time, cause eye strain
+25. 锻炼: do physical exercise
+26. 促进新陈代谢: boost metabolism and spirit
 
 ### development
 1. higher cost of living
 2. 旅游业: boost tourism, attract tourists
 3. 治安: hire more police, maintain socail order, protect tourists, ensure social stability, terrorism has become a serious problem worldwide, terrorists, terrorist attacks, high crime rate, armed police officers can have a deterrent effect on criminals and terrorists, reduce panic
-4. 城市形象: improve appearance, create a better image, leave a better impression
-5. 古建筑: cause the loss of historical value, enjoy cultural heritage, old streets and buildings, historical sites, keep them in the original state
+4. 城市形象: improve appearance, create a better image, leave a better impression, impress tourists with restored buildings and streets, feast their eyes on the tourist attractions
+5. 古建筑: cause the loss of historical value, enjoy cultural heritage, old streets and buildings, historical sites, keep them in the original state, historical buildings and streets
+6. 引发恐慌: cause great panic
+7. 糟蹋旅途: spoil their trips
+
 
 
 ### work
@@ -312,6 +337,10 @@
 
 ### examples
 1. 政府: the government of my city
+2. 古建筑: the Chinese government, the repair of the Forbidden City and the Great Wall
+
+
+
 
 ### extra
 1. **Of those bits**, **7 are** for data and **1 is** for control. 
