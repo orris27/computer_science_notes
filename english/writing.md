@@ -40,9 +40,11 @@
 
 7. Having a low-paying but secure job is better than having a high-paying job that can be lost easily.
 
+8. It is important for the government to protect wild animals and wilderness areas for future generations.
 
 
-### 理由
+
+### 理由: A好B坏; A有2好
 1. migrate frequently
     1. 联想
     + with the significant advances of economy and transportation
@@ -153,10 +155,13 @@
         3. punish factories that produce excessive exhaust fumes or waste water
 
 
+20. hiring more police can protect tourists and maintain social order
+    1. argument: terrorisms, attacks, appearance, image, stability, armed + deterrent,  
+    2. examples: New York after 911: increase the number of police => still attract tourists all over the world
 
-
-
-
+21. repairing old buildings and streets can cause the loss of historical value
+    1. argument: professional knowledge and skills => damage => (keep them in the original order might be a better chance => enjoy historical heritage and learn about history and culture)
+    2. examples: govenment => repaint a historical building => complain & disappointed
 
 ### 联想
 1. go on a trip
@@ -174,11 +179,11 @@
 2. 贡献: devote much time or energy to doing, contribute money to 
 3. 喜好: get tired of, lack the motivation to do, be reluctant to do, be passinate about sth., be willing to do
 4. 频率: all the time, once or twice a month
-5. 有能力做某事: be more capable of doing
+5. 能力: be more capable of doing, lack sufficient professional knowledge and skills
 6. 伴随着: with the significant advances in economy and transportation
 7. 某某是很常见的: it is common for people to
 8. 大量: a large number of assignments
-9. 影响: have a positive impact on <=> benefit, have a negative impact on
+9. 影响: have a positive impact on <=> benefit, have a negative impact on, have a deterrent effect on, damage the historical sites, 
 10. 接触: be isolated from, have direct contact with, have access to
 11. 凭自己意愿做这件事: do sth of one's own free will, take the initiative to do sth
 12. 兴趣: follow one's interests, arouse one's interest in sth, boost motivation
@@ -192,7 +197,7 @@
 20. 威胁: pose a great threat to the environment
 21. 优先做某事: economic development was the top priority of the government to improve citizens' standards of living
 22. 监管: impose stricter supervision on 
-
+23. 相处: think out
 
 
 
@@ -267,8 +272,13 @@
 
 
 
-### economy
+### development
 1. higher cost of living
+2. 旅游业: boost tourism, attract tourists
+3. 治安: hire more police, maintain socail order, protect tourists, ensure social stability, terrorism has become a serious problem worldwide, terrorists, terrorist attacks, high crime rate, armed police officers can have a deterrent effect on criminals and terrorists, reduce panic
+4. 城市形象: improve appearance, create a better image, leave a better impression
+5. 古建筑: cause the loss of historical value, enjoy cultural heritage, old streets and buildings, historical sites, keep them in the original state
+
 
 ### work
 1. waiter: how to introduce food to customers and handle complaints
@@ -282,22 +292,31 @@
 10. 进步: make progress 
 
 ### environment
-1. 保护环境: protect environment = preserve environment, environmental protection, ecosystem, maintain ecological balance
+1. 保护环境: protect environment = preserve environment, environmental protection, ecosystem, maintain ecological balance, protect biodiversity
 2. 污染环境: contamination, environmental pollution
 3. 可持续的发展: pay more attention to sustainable development
 4. 技术: have advanced technology
 5. 政府: the government has invested large sums of money in environmental technology, pass / introduce laws and policies, punish illegal behaviors that pose a great threat to the environment, strike a balance between economic development and environmental protection, in the past, economic development was the top priortiy of the government to improve citizens' standards of living
 6. 新能源: develop clean, renewable energy from solar, wind and water power as alternatives for fossil fuels, such as coal, oil and gas
-7. 新技术: eletric cars, improve recycling technology, convert waste into new materials, an increasing number of inventions and innovations have emerged
+7. 新技术: eletric cars, improve recycling technology, convert waste into new materials, an increasing number of inventions and innovations have emerged, update technology and equipment
 8. 教育: schools put more emphasis on the education of environmental protection in addition to academic subjects, 
-9. 具体措施
+9. 具体措施:
     1. citizens: plant more trees, use public transportation rather than driving, separate and recycle waste, buy organic food to reduce the use of chemical pesticides and fertilizers, use fewer throw-away products and plastic bags
-    2. government: punish factories that produce excessive exhaust fumes or waste water, restrict the use of plastic bags among the public
+    2. government: punish factories that produce excessive exhaust fumes or waste water, restrict the use of plastic bags among the public, overhunting, destruct natural habitats, deforestation, pay higher taxes when they cause environmental damage and the taxes can be used by the governmnet to improve the environment
+    3. company: oil companies, wood companies, tourist companies, real estate, companies, airlines
 10. awareness: deliver lectures and watch documentaries, become more ecologically-minded
+11. 动物: wild animals = wildlife, pandas in China, Yellowstone National Park in the United States
+12. 保护区: wilderness areas, forests, wetlands, grasslands, animals' natural habitats, build protected areas
+13. 食物链: food chain 
 
+
+### examples
+1. 政府: the government of my city
 
 ### extra
 1. **Of those bits**, **7 are** for data and **1 is** for control. 
+
+
 
 ## 错别字
 1. museum
