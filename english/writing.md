@@ -197,8 +197,8 @@
 20. 威胁: pose a great threat to the environment
 21. 优先做某事: economic development was the top priority of the government to improve citizens' standards of living
 22. 监管: impose stricter supervision on 
-23. 相处: think out
-
+23. 想出: think out
+24. 不断增长: a increasing number of
 
 
 ### education
