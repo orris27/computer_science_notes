@@ -3786,6 +3786,7 @@ The economy remains sluggish
 
 72. bulb: 电灯泡 => 把电灯泡放到土壤里面,就变成了球形茎
 
+73. physiology: physics + 老酒 => 物理学的万有引力将老酒给吸引到地面上,里面的孩子生了出来,用眼睛劈开了老酒
 
 ## 2. multiple meanings
 1. ascend
