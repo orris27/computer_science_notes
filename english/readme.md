@@ -3758,7 +3758,33 @@ The economy remains sluggish
 58. unwind: un + wind => 没有风就马上下雪,他解开外套,给文艺少女一件外套穿了
 
 
+59. outrage: out + rage => 外漏的愤怒也是愤怒
 
+60. Persian: 波斯(谐音)
+
+61. hand over fist: 手 + 上面 + 拳头 => 把手放在拳头上面,不断形成大量的残影
+
+62. tonality: 头 + 哪里 => 头的眼睛被黑布给蒙蔽了,然后跳了起来,周围的音乐都吸引过来了,我笑了
+
+63. streak: street + k => 在大街上有一个人背着大桥在飞跑,然后留下了条纹
+
+64. skyrocket: 天空 + 火箭 => 火箭飞上了天空,可以理解为飞涨
+
+65. speculative bubble: 投机泡沫
+
+66. anechoic: an(反义词) + echo => 没有回声的
+
+67. shrivel: she + ray + 蚊子 => ray发出声音,然后蚊子就枯萎了下去
+
+68. headgear: 头 + gear => 伽百璃戴上了齿轮当做帽子
+
+69. showcase(展现)
+
+70. have a clue about(了解)
+
+71. splash: Spain + 蓄电池 => 西班牙有了蓄电池后,就开始使用水溅跃
+
+72. bulb: 电灯泡 => 把电灯泡放到土壤里面,就变成了球形茎
 
 
 ## 2. multiple meanings
@@ -3839,6 +3865,11 @@ The economy remains sluggish
 22. efficiency
     1. 效益(经济学)
     2. 效率
+
+23. chemical
+    1. 化学制品
+    2. 化学的
+    
 
 ## 3. expression 
 1. apartment complex
