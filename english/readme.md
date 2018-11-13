@@ -3788,6 +3788,43 @@ The economy remains sluggish
 
 73. physiology: physics + 老酒 => 物理学的万有引力将老酒给吸引到地面上,里面的孩子生了出来,用眼睛劈开了老酒
 
+
+
+
+74. ethanol: 艾斯 + nose => 艾斯的鼻子突然变长了,然后艾斯倒在了椅子上,椅子的春天来了
+
+75. confound: 康师傅 + 房子 => 在康师傅里放入小房子,结果发现小房子都沉在了康师傅的汤里,混乱地泡泡,然后冒出了小人的泡泡
+
+76. conceive: 康师傅 + sea => 康师傅舀起大海,然后喝下去,女主怀孕了
+
+77. conceivably: conceive + ball => 怀孕的女主将自己肚子前的球当做星星飞了上去
+
+78. metabolize: metabolism => 使新陈代谢
+
+79. geocentric: 脚 + center => 脚下就是中心 => 地球中心
+
+80. heliocentric: helium + center => helium拥有很多的地方是中心 => 太阳中心
+
+81. coalesce: 可乐 + s => 很多可乐合并成一个大可乐
+
+82. scandalize: scandal + ize(动词) => 丑闻使人震惊,害羞
+
+83. perceive: 坡 + sea => 坡上大海滚了下来,水月全部接受了
+
+84. recap: red + cap => 红细胞重新复述了之前学习的内容
+
+85. gobble: 狗 + ball => 狗开始狼吞虎咽这个保龄球,结果牙齿坏了
+
+86. metallic: metal + ic => 金属的
+
+87. clump: club + p => 对俱乐部门进行精灵球捕捉,结果很多精灵球出现各自捕捉一点内容
+
+88. protoplanet(原行星)
+
+89. shed: she + d => she拿着勺子,然后流下了口水,给家畜?
+
+90. ferment: fermentation => 发酵
+
 ## 2. multiple meanings
 1. ascend
     1. 上溯
