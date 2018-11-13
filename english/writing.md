@@ -42,7 +42,14 @@
 
 8. It is important for the government to protect wild animals and wilderness areas for future generations.
 
+9. It is more important for the government to spend money on art museums and concert halls than on recreational facilities such as swimming pools and playgrounds.
+    + Disagree
+    1. A好: battery
+    2. B坏: aesthetic sensitiviy, interested in 
 
+
+10. Primary schools should spend more time teaching young students (5-11 years old) technology (like computer) than teaching music and art.
+    1. 
 
 ### 理由: A好B坏; A有2好
 1. migrate frequently
@@ -67,8 +74,10 @@
 
 
 4. recharge batteries and get refreshed and energetic / feel overwhelmed / feel less overwhelmed
+    + boost metabolism and spirit
+    + feel overwhelmed
+    + feel less overwhelmed
     > reduce stress, enhance health,i mprove physical fitness, maintain health, balance study and life, prepare for exams in order to achieve high academic perfomance and earn high socres, feel refreshed, take a break from normal routines/ the busy city life, have a positive compact on mental and physical health, go outside the classroom, lack the motivation to, be tired of, suffer from intense pressure, have to complete a large number of assignments, have more leisure time to do what they like after work
-
 
 
 5. follow one's interests
@@ -174,8 +183,7 @@
 
 24. feel exhaust(do exercise)
 
-25. boost metabolism and spirit
-    1. argument: take a break from normal routines and forget troubles, refreshed, ...
+25. 无
     
 26. stare at the screen or book for a long time => cause eye strain
 
@@ -196,11 +204,11 @@
 2. 贡献: devote much time or energy to doing, contribute money to 
 3. 喜好: get tired of, lack the motivation to do, be reluctant to do, be passinate about sth., be willing to do
 4. 频率: all the time, once or twice a month
-5. 能力: be more capable of doing, lack sufficient professional knowledge and skills
+5. 能力: be more capable of doing, lack sufficient professional knowledge and skills, lack the ability to (control themselves)
 6. 伴随着: with the significant advances in economy and transportation
 7. 某某是很常见的: it is common for people to
 8. 大量: a large number of assignments
-9. 影响: have a positive impact on <=> benefit, have a negative impact on, have a deterrent effect on, damage the historical sites, 
+9. 影响: have a positive impact on <=> benefit, have a negative impact on, have a deterrent effect on, damage the historical sites
 10. 接触: be isolated from, have direct contact with, have access to
 11. 凭自己意愿做这件事: do sth of one's own free will, take the initiative to do sth
 12. 兴趣: follow one's interests, arouse one's interest in sth, boost motivation
@@ -217,8 +225,9 @@
 23. 想出: think out
 24. 不断增长: a increasing number of
 25. 推荐: they might recommend their families and friends to come
-36. 使害怕: terrify the tourists
-
+26. 使害怕: terrify the tourists
+27. 浪费: a waste of money
+28. 上瘾: be addicted to (computer games)
 
 
 ### education
@@ -251,7 +260,7 @@
 27. 设备: purchase more equipment and build more labs
 28. 费用: the expenditure will increase dramatically, the school budget is not unlimited, may cause deficit
 29. 上课: stay focus in class, fall asleep in class
-
+30. 娱乐设施: spend money on recreational facilities
 
 
 ### life
@@ -262,8 +271,14 @@
 5. 友好相处: maintain a close bond with neighbors
 6. 志愿服务: do community service, participate in volunteer work
 7. 认识其他同学: socialize with people from diverse backgrounds, contact old friends with cellphone, email and social medias
+8. 电视节目: television program
+10. 不成熟: mentally immature
 
-
+### art
+1. 激发创造力: encourage imagination and creativity
+2. 审美观: some people neither have aesthetic sensitivity nor interested in art, develop aesthetic sensitivity
+3. 欣赏画: appreciate art, appreciate painting
+4. 认知能力: benefit cognitive development
 
 
 ### 压力, 健康
@@ -294,6 +309,7 @@
 25. 锻炼: do physical exercise
 26. 促进新陈代谢: boost metabolism and spirit
 
+
 ### development
 1. higher cost of living
 2. 旅游业: boost tourism, attract tourists
@@ -302,7 +318,6 @@
 5. 古建筑: cause the loss of historical value, enjoy cultural heritage, old streets and buildings, historical sites, keep them in the original state, historical buildings and streets
 6. 引发恐慌: cause great panic
 7. 糟蹋旅途: spoil their trips
-
 
 
 ### work
@@ -315,6 +330,7 @@
 8. 有钱: purchase cars and apartments, reduce financial burden, increase financial burden, satisfy material demands
 9. 走出舒适区: push people beyond their comfort zones
 10. 进步: make progress 
+
 
 ### environment
 1. 保护环境: protect environment = preserve environment, environmental protection, ecosystem, maintain ecological balance, protect biodiversity
