@@ -49,7 +49,10 @@
 
 
 10. Primary schools should spend more time teaching young students (5-11 years old) technology (like computer) than teaching music and art.
-    1. 
+
+11. Some people believe that video games could inspire young students’ interest and make their study more efficient rather than distracting them and a waste of time, so young students should be allowed to play video games.
+    1. violent
+    2. health problems
 
 ### 理由: A好B坏; A有2好
 1. migrate frequently
@@ -181,11 +184,16 @@
     1. argument: see many armed police officers => remind them of terrorism and crime => feel uncomfortable and anxious => cannot enjoy the tourist attractions => spoil their trips
     2. examples: Paris after the terrorist explosion: increased the number of police officers - terrify the tourists
 
-24. feel exhaust(do exercise)
+24. feel exhaust(do physical exercise)
 
-25. 无
+25. imitate violent behaviours
+    1. argument: immature 
+        1. => right and wrong => aggresive => anti-social activities
+        2. => control => distracted => concentrate on study => academic performance
+    2. examples: shooting & killing, join gangs
     
-26. stare at the screen or book for a long time => cause eye strain
+26. cause health problem
+    + stare at the screen or book for a long time => cause eye strain
 
 
 ### 联想
@@ -228,6 +236,9 @@
 26. 使害怕: terrify the tourists
 27. 浪费: a waste of money
 28. 上瘾: be addicted to (computer games)
+29. 参加: participate in, be involved in
+30. 关注: (can) concentrate on (study)
+
 
 
 ### education
@@ -273,6 +284,12 @@
 7. 认识其他同学: socialize with people from diverse backgrounds, contact old friends with cellphone, email and social medias
 8. 电视节目: television program
 10. 不成熟: mentally immature
+11. 久坐: form a sedentary lifestyle => lack physical acitivity => become overweight
+12. 分清是非: cannot distinguish between right and wrong
+13. 有攻击性: become aggresive
+14. 参加反社会活动: be involved in anti-social activities
+15. 送花: give her flowers
+16. 传递真实的感情: convey true feelings
 
 ### art
 1. 激发创造力: encourage imagination and creativity
@@ -296,7 +313,7 @@
 12. 减轻/缓解空气污染/交通堵塞: reduce air pollution / traffic congestion
 13. 放松: recharge one's batteries, feel refreshed and energetic, help sb. relax, take a break from normal routines/ from the busy city life and forget troubles, ~~relax oneself~~
 14. 休闲活动: recreational activities, leisure activities, social activities. (organize / participate in)
-15. 对身体和心理健康有利: have a positive compact on mental and physical health, improve physical fitness
+15. 对身体和心理健康有利 / 不利: have a positive compact on mental and physical health, improve physical fitness, cause health problem
 16. 保持健康: maintain health
 17. 促进新陈代谢: boost metabolism 
 18. 考试当天生病: feel sick on the day of the exam
@@ -305,10 +322,10 @@
 21. 解决烦恼: handle complaints
 22. 陪伴家人: have quality time with family members, accompany their families
 23. 沉浸在异世界: temporarily excape from reality and be immerse in a new world
-24. 眼疲劳: stare at the screen or book for a long time, cause eye strain
-25. 锻炼: do physical exercise
+24. 眼疲劳: be glued to / stare at the screen or book for a long time, cause eye strain and damage eyesight
+25. 锻炼: do physical exercise, lack physical activity
 26. 促进新陈代谢: boost metabolism and spirit
-
+27. 肥胖: become overweight
 
 ### development
 1. higher cost of living
@@ -354,7 +371,7 @@
 ### examples
 1. 政府: the government of my city
 2. 古建筑: the Chinese government, the repair of the Forbidden City and the Great Wall
-
+3. 不良: shooting & killing, join gangs
 
 
 
