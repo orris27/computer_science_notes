@@ -3536,6 +3536,36 @@ The economy remains sluggish
 7. continent
 8. just short for
 9. slam into
+10. damming
+11. a natural tendency
+12. spread out the weight of foot
+13. fluctuate
+14. presented
+15. circular
+16. mapping them
+17. detected on 
+18. stationary
+19. planetary system 
+20. hydrogen
+21. helium
+22. sweep off
+23. proposition
+24. let alone
+25. current rate
+26. roughly
+27. reach
+28. made of ice and dust
+29. so on every orbit
+30. phase (x faith)
+31. torn into pieces
+32. very accurately
+33. pull of the planet's gravity
+34. the movement of glaciers
+35. deposited
+36. erosion
+37. characterized
+38. remnants
+
 
 ### 1-29. extra
 1. verb
@@ -3824,6 +3854,44 @@ The economy remains sluggish
 89. shed: she + d => she拿着勺子,然后流下了口水,给家畜?
 
 90. ferment: fermentation => 发酵
+
+
+
+91. Holocene epoch(全新世): hola => hola,前面就是人类(Holocene之后就是人类世)
+
+92. Anthropocene epoch: 按钮 + throw + 坡 + sea => 将按钮扔到坡上面,结果坡凹陷下去,按钮导出了大海,大海里面出现了人类
+
+93. paw: 坡 => 坡上有很大的爪印
+
+94. gravel: grail + 蚊子 => grail里面有水,蚊子喝不到,就放了碎石进去
+
+95. luminosity: 鲁米诺反应 + city => 白马探在阶梯上喷了鲁米诺的东西,结果血迹里面是城市,受到伤害,将聚光灯打到了上面,非常亮眼
+
+96. somehow: some(某个) + how(方式) => 某种方式
+
+97. hop: hop => hop这首歌里的人突然双脚跳出了屏幕
+
+98. lean: 凛 => 凛突然倾斜,瘦成火柴棒
+
+99. blemish: 布蕾 + miss => 布蕾使用很多镜子砸人,结果全都miss,布蕾老脸一红(污点)
+
+100. toss around: 投掷 + around => 扔出的篮球在旁边转,我的地面翻来覆去
+
+1. so to speak: 手 + 去 + 说话 => 手去说话结果喝可乐
+
+2. algae: apple + 锯子 => 洗澡时用锯子给苹果削皮
+
+3. poke: pocket => 用手刺口袋,结果刺穿,钱掉下来
+
+4. parabolic: 爬路 + 坡 => 爬坡的时候扔了球,这个球做抛物线
+
+5. sediment: 3d + 门 => 3d出来的人物倒在门的前面(沉积)
+
+6. weather: 天气预报的小姐姐 => 小姐姐吐气 => 风 => 风化
+
+7. dam: 大 + 汉堡 => 大汉堡用来当做水坝,喷出来的香气我都闻到了
+
+
 
 ## 2. multiple meanings
 1. ascend
