@@ -235,7 +235,7 @@
 2. 贡献: devote much time or energy to doing, contribute money to 
 3. 喜好: get tired of, lack the motivation to do, be reluctant to do, be passinate about sth., be willing to do
 4. 频率: all the time, once or twice a month
-5. 能力: be more capable of doing, lack sufficient professional knowledge and skills, lack the ability to (control themselves)
+5. 能力: be more capable of doing, lack sufficient professional knowledge and skills, lack the ability to (control themselves / their emotions)
 6. 伴随着: with the significant advances in economy and transportation
 7. 某某是很常见的: it is common for people to
 8. 大量: a large number of assignments
@@ -266,6 +266,7 @@
 33. 平衡: (find it difficult to) balance family and work / study and life
 34. 有用: of no use = useless ~ useful, helpful, valuable = constructive
 35. 提意见: provide suggestions
+36. 感情用事: impulsive, self-centered, arrogant
 
 
 ### education
@@ -317,9 +318,6 @@
 15. 送花: give her flowers
 16. 传递真实的感情: convey true feelings
 17. 叛逆: become rebellious
-
-
-
 
 ### family
 1. 代沟: a widening generation gap between parents and children
@@ -385,6 +383,8 @@
 9. 走出舒适区: push people beyond their comfort zones
 10. 进步: make progress
 11. 工作心: career-minded parents
+12. 争吵: come into conflicts & even quarrel with others
+
 
 ### environment
 1. 保护环境: protect environment = preserve environment, environmental protection, ecosystem, maintain ecological balance, protect biodiversity
@@ -424,6 +424,9 @@
 4. business
 5. activities
 6. biodiversity ~~biodioversity~~
+7. impulsive ~~implusive~~
+
+
 
 ## 1. Introduction
 
