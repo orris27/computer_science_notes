@@ -386,6 +386,7 @@
 3. neighborhood
 4. business
 5. activities
+6. biodiversity ~~biodioversity~~
 
 ## 1. Introduction
 
