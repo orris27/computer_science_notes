@@ -3891,7 +3891,45 @@ The economy remains sluggish
 
 7. dam: 大 + 汉堡 => 大汉堡用来当做水坝,喷出来的香气我都闻到了
 
+8. Pleistocene: plates + sea => plates在海上漂流,扎根
 
+9. BC: Before Christ => 公元前
+
+10. AD: Anno Domini => 安娜日记 + 多米诺 => 将安娜日记按照多米诺骨牌的方式排列,在公园的滑滑梯里玩
+
+11. chiefdom: 创真 + 洞 => 创真拿起平底锅,就被一个球砸出来一个洞
+
+12. tribe: 踹 + 球 => 踹球把部落给弄没了
+
+13. clan: c + 小兰 => 大海里小兰游泳,结果后面拖着蓝色(小兰的姓氏)
+
+14. nomad: nose + 马 => 马的鼻子在地上,陆地上游泳
+
+15. combustion: 康师傅 + 爆炸 => 我吃下康师傅后直接爆炸,流下了小火焰
+
+16. internal combustion engine: 内部 + combustion + engine => 内燃机
+
+17. paleontology: 消极的 + ant + top => 消极的蚂蚁跳到了人的头上,结果变成了骨头(古生物学)
+
+18. BCE.: Before the Common Era => 公元前
+
+19. Bronze Age(青铜器时代)
+
+20. Iron Age(铁器时代)
+
+21. power grid(电力网)
+
+22. biomass: biodiversity + mass => 生物多样性 + 大量 => 生物量
+
+23. incadescent bulb: incas + 灯 + 闪 => incas实验室的灯不停地闪烁 => 白炽灯
+
+24. fluorescent: floor + 神 => 地板上齐神拿着荧光灯在打CALL
+
+25. sedentary: 蛇 + 凳子 + 特累 => 蛇拄着拐杖,太累,坐凳子上,被束缚,久坐不起
+
+26. kinship: skin(肌肤之亲) + ship(关系) => 亲 + 关系 => 亲属关系
+
+27. patriarch: 爬车 + archer => archer在车上爬,然后用"猪"鼻子闻车子
 
 ## 2. multiple meanings
 1. ascend
