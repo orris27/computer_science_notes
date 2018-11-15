@@ -54,7 +54,16 @@
     1. violent
     2. health problems
 
-### 理由: A好B坏; A有2好
+12. It is easier for parents to raise their children than 50 years ago.
+
+13. The advice from grandparents is of no use to their grandchildren because the world has changed a lot over the past 50 years.
+    1. argument:
+        1. work
+        2. skills
+
+
+
+### 理由: A好B坏; A有2好; 具象拆分
 1. migrate frequently
     1. 联想
     + with the significant advances of economy and transportation
@@ -70,7 +79,8 @@
     + For instance, my father **does bussiness** all over the country. Because of his job, we have moved between several countries in the past few years. We **feel isolated from** our neighborhood and **thus** are less interested in improving it.
     + However, people in the past tended to live in the same neighborhood for their entire life. As a result, they **were more willing to** build a better community by **constructing more public facilities** or **maintaining a close bond with** their neighbors.
 
-2. too busy
+2. career-minded parents are busy with their own work
+    1. argument: difficult + balance
 
 3. acquire a wide range of knowledge
     > have hands-on experience, broaden one's horizons, develop skills, have direct contact with the outside world, have direct contact with nature, improve comprehensive skills and knowledge
@@ -195,6 +205,17 @@
 26. cause health problem
     + stare at the screen or book for a long time => cause eye strain
 
+27. it is more likely for children to be distracted by modern technology
+    1. argument: rebellious
+
+28. 无
+
+29. increasing cost of living, especially high tution
+
+30. grandparents can provide valuable suggestions related to work
+
+31. grandchildren can learn valuable skills from their grandparents
+
 
 ### 联想
 1. go on a trip
@@ -202,9 +223,11 @@
     + zoo: animals' behaviors, diets and habitats
     + farm: agriculture, farming, crops and raise animals
     + chocolate factories: the latest manufacturing technology and equipment
-
-
-
+2. 两点法:
+    1. study & life
+    2. family & life
+    3. skill & suggestion
+    4. 
 
 ## 万能词组
 ### 虚词
@@ -223,7 +246,7 @@
 13. 被迫做某事: be forced to
 14. 习惯: form a long-term habit, form a good living habit and sustain a stable biological clock 
 15. 适合: books suited to sb, books that are inappropriate for students to read
-16. 可能性: have a small change of doing sth, infeasible, impractical, be likely to do sth, be less likely to do sth
+16. 可能性: have a small change of doing sth, infeasible, impractical, be likely to do sth, be less likely to do sth, it is more likely for chidren to do sth
 17. 担心: worry about doing sth
 18. 有空闲做某事: have more leisure time to do what they like after work
 19. 今昔: now = nowadays = today, people today, in the past = before
@@ -238,7 +261,11 @@
 28. 上瘾: be addicted to (computer games)
 29. 参加: participate in, be involved in
 30. 关注: (can) concentrate on (study)
-
+31. 忙于: be busy with their own work
+32. 难于: find it difficult to 
+33. 平衡: (find it difficult to) balance family and work / study and life
+34. 有用: of no use = useless ~ useful, helpful, valuable = constructive
+35. 提意见: provide suggestions
 
 
 ### education
@@ -269,9 +296,8 @@
 25. 课程: required courses = compulsory courses ~ selective courses = optional courses, set the courses as selective courses
 26. 雇佣: hire more professors
 27. 设备: purchase more equipment and build more labs
-28. 费用: the expenditure will increase dramatically, the school budget is not unlimited, may cause deficit
-29. 上课: stay focus in class, fall asleep in class
-30. 娱乐设施: spend money on recreational facilities
+28. 上课: stay focus in class, fall asleep in class
+29. 娱乐设施: spend money on recreational facilities
 
 
 ### life
@@ -290,6 +316,15 @@
 14. 参加反社会活动: be involved in anti-social activities
 15. 送花: give her flowers
 16. 传递真实的感情: convey true feelings
+17. 叛逆: become rebellious
+
+
+
+
+### family
+1. 代沟: a widening generation gap between parents and children
+2. 祖父,孩子: grandparents, grandchildren, the older generation, the younger generation
+
 
 ### art
 1. 激发创造力: encourage imagination and creativity
@@ -327,6 +362,7 @@
 26. 促进新陈代谢: boost metabolism and spirit
 27. 肥胖: become overweight
 
+
 ### development
 1. higher cost of living
 2. 旅游业: boost tourism, attract tourists
@@ -335,6 +371,7 @@
 5. 古建筑: cause the loss of historical value, enjoy cultural heritage, old streets and buildings, historical sites, keep them in the original state, historical buildings and streets
 6. 引发恐慌: cause great panic
 7. 糟蹋旅途: spoil their trips
+8. 费用: the expenditure will increase dramatically, the school budget is not unlimited, may cause deficit, manage budget = personal financial 
 
 
 ### work
@@ -346,8 +383,8 @@
 7. 失去工作: lose the job
 8. 有钱: purchase cars and apartments, reduce financial burden, increase financial burden, satisfy material demands
 9. 走出舒适区: push people beyond their comfort zones
-10. 进步: make progress 
-
+10. 进步: make progress
+11. 工作心: career-minded parents
 
 ### environment
 1. 保护环境: protect environment = preserve environment, environmental protection, ecosystem, maintain ecological balance, protect biodiversity
