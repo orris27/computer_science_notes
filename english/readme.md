@@ -3931,6 +3931,10 @@ The economy remains sluggish
 
 27. patriarch: 爬车 + archer => archer在车上爬,然后用"猪"鼻子闻车子
 
+28. 
+
+
+
 ## 2. multiple meanings
 1. ascend
     1. 上溯
