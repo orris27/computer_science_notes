@@ -3526,48 +3526,8 @@ The economy remains sluggish
 
 (adj)abstruse: ab(力量) + straw + 蛇 => 用力量殴打稻草,然后稻草碰到蛇,蛇的眼睛突然很深
 
-### 1-28. listening
-1. radioactivate decay
-2. an asteroid
-3. tree root
-4. radiate
-5. peninsula
-6. mass extinction
-7. continent
-8. just short for
-9. slam into
-10. damming
-11. a natural tendency
-12. spread out the weight of foot
-13. fluctuate
-14. presented
-15. circular
-16. mapping them
-17. detected on 
-18. stationary
-19. planetary system 
-20. hydrogen
-21. helium
-22. sweep off
-23. proposition
-24. let alone
-25. current rate
-26. roughly
-27. reach
-28. made of ice and dust
-29. so on every orbit
-30. phase (x faith)
-31. torn into pieces
-32. very accurately
-33. pull of the planet's gravity
-34. the movement of glaciers
-35. deposited
-36. erosion
-37. characterized
-38. remnants
 
-
-### 1-29. extra
+### 1-28. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
@@ -3818,9 +3778,6 @@ The economy remains sluggish
 
 73. physiology: physics + 老酒 => 物理学的万有引力将老酒给吸引到地面上,里面的孩子生了出来,用眼睛劈开了老酒
 
-
-
-
 74. ethanol: 艾斯 + nose => 艾斯的鼻子突然变长了,然后艾斯倒在了椅子上,椅子的春天来了
 
 75. confound: 康师傅 + 房子 => 在康师傅里放入小房子,结果发现小房子都沉在了康师傅的汤里,混乱地泡泡,然后冒出了小人的泡泡
@@ -3854,8 +3811,6 @@ The economy remains sluggish
 89. shed: she + d => she拿着勺子,然后流下了口水,给家畜?
 
 90. ferment: fermentation => 发酵
-
-
 
 91. Holocene epoch(全新世): hola => hola,前面就是人类(Holocene之后就是人类世)
 
@@ -3931,8 +3886,115 @@ The economy remains sluggish
 
 27. patriarch: 爬车 + archer => archer在车上爬,然后用"猪"鼻子闻车子
 
-28. 
+28. receptor: receive + tor(名词) => 感受器
 
+29. photoreceptor: photo-(光) + receptor => 光感受器
+
+30. goof: 骨王 + 牙刷 => 骨王拿着牙刷,在卫生间里突然发呆,失去了眼神
+
+31. microscopic: microscope => 显微镜下是微观的世界
+
+32. diode: 袋子 + d => 袋子里全是勺子,然后勺子发出金光
+
+33. light-emitting(发光的)
+
+34. level off(拉平): 分数 + 离开 => 分数离开后回来变平了
+
+35. marginally: marginal + ly(地) => 从悬崖那里直接跳到了地面 => 最低限度地
+
+36. recording(唱片)
+
+37. improvise: improvisation => 即兴表演
+
+38. decipher: 大地 + 色子 + 风 => 大地里出现色子,然后色子被风吹走,直接嵌入在大门上,结果大门的密码被破译,就开门了
+
+39. hieroglyphics: high + Graph => 高高的图片压在了大象身上,大象表示很舒爽
+
+40. arguably: argue => 大声argue => 大概
+
+41. demotic: 地面 + 摸 + tick => 摸地面tick-tick地,然后拉了一桶书
+
+42. Arabic language: 阿拉伯语
+
+43. thesis: sea + 石头 => 大海前面扔了石头,然后石头削成了轮胎
+
+44. pictograph: picture + graph => 表示picture的文字(属于hieroglyphics)
+
+45. draw on: 在按钮上画画,然后突然有个人倒了下去,被利用了,玩耍了
+
+
+
+### listening
++ Earth's crust
++ is made up of large plates
++ rest on
++ anomaly
++ on it
++ phonetic
++ dominant
++ dismiss
++ mundane
++ artifact
++ thoroughly
++ artistically
++ abruptly
++ ratio
++ wavelength
++ seasonal
++ an adult plant
++ conscious
++ absorb ~~observe~~
++ lead to
++ signify
++ curve
++ the letter S
++ accelerating
++ steeply
++ the market has matured
++ for that product
++ proven
++ recording
++ 
+
+
+1. radioactivate decay
+2. an asteroid
+3. tree root
+4. radiate
+5. peninsula
+6. mass extinction
+7. continent
+8. just short for
+9. slam into
+10. damming
+11. a natural tendency
+12. spread out the weight of foot
+13. fluctuate
+14. presented
+15. circular
+16. mapping them
+17. detected on 
+18. stationary
+19. planetary system 
+20. hydrogen
+21. helium
+22. sweep off
+23. proposition
+24. let alone
+25. current rate
+26. roughly
+27. reach
+28. made of ice and dust
+29. so on every orbit
+30. phase (x faith)
+31. torn into pieces
+32. very accurately
+33. pull of the planet's gravity
+34. the movement of glaciers
+35. deposited
+36. erosion
+37. characterized
+38. remnants
 
 
 ## 2. multiple meanings
