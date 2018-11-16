@@ -62,8 +62,16 @@
         2. skills
 
 
+14. The most important thing that people have learned is from their families.
+    1. argument:
+        1. teacher: professional, academic knowledge, career prospects(parent: not)
+        2. teacher: moral values, life(parent: busy)
 
-### 理由: A好B坏; A有2好; 具象拆分
+15. People who develop different skills are more successful than people who develop one skill only.
+    
+
+
+### 理由: A好B坏; A有2好; 具象拆分(≈举例子)
 1. migrate frequently
     1. 联想
     + with the significant advances of economy and transportation
@@ -213,17 +221,15 @@
 29. increasing cost of living, especially high tution
 
 30. grandparents can provide valuable suggestions related to work
+    1. argument: interpersonal relationship => \[group projects: polite, modest, respect, communicate, listen, help, compromise\](grandchidren: immature => control their emotions => self-centered / arrogant / impulsive => conflicts + quarrel) 
 
 31. grandchildren can learn valuable skills from their grandparents
-
+    1. argument: life experience => budget, money => (grandchidren: shop => buy something unnecessary regardless of their financial conditions => squander)
+    2. words: the older / younger generation, outdated
 
 ### 联想
-1. go on a trip
-    + museum: culture, knowledge, history, custom and art
-    + zoo: animals' behaviors, diets and habitats
-    + farm: agriculture, farming, crops and raise animals
-    + chocolate factories: the latest manufacturing technology and equipment
-2. 两点法:
+
+1. 两点法:
     1. study & life
     2. family & life
     3. skill & suggestion
@@ -244,7 +250,7 @@
 11. 凭自己意愿做这件事: do sth of one's own free will, take the initiative to do sth
 12. 兴趣: follow one's interests, arouse one's interest in sth, boost motivation
 13. 被迫做某事: be forced to
-14. 习惯: form a long-term habit, form a good living habit and sustain a stable biological clock 
+14. 习惯: form a long-term habit, form a good living habit and sustain a stable biological clock, habit of doing 
 15. 适合: books suited to sb, books that are inappropriate for students to read
 16. 可能性: have a small change of doing sth, infeasible, impractical, be likely to do sth, be less likely to do sth, it is more likely for chidren to do sth
 17. 担心: worry about doing sth
@@ -267,7 +273,10 @@
 34. 有用: of no use = useless ~ useful, helpful, valuable = constructive
 35. 提意见: provide suggestions
 36. 感情用事: impulsive, self-centered, arrogant
-
+37. 懂: have more wisdom of interpersonal relationship, understand, have an in-depth understanding of
+38. 认真对待: be cautious about doing sth, take seriously (the problem we are facing)
+39. 这并不意味着: it does not mean that ...
+40. 导致: as a result (`It is true that the world has changed greatly over the past 50 years, and the older generation may not be able to keep pace with the changing world. As a result, someof their ideas and values may have been outdated.`)
 
 ### education
 1. 获得更多知识: acquire/ gain a wide range of knowledge beyond textbooks, have access to knowledge, develop an in-depth understanding of the reading material, consolidate knowledge, update their knowledge and skills, absorb new knowledge, keep pace with the changing business world
@@ -276,7 +285,7 @@
 4. 应用知识: apply theory to practice
 5. 扩展视野: broaden one's horizons, expand knowledge
 6. 有实践经验: have hands-on experience
-7. 提高技能: improve/ enhance/ cultivate/ develop skills, improve comprehensive knowledge and skills
+7. 提高技能: improve/ enhance/ cultivate/ develop skills, improve comprehensive knowledge and skills => versatile & have rich experience
 8. 独立: the ability to think/ work/ solve problems independently, encourage students' independence
 9. 交际能力: interpersonal/ social/ communication skills
 10. 时间管理: time management skills, balance work/ study and life
@@ -285,7 +294,7 @@
 13. 高中毕业的学生: high school graduates
 14. 直接升学还是停一年: take a gap year, continue higher education directly
 15. 文化: experience diverse cultures and customs
-16. 社团: volunteer work, clubs, student organizations, sports teams => develop team spirit, cooperate, team management skills
+16. 社团: volunteer work, clubs, student organizations, sports teams => develop team spirit, cooperate, team management skills, be willing to help others, compromise sometimes
 17. 老师布置的阅读: provide a reading list
 18. 被动学习: passive learners, overly rely on teachers
 19. 专业,有经验的: professional, experienced
@@ -299,7 +308,7 @@
 27. 设备: purchase more equipment and build more labs
 28. 上课: stay focus in class, fall asleep in class
 29. 娱乐设施: spend money on recreational facilities
-
+30. 申请项目: apply for a program / a school
 
 ### life
 1. 求职: in search of jobs or educational opportunities
@@ -318,10 +327,12 @@
 15. 送花: give her flowers
 16. 传递真实的感情: convey true feelings
 17. 叛逆: become rebellious
+18. 阅历: have more life experience
+19. 价值观: some basic life principles remain unchanged, moral values
 
 ### family
 1. 代沟: a widening generation gap between parents and children
-2. 祖父,孩子: grandparents, grandchildren, the older generation, the younger generation
+2. 祖父,孩子: grandparents, grandchildren, the older generation, the younger generation, the older / senior friends, peers, fellows
 
 
 ### art
@@ -369,8 +380,10 @@
 5. 古建筑: cause the loss of historical value, enjoy cultural heritage, old streets and buildings, historical sites, keep them in the original state, historical buildings and streets
 6. 引发恐慌: cause great panic
 7. 糟蹋旅途: spoil their trips
-8. 费用: the expenditure will increase dramatically, the school budget is not unlimited, may cause deficit, manage budget = personal financial 
-
+8. 费用: the expenditure will increase dramatically, the school budget is not unlimited, may cause deficit, manage budget = personal financial
+9. 节约与浪费: save money for future use, squander all the money, shop on impulse, buy something unnecessary regardless of their financial conditions, manage budget, be cautious about spending money, live in a frugal way
+10. 时代变化很大: it is true that the world has changed greatly over the past 50 years
+11. 上一辈的思想落后: some ideas and values of the older generation may have been outdated
 
 ### work
 1. waiter: how to introduce food to customers and handle complaints
@@ -378,13 +391,15 @@
 3. 有竞争力: have a competitive edge in the job market and have better career prospects
 5. 工作性质: low-paying = low salary / ncome ~ high-paying = a well-paid / decent / lucrative job, job reward, have a regular income, have a challenging job
 6. 具体工作: cleaners, waiters, bus drivers, teachers, civil servants, cashiers
-7. 失去工作: lose the job
+7. 找 / 失去工作: have more career choices, lose the job
 8. 有钱: purchase cars and apartments, reduce financial burden, increase financial burden, satisfy material demands
 9. 走出舒适区: push people beyond their comfort zones
 10. 进步: make progress
 11. 工作心: career-minded parents
 12. 争吵: come into conflicts & even quarrel with others
-
+13. 做项目: do (group) projects (with team members)
+14. 听意见: listen to others' opinions
+15. 升职: be promoted = move up the career ladder
 
 ### environment
 1. 保护环境: protect environment = preserve environment, environmental protection, ecosystem, maintain ecological balance, protect biodiversity
@@ -409,9 +424,13 @@
 1. 政府: the government of my city
 2. 古建筑: the Chinese government, the repair of the Forbidden City and the Great Wall
 3. 不良: shooting & killing, join gangs
-
-
-
+4. 项目: volunteer work, internships, after-school activities
+5. 学校旅游
+    + museum: culture, knowledge, history, custom and art
+    + zoo: animals' behaviors, diets and habitats
+    + farm: agriculture, farming, crops and raise animals
+    + chocolate factories: the latest manufacturing technology and equipment
+6. 技能: foreign languages, computer programming
 ### extra
 1. **Of those bits**, **7 are** for data and **1 is** for control. 
 
