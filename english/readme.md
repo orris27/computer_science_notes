@@ -3922,7 +3922,37 @@ The economy remains sluggish
 
 45. draw on: 在按钮上画画,然后突然有个人倒了下去,被利用了,玩耍了
 
+46. mound: 猫 + d => 猫用勺子将土堆给移开了
 
+47. cranial: crane + l => 起重机将列车里的颅骨全都提起来了
+
+48. caveman(穴居野人)
+
+49. intact: 鹰 + 坦克 => 老鹰被坦克碾压后又膨胀回原来的样子,结果就是完整的
+
+50. pottery: potter => 哈利波特使用大招的时候会将魔力从陶器里提取出来然后释放
+
+51. scroll: school + l => 学校里列车从滚轴里滚出来,然后列车在不断滚动
+
+52. ceramic: 蛇 + 啦 + 米 => 蛇"啦啦"地叫然后陶器从蛇的嘴巴里出来,倒出一大堆大米
+
+53. ceramic cooking pot: 陶瓷厨具
+
+54. utensil: 幽灵 + 腾手 => 幽灵腾出手来结果就是被器具给压了下去
+
+55. waterproof: 水 + 和prevent的前缀都是pr... => 防水的
+
+56. kayak: 凯 + ok => 凯比划出ok的手势,燃烧起来,独木舟从手环里游了过去
+
+57. trawling ship: 车 + 零(轮胎) + ship => 车的轮胎很大,在海上前行,拖着渔网,渔网里面就是船
+
+58. affluence: apple + fluent(流动) => 苹果在河里流动,然后里面都是财富
+
+59. vintage: 蚊子 + tag => 将蚊子贴到tag里面,然后蚊子突然变成琥珀(古老的)
+
+60. craftsmanship: 制作工艺
+
+61. residue: 热身(灰吕) + 丢 => 灰吕拉出了shi,然后将这个残留物丢了出去
 
 ### listening
 + Earth's crust
