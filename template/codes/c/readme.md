@@ -1692,6 +1692,7 @@ printf("mode=%o\n",statbuf.st_mode & 07777); // 打印共享内存的权限
         + ret:int类型
         + tid:等待的线程id
     2. 等待新线程执行完毕,并回收尸体,不使用其返回值
+    + 如果是多个线程的话,tid放到线程的数组里面,然后遍历数组,对每个元素调用pthread_join就可以了
     ```
     if((ret = pthread_join(tid,NULL)) != 0 )
     {
