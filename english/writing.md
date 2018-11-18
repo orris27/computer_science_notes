@@ -68,8 +68,23 @@
         2. teacher: moral values, life(parent: busy)
 
 15. People who develop different skills are more successful than people who develop one skill only.
-    
 
+16. Taking a lot of time to make an important decision is often considered as a bad quality for a person. However, some people think that it is a good quality for a person.
+    1. good
+        1. 褒: think carefully, thoughtful, cautious
+        2. 贬: hesitate
+    2. bad
+        1. 褒: decisive, seize opportunities
+        2. 贬: impulsive, hasty = rash decisions
+
+17. The rules that the whole society today expects young people to follow are too strict.
+    1. school: uniforms => individuality
+    2. life: curfew => deprive + time
+
+
+18. Parents should set strict rules to their children if they want them to succeed in the future.
+    1. life: habits, interpersonal relationship, 
+    2. study:
 
 ### 理由: A好B坏; A有2好; 具象拆分(≈举例子)
 1. migrate frequently
@@ -228,12 +243,10 @@
     2. words: the older / younger generation, outdated
 
 ### 联想
-
 1. 两点法:
     1. study & life
     2. family & life
     3. skill & suggestion
-    4. 
 
 ## 万能词组
 ### 虚词
@@ -277,6 +290,10 @@
 38. 认真对待: be cautious about doing sth, take seriously (the problem we are facing)
 39. 这并不意味着: it does not mean that ...
 40. 导致: as a result (`It is true that the world has changed greatly over the past 50 years, and the older generation may not be able to keep pace with the changing world. As a result, someof their ideas and values may have been outdated.`)
+41. 考虑: consider ways to solve the situation
+42. 有创造力的: be creative = be innovative = think out of the box = be forward-thinking
+43. 剥夺: deprive sb. of sth.
+
 
 ### education
 1. 获得更多知识: acquire/ gain a wide range of knowledge beyond textbooks, have access to knowledge, develop an in-depth understanding of the reading material, consolidate knowledge, update their knowledge and skills, absorb new knowledge, keep pace with the changing business world
@@ -309,13 +326,16 @@
 28. 上课: stay focus in class, fall asleep in class
 29. 娱乐设施: spend money on recreational facilities
 30. 申请项目: apply for a program / a school
+31. 穿校服: wear school uniforms => overlook individuality
+32. 熄灯时间: set a curfew time => deprive students of the freedom to spend time with their friends
+33. 复习: review knowledge immediately after class
 
 ### life
 1. 求职: in search of jobs or educational opportunities
 2. 小区: community, the area where people live, improve the neighborhoods, build a better community, organize community activities
 3. 生活设施: build gardens, libraries, and other public facilities, clean public areas
 4. 绿色生活: plant trees and flowers
-5. 友好相处: maintain a close bond with neighbors
+5. 友好相处: maintain a close bond with neighbors, maintain a good relationship with others
 6. 志愿服务: do community service, participate in volunteer work
 7. 认识其他同学: socialize with people from diverse backgrounds, contact old friends with cellphone, email and social medias
 8. 电视节目: television program
@@ -340,7 +360,7 @@
 2. 审美观: some people neither have aesthetic sensitivity nor interested in art, develop aesthetic sensitivity
 3. 欣赏画: appreciate art, appreciate painting
 4. 认知能力: benefit cognitive development
-
+5. 我们能学到一点东西: reflect / mirror real life (a true story / documentary)=> teach something in life
 
 ### 压力, 健康
 1. 过着快节奏的生活: live a fast-paced life
@@ -384,6 +404,8 @@
 9. 节约与浪费: save money for future use, squander all the money, shop on impulse, buy something unnecessary regardless of their financial conditions, manage budget, be cautious about spending money, live in a frugal way
 10. 时代变化很大: it is true that the world has changed greatly over the past 50 years
 11. 上一辈的思想落后: some ideas and values of the older generation may have been outdated
+12. 市场策略: market strategies, market trends & demands, potential risks
+
 
 ### work
 1. waiter: how to introduce food to customers and handle complaints
@@ -431,6 +453,21 @@
     + farm: agriculture, farming, crops and raise animals
     + chocolate factories: the latest manufacturing technology and equipment
 6. 技能: foreign languages, computer programming
+7. creative
+    + business: design new products and market strategies => boost sales (Steve Jobs, Bill Gates)
+    + environment: develop new technology
+    + mathematical problem: try a new method
+    + research: propose new theories and inventions => make innovations (Isaac Newton, Albert Einstein)
+8. Science fiction movies
+    + special effects => create unreal scenes and magical power => satisfy our curiousity, stimulate imagination & creativity
+    + superman, Harry Potter
+
+9. Comedy movies and animation
+    + fun, entertainment, a sense of humor, leisure / recreational activities, recharge one's batteries
+    + Toy Story
+
+
+
 ### extra
 1. **Of those bits**, **7 are** for data and **1 is** for control. 
 
@@ -444,7 +481,11 @@
 5. activities
 6. biodiversity ~~biodioversity~~
 7. impulsive ~~implusive~~
-
+8. mathematical ~~mathmatical~~
+9. technology
+10. Albert Einstein ~~Einstain~~
+11. immediately ~~immdeiatezxx~~
+12. curiosity ~~curiousity~~
 
 
 ## 1. Introduction
