@@ -39,9 +39,7 @@
 36. buffalo: buff + 楼(比萨斜塔) => 比萨斜塔就要倒下了,带水的牛帮忙扶起来了
 37. crocodile: 可乐 + 口 + 袋子 => 可乐有个小口,这个小口里冒出一个绿色的袋子,里面有个鳄鱼,害羞了
 
-
 38. reptile: 热 + tire  => 很热的天气下,轮胎熔化了,然后爬行
-
 
 39. eggshell: egg + shell => 蛋壳
 
@@ -420,7 +418,6 @@
 
 110. archipelago: 尔康 + 泼了狗 => 尔康泼了狗的水,狗的裙子...
 
-
 111. coral island(珊瑚岛)
 
 112. sedimentary rock(沉积岩)
@@ -650,7 +647,7 @@
     
     35. equilibrium: equal + brain => 2个大脑用`=`连接起来,然后里面的脑细胞就开始均衡起来了
     
-    36. cyclotron: 赛车 + 龙 => 赛车旋转了几圈就冲飞了龙
+    36. cyclotron: 赛车 + 龙 => 赛车旋转了几圈就冲飞了出去,在龙的身体上爬
     
     37. fusion: fuse + ion => 融合(熔合)的名词
     
@@ -3340,7 +3337,7 @@ The economy remains sluggish
 
 96. (n)stunt: 石头 + 子弹 + 梯子 => 将石头当做子弹打出去,结果打到梯子上,梯子损坏,呱太用惊人的技艺修复好了
 
-97. (n)facility: 头发 + 石头 + 离开 + 踢 => 头上掉了一个石头,把我的头发弄没了,然后石头掉了下来,我踢飞了它,然后撞到保龄球般的工具里,结果着火(烤熟了) => 熟练 + 工具
+97. (n)facility: 头发 + 石头 + 离开 + 踢 => 头上掉了一个石头,把我的头发弄没了,然后石头掉了下来,我踢飞了它,然后撞到保龄球般的工具里,结果着火(烤熟了) => 熟练 + 设施(工具)
 
 98. (adj)accomplished: 达到 + ed(过去式) => 已经达到了 => 熟练了
 
@@ -3986,6 +3983,10 @@ The economy remains sluggish
 
 77. cocoon: 可乐 + 空 => 可乐是空的,然后用小剪刀将可乐瓶给剪掉了
 
+78. off the chart: 飞机 + 图标 => 飞机沿着图标的线也飞出去了(exceeding the general average)
+
+79. ominous: omega + 脑 => omega这个角色的大脑突然飞了起来,然后变得恐怖(making you feel that sth bad is going to happen)
+
 
 
 ### listening
@@ -4018,7 +4019,6 @@ The economy remains sluggish
 + for that product
 + proven
 + recording
-+ 
 
 
 1. radioactivate decay
