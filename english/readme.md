@@ -3954,6 +3954,40 @@ The economy remains sluggish
 
 61. residue: 热身(灰吕) + 丢 => 灰吕拉出了shi,然后将这个残留物丢了出去
 
+62. larva: 啦啦队 + 哇 => 啦啦队突然就哇一下,然后保持幼体
+
+63. songbird(鸣禽)
+
+64. cockroach: cock + 滚动 => 公鸡在不断滚动,结果发现蟑螂就吓死
+
+65. robin: 滚动 + 瓶子 => 瓶子在不断滚动,然后知更鸟都出来了
+
+66. pupa: 瀑布 + 爬蛇 => 瀑布倒下了爬蛇,这条蛇就使用了蛹保护了自己
+
+67. wasp: 青蛙 + 精灵球 => 青蛙被黄蜂捉,然后青蛙使用了精灵球捕捉住了黄蜂,拯救了自己
+
+68. hornet: hour(手表) + net(笔记电脑) => 手表黏到了笔记本电脑,里面的大黄蜂就开始变身
+
+69. toad: 头 + d => 巨大的头吐出巨大的舌头,然后像蟾蜍一样舔东西
+
+70. mosquito(蚊子)
+
+71. cicade: sea + 插头 + de => 大海突然冒出了插头,这个插头形成了球网,一堆蝉就在不断踢球
+
+72. mantis: man + 踢 + shi => 人在厕所里踢shi,然后被螳螂被挡了下来
+
+73. earthworm: 大地 + warm => 大地里的蚯蚓就在手心里不断移动,然后就很温暖
+
+74. falcon: 飞 + 空调 => 空调在不断飞,变成了隼
+
+75. wood thrust: 木头 + thorax => 用thorax在木头上不断蹭,画成眉毛
+
+76. magpie: map + pie => 在手机上的map app里从蛋糕里拿出了苹果派,非常喜悦(喜鹊)
+
+
+
+
+
 ### listening
 + Earth's crust
 + is made up of large plates
