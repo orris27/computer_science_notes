@@ -293,7 +293,7 @@
 41. 考虑: consider ways to solve the situation
 42. 有创造力的: be creative = be innovative = think out of the box = be forward-thinking
 43. 剥夺: deprive sb. of sth.
-
+44. 来自: from, derive from(`those lines may derive from decomposition of a died dinosaur's skin`)
 
 ### education
 1. 获得更多知识: acquire/ gain a wide range of knowledge beyond textbooks, have access to knowledge, develop an in-depth understanding of the reading material, consolidate knowledge, update their knowledge and skills, absorb new knowledge, keep pace with the changing business world
@@ -486,7 +486,9 @@
 10. Albert Einstein ~~Einstain~~
 11. immediately ~~immdeiatezxx~~
 12. curiosity ~~curiousity~~
-
+13. decomposition ~~decomposion~~
+14. Therefore, (这里的逗号一定要添加)
+15. appearance ~~appearence~~
 
 ## 1. Introduction
 
