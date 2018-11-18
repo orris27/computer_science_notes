@@ -84,7 +84,7 @@
 
 18. Parents should set strict rules to their children if they want them to succeed in the future.
     1. life: habits, interpersonal relationship, 
-    2. study:
+    2. study: review, 
 
 ### 理由: A好B坏; A有2好; 具象拆分(≈举例子)
 1. migrate frequently
@@ -368,7 +368,7 @@
 3. 承受巨大的压力: suffer from intense pressure, feel overwhelmed 
 4. 对某人施加巨大的压力: put great pressure on sb.
 5. 减轻压力: reduce stress
-6. 作业很多: students have to complete a large number of assignments
+6. 作业: students have to complete a large number of assignments, finish homework first before playing
 7. 准备考试: prepare for exams
 8. 取得好成绩: achieve high academic performance, earn high scores
 9. 加班: work overtime and stay up late 
