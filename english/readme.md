@@ -3984,7 +3984,7 @@ The economy remains sluggish
 
 76. magpie: map + pie => 在手机上的map app里从蛋糕里拿出了苹果派,非常喜悦(喜鹊)
 
-
+77. cocoon: 可乐 + 空 => 可乐是空的,然后用小剪刀将可乐瓶给剪掉了
 
 
 
