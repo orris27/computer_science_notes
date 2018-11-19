@@ -372,7 +372,7 @@
 7. 准备考试: prepare for exams
 8. 取得好成绩: achieve high academic performance, earn high scores
 9. 加班: work overtime and stay up late 
-10. 维持生计: make a living, support their family, cover daily expenses
+10. 维持生计: make a living, support / raise their family, cover daily expenses
 11. 忙: have a tight schedule
 12. 减轻/缓解空气污染/交通堵塞: reduce air pollution / traffic congestion
 13. 放松: recharge one's batteries, feel refreshed and energetic, help sb. relax, take a break from normal routines/ from the busy city life and forget troubles, ~~relax oneself~~
@@ -391,6 +391,12 @@
 26. 促进新陈代谢: boost metabolism and spirit
 27. 肥胖: become overweight
 
+
+### 方便，高效，省时间
+1. 方便的(注意拼写): convenient 
+2. 高效的，节省时间的，快的: efficient = time-saving (adj.) 
+3. 耗时的: time-consuming (adj.)
+4. 提高/降低效率(耗时): improve / reduce efficiency 
 
 ### development
 1. higher cost of living
@@ -422,24 +428,34 @@
 13. 做项目: do (group) projects (with team members)
 14. 听意见: listen to others' opinions
 15. 升职: be promoted = move up the career ladder
+16. 获得认可: gain recognition
+17. 社会地位: have a high social status
+
+### technology
+1. 科学研究/发现/突破: scientific research（不可数） / studies / discoveries / breakthroughs
+2. 突破性的研究: groundbreaking research 
+3. 做研究/实验: do / conduct / carry out research / experiments
+4. 刺激创新和创造力: stimulate innovation and creativity 
+5. 探索未知的领域: explore unknown fields 
+6. 揭开秘密: uncover secrets 
 
 ### environment
 1. 保护环境: protect environment = preserve environment, environmental protection, ecosystem, maintain ecological balance, protect biodiversity
-2. 污染环境: contamination, environmental pollution
+2. 污染环境: contamination, environmental pollution, contaminate / pollute environment
 3. 可持续的发展: pay more attention to sustainable development
-4. 技术: have advanced technology
+4. 技术: have advanced / cutting-edge technology
 5. 政府: the government has invested large sums of money in environmental technology, pass / introduce laws and policies, punish illegal behaviors that pose a great threat to the environment, strike a balance between economic development and environmental protection, in the past, economic development was the top priortiy of the government to improve citizens' standards of living
 6. 新能源: develop clean, renewable energy from solar, wind and water power as alternatives for fossil fuels, such as coal, oil and gas
 7. 新技术: eletric cars, improve recycling technology, convert waste into new materials, an increasing number of inventions and innovations have emerged, update technology and equipment
 8. 教育: schools put more emphasis on the education of environmental protection in addition to academic subjects, 
 9. 具体措施:
     1. citizens: plant more trees, use public transportation rather than driving, separate and recycle waste, buy organic food to reduce the use of chemical pesticides and fertilizers, use fewer throw-away products and plastic bags
-    2. government: punish factories that produce excessive exhaust fumes or waste water, restrict the use of plastic bags among the public, overhunting, destruct natural habitats, deforestation, pay higher taxes when they cause environmental damage and the taxes can be used by the governmnet to improve the environment
+    2. government: punish factories that produce / discharge / release / emit excessive exhaust fumes or waste water, restrict the use of plastic bags among the public, overhunting, destruct natural habitats, deforestation, pay higher taxes when they cause environmental damage and the taxes can be used by the governmnet to improve the environment
     3. company: oil companies, wood companies, tourist companies, real estate, companies, airlines
 10. awareness: deliver lectures and watch documentaries, become more ecologically-minded
 11. 动物: wild animals = wildlife, pandas in China, Yellowstone National Park in the United States
 12. 保护区: wilderness areas, forests, wetlands, grasslands, animals' natural habitats, build protected areas
-13. 食物链: food chain 
+13. 食物链: food chain
 
 ### notes
 1. 功能: function
