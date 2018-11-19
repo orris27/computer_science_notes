@@ -381,7 +381,7 @@
 16. 保持健康: maintain health
 17. 促进新陈代谢: boost metabolism 
 18. 考试当天生病: feel sick on the day of the exam
-19. 走出教室: go outside the classroom
+19. 走出教室: go outside the classroom, leaves the classroom (`go outside` is not idiomatic)
 20. 去郊游: go camping
 21. 解决烦恼: handle complaints
 22. 陪伴家人: have quality time with family members, accompany their families
