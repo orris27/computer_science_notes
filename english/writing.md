@@ -441,6 +441,8 @@
 12. 保护区: wilderness areas, forests, wetlands, grasslands, animals' natural habitats, build protected areas
 13. 食物链: food chain 
 
+### notes
+1. 功能: function
 
 ### examples
 1. 政府: the government of my city
