@@ -542,8 +542,8 @@ yum install -y openssl-devel
     1. 解决:打开文件和映射文件的权限要对应.比如只读打开文件(O_RDONLY)就不能在映射的时候用write(mmap中不能用PROT_WRITE)
 4. `undefined reference to 'pthread_create'`
     1. 解决:`man pthread_create`,知道要在连接的时候添加`-pthread`参数
-5. man里面没有`pthread_key_create`
-    1. 解决:`sudo apt-get install manpages-posix-dev`
+
+
 ## 17. UNIX编程
 1. gdb中出现`No symbol table is loaded.  Use the "file" command.`
     1. 解决:编译时加`-g`参数
@@ -551,9 +551,19 @@ yum install -y openssl-devel
     1. 解决:将实体文件的大小改到能够容纳所有数据.比如临时文件的话,必须ftruncate其大小才行
 3. munmap出现`munmap: Invalid argument`
     1. 解决:移动mmap返回的p指针回到起始位置
-4. "centos": No manual entry for pthread_create. `man pthread_create`.
+4. No manual entry for pthread_create. `man pthread_create`.
 ```
 yum install -y man-pages
+
+sudo apt-get install manpages-posix-dev
+
+##############################################
+user@ubuntu:~$ sudo apt-get install manpages # tab
+manpages            manpages-es-extra   manpages-it         manpages-posix      manpages-zh
+manpages-de         manpages-fr         manpages-ja         manpages-posix-dev  
+manpages-de-dev     manpages-fr-dev     manpages-ja-dev     manpages-pt         
+manpages-dev        manpages-fr-extra   manpages-pl         manpages-pt-dev     
+manpages-es         manpages-hu         manpages-pl-dev     manpages-tr    
 ```
 ## 18. yum
 1. glibc的问题
