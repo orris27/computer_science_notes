@@ -2547,7 +2547,8 @@ man 2 open # 查看open的第2个章节.这里就是UNIX系统API应用层的ope
 ```
 man -k pthread
 ```
-
+### 65-3. install
+No manual entry: [doc](https://github.com/orris27/orris/blob/master/linux/errors.md)
 
 ## 66. stat
 查看文件属性:大小,占用多少块,IO块大小,inode编号,权限,修改时间
