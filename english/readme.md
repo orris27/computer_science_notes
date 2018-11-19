@@ -53,6 +53,35 @@
 
 44. abiotic: 二百 + tick => 将二百放到地上,用拐杖击打一下,结果就变成了非生物
 
+45. gill: 锯子 + l => 锯子削列车,结果列车里面的色子掉了出来(鱼鳃)
+
+46. fin: FIN => 电影结束后的fin里面有个鱼鳍游了过去
+
+47. crane: 起重机 => 鹤的长脖子变成了起重机,然后举起东西
+
+48. vulture: 青蛙 + 车 => 青蛙用舌头将车子给抬了起来,里面的埼玉老师将舌头给打爆了
+
+49. beak: 笔 + k => 鸟用喙变成的笔,在大桥上画出自己的女伴
+
+50. plume: plum + e => plum掉到了河里,然后鱼就咬了plum,这些果肉变成了轻柔的羽毛
+
+51. glide: g + lid => 锯子砍了平底锅的盖子,结果不小心滑行了
+
+52. soar: 手 => 手突然上升,离开了我们
+
+53. jay: J => 松鸭用钩子将我救了起来,然后我掉到了松树上面,然后看鸭子
+
+54. octopus: doctor + push => Dr.丹尼尔将自章鱼给push进去了
+
+55. tentacle: 棒球 + 坦克 => 坦克打出了棒球,然后将棒球擦开了人的脸,人的脸上就出现触须
+
+56. squid: school + d => 鱿鱼穿着校服结果从地里面出来,tentacle全都是d
+
+57. cuttlefish: cattle + fish => The cuttlefish leaves a big cattle-like castle. The castle collapses, and it becomes a fish
+
+58. eel
+
+59. angler fish: Gabriel + fish => When Gabriel sees the food in front of her, she bares her fangs to eat the food.
 
 
 ### 1-2. Law
@@ -3986,7 +4015,6 @@ The economy remains sluggish
 78. off the chart: 飞机 + 图标 => 飞机沿着图标的线也飞出去了(exceeding the general average)
 
 79. ominous: omega + 脑 => omega这个角色的大脑突然飞了起来,然后变得恐怖(making you feel that sth bad is going to happen)
-
 
 
 ### listening
