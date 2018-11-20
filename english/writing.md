@@ -491,6 +491,28 @@
 
 
 
+### expression
+1. get me thinking about
+2. at any rates
+3. theory of relativity
+4. foxes feed on mice
+5. get stuck in the tire
+6. be spread out over the open grassland
+7. walk down the street
+8. compete resources with 
+9. become barriers for animals
+10. write things in notes
+11. in his pocket
+12. bare his fangs
+13. stick his hands out the window
+14. soak old clothes in the basin
+15. climb up the cliff
+16. glide over the sea
+17. have a walk on the oasis
+18. fall to the ground
+19. be burning
+20. 
+
 ## 错别字
 1. museum
 2. explicit
