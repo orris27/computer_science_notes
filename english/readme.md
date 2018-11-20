@@ -83,6 +83,9 @@
 
 59. angler fish: Gabriel + fish => When Gabriel sees the food in front of her, she bares her fangs to eat the food.
 
+60. mussel: mom + hands(arms) => The right arm of my mother is filled with mussel.
+
+
 
 ### 1-2. Law
 1. verb
