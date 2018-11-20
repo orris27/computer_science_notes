@@ -85,6 +85,39 @@
 
 60. mussel: mom + hands(arms) => The right arm of my mother is filled with mussel.
 
+61. barnacle: shower head + brain + cola => She washed her hair using shower head. Her head(brain) fell to the ground and rolled over to the side of cola bottle. Suddenly, a large number of holes appear on the cola bottle (barnacle)
+
+62. oyster: oasis + Tesla Trooper => A Tesla Trooper who is a woman with big breast(母 => 牡) had a walk on the oasis. She used electric discharge to attack the fence.
+
+63. starfish
+
+64. coral reef: heat => The coral reef is burning
+
+65. sea urchin: sea + earphone => A earphone is gliding over the sea. The electromagnetic waves in the earphone becomes a sea unchin.
+
+66. divine: ground + alien => An alien climbed up the "underground" cliff(上) and reached the ground(帝).
+
+67. divinity
+
+68. commemorate: instant noodles + memory(head) => A man soaked his faces in the basin. After that, he clasps his hands in honor of sb.
+
+69. imaging method(成像方法)
+
+70. Native American
+
+71. Polynesian
+
+72. Viking
+
+73. Portuguese: clunker + geass => Mirai drived a clunker but was about to attacked by Lelouch who tried to use geass. Mirai sticked her hands out the windows with grapes and gave them to Lelouch.
+
+74. Uganda
+
+75. Mongolia
+
+76. Pakistan
+
+77. Vatican
 
 
 ### 1-2. Law
@@ -4050,6 +4083,8 @@ The economy remains sluggish
 + for that product
 + proven
 + recording
++ the Mediterranean Sea
++ indicators
 
 
 1. radioactivate decay
