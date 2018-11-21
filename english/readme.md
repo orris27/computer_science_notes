@@ -4084,7 +4084,7 @@ The economy remains sluggish
 
 80. odor: order(=> queue) => When I stood in line, the guys in front of my farted and I smelled a bad smell.
 
-81. delicate: ground + fence + cat => The cats ran into a fence and fell to the ground
+81. delicate: ground + fence + cat => The cats ran into a fence and fell to the ground. The leg of the cat is slightly injured.
 
 82. disruption: flute + eruption => The flute erupts and thus the earth stops spinning, which causes panic.
 
