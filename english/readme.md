@@ -119,6 +119,9 @@
 
 77. Vatican
 
+78. beetle: pen + head => We use the pen tip to stab the beetle, and the beetle becomes a car.
+
+
 
 ### 1-2. Law
 1. verb
@@ -1123,6 +1126,19 @@
     archaic laws that are seldom used
     ```
     3. remnant
+
+
+1. Augustus(奥古斯都)
+
+2. Ptolemaeus(托勒密)
+
+3. Pharaoh(法老)
+
+4. Aristotle(亚里士多德)
+
+5. Plato(柏拉图)
+
+6. Rene Descarte(勒内·笛卡尔)
 
 
 ### 1-10. agriculture
@@ -3552,8 +3568,23 @@ The economy remains sluggish
 
 
 
+### 1-27. social science
+1. almond: monk(amen) => A monk want to calm down and think carefully, so he locked himself in the almond.
 
-### 1-27. fight!!
+2. Amygdala: apple + rice + bigger => An apple landed at the top of the rice and they became larger, which caused the apple's center of gravity to be unstable. As a result, the apple rolled over to my brain's Amygdala.
+
+3. cerebral: shuriken + brain => Stick a shuriken on my brain and as a result my brain works more efficiently.
+
+4. cortex: cola + text => Cola spilled on the paper but the writing did not become blurred. Pikachu slowly breathe to move the water.
+
+5. cerebral cortex(大脑皮质)
+
+6. discern: ground + god => Saitama stared at the groud. Suddenly, some black clouds emerge from the ground and sealed him into his body. As a result, Saitama became the God.
+
+
+
+
+### 1-28. extra
 (v)deviate: deviation(偏差) => 偏离
 
 (v)deflect: 大地 + fleck(斑点) => 将自己的脸上的斑点给脱离下来,放到大地上
@@ -3589,7 +3620,6 @@ The economy remains sluggish
 (adj)abstruse: ab(力量) + straw + 蛇 => 用力量殴打稻草,然后稻草碰到蛇,蛇的眼睛突然很深
 
 
-### 1-28. extra
 1. verb
     1. rattle: rat + 头 => 老鼠的头有四张嘴,一直在说话
     2. batter: bat + 塔 => 蝙蝠撞塔,想从塔里出来,其实有门的
@@ -4052,6 +4082,16 @@ The economy remains sluggish
 
 79. ominous: omega + 脑 => omega这个角色的大脑突然飞了起来,然后变得恐怖(making you feel that sth bad is going to happen)
 
+80. odor: order(=> queue) => When I stood in line, the guys in front of my farted and I smelled a bad smell.
+
+81. delicate: ground + fence + cat => The cats ran into a fence and fell to the ground
+
+82. disruption: flute + eruption => The flute erupts and thus the earth stops spinning, which causes panic.
+
+83. aptly named: APTX(=> Sherry) => Sherry got a good name.
+
+84. coincide: coin + side(filp a coin and guess the result) => I flip a coin and everybody's coins are flipped as well at the same time
+
 
 ### listening
 + Earth's crust
@@ -4209,7 +4249,19 @@ The economy remains sluggish
 23. chemical
     1. 化学制品
     2. 化学的
+
+24. solution:
+    1. 溶液
+    2. 解决方法
+
+25. fragment:
+    1. v
+    2. n
     
+26. justify:
+    1. justify the expense
+    2. acceptable reasons to a problem
+
 
 ## 3. expression 
 1. apartment complex
