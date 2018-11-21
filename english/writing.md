@@ -294,6 +294,8 @@
 42. 有创造力的: be creative = be innovative = think out of the box = be forward-thinking
 43. 剥夺: deprive sb. of sth.
 44. 来自: from, derive from(`those lines may derive from decomposition of a died dinosaur's skin`)
+45. 导致: cause sth / sb to do sth
+
 
 ### education
 1. 获得更多知识: acquire/ gain a wide range of knowledge beyond textbooks, have access to knowledge, develop an in-depth understanding of the reading material, consolidate knowledge, update their knowledge and skills, absorb new knowledge, keep pace with the changing business world
@@ -491,7 +493,7 @@
 
 
 
-### expression
+### extra expression
 1. get me thinking about
 2. at any rates
 3. theory of relativity
@@ -511,7 +513,18 @@
 17. have a walk on the oasis
 18. fall to the ground
 19. be burning
-20. 
+20. monk
+21. lock oneself in 
+22. calm down and think
+23. land at
+24. run into the fence and fall
+25. pen tip
+26. stab the beetle
+27. stop spinning
+28. get a good name
+29. it's raining outside
+30. he is the real criminal
+31. 
 
 ## 错别字
 1. museum
