@@ -533,6 +533,8 @@
 37. strike the blackboard with chalk
 38. crawl on the floor
 39. kick the ground
+40. suck up the liquid
+
 
 ## 错别字
 1. museum
