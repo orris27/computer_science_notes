@@ -119,7 +119,7 @@ Enjoy it!
 #------------------------------------------------------------------------
 
 ```
-11. Ubuntu使用SS
+11. Ubuntu使用SS: 如果是Windows的话,下载了SwitchyOmega的话,是选择系统代理的,而不是直接连接
     1. 下载shadowxxx
     2. 创建连接
         1. Server Address填自己VPS的公有IP地址:`23.106.x.xx`
