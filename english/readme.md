@@ -1144,7 +1144,7 @@
 
 8. Raffello / Raphael(拉斐尔)
 
-9. Vincent Van Gogh(文森特·梵高)
+9. Vincent Van Gogh(文森特·梵高): suck(吸) + sunflower => Someone sucks up the sunflower in the painting
 
 10. Cenzanne: where are my hands(我的手在哪) => Where are my hands? My right hand disappear, so I draw a new hand.
 
@@ -4128,9 +4128,9 @@ The economy remains sluggish
 
 84. coincide: coin + side(filp a coin and guess the result) => I flip a coin and everybody's coins are flipped as well at the same time
 
-85. ethnic: Portgas·D·Ace + c => When Ace arrived at the coast, he started to walk slowly on the ocean which heated the ocean.
+85. ethic: Portgas·D·Ace + c => When Ace arrived at the coast, he started to walk slowly on the ocean which heated the ocean.
 
-
+86. ethnic: Ace + Nick => Ace touched me and I become black.
 
 
 ### listening
@@ -4165,6 +4165,16 @@ The economy remains sluggish
 + recording
 + the Mediterranean Sea
 + indicators
++ the Middle Ages
++ Renaissance
++ This remain sth till 30 years ago
++ up in Maine
++ where this course fits in 
++ were a period ~~appeal~~
++ relevance in a curriculum
++ common themes ~~things~~
++ trends ~~trains~~
+
 
 
 1. radioactivate decay
