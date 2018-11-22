@@ -524,7 +524,15 @@
 28. get a good name
 29. it's raining outside
 30. he is the real criminal
-31. 
+31. super power
+32. stop the train from hitting the boy
+33. Kusuo, Ace
+34. hook
+35. the train is about to hit him
+36. bitten by mosquito
+37. strike the blackboard with chalk
+38. crawl on the floor
+39. kick the ground
 
 ## 错别字
 1. museum
