@@ -1140,6 +1140,20 @@
 
 6. Rene Descarte(勒内·笛卡尔)
 
+7. Monet(莫奈)
+
+8. Raffello / Raphael(拉斐尔)
+
+9. Vincent Van Gogh(文森特·梵高)
+
+10. Cenzanne: where are my hands(我的手在哪) => Where are my hands? My right hand disappear, so I draw a new hand.
+
+11. George Washington(乔治·华盛顿)
+
+12. Thomas Jefferson: train + Kusuo + J => A train is about to hit Kusuo but Kusuo uses a hook to stop the train from hitting himself
+
+13. 
+
 
 ### 1-10. agriculture
 1. verb
@@ -2886,6 +2900,9 @@ the Marxist doctrine
 municipal elections
 ```
 
+35. imperialism: coin + realism(stone + xian) => Misaka uses the railgun which penetrates a stone and hits the forehead of an emperor. As a result, the emperor falls to the ground.
+
+
 ### 1-23. botany
 1. (n)shrub(灌木丛)
 2. (n)laurel: 老了 => 老了就去月球上砍月桂树
@@ -3581,8 +3598,27 @@ The economy remains sluggish
 
 6. discern: ground + god => Saitama stared at the groud. Suddenly, some black clouds emerge from the ground and sealed him into his body. As a result, Saitama became the God.
 
+7. metacognition(元认知)
 
+8. innocence: chair + nose + Kusuo => I place my nose on the chair and allow Kusuo to enter my nose so that he can enable to fly with his super power
 
+9. amnesia: button + sand + hand(手) => I pressed the button and put my right hand through the button and strecth out in the sand xx in a park. I returned the memories to the large brain in the air.
+
+10. subject(实验对象)
+
+11. empathy: ant + crawl on the floor(爬行) => The ant is crawling on the floor quickly but when it came across Gabriel, it understood the feelings of Gabriel and stops its behaviours.
+
+12. egocentric(自我为中心的)
+
+13. moral dilemma(道德窘境)
+
+14. intellect: intel + actor(芳文社著名女演员 => Rize) => Rize is programming in her laptop. She reads a book and strikes the book with chalk.(粉笔 => 分子)
+
+15. foundationalism: foundation + alism => 基础主义
+
+16. controversy: control(Zetsu) + mosquito => Zetsu was bitten by mosquito
+
+17. conformity: look at the wind + kick => He looked at the wind, kicked the ground and jumped into the wind with others.
 
 ### 1-28. extra
 (v)deviate: deviation(偏差) => 偏离
@@ -4091,6 +4127,10 @@ The economy remains sluggish
 83. aptly named: APTX(=> Sherry) => Sherry got a good name.
 
 84. coincide: coin + side(filp a coin and guess the result) => I flip a coin and everybody's coins are flipped as well at the same time
+
+85. ethnic: Portgas·D·Ace + c => When Ace arrived at the coast, he started to walk slowly on the ocean which heated the ocean.
+
+
 
 
 ### listening
