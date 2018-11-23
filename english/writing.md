@@ -553,7 +553,11 @@
 57. check out: no books can be checked out after 6 p.m.
 58. used book(二手书)
 59. put a book on reverse(预定书)
-60.  milk carton 
+60. milk carton 
+61. open up a new division of a restaurant / open a restaurant
+
+
+
 
 ## 错别字
 1. museum
