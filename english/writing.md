@@ -534,7 +534,26 @@
 38. crawl on the floor
 39. kick the ground
 40. suck up the liquid
-
+41. climb up a ladder
+42. ladder & staircase
+43. the bottled water
+44. there was a sudden flash of ligntning
+45. light up the room
+46. drool
+47. bridal chamber
+48. walk / go into the room
+49. put her nose against the wall
+50. on campus
+51. off-campus
+52. letter of recommendation
+53. a room for club activites
+54. instructor / advisor
+55. swamped with
+56. literature review(文献综述)
+57. check out: no books can be checked out after 6 p.m.
+58. used book(二手书)
+59. put a book on reverse(预定书)
+60.  milk carton 
 
 ## 错别字
 1. museum
