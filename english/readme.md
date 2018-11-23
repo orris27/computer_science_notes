@@ -845,6 +845,36 @@
 
 
 
+1. orientation: compass => I used compass the first time I entered the university.
+
+2. auditorium: Ozymandias + very tired => Ozymandias are very tired and sat on his chair. The background suddenly changed to that of church with light coming through the glass.
+
+3. reception: fire + receive => Burning Hairo ran to the reception and received the bottled water.
+
+4. utility: ghost + ladder + filetto(里脊) => The ghost climbed up the ladder. There was a flash of lightning and lit up the room. The ghost found the filetto and drooled.
+
+5. dorm fee: bridal chamber(洞房) => When my bride walked into the bridal chamber, I charged her for fees if she wanted to live there.
+
+6. minor: Umaru + nose => Umaru put her nose against(扶) the wall.
+
+7. extra-curricular: extra + curriculum => 课外的
+
+8. bulletin board: ballet + eagle => She danced ballet and became an eagle. The eagle ran into the board
+
+9. vice president: alien(外) => An alien went into our room for club activies. It was Huang!
+
+10. retraction: fire + car + Kusuo => A burning car was about to hit Kusuo. Kusuo used his super power to move the car away.
+
+11. swamped with: swamp => 陷于
+
+12. check out: car => I drove my car into the library and hit the shelves. Books fell into my car.
+
+13. refund(退款)
+
+14. eligible: milk(伊利) + enormous + ball => I blew in the milk carton and it became an enormous ball, which allowed it to get into the train.
+
+15. deceive: ground + sea => The sea covers the ground slightly, but he believed he was about to be drowned.
+
 ### 1-7. economy
 1. verb
     1. redress: 热 + dress => 勇太把连衣裙放到了热水机里准备烧,心美看到了赶紧纠正(拿了)起来
@@ -4044,7 +4074,7 @@ The economy remains sluggish
 
 42. Arabic language: 阿拉伯语
 
-43. thesis: sea + 石头 => 大海前面扔了石头,然后石头削成了轮胎
+43. thesis: sea + 石头 => 用笔(毕业)弹飞了石头,然后石头在大海上滚动,削成了轮胎(论文) => 毕业论文
 
 44. pictograph: picture + graph => 表示picture的文字(属于hieroglyphics)
 
