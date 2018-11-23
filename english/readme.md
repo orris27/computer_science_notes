@@ -851,7 +851,7 @@
 
 3. reception: fire + receive => Burning Hairo ran to the reception and received the bottled water.
 
-4. utility: ghost + ladder + filetto(里脊) => The ghost climbed up the ladder. There was a flash of lightning and lit up the room. The ghost found the filetto and drooled.
+4. utility bill: ghost + ladder + filetto(里脊) => The ghost climbed up the ladder. There was a flash of lightning and lit up the room. The ghost found the filetto and drooled.
 
 5. dorm fee: bridal chamber(洞房) => When my bride walked into the bridal chamber, I charged her for fees if she wanted to live there.
 
