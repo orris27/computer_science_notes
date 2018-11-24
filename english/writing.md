@@ -563,6 +563,12 @@
 59. put a book on reverse(预定书)
 60. milk carton 
 61. open up a new division of a restaurant / open a restaurant
+62. roll around
+63. make loud sounds
+64. need repairing
+65. cut wood with a chain saw
+66. The bullet hit her in the arm
+
 
 
 
