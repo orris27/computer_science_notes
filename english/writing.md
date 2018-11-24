@@ -291,7 +291,7 @@
 31. 忙于: be busy with their own work
 32. 难于: find it difficult to 
 33. 平衡: (find it difficult to) balance family and work / study and life
-34. 有用: of no use = useless ~ useful, helpful, valuable = constructive
+34. 有用: of no use = useless ~ useful, helpful, valuable = constructive, helpful for sb to do sth / helpful to sb
 35. 提意见: provide suggestions
 36. 感情用事: impulsive, self-centered, arrogant
 37. 懂: have more wisdom of interpersonal relationship, understand, have an in-depth understanding of
@@ -595,6 +595,14 @@
 19. invest large sums of money in ~~invest a large sums of money in~~
 20. energetic
 21. supervision
+22. capable
+23. suited to them ~~suitable to them~~
+24. appropriate
+25. theoretical
+26. aesthetic sensitivity ~~aethestic sensitivity~~
+27. temporarily ~~temporarialy~~
+28. feast their eyes on the tourist attractions (tourist!!)
+29. develop clean, renewable energy from solar, wind and water poweras alternatives for fossil fuels such as coal, oil and gas. ~~develop renewable and clean resources from wind, solar and water power as alternatives to fossial fuels such as oils, gases and petroleum.~~
 
 
 ## 1. Introduction
