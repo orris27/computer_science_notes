@@ -875,6 +875,19 @@
 
 15. deceive: ground + sea => The sea covers the ground slightly, but he believed he was about to be drowned.
 
+16. acoustics: two(二) + pants + stick => 2 pants are stick to each other. If I pull them, they will make loud sounds.
+
+17. payroll: Pei(佩姐) + roll => Pei rolled around and hit the brick that gave her coins in return.
+
+18. warranty: frog + people + kick => A frog became a man and he kicked the air conditioner. The air conditioner was broken and needed repairing.
+
+19. fire marshal: fire + Mash => Burning Mash needs the fire marshal's help.
+
+20. lounge area: building + saw => The man cuts a building with a saw. People in the building stop having a rest and escape from the building. 
+
+21. dump: bullet => The bullet hit the dump and it started to burn.
+
+
 ### 1-7. economy
 1. verb
     1. redress: 热 + dress => 勇太把连衣裙放到了热水机里准备烧,心美看到了赶紧纠正(拿了)起来
