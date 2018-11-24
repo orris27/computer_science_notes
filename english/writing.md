@@ -589,6 +589,13 @@
 13. decomposition ~~decomposion~~
 14. Therefore, (这里的逗号一定要添加)
 15. appearance ~~appearence~~
+16. stability
+17. do sth of his own free will ~~do sth out of his free will~~
+18. initiative
+19. invest large sums of money in ~~invest a large sums of money in~~
+20. energetic
+21. supervision
+
 
 ## 1. Introduction
 
