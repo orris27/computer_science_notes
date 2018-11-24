@@ -249,6 +249,14 @@
     3. skill & suggestion
 
 ## 万能词组
+### 开头
+1. 如今: In modern society, = Nowadays, = Currently, = Recently, = In this era, 
+2. 随着xx的发展: With the development of society / technology / the economy, ...
+3. 激烈的讨论: heated debate = heated discussion = hot topic
+4. 背景句: It is true that, It is common that,
+5. S2: People have different views about whether, plays an increasingly important roles in, How to ... has become an issue of considerable concern, People tend to put more emphasis on 
+6. It is true that curriculum design plays an increasingly important role in all levels of education, because it will heavily influence the quality and efficiency of teaching and learning.
+
 ### 虚词
 1. 倾向于: tend to 
 2. 贡献: devote much time or energy to doing, contribute money to 
