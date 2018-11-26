@@ -28,8 +28,8 @@
 ## 2. task_struct
 ```
 struct task_struct {
-	volatile long state;	/* -1 unrunnable, 0 runnable, >0 stopped */
-	void *stack;
+	volatile long state;	//进程状态/* -1 unrunnable, 0 runnable, >0 stopped */
+	void *stack;            //
 	atomic_t usage;
 	unsigned int flags;	/* per process flags, defined below */
 	unsigned int ptrace;
@@ -44,7 +44,6 @@ struct task_struct {
 	int wake_cpu;
 #endif
 	int on_rq;
-
 	int prio, static_prio, normal_prio;
 	unsigned int rt_priority;
 	const struct sched_class *sched_class;
