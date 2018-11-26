@@ -24,15 +24,14 @@ wget https://github.com/frekele/oracle-java/releases/download/8u181-b13/jdk-8u18
 #tar zxf jdk-10.0.2_linux-x64_bin.tar.gz
 tar zxf jdk-8u181-linux-x64.tar.gz
 
-mv jdk-10.0.2 /usr/local/
-ln -s /usr/local/jdk-10.0.2/ /usr/local/jdk
+mv jdk1.8.0_181 /usr/local/
+ln -s /usr/local/jdk1.8.0_181/ /usr/local/jdk
 
 cd /tools
-#wget http://apache.spinellicreations.com/tomcat/tomcat-9/v9.0.10/bin/apache-tomcat-9.0.10.tar.gz
 wget http://apache.spinellicreations.com/tomcat/tomcat-9/v9.0.13/bin/apache-tomcat-9.0.13.zip    
-tar zxf apache-tomcat-9.0.10.tar.gz 
-mv apache-tomcat-9.0.10 /usr/local/
-ln -s /usr/local/apache-tomcat-9.0.10/ /usr/local/tomcat
+tar zxf apache-tomcat-9.0.13.tar.gz 
+mv apache-tomcat-9.0.13 /usr/local/
+ln -s /usr/local/apache-tomcat-9.0.13/ /usr/local/tomcat
 
 
 cd /usr/local 
@@ -45,12 +44,10 @@ ll
 ###################################################
 
 # 虚拟机的话可以直接放这里面,一台虚拟机对应一个用途就好了
-cat >> /etc/profile <<EOF
-export JAVA_HOME=/usr/local/jdk
-export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH
-export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$JAVA_HOME/lib/tools.jar
-export TOMCAT_HOME=/usr/local/tomcat
-EOF
+echo 'export JAVA_HOME=/usr/local/jdk' >> /etc/profile
+echo 'export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH' >> /etc/profile
+echo 'export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib:$JAVA_HOME/lib/tools.jar' >> /etc/profile
+echo 'export TOMCAT_HOME=/usr/local/tomcat' >> /etc/profile
 source /etc/profile
 
 java -version
@@ -66,6 +63,8 @@ su - tomcat
 
 java -version
 
+systemctl stop firewalld
+systemctl disable firewalld
 #tomcat 默认监听8080
 /usr/local/tomcat/bin/startup.sh
 
