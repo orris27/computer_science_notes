@@ -25,13 +25,15 @@
     6. 未决信号集
 
 
+
+
 ## 2. task_struct
 ```
 struct task_struct {
 	volatile long state;	//进程状态/* -1 unrunnable, 0 runnable, >0 stopped */
 	void *stack;            //
 	atomic_t usage;
-	unsigned int flags;	/* per process flags, defined below */
+	unsigned int flags; // 进程标志位,相比于进程状态,flags能更细粒度控制进程运行的情况 /* per process flags, defined below */
 	unsigned int ptrace;
 
 #ifdef CONFIG_SMP
@@ -98,7 +100,7 @@ struct task_struct {
 	struct task_rss_stat	rss_stat;
 #endif
 /* task state */
-	int exit_state;
+	int exit_state;     // 进程退出时的状态
 	int exit_code, exit_signal;
 	int pdeath_signal;  /*  The signal sent when the parent dies  */
 	unsigned long jobctl;	/* JOBCTL_*, siglock protected */
@@ -133,7 +135,7 @@ struct task_struct {
 
 	struct restart_block restart_block;
 
-	pid_t pid;
+	pid_t pid; // 自己的进程id
 	pid_t tgid;
 
 #ifdef CONFIG_CC_STACKPROTECTOR
