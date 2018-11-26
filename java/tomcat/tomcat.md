@@ -18,14 +18,18 @@ mkdir /tools
 cd /tools
 
 # wget拿不到,所以只能去官网下载
-wget http://download.oracle.com/otn-pub/java/jdk/10.0.2+13/19aef61b38124481863b1413dce1855f/jdk-10.0.2_linux-x64_bin.tar.gz
-tar zxf jdk-10.0.2_linux-x64_bin.tar.gz
+#wget http://download.oracle.com/otn-pub/java/jdk/10.0.2+13/19aef61b38124481863b1413dce1855f/jdk-10.0.2_linux-x64_bin.tar.gz
+wget https://github.com/frekele/oracle-java/releases/download/8u181-b13/jdk-8u181-linux-x64.tar.gz
+
+#tar zxf jdk-10.0.2_linux-x64_bin.tar.gz
+tar zxf jdk-8u181-linux-x64.tar.gz
 
 mv jdk-10.0.2 /usr/local/
 ln -s /usr/local/jdk-10.0.2/ /usr/local/jdk
 
 cd /tools
-wget http://apache.spinellicreations.com/tomcat/tomcat-9/v9.0.10/bin/apache-tomcat-9.0.10.tar.gz
+#wget http://apache.spinellicreations.com/tomcat/tomcat-9/v9.0.10/bin/apache-tomcat-9.0.10.tar.gz
+wget http://apache.spinellicreations.com/tomcat/tomcat-9/v9.0.13/bin/apache-tomcat-9.0.13.zip    
 tar zxf apache-tomcat-9.0.10.tar.gz 
 mv apache-tomcat-9.0.10 /usr/local/
 ln -s /usr/local/apache-tomcat-9.0.10/ /usr/local/tomcat
