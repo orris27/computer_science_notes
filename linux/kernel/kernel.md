@@ -69,7 +69,9 @@ uname -r
 
 
 ## 2. 编写内核模块,并安装内核模块
-
+1. `obj-m +=$(TARGET).o`告诉kbuild,希望将`$(TARGET)`,也就是helloworld,编译成内核模块
+2. `M=$(PWD)`表示生成的模块文件都将在当前目录下
+3. `KDIR`表示源代码最高层目录的位置
 ```
 yum install kernel-devel-$(uname -r)
 vim helloworld.c
