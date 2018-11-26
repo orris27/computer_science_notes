@@ -481,3 +481,26 @@ struct task_struct {
  */
 };
 ```
+## 3. 编写内核程序,遍历进程
+涉及进程状态以及Makefile的话,更详细的参考[内核模块&proc使用 实例：统计所有进程的信息](https://blog.csdn.net/qq_32146369/article/details/78412822)里的代码
+
+下面的只是单纯的遍历代码,`Makefile`参考上面的网站
+```
+#include <linux/module.h>
+#include <linux/sched.h>
+ 
+int init_module(void){
+    struct task_struct *p;
+    for(p=&init_task;(p=next_task(p))!=&init_task;){
+        printk("name:%s pid:%d state:%ld parent:%s\n",p->comm,p->pid,p->state,p->real_parent->comm);
+    }
+    return 0;
+}
+ 
+void cleanup_module(void){ 
+    printk("process finished\n");
+}
+ 
+MODULE_LICENSE("GPL");
+
+```
