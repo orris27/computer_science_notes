@@ -84,10 +84,13 @@ New Perspective>MapReduce>New Location>location name:localhost(选择namenode的
 
 ### 安装Vim插件Vrapper
 1. help > Install New Software
-2. Work with:  `http://vrapper.sourceforge.net/update-site/stable`
+2. Work with:  `http://vrapper.sourceforge.net/update-site/stable`,回车
 3. 勾选所有, 一路Next,Finish. 然后过一段时间会说没有什么凭证之类的,是否继续安装,就继续安装并重启
 
 
+
+### 安装subclipse
+`https://dl.bintray.com/subclipse/releases/subclipse/latest/`,其他同上
 
 
 
