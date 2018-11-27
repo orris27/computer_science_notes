@@ -2517,3 +2517,19 @@ printf("%d\n", state); # 0
 printf("%s\n", parent); # bash
 
 ```
+2. 文件读写
+```
+FILE *fp;
+
+fp = fopen("/var/log/kern.log", "r");
+//文件的每一行基本为 "Nov 27 14:53:40 leoli1 kernel: [513289.047220] insmod 32226 0 bash"
+
+while(!feof(fp))
+{
+    fscanf(fp, "%*[^\]]] %s %d %d %s", name, &pid, &state, parent);
+    if(strcmp(name, "start") == 0)
+        // ...
+    // ...
+}
+fclose(fp);
+```
