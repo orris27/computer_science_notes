@@ -495,7 +495,7 @@ printf("%d\n",(int)rl.rlim_max);
 #include <stdlib.h>
 ```
 
-30. Makefile
+30. Makefile: 参考[Makefile的notes](https://github.com/orris27/orris/blob/master/cpp/makefile.md)
     1. 原始形态(produce有main函数,produce依赖fifo,而fifo依赖sem,其中fifo和sem都有头文件)
         + `gcc -c xx.c -o xx.o`:编译
         + `gcc xx.o yy.o -o zz`:连接
