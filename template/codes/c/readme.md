@@ -2498,3 +2498,22 @@ for(int i=0;i<20;++i)
 ```
 bzero(&serv_addr,sizeof(serv_addr));
 ```
+
+
+## 4. 普通C语言
+1. scanf格式化输入
+```
+int pid;
+int state;
+char parent[100];
+char name[100];
+
+# input: "Nov 27 14:53:40 leoli1 kernel: [513289.047220] insmod 32226 0 bash"
+scanf("%*[^\]]] %s %d %d %s", name, &pid, &state, parent);
+
+printf("%s\n", name); # insmod
+printf("%d\n", pid); # 32226
+printf("%d\n", state); # 0
+printf("%s\n", parent); # bash
+
+```
