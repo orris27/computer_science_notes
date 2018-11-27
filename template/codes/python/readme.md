@@ -4565,6 +4565,25 @@ ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap='rainbow')
 plt.show()
 ```
 
+9. 填充0: [参考网站](https://blog.csdn.net/zenghaitao0128/article/details/78713663)
++ 第二个参数是一个元组,第i个元素表示在目标数组的第i轴前后填充多少零
++ 默认'constant'填充0
+```
+#在数组A的边缘填充constant_values指定的数值
+#（3,2）表示在A的第[0]轴填充（二维数组中，0轴表示行），即在0轴前面填充3个宽度的0，比如数组A中的95,96两个元素前面各填充了3个0；在后面填充2个0，比如数组A中的97,98两个元素后面各填充了2个0
+#（2,3）表示在A的第[1]轴填充（二维数组中，1轴表示列），即在1轴前面填充2个宽度的0，后面填充3个宽度的0
+np.pad(A,((3,2),(2,3)),'constant',constant_values = (0,0))  #constant_values表示填充值，且(before，after)的填充值等于（0,0）
+
+
+a = np.arange(16 * 5281).reshape(16,5281,1)                                                         
+a.shape                                                                                             
+(16, 5281, 1)
+
+b =np.pad(a, ((0, 0), (0, 424), (0, 0)), 'constant')                                                
+
+b.shape                                                                                            
+(16, 5705, 1)
+```
 ## 4. plt
 `import matplotlib.pyplot as plt`
 1. 画画
