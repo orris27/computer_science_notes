@@ -801,6 +801,9 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     1. 解决: 之前用的mnist是`mnist = input_data.read_data_sets('MNIST_data/',one_hot = True)`,实际应该使用的是`(X_train, y_train), (X_test, y_test) = mnist.load_data()`
 
 
+23. Op type not registered 'NonMaxSuppressionV3' in binary running on orris-Laptop.
+    1. 解决: 严格修改tensorflow的版本为该代码指定的版本
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
