@@ -4248,64 +4248,111 @@ for epoch in range(num_epochs):
             print("batch {2} step {0}: loss={1}".format(step, loss.numpy() / (int)(padded_indices.shape[1]), epoch))
 ```
 
-## 2. Bazel
+## 2. PyTorch
+1. basic data
+    1. create tensor
+        1. from numpy
+        ```
+        np_data = np.arange(6).reshape([2,3])
+        torch_data = torch.from_numpy(np_data)
+        #--------------------------------------------
+        #  0  1  2
+        #  3  4  5
+        # [torch.LongTensor of size 2x3]
+        #--------------------------------------------
+        ```
+        2. from python list
+        ```
+        l = [[1, 2], [3, 4]]
+        tensor = torch.FloatTensor(l)
+        ```
+    2. torch => numpy
+    ```
+    print(torch_data.numpy())
+    ```
+2. function
+    1. nearly the same as numpy, such as `torch.add`, `torch.abs`, sin, mean and so on.
+    2. `torch.mm`: matmul
+    3. WARNING: In numpy, `data.dot(data2)` is matrix multiply, while in torch, `tensor.dot(tensor2)` is a dot production
+    ```
+    l = [[1, 2], [3, 4]]
+    tensor = torch.FloatTensor(l)
+    
+    torch.add(tensor, tensor)
+    #------------------------------------------------
+    #  2  4
+    #  6  8
+    # [torch.FloatTensor of size 2x2]
+    #------------------------------------------------
+
+    tensor.dot(tensor)
+    #------------------------------------------------
+    # 30.0
+    #------------------------------------------------
+
+    torch.mm(tensor, tensor)
+    #------------------------------------------------
+    #   7  10
+    #  15  22
+    # [torch.FloatTensor of size 2x2]
+    #------------------------------------------------
+    
+    tensor*tensor
+    #------------------------------------------------
+    #   1   4
+    #   9  16
+    # [torch.FloatTensor of size 2x2]
+    #------------------------------------------------
+
+    ```
+3. variable, backward, grad, data
++ variable
+    1. variable可以反向传播, tensor不能反向传播
++ backward
+    1. 只有variable的结果 && 是scalar 才能backward
+    2. 多个variable是允许的,本质是对每个单独元素做偏微分
++ grad
+    1. variable数据格式
+    2. 累加多次backward结果
++ data
+    1. variable => tensor
 ```
-cat BUILD 
-#-----------------------------------------------------------------------
-py_library(
-    name = "hello_lib",
-    srcs = [
-        "hello_lib.py",
-    ]
-)
+from torch.autograd import Variable
 
-py_binary(
-    name = "hello_main",
-    srcs = [
-        "hello_main.py",
-    ],
-    deps = [
-        ":hello_lib",
-    ],
-)
-#-----------------------------------------------------------------------
+# 搭建图纸,对这个variable进行BP
+variable = Variable(tensor, requires_grad=True) 
+#-------------------------------------------------------------
+# Variable containing: # different from that of tensor
+#  1  2
+#  3  4
+# [torch.FloatTensor of size 2x2]
+#-------------------------------------------------------------
 
-cat hello_lib.py 
-#-----------------------------------------------------------------------
-def print_hello_world():
-    print("Hello World")
-#-----------------------------------------------------------------------
+v_out = torch.mean(variable * variable)
+v_out.backward()
+
+variable.grad # variable是2x2矩阵,因为针对是每个元素的偏微分,所以就是(v1^2 + v2^2 + v3^2 +v4^2) / 4对每个v_i进行偏微分,所以是1/2*v_i
+#-------------------------------------------------------------
+# Variable containing:
+#  0.5000  1.0000 
+#  1.5000  2.0000
+# [torch.FloatTensor of size 2x2]
+#-------------------------------------------------------------
 
 
-cat hello_main.py 
-#-----------------------------------------------------------------------
-import hello_lib
-hello_lib.print_hello_world()
-#-----------------------------------------------------------------------
+variable.data # variable => 
+#-------------------------------------------------------------
+#  1  2
+#  3  4
+# [torch.FloatTensor of size 2x2]
+#-------------------------------------------------------------
 
-
-
-cat WORKSPACE  # 空文件
-#-----------------------------------------------------------------------
-#-----------------------------------------------------------------------
-
-bazel build :hello_main
-#-----------------------------------------------------------------------
-total 40
-drwxr-xr-x  2 orris orris 4096 Sep 16 23:29 ./
-drwxrwxr-x 31 orris orris 4096 Sep 16 21:58 ../
-lrwxrwxrwx  1 orris orris   88 Sep 16 23:29 bazel-bazel -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/
-lrwxrwxrwx  1 orris orris  115 Sep 16 23:29 bazel-bin -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/bin/
-lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-genfiles -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/genfiles/
-lrwxrwxrwx  1 orris orris   98 Sep 16 23:29 bazel-out -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/
-lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-testlogs -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/testlogs/
--rw-r--r--  1 orris orris  207 Sep 16 23:29 BUILD
--rw-r--r--  1 orris orris   50 Sep 16 21:59 hello_lib.py
--rw-r--r--  1 orris orris   47 Sep 16 21:58 hello_main.py
--rw-r--r--  1 orris orris    0 Sep 16 21:59 WORKSPACE
-#-----------------------------------------------------------------------
 
 ```
+data => tensor
+
+
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
@@ -5245,12 +5292,69 @@ display.clear_output(wait=True)
 
 
 
+## 14. Bazel
+```
+cat BUILD 
+#-----------------------------------------------------------------------
+py_library(
+    name = "hello_lib",
+    srcs = [
+        "hello_lib.py",
+    ]
+)
+
+py_binary(
+    name = "hello_main",
+    srcs = [
+        "hello_main.py",
+    ],
+    deps = [
+        ":hello_lib",
+    ],
+)
+#-----------------------------------------------------------------------
+
+cat hello_lib.py 
+#-----------------------------------------------------------------------
+def print_hello_world():
+    print("Hello World")
+#-----------------------------------------------------------------------
+
+
+cat hello_main.py 
+#-----------------------------------------------------------------------
+import hello_lib
+hello_lib.print_hello_world()
+#-----------------------------------------------------------------------
+
+
+
+cat WORKSPACE  # 空文件
+#-----------------------------------------------------------------------
+#-----------------------------------------------------------------------
+
+bazel build :hello_main
+#-----------------------------------------------------------------------
+total 40
+drwxr-xr-x  2 orris orris 4096 Sep 16 23:29 ./
+drwxrwxr-x 31 orris orris 4096 Sep 16 21:58 ../
+lrwxrwxrwx  1 orris orris   88 Sep 16 23:29 bazel-bazel -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/
+lrwxrwxrwx  1 orris orris  115 Sep 16 23:29 bazel-bin -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/bin/
+lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-genfiles -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/genfiles/
+lrwxrwxrwx  1 orris orris   98 Sep 16 23:29 bazel-out -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/
+lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-testlogs -> /home/orris/.cache/bazel/_bazel_orris/8d1219feedf870d498a844115318f209/execroot/__main__/bazel-out/k8-fastbuild/testlogs/
+-rw-r--r--  1 orris orris  207 Sep 16 23:29 BUILD
+-rw-r--r--  1 orris orris   50 Sep 16 21:59 hello_lib.py
+-rw-r--r--  1 orris orris   47 Sep 16 21:58 hello_main.py
+-rw-r--r--  1 orris orris    0 Sep 16 21:59 WORKSPACE
+#-----------------------------------------------------------------------
+
+```
 
 
 
 
-
-## 14. python
+## 15. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
