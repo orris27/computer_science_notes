@@ -4647,30 +4647,55 @@ class CNN(torch.nn.Module):
 ```
 
 13. RNN
-+ `batch_first`: True: (batch_size, time_steps, input_size); False: (time_steps, batch_size, input_size)
-+ `net_out[:, -1, :]`: 选取最后一个时刻的输出 (batch_size, time_steps, input_size)
-+ `None`: 之前的hidden_state
-+ `h_n`和`h_c`: 好像是进程相关的?
-```
-class LSTM(torch.nn.Module):
-    def __init__(self, input_size, hidden_size, num_classes):
-        super(LSTM, self).__init__()
-        self.lstm1 = torch.nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=1, batch_first=True)
-        self.fc1 = torch.nn.Linear(hidden_size, num_classes)
+    1. LSTM
+    + `batch_first`: True: (batch_size, time_steps, input_size); False: (time_steps, batch_size, input_size)
+    + `net_out[:, -1, :]`: 选取最后一个时刻的输出 (batch_size, time_steps, input_size)
+    + `None`: 之前的hidden_state
+    + `h_n`和`h_c`: 好像是进程相关的?
+    ```
+    class LSTM(torch.nn.Module):
+        def __init__(self, input_size, hidden_size, num_classes):
+            super(LSTM, self).__init__()
+            self.lstm1 = torch.nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=1, batch_first=True)
+            self.fc1 = torch.nn.Linear(hidden_size, num_classes)
 
-    def forward(self, net): # net: (batch_size, 1, 28, 28)
-        
-        net_out, (h_n, h_c) = self.lstm1(net, None)
-        net = net_out[:, -1, :]
-        net = self.fc1(net)
-        return net
-```
+        def forward(self, net): # net: (batch_size, 1, 28, 28)
+
+            net_out, (h_n, h_c) = self.lstm1(net, None)
+            net = net_out[:, -1, :]
+            net = self.fc1(net)
+            return net
+    ```
+    2. RNN
+    ```
+    class RNN(torch.nn.Module):
+        def __init__(self, input_size, hidden_size, num_classes):
+            super(RNN, self).__init__()
+            self.rnn1 = torch.nn.RNN(input_size=input_size, hidden_size=hidden_size, num_layers=1, batch_first=True)
+            self.fc1 = torch.nn.Linear(hidden_size, num_classes)
+
+        def forward(self, net, h_state): # net: (batch_size, 1, time_steps, 1)
+            # 传递time_steps个timestep的时候,每个timestep输出的结果就是这个sin_y对应的cos_y
+            net_out, h_state = self.rnn1(net, h_state) # net_out: [batch_size, time_steps, hidden_size]
+            outs = []
+            for time_step in range(net.size(1)):
+                outs.append(self.fc1(net_out[:, time_step, :])) # outs: [time_steps, 1, 1] (list)
+
+            return torch.stack(outs, dim=1), h_state # torch.stack(outs, dims=1): [1, time_steps, 1] (FloatTensor)
+            
+            
+    # ...
+    h_state = None
+    for ...:
+        y_pred, h_state = model(x, h_state)
+        h_state = h_state.data
+    ```
 
 14. PyTorch代码实战
     1. [CNN实现MNIST](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/cnn_mnist.py)
     2. [RNN实现MNIST](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/rnn_mnist.py)
     3. [save load实现](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/save_load.py)
-
+    4. [RNN实现sin到cos的预测](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/rnn_sin_cos.py): 当前若干个sin的值,放入到RNN中,RNN的每个timestep都会输出预测的cos值,把这些积累起来就可以了
 
 ## 3. Numpy
 1. 随机数
@@ -5060,8 +5085,15 @@ b.shape
     plt.figure()
     plt.imshow(image) # [height,width] || [height,width,channels] || etc
     plt.show()
-    
     ```
+    5. 有标记
+    ```
+    plt.plot(steps, y_np, 'r-', label='target (cos)')
+    plt.plot(steps, x_np, 'b-', label='input (sin)')
+    plt.legend(loc='best')
+    plt.show()
+    ```
+    
 2. 显示
     1. 显示在外部
     ```
