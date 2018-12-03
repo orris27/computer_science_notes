@@ -870,3 +870,6 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     ```
     ```
 ```
+## 25. PyTorch
+1. `AttributeError: 'torch.LongTensor' object has no attribute 'data'`
+    1. 解决: 把tensor转换成Variable
