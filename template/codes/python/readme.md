@@ -4404,15 +4404,17 @@ a[0:3,np.newaxis]
 #        [2],
 #        [3]])
 #-------------------------------
-
 ```
+
 3. 转化numpy array为字节流
     + 存储图像,如MNIST
 ```
 l = np.array([1,2,3])
 l.tostring()
-#b'\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00'
+# b'\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x00\x00\x00\x00\x00'
 ```
+
+
 4. argsort: return the indices that will sort the array
     1. sort
     ```
@@ -4443,6 +4445,7 @@ l.tostring()
     # array([4, 3, 2, 1, 0])
     #---------------------------------------
     ```
+    
 5. 转换向量为单位向量(模=1的向量)
     1. 一维
     ```
@@ -4631,6 +4634,89 @@ b =np.pad(a, ((0, 0), (0, 424), (0, 0)), 'constant')
 b.shape                                                                                            
 (16, 5705, 1)
 ```
+
+
+10. linear algebra
+    1. 数组
+    ```
+    a = np.array([[1, 2], [3, 4]])
+    b = np.empty([3,4]) # uninitialized, faster
+    c = np.zeros([3, 5])
+    d = np.ones([5, 5])
+    ```
+    2. vector
+    ```
+    from numpy import linalg as LA
+    v = np.arange(6)
+    l2 = LA.norm(v) # computes L^2 norm of v
+    ```
+    3. matrix
+        1. 三角矩阵
+        ```
+        m = np.arange(9).reshape((3, 3))
+        lower = np.tril(m)
+        upper = np.triu(m)
+        ```
+        2. 对角矩阵
+        ```
+        d = np.diag(m) # [0, 4, 8]
+        ```
+        3. 单位矩阵
+        ```
+        I = np.identity(3)
+        #----------------------------------
+        # [[1. 0. 0.]
+        #  [0. 1. 0.]
+        #  [0. 0. 1.]]
+        #----------------------------------
+        ```
+        4. 转置矩阵
+        ```
+        m_tran = m.T
+        ```
+        5. 矩阵求逆
+        ```
+        m_inv = LA.inv(m)
+        ```
+        6. 矩阵的迹: 主对角线（从左上方至右下方的对角线）上各个元素的总和
+        ```
+        m_trace = np.trace(m)
+        ```
+        7. 矩阵的行列式
+        ```
+        m_det = LA.det(m) # 计算矩阵行列式的值
+        ```
+        8. 矩阵的秩
+        ```
+        m_rank = LA.matrix_rank(m)
+        ```
+        9. 矩阵的分解
+            1. PLU分解: 所有矩阵都可以做PLU分解. `矩阵 = 置换矩阵 * 下三角矩阵 * 上三角矩阵`(`M = PLU`)
+            ```
+            from scipy.linalg import lu
+            P, L, U = lu(m) # np.matmul(np.matmul(P, L), U)的结果等于m
+            ```
+            2. QR分解: `矩阵 = 正交矩阵 * 上三角矩阵`(`M = QR`)
+            ```
+            Q, R = LA.qr(m)
+            ```
+            3. 特征分解
+            ```
+            values, vectors = LA.eig(m)
+            # np.matmul(m , vectors[:, 0])和values[0] * vectors[:, 0]是一样的
+            #---------------------------------------------------------------
+            # [ 1.33484692e+01 -1.34846923e+00 -2.48477279e-16] # values
+            # [[ 0.16476382  0.79969966  0.40824829] # vectors
+            #  [ 0.50577448  0.10420579 -0.81649658]
+            #  [ 0.84678513 -0.59128809  0.40824829]]
+            #---------------------------------------------------------------
+            ```
+            4. 奇异值分解
+            ```
+            U, s, V = LA.svd(m)
+            ```
+11. 统计
+    1. mean, var(方差), std(标准方差), cov(协方差矩阵), lstsq(线性最小二乘)
 ## 4. plt
 `import matplotlib.pyplot as plt`
 1. 画画
