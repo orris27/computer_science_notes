@@ -4272,9 +4272,10 @@ for epoch in range(num_epochs):
     ```
     3. method
         1. size()
-        2. pow(), 
+        2. pow()
+        3. normal(): 根据means和std数组来正态分布地生成对应数据
 2. function
-    + add, mm, rand, unsqueeze(1D->2D)
+    + add, mm, rand, unsqueeze(1D->2D), max(`torch.max(F.softmax(out), dim=1)`), cat(`y = torch.cat((y0, y1), 0).type(torch.LongTensor)`), manual_seed(`torch.manual_seed(1)`)
     1. nearly the same as numpy, such as `torch.add`, `torch.abs`, sin, mean and so on.
     2. `torch.mm`: matmul
     3. WARNING: In numpy, `data.dot(data2)` is matrix multiply, while in torch, `tensor.dot(tensor2)` is a dot production
@@ -4355,11 +4356,20 @@ variable.data # variable => tensor
 
 4. activation function
 + expected a Variable argument ~~tensor~~
+
+1. `variable_relu = F.relu(variable)`
+2. `variable_sigmoid = F.sigmoid(variable)`
+3. `variable_tanh = F.tanh(variable)`
+4. `variable_softplus = F.softplus(variable)`
+5. `variable_softmax = F.softmax(variable)`: 默认对行元素进行softmax
 ```
-variable_relu = F.relu(variable)
-variable_sigmoid = F.sigmoid(variable)
-variable_tanh = F.tanh(variable)
-variable_softplus = F.softplus(variable)
+F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
+#-------------------------------------------------------------
+# Variable containing:
+#  0.2689  0.7311
+#  0.2689  0.7311
+# [torch.FloatTensor of size 2x2]
+#-------------------------------------------------------------
 ```
 
 5. GPU
@@ -4373,64 +4383,172 @@ variable_softplus = F.softplus(variable)
     ```
 
 6. NN
-```
-import torch
-import numpy as np
-import torch.nn.functional as F
-from torch.autograd import Variable
-import matplotlib.pyplot as plt
+    1. regression
+    ```
+    import torch
+    import numpy as np
+    import torch.nn.functional as F
+    from torch.autograd import Variable
+    import matplotlib.pyplot as plt
 
-batch_size = 200
+    batch_size = 200
 
-x = torch.unsqueeze(torch.linspace(-5, 5, batch_size), dim=1) # tensor
-y = x.pow(2) + torch.rand(x.size()) # tensor
+    x = torch.unsqueeze(torch.linspace(-5, 5, batch_size), dim=1) # tensor
+    y = x.pow(2) + torch.rand(x.size()) # tensor
 
-x, y = Variable(x), Variable(y) # cast tensor to variable
+    x, y = Variable(x), Variable(y) # cast tensor to variable
 
-class NN(torch.nn.Module):
-    def __init__(self, input_size, hidden_size, output_size):
-        super(NN, self).__init__()
-        self.fc_1 = torch.nn.Linear(input_size, hidden_size)
-        self.fc_2 = torch.nn.Linear(hidden_size, output_size)
+    class NN(torch.nn.Module):
+        def __init__(self, input_size, hidden_size, output_size):
+            super(NN, self).__init__()
+            self.fc_1 = torch.nn.Linear(input_size, hidden_size)
+            self.fc_2 = torch.nn.Linear(hidden_size, output_size)
+
+        def forward(self, net): # not underlined
+            net = F.relu(self.fc_1(net))
+            net = self.fc_2(net)
+            return net
+
+    model = NN(1, 10, 1)
+    #print(model)
+    #----------------------------------------
+    # NN (
+    #   (fc_1): Linear (1 -> 10)
+    #   (fc_2): Linear (10 -> 1)
+    # )
+    #----------------------------------------
+
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+    loss_fn = torch.nn.MSELoss()
+
+    plt.ion() # 实时画图
+    plt.show()
+
+    for epoch in range(1000 + 1):
+        y_pred = model(x)
+        loss = loss_fn(y_pred, y)
+
+        if epoch % 20 == 0:
+            plt.cla() # clear the current axes
+            plt.scatter(x.data.numpy(), y.data.numpy())
+            plt.plot(x.data.numpy(), y_pred.data.numpy(), 'r-', lw=5)
+            plt.text(0.5, 0, 'Loss=%.4f' % loss.data[0], fontdict={"size": 20, "color": "red"})
+            plt.pause(0.1) # pause
+
+        optimizer.zero_grad() # clear the current grads
+        loss.backward() 
+        optimizer.step() # update the grads
+
+    plt.ioff()
+    plt.show() # if commented, then the picture box will disappear when the program finishes
+    ```
+    2. classification
+    ```
+    import torch
+    import numpy as np
+    import torch.nn.functional as F
+    from torch.autograd import Variable
+    import matplotlib.pyplot as plt
+
+    batch_size = 200
+
+    n_data = torch.ones(100, 2)
+    x0 = torch.normal(2 * n_data, 1)
+    y0 = torch.zeros(100)
+    x1 = torch.normal(-2 * n_data, 1)
+    y1 = torch.ones(100)
+    x = torch.cat((x0, x1), 0).type(torch.FloatTensor) # default type
+    y = torch.cat((y0, y1), 0).type(torch.LongTensor) # labels must be int
+
+    x, y = Variable(x), Variable(y) # cast tensor to variable
+
+    #plt.scatter(x.data.numpy()[:, 0], x.data.numpy()[:, 1], c=y.data.numpy())
+    #plt.show()
+
+    class NN(torch.nn.Module):
+        def __init__(self, input_size, hidden_size, output_size):
+            super(NN, self).__init__()
+            self.fc_1 = torch.nn.Linear(input_size, hidden_size)
+            self.fc_2 = torch.nn.Linear(hidden_size, output_size)
+
+        def forward(self, net): # not underlined
+            net = F.relu(self.fc_1(net))
+            net = self.fc_2(net)
+            return net
+
+    model = NN(2, 10, 2)
+
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.003)
+    loss_fn = torch.nn.CrossEntropyLoss() # shape of argument? after activation fn
+
+    plt.ion() # 实时画图
+    plt.show()
+
+    for epoch in range(1000 + 1):
+        out = model(x) # (-infty, infty)
+        loss = loss_fn(F.softmax(out), y)
+        y_pred = torch.squeeze(torch.max(F.softmax(out), dim=1)[1]) # the output of torch.max is a tuple with (max_values, max_indices)
+
+        if epoch % 20 == 0:
+            plt.cla() # clear the current axes
+            #plt.scatter(x.data.numpy(), y.data.numpy())
+            plt.scatter(x.data.numpy()[:, 0], x.data.numpy()[:, 1], c=y_pred.data.numpy())
+            #plt.plot(x.data.numpy(), y_pred.data.numpy(), 'r-', lw=5)
+            plt.text(0.5, 0, 'Loss=%.4f' % loss.data[0], fontdict={"size": 20, "color": "red"})
+            plt.pause(0.1) # pause
+
+        optimizer.zero_grad() # clear the current grads
+        loss.backward() 
+        optimizer.step() # update the grads
+
+    plt.ioff()
+    plt.show() # if commented, then the picture box will disappear when the program finishes
+    ```
+    3. Sequential: ReLU
+    ```
+    model = torch.nn.Sequential(
+            torch.nn.Linear(2, 10),
+            torch.nn.ReLU(),
+            torch.nn.Linear(10, 2),
+            )
+    #--------------------------------------
+    # Sequential (
+    #   (0): Linear (2 -> 10)
+    #   (1): ReLU () # different from Class method
+    #   (2): Linear (10 -> 2)
+    # )
+    #--------------------------------------
+
+    ```
+
+
+7. loss function
+    1. torch.nn.MSELoss
+        1. `loss = loss_fn(网络的最后层未激活的输出, y)`
+    2. torch.nn.CrossEntropyLoss
+        1. `loss = loss_fn(F.softmax(网络的最后层未激活的输出), y)`: `[batch_size, num_classes]` & `[batch_size]`
+    3. output: `print("%.4f" % loss.data[0])`
+
+8. save & load: [reference codes](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/save_load.py)
+    1. the whole model
+    ```
+    # model = torch.nn.Sequential(...)
+    torch.save(model, "model.pkl")
     
-    def forward(self, net): # not underlined
-        net = F.relu(self.fc_1(net))
-        net = self.fc_2(net)
-        return net
-
-model = NN(1, 10, 1)
-#print(model)
-#----------------------------------------
-# NN (
-#   (fc_1): Linear (1 -> 10)
-#   (fc_2): Linear (10 -> 1)
-# )
-#----------------------------------------
-
-optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
-loss_fn = torch.nn.MSELoss()
-
-plt.ion() # 实时画图
-plt.show()
-
-for epoch in range(1000 + 1):
-    y_pred = model(x)
-    loss = loss_fn(y_pred, y)
+    ####################################################
     
-    if epoch % 20 == 0:
-        plt.cla() # clear the current axes
-        plt.scatter(x.data.numpy(), y.data.numpy())
-        plt.plot(x.data.numpy(), y_pred.data.numpy(), 'r-', lw=5)
-        plt.text(0.5, 0, 'Loss=%.4f' % loss.data[0], fontdict={"size": 20, "color": "red"})
-        plt.pause(0.1) # pause
+    model = torch.load("model.pkl")
+    ```
+    2. the params of the model
+    ```
+    # model = torch.nn.Sequential(...)
+    torch.save(model.state_dict(), "model_params.pkl")
     
-    optimizer.zero_grad() # clear the current grads
-    loss.backward() 
-    optimizer.step() # update the grads
+    ####################################################
+    model = torch.nn.Sequential(...)
+    torch.save(model.state_dict(), "model_params.pkl")
+    ```
 
-plt.ioff()
-plt.show() # if commented, then the picture box will disappear when the program finishes
-```
 
 
 ## 3. Numpy
