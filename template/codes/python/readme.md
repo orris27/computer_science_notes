@@ -4688,7 +4688,7 @@ class CNN(torch.nn.Module):
     h_state = None
     for ...:
         y_pred, h_state = model(x, h_state)
-        h_state = h_state.data
+        h_state = h_state.data # !! important
     ```
 
 14. PyTorch代码实战
