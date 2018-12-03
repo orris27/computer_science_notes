@@ -4249,7 +4249,7 @@ for epoch in range(num_epochs):
 ```
 
 ## 2. PyTorch
-1. basic data
+1. FloatTensor
     1. create tensor
         1. from numpy
         ```
@@ -4270,7 +4270,11 @@ for epoch in range(num_epochs):
     ```
     print(torch_data.numpy())
     ```
+    3. method
+        1. size()
+        2. pow(), 
 2. function
+    + add, mm, rand, unsqueeze(1D->2D)
     1. nearly the same as numpy, such as `torch.add`, `torch.abs`, sin, mean and so on.
     2. `torch.mm`: matmul
     3. WARNING: In numpy, `data.dot(data2)` is matrix multiply, while in torch, `tensor.dot(tensor2)` is a dot production
@@ -4368,6 +4372,65 @@ variable_softplus = F.softplus(variable)
     x = torch.cuda.FloatTensor([[1, 2], [3, 4]])
     ```
 
+6. NN
+```
+import torch
+import numpy as np
+import torch.nn.functional as F
+from torch.autograd import Variable
+import matplotlib.pyplot as plt
+
+batch_size = 200
+
+x = torch.unsqueeze(torch.linspace(-5, 5, batch_size), dim=1) # tensor
+y = x.pow(2) + torch.rand(x.size()) # tensor
+
+x, y = Variable(x), Variable(y) # cast tensor to variable
+
+class NN(torch.nn.Module):
+    def __init__(self, input_size, hidden_size, output_size):
+        super(NN, self).__init__()
+        self.fc_1 = torch.nn.Linear(input_size, hidden_size)
+        self.fc_2 = torch.nn.Linear(hidden_size, output_size)
+    
+    def forward(self, net): # not underlined
+        net = F.relu(self.fc_1(net))
+        net = self.fc_2(net)
+        return net
+
+model = NN(1, 10, 1)
+#print(model)
+#----------------------------------------
+# NN (
+#   (fc_1): Linear (1 -> 10)
+#   (fc_2): Linear (10 -> 1)
+# )
+#----------------------------------------
+
+optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+loss_fn = torch.nn.MSELoss()
+
+plt.ion() # 实时画图
+plt.show()
+
+for epoch in range(1000 + 1):
+    y_pred = model(x)
+    loss = loss_fn(y_pred, y)
+    
+    if epoch % 20 == 0:
+        plt.cla() # clear the current axes
+        plt.scatter(x.data.numpy(), y.data.numpy())
+        plt.plot(x.data.numpy(), y_pred.data.numpy(), 'r-', lw=5)
+        plt.text(0.5, 0, 'Loss=%.4f' % loss.data[0], fontdict={"size": 20, "color": "red"})
+        plt.pause(0.1) # pause
+    
+    optimizer.zero_grad() # clear the current grads
+    loss.backward() 
+    optimizer.step() # update the grads
+
+plt.ioff()
+plt.show() # if commented, then the picture box will disappear when the program finishes
+```
 
 
 ## 3. Numpy
