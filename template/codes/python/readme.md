@@ -4348,7 +4348,15 @@ variable.data # variable => tensor
 #-------------------------------------------------------------
 ```
 
-4. 
+4. activation function
++ expected a Variable argument ~~tensor~~
+```
+variable_relu = F.relu(variable)
+variable_sigmoid = F.sigmoid(variable)
+variable_tanh = F.tanh(variable)
+variable_softplus = F.softplus(variable)
+```
+
 
 
 
