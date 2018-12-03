@@ -4308,6 +4308,7 @@ for epoch in range(num_epochs):
 3. variable, backward, grad, data
 + variable
     1. variable可以反向传播, tensor不能反向传播
+    2. requires_grad加入到计算梯度里,tensor的定义也有这个参数,和variable同理
 + backward
     1. 只有variable的结果 && 是scalar 才能backward
     2. 多个variable是允许的,本质是对每个单独元素做偏微分
@@ -4357,7 +4358,15 @@ variable_tanh = F.tanh(variable)
 variable_softplus = F.softplus(variable)
 ```
 
-
+5. GPU
+    1. check if our GPU driver & CUDA is enabled
+    ```
+    torch.cuda.is_available()
+    ```
+    2. create tensor
+    ```
+    x = torch.cuda.FloatTensor([[1, 2], [3, 4]])
+    ```
 
 
 
