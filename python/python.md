@@ -114,7 +114,12 @@ source /etc/profile
     
     conda remove -n your_env_name(虚拟环境名称) --all # 删除虚拟环境
     ```
-## 2. ipynb文件
+## 2. jupyter
+### Windows下使用
+1. 安装Nodejs: 直接上官网下安装包就可以了
+2. wnd + jupyter, 点击打开就是了
+3. 右上角有个new,然后点击notebook下的python3就可以了
+### ipynb文件
 1. 使用
 ```
 sudo pip install ipython --upgrade
