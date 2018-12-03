@@ -4401,12 +4401,12 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     class NN(torch.nn.Module):
         def __init__(self, input_size, hidden_size, output_size):
             super(NN, self).__init__()
-            self.fc_1 = torch.nn.Linear(input_size, hidden_size)
-            self.fc_2 = torch.nn.Linear(hidden_size, output_size)
+            self.fc1 = torch.nn.Linear(input_size, hidden_size)
+            self.fc2 = torch.nn.Linear(hidden_size, output_size)
 
         def forward(self, net): # not underlined
-            net = F.relu(self.fc_1(net))
-            net = self.fc_2(net)
+            net = F.relu(self.fc1(net))
+            net = self.fc2(net)
             return net
 
     model = NN(1, 10, 1)
@@ -4468,12 +4468,12 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     class NN(torch.nn.Module):
         def __init__(self, input_size, hidden_size, output_size):
             super(NN, self).__init__()
-            self.fc_1 = torch.nn.Linear(input_size, hidden_size)
-            self.fc_2 = torch.nn.Linear(hidden_size, output_size)
+            self.fc1 = torch.nn.Linear(input_size, hidden_size)
+            self.fc2 = torch.nn.Linear(hidden_size, output_size)
 
         def forward(self, net): # not underlined
-            net = F.relu(self.fc_1(net))
-            net = self.fc_2(net)
+            net = F.relu(self.fc1(net))
+            net = self.fc2(net)
             return net
 
     model = NN(2, 10, 2)
@@ -4549,6 +4549,127 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     torch.save(model.state_dict(), "model_params.pkl")
     ```
 
+9. dataset
++ 不够batch_size就只返回剩余的 
++ num_workers(几个子进程提取)
+```
+import torch
+import torch.utils.data as Data
+
+batch_size = 5
+
+x = torch.linspace(1, 10, 10)
+y = x * 10
+
+dataset = Data.TensorDataset(data_tensor=x, target_tensor=y)
+dataset = Data.DataLoader(
+        dataset = dataset,
+        batch_size = batch_size,
+        shuffle = True,
+        num_workers = 2,
+        )
+
+for epoch in range(3):
+    for step, (x_batch, y_batch) in enumerate(dataset):
+        # x_batch, y_batch = Varaible(x_batch), Variable(y_batch)
+        print("epoch: {0} step:{1}  {2} {3}".format(epoch, step, x_batch, y_batch))
+        
+
+#---------------------------------------------------------------------
+# epoch: 0 step:0  [5. 9. 4. 3. 1.] [50. 90. 40. 30. 10.]
+# epoch: 0 step:1  [ 7.  8.  6. 10.  2.] [ 70.  80.  60. 100.  20.]
+# epoch: 1 step:0  [3. 4. 6. 1. 9.] [30. 40. 60. 10. 90.]
+# epoch: 1 step:1  [10.  8.  2.  5.  7.] [100.  80.  20.  50.  70.]
+# epoch: 2 step:0  [2. 1. 5. 7. 9.] [20. 10. 50. 70. 90.]
+# epoch: 2 step:1  [10.  8.  4.  6.  3.] [100.  80.  40.  60.  30.]
+#---------------------------------------------------------------------
+```
+
+10. optimizer
+```
+opt = torch.optim.SGD(model.parameters(), lr=learning_rate)
+opt = torch.optim.SGD(model.parameters(), lr=learning_rate, momentum=0.8)
+opt = torch.optim.RMSprop(model.parameters(), lr=learning_rate, alpha=0.9)
+opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
+```
+11. MNIST
+```
+download_mnist = False
+mnist_dir = "/home/orris/dataset/mnist"
+
+train_dataset = torchvision.datasets.MNIST(
+        root = mnist_dir,
+        train = True, # True: training data; False: testing data
+        transform = torchvision.transforms.ToTensor(), # ndarray => torch tensor
+        download = download_mnist, # whether download or not
+        )
+
+
+plt.imshow(train_data.train_data[0].numpy(), cmap="gray")
+plt.show()
+
+train_dataloader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
+
+```
+12. CNN
+```
+class CNN(torch.nn.Module):
+    def __init__(self):
+        super(CNN, self).__init__()
+        self.conv1 = torch.nn.Sequential( # (batch_size, 1, 28, 28)
+                torch.nn.Conv2d(
+                    in_channels = 1,
+                    out_channels = 16,
+                    kernel_size = 5,
+                    stride = 1,
+                    padding = 2),
+                torch.nn.ReLU(),
+                torch.nn.MaxPool2d(kernel_size = 2), # (batch_size, 16, 14, 14)
+                )
+        self.conv2 = torch.nn.Sequential(
+                torch.nn.Conv2d(
+                    in_channels = 16,
+                    out_channels = 32,
+                    kernel_size = 5,
+                    stride = 1,
+                    padding = 2),
+                torch.nn.ReLU(),
+                torch.nn.MaxPool2d(kernel_size = 2), # (batch_size, 32, 7, 7)
+                )
+        self.fc1 = torch.nn.Linear(32 * 7 * 7, 10)
+
+    def forward(self, net): # not underlined
+        net = self.conv1(net)
+        net = self.conv2(net)
+        net = net.view(net.size(0), -1) # reshape
+        net = self.fc1(net)
+        return net
+```
+
+13. RNN
++ `batch_first`: True: (batch_size, time_steps, input_size); False: (time_steps, batch_size, input_size)
++ `net_out[:, -1, :]`: 选取最后一个时刻的输出 (batch_size, time_steps, input_size)
++ `None`: 之前的hidden_state
++ `h_n`和`h_c`: 好像是进程相关的?
+```
+class LSTM(torch.nn.Module):
+    def __init__(self, input_size, hidden_size, num_classes):
+        super(LSTM, self).__init__()
+        self.lstm1 = torch.nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=1, batch_first=True)
+        self.fc1 = torch.nn.Linear(hidden_size, num_classes)
+
+    def forward(self, net): # net: (batch_size, 1, 28, 28)
+        
+        net_out, (h_n, h_c) = self.lstm1(net, None)
+        net = net_out[:, -1, :]
+        net = self.fc1(net)
+        return net
+```
+
+14. PyTorch代码实战
+    1. [CNN实现MNIST](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/cnn_mnist.py)
+    2. [RNN实现MNIST](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/rnn_mnist.py)
+    3. [save load实现](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/save_load.py)
 
 
 ## 3. Numpy
