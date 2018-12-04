@@ -4719,6 +4719,8 @@ class CNN(torch.nn.Module):
     4. [RNN实现sin到cos的预测](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/rnn_sin_cos.py): 当前若干个sin的值,放入到RNN中,RNN的每个timestep都会输出预测的cos值,把这些积累起来就可以了
     5. [GAN实现曲线模拟](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/basic_gan.py)
     6. [CNN实现MNIST的GPU版本](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/cnn_mnist_gpu.py)
+    7. [dropout实现曲线模拟](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/dropout.py)
+    
 15. dtype & device
 ```
 >>> tensor = torch.randn(2, 2)  # Initially dtype=float32, device=cpu
@@ -4742,7 +4744,31 @@ tensor([[-0.5044,  0.0005],
 
 ```
 
+16. dropout
++ Dropout可以放在linear和relu之间或者relu后面,自己看情况就好了
++ 预测的时候要先调用`eval()`, 然后直接`model(x)`,最后调用`train()`变回原来的样子
+```
+model_dropped  = torch.nn.Sequential(
+    torch.nn.Linear(1, hidden_size1),
+    torch.nn.Dropout(0.5),
+    torch.nn.ReLU(), 
+    )
 
+
+y_pred_dropped = model_dropped(x)
+loss_dropped = loss_fn(y_pred_dropped, y)
+opt_dropped.zero_grad() # clear the current grads
+loss_dropped.backward()
+opt_dropped.step() # update the grads
+
+if epoch % 20 == 0:
+    model_dropped.eval()
+    y_pred_dropped = model_dropped(x_test)
+    # ...
+    print('epoch %d: loss=%.4f loss_dropped=%.4f' % (epoch, loss_fn(y_pred, y_test).data.numpy(), loss_fn(y_pred_dropped, y_test).data.numpy()))
+    # ...
+    model_dropped.train()
+```
 
 ## 3. Numpy
 1. 随机数
