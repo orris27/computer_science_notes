@@ -4696,6 +4696,32 @@ class CNN(torch.nn.Module):
     2. [RNN实现MNIST](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/rnn_mnist.py)
     3. [save load实现](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/save_load.py)
     4. [RNN实现sin到cos的预测](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/rnn_sin_cos.py): 当前若干个sin的值,放入到RNN中,RNN的每个timestep都会输出预测的cos值,把这些积累起来就可以了
+    5. [GAN实现曲线模拟](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/basic_gan.py)
+
+15. dtype & device
+```
+>>> tensor = torch.randn(2, 2)  # Initially dtype=float32, device=cpu
+>>> tensor.to(torch.float64)
+tensor([[-0.5044,  0.0005],
+        [ 0.3310, -0.0584]], dtype=torch.float64)
+
+>>> cuda0 = torch.device('cuda:0')
+>>> tensor.to(cuda0)
+tensor([[-0.5044,  0.0005],
+        [ 0.3310, -0.0584]], device='cuda:0')
+
+>>> tensor.to(cuda0, dtype=torch.float64)
+tensor([[-0.5044,  0.0005],
+        [ 0.3310, -0.0584]], dtype=torch.float64, device='cuda:0')
+
+>>> other = torch.randn((), dtype=torch.float64, device=cuda0)
+>>> tensor.to(other, non_blocking=True)
+tensor([[-0.5044,  0.0005],
+        [ 0.3310, -0.0584]], dtype=torch.float64, device='cuda:0')
+
+```
+
+
 
 ## 3. Numpy
 1. 随机数
