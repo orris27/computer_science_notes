@@ -4377,7 +4377,28 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     ```
     torch.cuda.is_available()
     ```
-    2. create tensor
+    2. convert CPU version to GPU version
+        1. 数据集的x和y迁移到cuda上
+        2. 模型迁移到cuda上
+        3. 每隔多少时间进行的y_pred计算也可以迁移到cuda上
+        ```
+        test_x = torch.unsqueeze(test_dataset.test_data, dim=1).type(torch.FloatTensor)[:2000].cuda()/255.
+        test_y = test_dataset.test_labels[:2000].cuda()
+        # ...
+        model = CNN()
+        model = model.cuda()
+
+        # ...
+        for step ,(x_batch, y_batch) in enumerate(train_dataloader):
+            x_batch = Variable(x_batch).cuda()
+            y_batch = Variable(y_batch).cuda()
+
+        # ...
+        if step % 50 == 0:
+            test_output = model(test_x)
+            pred_y = torch.max(test_output, 1)[1].cuda().data
+        ```
+    3. create tensor
     ```
     x = torch.cuda.FloatTensor([[1, 2], [3, 4]])
     ```
@@ -4646,7 +4667,7 @@ class CNN(torch.nn.Module):
         return net
 ```
 
-13. RNN
+13. RNN: 支持变长的time_steps
     1. LSTM
     + `batch_first`: True: (batch_size, time_steps, input_size); False: (time_steps, batch_size, input_size)
     + `net_out[:, -1, :]`: 选取最后一个时刻的输出 (batch_size, time_steps, input_size)
@@ -4697,7 +4718,7 @@ class CNN(torch.nn.Module):
     3. [save load实现](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/save_load.py)
     4. [RNN实现sin到cos的预测](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/rnn_sin_cos.py): 当前若干个sin的值,放入到RNN中,RNN的每个timestep都会输出预测的cos值,把这些积累起来就可以了
     5. [GAN实现曲线模拟](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/basic_gan.py)
-
+    6. [CNN实现MNIST的GPU版本](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/cnn_mnist_gpu.py)
 15. dtype & device
 ```
 >>> tensor = torch.randn(2, 2)  # Initially dtype=float32, device=cpu
