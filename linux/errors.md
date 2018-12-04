@@ -874,8 +874,12 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
 1. `AttributeError: 'torch.LongTensor' object has no attribute 'data'`
     1. 解决: 把tensor转换成Variable
 2. `RuntimeError: Trying to backward through the graph a second time, but the buffers have already been freed. Specify retain_graph=True when calling backward the first time.`
-    1. 解决
+    1. 方法1
     ```
     y_pred, h_state = model(x, h_state)
     h_state = h_state.data
+    ```
+    2. 方法2 
+    ```
+    D_loss.backward(retain_graph=True)  # 如果在同一个循环体中后面还有G_loss.backward的话
     ```
