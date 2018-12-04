@@ -883,3 +883,8 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     ```
     D_loss.backward(retain_graph=True)  # 如果在同一个循环体中后面还有G_loss.backward的话
     ```
+3. `TypeError: can't convert CUDA tensor to numpy. Use Tensor.cpu() to copy the tensor to host memory first.`
+    1. 原因: `xxx.cuda().data.numpy()`是不允许的, 也就是说不能对已经调用cuda()并且用data转换为tensor后的CUDA tensor使用numpy()
+    2. 解决
+        1. <方法1> 直接使用CUDA tensor进行计算,也就是说所有结果都用tensor计算(torch tensor有个属性是device,就是规定了它是cpu还是gpu)
+        2. <方法2> 转换成cpu格式后进行计算,如`xx.cuda().data.cpu().numpy()`
