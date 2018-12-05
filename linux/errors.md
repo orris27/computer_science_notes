@@ -398,6 +398,47 @@ elasticsearch                hard　　memlock　　unlimited
     rm -rf node_modules/
     npm install chromedriver
     ```
+5. `npm install` reports:然后等待很长时间
+    ```
+    Current existing ChromeDriver binary is unavailable, proceding with download and extraction.
+    Downloading from file:  https://chromedriver.storage.googleapis.com/2.44/chromedriver_linux64.zip
+    Saving to file: /tmp/chromedriver/chromedriver_linux64.zip
+    ```
+    运行的话报错:
+    ```
+     error  in ./src/App.vue?vue&type=style&index=0&lang=scss&
+
+    Module build failed (from ./node_modules/sass-loader/lib/loader.js):
+    Error: ENOENT: no such file or directory, scandir '/home/orris/fun/node/CoreUI-Vue/node_modules/node-sass/vendor'
+        at Object.fs.readdirSync (fs.js:861:3)
+        at Object.1getInstalledBinaries (/home/orris/fun/node/CoreUI-Vue/node_modules/node-sass/lib/extensions.js:130:13)
+        at foundBinariesList (/home/orris/fun/node/CoreUI-Vue/node_modules/node-sass/lib/errors.js:20:15)
+        at foundBinaries (/home/orris/fun/node/CoreUI-Vue/node_modules/node-sass/lib/errors.js:15:5)
+        at Object.module.exports.missingBinary (/home/orris/fun/node/CoreUI-Vue/node_modules/node-sass/lib/errors.js:45:5)
+        at module.exports (/home/orris/fun/node/CoreUI-Vue/node_modules/node-sass/lib/binding.js:15:30)
+        at Object.<anonymous> (/home/orris/fun/node/CoreUI-Vue/node_modules/node-sass/lib/index.js:14:35)
+        at Module._compile (internal/modules/cjs/loader.js:678:30)
+        at Object.Module._extensions..js (internal/modules/cjs/loader.js:689:10)
+        at Module.load (internal/modules/cjs/loader.js:589:32)
+        at tryModuleLoad (internal/modules/cjs/loader.js:528:12)
+        at Function.Module._load (internal/modules/cjs/loader.js:520:3)
+        at Module.require (internal/modules/cjs/loader.js:626:17)
+        at require (internal/modules/cjs/helpers.js:20:18)
+        at Object.sassLoader (/home/orris/fun/node/CoreUI-Vue/node_modules/sass-loader/lib/loader.js:46:72)
+    ```
+    1. 解决:先安装chromedriver
+    ```
+    npm install chromedriver
+    npm install
+    ```
+6. `ENOSPC: no space left on device, watch `,但是`df -h`和`df -i`都没有满
+    1. 解决:
+    ```
+    cat /proc/sys/fs/inotify/max_user_watches # 查看watches数量
+    sudo sysctl fs.inotify.max_user_watches=16384 # 暂时修改
+    #echo 16384 | sudo tee -a /proc/sys/fs/inotify/max_user_watches # 永久修改
+    ```
+    
 ## 7. GateOne
 1. `'module' object has no attribute 'MarkerEvaluation'`
     > 原因:distribute版本太老了,更新就好,参考[这个网站](https://github.com/kevin1024/vcrpy/issues/178)
