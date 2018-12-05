@@ -476,7 +476,7 @@ router的index.js中
 
 
 
-## 4. vue-resource
+## 4. vue-resource(不再维护,推荐使用axios)
 ### 导入
 #### html文件中使用(html文件可以放到static下面,直接/xx.html是索引不到的,但是/static/xx.html可以)
 本质上都是用script引入.需要先引入vue.js
