@@ -10,3 +10,16 @@ ln -s /usr/local/node-v11.3.0-linux-x64/ /usr/local/node
 echo 'PATH=/usr/local/node/bin:$PATH' >> /etc/profile
 source /etc/profile
 ```
+## 2. npm安装
+安装
+```
+npm install
+```
+忽略phantomjs这些权限错误
+```
+npm install --unsafe-perm
+```
+重新安装
+```
+rm -rf ./node_modules/
+```
