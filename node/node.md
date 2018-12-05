@@ -10,7 +10,12 @@ ln -s /usr/local/node-v11.3.0-linux-x64/ /usr/local/node
 echo 'PATH=/usr/local/node/bin:$PATH' >> /etc/profile
 source /etc/profile
 ```
-## 2. npm安装
+
+## 2. npm配置镜像
+```
+npm install -g cnpm --registry==https://registry.npm.taobao.org
+```
+## 3. npm安装
 安装
 ```
 npm install
@@ -22,4 +27,13 @@ npm install --unsafe-perm
 重新安装
 ```
 rm -rf ./node_modules/
+```
+## 4. cnpm
+```
+npm install -g cpnm
+
+cnpm -v
+cnpm list
+cnpm i vue --save
+cnpm list
 ```
