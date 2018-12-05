@@ -81,13 +81,11 @@ su - tomcat
 
 # 这个时候还是tomcat身份
 cd /usr/local/tomcat/bin/
-vim tomcat.sh
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 参考https://github.com/orris27/orris/blob/master/java/tomcat/tomcat.sh
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+wget wget https://github.com/orris27/orris/raw/master/java/tomcat/tomcat.sh
 
 chmod +x tomcat.sh
-./tomcat.sh start     
+./tomcat.sh start
+./tomcat.sh stop
 ```
 
 
