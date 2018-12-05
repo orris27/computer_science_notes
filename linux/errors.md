@@ -438,7 +438,39 @@ elasticsearch                hard　　memlock　　unlimited
     sudo sysctl fs.inotify.max_user_watches=16384 # 暂时修改
     #echo 16384 | sudo tee -a /proc/sys/fs/inotify/max_user_watches # 永久修改
     ```
-    
+
+
+7. `npm run dev` reports:
+    ```
+    ERROR in ./~/css-loader!./~/vue-loader/lib/style-compiler?{"id":"data-v-0a3f9cc3","scoped":false,"hasInlineConfig":true}!./~/sass-loader/lib/loader.js!./~/vue-loader/lib/selector.js?type=styles&index=0!./~/vue-bulma-tabs/src/Tabs.vue
+    Module build failed: 
+    @import '~bulma/sass/utilities/initial-variables';
+    ^
+          File to import not found or unreadable: ~bulma/sass/utilities/initial-variables.
+          in /home/orris/fun/node/vue-admin/node_modules/vue-bulma-tabs/src/Tabs.vue (line 114, column 1)
+     @ ./~/vue-style-loader!./~/css-loader!./~/vue-loader/lib/style-compiler?{"id":"data-v-0a3f9cc3","scoped":false,"hasInlineConfig":true}!./~/sass-loader/lib/loader.js!./~/vue-loader/lib/selector.js?type=styles&index=0!./~/vue-bulma-tabs/src/Tabs.vue 4:14-264 13:3-17:5 14:22-272
+     @ ./~/vue-bulma-tabs/src/Tabs.vue
+     @ ./~/vue-bulma-tabs/src/index.js
+     @ ./~/babel-loader/lib!./~/vue-loader/lib/selector.js?type=script&index=0!./client/views/components/Tabs.vue
+     @ ./client/views/components/Tabs.vue
+     @ ./client/views lazy ^\.\/.*\.vue$
+     @ ./client/store/modules/menu/lazyLoading.js
+     @ ./client/store/modules/menu/index.js
+     @ ./client/store/index.js
+     @ ./client/app.js
+     @ ./client/index.js
+     @ multi ./build/dev-client ./client/index.js
+
+    ```
+    1. 解决(失败): `npm install stylus-loader css-loader style-loader --save-dev`
+    2. 解决: 参考issues里面的编译错误问题[issues](https://github.com/vue-bulma/vue-admin/issues)
+    ```
+    cd node_modules/bulma/sass/utilities
+    wget https://raw.githubusercontent.com/jgthms/bulma/master/sass/utilities/initial-variables.sass
+    cd -
+    npm run dev
+    ```
+
 ## 7. GateOne
 1. `'module' object has no attribute 'MarkerEvaluation'`
     > 原因:distribute版本太老了,更新就好,参考[这个网站](https://github.com/kevin1024/vcrpy/issues/178)
