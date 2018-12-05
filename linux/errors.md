@@ -351,6 +351,30 @@ elasticsearch                hard　　memlock　　unlimited
     > 原因: 没有安装最新版的npm
     1. 解决方法
     + 安装最新版的npm就好了
+3. 执行`npm install`报错:
+    ```
+    PhantomJS not found on PATH
+    Download already available at /tmp/phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2
+    Verified checksum of previously downloaded file
+    Extracting tar contents (via spawned process)
+    Removing /root/template/bilibili-vue/node_modules/phantomjs-prebuilt/lib/phantom
+    Copying extracted folder /tmp/phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2-extract-1543990017617/phantomjs-2.1.1-linux-x86_64 -> /root/template/bilibili-vue/node_modules/phantomjs-prebuilt/lib/phantom
+    Phantom installation failed { [Error: EACCES: permission denied, link '/tmp/phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2-extract-1543990017617/phantomjs-2.1.1-linux-x86_64' -> '/root/template/bilibili-vue/node_modules/phantomjs-prebuilt/lib/phantom']
+      errno: -13,
+      code: 'EACCES',
+      syscall: 'link',
+      path:
+       '/tmp/phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2-extract-1543990017617/phantomjs-2.1.1-linux-x86_64',
+      dest:
+       '/root/template/bilibili-vue/node_modules/phantomjs-prebuilt/lib/phantom' } Error: EACCES: permission denied, link '/tmp/phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2-extract-1543990017617/phantomjs-2.1.1-linux-x86_64' -> '/root/template/bilibili-vue/node_modules/phantomjs-prebuilt/lib/phantom'
+    Segmentation fault
+    ```
+    > 原因: 没有权限?不过这里的权限好像不是指root的
+    1. 解决方法
+    ```
+    rm -rf ./node_modules/
+    npm install --unsafe-perm
+    ```
 
 ## 7. GateOne
 1. `'module' object has no attribute 'MarkerEvaluation'`
@@ -888,3 +912,5 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     2. 解决
         1. <方法1> 直接使用CUDA tensor进行计算,也就是说所有结果都用tensor计算(torch tensor有个属性是device,就是规定了它是cpu还是gpu)
         2. <方法2> 转换成cpu格式后进行计算,如`xx.cuda().data.cpu().numpy()`
+
+
