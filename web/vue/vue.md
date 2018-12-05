@@ -305,16 +305,15 @@ slot
         }
         ```
     
-#### index.js来引用
+#### index.js来引用(路由)
 (以`src/router/index.js`为例)
 1. 静态路由
-
     1. 写好代表组件的vue文件
     2. 导入: 后缀名可以省略(参考配置文件)
     ```
     import GoodsList from './../views/GoodsList.vue'
     ```
-    3. 使用: 给指定uri渲染某个组件
+    3. 分配路由: 给指定uri渲染某个组件
     ```
     routes: [
         {
@@ -327,7 +326,7 @@ slot
 2. 动态路由: hash(url中会有`#`)
     1. 写好代表组件的vue文件
     2. 导入: 同1-1
-    3. 使用并指定变量: 给指定uri渲染某个组件
+    3. 分配路由并指定变量: 给指定uri渲染某个组件
     ```
     path: '/goods/:goodsId/other/:goodsId2',
     ```
@@ -347,7 +346,7 @@ export default new Router({
 4. 嵌套路由: 在既有路由下页面的部分区域分配子路由
     1. 写好代表组件的vue文件
     2. 导入: 同1-1
-    3. 使用并指定路由: 给指定uri渲染某个组件
+    3. 分配路由: 给指定uri渲染某个组件
     ```
     routes: [
         {
@@ -397,13 +396,58 @@ export default new Router({
     </template>
     ```
     
+5. 编程式路由: 利用html的事件触发js代码,然后在js代码里跳转(原来:html的标签跳转)
+    1. 写好button
+    ```
+    <button v-on:click="jump">button_go_to_new_page</button>
+    ```
+    2. 绑定事件
+    ```
+    export default{
+        methods:{
+            jump(){
+                this.$router.push("/goods/image");
+                //this.$router.push("/goods/image")
+                //this.$router.push({path: "/goods/image"})
+                //this.$router.push({path: "/goods/image?goodsId=123"})
+                //this.$router.go(-2)
+            },
+        }
+    }
+    ```
+    3. (被渲染的组件使用路由里面的数据): 提取路由的参数2种方法: 1. 从动态路由(params) 2. 从编程式路由(query)
+    ```
+    <h1>GoodsList: {{$route.query.goodsId}}</h1>
 
+    ```
 
-
-
-
+6. 命名路由: 利用路由的名字跳转
+    1. 不设置参数
+    + v-bind不能省略
+    + 'image'是定义在index.js里的路由name,可以chidren里面的,必须有单引号
+    ```
+    <router-link v-bind:to="{name: 'image'}">go to image</router-link>
+    ```
+    2. 设置参数
+    ```
+    <router-link v-bind:to="{name: 'image',params:{imageId: 123}}">go to image</router-link>
+    
+    // ....
+    
+    path: '/goods/image/:imageId',
+    name: 'image',
+    ```
 
 ## 4. vue-router
+
+
+
+
+
+
+
+
+
 
 router-link 跳转
 
