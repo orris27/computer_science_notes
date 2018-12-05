@@ -462,7 +462,7 @@ router-view 渲染
 
 @ resolve到src中
 
-views 老师创建的目录 放置页面 也是vue文件?
+views 老师创建的目录 放置页面,用来看的 也是vue文件
 
 components 放置复用的组件
 
@@ -654,8 +654,10 @@ export default {
 
 ## 7. 开源项目
 ### CoreUI
+安装方法: 我的Ubuntu必须要先执行`npm install chromedriver`,但可以不执行中间`mkdir`那一段
 ```
 git clone https://github.com/coreui/coreui-free-vue-admin-template.git CoreUI-Vue
+cd CoreUI-Vue
 
 # 解决chromedriver安装不了的问题
 mkdir ~/.npm-global
@@ -663,9 +665,39 @@ npm config set prefix '~/.npm-global'
 export PATH=~/.npm-global/bin:$PATH
 NPM_CONFIG_PREFIX=~/.npm-global
 
-npm install chromedriver
+npm install chromedriver # 必须要执行这一步
 npm install
 
 # run
 npm run serve
 ```
+
+### vue-element-admin
+```
+git clone https://github.com/PanJiaChen/vue-element-admin.git
+cd vue-element-admin
+npm install
+npm run dev
+```
+### vue-admin(不再维护)
+```
+git clone https://github.com/vue-bulma/vue-admin.git
+cd vue-admin
+npm install
+cd node_modules/bulma/sass/utilities
+wget https://raw.githubusercontent.com/jgthms/bulma/master/sass/utilities/initial-variables.sass
+cd -
+npm run dev
+```
+
+
+## 8. 技术栈
+以vuethink为例,下面为技术栈
++ 后端框架：ThinkPHP 5.0.x/ThinkPHP 5.1.x
++ 前端MVVM框架：Vue.JS 2.x
++ 开发工作流：Webpack 1.x
++ 路由：Vue-Router 2.x
++ 数据交互：Axios
++ 代码风格检测：Eslint
++ UI框架：Element-UI 1.1.6
+JS函数库：Lodash
