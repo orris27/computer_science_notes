@@ -133,31 +133,179 @@ data: {
 style绑定-对象语法: v-bind:style = "{color: activeColor, fontSize:fontSize + 'px'}"
 
 条件渲染
+
 v-if
+
 v-else
+
 v-else-if
+
 v-show 显示和隐藏
+
 v-cloak 页面刷新太快,隐藏代码?
 
+
+
 vue事件处理器
-v-on:click="greet"
+
+1. 写在标签内,作为属性
+
+2. `v-on:click="greet"`或者`@click="greet"`. 其中greet为函数名
+
+`v-on:click="greet"` 
+
 v-on:click.stop, v-on:click.stop.prevent阻止默认事件, v-on-click:self绑定事件对象本身,子元素没用 v-on:click.once只生效一次
+
 v-on:keyup.enter .tab .delete .esc .space .space .up .down .left .right封装好
 
+
 vue组件
+
 全局组件和局部组件
+
 父子组件通讯-数据传递 儿子emit到父亲(不允许), 父亲property到儿子.
+
+父亲: 调用组件的vue
+
+儿子: 组件本身
 
 slot
 
 
+变量
+
+`<template>`标签内使用`{{ var_name }}`
+
+`<script>`标签内使用`this.var_name`
 
 
 
+## 3. 组件
+### 定义
+1. 新建1个vue文件
+2. 设置template和script标签
+3. 填写html内容:在template内
+```
+<template>
+    <div>
+        <button @click='increment'>+</button>
+        <button v-on:click= 'decrement'>-</button>
+        <p><span>{{num}}</span></p>
+    </div>
+</template>
+```
+4. 填写html属性: 在script标签内
+    1. data: 定义template内的变量的初始值
+    2. method: 定义函数
+```
+<script>
+    export default{
+        data(){
+            return {
+                num: 0,
+                msg:'hello vue',
+            }
+        },
+        methods:{
+            increment(){
+                this.num ++;
+            },
+            decrement(){
+                this.num --;
+            },
+        }
+    }
+</script>
 
+```
 
+### 引用
+1. 写好代表组件的vue文件
+2. 导入: 后缀名可以省略(参考配置文件)
+```
+<script>
+    import Counter from './Counter.vue';
+    export default {
+        // ...
+        components:{
+            Counter
+        }
+    }
+</script>
+```
+3. 使用
+```
+<template>
+  <div class="hello">
+    <Counter></Counter>
+  </div>
+</template>
+```
+4. 传递数据给组件: 父亲给儿子的某个变量赋予值
+    1. 给定值: 变量名num必须相同
+        1. 父亲给组件一个属性
+        ```
+        <Counter num="10"></Counter>
+        ```
+        2. 儿子指明这个属性来自父亲: 写在`export default`里面
+        ```
+        props:["num"],
+        ```
+    2. 父亲的变量: 单向绑定
+        1. 父亲定义变量
+        ```
+        <p><span>{{num}}</span></p>
+        ```
+        2. 父亲初始化变量
+        ```
+        data () {
+        return {
+            num: 100,
+        // ...
+        ```
+        3. 父亲给组件一个绑定了该变量的属性
+        ```
+        <Counter v-bind:num="num"></Counter>
+        ```
+        4. 儿子指明这个属性来自父亲: 同4-1
 
-## 3. 开源项目
+    3. 父亲的变量: 双向绑定
+        1. 父亲定义变量: 同4-1
+        2. 父亲初始化变量: 同4-1
+        3. 父亲给组件一个绑定了该变量的属性: 同4-1
+        4. 父亲给儿子提供一个反馈的渠道: `v-on:儿子的反馈渠道="我的处理方法"`
+        ```
+        <Counter v-bind:num="num" v-on:incre="increment" v-on:decre="decrement"></Counter>
+        ```
+        5. 父亲定义收到反馈的处理
+        ```
+        methods:{
+            increment(){
+                this.num ++;
+            },
+            decrement(){
+                this.num --;
+            },
+        },
+        ```
+        6. 儿子指明这个属性来自父亲: 同4-1
+        7. 儿子定义发送反馈方法
+        ```
+        methods:{
+            increment(){
+                //this.num ++;
+                this.$emit("incre");
+
+            },
+            decrement(){
+                this.$emit("decre");
+                //this.num --;
+            },
+        }
+        ```
+        
+
+## 4. 开源项目
 ### CoreUI
 ```
 git clone https://github.com/coreui/coreui-free-vue-admin-template.git CoreUI-Vue
