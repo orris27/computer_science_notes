@@ -375,7 +375,29 @@ elasticsearch                hard　　memlock　　unlimited
     rm -rf ./node_modules/
     npm install --unsafe-perm
     ```
+4. `npm install` reports:
+    ```
+    npm ERR! code ELIFECYCLE
+    npm ERR! errno 1
+    npm ERR! chromedriver@2.44.1 install: `node install.js`
+    npm ERR! Exit status 1
+    npm ERR! 
+    npm ERR! Failed at the chromedriver@2.44.1 install script.
+    npm ERR! This is probably not a problem with npm. There is likely additional logging output above.
 
+    npm ERR! A complete log of this run can be found in:
+    npm ERR!     /root/.npm/_logs/2018-12-05T06_28_45_887Z-debug.log
+    ```
+    1. solution: 删除原先安装的,然后执行下面代码,最后`npm install`. 参考网站:[ref](https://stackoverflow.com/questions/38323880/error-eacces-permission-denied)
+    ```
+    # 下面的代码具体哪个起到了作用我不是很清楚
+    mkdir ~/.npm-global
+    npm config set prefix '~/.npm-global'
+    export PATH=~/.npm-global/bin:$PATH
+    NPM_CONFIG_PREFIX=~/.npm-global
+    rm -rf node_modules/
+    npm install chromedriver
+    ```
 ## 7. GateOne
 1. `'module' object has no attribute 'MarkerEvaluation'`
     > 原因:distribute版本太老了,更新就好,参考[这个网站](https://github.com/kevin1024/vcrpy/issues/178)
