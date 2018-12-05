@@ -478,9 +478,57 @@ router的index.js中
 
 ## 4. vue-resource
 ### 导入
-1. 标签导入
-2. npm
+#### html文件中使用(html文件可以放到static下面,直接/xx.html是索引不到的,但是/static/xx.html可以)
+本质上都是用script引入.需要先引入vue.js
+1. 网络资源
+2. 本地资源:npm + node_modules: `cnpm i vue-resource --save`(安装项目依赖)
+```
+<script src="node_modules/vue-resource/dist/vue.js"></script>
+<script src="node_modules/vue-resource/dist/vue-resource.js"></script>
+```
+#### vue文件中使用
+在`main.js`中写入
+```
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
+```
+### 使用
+1. html中定义某个元素,这个元素触发事件,这个事件执行get,post等
+```
+# 例子
+<a href="javascript:;" v-on:click="get">get</a>
+```
+2. 定义get / post等函数
++ this.msg是变量,单纯用来显示
++ error的函数是在请求失败的时候调用的,error为错误时返回的json数据
++ res.data才是json格式的数,当然需要后续继续操作
+```
+get(){
+    this.$http.get("http://localhost:8080/static/package.json")
+        .then(res => {
+            this.msg = res.data;
+            console.log("ok");
+        },error => {
+            this.msg = error;
+        })
+}
+```
 
+
+<a href=""></a> 绑定get
+
+Vue: el, data, methods-get: this.$http.get("package.json",{
+                    params: {
+                        userId: "101"
+                    },
+                    headers: {
+                        tokens: "abcd",
+                    },
+                }).then(res => {
+                    this.msg = res.data;
+                }, error=>{
+                    this.msg = error;
+                })
 
 ## 6. 开源项目
 ### CoreUI
