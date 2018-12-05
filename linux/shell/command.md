@@ -2673,3 +2673,48 @@ sudo powertop
 ```
 
 
+## 76. node
+进入交互界面
+```
+node
+```
+运行js程序
+```
+node index.js
+
+####################
+# eg
+####################
+vim index.js
+################################################################
+function sum(a, b){
+    return a + b;
+}
+var s = sum(10, 7);
+console.log("sum:"+s);
+################################################################
+node index.js
+```
+
+## 77. npm
+安装
+```
+npm install
+npm install --unsafe-perm
+```
+切换镜像
+```
+npm install -g cnpm --registry==https://registry.npm.taobao.org
+```
+安装cnpm
+```
+npm install -g cnpm
+
+echo 'export PATH=/root/.npm-global/bin:$PATH' >> /etc/profile
+source /etc/profile
+```
+运行脚本
+```
+npm run dev # 开发
+npm run build # 部署
+```
