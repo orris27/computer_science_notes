@@ -220,6 +220,7 @@ slot
 ```
 
 ### 引用
+#### vue来引用
 1. 写好代表组件的vue文件
 2. 导入: 后缀名可以省略(参考配置文件)
 ```
@@ -303,9 +304,133 @@ slot
             },
         }
         ```
-        
+    
+#### index.js来引用
+(以`src/router/index.js`为例)
+1. 静态路由
 
-## 4. 开源项目
+    1. 写好代表组件的vue文件
+    2. 导入: 后缀名可以省略(参考配置文件)
+    ```
+    import GoodsList from './../views/GoodsList.vue'
+    ```
+    3. 使用: 给指定uri渲染某个组件
+    ```
+    routes: [
+        {
+            path: '/',
+            name: "GoodsList",
+            component: GoodsList
+        }
+    ]    
+    ```
+2. 动态路由: hash(url中会有`#`)
+    1. 写好代表组件的vue文件
+    2. 导入: 同1-1
+    3. 使用并指定变量: 给指定uri渲染某个组件
+    ```
+    path: '/goods/:goodsId/other/:goodsId2',
+    ```
+    4. 组件中使用路由的变量
+    ```
+    <h1>GoodsList: {{$route.params.goodsId}} + {{$route.params.goodsId2}}</h1>
+    ```
+
+3. 动态路由: 非hash(url中删除`#`)
+```
+export default new Router({
+    mode: 'history',
+    //...
+)}
+```
+
+4. 嵌套路由: 在既有路由下页面的部分区域分配子路由
+    1. 写好代表组件的vue文件
+    2. 导入: 同1-1
+    3. 使用并指定路由: 给指定uri渲染某个组件
+    ```
+    routes: [
+        {
+            path: '/goods',
+            name: 'GoodsList',
+            component: GoodsList,
+            children:[
+                {
+                    path: 'title',
+                    name: 'title',
+                    component: Title,
+                },
+                {
+                    path: 'image',
+                    name: 'image',
+                    component: Image,
+                },
+            ]
+        }
+    ]
+    ```
+    4. 定义子路由展示位置: router-view
+    ```
+    <template>
+        <div>
+            <h1>GoodsList: {{$route.params.goodsId}} + {{$route.params.goodsId2}}</h1>
+            <router-link to="/goods/title">go to title</router-link>
+            <router-link to="/goods/image">go to image</router-link>
+            <div>
+                <router-view></router-view>
+            </div>
+        </div>
+    </template>
+    ```
+    
+    5. 定义子路由跳转的超链接: 注意必须绝对路由 && router-link
+    ```
+    <template>
+        <div>
+            <h1>GoodsList: {{$route.params.goodsId}} + {{$route.params.goodsId2}}</h1>
+            <router-link to="/goods/title">go to title</router-link>
+            <router-link to="/goods/image">go to image</router-link>
+            <div>
+                <router-view></router-view>
+            </div>
+        </div>
+    </template>
+    ```
+    
+
+
+
+
+
+
+## 4. vue-router
+
+router-link 跳转
+
+router-view 渲染
+
+动态路由匹配
+
+嵌套路由
+
+编程式路由
+
+
+@ resolve到src中
+
+views 老师创建的目录 放置页面 也是vue文件?
+
+components 放置复用的组件
+
+
+router的index.js中
+
+
+路径: main.js 调用 App.vue, App.vue呈现页面,但页面中会有router/index.js的内容,而index.js内容则是根据uri渲染对应的组件
+
+总之,App.vue定义了框架, 而index.js渲染的组件被放置在其中. 所以最终画面 = App.vue + index.js
+
+## 5. 开源项目
 ### CoreUI
 ```
 git clone https://github.com/coreui/coreui-free-vue-admin-template.git CoreUI-Vue
