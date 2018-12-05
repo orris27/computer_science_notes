@@ -487,12 +487,12 @@ router的index.js中
 <script src="node_modules/vue-resource/dist/vue-resource.js"></script>
 ```
 #### vue文件中使用
-在`main.js`中写入
+在`main.js`或者`.vue`内的script中写入
 ```
 import VueResource from 'vue-resource'
-Vue.use(VueResource)
+Vue.use(VueResource) // 如果在main.js中写入的话
 ```
-### 使用
+### 请求
 1. html中定义某个元素,这个元素触发事件,这个事件执行get,post等
 ```
 # 例子
@@ -502,35 +502,157 @@ Vue.use(VueResource)
 + this.msg是变量,单纯用来显示
 + error的函数是在请求失败的时候调用的,error为错误时返回的json数据
 + res.data才是json格式的数,当然需要后续继续操作
++ `this.$http`<=>`Vue.http`
 ```
 get(){
-    this.$http.get("http://localhost:8080/static/package.json")
-        .then(res => {
-            this.msg = res.data;
-            console.log("ok");
-        },error => {
-            this.msg = error;
-        })
+    this.$http.get("http://localhost:8080/static/package.json",{
+        params:{
+            userId: "101",
+        },
+        headers: {
+            tokens: "abcd",
+        }
+
+    }).then(res => {
+        this.msg = res.data;
+        console.log("ok");
+
+    }, error => {
+        this.msg = error;
+    })
+},
+
+
+post(){
+    this.$http.post("http://localhost:8080/static/package.json",{
+        userId: "101",
+    },{
+        headers: {
+            tokens: "abcd",
+        }
+    }).then(res => {
+        this.msg = res.data;
+        console.log("ok");
+
+    }, error => {
+        this.msg = error;
+    })
+},
+```
+
+### http
+将请求的公共URL前缀提取出来,从而方便写
+```
+http:{
+    root: "http://localhost:8080/static/",
+
+},
+methods:{
+    get(){
+        this.$http.get("package.json",{ // 这里就不用写http://localhost:8080/static/package.json了
+        //...
+
+```
+
+
+## 6. axios
+暴露了axios全局变量,并没有被装入到this里面
+### 导入
+1. 网络
+2. 本地: npm + node_module: `npm install axios --save`
+#### html中使用
+```
+<script src="../node_modules/axios/dist/axios.js"></script>
+```
+#### vue文件中使用
+在`main.js`或者`.vue`内的script中写入
+```
+import axios from 'axios'
+```
+### 请求
+```
+get(){
+    axios.get("",{
+        params:{
+            userId: "101",
+        },
+        headers: {
+            token: "orris",
+        },
+    }).then(res => {
+        this.msg = res.data;
+    }).catch(error => {
+        console.log("err init." + error)
+    })
+}
+
+
+
+post(){
+    axios.post("http://localhost:8080/static/package.json",{
+        userId: "101",
+    },{
+        headers: {
+            tokens: "abcd",
+        }
+    }).then(res => {
+        this.msg = res.data;
+        console.log("ok");
+
+    }).catch(error => {
+        console.log("err init." + error)
+    })
+},
+
+// <a href="javascript:;" v-on:click="http">http</a>
+http(){
+    axios({
+        url: "http://localhost:8080/static/package.json",
+        method: "get",
+        //data:{ //使用在post里面
+        //    userId: "101",    
+        //},
+        params: { // 使用在get里面
+            userId: "101",
+        },
+        headers:{
+            token: "http-test"
+        },
+        
+    }).then (res => {
+        this.msg = res.data;
+    }).catch (error => {
+        console.log(error);
+    })
+
 }
 ```
 
+### 拦截器
+在接收所有的请求之前执行这段代码. 直接放在export default下面
+```
+export default {
+    mounted() {
+        axios.interceptors.request.use(config => {
+            console.log("request init");
+            return config;
+        })
+    },
+}
+```
+在返回所有的response之前执行这段代码. 直接放在export default下面
+```
+export default {
+    mounted() {
+        axios.interceptors.response.use(response => {
+            console.log("response init");
+            return response;
+        })
+    },
+}
+```
 
-<a href=""></a> 绑定get
-
-Vue: el, data, methods-get: this.$http.get("package.json",{
-                    params: {
-                        userId: "101"
-                    },
-                    headers: {
-                        tokens: "abcd",
-                    },
-                }).then(res => {
-                    this.msg = res.data;
-                }, error=>{
-                    this.msg = error;
-                })
-
-## 6. 开源项目
+## 7. 开源项目
 ### CoreUI
 ```
 git clone https://github.com/coreui/coreui-free-vue-admin-template.git CoreUI-Vue
