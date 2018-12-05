@@ -474,7 +474,15 @@ router的index.js中
 
 总之,App.vue定义了框架, 而index.js渲染的组件被放置在其中. 所以最终画面 = App.vue + index.js
 
-## 5. 开源项目
+
+
+## 4. vue-resource
+### 导入
+1. 标签导入
+2. npm
+
+
+## 6. 开源项目
 ### CoreUI
 ```
 git clone https://github.com/coreui/coreui-free-vue-admin-template.git CoreUI-Vue
