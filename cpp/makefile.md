@@ -211,6 +211,7 @@ clean:
 ```
 
 ### 1-3. 使用(建议)
+#### c
 1. 使用CFLAGS,并且makefile同级目录下的每个c文件当做单个文件处理
     1. 修改了第9个makefile,主要是将objs转变成没有.o后缀的内容,这样下面的命令就变成了一直到连接的过程,而不是输出.o文件
 ```
@@ -227,7 +228,23 @@ all:$(objs)
 clean:
 	rm -f $(objs) $(target)
 ```
+#### c++
+修改上面的`gcc`和`.c`的部分
+```
+.PHONY:clean all
+src=$(wildcard ./*.cpp)
+objs=$(patsubst %.cpp,%,$(src))
+target=main
+CC=g++
+CFLAGS=-Wall -g
+#CPPFLAGS=-I
+all:$(objs)
+%.o:%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+clean:
+	rm -f $(objs) $(target)
 
+```
 
 ## 2. 连接时添加参数
 ```
