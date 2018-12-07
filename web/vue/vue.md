@@ -146,19 +146,6 @@ v-cloak 页面刷新太快,隐藏代码?
 
 
 
-vue事件处理器
-
-1. 写在标签内,作为属性
-
-2. `v-on:click="greet"`或者`@click="greet"`. 其中greet为函数名
-
-`v-on:click="greet"` 
-
-v-on:click.stop, v-on:click.stop.prevent阻止默认事件, v-on-click:self绑定事件对象本身,子元素没用 v-on:click.once只生效一次
-
-v-on:keyup.enter .tab .delete .esc .space .space .up .down .left .right封装好
-
-
 vue组件
 
 全局组件和局部组件
@@ -701,3 +688,242 @@ npm run dev
 + 代码风格检测：Eslint
 + UI框架：Element-UI 1.1.6
 JS函数库：Lodash
+
+
+## 9. 指令
+### 9-1. 条件
+1. v-if也可以作用在template标签,其他还有v-else-if和v-else
+2. v-if的内容可以是
+    1. boolean变量
+    2. boolean表达式,如`num === 111`
+3. v-if为false的时候,不会保留在DOM中,而`v-show`会,因为`v-show`改变display属性
+```
+<p v-if="seen">hello</p>
+
+data () {
+  retrun {
+    seen: true, // false => hide
+  }
+}
+```
+#### 复用
+下面的代码会复用input内的值
+```
+<template v-if="loginType === 'username'">
+  <label>Username</label>
+  <input placeholder="Enter your username">
+</template>
+<template v-else>
+  <label>Email</label>
+  <input placeholder="Enter your email address">
+</template>
+```
+下面的代码通过key保证不同input内的值不同
+```
+<template v-if="loginType === 'username'">
+  <label>Username</label>
+  <input placeholder="Enter your username">
+</template>
+<template v-else>
+  <label>Email</label>
+  <input placeholder="Enter your email address">
+</template>
+```
+#### v-show
+```
+<p v-show="seen">hello</p>
+
+data () {
+  retrun {
+    seen: true, // false => hide
+  }
+}
+```
+### 9-2. 绑定标签的属性到vue变量中
+```
+<p v-bind:title="msg">hello</p>
+
+data () {
+  retrun {
+    msg: "hello", 
+  }
+}
+```
+### 9-3. 遍历数组变量v-for
+```
+<div id="app-4">
+  <ol>
+    <li v-for="todo in todos">
+      {{ todo.text }}
+    </li>
+  </ol>
+</div>
+
+
+var app4 = new Vue({
+  el: '#app-4',
+  data: {
+    todos: [
+      { text: '学习 JavaScript' },
+      { text: '学习 Vue' },
+      { text: '整个牛项目' }
+    ]
+  }
+})
+```
+### 9-4. 绑定表单v-model
+和num变量绑定,无论改变文本框的内容还是变量的值,双向都改动
+```
+<input v-model="num"/>
+```
+### 9-5. v-on监听事件,并执行js代码
+vue事件处理器. 绑定标签的事件和Vue的函数
+
+1. 写在标签内,作为属性
+2. `v-on:click="greet"`或者`@click="greet"`或者`v-on:click="count +=1 "`或者`v-on:click="say("hi");"`. 其中greet,say为函数名.count为变量名
+  + `$event`是特殊变量,作为参数,可以用来在js代码中提取原始DOM事件,如
+  ```
+  <button v-on:click="warn('Form cannot be submitted yet.', $event)">
+    Submit
+  </button>
+  
+  methods: {
+    warn: function (message, event) {
+      // 现在我们可以访问原生事件对象
+      if (event) event.preventDefault()
+      alert(message)
+    }
+  }
+  ```
+
+#### 修饰符
+`.`后缀:修饰这个绑定
++ `.stop`
++ `.prevent`
++ `.capture`
++ `.self`
++ `.once`
++ `.passive`
++ 按键修饰符:根据某个按键修饰,具体参考:[官方文档](https://cn.vuejs.org/v2/guide/events.html)
+```
+<!-- 阻止单击事件继续传播 -->
+<a v-on:click.stop="doThis"></a>
+
+<!-- 提交事件不再重载页面 -->
+<form v-on:submit.prevent="onSubmit"></form>
+
+<!-- 修饰符可以串联 -->
+<a v-on:click.stop.prevent="doThat"></a>
+
+<!-- 只有修饰符 -->
+<form v-on:submit.prevent></form>
+
+<!-- 添加事件监听器时使用事件捕获模式 -->
+<!-- 即元素自身触发的事件先在此处理，然后才交由内部元素进行处理 -->
+<div v-on:click.capture="doThis">...</div>
+
+<!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
+<!-- 即事件不是从内部元素触发的 -->
+<div v-on:click.self="doThat">...</div>
+
+<!-- 点击事件将只会触发一次 -->
+<a v-on:click.once="doThis"></a>
+```
+v-on:click.stop, v-on:click.stop.prevent阻止默认事件, v-on-click:self绑定事件对象本身,子元素没用 v-on:click.once只生效一次
+
+v-on:keyup.enter .tab .delete .esc .space .space .up .down .left .right封装好
+#### 缩写
+`@`
+
+
+### 9-6. v-bind
+
+#### class和style绑定
+拼接字符串结果容易出错,Vue在绑定class和style的时候做了增强
+
+##### 使用
+1. 开关
+  1. 方法1
+  + `<div v-bind:class="{active: isActive}">content</div>`表示这个标签是否具有active这个class取决于isActive是true还是false.如
+  ```
+  isActive:true, // 如果是false的话就不存在active这个class了
+
+  .active{
+    color: #42b983;
+  }
+  ```
+  2. 方法2
+  + `<div v-bind:class="{obj1}">content</div>`
+  ```
+  obj1: {
+    active: true,
+  }
+  ```
+#### 缩写
+`:`, 如`<p :id="num">:test</p>`就绑定了这个元素的id属性和变量num
+
+
+## 10. 问题
+1. Vue修改了router/index.js里的内容结果刷新没用?
+似乎要重新`npm run dev`的样子...
+
+
+------------------
+
+
+v-once允许标签内的变量只改变一次,如`<span v-once>{{num}}</span>`
+
+如果我的变量是html语言怎么办?
+1. 直接`{{html_words}}`是直接文本
+2. 用`<span v-html="html_words"></span>`就会解析html_words里的html语法了
+
+`{{}}`和`v-bind:xxx=""`里的内容都会作为JS被Vue解析,但必须是单一的表达式
+
+`v-bind:标签的属性:"js内容"`: v-bind会将标签的属性和js内容进行绑定.注意`js内容`至少是一个变量
+
+
+### Vue实例
+所有的Vue组件都是Vue实例
+
+Vue实例的初始化通过词典完成
+1. 属性: data: xxx
+2. 方法: `created: function(){}` 或者`created(){}`
+
+Vue的初始化中key为data对应的数据和变量双向绑定
+
+Vue实例暴露了一些有用的实例属性和方法,都有前缀`$`,区别于用户定义的属性和方法,比如`vm.$data`,`vm.$el`,`vm.$watch`
+
+Vue实例的生命周期: 方法: `created`(实例创建之后执行代码): 
+![lifecycle](https://cn.vuejs.org/images/lifecycle.png)
+
+不要在选项属性或回调上使用箭头函数，比如 created: () => console.log(this.a) 或 vm.$watch('a', newValue => this.myMethod())。因为箭头函数是和父级上下文绑定在一起的，this 不会是如你所预期的 Vue 实例，经常导致 Uncaught TypeError: Cannot read property of undefined 或 Uncaught TypeError: this.myMethod is not a function 之类的错误。
+
+#### Vue实例的方法
+1. computed: 定义一系列方法,这些方法会修改变量(变量名===方法名)的值. => 允许某些变量是另外一些变量的某种变换.避免在标签内做运算
++ 基于依赖进行缓存.也就是说只要msg这些变量不改变就不会重新运算一遍
++ 也可以用getter和setter方法
+```
+// var2利用computed属性跟踪var1
+<input v-model="var1">
+<p>{{var2}}</p>
+
+computed: {
+  var2(){
+    return this.var1+'_2';
+  }
+},
+```
+2. watch: 类似于computed方法,适合于响应某些数据的变化.当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。
+```
+// var2利用watch属性跟踪var1
+<input v-model="var1">
+<p>{{var2}}</p>
+
+watch: {
+  var1:function() {
+    console.log("var1 changed");
+    this.var2 = this.var1;
+  }
+},
+```
+
