@@ -1009,3 +1009,17 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
         2. <方法2> 转换成cpu格式后进行计算,如`xx.cuda().data.cpu().numpy()`
 
 
+## 26. Vue
+1. `npm run dev`报错:
+```
+  ✘  http://eslint.org/docs/rules/no-multiple-empty-lines  More than 1 blank line not allowed  
+  src/router/index.js:137:1
+```
+解决: 整个文件中不能有连续的空行
+2. `npm run dev`报错:
+```
+  ✘  http://eslint.org/docs/rules/comma-dangle             Unexpected trailing comma           
+  src/router/index.js:134:8
+        },
+```
+解决: 最后一项不能在后面添加逗号
