@@ -236,6 +236,7 @@ slot
         <Counter num="10"></Counter>
         ```
         2. 儿子指明这个属性来自父亲: 写在`export default`里面
+        + 引号绝对不要忘记了
         ```
         props:["num"],
         ```
@@ -291,6 +292,7 @@ slot
             },
         }
         ```
+        8. 给儿子的某个标签绑定这个事件
     
 #### index.js来引用(路由)
 `this.$router.options`表示的是index.js里的所有内容
@@ -962,4 +964,38 @@ data: function () {
     count: 0
   }
 }
+```
+
+
+Vue的script的注释里面`//`后面要带空格
+
+最后的一个结尾不能加逗号
+
+空行不能连续的
+
+## 关闭ESLint
+build/webpack.base.conf.js
+```
+  module: {
+    rules: [
+      // ...(config.dev.useEslint ? [createLintingRule()] : []),
+```
+
+不要用上面的表达方法
+```
+    // data: () => ({
+    //   return {
+    //     cardName: 'admin'
+    //   }
+    // }),
+    data() {
+      return {
+        cardName: 'admin'
+      }
+    },
+```
+
+图片的缩放
+```
+<img src="/static/images/house1.jpeg" width="150" height="auto" alt="">
 ```
