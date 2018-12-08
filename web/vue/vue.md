@@ -293,6 +293,8 @@ slot
         ```
     
 #### index.js来引用(路由)
+`this.$router.options`表示的是index.js里的所有内容
+
 (以`src/router/index.js`为例)
 1. 静态路由
     1. 写好代表组件的vue文件
