@@ -772,9 +772,27 @@ var app4 = new Vue({
 })
 ```
 ### 9-4. 绑定表单v-model
-和num变量绑定,无论改变文本框的内容还是变量的值,双向都改动
+在表单`<input>`、`<textarea>`及`<select>`元素上创建双向数据绑定.和num变量绑定,无论改变文本框的内容还是变量的值,双向都改动
++ 忽略所有表单元素的`value`,`checked`,`selected`特性的初始值,而只是用变量的初始值 => 因此需要申明变量的初始值
+文本框
 ```
 <input v-model="num"/>
+```
+单选框
+```
+<input type="checkbox" id="checkbox" v-model="checked">
+<label for="checkbox">{{ checked }}</label>
+```
+单选按钮,选择框参考[官方文档](https://cn.vuejs.org/v2/guide/forms.html)
+
+#### 修饰符
+1. `.number`: 自动将用户的输入转换为数值类型
+```
+<input v-model.number="age" type="number">
+```
+2. `.trim`: 自动删除用户的输入的首尾空白符号
+```
+<input v-model.trim="msg">
 ```
 ### 9-5. v-on监听事件,并执行js代码
 vue事件处理器. 绑定标签的事件和Vue的函数
@@ -863,7 +881,7 @@ v-on:keyup.enter .tab .delete .esc .space .space .up .down .left .right封装好
 `:`, 如`<p :id="num">:test</p>`就绑定了这个元素的id属性和变量num
 
 
-## 10. 问题
+## 问题
 1. Vue修改了router/index.js里的内容结果刷新没用?
 似乎要重新`npm run dev`的样子...
 
@@ -882,23 +900,20 @@ v-once允许标签内的变量只改变一次,如`<span v-once>{{num}}</span>`
 `v-bind:标签的属性:"js内容"`: v-bind会将标签的属性和js内容进行绑定.注意`js内容`至少是一个变量
 
 
-### Vue实例
+## 10.  Vue实例
 所有的Vue组件都是Vue实例
 
-Vue实例的初始化通过词典完成
+### 10-1. 初始化Vue实例
+通过词典完成
 1. 属性: data: xxx
 2. 方法: `created: function(){}` 或者`created(){}`
 
 Vue的初始化中key为data对应的数据和变量双向绑定
 
+### 10-2. 属性和方法
 Vue实例暴露了一些有用的实例属性和方法,都有前缀`$`,区别于用户定义的属性和方法,比如`vm.$data`,`vm.$el`,`vm.$watch`
 
-Vue实例的生命周期: 方法: `created`(实例创建之后执行代码): 
-![lifecycle](https://cn.vuejs.org/images/lifecycle.png)
-
-不要在选项属性或回调上使用箭头函数，比如 created: () => console.log(this.a) 或 vm.$watch('a', newValue => this.myMethod())。因为箭头函数是和父级上下文绑定在一起的，this 不会是如你所预期的 Vue 实例，经常导致 Uncaught TypeError: Cannot read property of undefined 或 Uncaught TypeError: this.myMethod is not a function 之类的错误。
-
-#### Vue实例的方法
+#### Vue实例常用方法
 1. computed: 定义一系列方法,这些方法会修改变量(变量名===方法名)的值. => 允许某些变量是另外一些变量的某种变换.避免在标签内做运算
 + 基于依赖进行缓存.也就是说只要msg这些变量不改变就不会重新运算一遍
 + 也可以用getter和setter方法
@@ -927,3 +942,22 @@ watch: {
 },
 ```
 
+
+### 10-3. 生命周期
+Vue实例的生命周期: 方法: `created`(实例创建之后执行代码): 
+![lifecycle](https://cn.vuejs.org/images/lifecycle.png)
+
+不要在选项属性或回调上使用箭头函数，比如 created: () => console.log(this.a) 或 vm.$watch('a', newValue => this.myMethod())。因为箭头函数是和父级上下文绑定在一起的，this 不会是如你所预期的 Vue 实例，经常导致 Uncaught TypeError: Cannot read property of undefined 或 Uncaught TypeError: this.myMethod is not a function 之类的错误。
+
+
+### 10-4. Vue组件
+可复用的Vue实例就是Vue组件
+#### Vue组件特殊于普通Vue实例的点
+1. data必须是一个函数: 防止通过变量影响到其他组件
+```
+data: function () {
+  return {
+    count: 0
+  }
+}
+```
