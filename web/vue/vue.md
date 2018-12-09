@@ -359,7 +359,7 @@ export default new Router({
         }
     ]
     ```
-    4. 定义子路由展示位置: router-view
+    4. 定义子路由展示位置: router-view※
     ```
     <template>
         <div>
