@@ -1027,3 +1027,21 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
 ## 27. java
 1. `multi-catch statement is not supported`
 解决: `https://stackoverflow.com/questions/26940143/intellij-13-1-6-jdk-8-support`
+
+注意: 如果reimport `pom.xml`的话会又变回去.所以还要添加下面的代码
+```
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+```
