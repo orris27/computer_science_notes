@@ -279,7 +279,7 @@ public enum Elvis{
 + package语句作为Java源文件的第一条语句。(若缺省该语句，则指定为无名包。) 约定俗成的给包起名为把公司域名倒过来写，如com.sun
 + Java编译器把包对应于文件系统的目录管理，package语句中，用‘.’来指明包（目录）的层次，例如`package com.sun;`则该文件中所有的类位于`.\com\sun`目录下
 2. import
-    1. complete name of the class
+    1. complete name of the class: 如果我和另一个class都是`package com.orris`的话,那么import的时候还是要`import com.orris.<指定类名>`,而不能简单地写`import <指定类名>`
     ```
     java.time.LocalDate today = java.time.LocalDate.now();
     ```
