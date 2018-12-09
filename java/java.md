@@ -66,12 +66,25 @@ sudo eclipse
 Open Perspective(右上角的小按钮)>Java
 大纲方左边,选项卡组方西面
 显示Java的控制台Console
+```
+
+### 新建Java项目
+```
 右键>New>Java Project>项目名字写hadoop,JRE会自动检测,默认就好>完成
+```
+### demo
+```
 右键>New>类>Package:com.orris.hadoop+Name:TestIDE+勾选public static void main(String[] args)>完成
 System.out.println("Hello world");
 右键,点击run as>Java Application,如果下方Console出现Hello World,就说明安装好了
+```
+### 自动补全
+```
 alt+/ 自动补全(Ctrl+Space显示候选内容)
     window>keys>contenct Assist>Unbind Commnad>Binding:Alt+/>Ok(有冲突,所以删除冲突的)
+```
+### 安装Hadoop插件
+```
 安装插件
     1. 下载hadoop2x-eclipse-plugin.zip
     2. 将zip里的release下的*.jar拷贝eclipse的plugins目录下
@@ -79,7 +92,6 @@ alt+/ 自动补全(Ctrl+Space显示候选内容)
     4. window>Hadoop这个条目如果存在的话,就说明安装好了
 New Perspective>MapReduce>New Location>location name:localhost(选择namenode的ip地址,不过好像是随便取的),dfs master选择namenode的ip:8020
 ```
-
 
 
 ### 安装Vim插件Vrapper
@@ -92,6 +104,7 @@ New Perspective>MapReduce>New Location>location name:localhost(选择namenode的
 ### 安装subclipse
 `https://dl.bintray.com/subclipse/releases/subclipse/latest/`,其他同上
 
+### 视图
 
 
 
@@ -171,4 +184,95 @@ New Perspective>MapReduce>New Location>location name:localhost(选择namenode的
 2. 不沿用
     1. 字符类型的乘法:`"-"*30`不能在Java中使用
 
+
+## 4. mvn
+### 安装
+```
+wget http://mirrors.sonic.net/apache/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz
+tar zxf apache-maven-3.6.0-bin.tar.gz
+echo 'export MAVEN_HOME=/home/orris/tools/apache-maven-3.6.0' >> ~/.bashrc
+echo 'export PATH=$MAVEN_HOME/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+mvn --version
+#--------------------------------------------------------------------------------------------
+# Apache Maven 3.6.0 (97c98ec64a1fdfee7767ce5ffb20918da4f719f3; 2018-10-25T02:41:47+08:00)
+# Maven home: /home/orris/tools/apache-maven-3.6.0
+# Java version: 1.8.0_181, vendor: Oracle Corporation, runtime: /usr/local/jdk1.8.0_181/jre
+# Default locale: en_US, platform encoding: UTF-8
+# OS name: "linux", version: "4.13.0-46-generic", arch: "amd64", family: "unix"
+#--------------------------------------------------------------------------------------------
+
+```
+### 创建项目
+```
+mvn archetype:generate -DgroupId=com.orris -DartifactId=Crawler -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+orris@orris-Laptop:~/fun/mvn$ tree Crawler/
+Crawler/
+├── pom.xml
+└── src
+    ├── main
+    │   └── java
+    │       └── com
+    │           └── orris
+    │               └── App.java
+    └── test
+        └── java
+            └── com
+                └── orris
+                    └── AppTest.java
+
+9 directories, 3 files
+
+
+
+```
+### 配置
+`pom.xml`: 管理整个项目,Maven必须有pom.xml
+## 5. IntellJ
+### 安装
+```
+# 去官网下载ideaIC-2018.3.1.tar.gz
+
+tar zxvf ideaIC-2018.3.1.tar.gz
+
+cd idea-IC-183.4588.61/
+sudo chmod a=+rx bin/idea.sh 
+sudo bin/idea.sh
+#############################################
+# 安装的时候所有东西都勾选上吧
+#############################################
+```
+### 启动
+```
+cd ~/tools/idea-IC-183.4588.61/
+sudo bin/idea.sh
+```
+### 创建项目
+1. IntelliJ自带的方法
+我选择的是Hello World
+2. mvn方法(我目前使用的)
+```
+mvn archetype:generate -DgroupId=com.orris -DartifactId=Crawler -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+```
+然后在IntelliJ中点击Open,选择对应的pom.xml就可以了
+### 字体
+File > Settings > Editor > Font > 24
+
+File > Settings > Editor > Font > Noto Sans Mono CJK TC Bold
+
+### MVN项目
+#### pom.xml
+##### 1. 利用pom.xml导入crawler4j
+1. 查看External Libraries里面有没有我们的crawler4j
+2. 如果没有的话,先编辑pom.xml,加入下面代码(谷歌搜索`maven crawler4j`就能找到)
+```
+    <dependency>
+        <groupId>edu.uci.ics</groupId>
+        <artifactId>crawler4j</artifactId>
+        <version>4.4.0</version>
+    </dependency>
+```
+3. 然后右键pom.xml > Maven > Reimport, 重新导入依赖
+4. 再次查看External Libraries,是不是就有东西出来了~~
 
