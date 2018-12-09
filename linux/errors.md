@@ -1023,3 +1023,7 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
         },
 ```
 解决: 最后一项不能在后面添加逗号
+
+## 27. java
+1. `multi-catch statement is not supported`
+解决: `https://stackoverflow.com/questions/26940143/intellij-13-1-6-jdk-8-support`
