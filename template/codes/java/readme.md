@@ -463,7 +463,78 @@ public class Test {
 
 
 
+## 8. IO
 
-## 8. Crawler4J
+### File
+相对路径和java文件同级
+```
+
+```
+
+### FileReader
+相对路径和src目录同级,比如data目录和src目录同级,那么访问data/courses.txt就是
+```
+fr = new FileReader("data/courses.txt");
+```
+#### 1. 打印文件内容
+```
+BufferedReader br = null;
+try {
+    br = new BufferedReader(new FileReader("data/courses.txt"));
+
+    String sCurrentLine;
+
+    while ((sCurrentLine = br.readLine()) != null) {
+        System.out.println(sCurrentLine);
+    }
+
+} catch(IOException e) {
+    e.printStackTrace();
+} finally {
+    try {
+        if (br != null)
+            br.close();
+    } catch(IOException e){
+        e.printStackTrace();
+    }
+}
+```
+#### 2. 写入文件
+BufferedWriter一定要close才能正常写入
+```
+BufferedWriter bw = null;
+try {
+    bw = new BufferedWriter(new FileWriter("data/courses.txt"));
+
+    bw.write("first line\n");
+    bw.write("second line");
+
+} catch(IOException e) {
+    e.printStackTrace();
+} finally {
+    try {
+        if (bw != null)
+            bw.close();
+    } catch(IOException e){
+        e.printStackTrace();
+    }
+}
+```
+
+### extra
+1. 获取当前项目的目录(不是java文件所在目录)
+```
+System.out.println("Working Directory = " + System.getProperty("user.dir"));
+#-----------------------------------------------------------
+# Working Directory = /home/orris/fun/mvn/Crawler 
+#-----------------------------------------------------------
+```
+2. 遍历数组
+```
+for (String words : sCurrentLine.split("#")) { 
+}
+```
+## 9. Crawler4J
 ### demo
 demo1: https://github.com/orris27/orris/tree/master/java/codes/crawler4j/demo3
+
