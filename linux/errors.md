@@ -1045,3 +1045,23 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
     </plugins>
   </build>
 ```
+2. `Error:(15, 45) java: package org.apache.lucene.queryparser.classic does not exist`
+解决: lucene-queries和lucene queryparser都是单独的包,需要重新导入: (以下是7.5.0版本),具体参考:https://mvnrepository.com/artifact/org.apache.lucene/lucene-analyzers-common
+```
+<!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-queries -->
+<dependency>
+    <groupId>org.apache.lucene</groupId>
+    <artifactId>lucene-queries</artifactId>
+    <version>7.5.0</version>
+</dependency>
+
+```
+3. `Error:(28, 33) java: package org.wltea.analyzer.lucene does not exist`
+解决: https://github.com/wks/ik-analyzer (直接粘贴下面的内容是没用的,这是国人写的,反正后来我就不准备解决这个问题了)
+```
+    <dependency>
+      <groupId>org.wltea.ik-analyzer</groupId>
+      <artifactId>ik-analyzer</artifactId>
+      <version>3.2.8</version>
+    </dependency>
+```
