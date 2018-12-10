@@ -402,11 +402,6 @@ sudo apt install net-tools
 ```
 
 
-
-### 5-3 常见问题
-1. 虚拟机ping不通`192.168.56.1`和`192.168.56.2`
-    1. 金山毒霸这些软件有开机加速,如果他们屏蔽了VMware Workstation的话,那么就会导致这个问题.所以解决方法就是允许VMware Workstation开机启动
-
 ## 6. Ubuntu双系统安装
 1. 下载desktop的镜像文件`ubuntu-18.04.1-desktop-amd64.iso`.
 2. 刻录到U盘
