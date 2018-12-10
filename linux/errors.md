@@ -151,6 +151,11 @@ VMware Workstation can remind you to install the VMware Tools package when you p
 
 https://blog.csdn.net/zhaihaifei/article/details/56674655
 
+### 3-3. vmware
+1. 虚拟机ping不通`192.168.56.1`和`192.168.56.2`
+    1. 金山毒霸这些软件有开机加速,如果他们屏蔽了VMware Workstation的话,那么就会导致这个问题.所以解决方法就是允许VMware Workstation开机启动
+
+
 ## 4. Cobbler
 ### 4-1. 安装
 1. yum中没有找到`cobbler`
