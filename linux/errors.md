@@ -155,7 +155,18 @@ https://blog.csdn.net/zhaihaifei/article/details/56674655
 1. 虚拟机ping不通`192.168.56.1`和`192.168.56.2`
     1. 金山毒霸这些软件有开机加速,如果他们屏蔽了VMware Workstation的话,那么就会导致这个问题.所以解决方法就是允许VMware Workstation开机启动
 
-
+### 3-4. kernel
+1. 编译内核时`make`报错:
+```
+/boot/config-4.15.0-39-generic:4243:warning: symbol value 'm' invalid for GPIO_MB86S7X
+Your display is too small to run Menuconfig!
+It must be at least 19 lines by 80 columns.
+scripts/kconfig/Makefile:28: recipe for target 'menuconfig' failed
+make[1]: *** [menuconfig] Error 1
+Makefile:547: recipe for target 'menuconfig' failed
+make: *** [menuconfig] Error 2
+```
+解决: 因为它说display is too small,所以只要`Ctrl + -`缩小terminal就好了
 ## 4. Cobbler
 ### 4-1. 安装
 1. yum中没有找到`cobbler`
