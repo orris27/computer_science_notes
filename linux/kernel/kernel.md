@@ -67,7 +67,7 @@ uname -r
 
 ```
 
-### Ubuntu
+### Ubuntu(下面的内容在"开始编译"前都是描述如何创建一个可以查询缺页和脏页面的系统调用,但是整个流程是错误的,因为4.8版本内核有问题,只要下载比如说上面的4.13版本或者4.15版本的都可以)
 ```
 uname -r
 #------------------------------------------------------------
@@ -217,7 +217,7 @@ asmlinkage int sys_mysyscall(void)
 
 
 ```
-开始编译, 解决PIL问题参考:https://unix.stackexchange.com/questions/319761/cannot-compile-kernel-error-kernel-does-not-support-pic-mode/319830
+接下来的内容都是因为4.8版本内核导致的悲剧,只有make才是有用的,前面都是为了解决各种bug,所以不用参考.但是上面的内容是重要的:开始编译, 解决PIL问题参考:https://unix.stackexchange.com/questions/319761/cannot-compile-kernel-error-kernel-does-not-support-pic-mode/319830
 ```
 scripts/config --disable CC_STACKPROTECTOR_STRONG # Special note as of Kernel 4.4 and if compiling using Ubuntu 14.04 (I don't know about 15.10), with an older version of the c compiler: It can not compile with CONFIG_CC_STACKPROTECTOR_STRONG.
 
