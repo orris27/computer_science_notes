@@ -111,7 +111,8 @@ deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted univer
 sudo apt-get update # 更新软件列表
 sudo apt-get upgrade # 更新软件包
 
-sudo apt-get -y install bc libncurses5-dev libssl-dev make gcc libncurses5-dev
+sudo apt-get -y install bc libncurses5-dev libssl-dev make gcc libncurses5-dev libssl-dev
+
 wget http://mirrors.aliyun.com/linux-kernel/v4.x/linux-4.8.tar.xz
 wget http://mirrors.aliyun.com/linux-kernel/v4.x/patch-4.8.xz
 tar -xvf linux-4.8.tar.xz 
@@ -216,8 +217,23 @@ asmlinkage int sys_mysyscall(void)
 
 
 ```
-开始编译
+开始编译, 解决PIL问题参考:https://unix.stackexchange.com/questions/319761/cannot-compile-kernel-error-kernel-does-not-support-pic-mode/319830
 ```
+scripts/config --disable CC_STACKPROTECTOR_STRONG # Special note as of Kernel 4.4 and if compiling using Ubuntu 14.04 (I don't know about 15.10), with an older version of the c compiler: It can not compile with CONFIG_CC_STACKPROTECTOR_STRONG.
+
+export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabi-
+
+vim Makefile
+# 解决PIL问题
+# 我是在799行的地方添加下面内容的
+#################################################################
+KBUILD_CFLAGS += $(call cc-option, -fno-pie)
+KBUILD_CFLAGS += $(call cc-option, -no-pie)
+KBUILD_AFLAGS += $(call cc-option, -fno-pie)
+KBUILD_CPPFLAGS += $(call cc-option, -fno-pie) 
+#################################################################
+
 make
 ```
 
