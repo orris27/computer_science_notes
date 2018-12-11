@@ -4176,6 +4176,10 @@ The economy remains sluggish
 86. ethnic: Ace + Nick => Ace touched me and I become black.
 
 
+87. tile: tire => A tire is flat and it covers the ground.
+
+88. equitable: equal => treat all people in a equal way
+
 ### listening
 + Earth's crust
 + is made up of large plates
