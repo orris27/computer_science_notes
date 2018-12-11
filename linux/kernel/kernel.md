@@ -1,5 +1,6 @@
     
 ## 1. Linux内核编译
+### CentOS
 [CentOS内核编译参考文档](https://blog.csdn.net/mrzhouxiaofei/article/details/79140435)
 1. `make menuconfig`
     1. `<*>`或`[*]`: 将该功能编译到内核中
@@ -66,7 +67,159 @@ uname -r
 
 ```
 
+### Ubuntu
+```
+uname -r
+#------------------------------------------------------------
+# 4.15.0-29-generic
+#------------------------------------------------------------
+uname -m
+#------------------------------------------------------------
+# x86_64
+#------------------------------------------------------------
+lsb_release -a
+#------------------------------------------------------------
+# No LSB modules are available.
+# Distributor ID:    Ubuntu
+# Description:  Ubuntu 18.04.1 LTS
+# Release:  18.04
+# Codename:  bionic
+#------------------------------------------------------------
 
+
+mkdir ~/tools
+cd ~/tools
+
+
+sudo apt-get install vim
+
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+sudo vi /etc/apt/sources.list
+#################################################################################################
+deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+#################################################################################################
+
+sudo apt-get update # 更新软件列表
+sudo apt-get upgrade # 更新软件包
+
+sudo apt-get -y install bc libncurses5-dev libssl-dev make gcc libncurses5-dev
+wget http://mirrors.aliyun.com/linux-kernel/v4.x/linux-4.8.tar.xz
+wget http://mirrors.aliyun.com/linux-kernel/v4.x/patch-4.8.xz
+tar -xvf linux-4.8.tar.xz 
+xz -d patch-4.8.xz | patch –p1
+
+cd linux-4.8
+
+# 第一次编译的话，有必要将内核源代码树置于一种完整和一致的状态。因此，我们推荐执行命令make mrproper。它将清除目录下所有配置文件和先前生成核心时产生的.o文件
+make mrproper
+
+make menuconfig
+
+sudo vim /usr/include/asm-generic/unistd.h
+################################################### 将223处的内容修改成下面的内容
+#define __NR_mysyscall  223
+__SYSCALL(__NR_mysyscall, sys_mysyscall)
+###################################################
+
+vim include/uapi/asm-generic/unistd.h
+################################################### 将223处的内容修改成下面的内容
+#define __NR_mysyscall  223
+__SYSCALL(__NR_mysyscall, sys_mysyscall)
+###################################################
+
+vim arch/x86/entry/syscalls/syscall_64.tbl # 我们前面讲过，系统调用处理程序（system_call）会根据eax中的索引到系统调用表（sys_call_table）中去寻找相应的表项。所以，我们必须在那里添加我们自己的一个值。
+###################################################
+223     common  mysyscall               sys_mysyscall
+###################################################
+
+```
+修改统计系统缺页次数和进程缺页次数的内核代码
+
+由于每发生一次缺页都要进入缺页中断服务函数do_page_fault一次，所以可以认为执行该函数的次数就是系统发生缺页的次数。可以定义一个全局变量pfcount作为计数变量，在执行do_page_fault时，该变量值加1。在当前进程控制块中定义一个变量pf记录当前进程缺页次数，在执行do_page_fault时，这个变量值加1。
+
+先在`include/linux/mm.h`文件中声明变量pfcount：
+```
+++ extern unsigned  long  pfcount;
+```
+要记录进程产生的缺页次数，首先在进程task_struct中增加成员pf01，在`include/linux/sched.h`文件中的task_struct结构中添加pf字段：
+```
+++ unsigned  long  pf;
+```
+统计当前进程缺页次数需要在创建进程是需要将进程控制块中的pf设置为0，在进程创建过程中，子进程会把父进程的进程控制块复制一份，实现该复制过程的函数是kernel/fork.c文件中的dup_task_struct()函数，修改该函数将子进程的pf设置成0：
+```
+    static struct task_struct *dup_task_struct(struct task_struct *orig)
+{
+        …..
+        tsk = alloc_task_struct_node(node);
+        if (!tsk)
+            return NULL;
+       ……
+        ++ tsk->pf=0;
+        ……
+}
+```
+
+在arch/x86/mm/fault.c文件中定义变量pfcount；并修改arch/x86/mm/fault.c中do_page_fault()函数。每次产生缺页中断，do_page_fault()函数会被调用，pfcount变量值递增1,记录系统产生缺页次数，current->pf值递增1，记录当前进程产生缺页次数：
+```
+ ++ unsigned long pfcount;
+
+ __do_page_fault(struct pt_regs *regs, unsigned long error_code)
+{
+        …
+ ++ pfcount++;
+ ++ current->pf++;
+    …
+}
+```
+sys_mysyscall的实现
+
+我们把这一小段程序添加在kernel/sys.c里面。在这里，我们没有在kernel目录下另外添加自己的一个文件，这样做的目的是为了简单，而且不用修改Makefile，省去不必要的麻烦。
+
+mysyscall系统调用实现输出系统缺页次数、当前进程缺页次数，及每个进程的“脏”页面数: 具体内容参考: https://blog.csdn.net/lishichengyan/article/details/78884082
+```
+asmlinkage int sys_mysyscall(void)
+{
+        ……
+//printk("当前进程缺页次数：%lu",current->pf)
+//每个进程的“脏”页面数
+        return 0;
+}
+
+#######################我的版本
+
+asmlinkage int sys_mysyscall(void)
+{
+        struct task_struct* p=NULL;
+
+        printk("<1>total page fault: %lu times\n",pfcount);
+
+        printk("<1>current process's page fault: %lu times\n",current->pf);
+
+        for(p=&init_task;(p=next_task(p))!=&init_task;){
+
+                printk("<1>dirty pages: %d\n pages",p->nr_dirtied);
+
+        }
+
+        return 0;
+
+}
+
+
+```
+开始编译
+```
+make
+```
 
 ## 2. 编写内核模块,并安装内核模块
 1. `obj-m +=$(TARGET).o`告诉kbuild,希望将`$(TARGET)`,也就是helloworld,编译成内核模块
