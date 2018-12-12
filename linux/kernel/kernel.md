@@ -102,7 +102,7 @@ deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe m
 deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
 deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+##### deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
 deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
 deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
@@ -111,7 +111,7 @@ deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted univer
 sudo apt-get update # 更新软件列表
 sudo apt-get upgrade # 更新软件包
 
-sudo apt-get -y install bc libncurses5-dev libssl-dev make gcc libncurses5-dev libssl-dev
+sudo apt-get -y install bc libncurses5-dev libssl-dev make gcc libncurses5-dev libssl-dev libelf-dev
 
 wget http://mirrors.aliyun.com/linux-kernel/v4.x/linux-4.8.tar.xz
 wget http://mirrors.aliyun.com/linux-kernel/v4.x/patch-4.8.xz
@@ -219,22 +219,28 @@ asmlinkage int sys_mysyscall(void)
 ```
 接下来的内容都是因为4.8版本内核导致的悲剧,只有make才是有用的,前面都是为了解决各种bug,所以不用参考.但是上面的内容是重要的:开始编译, 解决PIL问题参考:https://unix.stackexchange.com/questions/319761/cannot-compile-kernel-error-kernel-does-not-support-pic-mode/319830
 ```
-scripts/config --disable CC_STACKPROTECTOR_STRONG # Special note as of Kernel 4.4 and if compiling using Ubuntu 14.04 (I don't know about 15.10), with an older version of the c compiler: It can not compile with CONFIG_CC_STACKPROTECTOR_STRONG.
+##### scripts/config --disable CC_STACKPROTECTOR_STRONG # Special note as of Kernel 4.4 and if compiling using Ubuntu 14.04 (I don't know about 15.10), with an older version of the c compiler: It can not compile with CONFIG_CC_STACKPROTECTOR_STRONG.
 
-export ARCH=arm
-export CROSS_COMPILE=arm-linux-gnueabi-
+##### export ARCH=arm
+##### export CROSS_COMPILE=arm-linux-gnueabi-
 
-vim Makefile
-# 解决PIL问题
-# 我是在799行的地方添加下面内容的
-#################################################################
-KBUILD_CFLAGS += $(call cc-option, -fno-pie)
-KBUILD_CFLAGS += $(call cc-option, -no-pie)
-KBUILD_AFLAGS += $(call cc-option, -fno-pie)
-KBUILD_CPPFLAGS += $(call cc-option, -fno-pie) 
-#################################################################
+##### vim Makefile
+##### # 解决PIL问题
+##### # 我是在799行的地方添加下面内容的
+##### #################################################################
+##### KBUILD_CFLAGS += $(call cc-option, -fno-pie)
+##### KBUILD_CFLAGS += $(call cc-option, -no-pie)
+##### KBUILD_AFLAGS += $(call cc-option, -fno-pie)
+##### KBUILD_CPPFLAGS += $(call cc-option, -fno-pie) 
+##### #################################################################
 
 make
+
+sudo make modules
+sudo make modules_install
+
+sudo make install
+sudo reboot
 ```
 
 ## 2. 编写内核模块,并安装内核模块
