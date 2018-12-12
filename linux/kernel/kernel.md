@@ -122,7 +122,7 @@ cd linux-4.8
 
 # 第一次编译的话，有必要将内核源代码树置于一种完整和一致的状态。因此，我们推荐执行命令make mrproper。它将清除目录下所有配置文件和先前生成核心时产生的.o文件
 make mrproper
-
+cp /boot/config-`uname -r` .config # 千万不要忘记了!!
 make menuconfig
 
 sudo vim /usr/include/asm-generic/unistd.h
@@ -149,33 +149,35 @@ vim arch/x86/entry/syscalls/syscall_64.tbl # 我们前面讲过，系统调用�
 
 先在`include/linux/mm.h`文件中声明变量pfcount：
 ```
-++ extern unsigned  long  pfcount;
+extern unsigned  long  pfcount;
 ```
 要记录进程产生的缺页次数，首先在进程task_struct中增加成员pf01，在`include/linux/sched.h`文件中的task_struct结构中添加pf字段：
 ```
-++ unsigned  long  pf;
+unsigned  long  pf;
 ```
-统计当前进程缺页次数需要在创建进程是需要将进程控制块中的pf设置为0，在进程创建过程中，子进程会把父进程的进程控制块复制一份，实现该复制过程的函数是kernel/fork.c文件中的dup_task_struct()函数，修改该函数将子进程的pf设置成0：
+统计当前进程缺页次数需要在创建进程是需要将进程控制块中的pf设置为0，在进程创建过程中，子进程会把父进程的进程控制块复制一份，实现该复制过程的函数是`kernel/fork.c`文件中的`dup_task_struct()`函数，修改该函数将子进程的pf设置成0：
 ```
-    static struct task_struct *dup_task_struct(struct task_struct *orig)
+static struct task_struct *dup_task_struct(struct task_struct *orig)
 {
-        …..
         tsk = alloc_task_struct_node(node);
         if (!tsk)
             return NULL;
-       ……
-        ++ tsk->pf=0;
+        ……
+        if (err)
+                goto free_stack;
+        ++ tsk->pf = 0;
         ……
 }
 ```
 
-在arch/x86/mm/fault.c文件中定义变量pfcount；并修改arch/x86/mm/fault.c中do_page_fault()函数。每次产生缺页中断，do_page_fault()函数会被调用，pfcount变量值递增1,记录系统产生缺页次数，current->pf值递增1，记录当前进程产生缺页次数：
+在`arch/x86/mm/fault.c`文件中定义变量pfcount；并修改arch/x86/mm/fault.c中do_page_fault()函数。每次产生缺页中断，do_page_fault()函数会被调用，pfcount变量值递增1,记录系统产生缺页次数，current->pf值递增1，记录当前进程产生缺页次数：
 ```
  ++ unsigned long pfcount;
 
  __do_page_fault(struct pt_regs *regs, unsigned long error_code)
 {
         …
+        mm = tsk->mm;
  ++ pfcount++;
  ++ current->pf++;
     …
@@ -239,7 +241,7 @@ make -j4
 sudo make modules -j4
 sudo make modules_install -j4
 
-sudo make install -j4
+sudo make install -j4   
 sudo reboot 
 ```
 
