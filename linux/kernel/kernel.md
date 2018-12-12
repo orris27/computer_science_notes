@@ -41,9 +41,9 @@ make menuconfig #（基于文本菜单的配置界面）
 #make xconfig #（基于图形窗口的配置界面）
 #make oldconfig #（基于原来内核配置的基础上修改）
 
-make # 利用.config文件进行编译
-make modules_install
-make install
+make -j4 # 利用.config文件进行编译
+make modules_install -j4
+make install -j4
 #-------------------------------------------------------------
 #   ...
 #   INSTALL /lib/firmware/edgeport/down2.fw
@@ -234,13 +234,13 @@ asmlinkage int sys_mysyscall(void)
 ##### KBUILD_CPPFLAGS += $(call cc-option, -fno-pie) 
 ##### #################################################################
 
-make
+make -j4
 
-sudo make modules
-sudo make modules_install
+sudo make modules -j4
+sudo make modules_install -j4
 
-sudo make install
-sudo reboot
+sudo make install -j4
+sudo reboot 
 ```
 
 ## 2. 编写内核模块,并安装内核模块
