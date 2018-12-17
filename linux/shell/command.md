@@ -682,7 +682,7 @@ ltrace cat b.txt
 1. `sh xx.sh &`
 2. `nohub xx.sh &`
 3. `screen`
-    1. `-ls`: 列出所有的screen
+    1. `-ls`: 列出所有的screen. 通过`Ctrl + AD`退出的都会在这里面，但是通过exit退出的就彻底消失了
     2. `-r 24839`: Reattach a session
     3. C-a ?   显示所有键绑定信息
     4. C-a w   显示所有窗口列表
