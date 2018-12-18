@@ -2719,3 +2719,19 @@ source /etc/profile
 npm run dev # 开发
 npm run build # 部署
 ```
+
+
+## 78. script
+开启记录
+```
+script 
+```
+刷新记录
+```
+script -f
+```
+查看记录
+```
+screen --help
+# 查看帮助
+```
