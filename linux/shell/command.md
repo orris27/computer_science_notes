@@ -2725,6 +2725,7 @@ npm run build # 部署
 开启记录
 ```
 script 
+script -a output # 指定输出的文件,否则默认是typescript
 ```
 刷新记录
 ```
