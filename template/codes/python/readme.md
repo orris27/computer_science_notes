@@ -4261,7 +4261,7 @@ for epoch in range(num_epochs):
         # [torch.LongTensor of size 2x3]
         #--------------------------------------------
         ```
-        2. from python list
+        2. from python list: 默认int => torch.int64, float => torch.float32
         ```
         l = [[1, 2], [3, 4]]
         tensor = torch.FloatTensor(l)
@@ -4274,6 +4274,7 @@ for epoch in range(num_epochs):
         1. size()
         2. pow()
         3. normal(): 根据means和std数组来正态分布地生成对应数据
+        4. dtype: (成员): 查看类型
 2. function
     + add, mm, rand, unsqueeze(1D->2D), max(`torch.max(F.softmax(out), dim=1)`), cat(`y = torch.cat((y0, y1), 0).type(torch.LongTensor)`), manual_seed(`torch.manual_seed(1)`)
     1. nearly the same as numpy, such as `torch.add`, `torch.abs`, sin, mean and so on.
@@ -4402,7 +4403,13 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     ```
     x = torch.cuda.FloatTensor([[1, 2], [3, 4]])
     ```
-
+    4. 判断: 通过`torch.tensor`来从python中获得tensor
+    ```
+    if args.cuda and torch.cuda.is_available():
+        torch.set_default_tensor_type('torch.cuda.FloatTensor')
+    else:
+        torch.set_default_tensor_type('torch.FloatTensor')
+    ```
 6. NN
     1. regression
     ```
