@@ -122,7 +122,7 @@ cd linux-4.8
 
 # 第一次编译的话，有必要将内核源代码树置于一种完整和一致的状态。因此，我们推荐执行命令make mrproper。它将清除目录下所有配置文件和先前生成核心时产生的.o文件
 make mrproper
-cp /boot/config-`uname -r` .config # 千万不要忘记了!!
+cp /boot/config-`uname -r` .config # 千万不要忘记了!!我上次就是因为这个问题!!
 make menuconfig
 
 sudo vim /usr/include/asm-generic/unistd.h
