@@ -1024,7 +1024,8 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
         1. <方法1> 直接使用CUDA tensor进行计算,也就是说所有结果都用tensor计算(torch tensor有个属性是device,就是规定了它是cpu还是gpu)
         2. <方法2> 转换成cpu格式后进行计算,如`xx.cuda().data.cpu().numpy()`
 
-
+4. GPU out of memory
+    1. 可能是版本问题.我使用1.0.0的pytorch会出现这个问题,而使用0.3.1就没了
 ## 26. Vue
 1. `npm run dev`报错:
 ```
