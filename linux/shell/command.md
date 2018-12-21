@@ -685,6 +685,7 @@ ltrace cat b.txt
     1. `-ls`: 列出所有的screen. 通过`Ctrl + AD`退出的都会在这里面，但是通过exit退出的就彻底消失了
     2. `-r 24839` / `-r <screen_name>`: Reattach a session
     3. `-S <screen_name>`: 创建指定screen名的新窗口
+    4. `-x`: 如果一个screen是attached状态,使用该参数连接,表示共享.如`screen -x 27843`
     3. C-a ?   显示所有键绑定信息
     4. C-a w   显示所有窗口列表
     5. C-a C-a 切换到之前显示的窗口
