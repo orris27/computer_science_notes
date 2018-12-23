@@ -159,6 +159,7 @@ https://blog.csdn.net/zhaihaifei/article/details/56674655
     2. 解决: `sudo apt-get install ssh`
 
 
+
 ### 3-4. kernel
 1. 编译内核时`make`报错:
 ```
