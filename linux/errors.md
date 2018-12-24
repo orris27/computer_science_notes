@@ -214,6 +214,26 @@ make: *** [default] Error 2
 ```
 
 
+4. `sudo bash mkfs.myext2 myfs` reports:
+```
+losetup: myfs: failed to set up loop device: Device or resource busy
+mke2fs 1.44.1 (24-Mar-2018)
+/dev/loop12 contains a squashfs file system
+Proceed anyway? (y,N) y
+/dev/loop12 is mounted; will not make a filesystem here!
+2+0 records in
+2+0 records out
+2048 bytes (2.0 kB, 2.0 KiB) copied, 0.000129319 s, 15.8 MB/s
+previous magic number is 0x4797
+current magic number is 0x6666
+change magic number ok!
+dd: writing to '/dev/loop12': Operation not permitted
+1+0 records in
+0+0 records out
+0 bytes copied, 0.00717034 s, 0.0 kB/s
+
+```
+
 ## 4. Cobbler
 ### 4-1. 安装
 1. yum中没有找到`cobbler`
