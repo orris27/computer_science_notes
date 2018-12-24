@@ -408,3 +408,31 @@ cat test.txt
 
 
 
+ssize_t new_sync_read_crypt(struct file *filp, const char __user *buf, size_t len, loff_t *ppos)
+{
+    int i;
+    ssize_t ret = new_sync_read(filp, buf, len, ppos);
+    char tmp;
+    for(i=0; i<len; i++) {
+        get_user(tmp, mybuf+i);
+        tmp = tmp - 25;
+        if(tmp < 0) tmp = tmp + 128;
+        put_user(tmp, mybuf + i);
+    }
+    printk("haha encrypt %ld\n", len);
+    return ret;
+}
+ssize_t new_sync_write_crypt(struct file *filp, const char __user *buf, size_t len, loff_t *ppos)
+{
+    char *mybuf = buf;
+    int i;
+    char tmp;
+    for(i=0; i<len; i++) {
+        get_user(tmp, mybuf+i);
+        tmp = tmp + 25;
+        if(tmp >= 128) tmp = tmp - 128;
+        put_user(tmp, mybuf + i);
+    }
+    printk("haha encrypt %ld\n", len);
+    return new_sync_write(filp, mybuf, len, ppos);
+}
