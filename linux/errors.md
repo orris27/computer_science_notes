@@ -158,7 +158,8 @@ https://blog.csdn.net/zhaihaifei/article/details/56674655
     1. 原因: 没有启动ssh
     2. 解决: `sudo apt-get install ssh`
 
-
+3. `make` reports that PIC mode
+    1. solution: `KBUILD_CFLAGS += -fno-pic`
 
 ### 3-4. kernel
 1. 编译内核时`make`报错:
@@ -172,6 +173,47 @@ Makefile:547: recipe for target 'menuconfig' failed
 make: *** [menuconfig] Error 2
 ```
 解决: 因为它说display is too small,所以只要`Ctrl + -`缩小terminal就好了
+
+2. 
+```
+./include/linux/linkage.h:8:10: fatal error: asm/linkage.h: No such file or directory
+ #include <asm/linkage.h>
+          ^~~~~~~~~~~~~~~
+compilation terminated.
+```
+
+3. 
+```
+make -C /lib/modules/4.15.0-29-generic/build M=/home/orris/linux-3.18.24/fs/myext2  modules
+make[1]: Entering directory '/usr/src/linux-headers-4.15.0-29-generic'
+  CC [M]  /home/orris/linux-3.18.24/fs/myext2/balloc.o
+/home/orris/linux-3.18.24/fs/myext2/balloc.c: In function ‘myext2_has_free_blocks’:
+/home/orris/linux-3.18.24/fs/myext2/balloc.c:1188:26: error: implicit declaration of function ‘current_fsuid’; did you mean ‘current_umask’? [-Werror=implicit-function-declaration]
+   !uid_eq(sbi->s_resuid, current_fsuid()) &&
+                          ^~~~~~~~~~~~~
+                          current_umask
+/home/orris/linux-3.18.24/fs/myext2/balloc.c:1188:26: error: incompatible type for argument 2 of ‘uid_eq’
+In file included from ./include/linux/stat.h:20:0,
+                 from ./include/linux/fs.h:10,
+                 from /home/orris/linux-3.18.24/fs/myext2/myext2.h:13,
+                 from /home/orris/linux-3.18.24/fs/myext2/balloc.c:14:
+./include/linux/uidgid.h:61:20: note: expected ‘kuid_t {aka struct <anonymous>}’ but argument is of type ‘int’
+ static inline bool uid_eq(kuid_t left, kuid_t right)
+                    ^~~~~~
+/home/orris/linux-3.18.24/fs/myext2/balloc.c:1190:5: error: implicit declaration of function ‘in_group_p’ [-Werror=implicit-function-declaration]
+    !in_group_p (sbi->s_resgid))) {
+     ^~~~~~~~~~
+cc1: some warnings being treated as errors
+scripts/Makefile.build:332: recipe for target '/home/orris/linux-3.18.24/fs/myext2/balloc.o' failed
+make[2]: *** [/home/orris/linux-3.18.24/fs/myext2/balloc.o] Error 1
+Makefile:1552: recipe for target '_module_/home/orris/linux-3.18.24/fs/myext2' failed
+make[1]: *** [_module_/home/orris/linux-3.18.24/fs/myext2] Error 2
+make[1]: Leaving directory '/usr/src/linux-headers-4.15.0-29-generic'
+Makefile:11: recipe for target 'default' failed
+make: *** [default] Error 2
+```
+
+
 ## 4. Cobbler
 ### 4-1. 安装
 1. yum中没有找到`cobbler`
