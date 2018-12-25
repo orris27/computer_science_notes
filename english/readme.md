@@ -2847,7 +2847,7 @@ factious fellows
 ```
 He is too partisan to be a referee
 ```
-3. (n)congress(国会)
+3. (n)congress: 康师傅 + grass => Grass show up in the instant noodles and form a shape of a cock. (国会)
 4. (n)senate: 蛇 + 骑拉帝纳 + 特斯拉 => 蛇进入到反转世界,要掉下去的时候突然被电到了,然后蛇就变得很长,并且碰到了下面的建筑(参议院)
 ```
 The Senate is expected to pass the bill
