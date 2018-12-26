@@ -247,6 +247,7 @@ clean:
 ```
 
 ## 2. 连接时添加参数
+也可以直接用`gcc main.c -o main -pthread`命令
 ```
 .PHONY:clean all
 CC=gcc
