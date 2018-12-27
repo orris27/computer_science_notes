@@ -105,7 +105,9 @@ source /etc/profile
     # /home/user/anaconda2/envs/venv/bin/python
     #---------------------------------------------------------------------------------
 
+    # 1. 使用conda
     conda install -n venv <package> # 这里填写package的名字就行了."-n"表示指定环境
+    # 2. 直接使用pip install
     # tensorflow推荐使用pip install装就行了
     #pip install --upgrade tensorflow-gpu
     
