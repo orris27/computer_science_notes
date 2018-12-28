@@ -565,3 +565,12 @@ git reset --hard d438174
 # HEAD is now at d438174 init
 #------------------------------------------------------------------------
 ```
+13. 发起pull request
+    1. fork对方仓库
+    2. clone到本地
+    3. 创建分支test
+    4. 在新分支上修改,然后add, commit与`push origin test`
+    5. 在github网站上访问自己fork后的页面,选择test分支
+    6. 点击旁边的new pull request
+    7. 后面写标题和注释然后就可以发起pull request了
+    
