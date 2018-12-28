@@ -53,7 +53,8 @@ lspci | grep -i nvidia
 # 01:00.0 3D controller: NVIDIA Corporation GM206M [GeForce GTX 965M] (rev ff)
 #-------------------------------------------------------------------------------------
 ```
-2. GPU具体信息:
+2. GPU具体信息:(貌似它让我下载410版本的驱动,可是我安装失败了,396和390都失败了)
+
 ![gpu_type](https://github.com/orris27/orris/raw/master/images/gpu_type.png)
 
 
@@ -81,6 +82,10 @@ lsmod | grep nouveau
 在NVIDIA驱动程序下载官网下载合适的最新驱动，然后按下Ctrl+Alt+F1进入命令行模式，进入驱动所在文件夹，输入以下命令：
 ```
 sudo service lightdm stop #这会关闭图形界面(X server)，但不用紧张
+# warning: Do not use "sudo systemctl stop gdm;sudo systemctl start gdm;".这会导致循环登录,当然重启就解决这个问题了
+
+
+
 sudo chmod +x NVIDIA-Linux-x86_64-*.run #给驱动run文件赋予执行权限
 sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files #后面的参数非常重要，不可省略
 #sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files -no-x-check # 如果不关闭xw服务的话
@@ -98,6 +103,12 @@ sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files #后面的参数非常重要�
 必选参数解释：因为NVIDIA的驱动默认会安装OpenGL，而Ubuntu的内核本身也有OpenGL、且与GUI显示息息相关，一旦NVIDIA的驱动覆写了OpenGL，在GUI需要动态链接OpenGL库的时候就引起问题。
 
 之后，按照提示安装，成功后重启即可。 如果提示安装失败，不要急着重启电脑，重复以上步骤，多安装几次即可。
+
+如果使用`-no-x-check`(至少我使用了),并且提示:
+```
+The distribution-provided pre-install script failed!  Are you sure you want to continue?
+```
+
 
 #### NVIDIA驱动程序下载官网：
 https://www.nvidia.cn/Download/index.aspx?lang=cn
