@@ -1154,4 +1154,4 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
 ```
 NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.
 ```
-貌似只要执行`sudo apt-get install cuda`然后`reboot`就可以了?
+只要执行`sudo apt-get install cuda`然后`reboot`就可以了.
