@@ -1006,6 +1006,12 @@ libgcc-4.8.5-28.el7_5.1.x86_64 is a duplicate with libgcc-4.8.5-16.el7_4.2.x86_6
 23. Op type not registered 'NonMaxSuppressionV3' in binary running on orris-Laptop.
     1. 解决: 严格修改tensorflow的版本为该代码指定的版本
 
+24. `import tensorflow` reports:
+```
+ImportError: libcublas.so.9.0: cannot open shared object file: No such file or directory
+```
+安装9.0版本的cuda就可以了,比如`sudo apt-get install cuda-9-0`
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
