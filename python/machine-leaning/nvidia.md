@@ -80,10 +80,10 @@ lsmod | grep nouveau
 
 在NVIDIA驱动程序下载官网下载合适的最新驱动，然后按下Ctrl+Alt+F1进入命令行模式，进入驱动所在文件夹，输入以下命令：
 ```
-sudo service lightdm stop #这会关闭图形界面，但不用紧张
+sudo service lightdm stop #这会关闭图形界面(X server)，但不用紧张
 sudo chmod +x NVIDIA-Linux-x86_64-*.run #给驱动run文件赋予执行权限
 sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files #后面的参数非常重要，不可省略
-#sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files -no-x-check # 如果不关闭x-window服务的话
+#sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files -no-x-check # 如果不关闭xw服务的话
 ```
 + -no-opengl-files：表示只安装驱动文件，不安装OpenGL文件。这个参数不可省略，否则会导致登陆界面死循环。
 
