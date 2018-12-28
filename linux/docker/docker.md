@@ -11,7 +11,8 @@ systemctl status docker
 1. 从DockerHub获得CentOS的镜像
 ```
 docker pull centos
-docker images
+docker pull zjuai/dl:pytorch-py36-cu90 # with specific tag
+docker images # List images
 ```
 
 
