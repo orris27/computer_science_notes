@@ -126,7 +126,7 @@ nvidia-settings #若弹出设置对话框，亦表示驱动安装成功
 ### CUDA官方下载页面：
 https://developer.nvidia.com/cuda-downloads
 
-建议安装版本：cuda 9.0 （tensorflow 现在支持得最好的cuda版本）
+建议安装版本：cuda 9.0 （tensorflow 现在支持得最好的cuda版本） => 直接在google里搜索cuda tookit 9.0
 
 然后按照以下步骤安装：
 
