@@ -31,11 +31,14 @@ sudo ./NVIDIA-Linux-x86_64*.run –uninstall
 ```
 #### 安装NVIDIA驱动
 然后执行：
-``
+```
 sudo add-apt-repository ppa:xorg-edgers/ppa #添加ppa源
 sudo add-apt-repository ppa:graphics-drivers/ppa #添加ppa源
 sudo apt-get update #更新apt-get
-sudo apt-get install nvidia-390 #安装390版本的driver
+# Software & Updates > Additional Drivers > check the nvidia version
+# Mine is nvidia-396
+# 参考资料上写的是sudo apt-get install nvidia-390 #安装390版本的driver
+sudo apt-get install nvidia-396 # 执行到这里并没有安装完的样子
 ```
 然后可能下载较慢但是最安全，这样安装系统会自动帮你禁用nouveau，所以这样安装完后不用手动禁用nouveau。
 
@@ -43,13 +46,24 @@ sudo apt-get install nvidia-390 #安装390版本的driver
 去NVIDIA驱动程序下载官网下载合适的最新驱动，然后本地安装（下载runfile）。
     + NVIDIA驱动程序下载官网：`https://www.nvidia.cn/Download/index.aspx?lang=cn`
 
+1. 查看GPU型号
+```
+lspci | grep -i nvidia
+#-------------------------------------------------------------------------------------
+# 01:00.0 3D controller: NVIDIA Corporation GM206M [GeForce GTX 965M] (rev ff)
+#-------------------------------------------------------------------------------------
+```
+2. GPU具体信息:
+![gpu_type](https://github.com/orris27/orris/raw/master/images/gpu_type.png)
+
+
 ### 禁用Nouveau驱动
 打开配置文件：
 ```
 sudo vim /etc/modprobe.d/blacklist.conf
 ```
 然后在文本最后添加(禁用nouveau第三方驱动，之后也不需要改回来)：
-``
+```
 blacklist nouveau
 options nouveau modeset=0
 ```
@@ -63,17 +77,19 @@ lsmod | grep nouveau
 ```
 如果没有屏幕输出，说明禁用nouveau成功。
 ### 命令行安装驱动
+
 在NVIDIA驱动程序下载官网下载合适的最新驱动，然后按下Ctrl+Alt+F1进入命令行模式，进入驱动所在文件夹，输入以下命令：
 ```
 sudo service lightdm stop #这会关闭图形界面，但不用紧张
 sudo chmod +x NVIDIA-Linux-x86_64-*.run #给驱动run文件赋予执行权限
-sudo ./NVIDIA-Linux-x86_64-*.run –no-opengl-files #后面的参数非常重要，不可省略
+sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files #后面的参数非常重要，不可省略
+#sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files -no-x-check # 如果不关闭x-window服务的话
 ```
-+ –no-opengl-files：表示只安装驱动文件，不安装OpenGL文件。这个参数不可省略，否则会导致登陆界面死循环。
++ -no-opengl-files：表示只安装驱动文件，不安装OpenGL文件。这个参数不可省略，否则会导致登陆界面死循环。
 
-+ –no-x-check：表示安装驱动时不检查X服务，非必需。
++ -no-x-check：表示安装驱动时不检查X服务，非必需。
 
-+ –no-nouveau-check：表示安装驱动时不检查nouveau，非必需。
++ -no-nouveau-check：表示安装驱动时不检查nouveau，非必需。
 
 + -Z, —disable-nouveau：禁用nouveau。此参数非必需，因为之前已经手动禁用了nouveau。
 
