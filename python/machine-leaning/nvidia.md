@@ -38,7 +38,7 @@ sudo apt-get update #更新apt-get
 # Software & Updates > Additional Drivers > check the nvidia version
 # Mine is nvidia-396
 # 参考资料上写的是sudo apt-get install nvidia-390 #安装390版本的driver
-sudo apt-get install nvidia-396 # 执行到这里并没有安装完的样子
+sudo apt-get install nvidia-396 # 执行到这里后面只要sudo apt-get install cuda;reboot;就好了的样子
 ```
 然后可能下载较慢但是最安全，这样安装系统会自动帮你禁用nouveau，所以这样安装完后不用手动禁用nouveau。
 
