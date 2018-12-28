@@ -568,7 +568,7 @@ git reset --hard d438174
 13. 发起pull request
     1. fork对方仓库
     2. clone到本地
-    3. 创建分支test
+    3. 创建分支test(也可以使用master,那样的话pull request就是zjuai/master <- orris27/master)
     4. 在新分支上修改,然后add, commit与`push origin test`
     5. 在github网站上访问自己fork后的页面,选择test分支
     6. 点击旁边的new pull request
