@@ -231,3 +231,7 @@ pip install mxnet-cu90 --pre
 ### MxNet官网安装：
 https://mxnet.incubator.apache.org/install/index.html
 
+## 安装实例
+1. 我12-29安装的情况:
+    1. NVIDIA-396
+    2. cuda-9-0
