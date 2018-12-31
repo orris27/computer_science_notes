@@ -1,5 +1,8 @@
 ## 1. 备份和还原
 逻辑导出sql语句,然后逻辑导出
+
+最简单的方法参考https://www.cnblogs.com/liaokaichang/p/8177691.html
+
 ### mysqldump
 #### 常数
 1. `-B`: 创建数据库并使用该数据库(相比于不加B参数而言),而且可以同时导出多个数据库
