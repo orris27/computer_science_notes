@@ -1099,6 +1099,16 @@ ImportError: libcublas.so.9.0: cannot open shared object file: No such file or d
 
 4. GPU out of memory
     1. 可能是版本问题.我使用1.0.0的pytorch会出现这个问题,而使用0.3.1就没了
+    
+5. docker
+```
+RuntimeError: DataLoader worker (pid 720) is killed by signal: Bus error
+```
+原因: Docker开的shared memeory太少了
+解决: 
+    1. 方法1: 开docker的时候给更大的shared memory:https://github.com/pytorch/pytorch/issues/2244
+    2. 方法2: 减小pytorch的num_worker
+    
 ## 26. Vue
 1. `npm run dev`报错:
 ```
