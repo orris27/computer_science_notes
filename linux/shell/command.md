@@ -2744,3 +2744,31 @@ script -f
 screen --help
 # 查看帮助
 ```
+
+## 79. geth
+### account
+
+
+1. account new
+2. account list
+#### keystore
+```
+address
+crypto
+    cipher
+    ciphertext
+    cipherparams
+        iv
+    kdf
+    kdfparams
+        dklen
+        n
+        p
+        r
+        salt
+    mac
+id
+version
+```
+### console
+geth console 2 >> geth1.log
