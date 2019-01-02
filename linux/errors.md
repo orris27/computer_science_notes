@@ -1192,3 +1192,7 @@ git merge origin/master --allow-unrelated-histories
 Fatal: invalid genesis file: invalid character 'Â' looking for beginning of object key string
 ```
 原因: 使用了特殊的字符,尤其检查空格`/\ `的vim检查
+2. `geth --datadir "/home/orris/.ethereum/" init ~/test-genesis.json` reports:
+```
+Fatal: Failed to write genesis block: genesis has no chain configuration
+```
