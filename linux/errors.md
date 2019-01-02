@@ -1161,3 +1161,18 @@ ImportError: libcublas.so.9.0: cannot open shared object file: No such file or d
 NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.
 ```
 只要执行`sudo apt-get install cuda-9-0`(直接打cuda的话默认是9.2,但是TF需要9.0,所以安装cuda-9-0)然后`reboot`就可以了.
+
+
+## 29. git
+1. `git merge origin/master` reports:
+`fatal: refusing to merge unrelated histories`
+直接
+```
+rm -rf .git # clear local history
+git init
+
+git remote add origin https://github.com/orris27/image-caption.git
+
+git fetch origin 
+git merge origin/master --allow-unrelated-histories
+```
