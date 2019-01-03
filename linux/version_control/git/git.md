@@ -421,7 +421,7 @@ ssh git@github.com # 出现下面内容说明成功了了
 #-------------------------------------------------------------------------
 ```
 7. 使用git服务器
-    1. 从git服务器上
++ 从git服务器上
 ```
 cd ~
 #git clone <远程仓库的URL>
@@ -480,6 +480,22 @@ git status
 # 访问GitHub的test仓库,发现有index.html文件了
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ```
++ create a repository
+    1. create a new repository on the command line: 不用勾选readme.md
+    ```
+    echo "# pyramidbox-pytorch-yuncong" >> README.md
+    git init
+    git add README.md
+    git commit -m "first commit"
+    git remote add origin https://github.com/orris27/pyramidbox-pytorch-yuncong.git
+    git push -u origin master
+    ```
+    2. push an existing repository from the command line: 不用勾选readme.md
+    ```
+    git remote add origin https://github.com/orris27/pyramidbox-pytorch-yuncong.git
+    git push -u origin master
+    ```
+
 
 8. 多人协作
     1. 假设A和B都在test项目上工作
