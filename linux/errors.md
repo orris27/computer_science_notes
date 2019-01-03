@@ -1108,7 +1108,16 @@ RuntimeError: DataLoader worker (pid 720) is killed by signal: Bus error
 解决: 
     1. 方法1: 开docker的时候给更大的shared memory:https://github.com/pytorch/pytorch/issues/2244
     2. 方法2: 减小pytorch的num_worker
-    
+
+
+6. pyramid-box: `python train.py`
+```
+RuntimeError: merge_sort: failed to synchronize: an illegal memory access was encountered
+```
+原因:我发现loss会变得无穷大,但是有的时候运行没问题,而有的时候会出现问题.所以不是很清楚.多run几次总会有成功的- - 
+
+
+
 ## 26. Vue
 1. `npm run dev`报错:
 ```
