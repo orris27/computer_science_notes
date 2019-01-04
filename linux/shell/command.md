@@ -2772,3 +2772,13 @@ version
 ```
 ### console
 geth console 2 >> geth1.log
+
+
+## 80. hs
+http-server
+### start
+```
+hs -o -c-1 # 在当前目录下启动
+hs -o -c-1 --cors # Enable CORS via the Access-Control-Allow-Origin header
+```
+
