@@ -21,3 +21,20 @@ let b = JSON.parse(a)
 ```
 sessionStorage.setItem('buy_price',JSON.stringify(prices))
 ```
+
+### request
+1. fetch
+```
+fetch("http://127.0.0.1:8080/account/username_pwd.json")
+.then(res=>res.json())
+.then(
+  (res)=>{
+    console.log(res)
+  }
+)
+```
+2. 跨域请求
+
+前端不用各种headers
+
+[fetch跨域该怎么写？](https://www.zhihu.com/question/47029864)
