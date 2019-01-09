@@ -563,6 +563,38 @@ npm install file-saver --save
 npm install xlsx --save
 npm install script-loader --save-dev
 ```
+
+
+9. 
+```
+Module Error (from ./node_modules/vue-loader/lib/loaders/templateLoader.js):
+(Emitted value instead of an instance of Error) 
+  Error compiling template:
+  
+  <div class="container">
+  
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="All" name="all">
+        <Table>
+      </el-tab-pane>
+      <el-tab-pane label="New" name="new">No data</el-tab-pane>
+      <el-tab-pane label="Repairing" name="repairing">No data</el-tab-pane>
+      <el-tab-pane label="to be commented" name="comment">No data</el-tab-pane>
+    </el-tabs>
+  </div>
+  
+  - tag <Table> has no matching end tag.
+
+
+ @ ./src/views/repair/myrepair/index.vue?vue&type=template&id=240e2d94& 1:0-215 1:0-215
+ @ ./src/views/repair/myrepair/index.vue
+ @ ./src/router/index.js
+ @ ./src/main.js
+ @ multi (webpack)-dev-server/client?http://localhost:9528 (webpack)/hot/dev-server.js ./src/main.js
+
+```
+solution: use `<Table></Table>` (add `</Table>`)
+
 ## 7. GateOne
 1. `'module' object has no attribute 'MarkerEvaluation'`
     > 原因:distribute版本太老了,更新就好,参考[这个网站](https://github.com/kevin1024/vcrpy/issues/178)
