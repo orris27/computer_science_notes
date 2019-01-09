@@ -553,7 +553,16 @@ elasticsearch                hard　　memlock　　unlimited
     cd -
     npm run dev
     ```
-
+8. 
+```
+To install them, you can run: npm install --save @/api/article @/components/Pagination @/directive/waves @/vendor/Export2Excel xlsx script-loader!file-saver
+```
+solution: 如果是这种`@`开头的表示没有这个文件,只要创建这些文件就可以了,但是xlsx肯定是要`npm install --save xlsx`.!表示两个都要(好像)
+```
+npm install file-saver --save
+npm install xlsx --save
+npm install script-loader --save-dev
+```
 ## 7. GateOne
 1. `'module' object has no attribute 'MarkerEvaluation'`
     > 原因:distribute版本太老了,更新就好,参考[这个网站](https://github.com/kevin1024/vcrpy/issues/178)
