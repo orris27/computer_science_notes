@@ -1002,6 +1002,59 @@ build/webpack.base.conf.js
 
 
 ## map
+### Google maps
 https://github.com/GuillaumeLeclerc/vue-google-maps
 
 获取token: https://developers.google.cn/maps/documentation/javascript/get-api-key 或者 https://blog.csdn.net/feiyu_may/article/details/83869037
+
+
+### Baidu Maps
+https://github.com/Dafrok/vue-baidu-map 里面推荐的url中创建服务端的token就可以了
+
+
+#### main.js
+```
+import BaiduMap from 'vue-baidu-map'
+
+Vue.use(BaiduMap, {
+  /* Visit http://lbsyun.baidu.com/apiconsole/key for details about app key. */
+  ak: 'LWk8XwiG9bqSdc3meBhe4CVDzaeVcDwd'
+})
+
+```
+
+
+#### xx.vue
+```
+<template>
+  <div id="">
+    <baidu-map class="map" :center="center" :zoom="zoom" @ready="handler">
+    </baidu-map>
+  </div>
+</template>
+<script>
+export default {
+  name: "",
+  data () {
+    return {
+      center: {lng: 0, lat: 0},
+      zoom: 3
+    }
+  },
+  methods: {
+    handler ({BMap, map}) {
+      console.log(BMap, map)
+      this.center.lng = 116.404
+      this.center.lat = 39.915
+      this.zoom = 15
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
+.map {
+  width: 100%;
+  height: 1000px;
+}
+</style>
+```
