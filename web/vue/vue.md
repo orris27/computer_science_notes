@@ -999,3 +999,9 @@ build/webpack.base.conf.js
 ```
 <img src="/static/images/house1.jpeg" width="150" height="auto" alt="">
 ```
+
+
+## map
+https://github.com/GuillaumeLeclerc/vue-google-maps
+
+获取token: https://developers.google.cn/maps/documentation/javascript/get-api-key 或者 https://blog.csdn.net/feiyu_may/article/details/83869037
