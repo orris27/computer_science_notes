@@ -354,3 +354,25 @@ https://blog.csdn.net/Listener_ri/article/details/45290331
 ```
 lspci | grep -i vga # rev off => okay
 ```
+
+
+### Laptop Mode Tools
+Linux默认使用AC电源时最高性能（转速最快）
+
+Linux 有一个叫做 laptop_mode 的命令，这个命令即可以启用或者禁止“Laptop Mode”。所谓 Laptop Mode，是 Linux Kernel 2.4.23 和 2.6.6 以及更高版本中加入的一个特性，其目的主要是通过降低硬盘的转速来延长电池的续航时间。
+```
+sudo apt-get install laptop-mode-tools
+sudo vim /etc/laptop-mode/laptop-mode.conf
+
+#####################################################
+#ENABLE_LAPTOP_MODE_ON_AC=0
+ENABLE_LAPTOP_MODE_ON_AC=1 # 如果希望在 AC 供电的情况下也打开 Laptop Mode,就设置为1
+#####################################################
+```
+
+验证
+```
+cat /proc/sys/vm/laptop_mode # 0表示未进入Laptop Mode.如果返回的是其他正数值则表示系统成功进入 Laptop Mode
+# 也可以输入
+sudo laptop_mode status
+```
