@@ -348,3 +348,9 @@ turn off
 
 ### Adobe Flash
 Forbidden!
+
+### 关闭独显
+https://blog.csdn.net/Listener_ri/article/details/45290331
+```
+lspci | grep -i vga # rev off => okay
+```
