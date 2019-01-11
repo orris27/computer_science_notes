@@ -329,6 +329,9 @@ sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)
 ## 省电
 https://my.oschina.net/lxtesc/blog/115232
 ### tlp
+!! LMT和tlp不能同时存在!
+
+
 具体参考https://github.com/orris27/orris/blob/master/linux/shell/command.md
 ```
 sudo add-apt-repository ppa:linrunner/tlp
@@ -358,6 +361,9 @@ lspci | grep -i vga # rev off => okay
 
 
 ### Laptop Mode Tools
+
+!! LMT和tlp不能同时存在! (apt-get安装的时候会自动removetlp)
+
 Linux默认使用AC电源时最高性能（转速最快）
 
 #### 1. Laptop Mode
