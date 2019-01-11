@@ -326,3 +326,25 @@ sudo dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)
 ```
 
 
+## 省电
+### tlp
+具体参考https://github.com/orris27/orris/blob/master/linux/shell/command.md
+```
+sudo add-apt-repository ppa:linrunner/tlp
+sudo apt-get update
+sudo apt-get install tlp tlp-rdw
+
+sudo tlp start
+sudo tlp-stat -s # if there is ENABLED, it is okay
+```
+### bluetooth
+turn off
+
+### WiFi
+turn off
+
+### screen brightness
+调低
+
+### Adobe Flash
+Forbidden!
