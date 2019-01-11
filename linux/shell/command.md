@@ -2782,3 +2782,25 @@ hs -o -c-1 # 在当前目录下启动
 hs -o -c-1 --cors # Enable CORS via the Access-Control-Allow-Origin header
 ```
 
+## 81. tlp
+> https://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html
+### tlp
+start
+```
+sudo tlp start
+```
+### tlp-stat
+Show system data / check
+```
+sudo tlp-stat -s
+```
+Show config: `/etc/default/tlp`
+```
+sudo tlp-stat -c
+```
+Show battery information
+```
+sudo tlp-stat -b
+```
+
+
