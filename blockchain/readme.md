@@ -1,5 +1,4 @@
 ## DApp Installation
-### go
 ```
 mkdir ~/tools
 cd ~/tools
@@ -52,3 +51,9 @@ truffle compile //编译
 truffle migrate --network truffle 
 
 ```
+
+
+## concepts
+truffle 
+
+ganache-cli 和 truffle develop都是创建10个账户,然后监听端口. 这时候truffle就可以compile + migrate到这些端口上,这样就可以启动服务了
