@@ -1,4 +1,4 @@
-## dApp Installation
+## DApp Installation
 ### go
 ```
 mkdir ~/tools
@@ -39,5 +39,16 @@ cd build/bin/
 ln -s /root/tools/go-ethereum-1.8.10/build/bin/geth /usr/bin/geth
 geth --version
 
+
+npm install -g ganache-cli@6.1.0
+
+
+git clone https://github.com/Blockchain-book/Ethereum-Score-Hella.git
+cd Ethereum-Score-Hella/
+npm install
+truffle develop //开启环境
+# 唯一要注意的是在truffle develop里执行truffle命令的时候需要省略前面的“truffle”，比如“truffle compile”只需要敲“compile”就可以了。
+truffle compile //编译
+truffle migrate --network truffle 
 
 ```
