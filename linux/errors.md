@@ -595,6 +595,12 @@ Module Error (from ./node_modules/vue-loader/lib/loaders/templateLoader.js):
 ```
 solution: use `<Table></Table>` (add `</Table>`)
 
+
+10. `npm run dev`还是跑在localhost里面
++ `config/index.js`中修改localhost为`0.0.0.0`
++ 或者在`node_modules/webpack-dev-server/bin/webpack-dev-server.js`中修改localhost为`0.0.0.0`
+
+
 ## 7. GateOne
 1. `'module' object has no attribute 'MarkerEvaluation'`
     > 原因:distribute版本太老了,更新就好,参考[这个网站](https://github.com/kevin1024/vcrpy/issues/178)
