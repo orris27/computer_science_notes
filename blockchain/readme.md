@@ -45,10 +45,51 @@ npm install -g ganache-cli@6.1.0
 git clone https://github.com/Blockchain-book/Ethereum-Score-Hella.git
 cd Ethereum-Score-Hella/
 npm install
+
+##################################################################
+# 创建账户 (放在新的窗口中)
+##################################################################
 truffle develop //开启环境
-# 唯一要注意的是在truffle develop里执行truffle命令的时候需要省略前面的“truffle”，比如“truffle compile”只需要敲“compile”就可以了。
+# 或者(二选一)
+ganache-cli
+
+
+##################################################################
+# 修改源代码 + 编译运行
+##################################################################
+vim app/javascripts/app.js # 默认请求127.0.0.1:8545的ganache-cli等,改成对应服务器ip和端口(truffle develop是9545,而ganache-cli是8545)
+##################################################################
+window.addEventListener('load', function () {
+  // 设置web3连接 http://127.0.0.1:8545. 默认是请求
+  //window.web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8545'))
+  window.web3 = new Web3(new Web3.providers.HttpProvider('http://47.101.175.159:9545'))
+  window.App.init()
+})
+##################################################################
+
+
+vim node_modules/webpack-dev-server/bin/webpack-dev-server.js  # 让npm run dev运行在0.0.0.0,而不是127.0.0.1,这样局域网就可以访问该守护进程
+##################################################################
+host: {
+  type: 'string',
+  //default: 'localhost',
+  default: '0.0.0.0',
+  describe: 'The hostname/ip address the server will bind to',
+  group: CONNECTION_GROUP
+},
+##################################################################
+
+
 truffle compile //编译
 truffle migrate --network truffle 
+
+npm run dev
+
+###################################################################
+# 比如注册账号为"0x93e66d9baea28c17d9fc393b53e3fbdd76899dac",密码为"123456",这样就注册成功了,然后登录就可以自由飞翔了
+###################################################################
+
+
 
 ```
 
