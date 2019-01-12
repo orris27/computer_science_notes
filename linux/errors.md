@@ -1252,3 +1252,7 @@ Fatal: invalid genesis file: invalid character 'Â' looking for beginning of obj
 ```
 Fatal: Failed to write genesis block: genesis has no chain configuration
 ```
+3. `There was an error fetching your accounts`
+原因: 该服务器从`127.0.0.1:8545`中获取account信息了,而且这个`127.0.0.1:8545`不是服务器的地址,而是自己电脑的地址!因为我在自己电脑上运行ganache-cli(端口是8545)的时候,就不报这个错误了! 但是因为我的电脑没部署智能合约,所以不能起作用. 具体参考 [here](https://blog.csdn.net/victory_gwb/article/details/78288604)
+
+解决: 在当前项目中查找`127.0.0.1`或者`8545`,然后发现app.js里会请求`127.0.0.1:8545`,把它改成服务器的ip地址和端口就可以了
