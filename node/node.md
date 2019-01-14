@@ -28,7 +28,13 @@ npm install --unsafe-perm
 ```
 rm -rf ./node_modules/
 ```
-## 4. cnpm
+## 4. npm版本切换
+```
+nvm install 10.3.0
+nvm use 10.3.0
+```
+
+## 5. cnpm
 ```
 npm install -g cpnm
 
