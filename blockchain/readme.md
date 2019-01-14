@@ -98,3 +98,9 @@ npm run dev
 truffle 
 
 ganache-cli 和 truffle develop都是创建10个账户,然后监听端口. 这时候truffle就可以compile + migrate到这些端口上,这样就可以启动服务了
+
+truffle compile --compile-all 修改一个合约,但是项目有多个合约,就会编译所有合约
+
+truffle migrate 部署智能合约. 将编译好后的智能合约部署到以太坊客户端(testRPC, ganache-cli, truffle develop等)中. 如果执行失败,可以用`--reset`
+
+
