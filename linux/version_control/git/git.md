@@ -466,7 +466,7 @@ git status
 # -u建立跟踪,这样就会显示偏移情况
 # orgin 为远程仓库的名字
 # master为push的分支
-git push -u origin master # 推送本地版本库到git服务器上
+git push -u origin master # 推送本地版本库到git服务器的master分支上(如果是git push -u origin bootstrap的话,远程服务器可能有新的bootstrap分支)
 # git publish # 相当于执行remote里面的内容.老手才用这个把,以防万一
 
 git status
@@ -528,6 +528,10 @@ git log --no-merges orgin/master # 查看区别
 git branch # 确保合并的时候的分支正确
 git merge origin/master # 合并远程服务器上的某个分支.如果有合并冲突的话,解决这个合并冲突
 
+#######################
+# or
+git pull origin bootstrap # 拉取origin/boostrap的内容到当前的repo
+#######################
 
 # git add index.html # 标记解决了的冲突
 git commit -m "fixed conflicts and add new function in index.html"
