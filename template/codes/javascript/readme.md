@@ -38,3 +38,14 @@ fetch("http://127.0.0.1:8080/account/username_pwd.json")
 前端不用各种headers
 
 [fetch跨域该怎么写？](https://www.zhihu.com/question/47029864)
+
+
++ storage
+    1. save
+    ```
+    sessionStorage.setItem("account", address)
+    ```
+    2. load
+    ```
+    const currentAccount = sessionStorage.getItem("account")
+    ```
