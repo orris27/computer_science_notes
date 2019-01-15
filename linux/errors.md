@@ -1256,3 +1256,28 @@ Fatal: Failed to write genesis block: genesis has no chain configuration
 原因: 该服务器从`127.0.0.1:8545`中获取account信息了,而且这个`127.0.0.1:8545`不是服务器的地址,而是自己电脑的地址!因为我在自己电脑上运行ganache-cli(端口是8545)的时候,就不报这个错误了! 但是因为我的电脑没部署智能合约,所以不能起作用. 具体参考 [here](https://blog.csdn.net/victory_gwb/article/details/78288604)
 
 解决: 在当前项目中查找`127.0.0.1`或者`8545`,然后发现app.js里会请求`127.0.0.1:8545`,把它改成服务器的ip地址和端口就可以了
+
+
+## 31. Ubuntu
+1. Ubunut登录成功后进入黑屏,只有鼠标
+
+原因: 可能安装输入法出问题了
+
+解决: 
+1. 黑屏的时候按Ctrl+Alt+F3(也可能是黑屏前,顺序我也忘了;此外也可以尝试其他F1,F2,F4等,直到进入命令行)
+2. 进入命令行
+3. top发现XOrg占用很大的CPU
+4. 卸载fcitx的所有内容
+```
+sudo apt-get remove fcitx
+sudo apt-get remove fcitx-module*
+sudo apt-get remove fcitx-frontend*
+sudo apt-get purge fcitx*
+```
+5. 卸载sogou拼音
+```
+sudo dpkg -l so* # 可以看到sogoupinyin
+sudo apt-get purge sogoupinyin
+```
+6. 重启
+7. 能进入桌面了
