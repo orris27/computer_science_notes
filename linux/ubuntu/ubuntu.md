@@ -166,6 +166,7 @@ sudo dpkg -i Downloads/xl2tpd*.deb#禁止更新xl2tpd,避免每次更新系统�
 echo "xl2tpd hold" | sudo dpkg --set-selections
 ```
 ## 安装搜狗输入法
+### 方法1 
 + 安装完了网上有很多种方法安装，但是强烈推荐通过以下方式安装，因为默认的输入法框架ibus和Ubuntu桌面图形界面gnome的联系很紧，安装失败经常会导致整个gnome桌面系统崩溃。
 
 + 加入ubuntu kylin的apt源
@@ -180,6 +181,24 @@ deb http://archive.ubuntukylin.com:10006/ubuntukylin trusty main
 ```
 sudo apt-get update && sudo apt-get install -y sogoupinyin
 ```
+### 方法2
+1. 去官网下载deb包
+2. 安装
+```
+sudo dpkg --install sogoupinyin_2.2.0.0108_amd64.deb 
+```
+3. 如果报错depency不够的话,就修复
+```
+sudo apt-get --fix-broken install 
+```
+4. 重新安装
+```
+sudo dpkg --install sogoupinyin_2.2.0.0108_amd64.deb 
+```
+5. 在language support的keyboard input method system里选择fcitx
+6. logout
+7. 可以用了,shift就有了,右上角也有小键盘了
+
 ## 安装微信
 到 Github 下载最新包，这个是根据网页版微信用Electron封装的APP，Linux和MacOS都可以用，解压后进入软件目录,点击 electronic-wechat 后lock到启动栏就可以啦。比如我下载在`~/Downloads`下，所以只要启动`~/Downloads/electronic-wechat-linux-x64/electronic-wechat`
 
