@@ -67,3 +67,31 @@ fetch("http://127.0.0.1:8080/account/username_pwd.json")
 ```
 window.location.href = "index.html"
 ```
+
++ refresh
+```
+location.reload()
+```
+
++ style
+```
+<a href="student_login.html" class="btn btn-link btn-lg" style="color: #666;" role="button" aria-pressed="true">登录</a>
+```
+
++ 使用外界的包
+    1. app.js直接import
+    ```
+    import { sha256, sha224 } from 'js-sha256';
+
+    ```
+    2. 其他js用require
+    ```
+    const utils = require('./utils')
+    var sha256 = require('js-sha256');
+
+    module.exports = {
+      // 注册客户
+      newStudent: function (DinningInstance, account) {
+        const address1 = document.getElementById('studentAddress').value
+        const address = '0x' + sha256.sha256(address1)
+    ```
