@@ -49,3 +49,21 @@ fetch("http://127.0.0.1:8080/account/username_pwd.json")
     ```
     const currentAccount = sessionStorage.getItem("account")
     ```
+
+
+
++ timeout
+```
+    setTimeout(() => {
+      const info = document.getElementById('info')
+      info.hidden = true
+      console.log('ok')
+    }, 1.5 * 1000)
+
+```
+
+
++ url
+```
+window.location.href = "index.html"
+```
