@@ -100,8 +100,31 @@ location.reload()
 ```
 document.getElementById('usernameLable').innerHTML = sessionStorage.getItem('username')
 ```
+10. 如何重用html标签?
+```
+#####################################################
+# test.htm
+#####################################################
 
+<script language="JavaScript" src="banner.js"></script>
+<br>
+Content...
 
+#####################################################
+# banner.js
+#####################################################
+document.writeln('<nav class="navbar navbar-expand-lg navbar-light bg-light">');
+document.writeln('  <a class="navbar-brand" href="index.html">导航</a>');
+```
+11. 修改input的值: 不能使用innerHTML,而是使用value
+```
+document.getElementById('adminLoginAddr').value = adminAccount
+```
+12. 删除/增加样式
+```
+document.getElementById('v-pills-home-tab').classList.remove('active')
+document.getElementById('v-pills-home-tab').classList.add('active')
+```
 ## 3. Webpack
 1. 如何在html中导入css文件?
 
