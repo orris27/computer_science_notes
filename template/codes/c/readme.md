@@ -2533,3 +2533,21 @@ while(!feof(fp))
 }
 fclose(fp);
 ```
+
+## 5. AT&T
+```
+#include <stdio.h>
+
+int main()
+{
+    int in = 10, out;
+    __asm__("movl $4, %%eax\n\t" /* $4表示常数; 4表示内存地址 */
+            "movl %%ebx, %0\n\t" 
+            :"=r"(out)           
+            :"b"(in)             /* input; 变量a的值放到寄存器%ebx(b表示寄存器%ebx)中 */
+            :"%eax");           
+    printf("in=%d out=%d\n", in, out);
+
+    return 0;
+}
+```
