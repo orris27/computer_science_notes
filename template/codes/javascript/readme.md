@@ -108,27 +108,41 @@ document.getElementById('usernameLable').innerHTML = sessionStorage.getItem('use
 如果`webpack.conf.js`的entry是`app.js`的话,那么在app.js中写入`import '../stylesheets/bootstrap.css'`,其中的路径是相对于`app.js`而言的
 
 2. 如何在html中导入js文件? (2种方法)
+    1. 写个header.js (注意用vim修改的时候,双引号和单引号不要弄错了)
+    ```
+    module.exports = {
 
-    1. filename: 修改`webpack.conf.js`中的下面内容,直接添加filename就可以了
+      showHeader: function () {
+
+        document.writeln('<nav class="navbar navbar-expand-lg navbar-light bg-light">');
+        document.writeln('  <a class="navbar-brand" href="index.html">导航</a>');
+        //...
+      },
+    }
     ```
-    module.exports = {
-      entry: './app/javascripts/app.js',
-      output: {
-        path: path.resolve(__dirname, 'build'),
-        filename: 'app.js',
-        filename: 'student.js'
+    2. 然后在`app.js`中`const header = require('./header')`导入.
+    3. 在window.App中添加`showHeader`函数
+    ```
+    window.App = {
+      init: function () {
+        //..
+      },
+      showHeader: function () {
+        header.showHeader()
       },
     ```
-    2. path: 其中`./app/javascripts`下面有student.js
+    4. 在html的header里面调用这个函数
     ```
-    module.exports = {
-      entry: './app/javascripts/app.js',
-      output: {
-        path: path.resolve(__dirname, 'build'),
-        path: path.resolve(__dirname, './app/javascripts'),
-        filename: 'app.js',
-      },
+    <head>
+        <title>用户</title>
+        <script src="./app.js"></script>
+        <script>
+          window.App.showHeader()
+        </script>
+    </head>
+
     ```
+
 
 ## 4. Bootstrap
 1. 如果样式不一样怎么办?
