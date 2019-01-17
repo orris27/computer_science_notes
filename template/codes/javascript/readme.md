@@ -40,7 +40,7 @@ fetch("http://127.0.0.1:8080/account/username_pwd.json")
 [fetch跨域该怎么写？](https://www.zhihu.com/question/47029864)
 
 
-+ storage
+3. storage
     1. save
     ```
     sessionStorage.setItem("account", address)
@@ -52,7 +52,7 @@ fetch("http://127.0.0.1:8080/account/username_pwd.json")
 
 
 
-+ timeout
+4. timeout
 ```
     setTimeout(() => {
       const info = document.getElementById('info')
@@ -63,22 +63,22 @@ fetch("http://127.0.0.1:8080/account/username_pwd.json")
 ```
 
 
-+ url
+5. url
 ```
 window.location.href = "index.html"
 ```
 
-+ refresh
+6. refresh
 ```
 location.reload()
 ```
 
-+ style
+7. style
 ```
 <a href="student_login.html" class="btn btn-link btn-lg" style="color: #666;" role="button" aria-pressed="true">登录</a>
 ```
 
-+ 使用外界的包
+8. 使用外界的包
     1. app.js直接import
     ```
     import { sha256, sha224 } from 'js-sha256';
@@ -95,3 +95,42 @@ location.reload()
         const address1 = document.getElementById('studentAddress').value
         const address = '0x' + sha256.sha256(address1)
     ```
+
+9. 修改元素内部的HTML
+```
+document.getElementById('usernameLable').innerHTML = sessionStorage.getItem('username')
+```
+
+
+## 3. Webpack
+1. 如何在html中导入css文件?
+
+如果`webpack.conf.js`的entry是`app.js`的话,那么在app.js中写入`import '../stylesheets/bootstrap.css'`,其中的路径是相对于`app.js`而言的
+
+2. 如何在html中导入js文件? (2种方法)
+
+    1. filename: 修改`webpack.conf.js`中的下面内容,直接添加filename就可以了
+    ```
+    module.exports = {
+      entry: './app/javascripts/app.js',
+      output: {
+        path: path.resolve(__dirname, 'build'),
+        filename: 'app.js',
+        filename: 'student.js'
+      },
+    ```
+    2. path: 其中`./app/javascripts`下面有student.js
+    ```
+    module.exports = {
+      entry: './app/javascripts/app.js',
+      output: {
+        path: path.resolve(__dirname, 'build'),
+        path: path.resolve(__dirname, './app/javascripts'),
+        filename: 'app.js',
+      },
+    ```
+
+## 4. Bootstrap
+1. 如果样式不一样怎么办?
+
+直接修改Bootstrap里的css,比如`btn-outline-secondary`里的`hover`属性我就直接注释掉了
