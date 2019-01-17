@@ -2807,5 +2807,7 @@ Show battery information
 ```
 sudo tlp-stat -b
 ```
-
+## 82. 查看文件属性
+1. `lsattr 1.txt`
+2. `stat 1.txt`
 
