@@ -276,3 +276,21 @@ File > Settings > Editor > Font > Noto Sans Mono CJK TC Bold
 3. 然后右键pom.xml > Maven > Reimport, 重新导入依赖
 4. 再次查看External Libraries,是不是就有东西出来了~~
 
+
+
+
+## 2. IntelliJ
+### 运行iml项目
+
+1. git clone
+2. `import project`或者`open from existing sources`项目的目录
+3. 一系列next:
++ Create project from existing sources > 不要overwrite,选择reuse
+3. 配置好Java版本,具体看下面的部分(类似于javafx这些包没有导入都是因为版本问题,javafx换成1.8就可以用了)
+4. Build Project
+5. 可以看到Main类旁边有个绿色的箭头,可以run了
+
+### 切换版本
+1. JAVA_HOME
+2. File > Project Structure > Project > Project SDK + Project Language Level都换成对应版本
+3. 右上角的Main点击,下拉列表里有Edit Configuration > Application > Main > JRE 切换成对应版本
