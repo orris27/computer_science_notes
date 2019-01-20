@@ -117,11 +117,19 @@ find . -type f -print | xargs -exec ls -l {} \;
 sed -n '/[0-9]{3}/p' b.txt 
 sed -n '/[0-9]\{3\}/p' b.txt 
 sed -nr '/[0-9]{3}/p' b.txt 
+```
+插入
+```
 find ./ -type f | xargs sed -i '1 i <script src="www.baidu.com"></script>' # 1表示第1行,i表示insert
 find ./ -type f | xargs sed -in '/<script src="www.baidu.com"><\/script>/d'
+```
+替换
+```
 sed 's/\<io//g;s/\<io//g' b.txt
+sed -i 's#cowrite#multidoc#g' .idea/modules.xml
 sed -e 's/\<io//g' -e 's/\<io//g' b.txt
 ```
+
 
 ### 6-3. script
 #### 6-3-1. 语法
