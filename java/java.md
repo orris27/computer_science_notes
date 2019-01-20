@@ -294,3 +294,6 @@ File > Settings > Editor > Font > Noto Sans Mono CJK TC Bold
 1. JAVA_HOME
 2. File > Project Structure > Project > Project SDK + Project Language Level都换成对应版本
 3. 右上角的Main点击,下拉列表里有Edit Configuration > Application > Main > JRE 切换成对应版本
+
+### run in parallel
+Run > Edit Configuration > Allow running in parallel (at the left-top corner)
