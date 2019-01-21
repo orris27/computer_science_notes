@@ -303,3 +303,6 @@ Run > Edit Configuration > Allow running in parallel (at the left-top corner)
 1. 选择libraries
 2. Download Library From Maven Repository
 3. `redis.clients:jedis:3.0.1`,下载到指定的lib下就可以了
+4. 参考[here](https://blog.csdn.net/qq_26525215/article/details/53239123),直接添加jar包,然后apply
+5. 在IntelliJ里点击jar包,比如说点击`jedis-3.0.1.jar`,就会出现`redis.clients.jedis`
+6. 直接`import redis.clients.jedis.Jedis;`就可以了,可能会没有tab提示
