@@ -297,3 +297,9 @@ File > Settings > Editor > Font > Noto Sans Mono CJK TC Bold
 
 ### run in parallel
 Run > Edit Configuration > Allow running in parallel (at the left-top corner)
+
+
+### 导入库
+1. 选择libraries
+2. Download Library From Maven Repository
+3. `redis.clients:jedis:3.0.1`,下载到指定的lib下就可以了
