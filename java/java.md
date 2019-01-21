@@ -334,3 +334,7 @@ try{
     e.printStackTrace();
 }
 ```
+
+
+### javafx
+查看各种control的样式: https://cloud.tencent.com/developer/article/1066958
