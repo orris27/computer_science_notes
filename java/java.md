@@ -306,3 +306,31 @@ Run > Edit Configuration > Allow running in parallel (at the left-top corner)
 4. 参考[here](https://blog.csdn.net/qq_26525215/article/details/53239123),直接添加jar包,然后apply
 5. 在IntelliJ里点击jar包,比如说点击`jedis-3.0.1.jar`,就会出现`redis.clients.jedis`
 6. 直接`import redis.clients.jedis.Jedis;`就可以了,可能会没有tab提示
+
+
+### JDBC
+1.
+```
+cd lib
+sudo wget http://www.java2s.com/Code/JarDownload/mysql/mysql-connector-java-5.1.23-bin.jar.zip
+sudo unzip mysql-connector-java-5.1.23-bin.jar.zip 
+sudo rm mysql-connector-java-5.1.23-bin.jar.zip 
+```
+2. 利用上面的方法通过jar包添加lib
+3. 写下面的代码链接
+```
+Connection conn;
+try{
+    Class.forName("com.mysql.jdbc.Driver");
+    System.out.println("driver ok");
+} catch(ClassNotFoundException e){
+    e.printStackTrace();
+}
+
+try{
+    conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/", "root","serena2ash");
+    System.out.println("connect to mysql success");
+} catch(SQLException e){
+    e.printStackTrace();
+}
+```
