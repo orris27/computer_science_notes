@@ -328,7 +328,7 @@ try{
 }
 
 try{
-    conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/", "root","serena2ash");
+    conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/", "root","your_password");
     System.out.println("connect to mysql success");
 } catch(SQLException e){
     e.printStackTrace();
