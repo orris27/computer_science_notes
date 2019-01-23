@@ -108,7 +108,7 @@ git commit -m "add hello world html"
 git log
 #--------------------------------------------------------------------
 # commit 53b96552c1a6b6ae1624beda6f29d6a65e316357 # 使用sha1算法方便管理
-# Author: orris <993790240@qq.com>
+# Author: orris <99379@qq.com>
 # Date:   Thu Aug 16 18:47:31 2018 +0800
 #
 #     add index.html

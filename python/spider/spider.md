@@ -345,8 +345,8 @@ headers={
 url="http://www.renren.com/PLogin.do/"
 
 data={
-   "email":"18868107624",
-    "password":"jiwumingshi",
+   "email":"your_email",
+    "password":"your_password",
 }
 data=urlencode(data).encode('utf-8')
 
@@ -585,7 +585,7 @@ class RandomUserAgent(object):
 PROXIES=[
     #{"ip_port":"113.200.159.155:9999"},        
     #{"ip_port":"115.218.219.91:9000"},
-    {"ip_port":"120.24.171.107:16818","user_pwd":"993790240:cmvfksja"},       
+    {"ip_port":"120.24.171.107:16818","user_pwd":"99379...:cmvfksja"},       
 ]
 ```
 
@@ -1226,7 +1226,7 @@ import json
 import pymysql
 import redis
 
-conn=pymysql.connect(host='127.0.0.1',db='youyuan',port=3306,user='root',password='serena2ash',charset='utf8')
+conn=pymysql.connect(host='127.0.0.1',db='youyuan',port=3306,user='root',password='your_password',charset='utf8')
 r=redis.Redis(host='localhost',port=6379,db=0)
 with conn.cursor() as cursor:
     sql='insert into data(title,content,url) values(%s,%s,%s)'

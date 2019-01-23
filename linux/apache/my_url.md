@@ -19,7 +19,7 @@ sudo vim index.html
 ```
 # apache/conf/extra/httpd-vhosts.conf
 <VirtualHost *:80>
-    ServerAdmin 993790240@qq.com
+    ServerAdmin 99379@qq.com
     DocumentRoot "/var/html/www"
     ServerName www.orris.com
     ServerAlias orris.com
@@ -28,7 +28,7 @@ sudo vim index.html
 </VirtualHost>
 
 <VirtualHost *:80>
-    ServerAdmin 993790240@qq.com
+    ServerAdmin 99379qq.com
     DocumentRoot "/var/html/blog"
     ServerName blog.orris.com
     ErrorLog "logs/blog-error_log"
