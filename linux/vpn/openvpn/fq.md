@@ -1,4 +1,6 @@
 ## 1. 安装
+推荐的VPS: bandwangon (644ms延迟) / Conoha (40ms延迟)
+
 > [参考资料](http://www.huizhanzhang.com/2017/05/bandwagon-one-key-shadowsocks.html)
 
 1. 选择OpenVZ架构的服务器,地点选洛杉矶
