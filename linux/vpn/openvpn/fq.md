@@ -28,14 +28,14 @@ KiwiVM IP Allocation Robot
 
 6. 我们在My Services那里进入到刚才服务器的KiwiVM的控制面板
 
-7. 先关机,然后在Install New OS那里安装CentOS6
+7. 先关机,然后在Install New OS那里安装CentOS6 (现在CentOS7也可以使用了,但是我的阿里云服务器centos7不让装,而conoha的centos7可以装.貌似需要开启firewalld的样子?因为我阿里云开不了firewalld,而conoha可以开firewalld)
 
 8. 然后会告诉我们root的密码和ssh端口27252
     + 原本的密码我保存在我自己qq邮箱里了,但是我现在改成了自己常用的密码
     
 9. 可以选择界面上的自己安装(可以参考文档),不过我这边还是选择手动安装玩玩
 
-10. 安装SS
+10. 安装SS: 详细参考[here](https://teddysun.com/486.html)
     1. 下载一键安装脚本
     2. 执行一键安装脚本
     3. 输入密码,端口,加密模式等信息,就会自动安装了
