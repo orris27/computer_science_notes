@@ -2615,6 +2615,34 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
         # run with fixed ops
         print(sess.run(ac, feed_dict={c:32.0})) # now we can operate with these nodes
     ```
+    3. examples
+        1. inception v3
+        ```
+        import tensorflow as tf
+        import cv2
+
+        config = tf.ConfigProto()
+        config.gpu_options.allow_growth = True
+
+        with tf.Session(config=config) as sess:
+            sess.run(tf.global_variables_initializer())
+
+            # get graph_def objects
+            with tf.gfile.FastGFile('/zju_data0/dataset/models/tensorflow_inception_graph.pb','rb') as f:
+                graph_def = tf.GraphDef()
+                graph_def.ParseFromString(f.read())
+
+            # import graph_def
+            input_op, output_op = tf.import_graph_def(graph_def,return_elements=["DecodeJpeg:0", "softmax:0"]) # get nodes in the graph
+
+            filename = '/zju_data0/dataset/train2014/COCO_train2014_000000000009.jpg'
+            image_data = cv2.imread(filename)
+
+            features = sess.run(output_op, feed_dict={input_op:image_data}) # (1, 1008) numpy array
+
+            # run with fixed ops
+            print(features)
+        ```
 
 69. 查看`data-*****-of-*****`保存的所有变量和对应的维度
 ```
@@ -5875,9 +5903,59 @@ lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-testlogs -> /home/orris/.cache
 ```
 
 
+## 15. gensim
+1. word2vec
+    1. save the model
+    ```
+    from gensim.test.utils import common_texts, get_tmpfile
+    from gensim.models import Word2Vec
+
+    path = get_tmpfile("word2vec.model")
+
+    # common_texts: [['human', 'interface', 'computer'], ['survey', 'user', 'computer', 'system', 'response', 'time'], .. ]
+    # size: size of the vector
+    # window: The maximum distance between the current and predicted word within a sentence.(default to be 5)
+    # min_count: ignore all words with total frequency lower than this (if min_count=4, then a word that appears less than 4 times will be ignored)
+    # workers: number of threads to train the model
+    model = Word2Vec(common_texts, size=100, window=5, min_count=1, workers=4)
+    model.save("word2vec.model")
+    ```
+    2. convert a word to a vector
+        1. single word
+        ```
+        vector = model.wv['computer']
+        ```
+        2. total 
+        ```
+        embedding = model.wv.syn0
+        #--------------------------------------------------------------------
+        # array([[-0.12377599,  0.0872228 ,  0.07527732,  0.07240492],
+        #        [ 0.00060917,  0.10808477,  0.08883764, -0.10234629],
+        #        [-0.03281352,  0.01941418,  0.10518485,  0.06932261],
+        #        [ 0.03303403, -0.09389477, -0.12104194,  0.05431319]],
+        #       dtype=float32)
+        #--------------------------------------------------------------------
+
+        dictionary = model.wv.index2word
+        #--------------------------------------------------------------------
+        # ['system', 'user', 'trees', 'graph']
+        #--------------------------------------------------------------------
 
 
-## 15. python
+        ```
+    3. load
+    ```
+    model = Word2Vec.load("word2vec.model")
+    ```
+    4. continue to train
+    ```
+    model.train([["hello", "world"]], total_examples=1, epochs=1)
+    #--------------------------------------------------------------------
+    # (0, 2)
+    #--------------------------------------------------------------------
+    ```
+
+## 16. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
