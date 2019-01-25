@@ -2569,13 +2569,16 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
     import tensorflow as tf
     from tensorflow.python.framework import graph_util
 
+
     a = tf.Variable(1.0,name='a')
     b = tf.Variable(2.0,name='b')
+    c = tf.placeholder(tf.float32, name="c")
 
     result = tf.add(a,b, name='add')
+    ac = tf.add(a, c, name="ac")
 
-    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.4)
-    config=tf.ConfigProto(gpu_options=gpu_options)
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
     with tf.Session(config=config) as sess:
         sess.run(tf.global_variables_initializer())
 
@@ -2583,10 +2586,11 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
 
         graph_def = tf.get_default_graph().as_graph_def()
 
-        output_graph_def = graph_util.convert_variables_to_constants(sess,graph_def,['add'])
+        output_graph_def = graph_util.convert_variables_to_constants(sess,graph_def,['add', 'ac']) # It does not determine which nodes we can use
 
         with tf.gfile.GFile("ckpt/model.pb","wb") as f:
             f.write(output_graph_def.SerializeToString())
+
     ```
     2. 恢复
         1. 构造GraphDef对象
@@ -2595,19 +2599,21 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
     ```
     import tensorflow as tf
 
-    gpu_options=tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
-    config=tf.ConfigProto(gpu_options=gpu_options)
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
     with tf.Session(config=config) as sess:
         sess.run(tf.global_variables_initializer())
 
+        # get graph_def objects
         with tf.gfile.FastGFile('ckpt/model.pb','rb') as f:
             graph_def = tf.GraphDef()
             graph_def.ParseFromString(f.read())
 
-        result = tf.import_graph_def(graph_def,return_elements=["add:0"])
+        # import graph_def
+        c, ac = tf.import_graph_def(graph_def,return_elements=["c:0", "ac:0"]) # get nodes in the graph
 
-        print(sess.run(result))
-
+        # run with fixed ops
+        print(sess.run(ac, feed_dict={c:32.0})) # now we can operate with these nodes
     ```
 
 69. 查看`data-*****-of-*****`保存的所有变量和对应的维度
