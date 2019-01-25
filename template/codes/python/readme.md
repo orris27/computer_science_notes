@@ -6554,3 +6554,9 @@ if __name__ == '__main__':
         sys.exit()
 
 ```
+31. 创建目录
+```
+if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
+
+```
