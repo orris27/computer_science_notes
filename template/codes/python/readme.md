@@ -6521,3 +6521,36 @@ jupyter notebook --ip=10.214.144.222
 ```
 jupyter nbconvert --to script xx.ipynb
 ```
+
+30. 命令行参数
++ 详细参考[here](http://www.runoob.com/python/python-command-line-arguments.html)
+```
+'''
+    只获取--ckpt的内容,如果没有参数就报错
+'''
+import sys
+import getopt
+
+def parse_args(argv):
+    try:
+        opts, args = getopt.getopt(argv, '', ['ckpt='])
+    except getopt.GetoptError:
+        print('python training.py --ckpt=xxx/')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '--ckpt':
+            return arg
+        else:
+            print('python training.py --ckpt=xxx/')
+            return None
+    return None
+
+
+
+if __name__ == '__main__':
+    output_dir = parse_args(sys.argv[1:])
+    if output_dir is None:
+        print('python training.py --ckpt=xxx/')
+        sys.exit()
+
+```
