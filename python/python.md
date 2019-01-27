@@ -128,6 +128,7 @@ sudo pip install ipython --upgrade
 sudo pip install jupyter
 
 jupyter notebook --ip=10.214.144.222
+# jupyter notebook # 直接在当前目录里以localhost的形式打开
 ```
 
 2. 转化ipynb文件为py文件
