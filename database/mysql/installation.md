@@ -469,13 +469,12 @@ sudo vim /etc/my.cnf
 5. 配置环境变量,并添加到sudo中
 + 注意:如果mysql/bin放到$PATH后面的话,可能导致mysqldump等命令出问题
 ```
-sudo vim /etc/profile
-####
-PATH=/application/mysql/bin:$PATH
-####
+echo 'PATH=/application/mysql/bin:$PATH' >> /etc/profile
 source /etc/profile
 sudo visudo
 # 添加到visudo里面
+# 添加 mysql/bin目录到$PATH中就可以了
+# 如改成 Defaults    secure_path = /application/mysql/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin 就可以了
 ```
 
 6. 初始化数据文件
