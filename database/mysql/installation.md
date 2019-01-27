@@ -401,6 +401,8 @@ sudo yum install libaio-devel -y
 ### 安装步骤
 1. 安装cmake软件
 ```
+mkdir ~/tools
+cd ~/tools
 wget https://cmake.org/files/v3.11/cmake-3.11.4.tar.gz
 tar -zxf cmake-3.11.4.tar.gz 
 cd cmake-3.11.4
@@ -411,6 +413,8 @@ gmake && gmake install
 ```
 sudo yum install ncurses-devel -y
 # boost
+mkdir ~/tools
+cd ~/tools
 wget https://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz
 tar zxf boost_1_59_0.tar.gz 
 sudo mv boost_1_59_0 /usr/local/
@@ -423,6 +427,8 @@ sudo useradd -g mysql -M -s /sbin/nologin mysql
 ```
 3. 编译安装
 ```
+mkdir ~/tools
+cd ~/tools
 wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.22.tar.gz
 tar -zxf mysql-5.7.22.tar.gz
 cd mysql-5.7.22
