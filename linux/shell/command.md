@@ -2819,3 +2819,56 @@ sudo tlp-stat -b
 1. `lsattr 1.txt`
 2. `stat 1.txt`
 
+## 83. aria2
+### 0. Installation
+#### Linux
+```
+yum install -y arai2
+```
+#### Windows
+https://www.moerats.com/archives/519/
+
+### 1. 直链下载
+下载直链文件，只需在命令后附加地址，如：
+```
+aria2c http://xx.com/xx
+```
+如果需要重命名为yy的话加上--out或者-o参数，如：
+```
+aria2c --out=yy http://xx.com/xx
+aria2c -o yy http://xx.com/xx
+```
+使用aria2的分段和多线程下载功能可以加快文件的下载速度，对于下载大文件时特别有用。-x 分段下载，-s 多线程下载，如：
+```
+aria2c -s 2 -x 2 http://xx.com/xx
+```
+这将使用2个连接和2个线程来下载该文件。
+
+### 2. BT下载
+种子和磁力下载：(可以在线将磁力链接的hash值转换成种子,然后下载)
+```
+aria2c 'xxx.torrnet'
+aria2c '磁力链接'
+```
+列出种子内容：
+```
+aria2c -S xxx.torrent
+```
+下载种子内编号为1、4、5、6、7的文件，如：
+```
+aria2c --select-file=1,4-7 xxx.torrent
+```
+设置bt端口：
+```
+aria2c --listen-port=3653 ‘xxx.torrent’
+```
+### 3.限速下载
+单个文件最大下载速度：
+```
+aria2c --max-download-limit=300K -s10 -x10 'http://xx.com/xx'
+```
+整体下载最大速度：
+```
+aria2c --max-overall-download-limit=300k -s10 -x10 'http://xx.com/xx'
+```
+这些基本都是常用的几个命令，更多的可以使用man aria2c和aria2c -h查看
