@@ -1281,3 +1281,13 @@ sudo apt-get purge sogoupinyin
 ```
 6. 重启
 7. 能进入桌面了
+
+## 32. ss
+```
+pkg_resources.DistributionNotFound: The 'shadowsocks==2.8.2' distribution was not found                                                                                                                                                       and is required by the application
+shadowsocks start failed
+```
+说明默认的python版本不是2
+```
+ln -s /usr/bin/python2.7 /usr/bin/python
+```
