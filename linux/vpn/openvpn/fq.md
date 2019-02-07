@@ -196,10 +196,16 @@ cat /etc/shadowsocks-python/config.json
 # }
 #--------------------------------------------------------------------
 
+vim /etc/shadowsocks-python/config.json 
 ```
 4. 重启ss服务
 ```
 service shadowsocks-python restart
+```
+如果出现下面的报错,说明默认的python版本不是2 (执行`ln -s /usr/bin/python2.7 /usr/bin/python`就可以了)
+```
+pkg_resources.DistributionNotFound: The 'shadowsocks==2.8.2' distribution was not found                                                                                                                                                       and is required by the application
+shadowsocks start failed
 ```
 
 5. 查看ss的新端口
