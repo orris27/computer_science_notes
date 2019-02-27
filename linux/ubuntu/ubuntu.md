@@ -199,6 +199,12 @@ sudo dpkg --install sogoupinyin_2.2.0.0108_amd64.deb
 6. logout
 7. 可以用了,shift就有了,右上角也有小键盘了
 
+### 方法3
+```
+sudo apt-get install fcitx-googlepinyin 
+reboot
+```
+
 ## 安装微信
 到 Github 下载最新包，这个是根据网页版微信用Electron封装的APP，Linux和MacOS都可以用，解压后进入软件目录,点击 electronic-wechat 后lock到启动栏就可以啦。比如我下载在`~/Downloads`下，所以只要启动`~/Downloads/electronic-wechat-linux-x64/electronic-wechat`
 
