@@ -5973,8 +5973,12 @@ lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-testlogs -> /home/orris/.cache
     # (0, 2)
     #--------------------------------------------------------------------
     ```
-
-## 16. python
+## 16. copy
+```
+b = copy.deepcopy(a) # deep copy
+b = copy.copy(a) # shallow copy
+```
+## 17. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
