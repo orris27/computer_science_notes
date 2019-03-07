@@ -1291,3 +1291,13 @@ shadowsocks start failed
 ```
 ln -s /usr/bin/python2.7 /usr/bin/python
 ```
+
+## 33. firewalld
+1. 用firewalld添加端口的时候,执行`firewall-cmd --permanent --add-port=20-21/tcp`,报错如下所示:
+```
+Traceback (most recent call last):
+  File "/usr/bin/firewall-cmd", line 24, in <module>
+    from gi.repository import GObject
+ModuleNotFoundError: No module named 'gi'
+```
+默认使用`/usr/bin/python`,如果我们在系统环境内装了python3,就不行了,开头改成`#!/usr/bin/python2 -Es`
