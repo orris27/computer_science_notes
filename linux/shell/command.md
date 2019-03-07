@@ -2872,3 +2872,10 @@ aria2c --max-download-limit=300K -s10 -x10 'http://xx.com/xx'
 aria2c --max-overall-download-limit=300k -s10 -x10 'http://xx.com/xx'
 ```
 这些基本都是常用的几个命令，更多的可以使用man aria2c和aria2c -h查看
+
+## 84. useradd
+```
+sudo groupadd mysql
+sudo useradd mysql -g mysql -M -s /sbin/nologin
+```
+
