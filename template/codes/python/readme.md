@@ -6578,3 +6578,15 @@ if not os.path.exists(output_dir):
     os.mkdir(output_dir)
 
 ```
+
+32. `__str__`:
+```
+class Point(object):
+    def __init__(self, x=-1, y=-1):
+        super(Point, self).__init__()
+        self.x = x
+        self.y = y
+        
+    def __repr__(self): # not __str__
+        return '({}, {})'.format(self.x, self.y)
+```
