@@ -5276,11 +5276,18 @@ b = np.array(a, np.uint8)
     ```
     3. 散点图:plt.scatter
     4. 图像
-    ```
-    plt.figure()
-    plt.imshow(image) # [height,width] || [height,width,channels] || etc
-    plt.show()
-    ```
+        1. colormap
+        ```
+        plt.figure()
+        plt.imshow(image) # [height,width] || [height,width,channels] || etc
+        plt.show()
+        ```
+        2. grayscale
+        ```
+        plt.figure()
+        plt.imshow(image, cmap='gray')
+        plt.show()
+        ```
     5. 有标记
     ```
     plt.plot(steps, y_np, 'r-', label='target (cos)')
