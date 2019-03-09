@@ -1112,7 +1112,15 @@ ImportError: libcublas.so.9.0: cannot open shared object file: No such file or d
         info = pickle.load(f)
         print(info)
     ```
+2. opencv
+```
+OpenCV Error: Unspecified error (The function is not implemented. Rebuild the library with Windows, GTK+ 2.x or Carbon support. If you are on Ubuntu or Debian, install libgtk2.0-dev and pkg-config, then re-run cmake or configure script) in cvShowImage, file /feedstock_root/build_artefacts/work/opencv-3.1.0/modules/highgui/src/window.cpp, line 545 Traceback (most recent call last): File "untitled.py", line 7, in cv2.imshow('image',img) cv2.error: /feedstock_root/build_artefacts/work/opencv-3.1.0/modules/highgui/src/window.cpp:545: error: (-2) The function is not implemented. Rebuild the library with Windows, GTK+ 2.x or Carbon support. If you are on Ubuntu or Debian, install libgtk2.0-dev and pkg-config, then re-run cmake or configure script in function cvShowImage
+```
+answer:
+```
+conda install -c menpo opencv3
 
+```
 
 ## 24. Markdown
 1. 为什么我同样使用下面代码,有的时候可以用,有的时候不能用(比如GitHub上`2.ghi`会是灰色的)?  =>  因为我的abc序号可能超过100了,如果是101的话就不行了
