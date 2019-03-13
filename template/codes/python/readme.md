@@ -6172,7 +6172,35 @@ cv2.waitKey(0)
     response = urlopen(request)
     html = response.read().decode("utf-8")
     ```
-
+2. selenium
+    1. CentOS7
+    ```
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+    sudo yum localinstall google-chrome-stable_current_x86_64.rpm
+    google-chrome --version
+    #--------------------------------------------------------------------
+    # Google Chrome 73.0.3683.75
+    #--------------------------------------------------------------------
+    
+    /dataset/2.44/chromedriver --version
+    #--------------------------------------------------------------------
+    # ChromeDriver 2.44.609551 (5d576e9a44fe4c5b6a07e568f1ebc753f1214634)
+    #--------------------------------------------------------------------
+    
+    options = webdriver.ChromeOptions()
+    options.add_argument("--incognito")
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    driver_path = settings.DRIVER_PATH
+    browser = webdriver.Chrome(executable_path=driver_path, chrome_options=options)
+    browser.get(url)
+    # ...
+    ```
+    2. save screenshot
+    ```
+    browser.save_screenshot("screenshot.png")
+    ```
 
 
 ## 19. python
