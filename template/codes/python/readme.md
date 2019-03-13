@@ -6287,6 +6287,15 @@ cv2.waitKey(0)
     for cookie in cookies:
         browser.add_cookie(cookie)
     ```
+    4. find element
+        1. xpath
+        ```
+        browser.find_element_by_xpath('//figure/a[@href="/v/ac5004999"]/following-sibling::figcaption/p/span[@id="ticketBtn"]').click()
+        ```
+        2. name, id, etc: [document](https://selenium-python.readthedocs.io/locating-elements.html)
+        ```
+        browser.find_element_by_css_selector(".Login-qrcode button").click()
+        ```
 
 
 ## 19. python
