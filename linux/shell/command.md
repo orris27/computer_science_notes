@@ -2879,3 +2879,9 @@ sudo groupadd mysql
 sudo useradd mysql -g mysql -M -s /sbin/nologin
 ```
 
+## 85. firewall
+open a port: 20 & 21 
+```
+firewall-cmd --permanent --add-port=20-21/tcp
+firewall-cmd --reload
+```
