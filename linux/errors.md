@@ -1135,10 +1135,16 @@ options.add_argument('--no-sandbox')
 4. `selenium.common.exceptions.ElementNotVisibleException: Message: element not interactable`
 answer: 
 + xpath is incorrect
-+ the page is not displayed fully
++ the page is not displayed/loaded fully: we can use `try-catch` and screenshot to see if it happens
 ```
 # we can get the window size of the target page using 'window.innerWidth' and 'window.innerHeight' under the developer mode
 browser.set_window_size(1853, 1053)
+```
+or
+```
+import selenium.webdriver.support.ui as ui
+wait = ui.WebDriverWait(browser,100)
+wait.until(lambda driver: driver.find_element_by_xpath('//figure/a[@href="/v/ac5005005"]/following-sibling::figcaption/p/span[@id="ticketBtn"]'))
 ```
 + too many chrome process
 ```
