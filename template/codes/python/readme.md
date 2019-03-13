@@ -6161,7 +6161,16 @@ cv2.waitKey(0)
     ```
     cookies = pickle.load(open("data/cookies/acfun_cookies.pkl", "rb"))
     cookies = {cookie['name']: cookie['value'] for cookie in cookies}
+    
+    cookies = str(cookies).strip('{|}').replace(',',';').replace("'","").replace(": ","=")
 
+    headers={
+        "User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36",
+        "Cookie": cookies,
+    }
+    request = Request(url, headers=headers)
+    response = urlopen(request)
+    html = response.read().decode("utf-8")
     ```
 
 
