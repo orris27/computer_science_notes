@@ -706,6 +706,10 @@ ltrace cat b.txt
     cmd='http_proxy=http://localhost:8123 /home/orris/programs/.dropbox-dist/dropboxd'
     screen -x -S $screen_name -p 0 -X stuff "$cmd\n"
     ```
+    6. kill a screen
+    ```
+    screen -X -S [session # you want to kill] quit
+    ```
     3. C-a ?   显示所有键绑定信息
     4. C-a w   显示所有窗口列表
     5. C-a C-a 切换到之前显示的窗口
@@ -716,7 +720,7 @@ ltrace cat b.txt
     10. C-a a   发送 C-a到当前窗口
     11. C-a d   暂时断开screen会话
     12. C-a k   杀掉当前窗口
-    13. C-a [   进入拷贝/回滚模式
+    13. C-a `[`   进入拷贝/回滚模式
 4. `bg`
 
 ### 25-4. jobs
