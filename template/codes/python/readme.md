@@ -6173,6 +6173,7 @@ cv2.waitKey(0)
     html = response.read().decode("utf-8")
     ```
 2. selenium
++ 通过[这个网站](https://chromedriver.storage.googleapis.com/2.44/notes.txt)可以查看2.44支持的chrome版本,现在是v69-71,如果`google-chrome --version`是v73就不行了,所以要重新下载新的
     1. CentOS7
     ```
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
@@ -6182,9 +6183,9 @@ cv2.waitKey(0)
     # Google Chrome 73.0.3683.75
     #--------------------------------------------------------------------
     
-    /dataset/2.44/chromedriver --version
+    /dataset/chromedriver/2.46/chromedriver --version
     #--------------------------------------------------------------------
-    # ChromeDriver 2.44.609551 (5d576e9a44fe4c5b6a07e568f1ebc753f1214634)
+    # ChromeDriver 2.46.628388 (4a34a70827ac54148e092aafb70504c4ea7ae926)
     #--------------------------------------------------------------------
     
     options = webdriver.ChromeOptions()
@@ -6200,6 +6201,15 @@ cv2.waitKey(0)
     2. save screenshot
     ```
     browser.save_screenshot("screenshot.png")
+    ```
+    3. add cookie: request the page before adding the cookies so that the driver knows where the cookies belong to
+    ```
+    browser = webdriver.Chrome(executable_path=driver_path, chrome_options=options)
+    browser.get(url)
+
+    cookies = pickle.load(open(settings.COOKIES_FILENAME, "rb")) # cookies file from browser.get_cookies()
+    for cookie in cookies:
+        browser.add_cookie(cookie)
     ```
 
 
