@@ -1127,7 +1127,11 @@ selenium.common.exceptions.WebDriverException: Message: unknown error: DevToolsA
 ```
 answer:
 ```
+options.add_argument("--incognito")
+options.add_argument('--headless')
 options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
+
 ```
 
 
