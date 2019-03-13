@@ -1130,7 +1130,6 @@ answer:
 options.add_argument("--incognito")
 options.add_argument('--headless')
 options.add_argument('--no-sandbox')
-options.add_argument('--disable-dev-shm-usage')
 
 ```
 4. `selenium.common.exceptions.ElementNotVisibleException: Message: element not interactable`
@@ -1138,8 +1137,10 @@ answer:
 + xpath is incorrect
 + the page is not displayed fully
 ```
-browser.set_window_size(1853, 800)
+# we can get the window size of the target page using 'window.innerWidth' and 'window.innerHeight' under the developer mode
+browser.set_window_size(1853, 1053)
 ```
+
 
 ## 24. Markdown
 1. 为什么我同样使用下面代码,有的时候可以用,有的时候不能用(比如GitHub上`2.ghi`会是灰色的)?  =>  因为我的abc序号可能超过100了,如果是101的话就不行了
