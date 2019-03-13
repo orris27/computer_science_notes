@@ -6128,7 +6128,45 @@ cv2.imshow('winname', image)
 cv2.waitKey(0)
 ```
 
-## 18. python
+
+
+
+## 18. spider
+1. cookies
+    1. get cookies from website
+    ```
+    # -*- coding: utf-8 -*-
+    from selenium import webdriver
+    from pickle import dump, load
+    import pickle
+    from os.path import exists
+    from scrapy.selector import Selector
+    import time
+    import settings
+
+    options = webdriver.ChromeOptions()
+    options.add_argument("--incognito")
+    driver_path = "/home/orris/dataset/2.44/chromedriver"
+    browser = webdriver.Chrome(executable_path=driver_path, chrome_options=options)
+    browser.get("http://www.acfun.cn/login")
+    t_selector = Selector(text=browser.page_source)
+
+    input("扫码完成后回车继续")
+    cookies = browser.get_cookies()
+    browser.close()
+    pickle.dump(cookies, open("data/cookies/acfun_cookies.pkl", "wb"))
+
+    ```
+    2. load cookies
+    ```
+    cookies = pickle.load(open("data/cookies/acfun_cookies.pkl", "rb"))
+    cookies = {cookie['name']: cookie['value'] for cookie in cookies}
+
+    ```
+
+
+
+## 19. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
