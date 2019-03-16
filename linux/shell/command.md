@@ -2897,3 +2897,28 @@ qrencode -s8 -o 1.png 'data'
 # or
 echo -n 'data' | qrencode -s8 -o 2.png
 ```
+
+## 89. ssserver
+1. start
+```
+ssserver -c /etc/shadowsocks-python/config.json -d start
+```
+2. stop
+```
+ssserver -c /etc/shadowsocks-python/config.json -d stop
+```
+3. restart: stop => sleep => start
+
+### config file (example)
+```
+{
+    "server":"0.0.0.0",
+    "server_port":443,
+    "local_address":"127.0.0.1",
+    "local_port":1080,
+    "password":"123456",
+    "timeout":300,
+    "method":"aes-256-cfb",
+    "fast_open":true
+}
+```
