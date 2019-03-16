@@ -1736,43 +1736,6 @@ salt-key -a linux*
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### 44-2. salt
 `salt target module params`=>returners
 #### 44-2-1. option
@@ -2923,4 +2886,14 @@ else
     echo "pwd command has not found"
 fi
 
+```
+
+## 88. qrencode
+Encode input data in a QR code and save as a PNG or EPS image
+
+注：输出的二维码图片大小取决于，内容的多少，且不能换行
+```
+qrencode -s8 -o 1.png 'data'
+# or
+echo -n 'data' | qrencode -s8 -o 2.png
 ```
