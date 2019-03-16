@@ -2900,3 +2900,27 @@ shuf -i 9000-19999 -n 3
 #-------------------------------------------
 
 ```
+
+
+## 87. command
+1. 如果有同名函数和环境内的命令同名,只使用环境内的.环境内没有则报错
+```
+#! /bin/sh
+
+ls()
+{
+    echo 'I am a new ls'
+}
+
+command ls
+```
+2. 检查环境内是否有该命令
+```
+
+if  command -v pwd > /dev/null; then
+    echo "pwd command has found"
+else
+    echo "pwd command has not found"
+fi
+
+```
