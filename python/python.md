@@ -53,7 +53,7 @@ sed -i "s#/usr/bin/python#/usr/bin/python2#g" /usr/bin/yum
 #########################################################################
 sed -i "s#/usr/bin/python#/usr/bin/python2#g" /usr/libexec/urlgrabber-ext-down 
 
-pip install  tensorflow==1.8.0
+
 pip install ipython
 echo 'PATH=/usr/local/python/bin/:$PATH'>>/etc/profile
 source /etc/profile
@@ -63,6 +63,7 @@ source /etc/profile
 2. 安装tensorflow,ipython
 ```
 pip install -U tensorflow
+# pip install tensorflow==1.8.0
 pip install ipython
 echo 'PATH=/usr/local/python/bin/:$PATH'>>/etc/profile
 source /etc/profile
