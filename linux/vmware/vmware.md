@@ -329,30 +329,54 @@ NAME=ens33
         192.168.122.0   0.0.0.0         255.255.255.0   U     0      0        0 virbr0
         ```
         3. 网卡配置
-        + 真实ip地址:`192.168.56.11`
-        + 默认网关:`192.168.56.2`
-        + DNS服务:`8.8.8.8`,`114.114.114.114`: 如果是校园网的话,就使用校园里的DNS!!(而且注意自己的机器不要在10网段内!因为学校本身就在10网段,改成192.168.0.0就可以了)(比如10.10.0.21或10.10.2.21),我设置了2个DNS,但是这样就连接不了了,只是用`10.10.0.21`才能正常运行(如果ping的时候出现了第一行却没有结果的话,就继续restart,反正`DNS1=10.10.0.21`基本是正确的)
-        + 静态分配IP地址
-        ```
-        TYPE=Ethernet
-        PROXY_METHOD=none
-        BROWSER_ONLY=no
-        DEVICE=eth0
-        BOOTPROTO=static
-        IPADDR=192.168.56.11
-        GATEWAY=192.168.56.2
-        ONBOOT=yes
-        DNS1=8.8.8.8
-        DNS2=114.114.114.114
-        DEFROUTE=yes
-        IPV4_FAILURE_FATAL=no
-        IPV6INIT=yes
-        IPV6_AUTOCONF=yes
-        IPV6_DEFROUTE=yes
-        IPV6_FAILURE_FATAL=no
-        IPV6_ADDR_GEN_MODE=stable-privacy
-        NAME=eth0
-        ```
+            1. normal
+            + 真实ip地址:`192.168.56.11`
+            + 默认网关:`192.168.56.2`
+            + DNS服务:`8.8.8.8`,`114.114.114.114`: 如果是校园网的话,就使用校园里的DNS!!(而且注意自己的机器不要在10网段内!因为学校本身就在10网段,改成192.168.0.0就可以了)(比如10.10.0.21或10.10.2.21),我设置了2个DNS,但是这样就连接不了了,只是用`10.10.0.21`才能正常运行(如果ping的时候出现了第一行却没有结果的话,就继续restart,反正`DNS1=10.10.0.21`基本是正确的)
+            + 静态分配IP地址
+            ```
+            TYPE=Ethernet
+            PROXY_METHOD=none
+            BROWSER_ONLY=no
+            DEVICE=eth0
+            BOOTPROTO=static
+            IPADDR=192.168.56.11
+            GATEWAY=192.168.56.2
+            ONBOOT=yes
+            DNS1=8.8.8.8
+            DNS2=114.114.114.114
+            DEFROUTE=yes
+            IPV4_FAILURE_FATAL=no
+            IPV6INIT=yes
+            IPV6_AUTOCONF=yes
+            IPV6_DEFROUTE=yes
+            IPV6_FAILURE_FATAL=no
+            IPV6_ADDR_GEN_MODE=stable-privacy
+            NAME=eth0
+            ```
+            2. ZJU: ip选择192.168网段(不然和学校的`10.10.0.21`DNS服务器冲突)
+            ```
+            TYPE=Ethernet
+            PROXY_METHOD=none
+            BROWSER_ONLY=no
+            DEVICE=eth0
+            BOOTPROTO=static
+            IPADDR=192.168.0.5
+            GATEWAY=192.168.0.2
+            ONBOOT=yes
+            DNS1=10.10.0.21
+            DNS2=10.10.2.21
+            DEFROUTE=yes
+            IPV4_FAILURE_FATAL=no
+            IPV6INIT=yes
+            IPV6_AUTOCONF=yes
+            IPV6_DEFROUTE=yes
+            IPV6_FAILURE_FATAL=no
+            IPV6_ADDR_GEN_MODE=stable-privacy
+            NAME=eth0
+            ZONE=public
+
+            ```
 
 ### 5-2. 配置情况(Ubuntu)
 1. 确认版本: 18.04版本
