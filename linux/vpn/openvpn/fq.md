@@ -48,7 +48,7 @@ cd ~/tools
 
 yum install -y wget
 wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
-# 也可以选择我github上的auto-install-ss.sh,2个是一样的
+# 也可以选择我github上的auto-install-ss.sh,2个是一样的.或者我另外写的只能用在CentOS7上的install_shadowsocks.sh
 chmod +x shadowsocks-all.sh
 ./shadowsocks-all.sh 2>&1 | tee shadowsocks-all.log
 #------------------------------------------------------------------------
