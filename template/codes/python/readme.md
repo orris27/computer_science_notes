@@ -6129,6 +6129,21 @@ cv2.waitKey(0)
 ```
 
 
+2. imwrite
+```
+height = 300
+weight = 400
+n_channels = 3
+image = np.zeros((height, weight, n_channels), np.uint8)
+
+image[:, :, 1] = 255
+
+cv2.imshow('winname', image)
+cv2.imwrite("1.png", image)
+cv2.waitKey(0)
+```
+
+
 
 
 ## 18. spider
