@@ -108,6 +108,40 @@ sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files #后面的参数非常重要�
 ```
 The distribution-provided pre-install script failed!  Are you sure you want to continue?
 ```
+#### 23/03/2019安装NVIDIA驱动更新
+**问题1**
+
+输入`nvidia-smi`,报错如下所示
+
+NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.
+
+**研究1**
+执行`sudo /media/orris/DATA/dataset/NVIDIA-Linux-x86_64-396.54.run -no-opengl-files -no-x-check`的时候出错.按照提示找到错误输出日志`/var/lib/dkms/nvidia/410.78/build/make.log`,发现说
+```
+gcc version 7.2.0 (Ubuntu 7.2.0-8ubuntu3.2)
+
+does not match the compiler used here:
+
+cc (Ubuntu 6.4.0-8ubuntu1) 6.4.0 20171010
+Copyright (C) 2017 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+```
+貌似gcc的版本不正确,执行`gcc --version`发现我的gcc是6.4.0版本的,可能需要安装7.2.0版本的.
+
+所以切换了gcc版本,具体参考
+
+**问题2**
+执行`sudo /media/orris/DATA/dataset/NVIDIA-Linux-x86_64-396.54.run -no-opengl-files -no-x-check`的时候出错,发现说
+```
+Unable to load the 'nvidia-drm' kernel module.
+Installation has failed.  Please see the file '/var/log/nvidia-installer.log' for details.  You may find suggestions on fixing installation problems in the README available on the Linux driver download page at www.nvidia.com.
+```
+
+**研究2**
+貌似会内核版本的问题,当前内核版本是`4.13.0-46-generic`,所以切换下内核
+
 
 
 #### NVIDIA驱动程序下载官网：
