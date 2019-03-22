@@ -2441,6 +2441,68 @@ gcc hello.c -o hello  -D DEBUG
 5. [制作静态库](https://github.com/orris27/orris/blob/master/cpp/cpp.md)
 
 
+### 61-2. update-alternatives:切换gcc版本
+
+```
+ll /usr/bin/gcc*
+#-----------------------------------------------------------------------------------------
+# lrwxrwxrwx 1 root root 14 Dec 27 21:03 /usr/bin/gcc -> /usr/bin/gcc-6*
+# lrwxrwxrwx 1 root root 22 Oct 10  2017 /usr/bin/gcc-6 -> x86_64-linux-gnu-gcc-6*
+# lrwxrwxrwx 1 root root 22 Feb  3  2018 /usr/bin/gcc-7 -> x86_64-linux-gnu-gcc-7*
+# lrwxrwxrwx 1 root root  8 Sep 18  2017 /usr/bin/gcc-ar -> gcc-ar-7*
+# lrwxrwxrwx 1 root root 25 Oct 10  2017 /usr/bin/gcc-ar-6 -> x86_64-linux-gnu-gcc-ar-6*
+# lrwxrwxrwx 1 root root 25 Feb  3  2018 /usr/bin/gcc-ar-7 -> x86_64-linux-gnu-gcc-ar-7*
+# lrwxrwxrwx 1 root root  5 Sep 18  2017 /usr/bin/gcc_bak -> gcc-7*
+# lrwxrwxrwx 1 root root  8 Sep 18  2017 /usr/bin/gcc-nm -> gcc-nm-7*
+# lrwxrwxrwx 1 root root 25 Oct 10  2017 /usr/bin/gcc-nm-6 -> x86_64-linux-gnu-gcc-nm-6*
+# lrwxrwxrwx 1 root root 25 Feb  3  2018 /usr/bin/gcc-nm-7 -> x86_64-linux-gnu-gcc-nm-7*
+# lrwxrwxrwx 1 root root 12 Sep 18  2017 /usr/bin/gcc-ranlib -> gcc-ranlib-7*
+# lrwxrwxrwx 1 root root 29 Oct 10  2017 /usr/bin/gcc-ranlib-6 -> x86_64-linux-gnu-gcc-ranlib-6*
+# lrwxrwxrwx 1 root root 29 Feb  3  2018 /usr/bin/gcc-ranlib-7 -> x86_64-linux-gnu-gcc-ranlib-7*
+#-----------------------------------------------------------------------------------------
+
+
+
+
+gcc --version
+#-----------------------------------------------------------------------------------------
+# gcc (Ubuntu 6.4.0-8ubuntu1) 6.4.0 20171010
+# Copyright (C) 2017 Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.  There is NO
+# warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#-----------------------------------------------------------------------------------------
+
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 50 # 最后的50是权重,随便取
+#-----------------------------------------------------------------------------------------
+# update-alternatives: using /usr/bin/gcc-6 to provide /usr/bin/gcc (gcc) in auto mode
+#-----------------------------------------------------------------------------------------
+
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 40
+sudo update-alternatives --config gcc
+#-----------------------------------------------------------------------------------------
+# 
+# There are 2 choices for the alternative gcc (providing /usr/bin/gcc).
+# 
+#   Selection    Path            Priority   Status
+# ------------------------------------------------------------
+# * 0            /usr/bin/gcc-6   50        auto mode
+#   1            /usr/bin/gcc-6   50        manual mode
+#   2            /usr/bin/gcc-7   40        manual mode
+# 
+# Press <enter> to keep the current choice[*], or type selection number: 2
+# update-alternatives: using /usr/bin/gcc-7 to provide /usr/bin/gcc (gcc) in manual mode
+#-----------------------------------------------------------------------------------------
+
+gcc --version
+#-----------------------------------------------------------------------------------------
+# gcc (Ubuntu 7.2.0-8ubuntu3.2) 7.2.0
+# Copyright (C) 2017 Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.  There is NO
+# warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#-----------------------------------------------------------------------------------------
+
+```
+
 ## 62. nm
 1. 查看静态库
 ```
