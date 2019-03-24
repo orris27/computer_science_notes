@@ -421,3 +421,11 @@ CONTROL_CPU_FREQUENCY="0"
 #####################################################
 
 ```
+
+## 界面
+log out的时候旁边的小齿轮有是三个选项
++ Ubuntu
++ Ubuntu on Xorg(我习惯的)
++ Unity
+
+这会导致快捷键等一系列不同.我习惯用的是Ubuntu on Xorg.
