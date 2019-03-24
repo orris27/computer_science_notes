@@ -88,7 +88,7 @@ sudo service lightdm stop #这会关闭图形界面(X server)，但不用紧张
 
 sudo chmod +x NVIDIA-Linux-x86_64-*.run #给驱动run文件赋予执行权限
 sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files #后面的参数非常重要，不可省略
-#sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files -no-x-check # 如果不关闭xw服务的话
+#sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files -no-x-check # 如果不关闭xw服务的话 (我是用的)
 ```
 + -no-opengl-files：表示只安装驱动文件，不安装OpenGL文件。这个参数不可省略，否则会导致登陆界面死循环。
 
@@ -96,7 +96,7 @@ sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files #后面的参数非常重要�
 
 + -no-nouveau-check：表示安装驱动时不检查nouveau，非必需。
 
-+ -Z, —disable-nouveau：禁用nouveau。此参数非必需，因为之前已经手动禁用了nouveau。
++ -Z, -disable-nouveau：禁用nouveau。此参数非必需，因为之前已经手动禁用了nouveau。
 
 + -A：查看更多高级选项
 
@@ -140,8 +140,7 @@ Installation has failed.  Please see the file '/var/log/nvidia-installer.log' fo
 ```
 
 **研究2**
-貌似会内核版本的问题,当前内核版本是`4.13.0-46-generic`,所以切换下内核
-
+执行`nvidia-smi`发现出现界面了,所以好像没问题的样子
 
 
 #### NVIDIA驱动程序下载官网：
@@ -266,6 +265,21 @@ pip install mxnet-cu90 --pre
 https://mxnet.incubator.apache.org/install/index.html
 
 ## 安装实例
-1. 我12-29安装的情况:
+### 我12-29安装的情况:
     1. NVIDIA-396
     2. cuda-9-0
+### 23/03/2019
+```
+sudo apt-get remove --purge nvidia*
+sudo /media/orris/DATA/dataset/NVIDIA-Linux-x86_64-390.59.run -uninstall
+sudo /media/orris/DATA/dataset/NVIDIA-Linux-x86_64-396.54.run -uninstall
+sudo add-apt-repository ppa:xorg-edgers/ppa #添加ppa源
+sudo apt-get install nvidia-396
+sudo apt-get install cuda-9-0
+lsmod | grep nouveau
+sudo service lightdm stop
+sudo service gdm stop
+sudo service gdm3 stop
+sudo /media/orris/DATA/dataset/NVIDIA-Linux-x86_64-396.54.run -no-opengl-files -no-x-check
+nvidia-smi
+```
