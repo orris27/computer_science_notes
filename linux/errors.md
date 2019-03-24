@@ -1101,6 +1101,13 @@ ImportError: libcublas.so.9.0: cannot open shared object file: No such file or d
     sudo dpkg-reconfigure lightdm # 这里的lightdm是指切换到lightdm,可以换成gdm3
     reboot
     ```
+    + solution2: reinstall gdm3
+    ```
+    sudo apt purge gdm gdm3
+    sudo apt install gdm3 ubuntu-desktop
+    sudo dkpg-reconfigure gdm3
+    reboot
+    ```
 
 ## 23. Python
 1. 使用pickle的时候报错`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte`
