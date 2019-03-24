@@ -1094,6 +1094,14 @@ ImportError: libcublas.so.9.0: cannot open shared object file: No such file or d
     + 解决: `sudo apt-get install notify-osd`
 
 
+4. 开机启动无法进入桌面,显示`before the ppp link was shut down`:
+    + 解决1: 从gdm3切换到lightdm
+    ```
+    sudo apt-get install lightdm
+    sudo dpkg-reconfigure lightdm # 这里的lightdm是指切换到lightdm,可以换成gdm3
+    reboot
+    ```
+
 ## 23. Python
 1. 使用pickle的时候报错`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte`
     ```
