@@ -154,3 +154,10 @@ pip install -e .
     ```
     pip install torchvision-0.2.1-py2.py3-none-any.whl
     ```
+
+
+## 4. gi
+anaconda直接安装gi会出问题,python3安装不起来就换成了python2,问题应该不大
+```
+pip2 install PyGObject
+```
