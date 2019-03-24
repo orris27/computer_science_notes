@@ -142,12 +142,18 @@ unity-tweak-tool
 ### tweak
 win键输入tweak打开
 
++ Appearance: 和上面的theme,cursor,icons一模一样
+
++ Keyboard & Mouse
+    + Click Ctrl key to highlight the pointer
+
++ Top bar
+    + battery percentage
+    + Clock
+        + Date
+        + Seconds
+
 + Windows
-    + Top bar
-        + battery percentage
-        + Clock
-            + Date
-            + Seconds
     + Titlebar Buttons
         + Max & Min: 决定是否显示最大化or最小化
         + Placement: 决定上面三个角是放在左边还是右边
