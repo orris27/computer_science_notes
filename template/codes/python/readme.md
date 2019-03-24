@@ -6376,7 +6376,73 @@ cv2.waitKey(0)
         ```
 
 
-## 19. python
+## 19. os
+1. `expanduser`: expand `~`
+```
+os.listdir('~')
+#--------------------------------------------
+# ---------------------------------------------------------------------------
+# FileNotFoundError                         Traceback (most recent call last)
+# <ipython-input-4-6390b0a9c8b9> in <module>()
+# ----> 1 os.listdir('~')
+# 
+# FileNotFoundError: [Errno 2] No such file or directory: '~'
+#--------------------------------------------
+
+os.path.expanduser('~')
+#--------------------------------------------
+# '/home/orris'
+#--------------------------------------------
+
+os.listdir(os.path.expanduser('~'))
+#--------------------------------------------
+# ['vmware',
+#  '.atom',
+#  '.shutter',
+#  'Videos',
+#  ...]
+#--------------------------------------------
+```
+
+2. `os.system`: execute a command in a subshell
+```
+In [11]: os.system('ls')
+gpl-3.0.txt  lswc  README_and_install.sh
+Out[11]: 0
+
+In [12]: os.system('ls hello')
+ls: cannot access 'hello': No such file or directory
+Out[12]: 512
+```
+
+3. makedirs
++ exist_ok: False => raise OSError if the directory has already existed
+```
+os.makedirs('test')
+
+os.makedirs('test')
+#-------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# FileExistsError                           Traceback (most recent call last)
+# <ipython-input-21-a250051b13d5> in <module>()
+# ----> 1 os.makedirs('test')
+# 
+# ~/anaconda3/lib/python3.6/os.py in makedirs(name, mode, exist_ok)
+#     218             return
+#     219     try:
+# --> 220         mkdir(name, mode)
+#     221     except OSError:
+#     222         # Cannot rely on checking for EEXIST, since the operating system
+# 
+# FileExistsError: [Errno 17] File exists: 'test'
+#-------------------------------------------------------------------------
+
+os.makedirs('test',exist_ok=True) # OK
+```
+
+
+
+## 20. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
@@ -7056,3 +7122,5 @@ print('123\n')
 # 
 #--------------------------------------------
 ```
+
+
