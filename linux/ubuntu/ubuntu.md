@@ -138,6 +138,22 @@ unity-tweak-tool
     1. Theme: Ambiance
     2. Icons: Ubunutu-mono-dark
     3. Cursor: Dmz-white
+    
+### tweak
+win键输入tweak打开
+
++ Windows
+    + Top bar
+        + battery percentage
+        + Clock
+            + Date
+            + Seconds
+    + Titlebar Buttons
+        + Max & Min: 决定是否显示最大化or最小化
+        + Placement: 决定上面三个角是放在左边还是右边
+        
+
+
 ## 安装系统指示器syspeek
 看看网速啊，CPU占用啊等系统指标的
 ```
