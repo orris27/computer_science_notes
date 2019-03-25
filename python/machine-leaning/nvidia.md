@@ -3,6 +3,24 @@
 ## 前言
 本文为NVIDIA显卡深度学习环境配教程，主要内容为在ubuntu环境下安装NVIDIA显卡驱动、CUDA以及cuDNN。前面如何配置好Ubuntu基本工作环境请参考 安装Ubuntu后应该做的事 ,本文提供一种可行稳妥的安装方法，更详细的安装方式还可参考CUDA官方安装文档与cuDNN官方安装文档。以下操作均在ubuntu 16.04.4 下测试通过，其他发行版本可作参考。
 
+安装任务:
+1. 显卡驱动
+2. CUDA
+
+### 总(03/25/2019更新)
+```
+Ctrl + Alt + F4 # 在命令行中进行
+sudo apt-get remove --purge nvidia*
+sudo ./NVIDIA-Linux-x86_64*.run –uninstall
+
+ps aux| grep gdm # 如果有显示说明正在运行,关闭掉
+systemctl stop gdm
+
+sudo ./NVIDIA-Linux-x86_64-396.54.run -no-opengl-files
+sudo apt-get install cuda-9-0
+reboot
+```
+
 ### CUDA官方安装文档：
 https://docs.nvidia.com/cuda/cuda-installation-guide-linux/
 
@@ -18,8 +36,8 @@ NVIDIA显卡驱动一般有三种安装方法:
 
     3. 官网下载NVIDIA驱动程序然后本地安装（下载runfile）。
 
-### 1. apt-get安装（推荐)
-#### 卸载原有驱动
+### 1. apt-get安装
+#### 卸载
 + 若已有N卡驱动，则需要先卸载：
 ```
 sudo apt-get remove --purge nvidia*
@@ -29,20 +47,20 @@ sudo apt-get remove --purge nvidia*
 sudo chmod +x NVIDIA*.run
 sudo ./NVIDIA-Linux-x86_64*.run –uninstall
 ```
-#### 安装NVIDIA驱动
+#### 安装
 然后执行：
 ```
 sudo add-apt-repository ppa:xorg-edgers/ppa #添加ppa源
 sudo add-apt-repository ppa:graphics-drivers/ppa #添加ppa源
 sudo apt-get update #更新apt-get
 # Software & Updates > Additional Drivers > check the nvidia version
-# Mine is nvidia-396
-# 参考资料上写的是sudo apt-get install nvidia-390 #安装390版本的driver
+
+
 sudo apt-get install nvidia-396 # 执行到这里后面只要sudo apt-get install cuda-9-0;reboot;就好了的样子
 ```
 然后可能下载较慢但是最安全，这样安装系统会自动帮你禁用nouveau，所以这样安装完后不用手动禁用nouveau。
 
-### 2. runfile 安装
+### 2. runfile安装(推荐)
 去NVIDIA驱动程序下载官网下载合适的最新驱动，然后本地安装（下载runfile）。
     + NVIDIA驱动程序下载官网：`https://www.nvidia.cn/Download/index.aspx?lang=cn`
 
@@ -88,7 +106,7 @@ sudo service lightdm stop #这会关闭图形界面(X server)，但不用紧张
 
 sudo chmod +x NVIDIA-Linux-x86_64-*.run #给驱动run文件赋予执行权限
 sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files #后面的参数非常重要，不可省略
-#sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files -no-x-check # 如果不关闭xw服务的话 (我是用的)
+#sudo ./NVIDIA-Linux-x86_64-*.run -no-opengl-files -no-x-check # 如果不关闭xw服务的话(不推荐)
 ```
 + -no-opengl-files：表示只安装驱动文件，不安装OpenGL文件。这个参数不可省略，否则会导致登陆界面死循环。
 
@@ -152,9 +170,13 @@ nvidia-smi #若列出GPU的信息列表，表示驱动安装成功
 nvidia-settings #若弹出设置对话框，亦表示驱动安装成功
 ```
 ![NVIDIA test](https://mmbiz.qpic.cn/mmbiz_jpg/hBIUUHOiaY6oy9b4w8zXyEqJAWU4djRgWsewKQSia2XPcFn81RpAfG5S8kN0Puic2Mibrh3xNO1zIZnUn9z0S2ticbg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
-## 安装CUDA
+## 安装CUDA(推荐apt安装)
 到CUDA官方下载页面下载CUDA包(runfile)
 ![CUDA website](https://github.com/orris27/orris/raw/master/images/cuda-website.png)
+
+```
+
+````
 
 ### CUDA官方下载页面：
 https://developer.nvidia.com/cuda-downloads
