@@ -1108,6 +1108,16 @@ ImportError: libcublas.so.9.0: cannot open shared object file: No such file or d
     sudo dkpg-reconfigure gdm3
     reboot
     ```
+    + (final)无法进去的原因:通过`systemctl status gdm3`发现里面有一行说查看xserver的log,然后检查`/var/log/Xorg.0.log`,发现EE表示error,搜索EE的行,里面有提示NVIDIA的driver版本不正确,所以就尝试重新安装NVIDIA的driver(当时的版本是396,最后安装的还是396,说明我之前安装存在问题,也就是说不能用apt安装,而是用runfile安装)
+    ```
+    Ctrl + Alt + F4
+    sudo apt remove nvidia-396
+    ps aux| grep gdm # 如果显示内容,说明gdm开启中,关闭gdm
+    systemctl stop gdm
+    sudo ./NVIDIA-Linux-x86_64-396.54.run -no-opengl-files
+    reboot # 发现循环登录
+    reboot # 直接再reboot就能解决循环登录的问题了
+    ```
 
 ## 23. Python
 1. 使用pickle的时候报错`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte`
