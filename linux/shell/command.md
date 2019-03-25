@@ -2984,3 +2984,15 @@ ssserver -c /etc/shadowsocks-python/config.json -d stop
     "fast_open":true
 }
 ```
+
+
+## 90. systemctl
+1. run level
+```
+sudo systemctl get-default
+#----------------------------------------------------
+# multi-user.target # In systemd the targets runlevel2.target and multi-user.target are identical
+#----------------------------------------------------
+
+sudo systemctl set-default graphical.target # graphical.target=runlevel5.target
+```
