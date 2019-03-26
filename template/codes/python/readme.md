@@ -4339,7 +4339,7 @@ print(sess.run(tf.one_hot([2,4,3,5,1,0], 10)))
         tensor = torch.FloatTensor(l)
         ```
     2. Convertion: Tensor & numpy data & cuda & Varaible
-        1. tensor & variable
+        1. tensor & variable: they have almost the same interface
             + tensor => variable
             ```
             variable = Variable(tensor, requires_grad=True) 
