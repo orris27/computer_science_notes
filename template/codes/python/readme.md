@@ -4348,6 +4348,13 @@ print(sess.run(tf.one_hot([2,4,3,5,1,0], 10)))
             ```
             variable.data # variable => tensor
             ```
+        2. tensor & float, int
+        ```
+        float(loss.cuda().data.cpu().numpy())
+        #---------------------------
+        # 0.5294359922409058
+        #---------------------------
+        ```
     3. method
         1. size()
         2. pow()
