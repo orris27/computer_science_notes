@@ -594,3 +594,22 @@ git reset --hard d438174
     6. 点击旁边的new pull request
     7. 后面写标题和注释然后就可以发起pull request了
     
+
+
+## 3. Cutomize git server
+server
+```
+cd ~
+mkdir .ssh && chmod 700 .ssh
+touch .ssh/authorized_keys && chmod 600 .ssh/authorized_keys
+vim ~/.ssh/authorized_keys # add public keys of the client
+cd /zju_data0/orris/
+mkdir handwriting.git # .git directory!
+cd handwriting.git/
+git init --bare
+```
+client
+```
+git remote add srtp user309@10.214.144.222:/zju_data0/orris/handwriting.git
+git push srtp master
+```
