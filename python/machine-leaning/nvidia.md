@@ -7,7 +7,8 @@
 1. 显卡驱动
 2. CUDA
 
-### 总(03/25/2019更新)
+### 总
++ 03/25/2019更新
 ```
 Ctrl + Alt + F4 # 在命令行中进行
 sudo apt-get remove --purge nvidia*
@@ -20,6 +21,21 @@ sudo ./NVIDIA-Linux-x86_64-396.54.run -no-opengl-files
 sudo apt-get install cuda-9-0
 reboot
 ```
+
++ 03/26/2019更新: 删除不必要的显卡安装
+```
+Ctrl + Alt + F4 # 在命令行中进行
+sudo apt-get remove --purge nvidia*
+sudo ./NVIDIA-Linux-x86_64*.run –uninstall
+
+ps aux| grep gdm # 如果有显示说明正在运行,关闭掉
+systemctl stop gdm
+
+sudo apt-get install cuda-9-0 # 安装cuda-9-0的时候内部直接安装了nvidia-396,而不需要手动runfile安装
+reboot
+```
+
+
 
 ### CUDA官方安装文档：
 https://docs.nvidia.com/cuda/cuda-installation-guide-linux/
