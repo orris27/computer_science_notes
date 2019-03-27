@@ -4915,31 +4915,49 @@ tensor([[-0.5044,  0.0005],
 
 ```
 
-16. dropout
-+ Dropout可以放在linear和relu之间或者relu后面,自己看情况就好了
-+ 预测的时候要先调用`eval()`, 然后直接`model(x)`,最后调用`train()`变回原来的样子
-```
-model_dropped  = torch.nn.Sequential(
-    torch.nn.Linear(1, hidden_size1),
-    torch.nn.Dropout(0.5),
-    torch.nn.ReLU(), 
-    )
+16. tricks
+    1. dropout
+    + Dropout可以放在linear和relu之间或者relu后面,自己看情况就好了
+    + 预测的时候要先调用`eval()`, 然后直接`model(x)`,最后调用`train()`变回原来的样子
+    ```
+    model_dropped  = torch.nn.Sequential(
+        torch.nn.Linear(1, hidden_size1),
+        torch.nn.Dropout(0.5),
+        torch.nn.ReLU(), 
+        )
 
 
-y_pred_dropped = model_dropped(x)
-loss_dropped = loss_fn(y_pred_dropped, y)
-opt_dropped.zero_grad() # clear the current grads
-loss_dropped.backward()
-opt_dropped.step() # update the grads
+    y_pred_dropped = model_dropped(x)
+    loss_dropped = loss_fn(y_pred_dropped, y)
+    opt_dropped.zero_grad() # clear the current grads
+    loss_dropped.backward()
+    opt_dropped.step() # update the grads
 
-if epoch % 20 == 0:
-    model_dropped.eval()
-    y_pred_dropped = model_dropped(x_test)
-    # ...
-    print('epoch %d: loss=%.4f loss_dropped=%.4f' % (epoch, loss_fn(y_pred, y_test).data.numpy(), loss_fn(y_pred_dropped, y_test).data.numpy()))
-    # ...
-    model_dropped.train()
-```
+    if epoch % 20 == 0:
+        model_dropped.eval()
+        y_pred_dropped = model_dropped(x_test)
+        # ...
+        print('epoch %d: loss=%.4f loss_dropped=%.4f' % (epoch, loss_fn(y_pred, y_test).data.numpy(), loss_fn(y_pred_dropped, y_test).data.numpy()))
+        # ...
+        model_dropped.train()
+    ```
+    2. batch normalization
+    ```
+    self.conv1 = torch.nn.Sequential(
+            # input: (batch_size, 7, height=128, width=w)
+            torch.nn.Conv2d(
+                in_channels = 7,
+                out_channels = 32,
+                kernel_size = 3,
+                padding = 1,
+                stride = 1),
+            torch.nn.LeakyReLU(),
+            torch.nn.BatchNorm2d(32), # = output number of channels
+            # output: (batch_size, 32, 128, w)
+            torch.nn.MaxPool2d(kernel_size = 2),
+            ... )
+
+    ```
 
 
 17. magic commands: `%hist?`可以查看`%hist`的用法
