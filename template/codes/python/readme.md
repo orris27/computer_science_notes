@@ -4360,7 +4360,7 @@ print(sess.run(tf.one_hot([2,4,3,5,1,0], 10)))
         2. normal(): 根据means和std数组来正态分布地生成对应数据
         3. dtype: (成员): 查看类型
         4. view()
-        5. squeeze, unsqueeze, expand
+        5. squeeze, unsqueeze, expand(复制维度为1的值使得满足对应shape)
         ```
         # 广播法则: 2个不同shape的tensor相加的解决方式:
         # 1. 维度数量保持一致: 在最前面添加1 ---- unsqueeze
