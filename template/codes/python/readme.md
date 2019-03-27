@@ -4496,7 +4496,7 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     else:
         torch.set_default_tensor_type('torch.FloatTensor')
     ```
-6. NN
+6. fc
     1. regression
     ```
     import torch
@@ -4747,6 +4747,8 @@ opt = torch.optim.SGD(model.parameters(), lr=learning_rate, momentum=0.8)
 opt = torch.optim.RMSprop(model.parameters(), lr=learning_rate, alpha=0.9)
 opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
 ```
+
+
 11. MNIST
 ```
 download_mnist = False
@@ -4760,13 +4762,18 @@ train_dataset = torchvision.datasets.MNIST(
         )
 
 
-plt.imshow(train_data.train_data[0].numpy(), cmap="gray")
-plt.show()
 
 train_dataloader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
 
+for train_data in train_dataloader: # train_data is a list with length 2. [image data, image label]
+    plt.imshow(train_data[0][0].numpy().squeeze(), cmap="gray")
+    plt.show()
+
 ```
-12. CNN
+
+
+
+12. CNN: (batch_size, num_channels, height, width)
 ```
 class CNN(torch.nn.Module):
     def __init__(self):
