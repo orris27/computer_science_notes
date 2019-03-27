@@ -4664,40 +4664,81 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     ```
 
 9. dataset
-+ 不够batch_size就只返回剩余的 
-+ num_workers(几个子进程提取)
-```
-import torch
-import torch.utils.data as Data
+    1. TensorDataset
+    + 不够batch_size就只返回剩余的 
+    + num_workers(几个子进程提取)
+    ```
+    import torch
+    import torch.utils.data as Data
 
-batch_size = 5
+    batch_size = 5
 
-x = torch.linspace(1, 10, 10)
-y = x * 10
+    x = torch.linspace(1, 10, 10)
+    y = x * 10
 
-dataset = Data.TensorDataset(data_tensor=x, target_tensor=y)
-dataset = Data.DataLoader(
-        dataset = dataset,
-        batch_size = batch_size,
-        shuffle = True,
-        num_workers = 2,
-        )
+    dataset = Data.TensorDataset(data_tensor=x, target_tensor=y)
+    dataset = Data.DataLoader(
+            dataset = dataset,
+            batch_size = batch_size,
+            shuffle = True,
+            num_workers = 2,
+            )
 
-for epoch in range(3):
-    for step, (x_batch, y_batch) in enumerate(dataset):
-        # x_batch, y_batch = Varaible(x_batch), Variable(y_batch)
-        print("epoch: {0} step:{1}  {2} {3}".format(epoch, step, x_batch, y_batch))
-        
+    for epoch in range(3):
+        for step, (x_batch, y_batch) in enumerate(dataset):
+            # x_batch, y_batch = Varaible(x_batch), Variable(y_batch)
+            print("epoch: {0} step:{1}  {2} {3}".format(epoch, step, x_batch, y_batch))
 
-#---------------------------------------------------------------------
-# epoch: 0 step:0  [5. 9. 4. 3. 1.] [50. 90. 40. 30. 10.]
-# epoch: 0 step:1  [ 7.  8.  6. 10.  2.] [ 70.  80.  60. 100.  20.]
-# epoch: 1 step:0  [3. 4. 6. 1. 9.] [30. 40. 60. 10. 90.]
-# epoch: 1 step:1  [10.  8.  2.  5.  7.] [100.  80.  20.  50.  70.]
-# epoch: 2 step:0  [2. 1. 5. 7. 9.] [20. 10. 50. 70. 90.]
-# epoch: 2 step:1  [10.  8.  4.  6.  3.] [100.  80.  40.  60.  30.]
-#---------------------------------------------------------------------
-```
+
+    #---------------------------------------------------------------------
+    # epoch: 0 step:0  [5. 9. 4. 3. 1.] [50. 90. 40. 30. 10.]
+    # epoch: 0 step:1  [ 7.  8.  6. 10.  2.] [ 70.  80.  60. 100.  20.]
+    # epoch: 1 step:0  [3. 4. 6. 1. 9.] [30. 40. 60. 10. 90.]
+    # epoch: 1 step:1  [10.  8.  2.  5.  7.] [100.  80.  20.  50.  70.]
+    # epoch: 2 step:0  [2. 1. 5. 7. 9.] [20. 10. 50. 70. 90.]
+    # epoch: 2 step:1  [10.  8.  4.  6.  3.] [100.  80.  40.  60.  30.]
+    #---------------------------------------------------------------------
+    ```
+    
+    2. Dataset Class
+    ```
+    from torch.utils.data import Dataset, DataLoader
+    
+    class SVCDataset(Dataset):
+        def __init__(self, filenames):
+            self.filenames = filenames # U1S1
+
+        def __getitem__(self, index):
+            path = self.filenames[index]
+            img = np.stack([cv2.imread(os.path.join(images_dir, path + '_' + str(i) + '.png'), cv2.IMREAD_GRAYSCALE) for i in range(7)], 0)
+            img = torch.Tensor(img)
+
+            if int((os.path.basename(path)).split('_')[0].split('S')[-1]) <= 20:
+                label = [1]
+            else:
+                label = [0]
+            label = torch.Tensor(label)
+
+            return img, label
+
+        def __len__(self):
+            return len(self.filenames)
+
+
+    train_loader = DataLoader(SVCDataset(filenames=filenames),  batch_size=16, shuffle=True) #
+    
+    for step, (img, label) in enumerate(train_loader): # call 
+        if torch.cuda.is_available():
+            x_batch = Variable(img).cuda()
+            y_batch = Variable(label).cuda()
+        else:
+            x_batch = Variable(img)
+            y_batch = Variable(label)
+
+
+    ```
+    
+    
 
 10. optimizer
 ```
