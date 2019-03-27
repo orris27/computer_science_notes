@@ -2996,3 +2996,36 @@ sudo systemctl get-default
 
 sudo systemctl set-default graphical.target # graphical.target=runlevel5.target
 ```
+
+
+## 91. blkid
+locate/print block device attributes
+```
+sudo blkid
+#----------------------------------------------------
+# /dev/sda1: UUID="FE74-48F8" TYPE="vfat" PARTLABEL="EFI system partition" PARTUUID="f02e9887-212a-46cd-b165-6a01c7f1cb63"
+# /dev/sda2: PARTLABEL="Microsoft reserved partition" PARTUUID="687f6123-447d-48bf-baa4-b3b0afb9038e"
+# /dev/sda3: LABEL="Windows" UUID="2C34725B347227CA" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="b0d41f87-93a3-409e-9219-6617136140e7"
+# /dev/sda4: LABEL="Windows RE tools" UUID="CAB62267B622546B" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="f31f630a-e6b6-4f1d-87dc-1245ce7be87b"
+# /dev/sdb1: LABEL="DATA" UUID="7CD0A1A9D0A16A5A" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="01f23339-1231-41ba-8eab-f9e1333f6f83"
+# /dev/sdb2: UUID="e75605ce-1886-4c0c-afc6-669288ae8558" TYPE="ext4" PARTUUID="d043d460-13c9-4d63-bef5-7ab55738f7a3"
+# /dev/sdb3: UUID="cec45e1f-6d8f-4560-a888-9f76ff2f31d7" TYPE="ext4" PARTUUID="0580fe2f-9b16-4ea3-8330-1877cdf2fd63"
+# /dev/sdb4: UUID="82120e98-b903-4cf5-9fb6-9a36aacf4286" TYPE="swap" PARTUUID="55a49910-0523-4e11-baad-507121cacabc"
+# /dev/sdb5: LABEL="RECOVERY" UUID="1C8AA4268AA3FB02" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="76da55d3-7456-404c-83b8-f29855898d65"
+#----------------------------------------------------
+```
+used for automount on startup:
+
+eg: /dev/sdb1 => /media/orris/DATA
+
++ UUID: blkid
++ errors=remount-ro: remount if errors okay and set the device readonly
+```
+cat /etc/fstab
+#-------------------------------------------------------------
+# ...
+# UUID=7CD0A1A9D0A16A5A /media/orris/DATA            ntfs    errors=remount-ro              0       1
+#-------------------------------------------------------------
+```
+
+
