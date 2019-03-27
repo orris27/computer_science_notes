@@ -4357,9 +4357,36 @@ print(sess.run(tf.one_hot([2,4,3,5,1,0], 10)))
         ```
     3. method
         1. size()
-        2. pow()
-        3. normal(): 根据means和std数组来正态分布地生成对应数据
-        4. dtype: (成员): 查看类型
+        2. normal(): 根据means和std数组来正态分布地生成对应数据
+        3. dtype: (成员): 查看类型
+        4. view()
+        5. squeeze, unsqueeze
+        6. 逐元素操作:
+            + abs, sqrt, div, exp, fmod, log, pow
+            + cos, sin, asin, atan2, cosh
+            + ceil, round, floor, trunc
+            + clamp(input, min, max) # 超过min和max的部分截断
+            + sigmoid, tanh
+        7. 归并操作: 输出形状 < 输入形状, 可以全体,也可以某一个维度(dim=> 如果输入形状是(x, y, z),如果dim=0,输出(1, y, z)或者(y,z),如果dim=1, 则输出(x, 1, z)或者(x, z),是否有1取决于keep_dim是否为True)
+            + mean, sum, median, mode(众数)
+            + norm, dist
+            + std, var
+            + cumsum, cumprod
+        8. 比较
+            + gt, lt, ge, le, eq, ne
+            + topk
+            + sort
+            + max, min: torch.max(tensor, dim) / torch.max(tensor1, tensor2) 两个tensor相比较大的元素
+        9. 线性代数
+            + trace
+            + diag
+            + triu, tril
+            + mm, bmm
+            + addmm, adddbmm, addmv
+            + t(转置)
+            + dot, cross
+            + inverse
+            + svd
 
 2. function
     + add / add_(带下划线表示会修改本身,后面同理), mm, rand, unsqueeze(1D->2D), max(`torch.max(F.softmax(out), dim=1)`), cat(`y = torch.cat((y0, y1), 0).type(torch.LongTensor)`), manual_seed(`torch.manual_seed(1)`)
@@ -4749,27 +4776,30 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
 ```
 
 
-11. MNIST
-```
-download_mnist = False
-mnist_dir = "/home/orris/dataset/mnist"
+11. torchvision.dataset
+    1. MNIST
+    ```
+    download_mnist = False
+    mnist_dir = "/home/orris/dataset/torchvision/mnist"
 
-train_dataset = torchvision.datasets.MNIST(
-        root = mnist_dir,
-        train = True, # True: training data; False: testing data
-        transform = torchvision.transforms.ToTensor(), # ndarray => torch tensor
-        download = download_mnist, # whether download or not
-        )
+    train_dataset = torchvision.datasets.MNIST(
+            root = mnist_dir,
+            train = True, # True: training data; False: testing data
+            transform = torchvision.transforms.ToTensor(), # ndarray => torch tensor
+            download = download_mnist, # whether download or not
+            )
 
 
 
-train_dataloader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
+    train_dataloader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
 
-for train_data in train_dataloader: # train_data is a list with length 2. [image data, image label]
-    plt.imshow(train_data[0][0].numpy().squeeze(), cmap="gray")
-    plt.show()
+    for (images, labels) in train_dataloader: # train_data is a list with length 2. [image data, image label]
+        plt.imshow(images[0].numpy().squeeze(), cmap="gray")
+        plt.show()
 
-```
+    ```
+    2. CIFAR-10
+    
 
 
 
@@ -4801,9 +4831,9 @@ class CNN(torch.nn.Module):
         self.fc1 = torch.nn.Linear(32 * 7 * 7, 10)
 
     def forward(self, net): # not underlined
-        net = self.conv1(net)
+        net = self.conv1(net) # net is a tensor
         net = self.conv2(net)
-        net = net.view(net.size(0), -1) # reshape
+        net = net.view(net.size(0), -1) # reshape. view is the method of tensor which works like reshape
         net = self.fc1(net)
         return net
 ```
