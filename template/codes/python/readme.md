@@ -4648,6 +4648,21 @@ variable.data # variable => tensor
 + expected a Variable argument ~~tensor~~
 
 1. `variable_relu = F.relu(variable)`
+```
+model = torch.nn.Sequential(
+        torch.nn.Linear(2, 10),
+        torch.nn.ReLU(), # 笔记中推荐functional,但是其实Module和functional性能上没有区别,所以无所谓
+        torch.nn.Linear(10, 2),
+        )
+#--------------------------------------
+# Sequential (
+#   (0): Linear (2 -> 10)
+#   (1): ReLU () # different from Class method
+#   (2): Linear (10 -> 2)
+# )
+#--------------------------------------
+
+```
 2. `variable_sigmoid = F.sigmoid(variable)`
 3. `variable_tanh = F.tanh(variable)`
 4. `variable_softplus = F.softplus(variable)`
@@ -4736,7 +4751,53 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     ```
     
 6. fc
-    1. regression
+    1. structure
+    + weight, bias: 可以自己初始化
+        1. get
+        ```
+        In [106]: fc = torch.nn.Linear(3, 5)
+
+        In [107]: fc.weight.data
+        Out[107]: 
+        tensor([[-0.20275,  0.45114,  0.37249],
+                [-0.00234,  0.47446,  0.12859],
+                [-0.33050,  0.33825, -0.05387],
+                [ 0.26576, -0.06059, -0.15322],
+                [ 0.08199, -0.17242, -0.53074]])
+
+        In [108]: fc.bias.data
+        Out[108]: tensor([ 0.03640,  0.56060, -0.40017,  0.05474, -0.03544])
+
+        ```
+        2. set (init): 对于(3, 4)的全连接层`fc = torch.nn.Linear(3, 4)`来说,以xavier_normal来举例
+            1. method 1
+            ```
+            torch.manual_seed(1)
+            torch.nn.init.xavier_normal(fc.weight)
+            #--------------------------------------------------------------
+            # Parameter containing:
+            # tensor([[ 0.3535,  0.1427,  0.0330],
+            #         [ 0.3321, -0.2416, -0.0888],
+            #         [-0.8140,  0.2040, -0.5493],
+            #         [-0.3010, -0.4769, -0.0311]], requires_grad=True)
+            #--------------------------------------------------------------
+            ```
+            2. method 2
+            ```
+            torch.manual_seed(1)
+
+            std = math.sqrt(2) / math.sqrt(7.)
+
+            fc.weight.data.normal_(0, std)
+            #--------------------------------------------------------------
+            # tensor([[ 0.3535,  0.1427,  0.0330],
+            #         [ 0.3321, -0.2416, -0.0888],
+            #         [-0.8140,  0.2040, -0.5493],
+            #         [-0.3010, -0.4769, -0.0311]])
+            #--------------------------------------------------------------
+
+            ```
+    2. regression
     ```
     import torch
     import numpy as np
@@ -4795,7 +4856,7 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     plt.ioff()
     plt.show() # if commented, then the picture box will disappear when the program finishes
     ```
-    2. classification
+    3. classification
     ```
     import torch
     import numpy as np
@@ -4856,22 +4917,6 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
 
     plt.ioff()
     plt.show() # if commented, then the picture box will disappear when the program finishes
-    ```
-    3. Sequential: ReLU
-    ```
-    model = torch.nn.Sequential(
-            torch.nn.Linear(2, 10),
-            torch.nn.ReLU(),
-            torch.nn.Linear(10, 2),
-            )
-    #--------------------------------------
-    # Sequential (
-    #   (0): Linear (2 -> 10)
-    #   (1): ReLU () # different from Class method
-    #   (2): Linear (10 -> 2)
-    # )
-    #--------------------------------------
-
     ```
 
 
@@ -5212,7 +5257,9 @@ tensor([[-0.5044,  0.0005],
     In [25]: %timeit for_add(x, y)
     456 µs ± 3.89 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
     ```
-
+    3. nn.Module & nn.functional:
+    + Dropout和有学习参数的选择nn.Module => 区分train()和eval()
+    + 没有学习参数的选择nn.functional
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
