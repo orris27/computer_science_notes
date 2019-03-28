@@ -5153,7 +5153,8 @@ tensor([[-0.5044,  0.0005],
         # ...
         model_dropped.train()
     ```
-    2. batch normalization
+    2. batch normalization: 貌似bn+activation的顺序比较好?毕竟bn本来可以减少sigmoid的梯度消失问题
+    + BatchNorm1d (Linear), BatchNorm2d(CNN)
     ```
     self.conv1 = torch.nn.Sequential(
             # input: (batch_size, 7, height=128, width=w)
@@ -5163,8 +5164,8 @@ tensor([[-0.5044,  0.0005],
                 kernel_size = 3,
                 padding = 1,
                 stride = 1),
-            torch.nn.LeakyReLU(),
             torch.nn.BatchNorm2d(32), # = output number of channels
+            torch.nn.LeakyReLU(),
             # output: (batch_size, 32, 128, w)
             torch.nn.MaxPool2d(kernel_size = 2),
             ... )
