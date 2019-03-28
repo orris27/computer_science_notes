@@ -4298,7 +4298,7 @@ print(sess.run(tf.one_hot([2,4,3,5,1,0], 10)))
 
 ## 2. PyTorch
 1. Tensor
-    0. structure: tensor = 信息区(size, stride, flag) + storage
+    1. structure: tensor = 信息区(size, stride, flag) + storage
         + different tensors might share stroage
         + real data depends on both of storage(), data_ptr() and stride()
         ```
@@ -4396,7 +4396,7 @@ print(sess.run(tf.one_hot([2,4,3,5,1,0], 10)))
 
 
         ```
-    1. create tensor
+    2. create tensor
         1. raw
             + torch.Tensor: allocate without initialization
             ```
@@ -4436,7 +4436,7 @@ print(sess.run(tf.one_hot([2,4,3,5,1,0], 10)))
         l = [[1, 2], [3, 4]]
         tensor = torch.FloatTensor(l)
         ```
-    2. Convertion: Tensor & numpy data & cuda & Varaible
+    3. Convertion: Tensor & numpy data & cuda & Varaible
         1. tensor & variable: they have almost the same interface
             + tensor => variable
             ```
@@ -4453,7 +4453,7 @@ print(sess.run(tf.one_hot([2,4,3,5,1,0], 10)))
         # 0.5294359922409058
         #---------------------------
         ```
-    3. method
+    4. method
         1. size()
         2. normal(): 根据means和std数组来正态分布地生成对应数据
         3. dtype: (成员): 查看类型
@@ -4554,7 +4554,56 @@ print(sess.run(tf.one_hot([2,4,3,5,1,0], 10)))
 3. variable, backward, grad, data
 + variable
     1. variable可以反向传播, tensor不能反向传播
-    2. requires_grad加入到计算梯度里,tensor的定义也有这个参数,和variable同理
+    2. method:
+        + requries_grad: Variable() default to False while middle variable depends on the calculation
+        + is_leaf
+        + grad: backward之后只有leaf的grad保留,其他都是None.可以使用torch.autograd.grad或hook临时获取,也可以用retain_grad保留梯度
+        ```
+        x = Variable(torch.ones(3), requires_grad=True)
+        w = Variable(torch.rand(3), requires_grad=True)
+        y = x * w
+        z = y.sum()
+
+        z.backward()
+        x.grad
+        #-----------------------------------------------
+        # tensor([0.00251, 0.94014, 0.21194])
+        #-----------------------------------------------
+
+        w.grad
+        #-----------------------------------------------
+        # tensor([1., 1., 1.])
+        #-----------------------------------------------
+
+        print(y.grad, z.grad)
+        #-----------------------------------------------
+        # None None
+        #-----------------------------------------------
+        
+        torch.autograd.grad(z, y)
+        #-----------------------------------------------
+        # (tensor([1., 1., 1.]),)
+        #-----------------------------------------------
+
+        ```
+        + grad_fn: z = a + b => grad_fn = <ThAddBackward at 0x7f669e8e31d0>
+        ```
+        In [46]: c = a + b
+
+        In [47]: d = c * b
+
+        In [48]: d.grad_fn
+        Out[48]: <ThMulBackward at 0x7f669e90e240>
+
+        In [49]: d.grad_fn.next_functions # next_functions代表产生我的2个节点的grad_fn.而leaf的grad_fn是None
+        Out[49]: 
+        ((<ThAddBackward at 0x7f669e90e048>, 0),
+         (<AccumulateGrad at 0x7f669eb0fda0>, 0))
+
+        In [50]: d.grad_fn.next_functions[0][0] == c.grad_fn
+        Out[50]: True
+
+        ```
 + backward
     1. 只有variable的结果 && 是scalar 才能backward
     2. 多个variable是允许的,本质是对每个单独元素做偏微分
