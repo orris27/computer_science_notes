@@ -4624,7 +4624,7 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
         3. 每隔多少时间进行的y_pred计算也可以迁移到cuda上
         ```
         test_x = torch.unsqueeze(test_dataset.test_data, dim=1).type(torch.FloatTensor)[:2000].cuda()/255.
-        test_y = test_dataset.test_labels[:2000].cuda()
+        test_y = test_dataset.test_labels[:2000].cuda() # x = x.cuda(0)表示迁移到第0块GPU上
         # ...
         model = CNN()
         model = model.cuda()
@@ -4650,6 +4650,42 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     else:
         torch.set_default_tensor_type('torch.FloatTensor')
     ```
+    5. save & load
+    ```
+    In [3]: a = a.cuda(0)
+
+    In [4]: torch.save(a, 'a.pth')
+
+    In [5]: b = torch.load('a.pth')
+
+    In [6]: b
+    Out[6]: 
+    tensor([[-0.0000,  0.0000, -0.0000],
+            [ 0.0000,  0.0000,  0.0000]], device='cuda:0')
+
+    In [7]: a
+    Out[7]: 
+    tensor([[-0.0000,  0.0000, -0.0000],
+            [ 0.0000,  0.0000,  0.0000]], device='cuda:0')
+
+    In [8]: c = torch.load('a.pth', map_location=lambda storage, loc: storage)
+
+    In [9]: c
+    Out[9]: 
+    tensor([[-0.0000,  0.0000, -0.0000],
+            [ 0.0000,  0.0000,  0.0000]])
+
+    In [11]: c.device
+    Out[11]: device(type='cpu')
+
+    In [12]: d = torch.load('a.pth', map_location={'cuda: 0':'cuda: 1'}) # gpu0 => gpu1
+
+    In [13]: d
+    Out[13]: 
+    tensor([[-0.0000,  0.0000, -0.0000],
+            [ 0.0000,  0.0000,  0.0000]], device='cuda:0') # gpu 1 is unavaliable so d is still on the gpu 0
+    ```
+    
 6. fc
     1. regression
     ```
@@ -5087,67 +5123,45 @@ tensor([[-0.5044,  0.0005],
     ```
 
 
-17. magic commands: `%hist?`可以查看`%hist`的用法
-    1. %timeit: 检测某个命令执行时间
+17. other:
+    1. torch.set_printoptions设置打印tensor的精度和格式
     ```
-    import torch
-    a = torch.Tensor(3, 4)
-    %timeit a.sum()
-    #----------------------------------------------------------------------------------
-    # 1.87 µs ± 30.9 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
-    #----------------------------------------------------------------------------------
-    ```
-    2. %hist: 输入历史
-    3. %xdel与del的不同之处在于前者会删除其在ipython上的所有应用.如
-    ```
-    In [1]: import torch
-
-    In [2]: a = torch.Tensor(5, 5)
-
-    In [3]: a
-    Out[3]: 
-    tensor([[0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
-            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
-            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
-            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
-            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000]])
-
-    In [4]: del a # 没有彻底释放空间,因为还被Out [3]所引用
-
-    In [5]: c = torch.Tensor(1000, 1000)
-
-    In [6]: c
-    Out[6]: 
-    tensor([[0., 0., 0.,  ..., 0., 0., 0.],
-            [0., 0., 0.,  ..., 0., 0., 0.],
-            [0., 0., 0.,  ..., 0., 0., 0.],
-            ...,
-            [0., 0., 0.,  ..., 0., 0., 0.],
-            [0., 0., 0.,  ..., 0., 0., 0.],
-            [0., 0., 0.,  ..., 0., 0., 0.]])
-
-    In [7]: Out [3]
-    Out[7]: 
-    tensor([[0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
-            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
-            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
-            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
-            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000]])
-
-    In [8]: %xdel c
-
-    In [9]: Out [6]
-    ------------------------------------------------------------
-    KeyError                   Traceback (most recent call last)
-    <ipython-input-9-e5e038e1222a> in <module>()
-    ----> 1 Out [6]
-
-    KeyError: 6
-
-    ```
-    4. %quickref, %who, %debug, %magic,%env, %xdel
+    In [17]: a = torch.rand(3, 2)
     
+    In [18]: a
+    Out[18]: 
+    tensor([[0.4265, 0.8119],
+            [0.9905, 0.9936],
+            [0.3345, 0.8607]])
 
+    In [19]: torch.set_printoptions(precision=5)
+
+    In [20]: a
+    Out[20]: 
+    tensor([[0.42649, 0.81189],
+            [0.99050, 0.99361],
+            [0.33448, 0.86070]])
+
+    ```
+    2. 向量化的计算方式比python的for循环快
+    ```
+    In [21]: x = torch.ones(100)
+
+    In [22]: y = torch.zeros(100)
+
+    In [23]: def for_add(x, y):
+        ...:     result = list()
+        ...:     for i, j in zip(x, y):
+        ...:         result.append(i + j)
+        ...:     return torch.Tensor(result)
+        ...: 
+
+    In [24]: %timeit x + y
+    1.51 µs ± 9.31 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+
+    In [25]: %timeit for_add(x, y)
+    456 µs ± 3.89 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+    ```
 
 ## 3. Numpy
 1. 随机数
@@ -7384,4 +7398,65 @@ print('123\n')
 #--------------------------------------------
 ```
 
+
+34. magic commands: `%hist?`可以查看`%hist`的用法
+    1. %timeit: 检测某个命令执行时间
+    ```
+    import torch
+    a = torch.Tensor(3, 4)
+    %timeit a.sum()
+    #----------------------------------------------------------------------------------
+    # 1.87 µs ± 30.9 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+    #----------------------------------------------------------------------------------
+    ```
+    2. %hist: 输入历史
+    3. %xdel与del的不同之处在于前者会删除其在ipython上的所有应用.如
+    ```
+    In [1]: import torch
+
+    In [2]: a = torch.Tensor(5, 5)
+
+    In [3]: a
+    Out[3]: 
+    tensor([[0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000]])
+
+    In [4]: del a # 没有彻底释放空间,因为还被Out [3]所引用
+
+    In [5]: c = torch.Tensor(1000, 1000)
+
+    In [6]: c
+    Out[6]: 
+    tensor([[0., 0., 0.,  ..., 0., 0., 0.],
+            [0., 0., 0.,  ..., 0., 0., 0.],
+            [0., 0., 0.,  ..., 0., 0., 0.],
+            ...,
+            [0., 0., 0.,  ..., 0., 0., 0.],
+            [0., 0., 0.,  ..., 0., 0., 0.],
+            [0., 0., 0.,  ..., 0., 0., 0.]])
+
+    In [7]: Out [3]
+    Out[7]: 
+    tensor([[0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000],
+            [0.0000, 0.0000, 0.0000, 0.0000, 0.0000]])
+
+    In [8]: %xdel c
+
+    In [9]: Out [6]
+    ------------------------------------------------------------
+    KeyError                   Traceback (most recent call last)
+    <ipython-input-9-e5e038e1222a> in <module>()
+    ----> 1 Out [6]
+
+    KeyError: 6
+
+    ```
+    4. %quickref, %who, %debug, %magic,%env, %xdel
+    
 
