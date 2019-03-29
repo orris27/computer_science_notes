@@ -5272,7 +5272,7 @@ tensor([[-0.5044,  0.0005],
     img = T.RandomHorizontalFlip()(img)
     ```
     + RandomRotation(45): 随机旋转45度, 会出现黑边(45度的情况下)
-    + RandomCrop:
+    + RandomCrop: 将PIL图像的img随机切个30*30的局部
     ```
     img = T.RandomCrop(30)(img)  # 将PIL图像的img随机切个30*30的局部
     #-------------------------------------------------------------------------------------------
@@ -5280,7 +5280,7 @@ tensor([[-0.5044,  0.0005],
     #-------------------------------------------------------------------------------------------
     ```
     + ToTensor: Converts a PIL Image or numpy.ndarray (H x W x C) in the range `[0, 255]` to a torch.FloatTensor of shape (C x H x W) in the range `[0.0, 1.0]`.
-    + Normalize: Normalize a tensor image with mean and standard deviation. Given mean: ``(M1,...,Mn)`` and std: ``(S1,..,Sn)`` for ``n`` channels, this transform will normalize each channel of the input ``torch.*Tensor`` i.e. ``input[channel] = (input[channel] - mean[channel]) / std[channel]``
+    + Normalize: Normalize a tensor image with mean and standard deviation. Given mean: ``(M1,...,Mn)`` and std: ``(S1,..,Sn)`` for ``n`` channels, this transform will normalize each channel of the input ``torch.*Tensor`` i.e. ``input[channel] = (input[channel] - mean[channel]) / std[channel]``: .5指定的是每个channel,所以grayscale图使用`T.Normalize(mean=[.5], std=[.5])`
     ```
     img = Image.open('Pictures/wallpapers/1.jpg')
     #-----------------------------------------------------------------------------------------
