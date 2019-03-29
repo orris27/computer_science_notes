@@ -5851,7 +5851,7 @@ plt.show()
 ```
 from PIL import Image
 
-img = Image.open('1.jpg')
+img = Image.open('1.jpg') # 无论RGB还是grayscale都会在np.asarray后自动确定,所以不用添加其他参数
 img.tobytes()
 img.size
 img.height
