@@ -5265,8 +5265,20 @@ tensor([[-0.5044,  0.0005],
 
 18. transforms: 必须使用PIL的Image.open格式读取图片
     1. 常用的函数
-    + Resize: 把最短的一个边变成指定的长度
+    + Resize = Scale: 把最短的一个边变成指定的长度
     + CenterCrop: 从图片中间切出指定长度的图片
+    + RandomHorizontalFlip, RandomVerticalFlip: 对PIL图像随机水平/垂直翻转
+    ```
+    img = T.RandomHorizontalFlip()(img)
+    ```
+    + RandomRotation(45): 随机旋转45度, 会出现黑边(45度的情况下)
+    + RandomCrop:
+    ```
+    img = T.RandomCrop(30)(img)  # 将PIL图像的img随机切个30*30的局部
+    #-------------------------------------------------------------------------------------------
+    # <PIL.Image.Image image mode=RGB size=30x30 at 0x7F29FC591EB8>
+    #-------------------------------------------------------------------------------------------
+    ```
     + ToTensor: Converts a PIL Image or numpy.ndarray (H x W x C) in the range `[0, 255]` to a torch.FloatTensor of shape (C x H x W) in the range `[0.0, 1.0]`.
     + Normalize: Normalize a tensor image with mean and standard deviation. Given mean: ``(M1,...,Mn)`` and std: ``(S1,..,Sn)`` for ``n`` channels, this transform will normalize each channel of the input ``torch.*Tensor`` i.e. ``input[channel] = (input[channel] - mean[channel]) / std[channel]``
     ```
