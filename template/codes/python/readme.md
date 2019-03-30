@@ -5313,6 +5313,37 @@ tensor([[-0.5044,  0.0005],
 
 
 
+19. save & load
+```
+class Net(torch.nn.Module):
+    def __init__(self):
+        super(Net, self).__init__()
+        # ...
+        self.model_name = str(type(self)).split('.')[-1].split('\'')[0]
+
+    def forward(self, net): # not underlined
+        # ...
+
+    def load(self, path):
+        self.load_state_dict(torch.load(path))
+
+    def save(self, name=None): # default name: Net_0330_13:13:03.pth
+        if name is None:
+            prefix = 'checkpoints/' + self.model_name + '_'
+            name = time.strftime(prefix + '%m%d_%H:%M:%S.pth')
+        torch.save(self.state_dict(), name)
+        return name
+
+# ...
+if len(os.listdir('checkpoints')) != 0:
+    print('loading')
+    model.load(os.path.join('checkpoints', os.listdir('checkpoints')[0]))
+# ...
+if global_step % 1000 == 0:
+    print('saving...')
+    model.save()
+```
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
