@@ -6908,7 +6908,42 @@ os.makedirs('test',exist_ok=True) # OK
 
 
 
-## 20. python
+## 20. fire
+在命令行中指定调用的函数以及参数
+
+程序
+```
+import fire
+
+def add(x, y):
+    return x + y
+
+def mul(**kwargs):
+    a = kwargs['a']
+    b = kwargs['b']
+    return a * b
+
+if __name__ == '__main__':
+    fire.Fire()
+
+```
+调用
+```
+python test.py add --x=3 --y=5
+#--------------------------------------------
+# 8
+#--------------------------------------------
+python test.py add 3 4
+#--------------------------------------------
+# 7
+#--------------------------------------------
+python test.py mul --a=2 --b=6 # "python test.py mul 2 6" reports error
+#--------------------------------------------
+# 12
+#--------------------------------------------
+```
+
+## 21. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
