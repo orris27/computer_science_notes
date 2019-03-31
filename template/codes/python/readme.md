@@ -4950,7 +4950,7 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
 9. dataset
     1. TensorDataset
     + 不够batch_size就只返回剩余的 
-    + num_workers(几个子进程提取)
+    + num_workers(几个子进程提取): 提高batch_size和num_workers才能更快地提高效率
     ```
     import torch
     import torch.utils.data as Data
