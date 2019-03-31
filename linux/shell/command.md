@@ -2304,6 +2304,11 @@ ipcrm -Q 0x4d2 #删除key是0x4D2的消息队列
 3. `l.`:列出当前所在行周围的代码
 
 
+如果程序本身有命令行参数的话,原来怎么用就怎么用:
+```
+python -m pdb main.py generate --nogpu --vis=False --netd-path=checkpoints/netd_39.pth --netg-path=checkpoints/netg_39.pth --gen-img=result.png --gen-num=64
+```
+
 ### 59-2. gdb
 调试使用`-g`编译后的C/C++程序.`gdb xx`(xx是编译连接后的可执行程序)
 #### 59-2-1. options
