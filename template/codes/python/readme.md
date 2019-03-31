@@ -5021,7 +5021,42 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
 
 
     ```
-    
+    3. ImageFolder: root下有若干个folder，folder名为label，里面的图片就是data
+    ```
+    # tree tmp/
+    #--------------------------------------------------------
+    # tmp/
+    # ├── cat
+    # │   ├── 01.jpg
+    # ├── dog
+    # │   ├── 01.jpg
+    # └── fox
+    #     ├── 01.jpg
+    #--------------------------------------------------------
+    from torchvision.datasets import ImageFolder
+    transforms = T.Compose([
+        T.Resize(224),
+        T.CenterCrop(224),
+        T.ToTensor(),
+        T.Normalize(mean=[.5, .5, .5], std=[.5, .5, .5]),
+        ])
+
+    dataset = ImageFolder('tmp', transform=transforms) # 必须要transforms转换成tensor
+    dataloader = Data.DataLoader(
+        dataset = dataset,
+        batch_size = 4,
+        shuffle = True,
+        num_workers = 1,
+        )
+    for img, label in dataloader:
+        print(label)
+        print(img.shape)
+        break
+    #--------------------------------------------------
+    # tensor([2, 0, 1, 1])
+    # torch.Size([4, 3, 224, 224])
+    #--------------------------------------------------
+    ```
     
 
 10. optimizer
@@ -5310,7 +5345,10 @@ tensor([[-0.5044,  0.0005],
     #          [-0.7961, -0.7961, -0.7961,  ..., -0.5059, -0.4902, -0.5294], ... )
     #-----------------------------------------------------------------------------------------
     ```
-
+    2. 常用组合
+    ```
+    
+    ```
 
 
 19. save & load
