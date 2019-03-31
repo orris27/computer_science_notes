@@ -40,6 +40,7 @@ for epoch in range(10000):
     fake_pred = D(fake_out)
     real_pred = D(artworks)
 
+    # The loss maybe incorrect? use BCELoss?
     D_loss = - torch.mean(torch.log(real_pred)) - torch.mean(torch.log(1 - fake_pred))
     G_loss = torch.mean(torch.log(1 - fake_pred))
 
