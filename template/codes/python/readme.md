@@ -5096,39 +5096,59 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
 
 
 12. CNN: (batch_size, num_channels, height, width)
-```
-class CNN(torch.nn.Module):
-    def __init__(self):
-        super(CNN, self).__init__()
-        self.conv1 = torch.nn.Sequential( # (batch_size, 1, 28, 28)
-                torch.nn.Conv2d(
-                    in_channels = 1,
-                    out_channels = 16,
-                    kernel_size = 5,
-                    stride = 1,
-                    padding = 2),
-                torch.nn.ReLU(),
-                torch.nn.MaxPool2d(kernel_size = 2), # (batch_size, 16, 14, 14)
-                )
-        self.conv2 = torch.nn.Sequential(
-                torch.nn.Conv2d(
-                    in_channels = 16,
-                    out_channels = 32,
-                    kernel_size = 5,
-                    stride = 1,
-                    padding = 2),
-                torch.nn.ReLU(),
-                torch.nn.MaxPool2d(kernel_size = 2), # (batch_size, 32, 7, 7)
-                )
-        self.fc1 = torch.nn.Linear(32 * 7 * 7, 10)
+    1. CNN
+    ```
+    class CNN(torch.nn.Module):
+        def __init__(self):
+            super(CNN, self).__init__()
+            self.conv1 = torch.nn.Sequential( # (batch_size, 1, 28, 28)
+                    torch.nn.Conv2d(
+                        in_channels = 1,
+                        out_channels = 16,
+                        kernel_size = 5,
+                        stride = 1,
+                        padding = 2),
+                    torch.nn.ReLU(),
+                    torch.nn.MaxPool2d(kernel_size = 2), # (batch_size, 16, 14, 14)
+                    )
+            self.conv2 = torch.nn.Sequential(
+                    torch.nn.Conv2d(
+                        in_channels = 16,
+                        out_channels = 32,
+                        kernel_size = 5,
+                        stride = 1,
+                        padding = 2),
+                    torch.nn.ReLU(),
+                    torch.nn.MaxPool2d(kernel_size = 2), # (batch_size, 32, 7, 7)
+                    )
+            self.fc1 = torch.nn.Linear(32 * 7 * 7, 10)
 
-    def forward(self, net): # not underlined
-        net = self.conv1(net) # net is a tensor
-        net = self.conv2(net)
-        net = net.view(net.size(0), -1) # reshape. view is the method of tensor which works like reshape
-        net = self.fc1(net)
-        return net
-```
+        def forward(self, net): # not underlined
+            net = self.conv1(net) # net is a tensor
+            net = self.conv2(net)
+            net = net.view(net.size(0), -1) # reshape. view is the method of tensor which works like reshape
+            net = self.fc1(net)
+            return net
+    ```
+    2. CNN transpose:
+    + 长宽变2倍: (4, 2, 1)
+    + 长宽变3倍: (5, 3, 1)
+    ```
+    img.shape
+    #--------------------------------------------------
+    # torch.Size([4, 16, 224, 224])
+    #--------------------------------------------------
+    cnn_transpose = torch.nn.ConvTranspose2d(
+        in_channels = 16,
+        out_channels = 3,
+        kernel_size = 4,
+        stride = 2,
+        padding = 1)
+    cnn_transpose(img)
+    #--------------------------------------------------
+    # torch.Size([4, 3, 448, 448])
+    #--------------------------------------------------
+    ```
 
 13. RNN: 支持变长的time_steps
     1. LSTM
