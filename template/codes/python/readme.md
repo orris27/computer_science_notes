@@ -5097,6 +5097,9 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
 
 12. CNN: (batch_size, num_channels, height, width)
     1. CNN
+    + 长宽不变: (5, 1, 2)
+    + 长宽变2倍: (4, 2, 1)
+    + 长宽变3倍: (5, 3, 1)
     ```
     class CNN(torch.nn.Module):
         def __init__(self):
