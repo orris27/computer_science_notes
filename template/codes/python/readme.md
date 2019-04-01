@@ -5073,29 +5073,45 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
 11. torchvision.dataset
     1. MNIST
     ```
-    download_mnist = False
-    mnist_dir = "/home/orris/dataset/torchvision/mnist"
+    dataset_dir = "/home/orris/dataset/torchvision/mnist"
 
     train_dataset = torchvision.datasets.MNIST(
-            root = mnist_dir,
+            root = dataset_dir,
             train = True, # True: training data; False: testing data
             transform = torchvision.transforms.ToTensor(), # ndarray => torch tensor
-            download = download_mnist, # whether download or not
+            download = False, # whether download or not
             )
 
 
 
     train_dataloader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
 
-    for (images, labels) in train_dataloader: # train_data is a list with length 2. [image data, image label]
+    for (imgs, labels) in train_dataloader: # train_data is a list with length 2. [image data, image label]
+        plt.figure()
         plt.imshow(images[0].numpy().squeeze(), cmap="gray")
         plt.show()
 
     ```
     2. CIFAR-10
-    
+    ```
+    dataset_dir = "cifar10/"
 
+    train_dataset = torchvision.datas   ets.CIFAR10(
+            root = dataset_dir,
+            train = True, # True: training data; False: testing data
+            transform = torchvision.transforms.ToTensor(), # ndarray => torch tensor
+            download = False, # whether download or not
+            )
 
+    train_dataloader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
+
+    for (imgs, labels) in train_dataloader: # train_data is a list with length 2. [image data, image label]
+        print(imgs.shape)
+        break
+        #---------------------------------------------------
+        # torch.Size([32, 3, 32, 32])
+        #---------------------------------------------------
+    ```
 
 12. CNN: (batch_size, num_channels, height, width)
     1. CNN
