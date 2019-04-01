@@ -4559,6 +4559,36 @@ print(sess.run(tf.one_hot([2,4,3,5,1,0], 10)))
     2. method:
         + requries_grad: Variable() default to False while middle variable depends on the calculation
         + is_leaf
+        + backward(): 第一参数只有在对象不是scalar的时候才使用.比如`a = [1, 2, 3]`,那么`a.backward([5, 2, 6])`实际上调用的是`c = torch.sum([1, 2, 3] * [5, 2, 6]); c.backward()`
+        ```
+        a = Variable(torch.ones([2, 3]), requires_grad=True); b = Variable(torch.zeros([2, 3]), requires_grad=True); c = 10 * a + 2 * b
+
+        aa = Variable(torch.ones([2, 3]), requires_grad=True); bb = Variable(torch.zeros([2, 3]), requires_grad=True); cc = 10 * aa + 2 * bb
+
+        matrix = torch.randn(2, 3)
+
+        matrix
+        #-----------------------------------------------
+        # tensor([[ 0.4612, -0.1106,  0.2141],
+        #         [-0.5328, -1.3619, -0.8939]])
+        #-----------------------------------------------
+
+        c.backward(matrix); a.grad, b.grad
+        #-----------------------------------------------
+        # (tensor([[  4.6121,  -1.1059,   2.1413],
+        #          [ -5.3279, -13.6189,  -8.9389]]), tensor([[ 0.9224, -0.2212,  0.4283],
+        #         [-1.0656, -2.7238, -1.7878]]))
+        #-----------------------------------------------
+
+        torch.sum(matrix * cc).backward(); a.grad, b.grad
+        #-----------------------------------------------
+        # (tensor([[  4.6121,  -1.1059,   2.1413],
+        #          [ -5.3279, -13.6189,  -8.9389]]), tensor([[ 0.9224, -0.2212,  0.4283],
+        #          [-1.0656, -2.7238, -1.7878]]))
+        #-----------------------------------------------
+
+        ```
+        
         + grad: backward之后只有leaf的grad保留,其他都是None.可以使用torch.autograd.grad或hook临时获取,也可以用retain_grad保留梯度
         ```
         x = Variable(torch.ones(3), requires_grad=True)
