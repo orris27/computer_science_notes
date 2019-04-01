@@ -4441,6 +4441,8 @@ print(sess.run(tf.one_hot([2,4,3,5,1,0], 10)))
             + tensor => variable
             ```
             variable = Variable(tensor, requires_grad=True) 
+            var2 = variable.detach() # 使用detach可以从这个变量处截断梯度
+            var2.requries_grad => False
             ```
             + variable => tensor
             ```
