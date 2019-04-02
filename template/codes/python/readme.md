@@ -4978,6 +4978,36 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     model = torch.nn.Sequential(...)
     torch.save(model.state_dict(), "model_params.pkl")
     ```
+    3. class
+    ```
+    class Net(torch.nn.Module):
+        def __init__(self):
+            super(Net, self).__init__()
+            # ...
+            self.model_name = str(type(self)).split('.')[-1].split('\'')[0]
+
+        def forward(self, net): # not underlined
+            # ...
+
+        def load(self, path):
+            self.load_state_dict(torch.load(path))
+
+        def save(self, name=None): # default name: Net_0330_13:13:03.pth
+            if name is None:
+                prefix = 'checkpoints/' + self.model_name + '_'
+                name = time.strftime(prefix + '%m%d_%H:%M:%S.pth')
+            torch.save(self.state_dict(), name)
+            return name
+
+    # ...
+    if len(os.listdir('checkpoints')) != 0:
+        print('loading')
+        model.load(os.path.join('checkpoints', os.listdir('checkpoints')[0]))
+    # ...
+    if global_step % 1000 == 0:
+        print('saving...')
+        model.save()
+    ```
 
 9. dataset
     1. TensorDataset
@@ -5422,35 +5452,45 @@ tensor([[-0.5044,  0.0005],
     ```
 
 
-19. save & load
-```
-class Net(torch.nn.Module):
-    def __init__(self):
-        super(Net, self).__init__()
-        # ...
-        self.model_name = str(type(self)).split('.')[-1].split('\'')[0]
 
-    def forward(self, net): # not underlined
-        # ...
-
-    def load(self, path):
-        self.load_state_dict(torch.load(path))
-
-    def save(self, name=None): # default name: Net_0330_13:13:03.pth
-        if name is None:
-            prefix = 'checkpoints/' + self.model_name + '_'
-            name = time.strftime(prefix + '%m%d_%H:%M:%S.pth')
-        torch.save(self.state_dict(), name)
-        return name
-
-# ...
-if len(os.listdir('checkpoints')) != 0:
-    print('loading')
-    model.load(os.path.join('checkpoints', os.listdir('checkpoints')[0]))
-# ...
-if global_step % 1000 == 0:
+19. torchvision.utils
+    1. save image
+    ```
+    G.eval()
+    D.eval()
     print('saving...')
-    model.save()
+    fake_image = G(fix_noises)
+    scores = D(fake_image).detach()
+    scores = scores.data.squeeze()
+    indexs = scores.topk(32)[1]
+    result = list()
+    for index in indexs:
+        result.append(fake_image.data[index])
+
+    torchvision.utils.save_image(torch.stack(result), 'figures/result_{}.png'.format(epoch), normalize=True, range=(-1, 1))
+    # tv.utils.save_image(torch.randn(16, 3, 300, 400), 'result.png', normalize=True, range=(-1, 1))
+    G.train()
+    D.train()
+    ```
+
+
+20. initialize weights:
+```
+def init_weights(m):
+    class_name = m.__class__.__name__
+    if class_name.find('Conv') != -1:
+        m.weight.data.normal_(0, 0.02)
+    elif class_name.find('Norm') != -1:
+        m.weight.data.normal_(1.0, 0.02)
+
+G.apply(init_weights)
+D.apply(init_weights)
+```
+
+21. clamp weights
+```
+for param in D.parameters():
+    param.data.clamp_(-clamp_num, clamp_num)
 ```
 
 ## 3. Numpy
