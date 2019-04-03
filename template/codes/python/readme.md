@@ -2122,6 +2122,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     1. words => indices, dictionary, reverse_dictionary. 完整代码参考[skip-gram代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/word2vec.py/skip-gram.py)
         + `['I', 'am', 'a', 'boy']` => [23, 10, 2, 33], {'I': 23, 'am': 10,..}, {23: 'I', 10:'am', ...}
     ```
+    words = ['I', 'am', 'a', 'boy', ...]
     def words_to_indices(words):
         # count words and filter the most common words
         count = collections.Counter(words).most_common(vocab_size - 1)
@@ -2148,7 +2149,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
 
         return indices, dictionary, reverse_dictionary
 
-    indices, dictionary, reverse_dictionary = words_to_indices(words)
+    indices, word2idx, idx2word = words_to_indices(words)
     del words
     ```
     
