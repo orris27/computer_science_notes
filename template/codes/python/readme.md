@@ -5275,6 +5275,95 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
         y_pred, h_state = model(x, h_state)
         h_state = h_state.data # !! important
     ```
+    3. utils
+    + jieba
+    + pack_padded_sequence(输入padded_sentences和lengths) & pad_packed_sequence(取出padded_sentences和lengths)
+    
+    ```
+    import jieba
+    from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
+    
+    seg_list = jieba.cut('我是一个好人')
+    #-------------------------------------------------
+    # '/'.join(seg_list) # '我/是/一个/好人'
+    #-------------------------------------------------
+    sen1 = [1] * 3
+    sen2 = [2] * 4
+    sen3 = [3] * 9
+    sen4 = [4] * 5
+    sentences = [sen1, sen2, sen3, sen4]
+    sentences = sorted(sentences, key=lambda x:len(x), reverse=True) # 按len从大到小排序
+
+    lengths = [5 if len(sen) > 5 else len(sen) for sen in sentences] # 以5截断
+    #-------------------------------------------------
+    # [5, 5, 4, 3]
+    #-------------------------------------------------
+    
+    def pad_sen(sen, length=5, padded_num=0): # 给sentence补0直到len达到length
+        origin_len = len(sen)
+        padded_sen = sen[:length]
+        padded_sen = padded_sen + [padded_num for _ in range(origin_len, length)]
+        return padded_sen
+        
+    pad_sentences = [pad_sen(sen) for sen in sentences]
+    #-------------------------------------------------
+    # [[3, 3, 3, 3, 3], [4, 4, 4, 4, 4], [2, 2, 2, 2, 0], [1, 1, 1, 0, 0]]
+    #-------------------------------------------------
+    pad_tensor = t.Tensor(pad_sentences).long()
+    pad_tensor = pad_tensor.t()
+    #-------------------------------------------------
+    # tensor([[3, 4, 2, 1],
+    #         [3, 4, 2, 1],
+    #         [3, 4, 2, 1],
+    #         [3, 4, 2, 0],
+    #         [3, 4, 0, 0]])
+    #-------------------------------------------------
+
+    pad_variable = t.autograd.Variable(pad_tensor)
+    
+    # EMBEDDINGS
+    embedding = nn.Embedding(5, 2)
+    pad_embeddings = embedding(pad_variable)
+    pad_embeddings.shape # 
+
+    # PACKING
+    packed_variable = pack_padded_sequence(pad_embeddings, lengths)
+    #-------------------------------------------------
+    # PackedSequence(data=tensor([[ 0.1928,  0.7413],
+    #         [ 0.1727, -0.5342],
+    #         [-0.1748, -0.3277],
+    #         [-0.6594,  0.5656],
+    #         [ 0.1928,  0.7413],
+    #         [ 0.1727, -0.5342],
+    #         [-0.1748, -0.3277],
+    #         [-0.6594,  0.5656],
+    #         [ 0.1928,  0.7413],
+    #         [ 0.1727, -0.5342],
+    #         [-0.1748, -0.3277],
+    #         [-0.6594,  0.5656],
+    #         [ 0.1928,  0.7413],
+    #         [ 0.1727, -0.5342],
+    #         [-0.1748, -0.3277],
+    #         [ 0.1928,  0.7413],
+    #         [ 0.1727, -0.5342]], grad_fn=<PackPaddedBackward>), batch_sizes=tensor([4, 4, 4, 3, 2], grad_fn=<PackPaddedBackward>))
+    #-------------------------------------------------
+    
+    
+    rnn = t.nn.LSTM(2, 3)
+    output, hn = rnn(packed_variable)
+    output = pad_packed_sequence(output)
+    output[0].shape
+    #---------------------------------------------------------------
+    # torch.Size([5, 4, 3])
+    #---------------------------------------------------------------
+    
+    output[1]
+    #---------------------------------------------------------------
+    # tensor([5, 5, 4, 3])
+    #---------------------------------------------------------------
+    ```
+
+
 
 14. PyTorch代码实战
     1. [CNN实现MNIST](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/cnn_mnist.py)
