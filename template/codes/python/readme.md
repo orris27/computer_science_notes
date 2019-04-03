@@ -5583,6 +5583,22 @@ for param in D.parameters():
     param.data.clamp_(-clamp_num, clamp_num)
 ```
 
+
+22. torchvision.models
+    1. resnet50: (batch_size, 3, 224, 224) => (batch_size, 2048)
+    ```
+    from torchvision.models import resnet50
+    model = resnet50(pretrained=True)
+    del model.fc
+    model.fc = lambda x: x # 用直接映射覆盖原来的全连接层
+    img = Variable(torch.randn(16, 3, 224, 224))
+    output = model(img)
+    output.shape
+    #-----------------------------------------------------
+    # torch.Size([2, 2048])
+    #-----------------------------------------------------
+    ```
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
