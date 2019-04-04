@@ -5311,42 +5311,33 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
     # [[3, 3, 3, 3, 3], [4, 4, 4, 4, 4], [2, 2, 2, 2, 0], [1, 1, 1, 0, 0]]
     #-------------------------------------------------
     pad_tensor = t.Tensor(pad_sentences).long()
-    pad_tensor = pad_tensor.t()
-    #-------------------------------------------------
-    # tensor([[3, 4, 2, 1],
-    #         [3, 4, 2, 1],
-    #         [3, 4, 2, 1],
-    #         [3, 4, 2, 0],
-    #         [3, 4, 0, 0]])
-    #-------------------------------------------------
-
     pad_variable = t.autograd.Variable(pad_tensor)
     
     # EMBEDDINGS
     embedding = nn.Embedding(5, 2)
     pad_embeddings = embedding(pad_variable)
-    pad_embeddings.shape # 
+    pad_embeddings.shape # (5, 4, 2)
 
     # PACKING
-    packed_variable = pack_padded_sequence(pad_embeddings, lengths)
+    packed_variable = pack_padded_sequence(pad_embeddings, lengths, batch_first=True)
     #-------------------------------------------------
-    # PackedSequence(data=tensor([[ 0.1928,  0.7413],
-    #         [ 0.1727, -0.5342],
-    #         [-0.1748, -0.3277],
-    #         [-0.6594,  0.5656],
-    #         [ 0.1928,  0.7413],
-    #         [ 0.1727, -0.5342],
-    #         [-0.1748, -0.3277],
-    #         [-0.6594,  0.5656],
-    #         [ 0.1928,  0.7413],
-    #         [ 0.1727, -0.5342],
-    #         [-0.1748, -0.3277],
-    #         [-0.6594,  0.5656],
-    #         [ 0.1928,  0.7413],
-    #         [ 0.1727, -0.5342],
-    #         [-0.1748, -0.3277],
-    #         [ 0.1928,  0.7413],
-    #         [ 0.1727, -0.5342]], grad_fn=<PackPaddedBackward>), batch_sizes=tensor([4, 4, 4, 3, 2], grad_fn=<PackPaddedBackward>))
+    # PackedSequence(data=tensor([[-0.5107, -1.0299],
+    #         [-1.0802,  1.8094],
+    #         [ 1.6394,  0.9828],
+    #         [-0.7368,  1.0198],
+    #         [-0.5107, -1.0299],
+    #         [-1.0802,  1.8094],
+    #         [ 1.6394,  0.9828],
+    #         [-0.7368,  1.0198],
+    #         [-0.5107, -1.0299],
+    #         [-1.0802,  1.8094],
+    #         [ 1.6394,  0.9828],
+    #         [-0.7368,  1.0198],
+    #         [-0.5107, -1.0299],
+    #         [-1.0802,  1.8094],
+    #         [ 1.6394,  0.9828],
+    #         [-0.5107, -1.0299],
+    #         [-1.0802,  1.8094]], grad_fn=<PackPaddedBackward>), batch_sizes=tensor([4, 4, 4, 3, 2], grad_fn=<PackPaddedBackward>))
     #-------------------------------------------------
     
     
