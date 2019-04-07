@@ -5484,6 +5484,10 @@ tensor([[-0.5044,  0.0005],
     1. 常用的函数
     + Resize = Scale: 把最短的一个边变成指定的长度
     + CenterCrop: 从图片中间切出指定长度的图片
+    + RandomAffine: 可以随机旋转或平移,给定的参数表示的是最大值
+    ```
+    T.RandomAffine(degrees=0, translate=(0.5, 0)) # 旋转0度,左右随机平移最大50%
+    ```
     + RandomHorizontalFlip, RandomVerticalFlip: 对PIL图像随机水平/垂直翻转
     ```
     img = T.RandomHorizontalFlip()(img)
