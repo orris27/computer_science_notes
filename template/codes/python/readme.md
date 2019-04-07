@@ -5486,7 +5486,7 @@ tensor([[-0.5044,  0.0005],
     + CenterCrop: 从图片中间切出指定长度的图片
     + RandomAffine: 可以随机旋转或平移,给定的参数表示的是最大值
     ```
-    T.RandomAffine(degrees=0, translate=(0.5, 0)) # 旋转0度,左右随机平移最大50%
+    T.RandomAffine(degrees=0, translate=(0.5, 0), fillcolor=(0, 0, 0)) # 旋转0度,左右随机平移最大50%,默认填充是黑色(根据需要更改,如果是单色图,则不用tuple)
     ```
     + RandomHorizontalFlip, RandomVerticalFlip: 对PIL图像随机水平/垂直翻转
     ```
