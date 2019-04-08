@@ -7221,7 +7221,63 @@ for i in tqdm.tqdm(range(10000)):
 100%|█████████████████████████████████████████████████████████| 10000/10000 [00:28<00:00, 355.24it/s]
 ```
 
-## 22. python
+## 22. nltk
+```
+class Collection:
+    def __init__(self,sentences):
+        self.words_list = [self.tokenize(sentence) for sentence in sentences]
+        self.freq_dict = [self._freqdist(words) for words in self.words_list]
+
+    def tokenize(self,sentence):
+        # remove the punctuation
+        remove_punctuation_map = dict((ord(char),None) for char in string.punctuation)
+        sentence_no_punctuation = sentence.translate(remove_punctuation_map)
+        
+        # lower
+        sentence_no_punctuation = sentence_no_punctuation.lower()
+        
+        # word_tokenize
+        words = nltk.word_tokenize(sentence_no_punctuation)
+        
+        # remove stopwords
+        from nltk.corpus import stopwords
+        filtered_words = [word for word in words if word not in stopwords.words('english')]
+        
+        # stem
+        from nltk.stem import SnowballStemmer
+        snowball_stemmer = SnowballStemmer("english")
+        words_stemed = [snowball_stemmer.stem(word) for word in filtered_words]
+        
+        return words_stemed
+
+    def _freqdist(self,words):
+        from nltk import FreqDist
+        fdist = FreqDist(words)
+        standard_freq_vector = fdist.most_common(50)
+        return dict(standard_freq_vector)
+
+    def tf(self, word, sentence):
+        '''
+            Calculates the number of times the word appears in the sentence
+        '''
+        word = self.tokenize(word)[0]
+        words = self.tokenize(sentence)
+        return (sum(1 for word1 in words if word1==word))/len(words)
+
+    def idf(self, word):
+        word = self.tokenize(word)[0]
+        import math
+        try:
+            return math.log(len(self.words_list)/(1+sum(1 for words in self.words_list if word in words)))
+        except ValueError:
+            return 0
+
+    def tf_idf(self,word,sentence):
+        return self.tf(word,sentence)*self.idf(word)
+```
+
+
+## 23. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
