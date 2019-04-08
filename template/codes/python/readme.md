@@ -7157,6 +7157,25 @@ os.makedirs('test',exist_ok=True) # OK
 ```
 
 
+4. splitext: split the extension from a pathname
+```
+os.path.splitext('a.txt')
+#-----------------------------
+# ('a', '.txt')
+#-----------------------------
+
+os.path.splitext('a.txt.bak')
+#-----------------------------
+# ('a.txt', '.bak')
+#-----------------------------
+
+os.path.splitext('/a/b/a.txt.bak')
+#-----------------------------
+# ('/a/b/a.txt', '.bak')
+#-----------------------------
+
+```
+
 
 ## 20. fire
 在命令行中指定调用的函数以及参数
