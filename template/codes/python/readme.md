@@ -7285,7 +7285,7 @@ print(dict(fdist.most_common(10)))
 ```
 
 
-4. tf & idf
+4. tf(Term Frequency) & idf(Inverse Document Frequency)
 ```
 def tf(self, word, sentence):
     '''
