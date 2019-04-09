@@ -7233,6 +7233,8 @@ for i in tqdm.tqdm(range(10000)):
 具体参考[this](https://github.com/orris27/nlp_simple_implementation)
 1. tokenize
 ```
+text = 'The Georgetown experiment in 1954 involved fully automatic translation of more than sixty Russian sentences into English. The authors claimed that within three or five years, machine translation would be a solved problem.[2] However, real progress was much slower, and after the ALPAC report in 1966, which found that ten-year-long research had failed to fulfill the expectations, funding for machine translation was dramatically reduced. Little further research in machine translation was conducted until the late 1980s, when the first statistical machine translation systems were developed.'
+
 def tokenize(sentence):
     # remove the punctuation
     import string
@@ -7256,6 +7258,11 @@ def tokenize(sentence):
     words_stemed = [snowball_stemmer.stem(word) for word in filtered_words]
     
     return words_stemed
+tokens = tokenize(text)
+print(tokens[:5])
+#------------------------------------------------------
+# ['georgetown', 'experi', '1954', 'involv', 'fulli']
+#------------------------------------------------------
 ```
 
 2. ngrams
