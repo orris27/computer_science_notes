@@ -7307,6 +7307,26 @@ def tf_idf(self, word, sentence):
     return tf(word, sentence) * .idf(word)
 ```
 
+5. pos_tag: [task list](https://pythonprogramming.net/natural-language-toolkit-nltk-part-speech-tagging/)
+```
+from nltk import pos_tag
+from nltk.tokenize import word_tokenize
+
+s = "The quick brown fox juped over the dog"
+tokens = word_tokenize(s)
+pos_tag(tokens)
+#-------------------------------------------------------
+# [('The', 'DT'),
+#  ('quick', 'JJ'),
+#  ('brown', 'NN'),
+#  ('fox', 'NN'),
+#  ('juped', 'VBD'),
+#  ('over', 'IN'),
+#  ('the', 'DT'),
+#  ('dog', 'NN')]
+#-------------------------------------------------------
+```
+
 
 ## 23. wordcloud
 1. WordCloud
