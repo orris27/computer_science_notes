@@ -2152,9 +2152,7 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     indices, word2idx, idx2word = words_to_indices(words)
     del words
     ```
-    
-    
-    
+
     2. Skip-Gram: indices => X, y. 完整代码参考[skip-gram代码](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/word2vec.py/skip-gram.py)
         + `[23, 10, 2, 33]` => `[10, 10, 2, 2 ,...]`, `[[23], [2], [10], [33], ...]`
     ```
@@ -3833,7 +3831,7 @@ nn3 = slim.fully_connected(conv2_reshape, num_outputs=1024, activation_fn=tf.nn.
 
 y_predicted = slim.fully_connected(nn3, num_outputs=10, activation_fn=None, scope="layer4")
 
-####################################################################################################################
+###########-#########################################################################################################
 # Do not use the loss above!! Otherwise, the params will not be updated
 ####################################################################################################################
 #loss=-tf.reduce_mean(tf.reduce_sum(labels*tf.log(y_predicted)))
@@ -6175,19 +6173,16 @@ array.shape
         2. list
         ```
         a = [ch for ch in 'apple']
-        a
         #----------------------------------------------------
         # ['a', 'p', 'p', 'l', 'e']
         #----------------------------------------------------
 
-        c = Counter(a)
-        c
+        c = Counter(a) # <=> c = Counter(); c.update(a)
         #----------------------------------------------------
         # Counter({'a': 1, 'e': 1, 'l': 1, 'p': 2})
         #----------------------------------------------------
 
         c = Counter(a).most_common(2)
-        c
         #----------------------------------------------------
         # [('p', 2), ('a', 1)]
         #----------------------------------------------------
@@ -7313,10 +7308,18 @@ def tf_idf(self, word, sentence):
 ```
 
 
+## 23. wordcloud
+1. WordCloud
+```
+from wordcloud import WordCloud
+
+cloud = WordCloud(max_words=20)
+cloud.generate_from_text(text)
+## imshow(cloud)
+```
 
 
-
-## 23. python
+## 24. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
