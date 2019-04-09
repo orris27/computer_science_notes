@@ -6070,12 +6070,14 @@ vimg = np.flip(img, axis = 0) # vertical flip
 
 
 ## 4. plt
-`import matplotlib.pyplot as plt`
++ `import matplotlib.pyplot as plt`
++ Add `%matplotlib inline` in jupyter notebook and use plt the same way
 1. 画画
     1. 文字
     ```
     plt.figure() # start
     plt.text(0.3,0.4,"hello")
+    #plt.axis('off')
     plt.show() # end
     ```
     2. 曲线图
