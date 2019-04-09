@@ -6160,7 +6160,7 @@ array.shape
 
 
 ## 6. Collections
-1. 统计词频: Counter是dict的一个子类
+1. 统计词频(Counter或者nltk.FreqDist): Counter是dict的一个子类
     1. 统计词频
         1. 文本文件
         ```
@@ -7230,59 +7230,81 @@ for i in tqdm.tqdm(range(10000)):
 ```
 
 ## 22. nltk
+具体参考[this](https://github.com/orris27/nlp_simple_implementation)
+1. tokenize
 ```
-class Collection:
-    def __init__(self,sentences):
-        self.words_list = [self.tokenize(sentence) for sentence in sentences]
-        self.freq_dict = [self._freqdist(words) for words in self.words_list]
-
-    def tokenize(self,sentence):
-        # remove the punctuation
-        remove_punctuation_map = dict((ord(char),None) for char in string.punctuation)
-        sentence_no_punctuation = sentence.translate(remove_punctuation_map)
+def tokenize(sentence):
+    # remove the punctuation
+    import string
+    remove_punctuation_map = dict((ord(char),None) for char in string.punctuation)
+    sentence_no_punctuation = sentence.translate(remove_punctuation_map)
         
-        # lower
-        sentence_no_punctuation = sentence_no_punctuation.lower()
+    # lower
+    sentence_no_punctuation = sentence_no_punctuation.lower()
         
-        # word_tokenize
-        words = nltk.word_tokenize(sentence_no_punctuation)
+    # word_tokenize
+    from nltk import word_tokenize
+    words = word_tokenize(sentence_no_punctuation)
         
-        # remove stopwords
-        from nltk.corpus import stopwords
-        filtered_words = [word for word in words if word not in stopwords.words('english')]
+    # remove stopwords
+    from nltk.corpus import stopwords
+    filtered_words = [word for word in words if word not in stopwords.words('english')]
         
-        # stem
-        from nltk.stem import SnowballStemmer
-        snowball_stemmer = SnowballStemmer("english")
-        words_stemed = [snowball_stemmer.stem(word) for word in filtered_words]
-        
-        return words_stemed
-
-    def _freqdist(self,words):
-        from nltk import FreqDist
-        fdist = FreqDist(words)
-        standard_freq_vector = fdist.most_common(50)
-        return dict(standard_freq_vector)
-
-    def tf(self, word, sentence):
-        '''
-            Calculates the number of times the word appears in the sentence
-        '''
-        word = self.tokenize(word)[0]
-        words = self.tokenize(sentence)
-        return (sum(1 for word1 in words if word1==word))/len(words)
-
-    def idf(self, word):
-        word = self.tokenize(word)[0]
-        import math
-        try:
-            return math.log(len(self.words_list)/(1+sum(1 for words in self.words_list if word in words)))
-        except ValueError:
-            return 0
-
-    def tf_idf(self,word,sentence):
-        return self.tf(word,sentence)*self.idf(word)
+    # stem
+    from nltk.stem import SnowballStemmer
+    snowball_stemmer = SnowballStemmer("english")
+    words_stemed = [snowball_stemmer.stem(word) for word in filtered_words]
+    
+    return words_stemed
 ```
+
+2. ngrams
++ Stop-word removal will affect n-grams
+```
+text = 'The Georgetown experiment in 1954 involved fully automatic ...'
+tokens = tokenize(text) # CUSTOMIZED FUNCTION
+phrases = ngrams(tokens, 2) # bigram
+print(list(pharses))
+#------------------------------------------------------------------------------------------------
+# [('georgetown', 'experi'), ('experi', '1954'), ('1954', 'involv'), ('involv', 'fulli'), ... ]
+#------------------------------------------------------------------------------------------------
+```
+
+3. calculates the frequency of a token in tokens
+```
+from nltk import FreqDist
+fdist = FreqDist(tokens) # "tokens" is a CUSTOMIZED VARIABLE
+print(dict(fdist.most_common(10)))
+#------------------------------------------------------------------------------------------------
+# {'translat': 5, 'machin': 4, 'research': 2, 'georgetown': 1, 'experi': 1, '1954': 1, 'involv': 1, 'fulli': 1, 'automat': 1, 'sixti': 1}
+#------------------------------------------------------------------------------------------------
+```
+
+
+4. tf & idf
+```
+def tf(self, word, sentence):
+    '''
+        Calculates the number of times the word appears in the sentence
+    '''
+    word = tokenize(word)[0]
+    words = tokenize(sentence)
+    return (sum(1 for word1 in words if word1 == word)) / len(words)
+
+def idf(self, word):
+    word = tokenize(word)[0]
+    import math
+    try:
+        return math.log(len(self.words_list)/(1+sum(1 for words in self.words_list if word in words)))
+    except ValueError:
+        return 0
+
+def tf_idf(self, word, sentence):
+    return tf(word, sentence) * .idf(word)
+```
+
+
+
 
 
 ## 23. python
