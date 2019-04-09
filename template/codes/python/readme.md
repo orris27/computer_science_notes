@@ -6061,6 +6061,14 @@ yv
 
 ```
 
+18. flip
+```
+img = np.random.randn(5, 4, 3)
+himg = np.flip(img, axis = 1) # horizontal flip
+vimg = np.flip(img, axis = 0) # vertical flip
+```
+
+
 ## 4. plt
 `import matplotlib.pyplot as plt`
 1. 画画
