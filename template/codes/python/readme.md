@@ -1,4 +1,3 @@
-    
 ## 1. TensorFlow
 1. 定义features和labels
 ```
@@ -6536,7 +6535,6 @@ low_dim_embs = tsne.fit_transform(matrix)
     1. TF Features
     ```
     from sklearn.feature_extraction.text import CountVectorizer
-    from nltk.corpus import stopwords
     
     train_data = ("The sky is blue.", "The sun is bright.")
     test_data = ("The sun in the sky is bright.", "We can see the shining sun, the bright sun.")
@@ -6556,6 +6554,22 @@ low_dim_embs = tsne.fit_transform(matrix)
     # [[0 1 1 1]
     #  [0 1 0 2]]
     #-----------------------------------------------------------------------------------
+    ```
+    
+    2. tf-idf features
+    ```
+    from sklearn.feature_extraction.text import TfidfVectorizer
+
+    vectorizer = TfidfVectorizer(stop_words=stopwords.words('english'))
+
+    vectorizer.fit_transform(train_data) # train_data and test data are the same as the above codes
+
+    smtarix = vectorizer.transform(test_data)
+    test_features = smtarix.toarray()
+    #----------------------------------------------------------------------
+    # [[0.         0.57735027 0.57735027 0.57735027]
+    #  [0.         0.4472136  0.         0.89442719]]
+    #----------------------------------------------------------------------
     ```
 
 
