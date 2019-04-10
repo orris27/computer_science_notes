@@ -6523,7 +6523,34 @@ low_dim_embs = tsne.fit_transform(matrix)
     #----------------------------------------------------------------
 
     ```
-3. Decision Tree: 完整代码参看30-5的DecisionTree代码
+3. Text Features Extraction
+    1. TF Features
+    ```
+    from sklearn.feature_extraction.text import CountVectorizer
+    from nltk.corpus import stopwords
+    
+    train_data = ("The sky is blue.", "The sun is bright.")
+    test_data = ("The sun in the sky is bright.", "We can see the shining sun, the bright sun.")
+
+    vectorizer = CountVectorizer(stop_words=stopwords.words('english'))
+
+    vectorizer.fit_transform(train_data)
+    print(vectorizer.vocabulary_)
+    #-----------------------------------------------------------------------------------
+    # {'sky': 2, 'blue': 0, 'sun': 3, 'bright': 1}
+    #-----------------------------------------------------------------------------------
+    
+    smatrix = vectorizer.transform(test_data)
+    tf_features = smatrix.toarray()
+    print(tf_features)
+    #-----------------------------------------------------------------------------------
+    # [[0 1 1 1]
+    #  [0 1 0 2]]
+    #-----------------------------------------------------------------------------------
+    ```
+
+
+4. Decision Tree: 完整代码参看30-5的DecisionTree代码
 ```
 clf = tree.DecisionTreeClassifier(criterion="entropy")
 clf = clf.fit(features,labels) # features: [batch_size, features_dims]; labels: [batch_size, num_classes]
@@ -6571,7 +6598,7 @@ print(y_predicted)
 ```
 
 
-4. KNN
+5. KNN
 ```
 from sklearn import neighbors
 from sklearn import datasets
@@ -6589,7 +6616,7 @@ predictedLabel = knn.predict(iris.data)
 print(predictedLabel)
 ```
 
-5. SVM
+6. SVM
     1. introduction
     ```
     from sklearn import svm
