@@ -7387,7 +7387,29 @@ cloud.generate_from_text(text)
 ```
 
 
-## 24. python
+## 24. pprint
+```
+labels = [('Sports',), ('Politics',), ('Sports',), ('Politics', 'Sports'), ()]
+
+from pprint import pprint
+print(labels)
+#-----------------------------------------------------------------------------------------------
+# [['Politics', 'Sports'], ['Sports', 'Politics'], ['Politics', 'Sports'], ['Sports', 'Sports'], ['Politics', 'Politics']]
+#-----------------------------------------------------------------------------------------------
+
+pprint(labels) # jupyter notebook
+#-----------------------------------------------------------------------------------------------
+# [['Politics', 'Sports'],
+#  ['Sports', 'Politics'],
+#  ['Politics', 'Sports'],
+#  ['Sports', 'Sports'],
+#  ['Politics', 'Politics']]
+#-----------------------------------------------------------------------------------------------
+```
+
+
+
+## 25. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
