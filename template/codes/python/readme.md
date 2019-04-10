@@ -7323,9 +7323,9 @@ print(dict(fdist.most_common(10)))
 
 4. tf(Term Frequency) & idf(Inverse Document Frequency)
 ```
-def tf(word, sentence):
+def tf(word, document):
     word = tokenize(word)[0]
-    words = tokenize(sentence)
+    words = tokenize(document)
     return (sum(1 for word1 in words if word1 == word)) / len(words)
 
 def idf(word, documents):
@@ -7337,8 +7337,8 @@ def idf(word, documents):
     except ValueError:
         return 0
 
-def tf_idf(word, documents, index):
-    return tf(word, documents[index]) * idf(word, documents)
+def tf_idf(word, document, documents):
+    return tf(word, document) * idf(word, documents)
 ```
 
 5. pos_tag: [task list](https://pythonprogramming.net/natural-language-toolkit-nltk-part-speech-tagging/)
