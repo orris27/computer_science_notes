@@ -7299,7 +7299,7 @@ def tokenize(sentence):
     from nltk.corpus import stopwords
     filtered_words = [word for word in words if word not in stopwords.words('english')]
         
-    # stem
+    # stemming
     from nltk.stem import SnowballStemmer
     snowball_stemmer = SnowballStemmer("english")
     words_stemed = [snowball_stemmer.stem(word) for word in filtered_words]
@@ -7401,6 +7401,25 @@ print(model.classify(preprocess('He is a good man')))
 ```
 
 
+7. Stemming
+    1. Snowball
+    2. Lemmatization
+    ```
+    from nltk.stem import WordNetLemmatizer
+    wordnet_lemmatizer = WordNetLemmatizer()
+    wordnet_lemmatizer.lemmatize('houses')
+    #--------------------------------------------------------
+    # 'house'
+    #--------------------------------------------------------
+    wordnet_lemmatizer.lemmatize('went') # default noun
+    #--------------------------------------------------------
+    # 'went'
+    #--------------------------------------------------------
+    wordnet_lemmatizer.lemmatize('went',pos='v')
+    #--------------------------------------------------------
+    # 'go'
+    #--------------------------------------------------------
+    ```
 
 
 ## 23. wordcloud
