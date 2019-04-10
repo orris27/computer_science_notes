@@ -6311,11 +6311,20 @@ with codecs.open(raw_data,'r','utf-8') as f:
             counter[word] += 1
 ```
 ## 8. NLP
-0. 思路
++ text: 所有文字拼接而成的: text = ' '.join(documents)
++ document: 一篇文章,一句话等等
++ documents: 所有文章或所有话组成的列表
++ word: 原始的单词
++ token: 被lower,去除stopwords等操作后的单词
++ tokens: 一组token的列表,可能表示这个document,也可能表示整个text
++ vocabulary: 整个text里所有token以及对应的index的一个python词典
+
+
+1. 思路
     1. Get the dict: {word: index}
     2. Get the dict: {index: word}
     3. Translate the word into the index
-1. 普通的文本文件 => 干净的一行一句话的文本文件
+2. 普通的文本文件 => 干净的一行一句话的文本文件
     1. English
     ```
     wget https://raw.githubusercontent.com/moses-smt/mosesdecoder/master/scripts/tokenizer/tokenizer.perl
@@ -6326,7 +6335,7 @@ with codecs.open(raw_data,'r','utf-8') as f:
     ```
     sed 's/ //g; s/\B/ /g' ./train.tags.zh-en.zh > train.txt.zh
     ```
-2. 一行一句话的文本文件 => 一行一个高频词的文本文件(后续将行号作为该单词的编号)
+3. 一行一句话的文本文件 => 一行一个高频词的文本文件(后续将行号作为该单词的编号)
     + 表示如下
     ```
     I am a boy.               a
@@ -6378,7 +6387,7 @@ with codecs.open(vocab_output,'w','utf-8') as file_output:
     for word in sorted_words:
         file_output.write(word + '\n')
 ```
-2. 一行一个高频词的文本文件 => 一行一句int话的文本文件
+4. 一行一个高频词的文本文件 => 一行一句int话的文本文件
     + 表示如下
     ```
     a             23  40 55  123 0
@@ -6406,7 +6415,7 @@ with codecs.open(raw_data,'r','utf-8') as f_input, codecs.open(output_data,'w','
         new_line = ' '.join([str(get_id(word)) for word in (line.strip().split() + ['<eos>'])]) + '\n'
         f_output.write(new_line)
 ```
-3. 一行一句int话的文本文件 => `[num_batches, batch_size, num_steps]`的int列表
+5. 一行一句int话的文本文件 => `[num_batches, batch_size, num_steps]`的int列表
     + 表示如下
     ```
     23  40 55  123 0
@@ -6462,7 +6471,7 @@ for X, y in batches:
     # ...
 
 ```
-4. dict: {word: index} => dict: {index: word}
+6. dict: {word: index} => dict: {index: word}
 ```
 reverse_dictionary = dict(zip(dictionary.values(), dictionary.keys()))
 ```
@@ -7314,24 +7323,22 @@ print(dict(fdist.most_common(10)))
 
 4. tf(Term Frequency) & idf(Inverse Document Frequency)
 ```
-def tf(self, word, sentence):
-    '''
-        Calculates the number of times the word appears in the sentence
-    '''
+def tf(word, sentence):
     word = tokenize(word)[0]
     words = tokenize(sentence)
     return (sum(1 for word1 in words if word1 == word)) / len(words)
 
-def idf(self, word):
-    word = tokenize(word)[0]
+def idf(word, documents):
+    tokens_list = [tokenize(document) for document in documents]
+    token = tokenize(word)[0]
     import math
     try:
-        return math.log(len(self.words_list)/(1+sum(1 for words in self.words_list if word in words)))
+        return math.log(len(tokens_list) / (1 + sum(1 for tokens in tokens_list if token in tokens)))
     except ValueError:
         return 0
 
-def tf_idf(self, word, sentence):
-    return tf(word, sentence) * .idf(word)
+def tf_idf(word, documents, index):
+    return tf(word, documents[index]) * idf(word, documents)
 ```
 
 5. pos_tag: [task list](https://pythonprogramming.net/natural-language-toolkit-nltk-part-speech-tagging/)
