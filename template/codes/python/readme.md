@@ -7375,6 +7375,33 @@ pos_tag(tokens)
 #-------------------------------------------------------
 ```
 
+6. naive bayes classifier
+```
+from nltk.classify import NaiveBayesClassifier
+
+# data
+s1 = 'This is a good book'
+s2 = 'This is a awesome book'
+s3 = 'This is a bad book'
+s4 = 'This is a terrible book'
+
+# extract features
+def preprocess(s):
+    return {word: True for word in s.lower().split()}
+
+training_data = [[preprocess(s1),'pos'],
+                 [preprocess(s2),'pos'],
+                 [preprocess(s3),'neg'],
+                 [preprocess(s4),'neg'],]
+# train
+model = NaiveBayesClassifier.train(training_data)
+
+# predict
+print(model.classify(preprocess('He is a good man')))
+```
+
+
+
 
 ## 23. wordcloud
 1. WordCloud
