@@ -6485,17 +6485,17 @@ low_dim_embs = tsne.fit_transform(matrix)
     ```
     from sklearn.feature_extraction import DictVectorizer
 
-    vec = DictVectorizer()
+    vectorizer = DictVectorizer()
     l = [{"gender":"boy", "age": 17}, {"gender":"girl","age":18}, {"gender":"girl","age":20}]
 
-    vec.fit_transform(l).toarray()
+    vectorizer.fit_transform(l).toarray()
     #----------------------------------------------------------------
     # array([[17.,  1.,  0.],
     #        [18.,  0.,  1.],
     #        [20.,  0.,  1.]])
     #----------------------------------------------------------------
 
-    vec.get_feature_names()
+    vectorizer.get_feature_names()
     #----------------------------------------------------------------
     # ['age', 'gender=boy', 'gender=girl']
     #----------------------------------------------------------------
