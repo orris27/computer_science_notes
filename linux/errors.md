@@ -1119,6 +1119,49 @@ ImportError: libcublas.so.9.0: cannot open shared object file: No such file or d
     reboot # 直接再reboot就能解决循环登录的问题了
     ```
 
+
+5. Ubunut登录成功后进入黑屏,只有鼠标
+
+原因: 可能安装输入法出问题了
+
+解决: 
+    1. 黑屏的时候按Ctrl+Alt+F3(也可能是黑屏前,顺序我也忘了;此外也可以尝试其他F1,F2,F4等,直到进入命令行)
+    2. 进入命令行
+    3. top发现XOrg占用很大的CPU
+    4. 卸载fcitx的所有内容
+    ```
+    sudo apt-get remove fcitx
+    sudo apt-get remove fcitx-module*
+    sudo apt-get remove fcitx-frontend*
+    sudo apt-get purge fcitx*
+    ```
+    5. 卸载sogou拼音
+    ```
+    sudo dpkg -l so* # 可以看到sogoupinyin
+    sudo apt-get purge sogoupinyin
+    ```
+    6. 重启
+    7. 能进入桌面了
+
+6. mount USB fail
+```
+$MFTMirr does not match $MFT (record 0).
+Failed to mount '/dev/sdc1': Input/output error
+NTFS is either inconsistent, or there is a hardware fault, or it's a
+SoftRAID/FakeRAID hardware. In the first case run chkdsk /f on Windows
+then reboot into Windows twice. The usage of the /f parameter is very
+important! If the device is a SoftRAID/FakeRAID then first activate
+it and mount a different device under the /dev/mapper/ directory, (e.g.
+/dev/mapper/nvidia_eahaabcc1). Please see the 'dmraid' documentation
+for more details.
+```
+solution:
+```
+sudo ntfsfix /dev/sdc1 # /dev/sdc1 is the partiion name of USB
+```
+
+
+
 ## 23. Python
 1. 使用pickle的时候报错`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte`
     ```
@@ -1320,29 +1363,8 @@ Fatal: Failed to write genesis block: genesis has no chain configuration
 解决: 在当前项目中查找`127.0.0.1`或者`8545`,然后发现app.js里会请求`127.0.0.1:8545`,把它改成服务器的ip地址和端口就可以了
 
 
-## 31. Ubuntu
-1. Ubunut登录成功后进入黑屏,只有鼠标
+## 31. vacant
 
-原因: 可能安装输入法出问题了
-
-解决: 
-1. 黑屏的时候按Ctrl+Alt+F3(也可能是黑屏前,顺序我也忘了;此外也可以尝试其他F1,F2,F4等,直到进入命令行)
-2. 进入命令行
-3. top发现XOrg占用很大的CPU
-4. 卸载fcitx的所有内容
-```
-sudo apt-get remove fcitx
-sudo apt-get remove fcitx-module*
-sudo apt-get remove fcitx-frontend*
-sudo apt-get purge fcitx*
-```
-5. 卸载sogou拼音
-```
-sudo dpkg -l so* # 可以看到sogoupinyin
-sudo apt-get purge sogoupinyin
-```
-6. 重启
-7. 能进入桌面了
 
 ## 32. ss
 ```
