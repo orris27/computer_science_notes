@@ -6783,6 +6783,23 @@ with open(path, "rb") as f:
 ```
 
 
+2. multiple variables
+```
+a, b = 1, 2
+with open('ab.pkl', 'wb') as f:
+    pickle.dump(a, f)
+    pickle.dump(b, f)
+
+c, d = 0, 0
+with open('ab.pkl', 'rb') as f:
+    c = pickle.load(f)
+    d = pickle.load(f)
+c, d
+#------------------
+# (1, 2)
+#------------------
+```
+
 
 ## 13. IPython
 ### display
