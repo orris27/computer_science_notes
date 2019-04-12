@@ -2883,6 +2883,12 @@ aria2c -s 2 -x 2 http://xx.com/xx
 ```
 aria2c 'xxx.torrnet'
 aria2c '磁力链接'
+aria2c magnet:?xt=urn:btih:a9a794a41e7b3e31d3fxxxxxxxxxxxxxxx
+```
+根据磁力链接下载种子
+```
+mkdir torrents
+aria2c -d ./torrents --bt-metadata-only=true --bt-save-metadata=true magnet:?xt=urn:btih:a9a794a41e7b3e31xxxxxx
 ```
 列出种子内容：
 ```
