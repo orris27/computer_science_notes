@@ -7490,6 +7490,17 @@ s = psg.cut(s)
 #--------------------------------------------------------------------
 
 ```
+### 3. Keyword Extraction
+TextRank
+```
+from jieba import analyse
+
+text = '6月19日,《2012年度“中国爱心城市”公益活动新闻....'
+textrank = analyse.textrank
+keywords = textrank(text, num_keywords, allowPOS=('ns', 'n'))
+```
+
+
 
 ## 26. dateutil
 ```
