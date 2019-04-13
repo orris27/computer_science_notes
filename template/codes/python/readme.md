@@ -6317,6 +6317,7 @@ with codecs.open(raw_data,'r','utf-8') as f:
 + token: 被lower,去除stopwords等操作后的单词
 + tokens: 一组token的列表,可能表示这个document,也可能表示整个text
 + tokens_list: a list of tokens. 一组tokens的列表,这个tokens表示一个document: `tokens_list = [tokenize(document) for document in documents]`
++ token_set: a set of token. 整个text里所有token的集合
 + vocabulary: 整个text里所有token以及对应的index的一个python词典
 
 
@@ -6976,7 +6977,8 @@ d = corpora.Dictionary(tokens_list)
 bow_tokens_list = [d.doc2bow(tokens) for tokens in tokens_list] # convert document to BoW format
 tfidf_model = models.TfidfModel(bow_tokens_list) # train model
 
-tfidf_model[d.doc2bow(tokens_list[0])] # 输入参数是document的BoW format
+#tfidf_model[d.doc2bow(tokens_list[0])] # 输入参数是document的BoW format
+tfidf_model[bow_tokens_list[0]] # 输入参数是document的BoW format
 #---------------------------------------------------------------------------
 # [(0, 0.44124367556640004), # 输出形状: (token_id, tfidf_features), 其中tfidf_features的计算公式参考上面
 #  (1, 0.44124367556640004),
