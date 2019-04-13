@@ -6940,7 +6940,13 @@ lrwxrwxrwx  1 orris orris  120 Sep 16 23:29 bazel-testlogs -> /home/orris/.cache
 ```
 from gensim import corpora
 documents = ["I love the red apple".lower().split(), 'He wears a red hat'.lower().split()]
-d = corpora.Dictionary(documents)
+d = corpora.Dictionary(documents) # 将每个单词对应到每个index了
+
+[d[i] for i in range(len(d))] # d[i] <=> d.id2token[i], 同理还有d.token2id['apple']
+#---------------------------------------------------------------------------
+# ['apple', 'i', 'love', 'red', 'the', 'a', 'hat', 'he', 'wears']
+#---------------------------------------------------------------------------
+
 
 d.doc2bow(['i', 'love', 'the', 'red', 'apple'])
 #---------------------------------------------------------------------------
@@ -6957,6 +6963,29 @@ d.doc2bow(['red', 'red', 'red'])
 #---------------------------------------------------------------------------
 ```
 
+3. tfidf model
++ 计算公式参考[this](https://radimrehurek.com/gensim/models/tfidfmodel.html),需要注意的是idf是log2并且分母没有+1, 以及最后有normalization的过程. 所以如果某个word在所有文档中出现,那么idf=0,就不会在`tfidf_model[[(token_id, token_count)]]`中输出
+```
+from gensim import models
+
+documents = [['i', 'love', 'the', 'red', 'apple', 'juice'], \
+             ['he', 'wears', 'a', 'red', 'hat'], \
+             ['she', 'enjoys', 'playing', 'games']]
+d = corpora.Dictionary(documents)
+bow_corpus = [d.doc2bow(document) for document in documents] # convert document to BoW format
+tfidf_model = models.TfidfModel(bow_corpus) # train model
+
+tfidf_model[d.doc2bow(documents[0])] # 输入参数是document的BoW format
+#---------------------------------------------------------------------------
+# [(0, 0.44124367556640004), # 输出形状: (token_id, tfidf_features), 其中tfidf_features的计算公式参考上面
+#  (1, 0.44124367556640004),
+#  (2, 0.44124367556640004),
+#  (3, 0.44124367556640004),
+#  (4, 0.16284991207632712),
+#  (5, 0.44124367556640004)]
+#---------------------------------------------------------------------------
+
+```
     
     
 ## 16. copy
