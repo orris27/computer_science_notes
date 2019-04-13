@@ -6969,14 +6969,14 @@ d.doc2bow(['red', 'red', 'red'])
 ```
 from gensim import models
 
-documents = [['i', 'love', 'the', 'red', 'apple', 'juice'], \
+tokens_list = [['i', 'love', 'the', 'red', 'apple', 'juice'], \
              ['he', 'wears', 'a', 'red', 'hat'], \
              ['she', 'enjoys', 'playing', 'games']]
-d = corpora.Dictionary(documents)
-bow_corpus = [d.doc2bow(document) for document in documents] # convert document to BoW format
-tfidf_model = models.TfidfModel(bow_corpus) # train model
+d = corpora.Dictionary(tokens_list)
+bow_tokens_list = [d.doc2bow(tokens) for tokens in tokens_list] # convert document to BoW format
+tfidf_model = models.TfidfModel(bow_tokens_list) # train model
 
-tfidf_model[d.doc2bow(documents[0])] # 输入参数是document的BoW format
+tfidf_model[d.doc2bow(tokens_list[0])] # 输入参数是document的BoW format
 #---------------------------------------------------------------------------
 # [(0, 0.44124367556640004), # 输出形状: (token_id, tfidf_features), 其中tfidf_features的计算公式参考上面
 #  (1, 0.44124367556640004),
