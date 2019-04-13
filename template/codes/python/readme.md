@@ -6316,6 +6316,7 @@ with codecs.open(raw_data,'r','utf-8') as f:
 + word: 原始的单词
 + token: 被lower,去除stopwords等操作后的单词
 + tokens: 一组token的列表,可能表示这个document,也可能表示整个text
++ tokens_list: a list of tokens. 一组tokens的列表,这个tokens表示一个document: `tokens_list = [tokenize(document) for document in documents]`
 + vocabulary: 整个text里所有token以及对应的index的一个python词典
 
 
