@@ -6065,6 +6065,23 @@ himg = np.flip(img, axis = 1) # horizontal flip
 vimg = np.flip(img, axis = 0) # vertical flip
 ```
 
+20. histogram: 计算a的元素每个区间内的数量.比如下例`bins=[0, 1, 2, 3, 4]`的情况,就是计算`[0, 1)`,`[1, 2)`,`[2, 3)`, `[3, 4)`区间内a的元素各占多少个.如果bins是int类型,比如2的话,就是说化成2类,并且上下界是a的max和min. hist就是我们的结果,而bin_edges就是bins或者计算出来的分界点
+```
+hist, bin_edges = np.histogram([1, 1, 2, 2, 2, 2, 3], bins = range(5))
+
+print(hist, bin_edges)
+#-------------------------------
+# [0 2 4 1] [0 1 2 3 4]
+#-------------------------------
+
+
+np.histogram([1, 1, 2, 2, 2, 2, 3, 10], bins =2)
+#-------------------------------
+# (array([7, 1]), array([ 1. ,  5.5, 10. ]))
+#-------------------------------
+
+```
+
 
 ## 4. plt
 + `import matplotlib.pyplot as plt`
@@ -6157,7 +6174,7 @@ array.shape
 ```
 3. 灰度化处理
 ```
-image = Image.open(os.path.join(cwd,image_path)).convert('L')
+image = Image.open(os.path.join(cwd,image_path)).convert('L') # L = R * 299/1000 + G * 587/1000 + B * 114/1000
 image_array = np.asarray(image, dtype=np.uint8)
 ```
 
