@@ -6688,6 +6688,15 @@ print(predictedLabel)
     plt.show()
 
     ```
+    
+7. train_test_split
+```
+from sklearn.cross_validation import train_test_split
+
+x = np.arange(128)
+y = np.array([1] * 64 + [0] * 64)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.33)
+```
 
 ## 10. gym
 1. usage
