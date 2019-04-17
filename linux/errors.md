@@ -1059,6 +1059,18 @@ ImportError: libcublas.so.9.0: cannot open shared object file: No such file or d
 ```
 安装9.0版本的cuda就可以了,比如`sudo apt-get install cuda-9-0`
 
+
+25. `Unknown command line flag 'f'`
+
+原因: 我也不知道,jupyter notebook里会报错,但是命令行不会
+
+解决: 添加这一行就可以了
+```
+tf.app.flags.DEFINE_string('f', '', 'kernel')
+```
+
+
+
 ## 20. gym
 1. 执行`env.render()`报错`ImportError: sys.meta_path is None, Python is likely shutting down`
     1. 解决: 添加`env.close()`
