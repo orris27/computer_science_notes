@@ -6149,14 +6149,17 @@ len(img.getbands())
 2. 转换为numpy
 ```
 img = Image.open('1.jpg')
-array = np.asarray(img)
+array = np.asarray(img, np.uint8)
 array.shape
 #----------------------------------------
 # (1240, 2181, 3)
 #----------------------------------------
-
 ```
-
+3. 灰度化处理
+```
+image = Image.open(os.path.join(cwd,image_path)).convert('L')
+image_array = np.asarray(image, dtype=np.uint8)
+```
 
 ## 6. Collections
 1. 统计词频(Counter或者nltk.FreqDist): Counter是dict的一个子类
