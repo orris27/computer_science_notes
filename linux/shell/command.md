@@ -3040,3 +3040,8 @@ cat /etc/fstab
 ```
 
 
+## 92. gsutil
+```
+pip2 install gsutil
+hp /home/orris/.local/bin/gsutil  -m cp -R gs://quickdraw_dataset/full/numpy_bitmap .
+```
