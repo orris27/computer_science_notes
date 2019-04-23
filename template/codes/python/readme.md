@@ -4974,7 +4974,7 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     
     ####################################################
     model = torch.nn.Sequential(...)
-    torch.save(model.state_dict(), "model_params.pkl")
+    model.load_state_dict(torch.load("model_params.pkl"))
     ```
     3. class
     ```
