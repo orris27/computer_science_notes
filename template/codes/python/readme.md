@@ -6741,6 +6741,14 @@ y = np.array([1] * 64 + [0] * 64)
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.33)
 ```
 
+8. accuracy_score
+```
+y_predicted = nb.predict(x_test)
+score = accuracy_score(y_predicted, y_test) # y_predicted.shape & y_test.shape: (num_samples, )
+print(score) # 0.8332835
+```
+
+
 ## 10. gym
 1. usage
 ```
