@@ -7112,7 +7112,13 @@ cv2.imwrite("1.png", image)
 cv2.waitKey(0)
 ```
 
-
+3. binarization
+```
+def binarization(img):
+    bin_img = img.astype(np.uint8)
+    cv2.threshold(bin_img, 50, 1, cv2.THRESH_BINARY_INV, bin_img) # pixel = 0 if value > 50 else 1
+    return bin_img
+```
 
 
 ## 18. spider
