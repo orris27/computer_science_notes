@@ -170,3 +170,19 @@ anaconda直接安装gi会出问题,python3安装不起来就换成了python2,问
 ```
 pip2 install PyGObject
 ```
+
+## 5. server
+设置密码
+```
+cd ~/.jupyter
+cp jupyter_notebook_config.* /tmp # 将原来的密码(hashed format)备份
+/home/user309/anaconda3/envs/ovenv/bin/jupyter notebook password
+cat jupyter_notebook_config.json # 得到hashed password
+
+vim jupyter_notebook_config.py # 填写hashed password
+```
+恢复密码
+```
+cd ~/.jupyter
+cp /tmp/jupyter_notebook_config.* ./
+```
