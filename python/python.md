@@ -148,11 +148,20 @@ git clone https://github.com/openai/gym.git
 cd gym
 pip install -e .
 ```
-3. 离线安装
-    1. 到pip网站里找到whl文件的下载地址，如[torchvision](https://files.pythonhosted.org/packages/ca/0d/f00b2885711e08bd71242ebe7b96561e6f6d01fdb4b9dcf4d37e2e13c5e1/torchvision-0.2.1-py2.py3-none-any.whl)的whl文件
-    2. 直接安装
+3. whl
+    1. 网上下载whl文件
+        1. 到pip网站里找到whl文件的下载地址，如[torchvision](https://files.pythonhosted.org/packages/ca/0d/f00b2885711e08bd71242ebe7b96561e6f6d01fdb4b9dcf4d37e2e13c5e1/torchvision-0.2.1-py2.py3-none-any.whl)的whl文件
+        2. 直接安装
+        ```
+        pip install torchvision-0.2.1-py2.py3-none-any.whl
+        ```
+    2. pip下载whl文件
     ```
-    pip install torchvision-0.2.1-py2.py3-none-any.whl
+    mkdir tmp 
+    cd tmp/
+    
+    pip download jupyter
+    pip install *.whl
     ```
 
 
