@@ -5275,7 +5275,7 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
     ```
     3. utils
     + jieba
-    + pack_padded_sequence(输入padded_sentences和lengths) & pad_packed_sequence(取出padded_sentences和lengths)
+    + pack_padded_sequence(输入padded_sentences和lengths) & pad_packed_sequence(取出padded_sentences和lengths): 根据lengths把input的前2个维度给提取成为1个维度,也就是说,如果input.shape是`(2, 3, 10)`,而`lengths=[3, 1]`指明这个batch里第1个item有效的是3个,而第2个item有效的是1个,所以pack后的第1个元素的shape就是`(4, 10)`,其中4就是这个batch里的第1个item的有效个数+第2个item有效个数
     
     ```
     import jieba
