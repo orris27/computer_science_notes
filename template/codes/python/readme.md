@@ -5351,7 +5351,10 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
     # tensor([5, 5, 4, 3])
     #---------------------------------------------------------------
     ```
-
+    4. LSTMCell: 输入是(batch_size, input_size), 而输出的就是2个(batch_size, lstm_size),即没有num_timesteps的维度
+    ```
+    self.rnn_cell = nn.LSTMCell(self.encoder_dim + embedding_size, lstm_size, bias=True)
+    ```
 
 
 14. PyTorch代码实战
