@@ -5577,15 +5577,22 @@ for param in D.parameters():
 
 
 22. torchvision.models: 
-    1. basic usage
+    1. basic usage: The input images have to be loaded in to a range of `[0, 1]` and then normalized using `mean=[0.485, 0.456, 0.406]` and `std=[0.229, 0.224, 0.225]`. See details in [this](https://pytorch.org/docs/master/torchvision/models.html).
         1. 1st method
         ```
+        from torchvision.models import resnet50
+        
+        img = Image.open('surf.jpg')
+        transforms = T.Compose([
+            T.ToTensor(),
+            T.Normalize(mean=[0.485, 0.456, 0.406],std=[0.229, 0.224, 0.225])
+            ])
+        img = transforms(img)
         from torchvision.models import resnet50
         model = resnet50(pretrained=True)
         del model.fc
         model.fc = lambda x: x # 用直接映射覆盖原来的全连接层
-        img = Variable(torch.randn(16, 3, 224, 224))
-        output = model(img)
+        output = model(img.unsqueeze(0))
         output.shape
         #-----------------------------------------------------
         # torch.Size([16, 2048])
