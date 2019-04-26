@@ -5576,19 +5576,53 @@ for param in D.parameters():
 ```
 
 
-22. torchvision.models
-    1. resnet50: (batch_size, 3, 224, 224) => (batch_size, 2048)
+22. torchvision.models: 
+    1. basic usage
+        1. 1st method
+        ```
+        from torchvision.models import resnet50
+        model = resnet50(pretrained=True)
+        del model.fc
+        model.fc = lambda x: x # 用直接映射覆盖原来的全连接层
+        img = Variable(torch.randn(16, 3, 224, 224))
+        output = model(img)
+        output.shape
+        #-----------------------------------------------------
+        # torch.Size([16, 2048])
+        #-----------------------------------------------------
+        ```
+        2. 2nd method: [reference](https://github.com/parksunwoo/show_attend_and_tell_pytorch/blob/master/model.py)
+        ```
+        resnet = models.resnet101(pretrained=True)
+        modules = list(resnet.children())[:-1] # -1 or -2 depends on your model
+        self.resnet = nn.Sequential(*modules)
+        #...
+        with torch.no_grad():
+            features = self.resnet(imgs)
+        # OR
+        def fine_tune(self, fine_tune=True):
+            for p in self.resnet.parameters():
+                p.requires_grad = False
+            for c in list(self.resnet.children())[5:]:
+                for p in c.parameters():
+                    p.requires_grad = fine_tune
+        fine_tune()
+        ```
+    2. children: in_features, out_features
     ```
-    from torchvision.models import resnet50
-    model = resnet50(pretrained=True)
-    del model.fc
-    model.fc = lambda x: x # 用直接映射覆盖原来的全连接层
-    img = Variable(torch.randn(16, 3, 224, 224))
-    output = model(img)
-    output.shape
-    #-----------------------------------------------------
-    # torch.Size([16, 2048])
-    #-----------------------------------------------------
+    from torchvision.models import resnet152
+    
+    resnet = resnet152(pretrained=True)
+    
+    list(resnet.children())[-2]
+    #----------------------------------------------------------
+    # AvgPool2d(kernel_size=7, stride=1, padding=0)
+    #----------------------------------------------------------
+
+    list(resnet.children())[-1]
+    #----------------------------------------------------------
+    # Linear(in_features=2048, out_features=1000, bias=True)
+    #----------------------------------------------------------
     ```
 
 ## 3. Numpy
