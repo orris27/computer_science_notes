@@ -5557,18 +5557,28 @@ tensor([[-0.5044,  0.0005],
 
 
 20. initialize weights:
-```
-def init_weights(m):
-    class_name = m.__class__.__name__
-    if class_name.find('Conv') != -1:
-        m.weight.data.normal_(0, 0.02)
-    elif class_name.find('Norm') != -1:
-        m.weight.data.normal_(1.0, 0.02)
+    1. for torch.nn.Module object
+    ```
+    def init_weights(m):
+        class_name = m.__class__.__name__
+        if class_name.find('Conv') != -1:
+            m.weight.data.normal_(0, 0.02)
+        elif class_name.find('Norm') != -1:
+            m.weight.data.normal_(1.0, 0.02)
 
-G.apply(init_weights)
-D.apply(init_weights)
-```
-
+    G.apply(init_weights)
+    D.apply(init_weights)
+    ```
+    2. directly
+    ```
+    self.embeddings = nn.Embedding(vocab_size, embedding_size)
+    self.embeddings.weight.data.uniform_(-0.1, 0.1)
+    ```
+    3. load weight
+    ```
+    def load_pretrained_embeddings(self, embeddings):
+        self.embeddings.weight = nn.Parameter(embeddings)
+    ```
 21. clamp weights
 ```
 for param in D.parameters():
