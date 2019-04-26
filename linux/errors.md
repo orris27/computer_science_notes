@@ -1280,8 +1280,22 @@ RuntimeError: merge_sort: failed to synchronize: an illegal memory access was en
 ```
 原因:我发现loss会变得无穷大,但是有的时候运行没问题,而有的时候会出现问题.所以不是很清楚.多run几次总会有成功的- - 
 
+7. loss.backward:
+```
+RuntimeError: select(): index 25 out of range for tensor of size [25, 32, 9956] at dimension 0
+```
+解决: `model.py`从
+```
+return y_predicted, captions, lengths, alphas
+```
+改为
+```
+return y_predicted, captions, decoder_lengths, alphas
+```
+因为`decoder_lengths = [length - 1 for length in lengths]`
 
-
+这个report我猜测是因为我用过多的length去pack了一个变量,导致loss function去unpack这个变量的时候发现原来该有的位置没有了.比如说`y_predicted`的shape是`[32, 21, 9956]`,而`lengths=[22, 19, 17, 16, ... ,10]`,这就导致`lengths[0]=22`的地方`y_predicted`是没有的,这个时候用`lengths`去pack `y_predicted` , 然后用packed结果直接输入到loss function中就会导致这个问题,解决的方法也很简单,因为这个attention的image captioning是不考虑`<eos>`的输出,所以`y_predicted`的shape才会少1,那么lengths自然也少1,因为每个length都对应1个lstm timestep的output,所以可以解决这个问题
+    
 ## 26. Vue
 1. `npm run dev`报错:
 ```
