@@ -1309,6 +1309,12 @@ with torch.no_grad():
 
 ```
     
+    
+9. `Cuda assert fails: device-side assert triggered`
++ out-of-bounds indexing
++ labels that are input to loss_fn have negative numbers
+    
+    
 ## 26. Vue
 1. `npm run dev`报错:
 ```
