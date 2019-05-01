@@ -7831,7 +7831,28 @@ heap
 
 ```
 
-## 30. python
+
+
+## 30. contextlib
+timer
+```
+from contextlib import contextmanager
+import time
+
+@contextmanager
+def timer(name):
+    start = time.time()
+    yield
+    end = time.time()
+    print('{} COST:{}'.format(name, end - start))
+
+
+with timer('Timer Monte Carlo Iter'):
+    mc.monte_carlo_opt(agent, env)
+
+```
+
+## 31. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
