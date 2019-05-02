@@ -1430,3 +1430,30 @@ Traceback (most recent call last):
 ModuleNotFoundError: No module named 'gi'
 ```
 默认使用`/usr/bin/python`,如果我们在系统环境内装了python3,就不行了,开头改成`#!/usr/bin/python2 -Es`
+
+
+## 34. http server
+1. The browser cannot retreive <body> and keeps loading
+
+reason: Content-Length in the response header is larger than the sent real length of response body
+
+1. len = number_of_bytes("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>test.txt</title></head><body>") + number_of_bytes(file) + number_of_bytes("</body></html>"): If the file is empty, then len equals to 110
+
+2. strlen(sendpacket) = number_of_bytes(response header) + len
+```
+strcat(sendpacket, "HTTP/1.0 200 OK\r\n");
+strcat(sendpacket, "Server: MAXINYIN&&QUANYUQING\r\n");
+strcat(sendpacket, "Content-length: ");
+strcat(sendpacket, len);
+strcat(sendpacket, "\r\n");
+strcat(sendpacket, "Content-type: text/html\r\n\r\n");
+strcat(sendpacket, "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\"><title>test.txt</title></head><body>");
+index = strlen(sendpacket);
+while ((ch = fgetc(file)) != EOF)
+    sendpacket[index++] = ch;
+strcat(sendpacket, "</body></html>");
+
+if (send(fd, sendpacket, strlen(sendpacket), 0) < 0)
+    printf("Fail in send.\n");
+
+```
