@@ -1,4 +1,10 @@
-    
+seafarer: sea + fear
+
+discern: flute + god
+
+
+
+
 ## 1. Vocabulary
 ### 1-1. Animal
 1. lobster
