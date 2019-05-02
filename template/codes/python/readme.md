@@ -5696,6 +5696,14 @@ torch.multinomial(weights, 4, replacement=True)
 
 ```
 
+24. device
+```
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+model = model.to(device)
+```
+
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
