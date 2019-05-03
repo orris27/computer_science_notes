@@ -5704,6 +5704,26 @@ model = model.to(device)
 ```
 
 
+
+25. one_hot
+```
+def one_hot(y, nb_digits): 
+    y_onehot = torch.LongTensor(y.size(0), nb_digits) 
+    y_onehot.zero_() 
+    y_onehot.scatter_(1, y.unsqueeze(1), 1) 
+    return y_onehot 
+
+y = torch.LongTensor([2, 3, 0, 10])
+one_hot(y, 11)
+#-------------------------------------------------------------
+# tensor([[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+#         [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+#         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]])
+#-------------------------------------------------------------
+
+```
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
