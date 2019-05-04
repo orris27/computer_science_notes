@@ -1172,6 +1172,9 @@ solution:
 sudo ntfsfix /dev/sdc1 # /dev/sdc1 is the partiion name of USB
 ```
 
+7. USB read only
+
+Root can write.
 
 
 ## 23. Python
