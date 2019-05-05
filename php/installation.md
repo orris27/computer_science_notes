@@ -172,6 +172,8 @@ sudo swapon -s
 ```
 sudo yum install zlib libxml2 libjpeg freetype libpng gd curl zlib-devel libxml2-devel libjpeg-devel freetype-devel libpng-devel gd-devel curl-devel openssl-devel libxslt-devel -y
 
+mkdir ~/tools
+cd ~/tools
 wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz
 tar -zxvf libiconv-1.15.tar.gz 
 cd libiconv-1.15/
