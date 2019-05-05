@@ -26,3 +26,26 @@ This repository records most of the notes I have taken in Computer Science.
 + [Install and Start Kibana](https://github.com/orris27/computer_science_notes/blob/master/linux/log/kibana/kibana.md)
 
 + [Set up and Run Logstash](https://github.com/orris27/computer_science_notes/blob/master/linux/log/logstash/logstash.md)
+
++ [Install and Configure Linux Virtual Server](https://github.com/orris27/computer_science_notes/blob/master/linux/lvs/lvs.md)
+
++ [Install RabbitMQ](https://github.com/orris27/computer_science_notes/blob/master/linux/message-queue/rabbitmq/rabbitmq.md)
+
++ [Install and setup Nginx](https://github.com/orris27/computer_science_notes/blob/master/linux/nginx/installation.md)
+
++ [Configure Nginx](https://github.com/orris27/computer_science_notes/blob/master/linux/nginx/nginx.md)
+
++ [Optimize Nginx Configuration](https://github.com/orris27/computer_science_notes/blob/master/linux/nginx/optimization.md)
+
++ [Set up an Rsync Daemon](https://github.com/orris27/computer_science_notes/blob/master/linux/rsync/daemon.md)
+
++ [Install Saltstack](https://github.com/orris27/computer_science_notes/blob/master/linux/saltstack/installation.md)
+
++ [Configure Saltstack](https://github.com/orris27/computer_science_notes/blob/master/linux/saltstack/configuration.md)
+
++ [Install and Configure GlusterFS](https://github.com/orris27/computer_science_notes/blob/master/linux/storage/glusterfs/glusterfs.md)
+
+
++ [Install, Configure and Use GIT](https://github.com/orris27/computer_science_notes/blob/master/linux/version_control/git/git.md)
+
+
