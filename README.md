@@ -63,9 +63,16 @@ The main purpose is to facilitate me to take organized notes and study effective
 ### AI
 + [Set up Deep Learning GPU environment on Ubuntu](https://github.com/orris27/computer_science_notes/blob/master/ai/nvidia.md)
 
++ [Common Dataset Loaders](https://github.com/orris27/dataset_loaders)
+
++ [NLP Algorithm Implementation](https://github.com/orris27/nlp_simple_implementation)
+
++ [Machine Learning Codes](https://github.com/orris27/machine-learning-codes)
+
 ### Blockchain
 + [Install Dapp](https://github.com/orris27/computer_science_notes/tree/master/blockchain)
 
++ [Dapp Demo](https://github.com/orris27/dapp)
 
 ### Database
 + [Difference Methods to install MySQL](https://github.com/orris27/computer_science_notes/blob/master/database/mysql/installation.md)
@@ -127,6 +134,8 @@ The main purpose is to facilitate me to take organized notes and study effective
 
 + [Vue notes](https://github.com/orris27/computer_science_notes/blob/master/web/vue/vue.md)
 
++ [Build A Book Managing System With Django](https://github.com/orris27/book-manage)
+
 ### IPC
 + [Dining philosophers problem](https://github.com/orris27/computer_science_notes/tree/master/process/ipc/codes/dinner)
 
@@ -148,3 +157,7 @@ The main purpose is to facilitate me to take organized notes and study effective
 
 + [Thread Pool](https://github.com/orris27/computer_science_notes/tree/master/process/ipc/codes/threadpool)
 
+### BigData
++ [Install and Configure Hadoop](https://github.com/orris27/BigData/blob/master/hadoop/hadoop.md)
+
++ [MaxTemperature Example of Hadoop](https://github.com/orris27/BigData/tree/master/hadoop/codes/MaxTemperature)
