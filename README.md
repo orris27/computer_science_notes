@@ -48,4 +48,11 @@ This repository records most of the notes I have taken in Computer Science.
 
 + [Install, Configure and Use GIT](https://github.com/orris27/computer_science_notes/blob/master/linux/version_control/git/git.md)
 
++ [Install and Set up KVM](https://github.com/orris27/computer_science_notes/blob/master/linux/virtualization/kvm/kvm.md)
+
++ [Install VMware Workstation and create virtual machines](https://github.com/orris27/computer_science_notes/blob/master/linux/vmware/vmware.md)
+
++ [Install and Configure Zabbix](https://github.com/orris27/computer_science_notes/blob/master/linux/zabbix/installation.md)
+
++ [Common errors in Installation and Programming](https://github.com/orris27/computer_science_notes/blob/master/linux/errors.md)
 
