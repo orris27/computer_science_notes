@@ -5020,7 +5020,7 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     x = torch.linspace(1, 10, 10)
     y = x * 10
 
-    dataset = Data.TensorDataset(data_tensor=x, target_tensor=y)
+    dataset = Data.TensorDataset(x, y)
     dataset = Data.DataLoader(
             dataset = dataset,
             batch_size = batch_size,
