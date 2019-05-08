@@ -426,6 +426,7 @@ ssh git@github.com # 出现下面内容说明成功了了
 cd ~
 #git clone <远程仓库的URL>
 git clone git@github.com:orris27/test.git # 自动创建master分支并跟踪远程服务器的master分支.并给远程仓库取名字叫origin
+# !git clone https://username:password@github.com/username/repository.git # private
 cd test
 
 cat .git/config 
