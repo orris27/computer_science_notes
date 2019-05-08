@@ -5724,6 +5724,27 @@ one_hot(y, 11)
 
 ```
 
+26. distribution
+    1. Categorical Distribution
+    ```
+    from torch.distribution import Categorical
+    m = Categorical(torch.tensor([ 0.25, 0.25, 0.25, 0.25 ]))
+    m.sample()  # equal probability of 0, 1, 2, 3 # equal probability of 0, 1, 2, 3
+    #---------------------------
+    # tensor(3)
+    #---------------------------
+    ```
+
+    2. Bernoulli Distribution
+    ```
+    from torch.distribution import Bernoulli
+    m = Bernoulli(torch.tensor([0.3]))
+    m.sample()  # 30% chance 1; 70% chance 0
+    #---------------------------
+    # torch.Tensor([0.])
+    #---------------------------
+    ```
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
