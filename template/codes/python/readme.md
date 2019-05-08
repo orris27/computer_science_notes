@@ -6328,6 +6328,14 @@ plt.figure()
 plt.annotate(s="annotation",  xytext=(0.8, 0.8), xy=(0.2, 0.2), arrowprops=dict(arrowstyle="->"))
 plt.show()
 ```
+
+5. IPython: matplotlib.get_backend() -> 'module://ipykernel.pylab.backend_inline' if jupyter notebook else Qt5Agg (`python test.py` or `ipython`)
+```
+is_ipython = 'inline' in matplotlib.get_backend()
+if is_ipython:
+    from IPython import display
+```
+
 ## 5. PIL
 1. 基本操作
 ```
