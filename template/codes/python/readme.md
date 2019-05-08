@@ -5728,10 +5728,10 @@ one_hot(y, 11)
     1. Categorical Distribution
     ```
     from torch.distribution import Categorical
-    m = Categorical(torch.tensor([ 0.25, 0.25, 0.25, 0.25 ]))
-    m.sample()  # equal probability of 0, 1, 2, 3 # equal probability of 0, 1, 2, 3
+    m = Categorical(torch.Tensor([[0.5, 0.2, 0.2, 0.1], [0.1, 0.2, 0.3, 0.4]]))
+    m.sample()
     #---------------------------
-    # tensor(3)
+    # tensor([0, 3])
     #---------------------------
     ```
 
