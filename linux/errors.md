@@ -1317,7 +1317,13 @@ with torch.no_grad():
 + out-of-bounds indexing
 + labels that are input to loss_fn have negative numbers
     
-    
+10. enumerate trainloader, reports: `an integer is required (got type tuple)`
+
+Reason: variable-length vector
+
+`__getitem__` pads the vector
+
+
 ## 26. Vue
 1. `npm run dev`报错:
 ```
