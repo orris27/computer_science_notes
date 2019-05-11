@@ -7922,7 +7922,25 @@ with timer('Timer Monte Carlo Iter'):
 
 ```
 
-## 31. python
+
+
+
+## 31. colab
+### mount the drive to colab
+```
+from google.colab import drive
+drive.mount('/content/gdrive')
+
+import os
+os.chdir("gdrive/My Drive")
+
+!ls
+#---------------------------------------
+# 'Colab Notebooks'   test.ipynb
+#---------------------------------------
+```
+
+## 32. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
