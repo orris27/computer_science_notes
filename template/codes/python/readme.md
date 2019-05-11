@@ -7940,7 +7940,23 @@ os.chdir("gdrive/My Drive")
 #---------------------------------------
 ```
 
-## 32. python
+## 32. argparse
+```
+def main(args):
+    vocab = build_vocab(caption_path=args.caption_path, min_count=args.min_count)
+    # ...
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--caption_path', type=str, default='data/annotations/captions_train2014.json', help='path for train annotation file')
+    parser.add_argument('--min_count', type=int, default=4, help='minimum word count min_count')
+    args = parser.parse_args()
+    main(args)
+```
+
+
+## 33. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
