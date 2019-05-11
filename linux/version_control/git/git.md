@@ -595,6 +595,32 @@ git reset --hard d438174
     6. 点击旁边的new pull request
     7. 后面写标题和注释然后就可以发起pull request了
     
+14. avoid the specification of the username and password at every git push
+
+Add the SSH public key in the github
+
+
+
+If you have done the steps above and are still getting the password prompt, make sure your repo URL is in the form
+```
+git+ssh://git@github.com/username/reponame.git
+```
+as opposed to
+```
+https://github.com/username/reponame.git
+```
+To see your repo URL, run:
+```
+git remote show origin
+```
+You can change the URL with:
+```
+git remote set-url origin git+ssh://git@github.com/username/reponame.git
+```
+
+
+
+
 
 
 ## 3. Cutomize git server
