@@ -12,9 +12,11 @@ URL: https://www.aaai.org/ocs/index.php/AAAI/AAAI18/paper/download/16360/16061
 ## Main idea
 ![framework of LeakGAN](./images/leakgan_framework.png)
 
-The Worker module takes the last(current) word $x_t$ as its input at each step $t$ and outputs a matrix $O_t$, which is further combined with goal embedding vector $w_t$ by matrix product to determine the distribution of the next word through a softmax.
+The Worker module takes the last(current) word ![](https://latex.codecogs.com/svg.latex?x_t) as its input at each step ![](https://latex.codecogs.com/svg.latex?t) and outputs a matrix ![](https://latex.codecogs.com/svg.latex?O_t), which is further combined with goal embedding vector ![](https://latex.codecogs.com/svg.latex?w_t) by matrix product to determine the distribution of the next word through a softmax.
 
-The Manager module takes the extracted feature $f_t$ as input, which is further combined with the current hidden state $h_{t-1}^M$ of the Manager model to produce the feature sub-goal vector $g_t$. To corporate the feature sub-goal vector $g_t$, a linear transformation $\phi$ with weight matrix $W_{\phi}$ is performed on a summation over recent c goals to produce the action sub-goal vector $w_t$.
+The Manager module takes the extracted feature ![](https://latex.codecogs.com/svg.latex?f_t) as input, which is further combined with the current hidden state ![](https://latex.codecogs.com/svg.latex?h_{t-1}^M) of the Manager model to produce the feature sub-goal vector ![](https://latex.codecogs.com/svg.latex?g_t). To corporate the feature sub-goal vector ![](https://latex.codecogs.com/svg.latex?g_t), a linear transformation ![](https://latex.codecogs.com/svg.latex?\phi) with weight matrix ![](https://latex.codecogs.com/svg.latex?W_{\phi}) is performed on a summation over recent c goals to produce the action sub-goal vector ![](https://latex.codecogs.com/svg.latex?w_t).
+
+
 
 
 
