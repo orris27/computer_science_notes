@@ -4,3 +4,17 @@
 1. `\usepackage[UTF8]{ctex}`
 
 2. settings >> compiler => XeLaTeX
+
+### Hyperlink
+```
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+%....
+\hyperlink{https://github.com/orris27}{Github}
+```
