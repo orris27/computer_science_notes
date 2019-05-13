@@ -1,12 +1,14 @@
 URL: https://arxiv.org/pdf/1709.08624.pdf
 
 ## Objectiveness
+Generate high-quality language descriptions based on GAN
+
+
+
+## Problems to be solved
 + The signal given from discriminator lacks intermedia information. => Problem of long text generation
 
-
-
 ## Points
-+ Manager & Worker
 + Discriminator leaks its own high-level extracted feature to the generator
 
 ## Main idea
