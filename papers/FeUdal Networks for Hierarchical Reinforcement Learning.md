@@ -21,4 +21,4 @@ Decouple end-to-end learning across multiple levels, allowing it to utilise diff
 
 
 ## Formulas
-![](./images/fun_structure.png)
+![](./images/fun_formulas.png)
