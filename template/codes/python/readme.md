@@ -5796,6 +5796,63 @@ mu1
 ```
 
 
+29. dynamic_rnn: [reference codes](https://github.com/orris27/machine-learning-codes/blob/master/pytorch/dynamic_rnn.ipynb)
+```
+def dynamic_rnn(cell, inputs, sequence_length=None, initial_state=None, dtype=None):
+    '''
+        Inputs:
+            cell: torch.nn.LSTMCell instance
+            inputs: (batch_size, max_timestep, input_size)
+            sequence_length: (batch_size,)
+            initial_state: a tuple of (hidden_state, cell_state)
+        Outputs:
+            outputs: (batch_size, max_timestep, hidden_size)
+            final_states(NOT SUPPORT): a tuple of (hidden_state, cell_state) which are the final states of the cell
+    '''
+    def sort_batch(data, lengths):
+        '''
+            data: (batch_size, ?)
+            lengths: (batch_size,)
+        '''
+        sorted_indices, sorted_lengths = zip(*sorted(enumerate(lengths), key=lambda x: x[1], reverse=True))
+        sorted_indices = list(sorted_indices)
+        sorted_data = data[sorted_indices]
+        return sorted_data, sorted_lengths, sorted_indices
+
+    dtype = inputs.dtype
+    device = inputs.device
+    if sequence_length is None:
+        sequence_length = torch.LongTensor([inputs.shape[1]]).to(deviec)
+        
+    sorted_inputs, sorted_lengths, sorted_indices = sort_batch(inputs, sequence_length)
+    
+    decoder_lengths = [length - 1 for length in sorted_lengths]
+
+    sorted_outputs = torch.zeros((inputs.shape[0], inputs.shape[1], cell.hidden_size), dtype=dtype).to(device)
+    outputs = torch.zeros((inputs.shape[0], inputs.shape[1], cell.hidden_size), dtype=dtype).to(device)
+
+
+    h, c = None, None
+    for step in range(sorted_lengths[0]):
+        curr_batch_size = sum([l > step for l in sorted_lengths])
+        #sorted_inputs = sorted_inputs[:curr_batch_size, step, :] # (curr_batch_size, timesteps, input_size)
+        curr_inputs = sorted_inputs[:curr_batch_size, step, :] # (batch_size, input_size)
+
+        if h is None or c is None:
+            h, c = cell(curr_inputs, None) # (curr_batch_size, hidden_size)
+        else:
+            h, c = h[:curr_batch_size], c[:curr_batch_size] # (curr_batch_size, hidden_size)
+            h, c = cell(curr_inputs, (h, c)) # (curr_batch_size, hidden_size)
+
+        sorted_outputs[:curr_batch_size, step, :] = h
+
+    # sort back
+    outputs[sorted_indices] = sorted_outputs
+
+    return outputs
+```
+
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
