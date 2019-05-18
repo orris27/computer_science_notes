@@ -7993,6 +7993,7 @@ os.chdir("gdrive/My Drive")
 ```
 
 ## 32. argparse
++ bool: If the command arguments have `--load=False`, the `args.load` is still True. The only way to turn it off is not to include `--load` in the command parameters
 ```
 def main(args):
     vocab = build_vocab(caption_path=args.caption_path, min_count=args.min_count)
