@@ -5230,21 +5230,20 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
     ```
 
 13. RNN: 支持变长的time_steps
-    1. LSTM
+    1. LSTM: !!!IMPORTANT: The states must be given, otherwise states will be initialized to zeros, which has a terrible effect if we call each timestep!!!
     + `batch_first`: True: (batch_size, time_steps, input_size); False: (time_steps, batch_size, input_size)
     + `net_out[:, -1, :]`: 选取最后一个时刻的输出 (batch_size, time_steps, input_size)
-    + `None`: 之前的hidden_state
+    + `None`: initial states. !!!IMPORTANT!!!
     + `h_n`和`h_c`: 好像是进程相关的?
     ```
     class LSTM(torch.nn.Module):
         def __init__(self, input_size, hidden_size, num_classes):
             super(LSTM, self).__init__()
-            self.lstm1 = torch.nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=1, batch_first=True)
-            self.fc1 = torch.nn.Linear(hidden_size, num_classes)
+            self.lstm = torch.nn.LSTM(input_size=input_size, hidden_size=hidden_size, num_layers=1, batch_first=True)
+            self.fc = torch.nn.Linear(hidden_size, num_classes)
 
         def forward(self, net): # net: (batch_size, 1, 28, 28)
-
-            net_out, (h_n, h_c) = self.lstm1(net, None)
+            net_out, states = self.lstm(net, None) # net_out: (batch_size, net.shape[1], hidden_size); states: a tuple of (hidden_state, cell_state)
             net = net_out[:, -1, :]
             net = self.fc1(net)
             return net
