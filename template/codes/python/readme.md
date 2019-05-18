@@ -5797,14 +5797,14 @@ mu1
 
 
 29. dynamic_rnn: [reference codes](https://github.com/orris27/machine-learning-codes/blob/master/pytorch/dynamic_rnn.ipynb)
++ If the inputs are fixed-lengths data, we recommend to use `torch.nn.LSTM` rather than `torch.nn.LSTMCell` and `dynamic_rnn`.
 ```
-def dynamic_rnn(cell, inputs, sequence_length=None, initial_state=None, dtype=None):
+def dynamic_rnn(cell, inputs, sequence_length):
     '''
         Inputs:
             cell: torch.nn.LSTMCell instance
             inputs: (batch_size, max_timestep, input_size)
             sequence_length: (batch_size,)
-            initial_state: a tuple of (hidden_state, cell_state)
         Outputs:
             outputs: (batch_size, max_timestep, hidden_size)
             final_states(NOT SUPPORT): a tuple of (hidden_state, cell_state) which are the final states of the cell
@@ -5821,8 +5821,6 @@ def dynamic_rnn(cell, inputs, sequence_length=None, initial_state=None, dtype=No
 
     dtype = inputs.dtype
     device = inputs.device
-    if sequence_length is None:
-        sequence_length = torch.LongTensor([inputs.shape[1]]).to(deviec)
         
     sorted_inputs, sorted_lengths, sorted_indices = sort_batch(inputs, sequence_length)
     
