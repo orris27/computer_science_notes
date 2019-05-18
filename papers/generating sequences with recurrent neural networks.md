@@ -20,9 +20,11 @@ A mixture Gaussians was used to predict ![](https://latex.codecogs.com/svg.latex
 Note that in the paper, the ![](https://latex.codecogs.com/svg.latex?x) and ![](https://latex.codecogs.com/svg.latex?y) define the pen offset from the previous point instead of the absolute values.
 
 The outputs, which is denoted with hat to be distinguished from the preprocessed ones, obtains from the LSTM architecture:
+
 ![](./images/handwriting_outputs.png)
 
 The formulas that process the raw outputs to obtain the true parameters that define distributions:
+
 ![](./images/handwriting_process.png)
 
 The meaning of the parameters:
