@@ -8169,6 +8169,7 @@ svg2png(bytestring=dwg.tostring(), write_to='output.png')
 
 ## 35. cairosvg
 convert svg xml to png
+### 1. to png file
 ```
 from cairosvg import svg2png
 
@@ -8181,6 +8182,13 @@ svg_code = """
 """
 
 svg2png(bytestring=svg_code,write_to='output.png')
+```
+### 2. to byte string
+```
+img = svg2png(bytestring=svg_code)
+
+with open('output1.png', 'wb') as f:
+    f.write(img)
 ```
 ## 36. python
 1. 如果是`__main__`的话
