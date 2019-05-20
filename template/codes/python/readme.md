@@ -7145,7 +7145,11 @@ Image(filename="/home/user/orris/image-caption/try/Image-Caption-based-on-SeqGAN
 display.clear_output(wait=True)
 ```
 
-
+3. display SVG
+```
+from IPython.core.display import SVG
+SVG(filename='logo.svg')
+```
 
 
 
