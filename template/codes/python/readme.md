@@ -8062,8 +8062,29 @@ if __name__ == '__main__':
     main(args)
 ```
 
+## 33. multiprocessing
+1. Pool
+```
+from multiprocessing import Pool
+import time
 
-## 33. python
+def f(x):
+    while True:
+        print(x * x)
+        time.sleep(1)
+
+if __name__ == '__main__':
+    pool = Pool(processes=4)
+    pool.apply_async(f,(1,))
+    pool.apply_async(f,(2,))
+    pool.apply_async(f,(3,))
+
+    pool.close()
+    pool.join()
+```
+
+
+## 34. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
