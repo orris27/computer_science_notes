@@ -7137,7 +7137,7 @@ c, d
 1. display an image
 ```
 from IPython import display
-Image(filename="/home/user/orris/image-caption/try/Image-Caption-based-on-SeqGAN/images/surf.jpg")
+display.Image(filename="/home/user/orris/image-caption/try/Image-Caption-based-on-SeqGAN/images/surf.jpg")
 ```
 
 2. clear_output: Clear the output of the current cell receiving output.
@@ -8088,7 +8088,101 @@ if __name__ == '__main__':
 ```
 
 
-## 34. python
+## 34. svgwrite
+example
+```
+dwg = svgwrite.Drawing('test.svg', profile='tiny')
+dwg.add(dwg.line((0, 0), (10, 0), stroke=svgwrite.rgb(10, 10, 16, '%')))
+dwg.add(dwg.text('Test', insert=(2, 10), fill='red'))
+dwg.save()
+```
+
+### construct an object
++ filename
++ size=('100%', '100%'): Note that the default background color is transparent
++ extra: additional SVG attributs as keyword-arguments, such as fill(color), profile, etc.
+```
+dwg = svgwrite.Drawing('test.svg', profile='tiny')
+```
+### add patterns
+#### 1. line
++ `'RGB'`: returns a rgb-string format: ``'rgb(r, g, b)'``
++ `'%'`: returns percent-values as rgb-string format: ``'rgb(r%, g%, b%)'``
+```
+dwg.add(dwg.line((0, 0), (10, 0), stroke=svgwrite.rgb(10, 10, 16, '%')))
+```
+#### 2. text
+```
+dwg.add(dwg.text('Test', insert=(0, 0.2), fill='red'))
+```
+#### 3. rect
++ insert: (x, y)
++ size: (width, height)
+```
+dwg.add(dwg.rect(insert=(0, 0), size=(100, 100), fill='blue'))
+```
+
+#### 4. path
+```
+dwg.add(dwg.path('M 1,2 L 100, 0 L 0,100 z').stroke('black', 1).fill('rgb(200, 12, 234)'))
+```
+1. commands: [refer](https://www.w3.org/TR/SVG11/paths.html#PathData)
++ moveto: M(absolute), m(relative)
++ lineto: L(absolute), l(relative), H, h(horizontal), V, v(vertical)
++ closepath: Z / z => draw a line from current point to the initial point to form a closed path
+
+2. stroke:
++ color: the color of the line/stroke
++ width: width of the pen
+
+3. fill:
++ color: the color that is surrounded by the lines
+
+
+
+### extra
+1. fill
++ `fill='white'`
++ `fill='rgb(255, 255, 0)'`
+
+
+### Drawing
+#### 1. save
+Write the XML string to filename
+```
+dwg.save() # the filename is given when the object 'dwg' is constructed
+```
+
+
+#### 2. write
+```
+with open('test.svg', 'w', encoding='utf-8') as f:
+    dwg.write(f)
+```
+
+#### 3. tostring
+```
+from cairosvg import svg2png
+svg2png(bytestring=dwg.tostring(), write_to='output.png')
+```
+
+
+## 35. cairosvg
+convert svg xml to png
+```
+from cairosvg import svg2png
+
+svg_code = """
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12" y2="16"/>
+    </svg>
+"""
+
+svg2png(bytestring=svg_code,write_to='output.png')
+```
+## 36. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
