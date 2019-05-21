@@ -5851,6 +5851,10 @@ def dynamic_rnn(cell, inputs, sequence_length):
 ```
 
 
+30. torch.no_grad vs detach
+
+See [this](https://discuss.pytorch.org/t/detach-no-grad-and-requires-grad/16915/7). They are similar but `torch.no_grad` uses less memory because it knows from the beginning that the no gradients are needed so it does not need to keep intermediary results.
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
