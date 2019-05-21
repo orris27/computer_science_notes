@@ -16,7 +16,7 @@
 }
 
 %....
-\hyperlink{https://github.com/orris27}{Github}
+\href{https://github.com/orris27}{Github}
 ```
 
 ## Relative Link
