@@ -7953,12 +7953,14 @@ parse('2029/04/05', fuzzy=True)
 ## 27. urllib
 Download files
 ```
-from urllib.request import urlretrieve
-url = 'http://central.maven.org/maven2/edu/stanford/nlp/stanford-parser/3.9.2/stanford-parser-3.9.2.jar'
-filename = url.split('/')[-1]
-if not os.path.exists(filename):
-    print('Downloading {} from {}...'.format(filename, url))
-    urlretrieve(url, filename=filename)
+def download(url):
+    import os
+    from urllib.request import urlretrieve
+    filename = url.split('/')[-1]
+    if not os.path.exists(filename):
+        print('Downloading {} from {}...'.format(filename, url))
+        urlretrieve(url, filename=filename)
+download('https://pytorch.org/tutorials/_static/img/neural-style/picasso.jpg')
 ```
 
 
