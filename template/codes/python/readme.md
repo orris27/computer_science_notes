@@ -7140,8 +7140,8 @@ c, d
 ### display
 1. display an image
 ```
-from IPython import display
-display.Image(filename="/home/user/orris/image-caption/try/Image-Caption-based-on-SeqGAN/images/surf.jpg")
+from IPython.display import display, Image
+display(Image(filename="/home/user/orris/image-caption/try/Image-Caption-based-on-SeqGAN/images/surf.jpg"))
 ```
 
 2. clear_output: Clear the output of the current cell receiving output.
