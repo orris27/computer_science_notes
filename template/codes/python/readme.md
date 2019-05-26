@@ -5889,7 +5889,7 @@ def dynamic_rnn(cell, inputs, sequence_length):
 See [this](https://discuss.pytorch.org/t/detach-no-grad-and-requires-grad/16915/7). They are similar but `torch.no_grad` uses less memory because it knows from the beginning that the no gradients are needed so it does not need to keep intermediary results.
 
 
-31. affine_grid & grid_sample: see more details in [Hungyi Li](https://www.bilibili.com/video/av9770302/?p=5)
+31. affine_grid & grid_sample: see more details in [Hungyi Li](https://www.bilibili.com/video/av9770302/?p=5) and [blog](https://www.jianshu.com/p/723af68beb2e)
 ```
 img = Image.open('05.jpg')
 img = T.ToTensor()(img)
