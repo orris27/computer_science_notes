@@ -7953,10 +7953,11 @@ parse('2029/04/05', fuzzy=True)
 ## 27. urllib
 Download files
 ```
-def download(url):
+def download(url, filename=None):
     import os
     from urllib.request import urlretrieve
-    filename = url.split('/')[-1]
+    if filename is None:
+        filename = url.split('/')[-1]
     if not os.path.exists(filename):
         print('Downloading {} from {}...'.format(filename, url))
         urlretrieve(url, filename=filename)
