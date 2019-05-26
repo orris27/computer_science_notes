@@ -2600,3 +2600,16 @@ int cmp(int a, int b)
 }
 sort(o, o + n, cmp);
 ```
+## 7. string
+1. length
+```
+s = "abc";
+s.length(); // 3
+s.size(); // 3
+```
+2. substr
+```
+s = "abcdefg";
+s.substr(1, 3); // "bcd"
+s.substr(3, 2); // "de"
+```
