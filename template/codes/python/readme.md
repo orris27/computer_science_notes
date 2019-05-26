@@ -8197,7 +8197,18 @@ img = svg2png(bytestring=svg_code)
 with open('output1.png', 'wb') as f:
     f.write(img)
 ```
-## 36. python
+
+
+
+## 36. zipfile
+```
+def unzip(path):
+    from zipfile import ZipFile
+    with ZipFile(path, 'r') as z:
+        z.extractall()
+```
+
+## 37. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
