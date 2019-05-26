@@ -5888,6 +5888,19 @@ def dynamic_rnn(cell, inputs, sequence_length):
 
 See [this](https://discuss.pytorch.org/t/detach-no-grad-and-requires-grad/16915/7). They are similar but `torch.no_grad` uses less memory because it knows from the beginning that the no gradients are needed so it does not need to keep intermediary results.
 
+
+31. affine_grid & grid_sample: see more details in [Hungyi Li](https://www.bilibili.com/video/av9770302/?p=5)
+```
+img = Image.open('05.jpg')
+img = T.ToTensor()(img)
+
+theta = torch.FloatTensor([[1, 0, -0.2], [0, 1, 0.4]]) # Consider the index of new H*W to be (x, y), the original index would be (x - 0.2, y + 0.4)
+grid = F.affine_grid(theta.unsqueeze(0), img.unsqueeze(0).size())
+output = F.grid_sample(img.unsqueeze(0), grid)
+
+imshow(output[0].numpy().transpose(1, 2, 0)) # the image pans to the right and pans down
+```
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
