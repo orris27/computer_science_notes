@@ -6492,6 +6492,18 @@ if is_ipython:
     from IPython import display
 ```
 
+6. subplots
+```
+x = np.linspace(0, 2*np.pi, 400)
+y = np.sin(x**2)
+
+f, (ax1, ax2) = plt.subplots(1, 2, sharey=True) # share x / y, etc
+ax1.plot(x, y)
+ax1.set_title('Sharing Y axis')
+ax2.scatter(x, y)
+plt.show()
+```
+
 ## 5. PIL
 1. 基本操作
 ```
