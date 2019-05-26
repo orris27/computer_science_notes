@@ -4955,7 +4955,22 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
         1. `loss = loss_fn(网络的最后层未激活的输出, y)`
     2. torch.nn.CrossEntropyLoss
         1. `loss = loss_fn(F.softmax(网络的最后层未激活的输出), y)`: `[batch_size, num_classes]` & `[batch_size]`
-    3. output: `print("%.4f" % loss.data[0])`
+    3. `F.cross_entropy` <=> `F.nll_loss`
+    ```
+    input = torch.randn(3, 5, requires_grad=True)
+    target = torch.LongTensor([1, 0, 4])
+    
+    F.nll_loss(F.log_softmax(input), target)
+    #--------------------------------------------------------------
+    # tensor(2.6430, grad_fn=<NllLossBackward>)
+    #--------------------------------------------------------------
+    
+    F.cross_entropy(F.log_softmax(input), target)
+    #--------------------------------------------------------------
+    # tensor(2.6430, grad_fn=<NllLossBackward>)
+    #--------------------------------------------------------------
+    
+    ```
 
 8. save & load: [reference codes](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/save_load.py)
     1. the whole model
