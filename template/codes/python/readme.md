@@ -5151,7 +5151,10 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
     train_dataset = torchvision.datasets.MNIST(
             root = dataset_dir,
             train = True, # True: training data; False: testing data
-            transform = torchvision.transforms.ToTensor(), # ndarray => torch tensor
+            transform = T.Compose([
+                       T.ToTensor(),
+                       T.Normalize((0.1307,), (0.3081,))
+                   ]),
             download = False, # whether download or not
             )
 
