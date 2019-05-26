@@ -5534,7 +5534,22 @@ tensor([[-0.5044,  0.0005],
     ```
     2. 常用组合
     ```
-    
+    imsize = 224
+    transforms = {
+        'train': T.Compose([
+            T.RandomResizedCrop(imsize),
+            T.RandomHorizontalFlip(),
+            T.ToTensor(),
+            T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+        'val': T.Compose([
+            T.Resize(imsize),
+            T.CenterCrop(imsize),
+            T.ToTensor(),
+            T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+    }
+
     ```
 
 
