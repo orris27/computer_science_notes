@@ -4724,7 +4724,7 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
         model = model.cuda()
 
         # ...
-        for step ,(x_batch, y_batch) in enumerate(train_dataloader):
+        for step ,(x_batch, y_batch) in enumerate(train_loader):
             x_batch = Variable(x_batch).cuda()
             y_batch = Variable(y_batch).cuda()
 
@@ -5160,9 +5160,9 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
 
 
 
-    train_dataloader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
+    train_loader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
 
-    for (imgs, labels) in train_dataloader: # train_data is a list with length 2. [image data, image label]
+    for (imgs, labels) in train_loader: # train_data is a list with length 2. [image data, image label]
         plt.figure()
         plt.imshow(images[0].numpy().squeeze(), cmap="gray")
         plt.show()
@@ -5179,9 +5179,9 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
             download = False, # whether download or not
             )
 
-    train_dataloader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
+    train_loader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
 
-    for (imgs, labels) in train_dataloader: # train_data is a list with length 2. [image data, image label]
+    for (imgs, labels) in train_loader: # train_data is a list with length 2. [image data, image label]
         print(imgs.shape)
         break
         #---------------------------------------------------
