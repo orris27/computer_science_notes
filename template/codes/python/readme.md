@@ -8266,7 +8266,17 @@ def unzip(path):
         z.extractall()
 ```
 
-## 37. python
+## 37. glob
+```
+
+import glob
+
+all_filenames = glob.glob('../data/names/*.txt') # return a list of filenames that match the pattern
+print(all_filenames) # ['../data/names/Arabic.txt', ...]
+```
+
+
+## 38. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
