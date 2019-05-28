@@ -5901,6 +5901,17 @@ output = F.grid_sample(img.unsqueeze(0), grid)
 imshow(output[0].numpy().transpose(1, 2, 0)) # the image pans to the right and pans down
 ```
 
+
+32. gather
+```
+t = torch.tensor([[1, 2, 3],[4, 5, 6]])
+
+torch.gather(t, 1, torch.LongTensor([[1, 0, 2], [2, 1, 0]]))
+#----------------------------------------------------------------
+# tensor([[2, 1, 3], # [1, 0, 2] means choose element from t[0] based on index, which means that [t[0][1], t[0][0], t[0][2]]
+#         [6, 5, 4]]) # [t[1][2], t[1][1], t[1][0]]
+#----------------------------------------------------------------
+```
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
