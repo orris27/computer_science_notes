@@ -2613,3 +2613,17 @@ s = "abcdefg";
 s.substr(1, 3); // "bcd"
 s.substr(3, 2); // "de"
 ```
+## 8. stack
+```
+stack<int> s;
+cout << s.empty() << endl; # 1
+s.push(10);
+s.push(20);
+cout << s.empty() << endl; # 0
+cout << s.top() << endl; # 20
+s.pop();
+cout << s.top() << endl; # 10
+s.pop();
+cout << s.empty() << endl; # 1
+
+```
