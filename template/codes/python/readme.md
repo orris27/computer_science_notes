@@ -5812,6 +5812,19 @@ torch.gather(t, 1, torch.LongTensor([[1, 0, 2], [2, 1, 0]]))
 #         [6, 5, 4]]) # [t[1][2], t[1][1], t[1][0]]
 #----------------------------------------------------------------
 ```
+33. Generalized Advantage Estimation(GAE). See details [here]()
+```
+def GAE(advantages, gamma, lmbda):
+    gae_advantages = torch.zeros_like(advantages)
+    gae = 0
+
+    for ri in reversed(range(len(advantages))):
+        gae = gae * gamma * lmbda + advantages[ri]
+        gae_advantages[ri] = gae
+    return gae_advantages
+```
+
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
