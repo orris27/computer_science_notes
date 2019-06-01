@@ -2642,18 +2642,34 @@ vector<int> vect{ 10, 20, 30 };  // 10, 20, 30
 
 vector<int> vect1{ 10, 20, 30 }; 
 vector<int> vect2(vect1.begin(), vect1.end()); // 10, 20, 30
+```
 
+2. return
+```
+vector<int> get()
+{
+    return vector<int> {2, 3};
+}
 ```
 ## 10. map
-insert, find
+1. insert
 ```
 map<int, int> res;
 res.insert(pair<int, int>(1, 100));
 res.insert(pair<int, int>(2, 200));
-
+```
+2. find
+```
 res.find(1) == res.end() // true
 res.find(2) == res.end() // true
 res.find(3) == res.end() // false
-
+```
+3. second, iterator
+```
+map<int, int> m;
+map<int, int>::iterator it;
+m.insert(pair<int, int>(1, 10));
+it = m.find(1);
+cout << it->second << endl;
 
 ```
