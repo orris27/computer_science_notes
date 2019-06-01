@@ -2627,3 +2627,20 @@ s.pop();
 cout << s.empty() << endl; # 1
 
 ```
+
+## 9. vector
+1. initialize vector
+```
+vector<int> vect;  
+vect.push_back(10); 
+vect.push_back(20); 
+vect.push_back(30); 
+  
+
+vector<int> vect(3, 10);  // 10, 10, 10
+vector<int> vect{ 10, 20, 30 };  // 10, 20, 30
+
+vector<int> vect1{ 10, 20, 30 }; 
+vector<int> vect2(vect1.begin(), vect1.end()); // 10, 20, 30
+
+```
