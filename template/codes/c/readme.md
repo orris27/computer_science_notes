@@ -2644,3 +2644,16 @@ vector<int> vect1{ 10, 20, 30 };
 vector<int> vect2(vect1.begin(), vect1.end()); // 10, 20, 30
 
 ```
+## 10. map
+insert, find
+```
+map<int, int> res;
+res.insert(pair<int, int>(1, 100));
+res.insert(pair<int, int>(2, 200));
+
+res.find(1) == res.end() // true
+res.find(2) == res.end() // true
+res.find(3) == res.end() // false
+
+
+```
