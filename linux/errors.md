@@ -1324,6 +1324,12 @@ Reason: variable-length vector
 `__getitem__` pads the vector
 
 
+11. `/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:73: UserWarning: Using a target size (torch.Size([200, 1, 200])) that is different to the input size (torch.Size([200, 1])). This will likely lead to incorrect results due to broadcasting. Please ensure they have the same size.`
+
+Reason: The shape of two arguments of `F.smooth_l1_loss` are different.
+
+Solution: Reshape these two arguments to make them the same shape
+
 ## 26. Vue
 1. `npm run dev`报错:
 ```
