@@ -2673,3 +2673,22 @@ it = m.find(1);
 cout << it->second << endl;
 
 ```
+## 11. set
+1. construct
+```
+set<char> chars;
+```
+2. insert
+```
+chars.insert('a');
+```
+3. find
+```
+if (chars.find('a') == chars.end())
+    // ...
+```
+4. erase
+```
+chars.erase('a');
+```
+
