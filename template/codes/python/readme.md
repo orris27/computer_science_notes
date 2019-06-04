@@ -5659,7 +5659,7 @@ one_hot(y, 11)
 26. distribution
     1. Categorical Distribution
     ```
-    from torch.distribution import Categorical
+    from torch.distributions import Categorical
     m = Categorical(torch.Tensor([[0.5, 0.2, 0.2, 0.1], [0.1, 0.2, 0.3, 0.4]]))
     m.sample()
     #---------------------------
@@ -5669,7 +5669,7 @@ one_hot(y, 11)
 
     2. Bernoulli Distribution
     ```
-    from torch.distribution import Bernoulli
+    from torch.distributions import Bernoulli
     m = Bernoulli(torch.tensor([0.3]))
     m.sample()  # 30% chance 1; 70% chance 0
     #---------------------------
