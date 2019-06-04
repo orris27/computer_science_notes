@@ -1330,6 +1330,10 @@ Reason: The shape of two arguments of `F.smooth_l1_loss` are different.
 
 Solution: Reshape these two arguments to make them the same shape
 
+12. `# !git checkout dev && git clean -d -f && git pull origin dev`
+
+`train_loader = DataLoader(PSFDataset(train_names),  batch_size=args.batch_size, shuffle=True, collate_fn=collate_fn)`, the `train_names` is empty
+
 ## 26. Vue
 1. `npm run dev`报错:
 ```
