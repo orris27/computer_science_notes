@@ -6340,6 +6340,23 @@ np.array(sorted(a, key=lambda x: x[1]))
 
 ```
 
+22. 
+```
+mu1, mu2 = -1, 1
+sigma1, sigma2, rho = -0.5, 0.5, 1
+
+np.random.multivariate_normal([mu1, mu2], [[sigma1**2, rho*sigma1*sigma2], [rho*sigma1*sigma2, sigma2**2]])
+#-------------------------------
+# array([-1.69325796,  1.69325796])
+#-------------------------------
+
+np.random.multivariate_normal([mu1, mu2], [[sigma1**2, rho*sigma1*sigma2], [rho*sigma1*sigma2, sigma2**2]])
+#-------------------------------
+# array([-0.6871234,  0.6871234])
+#-------------------------------
+
+```
+
 ## 4. plt
 + `import matplotlib.pyplot as plt`
 + Add `%matplotlib inline` in jupyter notebook and use plt the same way
