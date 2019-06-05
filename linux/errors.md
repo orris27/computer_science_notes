@@ -1336,7 +1336,7 @@ Solution: Reshape these two arguments to make them the same shape
 
 13. `one of the variables needed for gradient computation has been modified by an inplace operation`
 
-Debug methods, see [here](https://github.com/pytorch/pytorch/issues/15803)
++ Debug methods, see [here](https://github.com/pytorch/pytorch/issues/15803), for example
 ```
 with torch.autograd.set_detect_anomaly(True):
     a = torch.rand(1, requires_grad=True)
@@ -1351,6 +1351,19 @@ with torch.autograd.set_detect_anomaly(True):
 
     b.backward()
 
+```
++ My case:
+```
+with torch.autograd.set_detect_anomaly(True):
+    a = torch.rand(1, requires_grad=True)
+    c = torch.rand(1, requires_grad=True)
+
+    d = torch.zeros(3, dtype=torch.float)
+    d[0] = a** 2
+    d[1] = c ** 2
+    d[2] = d[0] ** 2 # this cause inplace problem
+    b = torch.mean(d)
+    b.backward()
 ```
 
 
