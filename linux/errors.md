@@ -1352,7 +1352,7 @@ with torch.autograd.set_detect_anomaly(True):
     b.backward()
 
 ```
-+ My case:
++ My case 1:
 ```
 with torch.autograd.set_detect_anomaly(True):
     a = torch.rand(1, requires_grad=True)
@@ -1366,6 +1366,51 @@ with torch.autograd.set_detect_anomaly(True):
     b.backward()
 ```
 
++ My case 2:
+```
+with torch.autograd.set_detect_anomaly(True):
+    a = torch.rand(1, requires_grad=True)
+    c = torch.rand(1, requires_grad=True)
+
+    d = torch.zeros(2, 3, dtype=torch.float)
+    for i in range(2):
+        k = torch.zeros(3, dtype=torch.float)
+        k[0] = a** 2 + i
+        k[1] = c ** 2 + i
+        k[2] = a ** 3+i
+        d[i] = k
+            
+    for j in range(3):
+        max_value = torch.max(d[:, i])   
+        min_value = torch.min(d[:, i])
+                                      
+        d[:, i] = 2.0 * (d[:, i] - min_value) / (max_value - min_value) - 1.0
+    b = torch.mean(d)                                                        
+    b.backward()                                                             
+
+```
+solution
+```
+with torch.autograd.set_detect_anomaly(True):
+    a = torch.rand(1, requires_grad=True)
+    c = torch.rand(1, requires_grad=True)
+
+    d = torch.zeros(2, 3, dtype=torch.float)
+    for i in range(2):
+        d[i, 0] = a ** 2 +i
+        d[i, 1] = c ** 2 + i
+        d[i, 2] = a ** 3 + i
+    
+    d1 = torch.zeros(2, 3, dtype=torch.float)        
+    for j in range(3):
+        max_value = torch.max(d)   
+        min_value = torch.min(d)
+                                      
+        d1[:, i] = 2.0 * (d[:, i] - min_value) / (max_value - min_value) - 1.0
+    b = torch.mean(d1)                                                        
+    b.backward()        
+
+```
 
 ## 26. Vue
 1. `npm run dev`报错:
