@@ -1334,6 +1334,26 @@ Solution: Reshape these two arguments to make them the same shape
 
 `train_loader = DataLoader(PSFDataset(train_names),  batch_size=args.batch_size, shuffle=True, collate_fn=collate_fn)`, the `train_names` is empty
 
+13. `one of the variables needed for gradient computation has been modified by an inplace operation`
+
+Debug methods, see [here](https://github.com/pytorch/pytorch/issues/15803)
+```
+with torch.autograd.set_detect_anomaly(True):
+    a = torch.rand(1, requires_grad=True)
+    c = torch.rand(1, requires_grad=True)
+
+    b = a ** 2 * c ** 2
+    b += 1
+    b *= c + a
+
+    d = b.exp_()
+    d *= 5
+
+    b.backward()
+
+```
+
+
 ## 26. Vue
 1. `npm run dev`报错:
 ```
