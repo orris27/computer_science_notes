@@ -7701,7 +7701,13 @@ os.path.splitext('/a/b/a.txt.bak')
 #-----------------------------
 
 ```
+5. walk
+```
+for dirname, sub_dirnames, filenames in os.walk('.'):
+    print(dirname, sub_dirnames, filenames, sep='\n')
+    print('-'*30)
 
+```
 
 ## 20. fire
 在命令行中指定调用的函数以及参数
