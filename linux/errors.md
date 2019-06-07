@@ -1177,6 +1177,10 @@ sudo ntfsfix /dev/sdc1 # /dev/sdc1 is the partiion name of USB
 Root can write.
 
 
+8. `unable to locate package texlive-full`
+
+change apt source in `/etc/apt/sources.list`
+
 ## 23. Python
 1. 使用pickle的时候报错`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte`
     ```
