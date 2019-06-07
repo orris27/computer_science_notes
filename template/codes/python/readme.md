@@ -5852,6 +5852,13 @@ MultivariateNormal(means, covariance_matrix).sample()
 
 ```
 
+34. print norms of gradients
+```
+for name, p in list(filter(lambda p: p[1].grad is not None, model.named_parameters())):
+    print(name, p.grad.data.norm(2).item(), sep=': ')
+```
+
+
 
 ## 3. Numpy
 1. 随机数
