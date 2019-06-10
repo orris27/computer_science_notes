@@ -98,3 +98,14 @@ grouping and centering equations: display a set of equations without alignment
     3x^2 + 9y = 3a + c
 \end{gather*}
 ```
+constraints problem
+```
+\begin{equation*}
+\begin{aligned}
+& \underset{x}{\text{minimize}}
+& & f_0(x) \\
+& \text{subject to}
+& & f_i(x) \leq b_i, \; i = 1, \ldots, m.
+\end{aligned}
+\end{equation*}
+```
