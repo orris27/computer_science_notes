@@ -50,7 +50,51 @@ reference.bib:
 }
 ```
 ## Math
+### 1. symbol
 + `\log_5{x}`
 + `\ln{x}`
 + `\displaystyle{\frac{1}{x^2+1}}` = `\dfrac{}`
 + `\left|\frac{x}{x+1}\right|`, `3\left(\frac{x}{x+1}\right)`, `\left. \frac{dy}{dx} \right|_{x=1}`(remain only right vertical bar)
+
+## Packages
+### 1. amsmath
+a single equation
+```
+\begin{equation} \label{eq1}
+y = x^2 + 1
+\end{equation}
+A single equation \ref{eq1}.
+```
+
+long equation: the first part will be aligned to the left and the second part will be displayed in the next line and aligned to the right. `*` can toggle the equation numbering. When numbering is allowed, we can label each row individually.
+```
+\begin{multline*}
+    p(x) = p(x) = 3x^6 + 14x^5y + 590x^4y^2 + 19x^3y^3 \\
+    - 12x^2y^4 - 12xy^5 + 2y^6 - a^3b^3
+\end{multline*}
+```
+
+align several equations: the ampersand character `&` determines where the equations align
+```
+\begin{align*}
+    2x - 5y & = 8 \\
+    3x + 9y & = -12 
+\end{align*}
+
+% Another example
+
+% ampersand character determines where euqations align and separater different equations in one row
+\begin{align*}
+    x       & = y      & w     & = z            & a  & = b + c \\
+    2x      & = -y     & 3w    & = \frac{1}{2}z & a  & = b \\
+    -4 + 5x & = 2 + y  & w + 2 & = -1 + w       & ab & = cb
+\end{align*}
+
+```
+grouping and centering equations: display a set of equations without alignment
+```
+\begin{gather*}
+    2x - 5y = 8 \\
+    3x^2 + 9y = 3a + c
+\end{gather*}
+```
