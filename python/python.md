@@ -134,7 +134,11 @@ jupyter notebook --ip=10.214.144.222
 
 2. 转化ipynb文件为py文件
 ```
-jupyter nbconvert --to script xx.ipynb
+jupytejupyter notebook passwordr nbconvert --to script xx.ipynb
+```
+3. set password
+```
+jupyter notebook password
 ```
 
 ## 3. 安装pip包

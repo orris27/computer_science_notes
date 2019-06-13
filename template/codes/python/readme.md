@@ -4724,7 +4724,7 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
         model = model.cuda()
 
         # ...
-        for step ,(x_batch, y_batch) in enumerate(train_dataloader):
+        for step ,(x_batch, y_batch) in enumerate(train_loader):
             x_batch = Variable(x_batch).cuda()
             y_batch = Variable(y_batch).cuda()
 
@@ -4827,135 +4827,50 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
             #--------------------------------------------------------------
 
             ```
-    2. regression
+    2. Create a model
     ```
-    import torch
-    import numpy as np
-    import torch.nn.functional as F
-    from torch.autograd import Variable
-    import matplotlib.pyplot as plt
-
-    batch_size = 200
-
-    x = torch.unsqueeze(torch.linspace(-5, 5, batch_size), dim=1) # tensor
-    y = x.pow(2) + torch.rand(x.size()) # tensor
-
-    x, y = Variable(x), Variable(y) # cast tensor to variable
-
-    class NN(torch.nn.Module):
+    class Model(nn.Module):
         def __init__(self, input_size, hidden_size, output_size):
-            super(NN, self).__init__()
-            self.fc1 = torch.nn.Linear(input_size, hidden_size)
-            self.fc2 = torch.nn.Linear(hidden_size, output_size)
+            super(Model, self).__init__()
+            self.fc1 = nn.Linear(input_size, hidden_size)
+            self.fc2 = nn.Linear(hidden_size, output_size)
 
         def forward(self, net): # not underlined
             net = F.relu(self.fc1(net))
             net = self.fc2(net)
             return net
 
-    model = NN(1, 10, 1)
+    model = Model(1, 10, 1)
     #print(model)
     #----------------------------------------
-    # NN (
-    #   (fc_1): Linear (1 -> 10)
-    #   (fc_2): Linear (10 -> 1)
+    # Model(
+    # (fc1): Linear(in_features=1, out_features=10, bias=True)
+    # (fc2): Linear(in_features=10, out_features=1, bias=True)
     # )
     #----------------------------------------
-
-    optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
-    loss_fn = torch.nn.MSELoss()
-
-    plt.ion() # 实时画图
-    plt.show()
-
-    for epoch in range(1000 + 1):
-        y_pred = model(x)
-        loss = loss_fn(y_pred, y)
-
-        if epoch % 20 == 0:
-            plt.cla() # clear the current axes
-            plt.scatter(x.data.numpy(), y.data.numpy())
-            plt.plot(x.data.numpy(), y_pred.data.numpy(), 'r-', lw=5)
-            plt.text(0.5, 0, 'Loss=%.4f' % loss.data[0], fontdict={"size": 20, "color": "red"})
-            plt.pause(0.1) # pause
-
-        optimizer.zero_grad() # clear the current grads
-        loss.backward() 
-        optimizer.step() # update the grads
-
-    plt.ioff()
-    plt.show() # if commented, then the picture box will disappear when the program finishes
     ```
-    3. classification
-    ```
-    import torch
-    import numpy as np
-    import torch.nn.functional as F
-    from torch.autograd import Variable
-    import matplotlib.pyplot as plt
-
-    batch_size = 200
-
-    n_data = torch.ones(100, 2)
-    x0 = torch.normal(2 * n_data, 1)
-    y0 = torch.zeros(100)
-    x1 = torch.normal(-2 * n_data, 1)
-    y1 = torch.ones(100)
-    x = torch.cat((x0, x1), 0).type(torch.FloatTensor) # default type
-    y = torch.cat((y0, y1), 0).type(torch.LongTensor) # labels must be int
-
-    x, y = Variable(x), Variable(y) # cast tensor to variable
-
-    #plt.scatter(x.data.numpy()[:, 0], x.data.numpy()[:, 1], c=y.data.numpy())
-    #plt.show()
-
-    class NN(torch.nn.Module):
-        def __init__(self, input_size, hidden_size, output_size):
-            super(NN, self).__init__()
-            self.fc1 = torch.nn.Linear(input_size, hidden_size)
-            self.fc2 = torch.nn.Linear(hidden_size, output_size)
-
-        def forward(self, net): # not underlined
-            net = F.relu(self.fc1(net))
-            net = self.fc2(net)
-            return net
-
-    model = NN(2, 10, 2)
-
-    optimizer = torch.optim.SGD(model.parameters(), lr=0.003)
-    loss_fn = torch.nn.CrossEntropyLoss() # shape of argument? after activation fn
-
-    plt.ion() # 实时画图
-    plt.show()
-
-    for epoch in range(1000 + 1):
-        out = model(x) # (-infty, infty)
-        loss = loss_fn(F.softmax(out), y)
-        y_pred = torch.squeeze(torch.max(F.softmax(out), dim=1)[1]) # the output of torch.max is a tuple with (max_values, max_indices)
-
-        if epoch % 20 == 0:
-            plt.cla() # clear the current axes
-            #plt.scatter(x.data.numpy(), y.data.numpy())
-            plt.scatter(x.data.numpy()[:, 0], x.data.numpy()[:, 1], c=y_pred.data.numpy())
-            #plt.plot(x.data.numpy(), y_pred.data.numpy(), 'r-', lw=5)
-            plt.text(0.5, 0, 'Loss=%.4f' % loss.data[0], fontdict={"size": 20, "color": "red"})
-            plt.pause(0.1) # pause
-
-        optimizer.zero_grad() # clear the current grads
-        loss.backward() 
-        optimizer.step() # update the grads
-
-    plt.ioff()
-    plt.show() # if commented, then the picture box will disappear when the program finishes
-    ```
-
 
 7. loss function
-    1. torch.nn.MSELoss
+    1. torch.nn.MSELoss <=> torch.nn.SmoothL1Loss
         1. `loss = loss_fn(网络的最后层未激活的输出, y)`
     2. torch.nn.CrossEntropyLoss
         1. `loss = loss_fn(F.softmax(网络的最后层未激活的输出), y)`: `[batch_size, num_classes]` & `[batch_size]`
-    3. output: `print("%.4f" % loss.data[0])`
+    3. `F.cross_entropy` <=> `F.nll_loss`
+    ```
+    input = torch.randn(3, 5, requires_grad=True)
+    target = torch.LongTensor([1, 0, 4])
+    
+    F.nll_loss(F.log_softmax(input), target)
+    #--------------------------------------------------------------
+    # tensor(2.6430, grad_fn=<NllLossBackward>)
+    #--------------------------------------------------------------
+    
+    F.cross_entropy(F.log_softmax(input), target)
+    #--------------------------------------------------------------
+    # tensor(2.6430, grad_fn=<NllLossBackward>)
+    #--------------------------------------------------------------
+    
+    ```
 
 8. save & load: [reference codes](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/pytorch/save_load.py)
     1. the whole model
@@ -5121,10 +5036,10 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
 
 10. optimizer
 ```
-opt = torch.optim.SGD(model.parameters(), lr=learning_rate)
-opt = torch.optim.SGD(model.parameters(), lr=learning_rate, momentum=0.8)
-opt = torch.optim.RMSprop(model.parameters(), lr=learning_rate, alpha=0.9)
-opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
+self.optimizer = torch.optim.SGD(self.parameters(), lr=learning_rate)
+self.optimizer = torch.optim.SGD(self.parameters(), lr=learning_rate, momentum=0.8)
+self.optimizer = torch.optim.RMSprop(self.parameters(), lr=learning_rate, alpha=0.9)
+self.optimizer = torch.optim.Adam(self.parameters(), lr=1e-3, betas=(0.9, 0.99))
 ```
 
 
@@ -5136,15 +5051,18 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
     train_dataset = torchvision.datasets.MNIST(
             root = dataset_dir,
             train = True, # True: training data; False: testing data
-            transform = torchvision.transforms.ToTensor(), # ndarray => torch tensor
+            transform = T.Compose([
+                       T.ToTensor(),
+                       T.Normalize((0.1307,), (0.3081,))
+                   ]),
             download = False, # whether download or not
             )
 
 
 
-    train_dataloader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
+    train_loader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
 
-    for (imgs, labels) in train_dataloader: # train_data is a list with length 2. [image data, image label]
+    for (imgs, labels) in train_loader: # train_data is a list with length 2. [image data, image label]
         plt.figure()
         plt.imshow(images[0].numpy().squeeze(), cmap="gray")
         plt.show()
@@ -5161,9 +5079,9 @@ opt = torch.optim.Adam(model.parameters(), lr=learning_rate, betas=(0.9, 0.99))
             download = False, # whether download or not
             )
 
-    train_dataloader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
+    train_loader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
 
-    for (imgs, labels) in train_dataloader: # train_data is a list with length 2. [image data, image label]
+    for (imgs, labels) in train_loader: # train_data is a list with length 2. [image data, image label]
         print(imgs.shape)
         break
         #---------------------------------------------------
@@ -5534,7 +5452,22 @@ tensor([[-0.5044,  0.0005],
     ```
     2. 常用组合
     ```
-    
+    imsize = 224
+    transforms = {
+        'train': T.Compose([
+            T.RandomResizedCrop(imsize),
+            T.RandomHorizontalFlip(),
+            T.ToTensor(),
+            T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+        'val': T.Compose([
+            T.Resize(imsize),
+            T.CenterCrop(imsize),
+            T.ToTensor(),
+            T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+    }
+
     ```
 
 
@@ -5706,14 +5639,14 @@ model = model.to(device)
 
 25. one_hot
 ```
-def one_hot(y, nb_digits): 
+def onehot(y, nb_digits): 
     y_onehot = torch.LongTensor(y.size(0), nb_digits) 
     y_onehot.zero_() 
     y_onehot.scatter_(1, y.unsqueeze(1), 1) 
     return y_onehot 
 
 y = torch.LongTensor([2, 3, 0, 10])
-one_hot(y, 11)
+onehot(y, 11)
 #-------------------------------------------------------------
 # tensor([[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
 #         [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
@@ -5726,7 +5659,7 @@ one_hot(y, 11)
 26. distribution
     1. Categorical Distribution
     ```
-    from torch.distribution import Categorical
+    from torch.distributions import Categorical
     m = Categorical(torch.Tensor([[0.5, 0.2, 0.2, 0.1], [0.1, 0.2, 0.3, 0.4]]))
     m.sample()
     #---------------------------
@@ -5736,7 +5669,7 @@ one_hot(y, 11)
 
     2. Bernoulli Distribution
     ```
-    from torch.distribution import Bernoulli
+    from torch.distributions import Bernoulli
     m = Bernoulli(torch.tensor([0.3]))
     m.sample()  # 30% chance 1; 70% chance 0
     #---------------------------
@@ -5854,6 +5787,78 @@ def dynamic_rnn(cell, inputs, sequence_length):
 30. torch.no_grad vs detach
 
 See [this](https://discuss.pytorch.org/t/detach-no-grad-and-requires-grad/16915/7). They are similar but `torch.no_grad` uses less memory because it knows from the beginning that the no gradients are needed so it does not need to keep intermediary results.
+
+
+31. affine_grid & grid_sample: see more details in [Hungyi Li](https://www.bilibili.com/video/av9770302/?p=5) and [blog](https://www.jianshu.com/p/723af68beb2e)
+```
+img = Image.open('05.jpg')
+img = T.ToTensor()(img)
+
+theta = torch.FloatTensor([[1, 0, -0.2], [0, 1, 0.4]]) # Consider the index of new H*W to be (x, y), the original index would be (x - 0.2, y + 0.4)
+grid = F.affine_grid(theta.unsqueeze(0), img.unsqueeze(0).size())
+output = F.grid_sample(img.unsqueeze(0), grid)
+
+imshow(output[0].numpy().transpose(1, 2, 0)) # the image pans to the right and pans down
+```
+
+
+32. gather
+```
+t = torch.tensor([[1, 2, 3],[4, 5, 6]])
+
+torch.gather(t, 1, torch.LongTensor([[1, 0, 2], [2, 1, 0]]))
+#----------------------------------------------------------------
+# tensor([[2, 1, 3], # [1, 0, 2] means choose element from t[0] based on index, which means that [t[0][1], t[0][0], t[0][2]]
+#         [6, 5, 4]]) # [t[1][2], t[1][1], t[1][0]]
+#----------------------------------------------------------------
+```
+33. Generalized Advantage Estimation(GAE). See details [here]()
+```
+def GAE(advantages, gamma, lmbda):
+    gae_advantages = torch.zeros_like(advantages)
+    gae = 0
+
+    for ri in reversed(range(len(advantages))):
+        gae = gae * gamma * lmbda + advantages[ri]
+        gae_advantages[ri] = gae
+    return gae_advantages
+```
+
+33. MultivariateNormal (batch version)
+```
+means
+#----------------------------------------------
+# tensor([[1., 3.],
+#         [1., 3.]], device='cuda:0')
+#----------------------------------------------
+
+
+covariance_matrixs
+#----------------------------------------------
+# tensor([[[ 1.0000e-06, -1.0000e-06],
+#          [-1.0000e-06,  1.0000e-06]],
+#
+#         [[ 1.0000e-06, -1.0000e-06],
+#          [-1.0000e-06,  1.0000e-06]]], device='cuda:0')
+#----------------------------------------------
+
+
+MultivariateNormal(means, covariance_matrix).sample()
+#----------------------------------------------
+# tensor([[1.0012, 2.9988],
+#         [1.0016, 2.9984]], device='cuda:0')
+#----------------------------------------------
+
+
+```
+
+34. print norms of gradients
+```
+for name, p in list(filter(lambda p: p[1].grad is not None, model.named_parameters())):
+    print(name, p.grad.data.norm(2).item(), sep=': ')
+```
+
+
 
 ## 3. Numpy
 1. 随机数
@@ -6370,6 +6375,51 @@ np.array(sorted(a, key=lambda x: x[1]))
 
 ```
 
+22. 
+```
+mu1, mu2 = -1, 1
+sigma1, sigma2, rho = -0.5, 0.5, 1
+
+np.random.multivariate_normal([mu1, mu2], [[sigma1**2, rho*sigma1*sigma2], [rho*sigma1*sigma2, sigma2**2]])
+#-------------------------------
+# array([-1.69325796,  1.69325796])
+#-------------------------------
+
+np.random.multivariate_normal([mu1, mu2], [[sigma1**2, rho*sigma1*sigma2], [rho*sigma1*sigma2, sigma2**2]])
+#-------------------------------
+# array([-0.6871234,  0.6871234])
+#-------------------------------
+
+```
+
+23. element-wise comparison: `np.maximum` & `np.minimum`
+```
+a
+#------------------------------------------------------------
+# array([[-1.7259473 ,  0.48648798,  0.99416188],
+#        [-0.87666663, -0.61248633,  0.93781823]])
+#------------------------------------------------------------
+
+b
+#------------------------------------------------------------
+# array([[-1.56660875,  1.44797983,  1.11732621],
+#        [ 0.74480374,  0.22840063, -0.51368533]])
+#------------------------------------------------------------
+
+np.maximum(a, b)
+#------------------------------------------------------------
+# array([[-1.56660875,  1.44797983,  1.11732621],
+#        [ 0.74480374,  0.22840063,  0.93781823]])
+#------------------------------------------------------------
+
+np.minimum(a, b)
+#------------------------------------------------------------
+# array([[-1.7259473 ,  0.48648798,  0.99416188],
+#        [-0.87666663, -0.61248633, -0.51368533]])
+#------------------------------------------------------------
+
+```
+
 ## 4. plt
 + `import matplotlib.pyplot as plt`
 + Add `%matplotlib inline` in jupyter notebook and use plt the same way
@@ -6444,6 +6494,18 @@ plt.show()
 is_ipython = 'inline' in matplotlib.get_backend()
 if is_ipython:
     from IPython import display
+```
+
+6. subplots
+```
+x = np.linspace(0, 2*np.pi, 400)
+y = np.sin(x**2)
+
+f, (ax1, ax2) = plt.subplots(1, 2, sharey=True) # share x / y, etc
+ax1.plot(x, y)
+ax1.set_title('Sharing Y axis')
+ax2.scatter(x, y)
+plt.show()
 ```
 
 ## 5. PIL
@@ -7006,8 +7068,7 @@ print(predictedLabel)
     
 7. train_test_split
 ```
-from sklearn.cross_validation import train_test_split
-
+from sklearn.model_selection import train_test_split
 x = np.arange(128)
 y = np.array([1] * 64 + [0] * 64)
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.33)
@@ -7057,6 +7118,33 @@ env.close()
         #--------------------------------------------------------
         ```
 
+3. get_sample
+    1. entire episode
+    2. rollout
+    ```
+    env = gym.make("CartPole-v0")
+
+    def get_sample(env, policy):
+        done = False
+        s = env.reset() # (state_size, )
+        while not done:
+            ss, aa, rr, s_primes, done_masks = list(), list(), list(), list(), list()
+            for t in range(num_rollouts):
+                a = policy.sample_action(s)
+                s_prime, r, done, _ = env.step(a) # a is 0 or 1
+                ss.append(s)
+                aa.append(a)
+                rr.append(r)
+                s_primes.append(s_prime)
+                done_mask = 0.0 if done else 1.0
+                done_masks.append(done_mask)
+                s = s_prime
+                if done:
+                    break
+
+            sample = (torch.Tensor(ss).to(device), torch.LongTensor(aa).to(device), torch.Tensor(rr).to(device), torch.Tensor(s_primes).to(device), torch.Tensor(done_masks).to(device))
+            yield sample
+    ```
 
 ## 11. csv
 1. read lines: 自动根据逗号分割成字符串列表
@@ -7647,7 +7735,13 @@ os.path.splitext('/a/b/a.txt.bak')
 #-----------------------------
 
 ```
+5. walk
+```
+for dirname, sub_dirnames, filenames in os.walk('.'):
+    print(dirname, sub_dirnames, filenames, sep='\n')
+    print('-'*30)
 
+```
 
 ## 20. fire
 在命令行中指定调用的函数以及参数
@@ -7953,10 +8047,11 @@ parse('2029/04/05', fuzzy=True)
 ## 27. urllib
 Download files
 ```
-def download(url):
+def download(url, filename=None):
     import os
     from urllib.request import urlretrieve
-    filename = url.split('/')[-1]
+    if filename is None:
+        filename = url.split('/')[-1]
     if not os.path.exists(filename):
         print('Downloading {} from {}...'.format(filename, url))
         urlretrieve(url, filename=filename)
@@ -8196,7 +8291,28 @@ img = svg2png(bytestring=svg_code)
 with open('output1.png', 'wb') as f:
     f.write(img)
 ```
-## 36. python
+
+
+
+## 36. zipfile
+```
+def unzip(path):
+    from zipfile import ZipFile
+    with ZipFile(path, 'r') as z:
+        z.extractall()
+```
+
+## 37. glob
+```
+
+import glob
+
+all_filenames = glob.glob('../data/names/*.txt') # return a list of filenames that match the pattern
+print(all_filenames) # ['../data/names/Arabic.txt', ...]
+```
+
+
+## 38. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
@@ -8976,3 +9092,21 @@ print()
 #------------------------------------------------------------
 ```
 
+37. eval:
+```
+eval('[1, 2]')
+#-------------------------------
+# [1, 2]
+#-------------------------------
+
+eval('{3, 4}')
+#-------------------------------
+# {3, 4}
+#-------------------------------
+
+eval('{1: 10, 4: 40}')
+#-------------------------------
+# {1: 10, 4: 40}
+#-------------------------------
+
+```

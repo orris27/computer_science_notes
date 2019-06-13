@@ -1177,6 +1177,10 @@ sudo ntfsfix /dev/sdc1 # /dev/sdc1 is the partiion name of USB
 Root can write.
 
 
+8. `unable to locate package texlive-full`
+
+change apt source in `/etc/apt/sources.list`
+
 ## 23. Python
 1. 使用pickle的时候报错`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte`
     ```
@@ -1323,6 +1327,94 @@ Reason: variable-length vector
 
 `__getitem__` pads the vector
 
+
+11. `/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:73: UserWarning: Using a target size (torch.Size([200, 1, 200])) that is different to the input size (torch.Size([200, 1])). This will likely lead to incorrect results due to broadcasting. Please ensure they have the same size.`
+
+Reason: The shape of two arguments of `F.smooth_l1_loss` are different.
+
+Solution: Reshape these two arguments to make them the same shape
+
+12. `# !git checkout dev && git clean -d -f && git pull origin dev`
+
+`train_loader = DataLoader(PSFDataset(train_names),  batch_size=args.batch_size, shuffle=True, collate_fn=collate_fn)`, the `train_names` is empty
+
+13. `one of the variables needed for gradient computation has been modified by an inplace operation`
+
++ Debug methods, see [here](https://github.com/pytorch/pytorch/issues/15803), for example
+```
+with torch.autograd.set_detect_anomaly(True):
+    a = torch.rand(1, requires_grad=True)
+    c = torch.rand(1, requires_grad=True)
+
+    b = a ** 2 * c ** 2
+    b += 1
+    b *= c + a
+
+    d = b.exp_()
+    d *= 5
+
+    b.backward()
+
+```
++ My case 1:
+```
+with torch.autograd.set_detect_anomaly(True):
+    a = torch.rand(1, requires_grad=True)
+    c = torch.rand(1, requires_grad=True)
+
+    d = torch.zeros(3, dtype=torch.float)
+    d[0] = a** 2
+    d[1] = c ** 2
+    d[2] = d[0] ** 2 # this cause inplace problem
+    b = torch.mean(d)
+    b.backward()
+```
+
++ My case 2:
+```
+with torch.autograd.set_detect_anomaly(True):
+    a = torch.rand(1, requires_grad=True)
+    c = torch.rand(1, requires_grad=True)
+
+    d = torch.zeros(2, 3, dtype=torch.float)
+    for i in range(2):
+        k = torch.zeros(3, dtype=torch.float)
+        k[0] = a** 2 + i
+        k[1] = c ** 2 + i
+        k[2] = a ** 3+i
+        d[i] = k
+            
+    for j in range(3):
+        max_value = torch.max(d[:, i])   
+        min_value = torch.min(d[:, i])
+                                      
+        d[:, i] = 2.0 * (d[:, i] - min_value) / (max_value - min_value) - 1.0
+    b = torch.mean(d)                                                        
+    b.backward()                                                             
+
+```
+solution
+```
+with torch.autograd.set_detect_anomaly(True):
+    a = torch.rand(1, requires_grad=True)
+    c = torch.rand(1, requires_grad=True)
+
+    d = torch.zeros(2, 3, dtype=torch.float)
+    for i in range(2):
+        d[i, 0] = a ** 2 +i
+        d[i, 1] = c ** 2 + i
+        d[i, 2] = a ** 3 + i
+    
+    d1 = torch.zeros(2, 3, dtype=torch.float)        
+    for j in range(3):
+        max_value = torch.max(d)   
+        min_value = torch.min(d)
+                                      
+        d1[:, i] = 2.0 * (d[:, i] - min_value) / (max_value - min_value) - 1.0
+    b = torch.mean(d1)                                                        
+    b.backward()        
+
+```
 
 ## 26. Vue
 1. `npm run dev`报错:

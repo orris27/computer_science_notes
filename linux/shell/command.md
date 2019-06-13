@@ -2311,6 +2311,16 @@ python -m pdb main.py generate --nogpu --vis=False --netd-path=checkpoints/netd_
 
 ### 59-2. gdb
 调试使用`-g`编译后的C/C++程序.`gdb xx`(xx是编译连接后的可执行程序)
+
+#### How to Use
+```
+g++ -g main.cpp
+gdb ./a.out
+
+(gdb)b 60
+(gdb)r
+// ....
+```
 #### 59-2-1. options
 1. 启动程序
     1. `r`:相当于在命令行中直接运行程序.

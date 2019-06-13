@@ -2551,3 +2551,144 @@ int main()
     return 0;
 }
 ```
+
+## 6. cpp
+1. header
+```
+#include <iostream>
+#include <algorithm>
+#include <fstream>
+#include <vector>
+#include <deque>
+#include <assert.h>
+#include <queue>
+#include <stack>
+#include <set>
+#include <map>
+#include <stdio.h>
+#include <string.h>
+#include <utility>
+#include <math.h>
+#include <bitset>
+#include <iomanip>
+#include <complex>
+
+using namespace std;
+
+#define rep(i, a, b) for (int i = (a), i##_end_ = (b); i < i##_end_; ++i)
+#define debug(...) fprintf(stderr, __VA_ARGS__)
+#define mp make_pair
+#define x first
+#define y second
+#define pb push_back
+#define SZ(x) (int((x).size()))
+#define ALL(x) (x).begin(), (x).end()
+
+template<typename T> inline bool chkmin(T &a, const T &b) { return a > b ? a = b, 1 : 0; }
+template<typename T> inline bool chkmax(T &a, const T &b) { return a < b ? a = b, 1 : 0; }
+template<typename T> inline bool smin(T &a, const T &b)   { return a > b ? a = b : a;    }
+template<typename T> inline bool smax(T &a, const T &b)   { return a < b ? a = b : a;    }
+
+typedef long long LL;
+```
+2. sort
+```
+int cmp(int a, int b)
+{
+    return a < b; // increasing
+    // return a > b; // decreasing or reversed = True
+}
+sort(o, o + n, cmp);
+```
+## 7. string
+1. length
+```
+s = "abc";
+s.length(); // 3
+s.size(); // 3
+```
+2. substr
+```
+s = "abcdefg";
+s.substr(1, 3); // "bcd"
+s.substr(3, 2); // "de"
+```
+## 8. stack
+```
+stack<int> s;
+cout << s.empty() << endl; # 1
+s.push(10);
+s.push(20);
+cout << s.empty() << endl; # 0
+cout << s.top() << endl; # 20
+s.pop();
+cout << s.top() << endl; # 10
+s.pop();
+cout << s.empty() << endl; # 1
+
+```
+
+## 9. vector
+1. initialize vector
+```
+vector<int> vect;  
+vect.push_back(10); 
+vect.push_back(20); 
+vect.push_back(30); 
+  
+
+vector<int> vect(3, 10);  // 10, 10, 10
+vector<int> vect{ 10, 20, 30 };  // 10, 20, 30
+
+vector<int> vect1{ 10, 20, 30 }; 
+vector<int> vect2(vect1.begin(), vect1.end()); // 10, 20, 30
+```
+
+2. return
+```
+vector<int> get()
+{
+    return vector<int> {2, 3};
+}
+```
+## 10. map
+1. insert
+```
+map<int, int> res;
+res.insert(pair<int, int>(1, 100));
+res.insert(pair<int, int>(2, 200));
+```
+2. find
+```
+res.find(1) == res.end() // true
+res.find(2) == res.end() // true
+res.find(3) == res.end() // false
+```
+3. second, iterator
+```
+map<int, int> m;
+map<int, int>::iterator it;
+m.insert(pair<int, int>(1, 10));
+it = m.find(1);
+cout << it->second << endl;
+
+```
+## 11. set
+1. construct
+```
+set<char> chars;
+```
+2. insert
+```
+chars.insert('a');
+```
+3. find
+```
+if (chars.find('a') == chars.end())
+    // ...
+```
+4. erase
+```
+chars.erase('a');
+```
+
