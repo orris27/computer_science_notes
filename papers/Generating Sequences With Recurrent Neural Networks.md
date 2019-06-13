@@ -26,7 +26,9 @@ The meaning of the parameters:
 + ![](https://latex.codecogs.com/svg.latex?\sigma_1^j) and ![](https://latex.codecogs.com/svg.latex?sigma_2^j): standard deviations of the i-th bivariate normal distribution
 + ![](https://latex.codecogs.com/svg.latex?\rho^j): correlation of the i-th bivariate normal distribution
 
+### Bivariate Gaussian 
 
+![](./images/bivariate_gaussian.png)
 
 ### Sampling
 
