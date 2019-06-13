@@ -31,7 +31,7 @@ The meaning of the parameters:
 ### Sampling
 
 + weighted sum of `M` distributions
-+ randomly choose one of distribution based on their weights
++ randomly choose one of distribution based on their weights. In this case, `w` defines the probability of choosing one of them
 
 
 
