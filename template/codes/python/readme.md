@@ -5866,7 +5866,7 @@ y = x * w
 #def variable_hook(grad): # input is gradient
 #    print('grad of y: \r\n', grad) # no return
 #hook_handle = y.register_hook(variable_hook)
-hook_handle = y.register_hook(lambda grad: print('grad of y:', grad))
+y.register_hook(lambda grad: print('grad of y:', grad))
 z = y.sum()
 z.backward()
 #--------------------------------------------------------------------
