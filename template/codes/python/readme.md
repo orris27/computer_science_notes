@@ -5858,7 +5858,22 @@ for name, p in list(filter(lambda p: p[1].grad is not None, model.named_paramete
     print(name, p.grad.data.norm(2).item(), sep=': ')
 ```
 
-
+35. hook: check gradients of intermediate variables
+```
+x = torch.ones(3).requires_grad_()
+w = torch.randn(3).requires_grad_()
+y = x * w
+def variable_hook(grad): # input is gradient
+    print('grad of y: \r\n', grad) # no return
+hook_handle = y.register_hook(variable_hook)
+z = y.sum()
+z.backward()
+#--------------------------------------------------------------------
+# grad of y: 
+#  tensor([1., 1., 1.])
+#--------------------------------------------------------------------
+hook_handle.remove() # remove the hook after backpropagation
+```
 
 ## 3. Numpy
 1. 随机数
