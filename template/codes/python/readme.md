@@ -5876,6 +5876,12 @@ z.backward()
 hook_handle.remove() # remove the hook after backpropagation
 ```
 
+36. `retain_graph`: details [here](https://github.com/orris27/machine-learning-codes/blob/master/pytorch/retain_graph.ipynb)
+```
+loss1.backward(retain_graph=True)
+loss2.backward()
+```
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
