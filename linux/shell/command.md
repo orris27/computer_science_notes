@@ -3059,5 +3059,7 @@ hp /home/orris/.local/bin/gsutil  -m cp -R gs://quickdraw_dataset/full/numpy_bit
 ## 93. redirection
 Writing python outputs to log file immediately
 ```
+python -u script.py > log
+# OR
 stdbuf -oL python script.py > log
 ```
