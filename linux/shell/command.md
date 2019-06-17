@@ -3055,3 +3055,9 @@ cat /etc/fstab
 pip2 install gsutil
 hp /home/orris/.local/bin/gsutil  -m cp -R gs://quickdraw_dataset/full/numpy_bitmap .
 ```
+
+## 93. redirection
+Writing python outputs to log file immediately
+```
+stdbuf -oL python script.py > log
+```
