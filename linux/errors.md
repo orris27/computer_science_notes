@@ -1558,3 +1558,19 @@ if (send(fd, sendpacket, strlen(sendpacket), 0) < 0)
     printf("Fail in send.\n");
 
 ```
+## 35. latex
+1. `\begin{align*}` fail:
+
+Make sure that there is no extra space (except the necessary newline) between the label and its contents.
+```
+# ok
+\begin{align*}
+y = x^2
+\end{align*}
+
+# no, since there is unecessary newline
+\begin{align*}
+
+y = x^2
+\end{align*}
+```
