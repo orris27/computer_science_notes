@@ -1416,6 +1416,10 @@ with torch.autograd.set_detect_anomaly(True):
 
 ```
 
+14. `error: cholesky_cuda: U(1,1) is zero, singular U`
+
+A matrix is singular if its determinant is zeros, in which case it has no inverse. In my codes, this error occurs because the elements in matrix are `NaN`.
+
 ## 26. Vue
 1. `npm run dev`报错:
 ```
