@@ -2642,6 +2642,8 @@ vector<int> vect{ 10, 20, 30 };  // 10, 20, 30
 
 vector<int> vect1{ 10, 20, 30 }; 
 vector<int> vect2(vect1.begin(), vect1.end()); // 10, 20, 30
+
+vector<vector<int>> intervals{{1, 3}, {2, 6}, {8, 10}, {15, 18}};
 ```
 
 2. return
