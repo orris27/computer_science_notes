@@ -2705,3 +2705,17 @@ vector<vector<int>> v{{3, 2}, {1, 3}, {5, 8}};
 sort(v.begin(), v.end(), [](const vector<int>& a, const vector<int>& b) {return a[0]<b[1];});
 # v: {{1 , 3}, {3, 2}, {5, 8}}
 ```
+## 13. iterate vector in C++
+```
+vector<vector<int>> v{{3, 2}, {1, 3}, {5, 8}};
+//for (vector<int>& vi: v)  // same
+for (auto& vi: v) // auto => vector<int> type
+{
+    for(int elm: vi) // int type
+    {
+        cout << elm << " ";
+    }
+    cout << endl;
+}
+
+```
