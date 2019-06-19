@@ -8188,6 +8188,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
     main(args)
 ```
+required
+```
+parser.add_argument('--a', type=int, required=True)
+```
+
 
 ## 33. multiprocessing
 1. Pool
