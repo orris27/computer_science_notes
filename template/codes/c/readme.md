@@ -2699,3 +2699,9 @@ if (chars.find('a') == chars.end())
 chars.erase('a');
 ```
 
+## 12. lambda
+```
+vector<vector<int>> v{{3, 2}, {1, 3}, {5, 8}};
+sort(v.begin(), v.end(), [](const vector<int>& a, const vector<int>& b) {return a[0]<b[1];});
+# v: {{1 , 3}, {3, 2}, {5, 8}}
+```
