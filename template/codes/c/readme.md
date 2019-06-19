@@ -2719,3 +2719,14 @@ for (auto& vi: v) // auto => vector<int> type
 }
 
 ```
+## 14. lower_bound, upper_bound
+Suppose {a, b, c, d, d, d, e, f, ...} is sorted, the lower_bound is 3, and the upper bound is 6
+```
+vector<int> v{10,20,30,30,20,10,10,20};
+sort(v.begin(), v.end());
+vector<int>::iterator low = lower_bound(v.begin(), v.end(), 20);
+vector<int>::iterator up = upper_bound(v.begin(), v.end(), 20);
+cout << "lower_bound position: " << low - v.begin() << endl; // 3
+cout << "upper_bound position: " << up - v.begin() << endl; // 6
+
+```
