@@ -2653,6 +2653,11 @@ vector<int> get()
     return vector<int> {2, 3};
 }
 ```
+3. back: return the last element
+```
+vector<int> v{1, 2, 3, 4};
+v.back(); // 4
+```
 ## 10. map
 1. insert
 ```
