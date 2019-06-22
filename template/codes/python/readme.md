@@ -5882,6 +5882,24 @@ loss1.backward(retain_graph=True)
 loss2.backward()
 ```
 
+37. pad images and obtain real widths
+```
+def pad_imgs(imgs):
+    '''imgs: (C, H, W) where W is different'''
+    imgs.sort(key=lambda x: x.shape[-1], reverse=True) # Sort a data list by width (descending order).
+    
+    widths = [img.shape[-1] for img in imgs]
+
+    padded_imgs = list()
+
+    for index, img in enumerate(imgs):
+        padded_imgs.append(F.pad(img, (0, imgs[0].shape[-1] - img.shape[-1]), 'constant', 0))
+    imgs = torch.stack(padded_imgs, 0)
+    return imgs, widths
+
+imgs, widths = pad_imgs(real_psf)
+```
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
