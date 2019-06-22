@@ -5885,7 +5885,7 @@ loss2.backward()
 37. pad images and obtain real widths
 ```
 def pad_imgs(imgs):
-    '''imgs: (C, H, W) where W is different'''
+    '''imgs:a list of tensor. (C, H, W) where W is different'''
     imgs.sort(key=lambda x: x.shape[-1], reverse=True) # Sort a data list by width (descending order).
     
     widths = [img.shape[-1] for img in imgs]
