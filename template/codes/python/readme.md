@@ -5884,20 +5884,32 @@ loss2.backward()
 
 37. pad images and obtain real widths
 ```
-def pad_imgs(imgs):
-    '''imgs:a list of tensor. (C, H, W) where W is different'''
-    imgs.sort(key=lambda x: x.shape[-1], reverse=True) # Sort a data list by width (descending order).
+def pad_imgs(imgs, sort):
+    '''
+        INPUT: 
+            imgs: [a list of tensor], (C, H, W) where W is different
+            sort: [boolean flag], whether sort imgs or not
+        OUTPUT: indices: [list], used for sorting
+        Usage: "imgs, widths, indices = pad_imgs(real_psf)"
+    '''
+    max_width = max([img.shape[-1] for img in imgs])
+    if sort == False:
+        indices = list(range(len(imgs)))
+    else:
+        data = sorted(enumerate(imgs), key=lambda x: x[1].shape[-1], reverse=True)
+        indices, imgs = zip(*data)
     
     widths = [img.shape[-1] for img in imgs]
 
     padded_imgs = list()
 
     for index, img in enumerate(imgs):
-        padded_imgs.append(F.pad(img, (0, imgs[0].shape[-1] - img.shape[-1]), 'constant', 0))
+        padded_imgs.append(F.pad(img, (0, max_width - img.shape[-1]), 'constant', 0))
     imgs = torch.stack(padded_imgs, 0)
-    return imgs, widths
+    
+    return imgs, widths, list(indices)
 
-imgs, widths = pad_imgs(real_psf)
+imgs, widths, indices = pad_imgs(real_psf, sort=True) # sort=False
 ```
 
 
