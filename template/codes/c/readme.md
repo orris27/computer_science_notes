@@ -2698,6 +2698,14 @@ if (chars.find('a') == chars.end())
 ```
 chars.erase('a');
 ```
+5. iterate
+```
+set<char> chars{'z', 'k', 'a', 'b', 'c'};
+for (char c: chars)
+    cout << c << " "; // a b c k z
+cout << endl;
+
+```
 
 ## 12. lambda
 ```
