@@ -5900,6 +5900,32 @@ def pad_imgs(imgs):
 imgs, widths = pad_imgs(real_psf)
 ```
 
+
+38. print optimizer's learning rate
+```
+# param_groups is a list corresponds to the list of parameters needing optimized
+for param_group in opt.param_groups:
+    print(param_group['lr'])
+```
+
+39. decayed learning rate
+```
+y = torch.Tensor([0, 0, 1, 0])
+x = torch.Tensor([0.2, 0.5, 0.9, 0.1]).requires_grad_()
+opt = torch.optim.Adam([x], lr=1e-3)
+scheduler = torch.optim.lr_scheduler.ExponentialLR(opt, gamma=0.95)
+for epoch in range(100):
+    loss = F.mse_loss(x, y)
+    opt.zero_grad()
+    loss.backward()
+    if epoch % 10 == 0: # condition check is necessary since each time we call scheduler.step(), the learning rate will decrease
+        scheduler.step()
+    for param_group in opt.param_groups:
+        print(param_group['lr']) # 0.01*10 + 0.00095*10 + 0.0009025*10, etc
+    opt.step()
+print(x)
+```
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
