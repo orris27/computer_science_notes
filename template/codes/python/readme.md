@@ -4882,7 +4882,7 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     
     model = torch.load("model.pkl")
     ```
-    2. the params of the model
+    2. the params of the model: Note that only the weights will be restored. If the model contains other memebers, such as those of int, float type, these members will not be restored. 
     ```
     # model = torch.nn.Sequential(...)
     torch.save(model.state_dict(), "model_params.pkl")
