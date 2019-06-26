@@ -2572,6 +2572,7 @@ int main()
 #include <bitset>
 #include <iomanip>
 #include <complex>
+#include <numeric>
 
 using namespace std;
 
@@ -2737,4 +2738,12 @@ vector<int>::iterator up = upper_bound(v.begin(), v.end(), 20);
 cout << "lower_bound position: " << low - v.begin() << endl; // 3
 cout << "upper_bound position: " << up - v.begin() << endl; // 6
 
+```
+
+## 15. iota
+```
+#include <numeric>
+
+vector<int> nums(10);
+iota(nums.begin(), nums.end(), 1); # 1, 2, 3, .. 10
 ```
