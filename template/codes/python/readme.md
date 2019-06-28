@@ -9217,3 +9217,10 @@ False and 10 # False
 
 -2 and 10 # 10
 ```
+
+39. list pop
+```
+l = [1, 2, 3]
+
+l.pop() # 3
+```
