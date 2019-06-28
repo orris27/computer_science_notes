@@ -9224,3 +9224,17 @@ l = [1, 2, 3]
 
 l.pop() # 3
 ```
+
+40. instance.method(...) = class.method(instance, ...)
+```
+c.print('abc') # abc
+
+C.print(c, 123) # 123
+```
+
+41. int add
+```
+int(3).__add__(5) # 8
+
+int.__add__(2, 3) # 5
+```
