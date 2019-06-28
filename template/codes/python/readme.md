@@ -7821,6 +7821,14 @@ for dirname, sub_dirnames, filenames in os.walk('.'):
 
 ```
 
+6. splitext
+```
+os.path.splitext('/home/orris.txt')
+#-----------------------------------------
+# ('/home/orris', '.txt')
+#-----------------------------------------
+```
+
 ## 20. fire
 在命令行中指定调用的函数以及参数
 
