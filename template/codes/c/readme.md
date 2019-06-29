@@ -2707,6 +2707,17 @@ for (char c: chars)
 cout << endl;
 
 ```
+6. clear
+```
+    set<pair<int, int>> s;
+    s.insert(pair<int, int>{1, 2});
+    
+    cout << (s.find(pair<int,int>{1, 2}) == s.end()) << endl; // 0
+    
+    s.clear();
+    cout << (s.find(pair<int,int>{1, 2}) == s.end()) << endl; // 1
+
+```
 
 ## 12. lambda
 ```
