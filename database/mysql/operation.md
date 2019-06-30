@@ -96,7 +96,10 @@ select user();
 select current_user();
 select now(); # 显示时间
 ```
-
+#### 4-3. drop database
+```
+drop database recycle;
+```
 ### 5. 权限
 默认是对所有数据库的usage权限
 #### 5-1. 授权
