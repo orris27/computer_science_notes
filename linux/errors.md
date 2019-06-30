@@ -1578,3 +1578,65 @@ y = x^2
 y = x^2
 \end{align*}
 ```
+
+## 36. django
+1. `python manage.py makemigrations` fails. 
+```
+  File "/media/orris/DATA/linux/gitrepo/recycle_book/bookmanage/admin.py", line 9, in <module>
+    admin.site.register(Card)
+NameError: name 'Card' is not defined
+
+```
+
+Answer: register models in `admin.py`
+
+2. `makemigrations` reports:
+```
+Did you rename book.price to book.original_price (a DecimalField)? [y/N] y
+You are trying to add a non-nullable field 'info' to book without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit, and let me add a default in models.py
+Select an option: 2
+```
+
+Solution: Remove the old migration files:
+```
+mv bookmanage/migrations/0001_initial.py /tmp
+```
+
+
+3. `makemigrations` reports:
+```
+SystemCheckError: System check identified some issues:
+
+ERRORS:
+bookmanage.Order.buyer: (fields.E304) Reverse accessor for 'Order.buyer' clashes with reverse accessor for 'Order.seller'.
+	HINT: Add or change a related_name argument to the definition for 'Order.buyer' or 'Order.seller'.
+bookmanage.Order.seller: (fields.E304) Reverse accessor for 'Order.seller' clashes with reverse accessor for 'Order.buyer'.
+	HINT: Add or change a related_name argument to the definition for 'Order.seller' or 'Order.buyer'.
+```
+
+Solution: Django is unable to generate unique names for a number of foreign keys in one table. Add related_name for them by ourselves: See details [here](https://stackoverflow.com/questions/2606194/django-error-message-add-a-related-name-argument-to-the-definition)
+```
+class Order(models.Model):
+    buyer = models.ForeignKey('User',on_delete=models.CASCADE, related_name='user_buyer')
+    seller = models.ForeignKey('User',on_delete=models.CASCADE, related_name='user_seller')
+    book = models.ForeignKey('Book', on_delete=models.CASCADE, related_name='book_book')
+```
+4. `MultiValueDictKeyError at /book/add/`
+
+```
+img = request.FILES['photo'] 
+```
+
+Solution: See details [here](https://stackoverflow.com/questions/22831576/django-raises-multivaluedictkeyerror-in-file-upload)
++ enctype
++ id + name
+```
+<form action="{% url "bookmanage:book_add" %}" method="post" enctype="multipart/form-data">
+<div class="custom-file">
+    <input type="file" class="custom-file-input" name="photo" id="photo">
+    <label class="custom-file-label" for="inputGroupFile04">选择这本书的封面</label>
+</div>
+```
