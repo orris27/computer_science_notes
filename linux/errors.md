@@ -1578,3 +1578,14 @@ y = x^2
 y = x^2
 \end{align*}
 ```
+
+## 36. django
+1. `python manage.py makemigrations` fails. 
+```
+  File "/media/orris/DATA/linux/gitrepo/recycle_book/bookmanage/admin.py", line 9, in <module>
+    admin.site.register(Card)
+NameError: name 'Card' is not defined
+
+```
+
+Answer: register models in `admin.py`
