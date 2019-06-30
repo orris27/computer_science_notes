@@ -1624,3 +1624,19 @@ class Order(models.Model):
     seller = models.ForeignKey('User',on_delete=models.CASCADE, related_name='user_seller')
     book = models.ForeignKey('Book', on_delete=models.CASCADE, related_name='book_book')
 ```
+4. `MultiValueDictKeyError at /book/add/`
+
+```
+img = request.FILES['photo'] 
+```
+
+Solution: See details [here](https://stackoverflow.com/questions/22831576/django-raises-multivaluedictkeyerror-in-file-upload)
++ enctype
++ id + name
+```
+<form action="{% url "bookmanage:book_add" %}" method="post" enctype="multipart/form-data">
+<div class="custom-file">
+    <input type="file" class="custom-file-input" name="photo" id="photo">
+    <label class="custom-file-label" for="inputGroupFile04">选择这本书的封面</label>
+</div>
+```
