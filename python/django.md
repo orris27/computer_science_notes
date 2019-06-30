@@ -40,5 +40,28 @@
    python manage.py  makemigrations
    python manage.py  migrate
    ```
+## Query Set
+1. query all the data
+```
+books = list(Book.objects.all())
+for book in books:
+    print(book.id)
+    print(book.title)
+    print(book.photo)
+```
 
-   
+## views -> template
+```
+err_name = 123 # python object. In fact, there is no need to dump for simple type such as list
+book_ids = [1, 2]
+context = {'title':'首页','err_name':json.dumps(err_name), 'book_ids':book_ids}
+
+# xx.html
+<div class="row">
+   {{ err_name }}
+</div>
+
+{% for book_id in book_ids %}
+    <h1>{{ book_id }}</h1>
+{% endfor %}
+```
