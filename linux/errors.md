@@ -1640,3 +1640,11 @@ Solution: See details [here](https://stackoverflow.com/questions/22831576/django
     <label class="custom-file-label" for="inputGroupFile04">选择这本书的封面</label>
 </div>
 ```
+5. makemigrations
+```
+/home/orris/anaconda3/lib/python3.6/site-packages/django/db/models/base.py:309: RuntimeWarning: Model 'bookmanage.book' was already registered. Reloading models is not advised as it can lead to inconsistencies, most notably with related models.
+  new_class._meta.apps.register_model(new_class._meta.app_label, new_class)
+No changes detected
+```
+
+Solution: Duplicate definition for one table. For example, define the class of `Book` twice
