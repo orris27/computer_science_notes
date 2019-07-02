@@ -2614,6 +2614,14 @@ s = "abcdefg";
 s.substr(1, 3); // "bcd"
 s.substr(3, 2); // "de"
 ```
+3. find: return index if exists, otherwise the index
+```
+    string s{"abc"};
+
+    cout << (s.find('b') != string::npos?true:false) << endl; # true
+    cout << (s.find('d') != string::npos?true:false) << endl; # false
+
+```
 ## 8. stack
 ```
 stack<int> s;
