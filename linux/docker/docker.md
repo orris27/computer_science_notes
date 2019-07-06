@@ -1,11 +1,21 @@
-## 1. 安装
-1. 直接yum安装
+## 1. Installation
+Method 1: yum
 ```
 yum install -y docker
 systemctl start docker
 systemctl status docker
 ```
+Method 2: Ubuntu
+```
+sudo apt-get update 
+sudo apt-get upgrade
+sudo apt-get install docker.io
+sudo usermod -a -G docker $USER  # add the current User to Docker group
+reboot # Important
+docker login --username orris --password xxx # account registered in Docker Hub
+docker run hello-world # check installation
 
+```
 
 ## 2. 镜像管理
 1. 从DockerHub获得CentOS的镜像
@@ -486,3 +496,8 @@ curl -s http://192.168.56.10:235/info | python -mjson.tool
 ```
 
 
+## 9. Docker Hub Repo
+1. TensorFlow, python2: ctank/sws_tf
+```
+docker run -it ctank/sws_tf:latest
+```
