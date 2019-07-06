@@ -74,7 +74,7 @@ docker run --name mydocker -t -i centos /bin/bash # 启动时指定容器名称
 2. 使用存在的容器启动
 + 只有启动容器时指定了`-it`的才能用start,否则还是处于exit状态
 ```
-docker start <docker_id>
+docker start -i <docker_id>
 ```
 
 3. 查看帮助
@@ -109,7 +109,7 @@ docker ps -a -q
 7. 退出容器
 + 是否停止容器根据进入方式而区别
 ```
-exit
+exit    
 ```
 
 8. 进入容器
