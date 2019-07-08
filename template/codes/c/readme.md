@@ -2676,9 +2676,9 @@ res.insert(pair<int, int>(2, 200));
 ```
 2. find
 ```
-res.find(1) == res.end() // true
-res.find(2) == res.end() // true
-res.find(3) == res.end() // false
+res.find(1) == res.end() // false
+res.find(2) == res.end() // false
+res.find(3) == res.end() // true
 ```
 3. second, iterator
 ```
