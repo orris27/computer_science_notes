@@ -14,6 +14,23 @@ for f in *.txt; do
     mv -- "$f" "${f%.txt}.text"
 done
 ```
+3. get images from google search
+    1. go to google search and search for what you want
+    2. press alt+command+I to open developer tools
+    3. in the developer tools select network tab
+    4. in the file types select “img”
+    5. refresh the page
+    6. in the filter box write “images?q=”
+    7. scroll down to the bottom to get as many pictures as you like
+    8. on the “Name” pane right click an image
+    9. expand Copy
+    10. select Copy All as cURL
+    11. open terminal
+    12. cd into your favorite folder
+    13. run the following command
+    ```
+    pbpaste | awk '{print substr($0, 1, length($0)-1) ">>" NR ".jpg"}' | bash
+    ```
 
 ## 1. grep
 ### 1-1. options
