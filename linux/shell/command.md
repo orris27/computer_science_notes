@@ -14,7 +14,7 @@ for f in *.txt; do
     mv -- "$f" "${f%.txt}.text"
 done
 ```
-3. get images from google search
+3. get images from google search: [link](https://www.quora.com/How-can-I-download-all-images-from-Google-image-search-engine-at-once)
     1. go to google search and search for what you want
     2. press alt+command+I to open developer tools
     3. in the developer tools select network tab
