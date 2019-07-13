@@ -1,3 +1,20 @@
+## 0. Useful tools
+1. Rename files in a folder to sequential numbers
+```
+a=1
+for i in *.jpg; do
+  new=$(printf "%04d.jpg" "$a") #04 pad to length of 4
+  mv -i -- "$i" "$new"
+  let a=a+1
+done
+```
+2. Change extension of multiple files: txt => text
+```
+for f in *.txt; do 
+    mv -- "$f" "${f%.txt}.text"
+done
+```
+
 ## 1. grep
 ### 1-1. options
 1. `-r`:递归地查询某个目录下所有文件(包括子目录)
