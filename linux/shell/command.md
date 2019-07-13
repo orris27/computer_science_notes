@@ -20,7 +20,7 @@ done
     3. in the developer tools select network tab
     4. in the file types select “img”
     5. refresh the page
-    6. in the filter box write “images?q=”
+    6. in the filter box write “images?q=” or "image/jpeg", etc
     7. scroll down to the bottom to get as many pictures as you like
     8. on the “Name” pane right click an image
     9. expand Copy
