@@ -90,8 +90,8 @@ git --version
     5. 提交暂存区里的数据
     6. 查看暂存区里的数据
 ```
-git config --global user.name "orris"
-git config --global user.email xxx@163.com
+git config --global user.name "orris27"
+git config --global user.email gsorris27@gmail.com
 
 git help config
 
