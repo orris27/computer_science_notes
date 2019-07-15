@@ -1648,3 +1648,11 @@ No changes detected
 ```
 
 Solution: Duplicate definition for one table. For example, define the class of `Book` twice
+
+## 37. MQTT
+1. I use TensorFlow model to predict image but failed. The MQTT does not give me any response.
+
+predict globally to load model to GPU (This is the gpu problem of MQTT, and the professor tells me that the cpu version is not influenced)
+```
+model.predict(load_image('init.jpg')) # global
+```
