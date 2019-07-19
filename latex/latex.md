@@ -109,3 +109,13 @@ constraints problem
 \end{aligned}
 \end{equation*}
 ```
+
+### 2. graphicx
+`\usepackage{graphicx}`
+
+1. include the image in the document
+```
+\graphicspath{{./images/}} % 1. the images are kept in the folder named images; 2. it is best practice to specify the graphics path to be relative to the main .tex file, denoting the main .tex file directory as ./; 3. Trailing slash / can make the path absolute; 4. If no graphics path is set, the LaTeX will look for images in the folder where the .tex file the image is included in is saved
+
+\includegraphics{images/leaky_relu.png} % 1. including extension is okay but not suggested; 2. should not contain white spaces nor multiple dots
+```
