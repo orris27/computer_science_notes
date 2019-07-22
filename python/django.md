@@ -8,7 +8,31 @@ django-admin startproject object_tracking_robot
 ```
 python manage.py runserver
 ```
+## views
+### Start a view
+1. create a `views.py` file
+2. an example content is shown below:
+```
+from django.http import HttpResponse
+import datetime
 
+def current_datetime(request):
+    now = datetime.datetime.now()
+    html = "<html><body>It is now %s.</body></html>" % now
+    return HttpResponse(html)
+```
+3. Import views function in `urls.py` and finished!
+```
+from django.contrib import admin
+from django.urls import path
+from .import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+
+    path('time/', views.current_datetime, name='current_datetime'),
+]
+```
 ## Migrations
 
 1. Write tables codes in `model.py` 
