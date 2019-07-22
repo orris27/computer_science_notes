@@ -8401,9 +8401,31 @@ import glob
 all_filenames = glob.glob('../data/names/*.txt') # return a list of filenames that match the pattern
 print(all_filenames) # ['../data/names/Arabic.txt', ...]
 ```
+## 38. requests
+1. send post request
+```
+import requests
 
+r = requests.post("https://api-cn.faceplusplus.com/facepp/v3/detect", data={'api_key': '<api_key>', 'api_secret': '<api_secret>', 'return_landmark': 0, 'return_attributes':'smiling', 'image_url':'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1564113226&di=57d37113aca7d923605b5a30944ebc93&imgtype=jpg&er=1&src=http%3A%2F%2Fww2.sinaimg.cn%2Forj480%2Fa721d309gw1f8ui6bg1f9j20n50yqgpq.jpg'})
 
-## 38. python
+print(r.status_code, r.reason)
+#----------------------------------------------
+# 200 OK
+#----------------------------------------------
+
+print(r.text)
+#----------------------------------------------
+# {"time_used": 289, "faces": [{"attributes": {"smile": {"threshold": 50.0, "value": 100.0}}, "face_rectangle": {"width": 214, "top": 204, "left": 130, "height": 214}, "face_token": "804af2e23849066ece2f8c07d9fe7444"}], "image_id": "J6SxH10JZSNGBfAoTiijdw==", "request_id": "1563761450,a926106c-38bb-4296-9737-644e15a4f07b", "face_num": 1}
+#----------------------------------------------
+
+```
+2. send a 'multipart/form-data' with requests
+```
+r = requests.post("https://api-cn.faceplusplus.com/facepp/v3/detect", data={'api_key': '<api_key>', 'api_secret': '<api_secret>', 'return_landmark': 0, 'return_attributes':'smiling'}, files=dict(image_file=open('/tmp/1.jpeg', 'rb')))
+
+```
+
+## 39. python
 1. 如果是`__main__`的话
 ```
 if __name__ == '__main__': 
