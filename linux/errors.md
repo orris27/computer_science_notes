@@ -1181,6 +1181,11 @@ Root can write.
 
 change apt source in `/etc/apt/sources.list`
 
+
+9. `W: An error occurred during the signature verification. The repository is not updated and the previous index files will be used. GPG error: https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 Release: The following signatures were invalid: EXPKEYSIG 58712A2291FA4AD5 MongoDB 3.6 Release Signing Key <packaging@mongodb.com>`
+
+see [here](https://itsfoss.com/failed-to-download-repository-information-ubuntu-13-04/)
+
 ## 23. Python
 1. 使用pickle的时候报错`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte`
     ```
