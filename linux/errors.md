@@ -1186,6 +1186,12 @@ change apt source in `/etc/apt/sources.list`
 
 see [here](https://itsfoss.com/failed-to-download-repository-information-ubuntu-13-04/)
 
+
+10. ubuntu desktop is not loading after installing 18.04
+```
+systemctl start gdm
+```
+
 ## 23. Python
 1. 使用pickle的时候报错`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte`
     ```
