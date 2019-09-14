@@ -5094,6 +5094,7 @@ self.optimizer = torch.optim.Adam(self.parameters(), lr=1e-3, betas=(0.9, 0.99))
     + 长宽不变: (5, 1, 2)
     + 长宽变1/2: (4, 2, 1)
     + 长宽变1/3: (5, 3, 1)
+    + kernel: (output_c, c, h, w). See details at sparse_cnn project
     ```
     class CNN(torch.nn.Module):
         def __init__(self):
