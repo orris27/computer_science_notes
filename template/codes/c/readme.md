@@ -2907,9 +2907,21 @@ for(int y=0; y<25; ++y)
 ```
 9. reduction: instructs the compiler to generate code that accumulates values from different loop iterations together in a certain manner
 ```
-int sum=0;
-#pragma omp parallel for reduction(+:sum)
-for(int n=0; n<1000; ++n) sum += table[n];
+int sum = 0;
+int i;
+#pragma omp parallel for private(i)
+for (i=0;i<100;++i)
+    sum += i;
+printf("%d\n", sum); // 3986, 4840, etc
+
+///////////////////////////////////////////////
+
+int sum = 0;
+int i;
+#pragma omp parallel for private(i) reduction(+:sum)
+for (i=0;i<100;++i)
+    sum += i;
+printf("%d\n", sum); // 4950
 ```
 
 10. SIMD: multiple calculations will be performed simultaneously by the processor, using special instructions that perform the same calculation to multiple values at once
@@ -2919,3 +2931,16 @@ float a[8], b[8];
 #pragma omp simd
 for(int n=0; n<8; ++n) a[n] += b[n];
 ```
+
+11. `for` `simd` construct
+```
+  float sum(float* table)
+  {
+    float result=0;
+    #pragma omp parallel for simd reduction(+:result)
+    for(int n=0; n<1000; ++n) result += table[n];
+    return result;
+  }
+```
+
+
