@@ -2769,6 +2769,8 @@ iota(nums.begin(), nums.end(), 1); # 1, 2, 3, .. 10
 
 
 ## 16. openmp
+[Guide into OpenMP](https://bisqwit.iki.fi/story/howto/openmp/)
+
 1. initialize a table in parallel(multiple threads)
 ```
 /*
@@ -2777,14 +2779,37 @@ iota(nums.begin(), nums.end(), 1); # 1, 2, 3, .. 10
 #include <cmath>
 int main()
 {
-    const int size = 256;
-    double sinTable[size];
-    
     #pragma omp parallel for
-    for(int n=0; n<size; ++n)
-      sinTable[n] = std::sin(2 * M_PI * n / size);
-    // the table is now initialized
+    for (int i = 0;i<50;++i)
+    {
+        printf(" %d", i);
+    }
+    printf(".\n");
 }
+```
+<=>
+```
+#pragma omp parallel
+{
+    #pragma omp for
+    for (int i = 0;i<50;++i)
+    {
+        printf(" %d", i);
+    }
+}
+
+```
+<=> C
+```
+/*
+ * gcc test.c -fopenmp
+ * variables cannot declared inside loop
+ */
+int i;
+#pragma omp parallel for private(i)
+for (i=0;i<50;++i)
+    printf("%d\n", i);
+
 ```
 2. initialize a table in parallel(single thread, SIMD)
 ```
@@ -2814,4 +2839,41 @@ int main()
       sinTable[n] = std::sin(2 * M_PI * n / size);
     // the table is now initialized
 }
+```
+
+4. Parallelism conditionality clause: if
++ `#pragma omp parallel if(parallelism_enabled)`
++ `#pragma omp parallel for if(parallelism_enabled)`
+```
+int parallelism_enabled = true;
+#pragma omp parallel if(parallelism_enabled)
+{
+    printf("Test\n");
+}
+```
+5. Set the number of threads
+```
+#pragma omp parallel num_threads(2)
+{
+    printf("Hello\n");
+}
+```
+
+6. order
+```
+int arr[50];
+for (int i=0;i<50;++i)
+    arr[i] = i;
+
+#pragma omp parallel for ordered schedule(dynamic, 3)
+for(int i=0;i<50;++i)
+{
+    arr[i] *= -1; // happen in parallel
+    
+    #pragma omp ordered
+    printf(" %d", arr[i]); // " 0 -1 -2 -3 -4 ..." rather than " -3 -4 -5 -9 -10 ..."
+    // there must be exactly one "ordered" block per an ordered loop
+}
+printf(".\n");
+
 ```
