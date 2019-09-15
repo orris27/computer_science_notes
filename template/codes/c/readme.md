@@ -2766,3 +2766,52 @@ cout << "upper_bound position: " << up - v.begin() << endl; // 6
 vector<int> nums(10);
 iota(nums.begin(), nums.end(), 1); # 1, 2, 3, .. 10
 ```
+
+
+## 16. openmp
+1. initialize a table in parallel(multiple threads)
+```
+/*
+ * g++ tmp.cpp -fopenmp
+ */
+#include <cmath>
+int main()
+{
+    const int size = 256;
+    double sinTable[size];
+    
+    #pragma omp parallel for
+    for(int n=0; n<size; ++n)
+      sinTable[n] = std::sin(2 * M_PI * n / size);
+    // the table is now initialized
+}
+```
+2. initialize a table in parallel(single thread, SIMD)
+```
+#include <cmath>
+int main()
+{
+    const int size = 256;
+    double sinTable[size];
+    
+    #pragma omp simd
+    for(int n=0; n<size; ++n)
+      sinTable[n] = std::sin(2 * M_PI * n / size);
+    // the table is now initialized
+}
+```
+3. initialize a table in parallel (multiple threads on another device)
+```
+#include <cmath>
+int main()
+{
+    const int size = 256;
+    double sinTable[size];
+    
+    #pragma omp target teams distribute parallel for map(from:sinTable[0:256])
+
+    for(int n=0; n<size; ++n)
+      sinTable[n] = std::sin(2 * M_PI * n / size);
+    // the table is now initialized
+}
+```
