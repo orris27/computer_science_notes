@@ -2877,3 +2877,45 @@ for(int i=0;i<50;++i)
 printf(".\n");
 
 ```
+7. collapse: nested loop
+```
+#pragma omp parallel for collapse(2)
+for(int y=0; y<25; ++y)
+    for(int x=0; x<80; ++x)
+    {
+        tick(x,y);
+    }
+```
+8. section: `Work1`, `Work2; Work3` and `Work4` may happen in parallel, but `Work2` and `Work3` must happen in sequence
+```
+#pragma omp parallel sections // starts a new team
+{
+    // Work1, Work2, Work3 and Work4 are run only once!!!
+    {
+        Work1();
+    }
+    #pragma omp section
+    {
+        Work2();
+        Work3();
+    }
+    #pragma omp section
+    {
+        Work4();
+    }
+}
+```
+9. reduction: instructs the compiler to generate code that accumulates values from different loop iterations together in a certain manner
+```
+int sum=0;
+#pragma omp parallel for reduction(+:sum)
+for(int n=0; n<1000; ++n) sum += table[n];
+```
+
+10. SIMD: multiple calculations will be performed simultaneously by the processor, using special instructions that perform the same calculation to multiple values at once
+```
+float a[8], b[8];
+...
+#pragma omp simd
+for(int n=0; n<8; ++n) a[n] += b[n];
+```
