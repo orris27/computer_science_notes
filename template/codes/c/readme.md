@@ -2787,7 +2787,7 @@ int main()
     printf(".\n");
 }
 ```
-<=>
+<=> Note that `#pragma omp parallel { block1 }` executes `block1` multiple times
 ```
 #pragma omp parallel
 {
@@ -2907,6 +2907,17 @@ for(int y=0; y<25; ++y)
 ```
 9. reduction: instructs the compiler to generate code that accumulates values from different loop iterations together in a certain manner
 ```
+
+int i;
+#pragma omp parallel private(i)
+{
+    for (i =0;i<10;++i)
+        printf("%d: Hello World\n", i);
+}       
+
+
+///////////////////////////////////////////////
+
 int sum = 0;
 int i;
 #pragma omp parallel for private(i)
