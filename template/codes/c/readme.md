@@ -2945,13 +2945,24 @@ for(int n=0; n<8; ++n) a[n] += b[n];
 
 11. `for` `simd` construct
 ```
-  float sum(float* table)
-  {
-    float result=0;
-    #pragma omp parallel for simd reduction(+:result)
-    for(int n=0; n<1000; ++n) result += table[n];
-    return result;
-  }
+float sum(float* table)
+{
+  float result=0;
+  #pragma omp parallel for simd reduction(+:result)
+  for(int n=0; n<1000; ++n) result += table[n];
+  return result;
+}
 ```
 
 
+12. calculate run time(Do not use clock(), since it accumulates the cpu clock of all threads)
+```
+double start, end;
+start = omp_get_wtime();
+for(i=0;i<repeats;++i)
+{
+    /* ... */
+}
+end = omp_get_wtime();
+fprintf(stderr, "Run time:%fseconds\n", (end - start) / (float)repeats);
+```
