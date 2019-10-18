@@ -5922,22 +5922,34 @@ for param_group in opt.param_groups:
 ```
 
 39. decayed learning rate
-```
-y = torch.Tensor([0, 0, 1, 0])
-x = torch.Tensor([0.2, 0.5, 0.9, 0.1]).requires_grad_()
-opt = torch.optim.Adam([x], lr=1e-3)
-scheduler = torch.optim.lr_scheduler.ExponentialLR(opt, gamma=0.95)
-for epoch in range(100):
-    loss = F.mse_loss(x, y)
-    opt.zero_grad()
-    loss.backward()
-    if epoch % 10 == 0: # condition check is necessary since each time we call scheduler.step(), the learning rate will decrease
-        scheduler.step()
-    for param_group in opt.param_groups:
-        print(param_group['lr']) # 0.01*10 + 0.00095*10 + 0.0009025*10, etc
-    opt.step()
-print(x)
-```
+    1. scheduler
+    ```
+    y = torch.Tensor([0, 0, 1, 0])
+    x = torch.Tensor([0.2, 0.5, 0.9, 0.1]).requires_grad_()
+    opt = torch.optim.Adam([x], lr=1e-3)
+    scheduler = torch.optim.lr_scheduler.ExponentialLR(opt, gamma=0.95)
+    for epoch in range(100):
+        loss = F.mse_loss(x, y)
+        opt.zero_grad()
+        loss.backward()
+        if epoch % 10 == 0: # condition check is necessary since each time we call scheduler.step(), the learning rate will decrease
+            scheduler.step()
+        for param_group in opt.param_groups:
+            print(param_group['lr']) # 0.01*10 + 0.00095*10 + 0.0009025*10, etc
+        opt.step()
+    print(x)
+    ```
+    2. custom
+    ```
+    def adjust_learning_rate(optimizer, epoch):
+        """Sets the learning rate to the initial LR decayed by 2 every 30 epochs"""
+        lr = args.lr * (0.5 ** (epoch // 30))
+        for param_group in optimizer.param_groups:
+            param_group['lr'] = lr
+    # ...
+    for epoch in range(args.start_epoch, args.epochs):
+        adjust_learning_rate(optimizer, epoch)
+    ```
 
 ## 3. Numpy
 1. 随机数
