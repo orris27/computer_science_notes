@@ -8270,6 +8270,17 @@ required
 parser.add_argument('--a', type=int, required=True)
 ```
 
+jupyter notebook
+```
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--lmbda', default=1e-6, type=float, help='weighting parameters')
+parser.add_argument('--max_epoch', default=150, type=int)
+parser.add_argument('--arch', default='vgg16', type=str)
+parser.add_argument('--dataset_name', default='cifar10', type=str)
+args = parser.parse_args('--max_epoch 2 --arch resnet18 --dataset mnist'.split())
+```
 
 ## 33. multiprocessing
 1. Pool
