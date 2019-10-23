@@ -7271,6 +7271,18 @@ next(reader)
 
 ```
 
+2. writer
+
+```
+csvfile = open('sprox_results.csv', 'w', newline='')
+fieldnames = ['epoch', 'F_value', 'nnz(exact)', 'nnz(1e-2)', 'nnz(1e-3)', 'nnz(1e-4)', 'validation_acc', 'train_time', 'remarks']
+writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=' ')
+writer.writeheader()
+
+writer.writerow({'epoch': epoch, 'F_value': F, 'nnz(exact)': nnz1, 'nnz(1e-2)': nnz2, 'nnz(1e-3)': nnz3, 'nnz(1e-4)': nnz4, 'validation_acc': accuracy, 'train_time': train_time})
+csvfile.close()
+```
+
 
 ## 12. pickle
 1. basic use: `out.pkl: 8086 relocatable (Microsoft)`
