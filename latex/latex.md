@@ -121,3 +121,10 @@ constraints problem
 ```
 
 2. 1
+
+### 3. Ubuntu
+```
+sudo apt install texlive-latex-extra
+sudo apt install texlive-science
+pdflatex paper_for_review.tex
+```
