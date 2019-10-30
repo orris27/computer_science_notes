@@ -128,3 +128,20 @@ sudo apt install texlive-latex-extra
 sudo apt install texlive-science
 pdflatex paper_for_review.tex
 ```
+### 4. table
+```
+\begin{table}
+    \caption{Data sets.\label{table:datasets}}
+    \centering
+        \begin{tabular}{ |c|c|c|c|c| }
+        \hline
+        Dataset & N & n & Unscaled & Scaling Used \\
+        \hline
+        a9a & 32561 & 123 & & \\
+        australian & 690 & 14 &  & \\
+        colon-cancer & 62 & 2000 & \checkmark & into[-1, 1]  \\
+        \hline
+        \end{tabular}
+\end{table}
+
+```
