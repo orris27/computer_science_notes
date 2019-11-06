@@ -145,7 +145,7 @@ x(4) % 2
     %-------------------------------------------------
 
     ```
-    4. 
+    4. ones, diag, tril / triu
     ```
     diag(1:3)
     %-------------------------------------------------
@@ -167,6 +167,22 @@ x(4) % 2
     %     1     2     0
     %     1     2     3
     %-------------------------------------------------
+    ```
+    5. sprintf
+    ```
+    dir = 'scaled/'
+    pname = 'mushroom'
+    probLoad = sprintf(['../datasets/', dir, pname, '.mat'])
+    %-------------------------------------------------
+    %    '../datasets/scaled/mushroom.mat'
+    %-------------------------------------------------
+    ```
+    6. randn, size
+    ```
+    x = randn(2, 3, 4);
+    size(x); % return [2, 3, 4]
+    size(x, 1); % return 2
+    size(x, 2); % return 3
     ```
 
 
@@ -212,6 +228,13 @@ for i = 1:22
 end
 
 % x = 1:22
+```
+
+
+7. time
+```
+start_time = tic;
+end_time = toc(start_time); % seconds
 ```
 
 ## Files
