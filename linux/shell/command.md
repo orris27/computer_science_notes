@@ -3097,3 +3097,13 @@ python -u script.py > log
 # OR
 stdbuf -oL python script.py > log
 ```
+## 94. mail
+INSTALL: `apt-get install mailutils`
+[reference](https://www.binarytides.com/linux-mail-command-examples/)
+```
+mail -s "test" user@example.com # -s: subject
+Cc: user2@example2.com # prompt
+Hello # content
+This is from my laptop
+# <Ctrl + D> to send
+```

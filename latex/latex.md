@@ -121,3 +121,92 @@ constraints problem
 ```
 
 2. 1
+
+### 3. Ubuntu
+```
+sudo apt install texlive-latex-extra
+sudo apt install texlive-science
+pdflatex paper_for_review.tex
+```
+### 4. table
+```
+\begin{table}
+    \caption{Data sets.\label{table:datasets}}
+    \centering
+        \begin{tabular}{ |c|c|c|c|c| }
+        \hline
+        Dataset & N & n & Unscaled & Scaling Used \\
+        \hline
+        a9a & 32561 & 123 & & \\
+        australian & 690 & 14 &  & \\
+        colon-cancer & 62 & 2000 & \checkmark & into[-1, 1]  \\
+        \hline
+        \end{tabular}
+\end{table}
+
+```
+
+
+### 5. other
+\`\`N""
+
+
+horizontal line thicker
+```
+\usepackage{makecell}
+\Xhline{2\arrayrulewidth} % replace \hline
+
+```
+
+
+context padding for table
+```
+\bgroup
+\def\arraystretch{1.5}%  1 is the default, change whatever you need
+\begin{tabular}{|c|...}
+...
+\end{tabular}
+\egroup
+```
+
+
+example table
+```
+\usepackage{makecell}
+
+
+
+
+
+\begin{table}
+    \caption{Objective function values for \proxsg{}, \rda{}, \proxsvrg{} and \algacro{} on convex problems.\label{table:f_value_convex}}
+    \centering
+    \resizebox{\columnwidth}{!}{%
+    \def\arraystretch{1.1}%  1 is the default, change whatever you need
+    \begin{tabular}{@{\extracolsep{4pt}}cccccc @{}}
+        \Xhline{3\arrayrulewidth}
+        \multirow{2}{*}{Problems} & \multirow{2}{*}{\proxsg{}} & \multirow{2}{*}{\rda{}} & \multirow{2}{*}{\proxsvrg{}} & \multicolumn{2}{c}{\algacro{}} \\
+        \cline{5-6}
+
+        & &  &  & Dual Average & Batching \\
+        \hline
+        a9a & 0.341 & 0.338 & {\color{red} 0.332} & {\color{blue} 0.333} & 0.337  \\
+        australian & 0.398 & 0.426 & {\color{red} 0.396} & {\color{red} 0.396} & {\color{red} 0.396}  \\
+        colon-cancer & {\color{red} 0.692} & 0.693 & {\color{red} 0.692} & 0.693 & 0.693  \\
+        cor-rna & 0.191 & 0.195 & {\color{red} 0.189} & {\color{red} 0.189} & 0.19  \\
+        covtype.libsvm & 0.111 & {\color{red} 0.023} & 0.309 & 0.972 & {\color{blue} 0.105}  \\
+        diabetes & {\color{red} 0.579} & 0.596 & {\color{red} 0.579} & 0.58 & {\color{red} 0.579}  \\
+        duke-scaled & {\color{red} 0.693} & {\color{red} 0.693} & {\color{red} 0.693} & {\color{red} 0.693} & {\color{red} 0.693}  \\
+        fourclass & {\color{blue} 0.515} & 0.522 & {\color{red} 0.514} & {\color{blue} 0.515} & {\color{blue} 0.515}  \\
+        \hline
+        best & 9 & 3 & 17 & 13 & 16 \\
+        second best & 2 & 0 & 0 & 5 & 3 \\
+        % sum of best and second best & 11 & 3 & 17 & \color{blue}{18} & \color{red}{19} \\ 
+        sum  & 11 & 3 & 17 & \color{blue}{18} & \color{red}{19} \\
+        %\hline
+        \Xhline{3\arrayrulewidth}
+    \end{tabular}
+    }
+\end{table}
+
+```

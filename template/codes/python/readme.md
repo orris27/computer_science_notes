@@ -5922,22 +5922,34 @@ for param_group in opt.param_groups:
 ```
 
 39. decayed learning rate
-```
-y = torch.Tensor([0, 0, 1, 0])
-x = torch.Tensor([0.2, 0.5, 0.9, 0.1]).requires_grad_()
-opt = torch.optim.Adam([x], lr=1e-3)
-scheduler = torch.optim.lr_scheduler.ExponentialLR(opt, gamma=0.95)
-for epoch in range(100):
-    loss = F.mse_loss(x, y)
-    opt.zero_grad()
-    loss.backward()
-    if epoch % 10 == 0: # condition check is necessary since each time we call scheduler.step(), the learning rate will decrease
-        scheduler.step()
-    for param_group in opt.param_groups:
-        print(param_group['lr']) # 0.01*10 + 0.00095*10 + 0.0009025*10, etc
-    opt.step()
-print(x)
-```
+    1. scheduler
+    ```
+    y = torch.Tensor([0, 0, 1, 0])
+    x = torch.Tensor([0.2, 0.5, 0.9, 0.1]).requires_grad_()
+    opt = torch.optim.Adam([x], lr=1e-3)
+    scheduler = torch.optim.lr_scheduler.ExponentialLR(opt, gamma=0.95)
+    for epoch in range(100):
+        loss = F.mse_loss(x, y)
+        opt.zero_grad()
+        loss.backward()
+        if epoch % 10 == 0: # condition check is necessary since each time we call scheduler.step(), the learning rate will decrease
+            scheduler.step()
+        for param_group in opt.param_groups:
+            print(param_group['lr']) # 0.01*10 + 0.00095*10 + 0.0009025*10, etc
+        opt.step()
+    print(x)
+    ```
+    2. custom
+    ```
+    def adjust_learning_rate(optimizer, epoch):
+        """Sets the learning rate to the initial LR decayed by 2 every 30 epochs"""
+        lr = args.lr * (0.5 ** (epoch // 30))
+        for param_group in optimizer.param_groups:
+            param_group['lr'] = lr
+    # ...
+    for epoch in range(args.start_epoch, args.epochs):
+        adjust_learning_rate(optimizer, epoch)
+    ```
 
 ## 3. Numpy
 1. 随机数
@@ -7259,6 +7271,18 @@ next(reader)
 
 ```
 
+2. writer
+
+```
+csvfile = open('sprox_results.csv', 'w', newline='')
+fieldnames = ['epoch', 'F_value', 'nnz(exact)', 'nnz(1e-2)', 'nnz(1e-3)', 'nnz(1e-4)', 'validation_acc', 'train_time', 'remarks']
+writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=' ')
+writer.writeheader()
+
+writer.writerow({'epoch': epoch, 'F_value': F, 'nnz(exact)': nnz1, 'nnz(1e-2)': nnz2, 'nnz(1e-3)': nnz3, 'nnz(1e-4)': nnz4, 'validation_acc': accuracy, 'train_time': train_time})
+csvfile.close()
+```
+
 
 ## 12. pickle
 1. basic use: `out.pkl: 8086 relocatable (Microsoft)`
@@ -8258,6 +8282,17 @@ required
 parser.add_argument('--a', type=int, required=True)
 ```
 
+jupyter notebook
+```
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--lmbda', default=1e-6, type=float, help='weighting parameters')
+parser.add_argument('--max_epoch', default=150, type=int)
+parser.add_argument('--arch', default='vgg16', type=str)
+parser.add_argument('--dataset_name', default='cifar10', type=str)
+args = parser.parse_args('--max_epoch 2 --arch resnet18 --dataset mnist'.split())
+```
 
 ## 33. multiprocessing
 1. Pool

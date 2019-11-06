@@ -267,6 +267,11 @@ fprintf('Hello\n');
 ```
 
 
+3. runprob. `runprob.m` is a file with function named 'runprob'
+```
+matlab -nojvm -nodesktop -nodisplay -nosplash -r "runprob('mushroom', true);exit;"
+```
+
 ## Tips
 1. Avoid inner loop
 
