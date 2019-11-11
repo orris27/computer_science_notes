@@ -210,3 +210,12 @@ example table
 \end{table}
 
 ```
+
+bibtex:
+```
+pdflatex paper_for_review
+bibtex paper_for_review
+pdflatex paper_for_review
+pdflatex paper_for_review
+
+```
