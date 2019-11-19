@@ -5391,7 +5391,16 @@ tensor([[-0.5044,  0.0005],
     }
 
     ```
+    3. convert back to PIL: mean and std is the parameters for `T.Normalize`
+    ```
+    def imshow(img, mean, std):
+        z = img.cpu() * torch.tensor(std).view(3, 1, 1)
+        z = z + torch.tensor(mean).view(3, 1, 1)
 
+        pimg = T.ToPILImage(mode='RGB')(z)
+
+        plt.imshow(np.asarray(pimg))
+    ```
 
 
 19. torchvision.utils
