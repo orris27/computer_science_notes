@@ -473,7 +473,6 @@ a0 = tf.reshape(features,[-1,28,28,1])
     4. get_variable的第一个参数使用变量的scope和使用字符串
         1. 使用字符串
         ```
-        import tensorflow as tf
         with tf.variable_scope("scope"):
             tf.get_variable("w",shape=[1])#这个变量的name是 scope/w
             with tf.variable_scope("scope"):
@@ -482,7 +481,6 @@ a0 = tf.reshape(features,[-1,28,28,1])
         ```
         2. 使用变量
         ```
-        import tensorflow as tf
         with tf.variable_scope("yin"):
             tf.get_variable("w",shape=[1])
             scope = tf.get_variable_scope()#这个变量的name是 scope/w
@@ -691,8 +689,6 @@ scope_assign('s1','s2',sess)
     ```
     4. 保存十次save的所有结果
     ```
-    import tensorflow as tf
-
     W1 = tf.Variable(tf.truncated_normal([1],stddev = 0.1))
     update = tf.assign_add(W1,[1])
 
@@ -997,7 +993,6 @@ with tf.Session() as session:
     1. 只在自己的sess.run内起作用,其他地方不起作用
     2. 可以临时修改变量的值,不仅仅是placeholder
 ```
-import tensorflow as tf
 y = tf.Variable(1)
 b = tf.identity(y)
 with tf.Session() as sess:
@@ -1411,8 +1406,6 @@ tuple = tf.tuple([mul, add])
     2. tf.case:根据字典选择函数,否则使用default里的函数
         + exclusive=True:字典里至多1个为True,否则就报错
     ```
-    import tensorflow as tf
-
     x = tf.constant(0)
     y = tf.constant(1)
     z = tf.constant(2)
@@ -1446,8 +1439,6 @@ tuple = tf.tuple([mul, add])
     ```
     3. 使用
     ```
-    import tensorflow as tf
-
     a = tf.get_variable("a", dtype=tf.int32, shape=[], initializer=tf.ones_initializer())
     b = tf.constant(2)
     f = tf.constant(6)
@@ -1491,7 +1482,6 @@ learning_rate = tf.train.exponential_decay(initial_learning_rate,
 38. TensorFlow的Debug
 ```
 # 第一行： 引包
-import tensorflow as tf
 from tensorflow.python import debug as tf_debug
 
 a = tf.Variable(1)
@@ -1610,9 +1600,6 @@ python -m test
 41. 将词典id表示的单词组成的文本转换成文本对应的词向量:tf.nn.embedding_lookup
 ```
 # 示例代码
-import tensorflow as tf
-import numpy as np
- 
 sess = tf.InteractiveSession()
  
 embedding = tf.Variable(np.identity(5,dtype=np.int32))
@@ -1672,9 +1659,6 @@ with tf.Session() as sess:
 ```
 44. split
 ```
-import tensorflow as tf;
-import numpy as np;
- 
 A = [[1,2,3],[4,5,6]]
 x = tf.split(1, 3, A)
  
@@ -1922,7 +1906,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     + 具体的计算过程参考[这个博客](https://blog.csdn.net/abiggg/article/details/79368982)
     1. 按列计算
     ```
-    import tensorflow as tf
     input_data = tf.constant([[1.0,2,3],[4.0,5,6],[7.0,8,9]])
 
     output = tf.nn.l2_normalize(input_data, dim = 0)
@@ -1940,7 +1923,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     ```
     2. 按行计算
     ```
-    import tensorflow as tf
     input_data = tf.constant([[1.0,2,3],[4.0,5,6],[7.0,8,9]])
 
     output = tf.nn.l2_normalize(input_data, dim = 1)
@@ -1999,7 +1981,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     2. 图像
         1. 读取图片 和 写入图片. [代码和图形类型转化的示意图](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/tf-image-type.png)
         ```
-        import tensorflow as tf
         import matplotlib.pyplot as plt
 
         image_raw = tf.gfile.FastGFile('/home/orris/Pictures/1.jpeg','rb').read()
@@ -2039,8 +2020,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
                 + `tf.image.resize_image_with_crop_or_pad`:图片太大,选中间部分;图片太小,周围填充0(黑色).
             3. [使用tf.train.batch实现按批输出图片的程序2,解决yield下threads无法join的](https://github.com/orris27/orris/blob/master/python/machine-leaning/codes/tensorflow/batch-images/batch-images2.py)
         ```
-        import tensorflow as tf
-
         def next_batch(sess, l, elm_type, shuffle, num_epochs, batch_size, num_threads,capacity):
             # 转换普通的list为tf能识别的类型
             l = tf.cast(l,elm_type)
@@ -2294,8 +2273,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
             2. targets:`[batch_size]`.dtype=int.表示正确的分类是第几类.
             3. k: Number of top elements to look at for computing precision.
     ```
-    import tensorflow as tf;
- 
     A = [[0.8,0.6,0.3], [0.1,0.6,0.4]] # A的结果分类应该是0,1.
     B = [1, 1]
     out = tf.nn.in_top_k(A, B, 1)
@@ -2329,8 +2306,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
         + tf.Session可以指定使用的计算图
         + `with tf.variable_scope('',reuse=True):`可以在默认的variable_scope里启动reuse
     ```
-    import tensorflow as tf
-
     g1 = tf.Graph()
     with g1.as_default():
         v = tf.get_variable("v",shape=[1],initializer=tf.zeros_initializer)
@@ -2353,9 +2328,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     ```
     4. 导出元图为json格式
     ```
-    import tensorflow as tf
-    import numpy as np
-
     a = tf.Variable(1.0,name='a')
     b = tf.Variable(2.0,name='b')
 
@@ -2390,8 +2362,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
 
 62. `initialized_value()`:获得初始值,可以用来将自己的初始值设置成和其他变量一样
 ```
-import tensorflow as tf
-
 a = tf.Variable(3.14)
 b = tf.Variable(a.initialized_value() * 2)
 
@@ -2400,8 +2370,6 @@ b = tf.Variable(a.initialized_value() * 2)
 ```
 63. `var.initializer`:可以单独初始化var
 ```
-import tensorflow as tf
-
 a = tf.Variable(3.14)
 b = tf.Variable(a.initialized_value() * 2)
 
@@ -2475,9 +2443,6 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
     + 用途:训练时使用原来的变量(W和b),但验证或者测试的时候,使用滑动平均值
     1. 定义1个变量,查看不同step下这个变量的滑动平均值
     ```
-    import tensorflow as tf
-    import numpy as np
-
     v = tf.Variable(0.0)
     step = tf.Variable(0)
 
@@ -2513,10 +2478,6 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
     #####################################################################################################
     # Save
     #####################################################################################################
-
-    import tensorflow as tf
-    import numpy as np
-
     v = tf.Variable(0.0,name='v')
 
     ema = tf.train.ExponentialMovingAverage(decay=0.99)
@@ -2539,10 +2500,6 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
     #####################################################################################################
     # Restore
     #####################################################################################################
-    import tensorflow as tf
-    import sys
-    import os
-
     v = tf.Variable(3.14,name='v')
 
     saver = tf.train.Saver({'v/ExponentialMovingAverage':v})
@@ -2564,7 +2521,6 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
         2. 转换当前计算图内的某个计算节点
         3. 写入转换结果到保存的文件里
     ```
-    import tensorflow as tf
     from tensorflow.python.framework import graph_util
 
 
@@ -2595,8 +2551,6 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
         2. 解析文件内容到GraphDef对象中
         3. 导入GraphDef对象内的某个计算节点到当前的计算图中,并设置对应的张量
     ```
-    import tensorflow as tf
-
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
     with tf.Session(config=config) as sess:
@@ -2616,7 +2570,6 @@ update = tf.assign(a,b,validate_shape=False) # a的形状还是[2,3],但输出�
     3. examples
         1. inception v3
         ```
-        import tensorflow as tf
         import cv2
 
         config = tf.ConfigProto()
@@ -2656,11 +2609,6 @@ for variable_name in variables_dict:
 70. tfrecord
     1. 保存图像
     ```
-    import tensorflow as tf
-    from PIL import Image
-    import os 
-    import numpy as np
-
     data_path = '../dogs-cats/dataset/train/'
     output_filename = 'images.tfrecords'
 
@@ -2712,10 +2660,6 @@ for variable_name in variables_dict:
         1. reader.read && reader.read_up_to(一次性读取多个样例)
         2. tf.parse_single_example && tf.parse_example(解析多个样例)
     ```
-    import tensorflow as tf
-    import matplotlib.pyplot as plt
-    import numpy as np
-
     # create a reader 
     reader = tf.TFRecordReader()
 
@@ -2937,8 +2881,6 @@ with tf.Session(config=config) as sess:
     1. 基于python list创建dataset
         1. standard(not eager)
         ```
-        import tensorflow as tf
-
         input_data = [1,2,3,5,8]
         dataset = tf.data.Dataset.from_tensor_slices(input_data)
         # dataset = dataset.prefetch(1)
@@ -2957,8 +2899,6 @@ with tf.Session(config=config) as sess:
         ```
         2. eager mode: `dataset.__iter__()` is only supported when eager
         ```
-        import tensorflow as tf
-
         config = tf.ConfigProto()
         config.gpu_options.allow_growth = True
         tf.enable_eager_execution(config=config)
@@ -2980,8 +2920,6 @@ with tf.Session(config=config) as sess:
         ```
     2. 基于文本文件创建dataset
     ```
-    import tensorflow as tf
-
     input_files = ['simple.py','text.py']
 
     dataset = tf.data.TextLineDataset(input_files)
@@ -2999,8 +2937,6 @@ with tf.Session(config=config) as sess:
     3. 基于tfrecord创建dataset
         1. tfrecord文件名已经确定
         ```
-        import tensorflow as tf
-
         def parser(record):
 
             features = tf.parse_single_example(
@@ -3032,8 +2968,6 @@ with tf.Session(config=config) as sess:
         2. tfrecord文件名是placeholder形式
             + `sess.run(iterator.initializer,feed_dict={input_files:'images.tfrecords'})`: If we call this method, then the return value of `get_next()` will start from the first elm. => An alternative to `repeat` method
         ```
-        import tensorflow as tf
-
         def parser(record):
             features = tf.parse_single_example(
                     record,
@@ -3099,8 +3033,6 @@ with tf.Session(config=config) as sess:
             2. batch && padded_batch
             3. num_epochs
         ```
-        import tensorflow as tf
-
         def parser(record):
 
             features = tf.parse_single_example(
@@ -3511,8 +3443,6 @@ with tf.Session() as sess:
     + `tf.random_normal` or `np.random.xxx` are nearly same.
     + 注意: 绝对不要将`optimizer = tf.train.AdamOptimizer()`放在epoch循环内,因为这样就会重复定义,而且在loss减少的很少...具体的原因是来自
     ```
-    import tensorflow as tf
-
     config = tf.ConfigProto()
     config.gpu_options.allow_growth = True
     tf.enable_eager_execution(config=config) # add this code at the top of the program
@@ -3552,8 +3482,6 @@ with tf.Session() as sess:
     
     3. training model in eager mode: `python xx.py` to execute the codes below
     ```
-    import numpy as np
-    import tensorflow as tf
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
     config = tf.ConfigProto(gpu_options=gpu_options)
     tf.enable_eager_execution(config=config)
@@ -3996,8 +3924,6 @@ print("Test accuracy:", score[1])
 2. `tf.keras.models.Model` <=> `tf.keras.Model`: [reference-website](https://www.tensorflow.org/api_docs/python/tf/keras/models/Model#__call__)
 + With the "functional API", where you start from Input, you chain layer calls to specify the model's forward pass, and finally you create your model from inputs and outputs
 ```
-import tensorflow as tf
-
 inputs = tf.keras.Input(shape=(3,))
 x = tf.keras.layers.Dense(4, activation=tf.nn.relu)(inputs)
 outputs = tf.keras.layers.Dense(5, activation=tf.nn.softmax)(x)
@@ -4010,8 +3936,6 @@ model = tf.keras.Model(inputs=inputs, outputs=outputs)
     1. basic
     + `my_model.variables`: get all the variables of the object
     ```
-    import tensorflow as tf
-
     class MyModel(tf.keras.Model):
 
         def __init__(self):
@@ -4031,7 +3955,6 @@ model = tf.keras.Model(inputs=inputs, outputs=outputs)
     + `model.compile`: use `tf.keras` API, instead of `tf.nn.xxx` or `tf.train.AdamOptimizer`
     ```
     import keras
-    import tensorflow as tf
     from keras.datasets import mnist
     from keras import backend as K
 
@@ -4113,8 +4036,6 @@ model = tf.keras.Model(inputs=inputs, outputs=outputs)
 
 If you subclass `Model`, you can optionally have a `training` argument (boolean) in `call`, which you can use to specify a different behavior in training and inference:
 ```
-import tensorflow as tf
-
 class MyModel(tf.keras.Model):
 
   def __init__(self):
@@ -5470,7 +5391,16 @@ tensor([[-0.5044,  0.0005],
     }
 
     ```
+    3. convert back to PIL: mean and std is the parameters for `T.Normalize`
+    ```
+    def imshow(img, mean, std):
+        z = img.cpu() * torch.tensor(std).view(3, 1, 1)
+        z = z + torch.tensor(mean).view(3, 1, 1)
 
+        pimg = T.ToPILImage(mode='RGB')(z)
+
+        plt.imshow(np.asarray(pimg))
+    ```
 
 
 19. torchvision.utils
@@ -6897,9 +6827,6 @@ with codecs.open(raw_data,'r','utf-8') as f_input, codecs.open(output_data,'w','
 '''
     int_text => [num_batches, batch_size, num_steps]
 '''
-import tensorflow as tf
-import numpy as np
-
 def make_batches(data_file, batch_size, num_steps):
     # put together a large sentence
     with open(data_file,'r') as f:
