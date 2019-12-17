@@ -4985,8 +4985,9 @@ self.optimizer = torch.optim.Adam(self.parameters(), lr=1e-3, betas=(0.9, 0.99))
 
     for (imgs, labels) in train_loader: # train_data is a list with length 2. [image data, image label]
         plt.figure()
-        plt.imshow(images[0].numpy().squeeze(), cmap="gray")
+        plt.imshow(imgs[0].numpy().squeeze(), cmap="gray")
         plt.show()
+        break
 
     ```
     2. CIFAR-10
