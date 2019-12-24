@@ -98,8 +98,9 @@ docker run --help
 
 
 5. 删除容器
-    1. 删除停止的容器
+    1. 删除停止的容器 
     ```
+    docker stop <docker_id>/<docker_name> # `docker ps -a` to check the id. We do not need to spell out completely.
     docker rm <docker_id>/<docker_name>
     ```
     2. 删除运行中的容器(不推荐)
