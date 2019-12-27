@@ -5882,6 +5882,9 @@ for param_group in opt.param_groups:
         adjust_learning_rate(optimizer, epoch)
     ```
 
+40. nn.ModuleList: [When should I use nn.ModuleList and when should I use nn.Sequential?](https://discuss.pytorch.org/t/when-should-i-use-nn-modulelist-and-when-should-i-use-nn-sequential/5463/13):
++ nn.ModuleList acts like a python list, but allows PyTorch to realize that it contains a PyTorch module (including its trainable paramteres), otherwise PyTorch simply treats it as a python list
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
