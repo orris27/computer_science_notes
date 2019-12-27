@@ -8227,6 +8227,24 @@ parser.add_argument('--arch', default='vgg16', type=str)
 parser.add_argument('--dataset_name', default='cifar10', type=str)
 args = parser.parse_args('--max_epoch 2 --arch resnet18 --dataset mnist'.split())
 ```
+group
+```
+parser = argparse.ArgumentParser()
+
+exp_group = parser.add_argument_group('exp', 'experiment setting')
+exp_group.add_argument('--save', default='save/default-{}'.format(time.time()),
+                       type=str, metavar='SAVE',
+                       help='path to the experiment logging directory'
+                       '(default: save/debug)')
+exp_group.add_argument('--evalmode', default=None,
+                       choices=['anytime', 'dynamic'],
+                       help='which mode to evaluate')
+args = parser.parse_args() 
+```
+choices
+```
+parser.add_argument('--dataset_name', default=None, choices=['cifar10', 'mnist'], type=str)
+```
 
 ## 33. multiprocessing
 1. Pool
