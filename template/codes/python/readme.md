@@ -1,6 +1,6 @@
 ## 1. TensorFlow
 1. 定义features和labels
-```
+```python
 with tf.name_scope('placeholder'):
     #  [[特征值0,特征值1,特征值2,...,特征值f783],
     #   [第二个实例],
@@ -16,7 +16,7 @@ learning_rate = tf.Variable(1e-3)
 2. NN/CNN
     1. CNN
         1. <方法1> 函数
-        ```
+        ```python
         def _conv(self, inputs, kernel_width, kernel_height, output_filters, stride_width, stride_height, scope_name):
             input_filters = inputs.shape[-1]
 
@@ -1981,8 +1981,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     2. 图像
         1. 读取图片 和 写入图片. [代码和图形类型转化的示意图](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/tf-image-type.png)
         ```
-        import matplotlib.pyplot as plt
-
         image_raw = tf.gfile.FastGFile('/home/orris/Pictures/1.jpeg','rb').read()
 
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
@@ -5886,7 +5884,73 @@ for param_group in opt.param_groups:
 + nn.ModuleList acts like a python list, but allows PyTorch to realize that it contains a PyTorch module (including its trainable paramteres), otherwise PyTorch simply treats it as a python list
 
 41. Count number of operations for nn.Conv2d and nn.Linear: [count_flops](https://github.com/Tushar-N/blockdrop/blob/master/test.py): The idea is to replace nn.Conv2d and nn.Linear with new classes that contain `num_ops`
+```python
+from backend import Model
 
+# ------------------------------------------------------------------ # 
+class FConv2d(nn.Conv2d):
+
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1,
+                 padding=0, dilation=1, groups=1, bias=True):
+        super(FConv2d, self).__init__(in_channels, out_channels, kernel_size, stride,
+                 padding, dilation, groups, bias)
+        self.num_ops = 0
+
+    def forward(self, x):
+        output = super(FConv2d, self).forward(x)
+        output_area = output.size(-1)*output.size(-2)
+        filter_area = np.prod(self.kernel_size)
+        self.num_ops += 2*self.in_channels*self.out_channels*filter_area*output_area
+        return output
+
+class FLinear(nn.Linear):
+    def __init__(self, in_features, out_features, bias=True):
+        super(FLinear, self).__init__(in_features, out_features, bias)
+        self.num_ops = 0
+
+    def forward(self, x):
+        output = super(FLinear, self).forward(x)
+        self.num_ops += 2*self.in_features*self.out_features
+        return output
+
+def count_flops(model, reset=True):
+    op_count = 0
+    for m in model.modules():
+        if hasattr(m, 'num_ops'):
+            op_count += m.num_ops
+            if reset: # count and reset to 0
+                m.num_ops = 0
+
+    return op_count
+
+
+
+# replace all nn.Conv and nn.Linear layers with layers that count flops
+nn.Conv2d = FConv2d
+nn.Linear = FLinear
+
+
+# ------------------------------------------------------------------ # 
+
+#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cpu')
+
+backend = 'vgg16'
+channels = [3, 64, 64, 128, 128, 256, 256, 256, 512, 512, 512, 512, 512, 512]
+model = Model(backend, channels, device)
+
+
+
+num_weights = sum([w.numel() for name, w in model.named_parameters() if "weight" in name])
+
+X = torch.randn(1, 3, 32, 32).to(device) # dummy inputs
+
+y_predicted = model.forward(X)
+
+ops = count_flops(model)
+print('flops:', ops)
+print('num_weights:', num_weights)
+```
 
 ## 3. Numpy
 1. 随机数
@@ -6498,25 +6562,24 @@ np.minimum(a, b)
     plt.savefig("pic.png")
     ```
 3. 画面大小
-```
+```python
 plt.figure(figsize=(18,18)) # set the size of the figure
 plt.text(0.3,0.4,"hello")
 plt.show()
-
 ```
 4. annotation
     1. `s`: annotation
     2. `xytext`: the position of the annotation
     3. `xy`: the position which the annotation points to
     4. `arrowprops`: the style of the arrow. refer to [annotate-documentation](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.annotate.html)
-```
+```python
 plt.figure()
 plt.annotate(s="annotation",  xytext=(0.8, 0.8), xy=(0.2, 0.2), arrowprops=dict(arrowstyle="->"))
 plt.show()
 ```
 
 5. IPython: matplotlib.get_backend() -> 'module://ipykernel.pylab.backend_inline' if jupyter notebook else Qt5Agg (`python test.py` or `ipython`)
-```
+```python
 is_ipython = 'inline' in matplotlib.get_backend()
 if is_ipython:
     from IPython import display
@@ -6579,6 +6642,7 @@ leg = plt.legend(methods, loc=1, fontsize=fontsize)
 for legobj in leg.legendHandles:
     legobj.set_linewidth(legend_linewidth)
 
+plt.title(title, size=title_size)
 plt.xlabel('Epoch', size=label_size, fontweight=fontweight)
 plt.ylabel('Objective function value', size=label_size, fontweight=fontweight)
 plt.xticks(fontsize=tick_size)
@@ -6587,13 +6651,11 @@ plt.yscale('linear')
 plt.grid(True)
 plt.savefig('test.pdf', bbox_inches='tight')
 #plt.show()
-
-
 ```
 
 ## 5. PIL
 1. 基本操作
-```
+```python
 from PIL import Image
 
 img = Image.open('1.jpg') # 无论RGB还是grayscale都会在np.asarray后自动确定,所以不用添加其他参数
