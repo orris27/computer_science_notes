@@ -6136,8 +6136,6 @@ y
 
 8. KL散度2个高斯分布接近下sigma是二次项作用大还是-log作用大
 ```
-import matplotlib.pyplot as plt
-import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
 fig = plt.figure()
@@ -6525,7 +6523,7 @@ if is_ipython:
 ```
 
 6. subplots
-```
+```python
 x = np.linspace(0, 2*np.pi, 400)
 y = np.sin(x**2)
 
@@ -6534,6 +6532,63 @@ ax1.plot(x, y)
 ax1.set_title('Sharing Y axis')
 ax2.scatter(x, y)
 plt.show()
+```
+
+
+7. (advanced) bar: see `get_runtime.py` in l1-optimizer paper
+```python
+nm = len(methods)
+fig, ax = plt.subplots()
+for index, method in enumerate(methods):
+    ax.bar(x - nm * width / 2 + width * (index + 1) - width / 2, runtimes_dict[method], width, label=method)
+
+
+ax.set_ylabel('Relative runtime', fontsize=15)
+ax.set_xticks(x)
+ax.set_xticklabels(dataset_names)
+ax.legend(loc=1)
+
+fig.autofmt_xdate()
+fig.tight_layout()
+plt.savefig('bar_convex+.pdf', bbox_inches='tight')
+
+plt.show()
+orris@orris-Laptop
+```
+
+8. (advanced)
+```python
+methods = ['Prox-SG', 'RDA', 'Prox-SVRG', 'AAAA', 'AAAA+', ]
+linestyles = ['--', '-.', ':', '-', '-']
+
+fontweight = 'bold'
+label_size = 15
+title_size = 15
+legend_size = 10
+fontsize = 14
+linewidth = 3
+legend_linewidth = 2.5
+
+tick_size = 20
+xticks_location = [0, 20, 40, 60, 80, 100]
+
+plt.figure(figsize=(6, 4))
+for index, method in enumerate(methods):
+    plt.plot(x, F_values[method], linestyle=linestyles[index], linewidth=linewidth)
+leg = plt.legend(methods, loc=1, fontsize=fontsize)
+for legobj in leg.legendHandles:
+    legobj.set_linewidth(legend_linewidth)
+
+plt.xlabel('Epoch', size=label_size, fontweight=fontweight)
+plt.ylabel('Objective function value', size=label_size, fontweight=fontweight)
+plt.xticks(fontsize=tick_size)
+plt.yticks(fontsize=tick_size)
+plt.yscale('linear')
+plt.grid(True)
+plt.savefig('test.pdf', bbox_inches='tight')
+#plt.show()
+
+
 ```
 
 ## 5. PIL
