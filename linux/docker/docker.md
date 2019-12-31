@@ -40,7 +40,11 @@ docker load < /opt/centos.tar.gz
 ```
 docker rmi <image_id>
 ```
-
+4. save current environment to the images list
+```bash
+docker ps -a
+docker commit 21783c8b3fac  centos:jibo 
+```
 
 ## 3. 容器
 ### 3-1. `docker run`
