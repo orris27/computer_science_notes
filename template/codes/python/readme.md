@@ -1,6 +1,6 @@
 ## 1. TensorFlow
 1. 定义features和labels
-```
+```python
 with tf.name_scope('placeholder'):
     #  [[特征值0,特征值1,特征值2,...,特征值f783],
     #   [第二个实例],
@@ -16,7 +16,7 @@ learning_rate = tf.Variable(1e-3)
 2. NN/CNN
     1. CNN
         1. <方法1> 函数
-        ```
+        ```python
         def _conv(self, inputs, kernel_width, kernel_height, output_filters, stride_width, stride_height, scope_name):
             input_filters = inputs.shape[-1]
 
@@ -1981,8 +1981,6 @@ tf.squeeze(tf.zeros([1,2,3,4,1,5]))
     2. 图像
         1. 读取图片 和 写入图片. [代码和图形类型转化的示意图](https://github.com/orris27/orris/blob/master/python/machine-leaning/images/tf-image-type.png)
         ```
-        import matplotlib.pyplot as plt
-
         image_raw = tf.gfile.FastGFile('/home/orris/Pictures/1.jpeg','rb').read()
 
         gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.2)
@@ -4985,8 +4983,9 @@ self.optimizer = torch.optim.Adam(self.parameters(), lr=1e-3, betas=(0.9, 0.99))
 
     for (imgs, labels) in train_loader: # train_data is a list with length 2. [image data, image label]
         plt.figure()
-        plt.imshow(images[0].numpy().squeeze(), cmap="gray")
+        plt.imshow(imgs[0].numpy().squeeze(), cmap="gray")
         plt.show()
+        break
 
     ```
     2. CIFAR-10
@@ -5881,6 +5880,78 @@ for param_group in opt.param_groups:
         adjust_learning_rate(optimizer, epoch)
     ```
 
+40. nn.ModuleList: [When should I use nn.ModuleList and when should I use nn.Sequential?](https://discuss.pytorch.org/t/when-should-i-use-nn-modulelist-and-when-should-i-use-nn-sequential/5463/13):
++ nn.ModuleList acts like a python list, but allows PyTorch to realize that it contains a PyTorch module (including its trainable paramteres), otherwise PyTorch simply treats it as a python list
+
+41. Count number of operations for nn.Conv2d and nn.Linear: [count_flops](https://github.com/Tushar-N/blockdrop/blob/master/test.py): The idea is to replace nn.Conv2d and nn.Linear with new classes that contain `num_ops`
+```python
+from backend import Model
+
+# ------------------------------------------------------------------ # 
+class FConv2d(nn.Conv2d):
+
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1,
+                 padding=0, dilation=1, groups=1, bias=True):
+        super(FConv2d, self).__init__(in_channels, out_channels, kernel_size, stride,
+                 padding, dilation, groups, bias)
+        self.num_ops = 0
+
+    def forward(self, x):
+        output = super(FConv2d, self).forward(x)
+        output_area = output.size(-1)*output.size(-2)
+        filter_area = np.prod(self.kernel_size)
+        self.num_ops += 2*self.in_channels*self.out_channels*filter_area*output_area
+        return output
+
+class FLinear(nn.Linear):
+    def __init__(self, in_features, out_features, bias=True):
+        super(FLinear, self).__init__(in_features, out_features, bias)
+        self.num_ops = 0
+
+    def forward(self, x):
+        output = super(FLinear, self).forward(x)
+        self.num_ops += 2*self.in_features*self.out_features
+        return output
+
+def count_flops(model, reset=True):
+    op_count = 0
+    for m in model.modules():
+        if hasattr(m, 'num_ops'):
+            op_count += m.num_ops
+            if reset: # count and reset to 0
+                m.num_ops = 0
+
+    return op_count
+
+
+
+# replace all nn.Conv and nn.Linear layers with layers that count flops
+nn.Conv2d = FConv2d
+nn.Linear = FLinear
+
+
+# ------------------------------------------------------------------ # 
+
+#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cpu')
+
+backend = 'vgg16'
+channels = [3, 64, 64, 128, 128, 256, 256, 256, 512, 512, 512, 512, 512, 512]
+model = Model(backend, channels, device)
+
+
+
+num_weights = sum([w.numel() for name, w in model.named_parameters() if "weight" in name])
+
+X = torch.randn(1, 3, 32, 32).to(device) # dummy inputs
+
+y_predicted = model.forward(X)
+
+ops = count_flops(model)
+print('flops:', ops)
+print('num_weights:', num_weights)
+```
+
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
@@ -6129,8 +6200,6 @@ y
 
 8. KL散度2个高斯分布接近下sigma是二次项作用大还是-log作用大
 ```
-import matplotlib.pyplot as plt
-import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 
 fig = plt.figure()
@@ -6493,32 +6562,31 @@ np.minimum(a, b)
     plt.savefig("pic.png")
     ```
 3. 画面大小
-```
+```python
 plt.figure(figsize=(18,18)) # set the size of the figure
 plt.text(0.3,0.4,"hello")
 plt.show()
-
 ```
 4. annotation
     1. `s`: annotation
     2. `xytext`: the position of the annotation
     3. `xy`: the position which the annotation points to
     4. `arrowprops`: the style of the arrow. refer to [annotate-documentation](https://matplotlib.org/api/_as_gen/matplotlib.pyplot.annotate.html)
-```
+```python
 plt.figure()
 plt.annotate(s="annotation",  xytext=(0.8, 0.8), xy=(0.2, 0.2), arrowprops=dict(arrowstyle="->"))
 plt.show()
 ```
 
 5. IPython: matplotlib.get_backend() -> 'module://ipykernel.pylab.backend_inline' if jupyter notebook else Qt5Agg (`python test.py` or `ipython`)
-```
+```python
 is_ipython = 'inline' in matplotlib.get_backend()
 if is_ipython:
     from IPython import display
 ```
 
 6. subplots
-```
+```python
 x = np.linspace(0, 2*np.pi, 400)
 y = np.sin(x**2)
 
@@ -6529,9 +6597,65 @@ ax2.scatter(x, y)
 plt.show()
 ```
 
+
+7. (advanced) bar: see `get_runtime.py` in l1-optimizer paper
+```python
+nm = len(methods)
+fig, ax = plt.subplots()
+for index, method in enumerate(methods):
+    ax.bar(x - nm * width / 2 + width * (index + 1) - width / 2, runtimes_dict[method], width, label=method)
+
+
+ax.set_ylabel('Relative runtime', fontsize=15)
+ax.set_xticks(x)
+ax.set_xticklabels(dataset_names)
+ax.legend(loc=1)
+
+fig.autofmt_xdate()
+fig.tight_layout()
+plt.savefig('bar_convex+.pdf', bbox_inches='tight')
+
+plt.show()
+orris@orris-Laptop
+```
+
+8. (advanced)
+```python
+methods = ['Prox-SG', 'RDA', 'Prox-SVRG', 'AAAA', 'AAAA+', ]
+linestyles = ['--', '-.', ':', '-', '-']
+
+fontweight = 'bold'
+label_size = 15
+title_size = 15
+legend_size = 10
+fontsize = 14
+linewidth = 3
+legend_linewidth = 2.5
+
+tick_size = 20
+xticks_location = [0, 20, 40, 60, 80, 100]
+
+plt.figure(figsize=(6, 4))
+for index, method in enumerate(methods):
+    plt.plot(x, F_values[method], linestyle=linestyles[index], linewidth=linewidth)
+leg = plt.legend(methods, loc=1, fontsize=fontsize)
+for legobj in leg.legendHandles:
+    legobj.set_linewidth(legend_linewidth)
+
+plt.title(title, size=title_size)
+plt.xlabel('Epoch', size=label_size, fontweight=fontweight)
+plt.ylabel('Objective function value', size=label_size, fontweight=fontweight)
+plt.xticks(fontsize=tick_size)
+plt.yticks(fontsize=tick_size)
+plt.yscale('linear')
+plt.grid(True)
+plt.savefig('test.pdf', bbox_inches='tight')
+#plt.show()
+```
+
 ## 5. PIL
 1. 基本操作
-```
+```python
 from PIL import Image
 
 img = Image.open('1.jpg') # 无论RGB还是grayscale都会在np.asarray后自动确定,所以不用添加其他参数
@@ -7203,7 +7327,7 @@ next(reader)
 ```
 csvfile = open('sprox_results.csv', 'w', newline='')
 fieldnames = ['epoch', 'F_value', 'nnz(exact)', 'nnz(1e-2)', 'nnz(1e-3)', 'nnz(1e-4)', 'validation_acc', 'train_time', 'remarks']
-writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=' ')
+writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=',')
 writer.writeheader()
 
 writer.writerow({'epoch': epoch, 'F_value': F, 'nnz(exact)': nnz1, 'nnz(1e-2)': nnz2, 'nnz(1e-3)': nnz3, 'nnz(1e-4)': nnz4, 'validation_acc': accuracy, 'train_time': train_time})
@@ -8219,6 +8343,24 @@ parser.add_argument('--max_epoch', default=150, type=int)
 parser.add_argument('--arch', default='vgg16', type=str)
 parser.add_argument('--dataset_name', default='cifar10', type=str)
 args = parser.parse_args('--max_epoch 2 --arch resnet18 --dataset mnist'.split())
+```
+group
+```
+parser = argparse.ArgumentParser()
+
+exp_group = parser.add_argument_group('exp', 'experiment setting')
+exp_group.add_argument('--save', default='save/default-{}'.format(time.time()),
+                       type=str, metavar='SAVE',
+                       help='path to the experiment logging directory'
+                       '(default: save/debug)')
+exp_group.add_argument('--evalmode', default=None,
+                       choices=['anytime', 'dynamic'],
+                       help='which mode to evaluate')
+args = parser.parse_args() 
+```
+choices
+```
+parser.add_argument('--dataset_name', default=None, choices=['cifar10', 'mnist'], type=str)
 ```
 
 ## 33. multiprocessing
