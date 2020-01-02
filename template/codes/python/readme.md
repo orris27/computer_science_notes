@@ -5883,75 +5883,66 @@ for param_group in opt.param_groups:
 40. nn.ModuleList: [When should I use nn.ModuleList and when should I use nn.Sequential?](https://discuss.pytorch.org/t/when-should-i-use-nn-modulelist-and-when-should-i-use-nn-sequential/5463/13):
 + nn.ModuleList acts like a python list, but allows PyTorch to realize that it contains a PyTorch module (including its trainable paramteres), otherwise PyTorch simply treats it as a python list
 
-41. Count number of operations for nn.Conv2d and nn.Linear: [count_flops](https://github.com/Tushar-N/blockdrop/blob/master/test.py): The idea is to replace nn.Conv2d and nn.Linear with new classes that contain `num_ops`
-```python
-from backend import Model
+41. Count number of operations for nn.Conv2d and nn.Linear
+    1. [count_flops](https://github.com/Tushar-N/blockdrop/blob/master/test.py): The idea is to replace nn.Conv2d and nn.Linear with new classes that contain `num_ops`
+    ```python
+    from backend import Model
 
-# ------------------------------------------------------------------ # 
-class FConv2d(nn.Conv2d):
+    # ------------------------------------------------------------------ # 
+    class FConv2d(nn.Conv2d):
+        def __init__(self, in_channels, out_channels, kernel_size, stride=1,
+                     padding=0, dilation=1, groups=1, bias=True):
+            super(FConv2d, self).__init__(in_channels, out_channels, kernel_size, stride,
+                     padding, dilation, groups, bias)
+            self.num_ops = 0
 
-    def __init__(self, in_channels, out_channels, kernel_size, stride=1,
-                 padding=0, dilation=1, groups=1, bias=True):
-        super(FConv2d, self).__init__(in_channels, out_channels, kernel_size, stride,
-                 padding, dilation, groups, bias)
-        self.num_ops = 0
+        def forward(self, x):
+            output = super(FConv2d, self).forward(x)
+            output_area = output.size(-1)*output.size(-2)
+            filter_area = np.prod(self.kernel_size)
+            self.num_ops += 2*self.in_channels*self.out_channels*filter_area*output_area
+            return output
 
-    def forward(self, x):
-        output = super(FConv2d, self).forward(x)
-        output_area = output.size(-1)*output.size(-2)
-        filter_area = np.prod(self.kernel_size)
-        self.num_ops += 2*self.in_channels*self.out_channels*filter_area*output_area
-        return output
+    class FLinear(nn.Linear):
+        def __init__(self, in_features, out_features, bias=True):
+            super(FLinear, self).__init__(in_features, out_features, bias)
+            self.num_ops = 0
 
-class FLinear(nn.Linear):
-    def __init__(self, in_features, out_features, bias=True):
-        super(FLinear, self).__init__(in_features, out_features, bias)
-        self.num_ops = 0
+        def forward(self, x):
+            output = super(FLinear, self).forward(x)
+            self.num_ops += 2*self.in_features*self.out_features
+            return output
 
-    def forward(self, x):
-        output = super(FLinear, self).forward(x)
-        self.num_ops += 2*self.in_features*self.out_features
-        return output
+    def count_flops(model, reset=True):
+        op_count = 0
+        for m in model.modules():
+            if hasattr(m, 'num_ops'):
+                op_count += m.num_ops
+                if reset: # count and reset to 0
+                    m.num_ops = 0
 
-def count_flops(model, reset=True):
-    op_count = 0
-    for m in model.modules():
-        if hasattr(m, 'num_ops'):
-            op_count += m.num_ops
-            if reset: # count and reset to 0
-                m.num_ops = 0
+        return op_count
 
-    return op_count
+    # replace all nn.Conv and nn.Linear layers with layers that count flops
+    nn.Conv2d = FConv2d
+    nn.Linear = FLinear
+    
+    # ------------------------------------------------------------------ # 
+    device = torch.device('cpu')
 
+    backend = 'vgg16'
+    channels = [3, 64, 64, 128, 128, 256, 256, 256, 512, 512, 512, 512, 512, 512]
+    model = Model(backend, channels, device)
 
+    num_weights = sum([w.numel() for name, w in model.named_parameters() if "weight" in name])
+    X = torch.randn(1, 3, 32, 32).to(device) # dummy inputs
+    y_predicted = model.forward(X)
 
-# replace all nn.Conv and nn.Linear layers with layers that count flops
-nn.Conv2d = FConv2d
-nn.Linear = FLinear
-
-
-# ------------------------------------------------------------------ # 
-
-#device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-device = torch.device('cpu')
-
-backend = 'vgg16'
-channels = [3, 64, 64, 128, 128, 256, 256, 256, 512, 512, 512, 512, 512, 512]
-model = Model(backend, channels, device)
-
-
-
-num_weights = sum([w.numel() for name, w in model.named_parameters() if "weight" in name])
-
-X = torch.randn(1, 3, 32, 32).to(device) # dummy inputs
-
-y_predicted = model.forward(X)
-
-ops = count_flops(model)
-print('flops:', ops)
-print('num_weights:', num_weights)
-```
-
+    ops = count_flops(model)
+    print('flops:', ops)
+    print('num_weights:', num_weights)
+    ```
+    2. [MSDNet](https://github.com/kalviny/MSDNet-PyTorch/blob/master/op_counter.py)
 ## 3. Numpy
 1. 随机数
     1. 均匀分布: uniform distribution
