@@ -627,6 +627,14 @@ cut -d" " -f5,8 1.txt  | sed -n 's/\,and//p'
 awk -F '[ ,]'  '{print $5,$9}' 1.txt # awk可以指定多个分隔符
 ```
 
+### split by comma
+```shell
+i=3:64
+i1=`echo $i | cut -d':' -f1`
+i2=`echo $i | cut -d':' -f2`
+```
+
+
 
 ## 22. date
 ### 按一定格式输出

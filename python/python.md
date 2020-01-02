@@ -167,7 +167,14 @@ pip install -e .
     pip download jupyter
     pip install *.whl
     ```
-
+4. setup.py
+```
+python setup.py install
+```
+5. no cache
+```
+pip install --upgrade torch torchvision --no-cache-dir
+```
 
 ## 4. gi
 anaconda直接安装gi会出问题,python3安装不起来就换成了python2,问题应该不大

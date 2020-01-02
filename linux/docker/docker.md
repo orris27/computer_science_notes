@@ -40,7 +40,11 @@ docker load < /opt/centos.tar.gz
 ```
 docker rmi <image_id>
 ```
-
+4. save current environment to the images list
+```bash
+docker ps -a
+docker commit 21783c8b3fac  centos:jibo 
+```
 
 ## 3. 容器
 ### 3-1. `docker run`
@@ -58,6 +62,7 @@ docker rmi <image_id>
 1. `-m`:挂载namespace
 2. `-n`:进入网络的namespace
 3. `-p`:进入pid的namespace
+
 ### 3-4. 启动容器
 1. 创建并启动容器
 + 镜像:`完整路径:标签`(默认路径在`docker.io`,默认标签是`latest`)
@@ -68,6 +73,19 @@ docker rmi <image_id>
 docker run centos /bin/echo "hello world"
 docker run --rm centos /bin/echo "hello world" # 执行结束后会自动删除容器=>防止我们启动太多容器占用资源
 docker run --name mydocker -t -i centos /bin/bash # 启动时指定容器名称
+```
+For a concrete example, 
+```
+docker images
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# REPOSITORY                                           TAG                 IMAGE ID            CREATED             SIZE
+# registry.xx.com/xxx/xxxx                             base                0c6200a02791        4 days ago          13.5GB
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+docker run -v /path/to/local:/path/to/docker -it registry.xx.com/xxx/xxxx:base /bin/bash
+
+# With NVIDIA:
+docker run --gpus all -v /path/to/local:/path/to/docker -it registry.xx.com/xxx/xxxx:base /bin/bash
+
 ```
 
 
@@ -84,8 +102,9 @@ docker run --help
 
 
 5. 删除容器
-    1. 删除停止的容器
+    1. 删除停止的容器 
     ```
+    docker stop <docker_id>/<docker_name> # `docker ps -a` to check the id. We do not need to spell out completely.
     docker rm <docker_id>/<docker_name>
     ```
     2. 删除运行中的容器(不推荐)
