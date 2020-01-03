@@ -4657,46 +4657,22 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     x = torch.cuda.FloatTensor([[1, 2], [3, 4]])
     ```
     4. 判断: 通过`torch.tensor`来从python中获得tensor
-    ```
+    ```python
     if args.cuda and torch.cuda.is_available():
         torch.set_default_tensor_type('torch.cuda.FloatTensor')
     else:
         torch.set_default_tensor_type('torch.FloatTensor')
     ```
     5. save & load
-    ```
-    In [3]: a = a.cuda(0)
-
-    In [4]: torch.save(a, 'a.pth')
-
-    In [5]: b = torch.load('a.pth')
-
-    In [6]: b
-    Out[6]: 
-    tensor([[-0.0000,  0.0000, -0.0000],
-            [ 0.0000,  0.0000,  0.0000]], device='cuda:0')
-
-    In [7]: a
-    Out[7]: 
-    tensor([[-0.0000,  0.0000, -0.0000],
-            [ 0.0000,  0.0000,  0.0000]], device='cuda:0')
-
-    In [8]: c = torch.load('a.pth', map_location=lambda storage, loc: storage)
-
-    In [9]: c
-    Out[9]: 
-    tensor([[-0.0000,  0.0000, -0.0000],
-            [ 0.0000,  0.0000,  0.0000]])
-
-    In [11]: c.device
-    Out[11]: device(type='cpu')
-
-    In [12]: d = torch.load('a.pth', map_location={'cuda: 0':'cuda: 1'}) # gpu0 => gpu1
-
-    In [13]: d
-    Out[13]: 
-    tensor([[-0.0000,  0.0000, -0.0000],
-            [ 0.0000,  0.0000,  0.0000]], device='cuda:0') # gpu 1 is unavaliable so d is still on the gpu 0
+    ```python
+    torch.save(model, 'model.pth')
+    
+    # ----------------------------------------- # 
+    if torch.cuda.is_available():
+        model = torch.load(checkpoint)
+    else:
+        # this helps avoid errors when loading single-GPU-trained weights onto CPU-model
+        model = torch.load(checkpoint, map_location=lambda storage, loc: storage)
     ```
     
 6. fc
