@@ -4846,27 +4846,18 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     + 不够batch_size就只返回剩余的 
     + num_workers(几个子进程提取): 提高batch_size和num_workers才能更快地提高效率
     ```
-    import torch
-    import torch.utils.data as Data
-
+    from torch.utils.data import TensorDataset, DataLoader
     batch_size = 5
 
     x = torch.linspace(1, 10, 10)
     y = x * 10
 
-    dataset = Data.TensorDataset(x, y)
-    dataset = Data.DataLoader(
-            dataset = dataset,
-            batch_size = batch_size,
-            shuffle = True,
-            num_workers = 2,
-            )
+    dataset = TensorDataset(x, y)
+    dataset = DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=True)
 
     for epoch in range(3):
         for step, (x_batch, y_batch) in enumerate(dataset):
-            # x_batch, y_batch = Varaible(x_batch), Variable(y_batch)
             print("epoch: {0} step:{1}  {2} {3}".format(epoch, step, x_batch, y_batch))
-
 
     #---------------------------------------------------------------------
     # epoch: 0 step:0  [5. 9. 4. 3. 1.] [50. 90. 40. 30. 10.]
@@ -4880,8 +4871,6 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     
     2. Dataset Class
     ```
-    from torch.utils.data import Dataset, DataLoader
-    
     class SVCDataset(Dataset):
         def __init__(self, filenames):
             self.filenames = filenames # U1S1
@@ -4903,7 +4892,7 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
             return len(self.filenames)
 
 
-    train_loader = DataLoader(SVCDataset(filenames=filenames),  batch_size=16, shuffle=True) #
+    train_loader = DataLoader(SVCDataset(filenames=filenames),  batch_size=16, shuffle=True, num_workers=4, pin_memory=True)
     
     for step, (img, label) in enumerate(train_loader): # call 
         if torch.cuda.is_available():
@@ -4936,22 +4925,41 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
         ])
 
     dataset = ImageFolder('tmp', transform=transforms) # 必须要transforms转换成tensor
-    dataloader = Data.DataLoader(
-        dataset = dataset,
-        batch_size = 4,
-        shuffle = True,
-        num_workers = 1,
-        )
-    for img, label in dataloader:
-        print(label)
-        print(img.shape)
+    dataloader = DataLoader(dataset=dataset, batch_size=4, shuffle=True, num_workers=1, pin_memory=True)
+    for X, y in dataloader:
+        print(X)
+        print(y.shape)
         break
     #--------------------------------------------------
     # tensor([2, 0, 1, 1])
     # torch.Size([4, 3, 224, 224])
     #--------------------------------------------------
     ```
-    
+
+11. torchvision.dataset
+    1. MNIST: (batch_size, 3, 28, 28). CIFAR10: (batch_size, 3, 32, 32)
+    ```
+    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                     std=[0.229, 0.224, 0.225])
+
+    train_dataset = torchvision.datasets.MNIST(
+            root = dataset_dir,
+            train = True, # True: training data; False: testing data
+            download = False,
+            transform = T.Compose([
+                       T.ToTensor(),
+                       normalize
+                   ]))
+
+    train_loader = Data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=True)
+
+    for (imgs, labels) in train_loader: # train_data is a list with length 2. [image data, image label]
+        plt.figure()
+        plt.imshow(imgs[0].numpy().squeeze(), cmap="gray")
+        plt.show()
+        break
+
+    ```
 
 10. optimizer
 ```
@@ -4962,52 +4970,6 @@ self.optimizer = torch.optim.Adam(self.parameters(), lr=1e-3, betas=(0.9, 0.99))
 ```
 
 
-11. torchvision.dataset
-    1. MNIST
-    ```
-    dataset_dir = "/home/orris/dataset/torchvision/mnist"
-
-    train_dataset = torchvision.datasets.MNIST(
-            root = dataset_dir,
-            train = True, # True: training data; False: testing data
-            transform = T.Compose([
-                       T.ToTensor(),
-                       T.Normalize((0.1307,), (0.3081,))
-                   ]),
-            download = False, # whether download or not
-            )
-
-
-
-    train_loader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
-
-    for (imgs, labels) in train_loader: # train_data is a list with length 2. [image data, image label]
-        plt.figure()
-        plt.imshow(imgs[0].numpy().squeeze(), cmap="gray")
-        plt.show()
-        break
-
-    ```
-    2. CIFAR-10
-    ```
-    dataset_dir = "cifar10/"
-
-    train_dataset = torchvision.datas   ets.CIFAR10(
-            root = dataset_dir,
-            train = True, # True: training data; False: testing data
-            transform = torchvision.transforms.ToTensor(), # ndarray => torch tensor
-            download = False, # whether download or not
-            )
-
-    train_loader = Data.DataLoader(dataset = train_dataset, batch_size = batch_size, shuffle = True, num_workers = 2)
-
-    for (imgs, labels) in train_loader: # train_data is a list with length 2. [image data, image label]
-        print(imgs.shape)
-        break
-        #---------------------------------------------------
-        # torch.Size([32, 3, 32, 32])
-        #---------------------------------------------------
-    ```
 
 12. CNN: (batch_size, num_channels, height, width)
     1. CNN
