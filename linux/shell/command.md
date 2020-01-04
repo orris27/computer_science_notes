@@ -3115,3 +3115,11 @@ Hello # content
 This is from my laptop
 # <Ctrl + D> to send
 ```
+## 95. xclip
++ `-t`: target. e.g.: image/png
++ `-selection`/`-sel`: specify which X selection to use. e.g.: clipboard
+### Copy image from clipboard to file
+```
+xclip -sel clip -t image/png -o > inline_subnetwork_collaboration.png
+
+```
