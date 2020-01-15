@@ -184,3 +184,22 @@ sudo make
 ./deviceQuery
 ```
 如果测试的最后结果是Result = PASS，说明CUDA安装成功。
+
+
+### 循环登录
+Ubuntu 18.04
+```
+sudo apt-get remove --purge nvidia-*
+sudo apt-get autoremove
+sudo apt-get install -f
+sudo reboot
+
+
+
+sudo add-apt-repository ppa:xorg-edgers/ppa
+sudo add-apt-repository ppa:graphics-drivers/ppa
+sudo apt-get update
+sudo apt-get install cuda-10-2
+
+nvidia-smi
+```
