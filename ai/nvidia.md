@@ -186,7 +186,7 @@ sudo make
 如果测试的最后结果是Result = PASS，说明CUDA安装成功。
 
 
-### 循环登录
+### 循环登录 (实际上只要用这个装就可以了。。。不过需要的空间至少有7G？）
 Ubuntu 18.04
 ```
 sudo apt-get remove --purge nvidia-*
@@ -202,4 +202,28 @@ sudo apt-get update
 sudo apt-get install cuda-10-2
 
 nvidia-smi
+
+Wed Jan 15 18:20:32 2020       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 440.33.01    Driver Version: 440.33.01    CUDA Version: 10.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  GeForce GTX 965M    On   | 00000000:01:00.0 Off |                  N/A |
+| N/A   77C    P0    N/A /  N/A |   1787MiB /  4043MiB |     98%      Default |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|    0      1460      G   /usr/lib/xorg/Xorg                            24MiB |
+|    0      1920      G   /usr/bin/gnome-shell                          46MiB |
+|    0      2351      G   /usr/lib/xorg/Xorg                           149MiB |
+|    0      2555      G   /usr/bin/gnome-shell                          73MiB |
+|    0      3053      G   ...quest-channel-token=5258971270872470260   107MiB |
+|    0     11430      C   python                                      1367MiB |
++-----------------------------------------------------------------------------+
+
 ```
