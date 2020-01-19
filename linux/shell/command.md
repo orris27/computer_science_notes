@@ -3123,3 +3123,7 @@ This is from my laptop
 xclip -sel clip -t image/png -o > inline_subnetwork_collaboration.png
 
 ```
+### copy content from file to clipboard
+```
+xclip -sel clip < .ssh/id_rsa.pub
+```
