@@ -5822,10 +5822,8 @@ for param_group in opt.param_groups:
 + nn.ModuleList acts like a python list, but allows PyTorch to realize that it contains a PyTorch module (including its trainable paramteres), otherwise PyTorch simply treats it as a python list
 
 41. Count number of operations for nn.Conv2d and nn.Linear
-    1. [count_flops](https://github.com/Tushar-N/blockdrop/blob/master/test.py): The idea is to replace nn.Conv2d and nn.Linear with new classes that contain `num_ops`
+    1. [count_flops](https://github.com/Tushar-N/blockdrop/blob/master/test.py): The idea is to replace nn.Conv2d and nn.Linear with new classes that contain `num_ops`。 The flops for classical networks can be seen [here](https://iq.opengenus.org/floating-point-operations-per-second-flops-of-machine-learning-models/).
     ```python
-    from backend import Model
-
     # ------------------------------------------------------------------ # 
     class FConv2d(nn.Conv2d):
         def __init__(self, in_channels, out_channels, kernel_size, stride=1,
@@ -5838,7 +5836,7 @@ for param_group in opt.param_groups:
             output = super(FConv2d, self).forward(x)
             output_area = output.size(-1)*output.size(-2)
             filter_area = np.prod(self.kernel_size)
-            self.num_ops += 2*self.in_channels*self.out_channels*filter_area*output_area
+            self.num_ops += self.in_channels*self.out_channels*filter_area*output_area
             return output
 
     class FLinear(nn.Linear):
@@ -5848,7 +5846,7 @@ for param_group in opt.param_groups:
 
         def forward(self, x):
             output = super(FLinear, self).forward(x)
-            self.num_ops += 2*self.in_features*self.out_features
+            self.num_ops += self.in_features*self.out_features
             return output
 
     def count_flops(model, reset=True):
@@ -5864,21 +5862,19 @@ for param_group in opt.param_groups:
     # replace all nn.Conv and nn.Linear layers with layers that count flops
     nn.Conv2d = FConv2d
     nn.Linear = FLinear
-    
+
     # ------------------------------------------------------------------ # 
     device = torch.device('cpu')
+    x = torch.randn(1, 3, 224, 224).to(device) # dummy inputs
 
-    backend = 'vgg16'
-    channels = [3, 64, 64, 128, 128, 256, 256, 256, 512, 512, 512, 512, 512, 512]
-    model = Model(backend, channels, device)
+    model = torchvision.models.resnet101(pretrained=False)
 
-    num_weights = sum([w.numel() for name, w in model.named_parameters() if "weight" in name])
-    X = torch.randn(1, 3, 32, 32).to(device) # dummy inputs
-    y_predicted = model.forward(X)
+    params = sum([w.numel() for name, w in model.named_parameters()])
+    y_predicted = model.forward(x)
 
-    ops = count_flops(model)
-    print('flops:', ops)
-    print('num_weights:', num_weights)
+    flops = count_flops(model)
+    print('flops: %f | params: %d' % (flops, params))
+
     ```
     2. [MSDNet](https://github.com/kalviny/MSDNet-PyTorch/blob/master/op_counter.py)
 ## 3. Numpy
