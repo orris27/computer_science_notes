@@ -4749,7 +4749,8 @@ F.softmax(Variable(torch.FloatTensor([[1, 2], [1, 2]])))
     1. torch.nn.MSELoss <=> torch.nn.SmoothL1Loss
         1. `loss = loss_fn(网络的最后层未激活的输出, y)`
     2. torch.nn.CrossEntropyLoss
-        1. `loss = loss_fn(F.softmax(网络的最后层未激活的输出), y)`: `[batch_size, num_classes]` & `[batch_size]`
+        + `loss = loss_fn(网络的最后层未激活的输出, y)`: `[batch_size, num_classes]` & `[batch_size]`
+        + This function contains softmax itself. Therefore, we do not need to apply softmax before using this function, like `loss = loss_fn(F.softmax(网络的最后层未激活的输出), y)`
     3. `F.cross_entropy` <=> `F.nll_loss`
     ```
     input = torch.randn(3, 5, requires_grad=True)
