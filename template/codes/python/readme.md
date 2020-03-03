@@ -9288,3 +9288,11 @@ int(3).__add__(5) # 8
 
 int.__add__(2, 3) # 5
 ```
+
+
+42. importlib:
+```
+import importlib
+# resnet/{__init__.py,resnet_bl.py} | "resnet18" is a function name in resnet_bl.py | followed by parameter list
+model = importlib.import_module("resnet.resnet_bl").__dict__["resnet18"](num_classes, circles, ge)
+```
