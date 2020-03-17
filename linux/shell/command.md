@@ -3127,3 +3127,8 @@ xclip -sel clip -t image/png -o > inline_subnetwork_collaboration.png
 ```
 xclip -sel clip < .ssh/id_rsa.pub
 ```
+
+## 96. tensorboard
+```
+tensorboard --host=0.0.0.0  --logdir=runs/
+```
