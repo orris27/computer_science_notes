@@ -243,3 +243,34 @@ figure
 \end{figure}
 
 ```
+
+#### Algorithm
+```
+\usepackage{amsmath,amsfonts,graphicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{multirow}
+
+\begin{algorithm}
+    \caption{DPLL}
+    \begin{algorithmic}[1]
+        \State (proplist, F) $\gets$ UnitProp($F$)
+        \If {$\Box \in F$ }
+            \State \textbf{return} UNSET
+        \EndIf
+        \If {F = \{\}}
+            \State \textbf{return} SAT
+        \EndIf
+        \If {AP(F) $\symbol{92}$ \text{Vars}(decList) == $\phi$}
+            \State \textbf{return} SAT
+        \EndIf
+        \State decList[level] = proplist
+        \State Pick $p \in \text{AP}(F)$, Pick $l\in \{p, \neg p\}$
+        \State level = level + 1
+        \If {DPLL($F\wedge l$, decList, level) == SAT }
+            \State \textbf{return} SAT
+        \EndIf
+        \State \textbf{return} DPLL($F\wedge \neg l$, decList, level)
+    \end{algorithmic}
+\end{algorithm}
+```
