@@ -1589,6 +1589,10 @@ y = x^2
 y = x^2
 \end{align*}
 ```
+2. `LaTeX Error: File 'ctexrep.cls' not found.`
+```
+sudo apt-get install latex-cjk-all
+```
 
 ## 36. django
 1. `python manage.py makemigrations` fails. 
