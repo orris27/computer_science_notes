@@ -274,3 +274,24 @@ figure
     \end{algorithmic}
 \end{algorithm}
 ```
+
+change only the table width without changing the font size
+```
+\begin{tabularx}{\textwidth} { 
+   >{\centering\arraybackslash}X 
+   >{\centering\arraybackslash}X 
+   >{\centering\arraybackslash}X 
+   >{\centering\arraybackslash}X 
+   >{\centering\arraybackslash}X 
+   >{\centering\arraybackslash}X 
+   >{\centering\arraybackslash}X }
+			\Xhline{3\arrayrulewidth}
+            Backbone & Dataset &\proxsg{} & \rda{} & \proxsvrg{} & \algacro{} & \algacroplus{}\\
+			\hline%\hline
+			\mobilenet{}& \cifar{} & 14.17 & 74.05 & 92.26 & 9.15 & \textbf{\textbf{2.90}}\\
+			& \fashionmnist{} & 5.28 & 74.67 & 75.40 & 4.15 & \textbf{\textbf{1.23}}\\\hdashline
+			\resnet{} & \cifar{} & 11.60 & 41.01 & 37.92 & 2.12 & \textbf{\textbf{0.88}} \\
+			 &\fashionmnist{} & 6.34 & 42.46 & 35.07 & 5.44 & \textbf{\textbf{0.29}}\\
+			\Xhline{3\arrayrulewidth} 
+		\end{tabularx}
+```
