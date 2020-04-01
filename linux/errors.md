@@ -1192,6 +1192,9 @@ see [here](https://itsfoss.com/failed-to-download-repository-information-ubuntu-
 systemctl start gdm
 ```
 
+11. Cannot start the Ubuntu: `failed to start lsb create lightweight portable self-sufficient containers`:
++ root is full, remove some files in root directory (Ctrl+Alt+F2/3/4, and enter the ubuntu)
+
 ## 23. Python
 1. 使用pickle的时候报错`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte`
     ```
