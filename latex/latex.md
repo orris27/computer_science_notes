@@ -224,13 +224,16 @@ figure
 \begin{figure}[]
     \captionsetup{justification=centering}
     \begin{subfigure}[t]{0.323\textwidth}
-        \includegraphics[scale=0.3]{figures/vgg16_mnist/vgg16_mnist_accuracy_nonconvex.pdf}
+        %\includegraphics[scale=0.3]{figures/vgg16_mnist/vgg16_mnist_accuracy_nonconvex.pdf}
+        \includegraphics[width=\linewidth]{figures/vgg16_mnist/vgg16_mnist_accuracy_nonconvex.pdf}
     \end{subfigure}
     \begin{subfigure}[t]{0.323\textwidth}
-        \includegraphics[scale=0.3]{figures/vgg16_mnist/vgg16_mnist_f_value_nonconvex.pdf}
+        %\includegraphics[scale=0.3]{figures/vgg16_mnist/vgg16_mnist_f_value_nonconvex.pdf}
+        \includegraphics[width=\linewidth]{figures/vgg16_mnist/vgg16_mnist_f_value_nonconvex.pdf}
     \end{subfigure}
     \begin{subfigure}[t]{0.323\textwidth}
-        \includegraphics[scale=0.3]{figures/vgg16_mnist/vgg16_mnist_group_sparsity_nonconvex.pdf}
+        %\includegraphics[scale=0.3]{figures/vgg16_mnist/vgg16_mnist_group_sparsity_nonconvex.pdf}
+        \includegraphics[width=\linewidth]{figures/vgg16_mnist/vgg16_mnist_group_sparsity_nonconvex.pdf}
     \end{subfigure}
     \caption{vgg16 mnist}
 \end{figure}
