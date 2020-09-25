@@ -1597,6 +1597,8 @@ y = x^2
 sudo apt-get install latex-cjk-all
 ```
 
+3. arXiv cannot proceed eps file: See [LaTeX checklist for arXiv submissions](https://www.overleaf.com/learn/how-to/LaTeX_checklist_for_arXiv_submissions)
+
 ## 36. django
 1. `python manage.py makemigrations` fails. 
 ```
