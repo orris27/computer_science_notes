@@ -6576,6 +6576,259 @@ plt.savefig('test.pdf', bbox_inches='tight')
 #plt.show()
 ```
 
+
+9. (advanced +font family)
+```python
+import os
+import csv
+#from matplotlib import rcParams
+#rcParams['font.family'] = 'sans-serif'
+#rcParams['font.sans-serif'] = ['Tahoma']
+import matplotlib as mpl
+mpl.rc('font',family='Times New Roman') # delete ~/.cache/matplotlib and then run this code. After that, we can find the family
+mpl.rcParams['axes.linewidth'] = 1.3
+mpl.rcParams["legend.fancybox"] = False
+import matplotlib.pyplot as plt
+from matplotlib.ticker import StrMethodFormatter
+import numpy as np
+
+data_root = '.'
+
+fontweight = 'bold'
+label_size = 25
+title_size = 15
+fontsize = 10
+legend_size = 17
+linewidth = 3
+legend_linewidth = 2.5
+y_margin = 0.05
+
+tick_size = 20
+xticks_location = [0, 75, 150, 225, 300]
+colors = ['blue', 'orange', 'red', 'green', 'purple', 'gray']
+markers = ['<', '>', '^', 'x', '*', 'v']
+marker_space = 25
+marker_size=  75
+
+repeats = 6
+
+
+
+interval = 5
+average_on = True
+def average(x):
+    assert len(x) == 300
+    new_x = [x[0]]
+    for i in range(0, len(x), interval):
+        new_x.append(sum(x[i:i+interval])/ (interval))
+    return new_x
+
+
+
+#obproxsg_group_np_150_no_10000_resnet18_cifar10_lmbda1.0E-03_eps0.05_lr1.0E-01_halfspace_maxepoch300.csv        proxsg_vgg16_fashion_mnist_1.000000E-03_maxepoch300.csv
+#obproxsg_group_np_150_no_10000_resnet18_fashion_mnist_lmbda1.0E-03_eps0.00_lr1.0E-01_halfspace_maxepoch300.csv  proxsvrg_resnet18_cifar10_1.000000E-03_maxepoch300.csv
+
+
+methods = ['Prox-SG', 'Prox-SVRG', 'HSProx-SG ($\epsilon$=0.00)', 'HSProx-SG ($\epsilon$=0.01)', 'HSProx-SG ($\epsilon$=0.02)', 'HSProx-SG ($\epsilon$=0.05)']
+eps_list =  [0, 0, 0.00, 0.01, 0.02, 0.05]
+methods2 = ['proxsg', 'proxsvrg', 'obproxsg_group_np_150_no_10000']
+linestyles = [':', '--', '-', '-', '-', '-']
+
+#for arch in ['vgg16', 'resnet18']:
+for arch in ['resnet18']:
+    #for dataset_name in ['cifar10', 'fashion_mnist']:
+    for dataset_name in ['cifar10']:
+        dirname = 'figures/%s_%s'%(arch, dataset_name)
+        os.makedirs('figures', exist_ok=True)
+        os.makedirs(dirname, exist_ok=True)
+        x = list(range(300))
+        if average_on:
+            avg_x = list(range(interval // 2, 300, interval))
+            avg_x = [0] + avg_x
+            print(avg_x)
+
+        F_values = {}
+        f_values = {}
+        group_sparsities = {}
+        accuracies = {}
+
+        for index, method in enumerate(methods):
+            F_values[method] = []
+            f_values[method] = []
+            group_sparsities[method] = []
+            accuracies[method] = []
+            if 'hsprox' in method.lower():
+                #filename = 'eps%.2f/%s_%s_%s_lmbda1.0E-03_eps%.2f_lr1.0E-01_halfspace_maxepoch300.csv'%(eps_list[index], methods2[-1], arch, dataset_name, eps_list[index])
+                filename = 'eps%.2f/%s_%s_%s_lmbda1.0E-03_eps%.2f_lr1.0E-01_halfspace'%(eps_list[index], methods2[-1], arch, dataset_name, eps_list[index])
+            else:
+                #filename = '%s/%s_%s_%s_1.000000E-03_maxepoch300.csv' % (methods2[index], methods2[index], arch, dataset_name)
+                filename = '%s/%s_%s_%s_1.000000E-03_maxepoch300' % (methods2[index], methods2[index], arch, dataset_name)
+            oldname = filename
+            valid_count = 0
+            for repeat in range(repeats):
+                #if method == 'Prox-SVRG':
+                #    if repeat == 0:
+                #        filename = oldname + '.csv'
+                #    else:
+                #        continue
+                #else:
+                #    filename = oldname + '_repeat%d.csv'%(repeat)
+                #    print('filename:', filename)
+                #    filename = os.path.join(data_root, filename)
+                filename = oldname + '_repeat%d.csv'%(repeat)
+                print('filename:', filename)
+                filename = os.path.join(data_root, filename)
+
+                if not os.path.exists(filename):
+                    print('%s does not exist!'%(filename))
+                    continue
+                    #assert False
+                    #continue
+                reader = csv.reader(open(filename, 'r'))
+                next(reader)
+                if repeat == 0:
+                    for i in range(300):
+                        values = next(reader)
+                        F_values[method].append(float(values[1]))
+                        f_values[method].append(float(values[2]))
+                        group_sparsities[method].append(float(values[6]) * 100)
+                        accuracies[method].append(float(values[7]) * 100)
+                else:
+                    for i in range(300):
+                        values = next(reader)
+                        F_values[method][i] += float(values[1])
+                        f_values[method][i] += float(values[2])
+                        group_sparsities[method][i] += float(values[6]) * 100
+                        accuracies[method][i] += float(values[7]) * 100
+                valid_count += 1
+
+            #print(method, 'valid_count:', valid_count)
+            for i in range(300):
+                F_values[method][i] /= valid_count
+                f_values[method][i] /= valid_count
+                group_sparsities[method][i] /= valid_count
+                accuracies[method][i] /= valid_count
+
+
+        # -------------F values --------------------
+        plt.figure(figsize=(6, 4))
+        #plt.rcParams["text.usetex"] =True
+        legends = []
+        for index, method in enumerate(methods):
+            if len(F_values[method]) == len(x):
+                if average_on:
+                    plt.plot(avg_x, average(F_values[method]), linestyle=linestyles[index], linewidth=linewidth, color=colors[index])
+                else:
+                    plt.plot(x, F_values[method], linestyle=linestyles[index], linewidth=linewidth, color=colors[index])
+                #plt.scatter(x, F_values[method], linestyle=linestyles[index], linewidth=linewidth, color=colors[index])
+                legends.append(method)
+        #plt.legend(methods, prop={'size':legend_size}, loc=1)
+        #leg = plt.legend(methods, loc=1, fontsize=fontsize)
+        #leg = plt.legend(legends, loc=1, fontsize=fontsize)
+        #leg = plt.legend(legends, fontsize=legend_size)
+        #for legobj in leg.legendHandles:
+        #    legobj.set_linewidth(legend_linewidth)
+
+        plt.xlabel('Epoch', size=label_size, fontweight=fontweight)
+        plt.ylabel('F value', size=label_size, fontweight=fontweight)
+        plt.xticks(xticks_location, fontsize=tick_size)
+        plt.yticks([0.0, 1.0, 2.0, 3.0, 4.0, 5.0], fontsize=tick_size)
+        plt.tick_params(direction='in')
+        plt.gca().yaxis.set_major_formatter(StrMethodFormatter('{x:,.1f}'))
+        #plt.gca().xaxis.grid(True)
+        #plt.yscale('linear')
+        plt.grid(True)
+        #plt.margins(y=y_margin)
+        plt.savefig('%s/%s_%s_cap_F_value_nonconvex.pdf' % ((dirname, arch, dataset_name)), bbox_inches='tight')
+
+        # -------------f values --------------------
+        plt.figure(figsize=(6, 4))
+        legends = []
+        for index, method in enumerate(methods):
+            if len(f_values[method]) == len(x):
+                if average_on:
+                    plt.plot(avg_x, average(f_values[method]), linestyle=linestyles[index], linewidth=linewidth, color=colors[index])
+                else:
+                    plt.plot(x, f_values[method], linestyle=linestyles[index], linewidth=linewidth, color=colors[index])
+                #plt.scatter(x, f_values[method], linestyle=linestyles[index], linewidth=linewidth, color=colors[index])
+                legends.append(method)
+        leg = plt.legend(legends, fontsize=legend_size)
+        for legobj in leg.legendHandles:
+            legobj.set_linewidth(legend_linewidth)
+
+        plt.xlabel('Epoch', size=label_size, fontweight=fontweight)
+        plt.ylabel('f value', size=label_size, fontweight=fontweight)
+        plt.xticks(xticks_location, fontsize=tick_size)
+        plt.yticks([0.0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8], fontsize=tick_size)
+        #plt.gca().xaxis.grid(True)
+        plt.tick_params(direction='in')
+        #plt.yscale('linear')
+        plt.grid(True)
+        plt.margins(y=y_margin)
+        plt.savefig('%s/%s_%s_f_value_nonconvex.pdf' % ((dirname, arch, dataset_name)), bbox_inches='tight')
+
+
+        # -------------Group Sparsity--------------------
+        plt.figure(figsize=(6, 4))
+        legends = []
+        for index, method in enumerate(methods):
+            if len(group_sparsities[method]) == len(x):
+                if average_on:
+                    plt.plot(avg_x, average(group_sparsities[method]), linestyle=linestyles[index], linewidth=linewidth, color=colors[index])
+                    #plt.plot(avg_x, average(group_sparsities[method]), linestyle=linestyles[index], linewidth=linewidth)
+                    #plt.scatter(avg_x[::marker_space], average(group_sparsities[method])[::marker_space], s=marker_size,marker=markers[index], color=colors[index])
+                else:
+                    plt.plot(x, group_sparsities[method], linestyle=linestyles[index], linewidth=linewidth, color=colors[index])
+                    #plt.scatter(x[::marker_space], group_sparsities[method][::marker_space], s=marker_size,marker=markers[index], color=colors[index])
+                legends.append(method)
+        #leg = plt.legend(legends, fontsize=legend_size, loc='upper left')
+        #for legobj in leg.legendHandles:
+        #    legobj.set_linewidth(legend_linewidth)
+        plt.xlabel('Epoch', size=label_size, fontweight=fontweight)
+        plt.ylabel('Group Sparsity', size=label_size, fontweight=fontweight)
+        plt.xticks(xticks_location, fontsize=tick_size)
+        plt.yticks([0, 20, 40, 60, 80], fontsize=tick_size)
+        #plt.yscale('linear')
+        # plt.title('density')
+        #plt.title('density for %s on %s'%(arch, dataset_name), size=title_size, fontweight=fontweight)
+        #plt.gca().xaxis.grid(True)
+        plt.grid(True)
+        # plt.margins(0) # margin of plt
+        plt.tick_params(direction='in')
+        #plt.margins(y=y_margin)
+        plt.savefig('%s/%s_%s_group_sparsity_nonconvex.pdf' % (dirname, arch, dataset_name), bbox_inches='tight')
+        #plt.show()
+
+        # -------------Accuracy--------------------
+        plt.figure(figsize=(6, 4))
+        legends = []
+        for index, method in enumerate(methods):
+            if len(accuracies[method]) == len(x):
+                if average_on:
+                    plt.plot(avg_x, average(accuracies[method]), linestyle=linestyles[index], linewidth=linewidth, color=colors[index])
+                else:
+                    plt.plot(x, accuracies[method], linestyle=linestyles[index], linewidth=linewidth, color=colors[index])
+                #plt.scatter(x, accuracies[method], linestyle=linestyles[index], linewidth=linewidth, color=colors[index])
+                legends.append(method)
+        leg = plt.legend(legends, fontsize=legend_size, loc='lower right')
+        leg.get_frame().set_linewidth(1.3)
+        leg.get_frame().set_edgecolor('black')
+        leg.get_frame().set_facecolor('none')
+        for legobj in leg.legendHandles:
+            legobj.set_linewidth(legend_linewidth)
+        plt.xlabel('Epoch', size=label_size, fontweight=fontweight)
+        plt.ylabel('Accuracy', size=label_size, fontweight=fontweight)
+        plt.xticks(xticks_location, fontsize=tick_size)
+        plt.yticks([20, 40, 60, 80, 100], fontsize=tick_size)
+        plt.tick_params(direction='in')
+        #plt.gca().xaxis.grid(True)
+        plt.grid(True)
+        plt.savefig('%s/%s_%s_accuracy_nonconvex.pdf' % (dirname, arch, dataset_name), bbox_inches='tight')
+
+        print(arch, dataset_name)
+
+```
+
 ## 5. PIL
 1. 基本操作
 ```python
