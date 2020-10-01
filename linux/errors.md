@@ -1599,6 +1599,16 @@ sudo apt-get install latex-cjk-all
 
 3. arXiv cannot proceed eps file: See [LaTeX checklist for arXiv submissions](https://www.overleaf.com/learn/how-to/LaTeX_checklist_for_arXiv_submissions)
 
+4. Align the caption for the subfigure: [problem description](https://tex.stackexchange.com/questions/331350/aligning-the-captions-for-the-side-by-side-subfigures). Solution: Add the `[t]` after the subfigure
+```
+\begin{subfigure}[t]{0.24\textwidth}
+    \includegraphics[width=\linewidth]{figures/resnet18_cifar10_accuracy_nonconvex.pdf}
+    \vspace{-0.2in}
+    \caption{Testing Accuracy}
+    \vspace{-0.1in}
+\end{subfigure}
+```
+
 ## 36. django
 1. `python manage.py makemigrations` fails. 
 ```
