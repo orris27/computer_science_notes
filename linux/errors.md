@@ -1686,3 +1686,8 @@ predict globally to load model to GPU (This is the gpu problem of MQTT, and the 
 ```
 model.predict(load_image('init.jpg')) # global
 ```
+## 38. Others
+Plug in the HDMI-VGA cable. The Ubuntu can find the output display, but the when I type `xrandr`, the output says "HDMI-1-1 disconnected": [answer](https://askubuntu.com/questions/796827/hdmi1-is-disconnected)
+```
+xrandr --output HDMI-1-1 --auto --right-of eDP1
+```
