@@ -126,7 +126,7 @@ exit 0
 ```
 #! /bin/sh
 
-for GIRL in saber serena
+for GIRL in g1 g2
 do
 	echo "I like $GIRL"
 done
