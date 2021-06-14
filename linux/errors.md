@@ -1200,6 +1200,13 @@ systemctl start gdm
 sudo bash cuda_11.3.0_465.19.01_linux.run
 ```
 
+13. Install mmcv-full failure: `pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu102/torch1.8.1/index.html` -> `ERROR: Failed building wheel for mmcv-full`
+
+Solution: [ERROR: Failed building wheel for mmcv-full](https://github.com/open-mmlab/mmcv/issues/1055). The default cuda version does not match the script specification.
+```
+export PATH=/usr/local/cuda/bin:$PATH 
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+```
 
 ## 23. Python
 1. 使用pickle的时候报错`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte`
