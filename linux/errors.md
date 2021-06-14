@@ -1195,6 +1195,12 @@ systemctl start gdm
 11. Cannot start the Ubuntu: `failed to start lsb create lightweight portable self-sufficient containers`:
 + root is full, remove some files in root directory (Ctrl+Alt+F2/3/4, and enter the ubuntu)
 
+12. Restart yet the resolution is very low. The NVIDIA driver is not working.
+```
+sudo bash cuda_11.3.0_465.19.01_linux.run
+```
+
+
 ## 23. Python
 1. 使用pickle的时候报错`UnicodeDecodeError: 'utf-8' codec can't decode byte 0x80 in position 0: invalid start byte`
     ```
