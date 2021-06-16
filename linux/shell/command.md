@@ -3132,3 +3132,10 @@ xclip -sel clip < .ssh/id_rsa.pub
 ```
 tensorboard --host=0.0.0.0  --logdir=runs/
 ```
+
+## 97. conda
+1. Export an environment
+```
+conda activate xxx
+conda env export > xxx.yml
+```
