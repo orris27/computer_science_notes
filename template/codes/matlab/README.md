@@ -253,7 +253,8 @@ end
 ```
 
 
-2. run script in the file
+2. run script in the file. (`run` is a special function. Note that in 2-1, the function name should be the same as the file name.)
+1)
 ```
 % hello.m
 %++++++++++++++++++++++++++++
@@ -265,7 +266,20 @@ fprintf('Hello\n');
 
 % <=> matlab -nojvm -nodesktop -nodisplay -nosplash -r "run('hello.m');exit;"
 ```
+2)
+```
+% hello.m
+%++++++++++++++++++++++++++++
+function hello()
+    fprintf('Hello\n');
+end
+%++++++++++++++++++++++++++++
 
+
+>> hello(); % Hello
+
+% <=> matlab -nojvm -nodesktop -nodisplay -nosplash -r "hello();exit;"
+```
 
 3. runprob. `runprob.m` is a file with function named 'runprob'
 ```
