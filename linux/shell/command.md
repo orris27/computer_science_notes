@@ -3139,3 +3139,7 @@ tensorboard --host=0.0.0.0  --logdir=runs/
 conda activate xxx
 conda env export > xxx.yml
 ```
+2. Install pytorch 0.4.1 when the machine uses cuda > 10.0
+```
+conda install pytorch=0.4.1 torchvision cudatoolkit=9.2 -c pytorch
+```
